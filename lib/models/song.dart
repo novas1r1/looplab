@@ -1,30 +1,18 @@
-class Song {
-  Song({
-    required this.id,
-    required this.title,
-    required this.artist,
-    required this.path,
-  });
+import 'package:dart_mappable/dart_mappable.dart';
 
-  factory Song.fromMap(Map<String, dynamic> map) {
-    return Song(
-      id: map['id'] as String,
-      title: map['title'] as String,
-      artist: map['artist'] as String,
-      path: map['path'] as String,
-    );
-  }
+part 'song.mapper.dart';
+
+@MappableClass()
+class Song with SongMappable {
   final String id;
   final String title;
   final String artist;
   final String path;
 
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'title': title,
-      'artist': artist,
-      'path': path,
-    };
-  }
+  const Song({
+    required this.id,
+    required this.title,
+    required this.artist,
+    required this.path,
+  });
 }

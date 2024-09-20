@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:looplab/data/repositories/file_repository.dart';
 import 'package:looplab/home/cubit/songs_cubit.dart';
+import 'package:looplab/models/song.dart';
+import 'package:looplab/song/view/song_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -22,7 +24,9 @@ class HomePage extends StatelessWidget {
                 itemCount: state.songs.length,
                 itemBuilder: (context, index) {
                   final song = state.songs[index];
+
                   return ListTile(
+                    onTap: () => _onTapSong(context, song),
                     title: Text(song.title),
                     subtitle: Text(song.artist),
                   );
@@ -36,15 +40,25 @@ class HomePage extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final file = await context.read<FileRepository>().pickSingleAudioFile();
-          if (file != null) {
-            // TODO: Upload song
-            context.read<SongsCubit>().addSong(file);
-          }
-        },
+        heroTag: 'addSong',
+        onPressed: () => _onAddSong(context),
         child: const Icon(Icons.add),
       ),
+    );
+  }
+
+  Future<void> _onAddSong(BuildContext context) async {
+    final file = await context.read<FileRepository>().pickSingleAudioFile();
+    if (file != null) {
+      // TODO: Upload song
+      context.read<SongsCubit>().addSong(file);
+    }
+  }
+
+  void _onTapSong(BuildContext context, Song song) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SongPage(song: song)),
     );
   }
 }

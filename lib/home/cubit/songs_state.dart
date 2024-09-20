@@ -1,16 +1,15 @@
 part of 'songs_cubit.dart';
 
-enum SongsStatus { initial, loading, loaded, error }
-
 class SongsState {
+  final SongsStatus status;
+  final List<Song> songs;
+  final String? errorMessage;
+
   const SongsState({
     this.status = SongsStatus.initial,
     this.songs = const [],
     this.errorMessage,
   });
-  final SongsStatus status;
-  final List<Song> songs;
-  final String? errorMessage;
 
   SongsState copyWith({
     SongsStatus? status,
@@ -24,3 +23,5 @@ class SongsState {
     );
   }
 }
+
+enum SongsStatus { initial, loading, loaded, error }

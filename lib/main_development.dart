@@ -16,5 +16,5 @@ Future<void> main() async {
 // open the database
   final db = await databaseFactoryIo.openDatabase(dbPath);
 
-  bootstrap(() => App(db: db));
+  await bootstrap(() => App(db: db));
 }

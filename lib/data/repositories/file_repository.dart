@@ -3,19 +3,16 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 
 class FileRepository {
-  FileRepository({required this.filePicker});
   final FilePicker filePicker;
+
+  const FileRepository({required this.filePicker});
 
   Future<File?> pickSingleAudioFile() async {
     final result = await filePicker.pickFiles(
         // type: FileType.audio,
         );
 
-    if (result != null) {
-      final file = File(result.files.single.path!);
-      return file;
-    }
-    return null;
+    return result != null ? File(result.files.single.path!) : null;
   }
 
   Future<List<File>> pickMultipleAudioFiles() async {
@@ -24,11 +21,8 @@ class FileRepository {
       allowMultiple: true,
     );
 
-    if (result != null) {
-      final files = result.paths.map((path) => File(path!)).toList();
-      return files;
-    }
-
-    return [];
+    return result != null
+        ? result.paths.map((path) => File(path!)).toList()
+        : [];
   }
 }

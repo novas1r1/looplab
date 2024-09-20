@@ -1,4 +1,67 @@
-include: package:very_good_analysis/analysis_options.6.0.0.yaml
+include: package:lint/strict.yaml
+
+analyzer:
+  exclude: [build/**, lib/**/*.g.dart]
+
 linter:
   rules:
-    public_member_api_docs: false
+    - prefer_single_quotes: true
+    - avoid_positional_boolean_parameters: false
+
+dart_code_metrics:
+  extends:
+    - package:dart_code_metrics_presets/all.yaml
+  rules:
+    # enabled
+    - list-all-equatable-fields: true
+    # disabled
+    - unnecessary-trailing-comma: false
+    - format-comment: false
+    - avoid-shadowing: false
+    - avoid-long-functions: false
+    - no-magic-number: false
+    - avoid-ignoring-return-values: false
+    - prefer-moving-to-variable: false
+    - avoid-long-files: false
+    - member-ordering:
+        order:
+          - static-fields
+          - final-fields
+          - instance-fields
+          - constructors
+          - static-methods
+          - instance-methods
+        widgets-order:
+          - init-state-method
+          - did-change-dependencies-method
+          - did-update-widget-method
+          - dispose-method
+          - build-method
+    - parameters-ordering: false
+    - prefer-const-border-radius: false
+    - arguments-ordering: false
+    - avoid-non-ascii-symbols: false
+    - avoid-non-null-assertion: false
+    - avoid-late-keyword: false
+    - avoid-border-all: false
+    - prefer-correct-identifier-length: false
+    - enum-constants-ordering: false
+    - prefer-commenting-analyzer-ignores: false
+    - avoid-unsafe-collection-methods: false
+    - prefer-single-widget-per-file: false
+    - newline-before-case: false
+    - prefer-correct-error-name: false
+    - avoid-barrel-files: false
+    - avoid-negated-conditions: false
+    - avoid-similar-names: false
+    - prefer-unique-test-names: false
+    - prefer-getter-over-method: false
+    - no-equal-arguments: false
+    - avoid-returning-cascades: false
+    - avoid-dynamic: false
+    - no-magic-string: false
+    - prefer-static-class: false
+    - prefer-single-declaration-per-file: false
+    - prefer-correct-handler-name: false
+    # TODO enable as soon as time
+    - prefer-test-matchers: false

@@ -13,7 +13,7 @@ class SongsCubit extends Cubit<SongsState> {
   Future<void> loadSongs() async {
     emit(state.copyWith(status: SongsStatus.loading));
     try {
-      final songs = await songRepository.loadSongs();
+      final songs = await songRepository.getAllSongs();
       emit(state.copyWith(status: SongsStatus.loaded, songs: songs));
     } catch (e) {
       emit(
@@ -28,12 +28,22 @@ class SongsCubit extends Cubit<SongsState> {
   Future<void> addSong(File file) async {
     emit(state.copyWith(status: SongsStatus.loading));
     try {
-      final song = Song(id: '', title: file.path.split('/').last, artist: '', path: file.path);
+      final song = Song(
+        id: '',
+        title: file.path.split('/').last,
+        artist: '',
+        path: file.path,
+      );
 
       await songRepository.addSong(song);
       await loadSongs();
     } catch (e) {
-      emit(state.copyWith(status: SongsStatus.error, errorMessage: e.toString()));
+      emit(
+        state.copyWith(
+          status: SongsStatus.error,
+          errorMessage: e.toString(),
+        ),
+      );
     }
   }
 }
