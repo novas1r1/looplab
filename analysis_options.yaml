@@ -63,5 +63,6 @@ dart_code_metrics:
     - prefer-static-class: false
     - prefer-single-declaration-per-file: false
     - prefer-correct-handler-name: false
+    - prefer-typedefs-for-callbacks: false
     # TODO enable as soon as time
     - prefer-test-matchers: false

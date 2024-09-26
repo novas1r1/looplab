@@ -7,7 +7,11 @@ class WaveFormSoLoud extends StatefulWidget {
   final Float32List data;
   final Duration duration;
   final Duration currentPosition;
-  final Function(Duration) onPositionChanged;
+  final void Function(Duration duration) onPositionChanged;
+  final VoidCallback onStartDrag;
+
+  final Duration? loopStartPosition;
+  final Duration? loopEndPosition;
 
   const WaveFormSoLoud({
     super.key,
@@ -15,6 +19,9 @@ class WaveFormSoLoud extends StatefulWidget {
     required this.duration,
     required this.currentPosition,
     required this.onPositionChanged,
+    required this.onStartDrag,
+    this.loopStartPosition,
+    this.loopEndPosition,
   });
 
   @override
@@ -68,6 +75,7 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
               // add padding to the left so it starts at the center
               padding: EdgeInsets.symmetric(horizontal: (width / 2) - 16),
               child: GestureDetector(
+                onHorizontalDragStart: (details) => widget.onStartDrag(),
                 onHorizontalDragUpdate: (details) {
                   // Update scroll position based on drag
                   final newScrollPosition =
@@ -98,6 +106,8 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
                       data: widget.data,
                       duration: widget.duration,
                       currentPosition: widget.currentPosition,
+                      loopStartPosition: widget.loopStartPosition,
+                      loopEndPosition: widget.loopEndPosition,
                     ),
                   ),
                 ),

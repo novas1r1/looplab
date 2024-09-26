@@ -1,6 +1,6 @@
-import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:looplab/core/utils/duration_extension.dart';
 import 'package:looplab/data/repositories/file_repository.dart';
 import 'package:looplab/home/cubit/songs_cubit.dart';
 import 'package:looplab/models/song.dart';
@@ -36,7 +36,7 @@ class HomePage extends StatelessWidget {
                     onTap: () => _onTapSong(context, song),
                     title: Text(song.title),
                     trailing: Text(
-                      song.duration.toHHMMSS(),
+                      song.duration.toFormattedString(),
                       textAlign: TextAlign.center,
                     ),
                   );

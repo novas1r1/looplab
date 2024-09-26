@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
 
-import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
@@ -25,21 +23,27 @@ class SongPage extends StatefulWidget {
 }
 
 class _SongPageState extends State<SongPage> {
-  late PlayerController _playerController;
-  late StreamSubscription<PlayerState> _subscription;
-  late StreamSubscription<int> _positionSubscription;
+  AudioSource? _source;
+  SoundHandle? _handle;
 
   Duration _currentPlayerPosition = Duration.zero;
 
   bool _isLoading = true;
 
-  final List<Loop> _loops = [];
+  final _loops = <Loop>[];
   Loop? _currentLoop;
 
   Uint8List? _bytes;
 
   Float32List? _data;
   Float32List? _playedData;
+
+  Timer? _positionTimer;
+
+  Duration? _startPosition;
+  Duration? _endPosition;
+
+  bool _loopActive = false;
 
   @override
   void initState() {
@@ -48,54 +52,23 @@ class _SongPageState extends State<SongPage> {
   }
 
   Future<void> _initializePlayer() async {
-    _playerController = PlayerController();
+    final soloud = SoLoud.instance;
 
-    _subscription = _playerController.onPlayerStateChanged.listen((state) {
-      switch (state) {
-        case PlayerState.initialized:
-          log('PlayerState.initialized');
-        case PlayerState.playing:
-          log('PlayerState.playing');
-        case PlayerState.paused:
-          log('PlayerState.paused');
-        case PlayerState.stopped:
-          log('PlayerState.stopped');
-      }
+    _source = await soloud.loadFile(widget.song.path);
+    _handle = await soloud.play(_source!);
 
-      setState(() {});
-    });
-
-    _positionSubscription =
-        _playerController.onCurrentDurationChanged.listen((currentPosition) {
-      setState(
-        () {
-          _currentPlayerPosition = Duration(milliseconds: currentPosition);
-
-          /* _playedData = await SoLoud.instance.readSamplesFromMem(
-            _bytes!,
-            200 * 5,
-            endTime: _currentPlayerPosition.inSeconds.toDouble(),
-            average: true,
-          ); */
-        },
-      );
-    });
+    // Start the position timer
+    _startPositionTimer();
 
     try {
-      await _playerController.preparePlayer(
-        path: widget.song.path,
-        volume: 1.0,
-        noOfSamples: 200,
-      );
-
-      final f = File(widget.song.path);
-      _bytes = f.readAsBytesSync();
+      final file = File(widget.song.path);
+      _bytes = file.readAsBytesSync();
 
       if (_bytes == null) {
         return;
       }
 
-      final data = await SoLoud.instance.readSamplesFromMem(
+      final data = await soloud.readSamplesFromMem(
         _bytes!,
         200 * 10,
       );
@@ -110,11 +83,35 @@ class _SongPageState extends State<SongPage> {
     }
   }
 
+  void _startPositionTimer() {
+    _positionTimer?.cancel();
+    _positionTimer = Timer.periodic(const Duration(milliseconds: 50), (_) {
+      if (_handle != null) {
+        final position = SoLoud.instance.getPosition(_handle!);
+        setState(() {
+          _currentPlayerPosition = position;
+        });
+
+        // if loop is active, check if the current position is greater than the end position
+        if (_loopActive && _endPosition != null) {
+          if (position >= _endPosition!) {
+            SoLoud.instance.setPause(_handle!, true);
+            SoLoud.instance.seek(_handle!, _startPosition!);
+            SoLoud.instance.setPause(_handle!, false);
+          }
+        }
+      }
+    });
+  }
+
   @override
   void dispose() {
-    _playerController.dispose();
-    _subscription.cancel();
-    _positionSubscription.cancel();
+    _positionTimer?.cancel();
+
+    if (_handle != null) {
+      SoLoud.instance.stop(_handle!);
+      SoLoud.instance.disposeSource(_source!);
+    }
     super.dispose();
   }
 
@@ -129,25 +126,19 @@ class _SongPageState extends State<SongPage> {
           : ListView(
               padding: const EdgeInsets.all(16),
               children: [
-                Text(
-                  'Artist: ${widget.song.artist}',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                /* AudioFileWaveforms(
-                  size: Size(MediaQuery.sizeOf(context).width - 32, 100.0),
-                  playerController: _playerController,
-                  playerWaveStyle: const PlayerWaveStyle(
-                    liveWaveColor: Colors.blueAccent,
-                    spacing: 6,
-                  ),
-                ), */
                 if (_data != null)
                   WaveFormSoLoud(
                     data: _data!,
                     duration: widget.song.duration,
                     currentPosition: _currentPlayerPosition,
-                    onPositionChanged: (position) =>
-                        setState(() => _currentPlayerPosition = position),
+                    onStartDrag: () => SoLoud.instance.setPause(_handle!, true),
+                    onPositionChanged: (position) => setState(() {
+                      // stop the sound
+                      _currentPlayerPosition = position;
+                      SoLoud.instance.seek(_handle!, position);
+                    }),
+                    loopStartPosition: _startPosition,
+                    loopEndPosition: _endPosition,
                   ),
                 const SizedBox(height: 20),
                 Row(
@@ -167,7 +158,7 @@ class _SongPageState extends State<SongPage> {
                     IconButton(
                       onPressed: () => _onPlay(),
                       icon: Icon(
-                        !_playerController.playerState.isPlaying
+                        SoLoud.instance.getPause(_handle!)
                             ? Icons.play_arrow_rounded
                             : Icons.pause_rounded,
                       ),
@@ -201,7 +192,10 @@ class _SongPageState extends State<SongPage> {
                           selected: loop == _currentLoop,
                           onTap: () => _onSelectLoop(loop),
                           contentPadding: EdgeInsets.zero,
-                          leading: const Icon(Icons.loop),
+                          leading: IconButton(
+                            onPressed: () => _setAndPlayLoop(loop),
+                            icon: const Icon(Icons.loop),
+                          ),
                           title: Text(loop.name),
                           subtitle: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -227,41 +221,59 @@ class _SongPageState extends State<SongPage> {
 
   void _onPreviousLoop() {}
 
-  void _onPlay() {
-    if (_playerController.playerState.isPlaying) {
-      _playerController.pausePlayer();
-    } else if (_playerController.playerState.isStopped) {
-      _playerController.seekTo(_currentPlayerPosition.inMilliseconds);
+  Future<void> _onPlay() async {
+    if (_handle != null) {
+      if (SoLoud.instance.getPause(_handle!)) {
+        SoLoud.instance.setPause(_handle!, false);
+      } else {
+        SoLoud.instance.setPause(_handle!, true);
+      }
     } else {
-      _playerController.startPlayer(finishMode: FinishMode.pause);
+      _handle = await SoLoud.instance.play(_source!);
     }
+
     setState(() {});
   }
 
   void _onNextLoop() {}
 
   void _onSetLoopStart() {
-    _playerController.pausePlayer();
+    Loop? loop = _currentLoop;
 
-    final loop = Loop(
-      id: const Uuid().v4(),
-      name: 'Loop ${_loops.length + 1}',
-      songId: widget.song.id,
-      microsecondStart: _currentPlayerPosition.inMicroseconds,
-      microsecondEnd: _currentPlayerPosition.inMicroseconds,
-    );
+    // if loop is null, create a new one
+    if (_currentLoop == null) {
+      loop = Loop(
+        id: const Uuid().v4(),
+        name: 'Loop ${_loops.length + 1}',
+        songId: widget.song.id,
+        microsecondStart: _currentPlayerPosition.inMicroseconds,
+        microsecondEnd: _currentPlayerPosition.inMicroseconds,
+      );
 
-    _loops.add(loop);
+      _loops.add(loop);
+      setState(() => _currentLoop = loop);
+    } else {
+      final updatedLoop = _currentLoop!.copyWith(
+        microsecondStart: _currentPlayerPosition.inMicroseconds,
+      );
 
-    setState(() => _currentLoop = loop);
+      setState(() => _currentLoop = updatedLoop);
+
+      final currentLoopIndex =
+          _loops.indexWhere((loop) => loop.id == _currentLoop?.id);
+
+      if (currentLoopIndex == -1) return;
+
+      // update the loop in the list
+      setState(() {
+        _loops[currentLoopIndex] = updatedLoop;
+        _startPosition = Duration(microseconds: updatedLoop.microsecondStart);
+      });
+    }
   }
 
   void _onSetLoopEnd() {
-    _playerController.pausePlayer();
-
-    if (_currentLoop == null) {
-      return;
-    }
+    if (_currentLoop == null) return;
 
     final updatedLoop = _currentLoop!.copyWith(
       microsecondEnd: _currentPlayerPosition.inMicroseconds,
@@ -269,13 +281,39 @@ class _SongPageState extends State<SongPage> {
 
     setState(() => _currentLoop = updatedLoop);
 
+    final currentLoopIndex =
+        _loops.indexWhere((loop) => loop.id == _currentLoop?.id);
+
+    if (currentLoopIndex == -1) return;
+
     // update the loop in the list
-    _loops[_loops.indexOf(_currentLoop!)] = updatedLoop;
+    setState(() {
+      _loops[currentLoopIndex] = updatedLoop;
+      _endPosition = Duration(microseconds: updatedLoop.microsecondEnd);
+    });
 
     // get current position
   }
 
   void _onSelectLoop(Loop loop) {
     setState(() => _currentLoop = loop);
+  }
+
+  void _setAndPlayLoop(Loop loop) {
+    SoLoud.instance.setPause(_handle!, true);
+
+    final startPositionDuration = Duration(microseconds: loop.microsecondStart);
+
+    // seek start
+    if (_handle == null) return;
+
+    SoLoud.instance.seek(_handle!, startPositionDuration);
+    SoLoud.instance.setPause(_handle!, false);
+
+    // scroll to position
+    setState(() {
+      _currentPlayerPosition = startPositionDuration;
+      _loopActive = true;
+    });
   }
 }

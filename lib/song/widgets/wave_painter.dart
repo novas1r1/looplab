@@ -11,10 +11,18 @@ class WavePainter extends CustomPainter {
   /// Current position of the song.
   final Duration currentPosition;
 
+  /// Loop start position of the song.
+  final Duration? loopStartPosition;
+
+  /// Loop end position of the song.
+  final Duration? loopEndPosition;
+
   const WavePainter({
     required this.data,
     required this.duration,
     required this.currentPosition,
+    this.loopStartPosition,
+    this.loopEndPosition,
   });
 
   @override
@@ -24,11 +32,46 @@ class WavePainter extends CustomPainter {
       ..strokeWidth = 1;
 
     final paintPlayed = Paint()
-      ..color = Colors.blueAccent
+      ..color = Colors.blue.shade200
       ..strokeWidth = 1;
 
+    final durationInMilliseconds = duration.inMilliseconds.toDouble();
+
+    // Function to scale milliseconds to canvas width
+    double scaleX(double milliseconds) {
+      return (milliseconds / durationInMilliseconds) * size.width;
+    }
+
+    // paint loop start
+    if (loopStartPosition != null) {
+      final paintLoopStart = Paint()
+        ..color = Colors.purple
+        ..strokeWidth = 2;
+
+      final x = scaleX(loopStartPosition!.inMilliseconds.toDouble());
+      canvas.drawLine(
+        Offset(x, 0),
+        Offset(x, size.height),
+        paintLoopStart,
+      );
+    }
+
+    // paint loop end
+    if (loopEndPosition != null) {
+      final paintLoopEnd = Paint()
+        ..color = Colors.purple
+        ..strokeWidth = 2;
+
+      final x = scaleX(loopEndPosition!.inMilliseconds.toDouble());
+      canvas.drawLine(
+        Offset(x, 0),
+        Offset(x, size.height),
+        paintLoopEnd,
+      );
+    }
+
     final currentPositionInMilliseconds = currentPosition.inMilliseconds;
-    final durationInMilliseconds = duration.inMilliseconds;
+    // final durationInMilliseconds = duration.inMilliseconds;
 
     // Calculate the fraction of the song played
     final playedFraction =
