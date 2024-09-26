@@ -13,6 +13,7 @@ class SongMapper extends ClassMapperBase<Song> {
   static SongMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = SongMapper._());
+      MapperContainer.globals.useAll([DurationMapper()]);
     }
     return _instance!;
   }
@@ -28,6 +29,9 @@ class SongMapper extends ClassMapperBase<Song> {
   static const Field<Song, String> _f$artist = Field('artist', _$artist);
   static String _$path(Song v) => v.path;
   static const Field<Song, String> _f$path = Field('path', _$path);
+  static Duration _$duration(Song v) => v.duration;
+  static const Field<Song, Duration> _f$duration =
+      Field('duration', _$duration);
 
   @override
   final MappableFields<Song> fields = const {
@@ -35,6 +39,7 @@ class SongMapper extends ClassMapperBase<Song> {
     #title: _f$title,
     #artist: _f$artist,
     #path: _f$path,
+    #duration: _f$duration,
   };
 
   static Song _instantiate(DecodingData data) {
@@ -42,7 +47,8 @@ class SongMapper extends ClassMapperBase<Song> {
         id: data.dec(_f$id),
         title: data.dec(_f$title),
         artist: data.dec(_f$artist),
-        path: data.dec(_f$path));
+        path: data.dec(_f$path),
+        duration: data.dec(_f$duration));
   }
 
   @override
@@ -91,7 +97,12 @@ extension SongValueCopy<$R, $Out> on ObjectCopyWith<$R, Song, $Out> {
 
 abstract class SongCopyWith<$R, $In extends Song, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  $R call({String? id, String? title, String? artist, String? path});
+  $R call(
+      {String? id,
+      String? title,
+      String? artist,
+      String? path,
+      Duration? duration});
   SongCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -102,19 +113,26 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
   @override
   late final ClassMapperBase<Song> $mapper = SongMapper.ensureInitialized();
   @override
-  $R call({String? id, String? title, String? artist, String? path}) =>
+  $R call(
+          {String? id,
+          String? title,
+          String? artist,
+          String? path,
+          Duration? duration}) =>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
         if (title != null) #title: title,
         if (artist != null) #artist: artist,
-        if (path != null) #path: path
+        if (path != null) #path: path,
+        if (duration != null) #duration: duration
       }));
   @override
   Song $make(CopyWithData data) => Song(
       id: data.get(#id, or: $value.id),
       title: data.get(#title, or: $value.title),
       artist: data.get(#artist, or: $value.artist),
-      path: data.get(#path, or: $value.path));
+      path: data.get(#path, or: $value.path),
+      duration: data.get(#duration, or: $value.duration));
 
   @override
   SongCopyWith<$R2, Song, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>

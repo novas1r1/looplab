@@ -14,8 +14,10 @@ class LoopRepository {
     return records.map((e) => LoopMapper.fromMap(e.value)).toList();
   }
 
-  Future<void> addLoop(Loop loop) async {
-    await _store.add(db, loop.toMap());
+  Future<Loop> addLoop(Loop loop) async {
+    final key = await _store.add(db, loop.toMap());
+
+    return loop.copyWith(id: key);
   }
 
   Future<void> updateLoop(Loop loop) async {

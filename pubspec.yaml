@@ -7,21 +7,27 @@ environment:
   sdk: ^3.5.0
 
 dependencies:
-  audio_waveforms: ^1.0.5
+  # audio_waveforms: ^1.0.5
   bloc: ^8.1.4
   dart_code_metrics_presets: ^2.16.0
   dart_mappable: ^4.2.2
+  equatable: ^2.0.5
   file_picker: ^8.1.2
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
   flutter_localizations:
     sdk: flutter
+  flutter_soloud:
+    git:
+      url: https://github.com/alnitak/flutter_soloud.git
+      ref: feat_waveform
   intl: ^0.19.0
   lint: ^2.3.0
   path: ^1.9.0
   path_provider: ^2.1.4
   sembast: ^3.7.3+3
+  uuid: ^4.5.0
 
 dev_dependencies:
   bloc_test: ^9.1.7

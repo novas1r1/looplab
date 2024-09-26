@@ -7,8 +7,9 @@ import 'package:looplab/models/song.dart';
 part 'songs_state.dart';
 
 class SongsCubit extends Cubit<SongsState> {
-  SongsCubit({required this.songRepository}) : super(const SongsState());
   final SongRepository songRepository;
+
+  SongsCubit({required this.songRepository}) : super(const SongsState());
 
   Future<void> loadSongs() async {
     emit(state.copyWith(status: SongsStatus.loading));
@@ -28,14 +29,7 @@ class SongsCubit extends Cubit<SongsState> {
   Future<void> addSong(File file) async {
     emit(state.copyWith(status: SongsStatus.loading));
     try {
-      final song = Song(
-        id: '',
-        title: file.path.split('/').last,
-        artist: '',
-        path: file.path,
-      );
-
-      await songRepository.addSong(song);
+      await songRepository.addSongFile(file);
       await loadSongs();
     } catch (e) {
       emit(
@@ -45,5 +39,10 @@ class SongsCubit extends Cubit<SongsState> {
         ),
       );
     }
+  }
+
+  Future<void> clearDb() async {
+    await songRepository.clearDb();
+    await loadSongs();
   }
 }

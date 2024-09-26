@@ -1,3 +1,4 @@
+import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:looplab/data/repositories/file_repository.dart';
@@ -13,6 +14,12 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('LoopLab'),
+        actions: [
+          IconButton(
+            onPressed: () => _onClearDb(context),
+            icon: const Icon(Icons.delete),
+          ),
+        ],
       ),
       body: BlocBuilder<SongsCubit, SongsState>(
         builder: (context, state) {
@@ -28,7 +35,10 @@ class HomePage extends StatelessWidget {
                   return ListTile(
                     onTap: () => _onTapSong(context, song),
                     title: Text(song.title),
-                    subtitle: Text(song.artist),
+                    trailing: Text(
+                      song.duration.toHHMMSS(),
+                      textAlign: TextAlign.center,
+                    ),
                   );
                 },
               );
@@ -60,5 +70,9 @@ class HomePage extends StatelessWidget {
       context,
       MaterialPageRoute(builder: (context) => SongPage(song: song)),
     );
+  }
+
+  Future<void> _onClearDb(BuildContext context) async {
+    await context.read<SongsCubit>().clearDb();
   }
 }
