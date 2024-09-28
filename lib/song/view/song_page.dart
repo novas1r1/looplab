@@ -54,11 +54,16 @@ class _SongPageState extends State<SongPage> {
   Future<void> _initializePlayer() async {
     final soloud = SoLoud.instance;
 
-    _source = await soloud.loadFile(widget.song.path);
-    _handle = await soloud.play(_source!);
+    try {
+      _source = await soloud.loadFile(widget.song.path);
+      _handle = await soloud.play(_source!);
 
-    // Start the position timer
-    _startPositionTimer();
+      // Start the position timer
+      _startPositionTimer();
+    } catch (ex, stackTrace) {
+      print('Error initializing player: $ex');
+      print('Error initializing player: $stackTrace');
+    }
 
     try {
       final file = File(widget.song.path);
@@ -201,12 +206,10 @@ class _SongPageState extends State<SongPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                Duration(microseconds: loop.microsecondStart)
-                                    .toFormattedString(),
+                                Duration(microseconds: loop.microsecondStart).toFormattedString(),
                               ),
                               Text(
-                                Duration(microseconds: loop.microsecondEnd)
-                                    .toFormattedString(),
+                                Duration(microseconds: loop.microsecondEnd).toFormattedString(),
                               ),
                             ],
                           ),
@@ -259,8 +262,7 @@ class _SongPageState extends State<SongPage> {
 
       setState(() => _currentLoop = updatedLoop);
 
-      final currentLoopIndex =
-          _loops.indexWhere((loop) => loop.id == _currentLoop?.id);
+      final currentLoopIndex = _loops.indexWhere((loop) => loop.id == _currentLoop?.id);
 
       if (currentLoopIndex == -1) return;
 
@@ -281,8 +283,7 @@ class _SongPageState extends State<SongPage> {
 
     setState(() => _currentLoop = updatedLoop);
 
-    final currentLoopIndex =
-        _loops.indexWhere((loop) => loop.id == _currentLoop?.id);
+    final currentLoopIndex = _loops.indexWhere((loop) => loop.id == _currentLoop?.id);
 
     if (currentLoopIndex == -1) return;
 

@@ -4,7 +4,7 @@
 // ignore_for_file: unused_element, unnecessary_cast, override_on_non_overriding_member
 // ignore_for_file: strict_raw_type, inference_failure_on_untyped_parameter
 
-part of 'loop_cubit.dart';
+part of 'song_cubit.dart';
 
 class LoopStatusMapper extends EnumMapper<LoopStatus> {
   LoopStatusMapper._();
@@ -60,13 +60,13 @@ extension LoopStatusMapperExtension on LoopStatus {
   }
 }
 
-class LoopStateMapper extends ClassMapperBase<LoopState> {
-  LoopStateMapper._();
+class SongStateMapper extends ClassMapperBase<SongState> {
+  SongStateMapper._();
 
-  static LoopStateMapper? _instance;
-  static LoopStateMapper ensureInitialized() {
+  static SongStateMapper? _instance;
+  static SongStateMapper ensureInitialized() {
     if (_instance == null) {
-      MapperContainer.globals.use(_instance = LoopStateMapper._());
+      MapperContainer.globals.use(_instance = SongStateMapper._());
       LoopStatusMapper.ensureInitialized();
       LoopMapper.ensureInitialized();
     }
@@ -74,27 +74,27 @@ class LoopStateMapper extends ClassMapperBase<LoopState> {
   }
 
   @override
-  final String id = 'LoopState';
+  final String id = 'SongState';
 
-  static LoopStatus _$status(LoopState v) => v.status;
-  static const Field<LoopState, LoopStatus> _f$status =
+  static LoopStatus _$status(SongState v) => v.status;
+  static const Field<SongState, LoopStatus> _f$status =
       Field('status', _$status, opt: true, def: LoopStatus.initial);
-  static List<Loop> _$loops(LoopState v) => v.loops;
-  static const Field<LoopState, List<Loop>> _f$loops =
+  static List<Loop> _$loops(SongState v) => v.loops;
+  static const Field<SongState, List<Loop>> _f$loops =
       Field('loops', _$loops, opt: true, def: const []);
-  static String? _$error(LoopState v) => v.error;
-  static const Field<LoopState, String> _f$error =
+  static String? _$error(SongState v) => v.error;
+  static const Field<SongState, String> _f$error =
       Field('error', _$error, opt: true);
 
   @override
-  final MappableFields<LoopState> fields = const {
+  final MappableFields<SongState> fields = const {
     #status: _f$status,
     #loops: _f$loops,
     #error: _f$error,
   };
 
-  static LoopState _instantiate(DecodingData data) {
-    return LoopState(
+  static SongState _instantiate(DecodingData data) {
+    return SongState(
         status: data.dec(_f$status),
         loops: data.dec(_f$loops),
         error: data.dec(_f$error));
@@ -103,66 +103,66 @@ class LoopStateMapper extends ClassMapperBase<LoopState> {
   @override
   final Function instantiate = _instantiate;
 
-  static LoopState fromMap(Map<String, dynamic> map) {
-    return ensureInitialized().decodeMap<LoopState>(map);
+  static SongState fromMap(Map<String, dynamic> map) {
+    return ensureInitialized().decodeMap<SongState>(map);
   }
 
-  static LoopState fromJson(String json) {
-    return ensureInitialized().decodeJson<LoopState>(json);
+  static SongState fromJson(String json) {
+    return ensureInitialized().decodeJson<SongState>(json);
   }
 }
 
-mixin LoopStateMappable {
+mixin SongStateMappable {
   String toJson() {
-    return LoopStateMapper.ensureInitialized()
-        .encodeJson<LoopState>(this as LoopState);
+    return SongStateMapper.ensureInitialized()
+        .encodeJson<SongState>(this as SongState);
   }
 
   Map<String, dynamic> toMap() {
-    return LoopStateMapper.ensureInitialized()
-        .encodeMap<LoopState>(this as LoopState);
+    return SongStateMapper.ensureInitialized()
+        .encodeMap<SongState>(this as SongState);
   }
 
-  LoopStateCopyWith<LoopState, LoopState, LoopState> get copyWith =>
-      _LoopStateCopyWithImpl(this as LoopState, $identity, $identity);
+  SongStateCopyWith<SongState, SongState, SongState> get copyWith =>
+      _SongStateCopyWithImpl(this as SongState, $identity, $identity);
   @override
   String toString() {
-    return LoopStateMapper.ensureInitialized()
-        .stringifyValue(this as LoopState);
+    return SongStateMapper.ensureInitialized()
+        .stringifyValue(this as SongState);
   }
 
   @override
   bool operator ==(Object other) {
-    return LoopStateMapper.ensureInitialized()
-        .equalsValue(this as LoopState, other);
+    return SongStateMapper.ensureInitialized()
+        .equalsValue(this as SongState, other);
   }
 
   @override
   int get hashCode {
-    return LoopStateMapper.ensureInitialized().hashValue(this as LoopState);
+    return SongStateMapper.ensureInitialized().hashValue(this as SongState);
   }
 }
 
-extension LoopStateValueCopy<$R, $Out> on ObjectCopyWith<$R, LoopState, $Out> {
-  LoopStateCopyWith<$R, LoopState, $Out> get $asLoopState =>
-      $base.as((v, t, t2) => _LoopStateCopyWithImpl(v, t, t2));
+extension SongStateValueCopy<$R, $Out> on ObjectCopyWith<$R, SongState, $Out> {
+  SongStateCopyWith<$R, SongState, $Out> get $asSongState =>
+      $base.as((v, t, t2) => _SongStateCopyWithImpl(v, t, t2));
 }
 
-abstract class LoopStateCopyWith<$R, $In extends LoopState, $Out>
+abstract class SongStateCopyWith<$R, $In extends SongState, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   ListCopyWith<$R, Loop, LoopCopyWith<$R, Loop, Loop>> get loops;
   $R call({LoopStatus? status, List<Loop>? loops, String? error});
-  LoopStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
+  SongStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
-class _LoopStateCopyWithImpl<$R, $Out>
-    extends ClassCopyWithBase<$R, LoopState, $Out>
-    implements LoopStateCopyWith<$R, LoopState, $Out> {
-  _LoopStateCopyWithImpl(super.value, super.then, super.then2);
+class _SongStateCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, SongState, $Out>
+    implements SongStateCopyWith<$R, SongState, $Out> {
+  _SongStateCopyWithImpl(super.value, super.then, super.then2);
 
   @override
-  late final ClassMapperBase<LoopState> $mapper =
-      LoopStateMapper.ensureInitialized();
+  late final ClassMapperBase<SongState> $mapper =
+      SongStateMapper.ensureInitialized();
   @override
   ListCopyWith<$R, Loop, LoopCopyWith<$R, Loop, Loop>> get loops =>
       ListCopyWith(
@@ -175,13 +175,13 @@ class _LoopStateCopyWithImpl<$R, $Out>
         if (error != $none) #error: error
       }));
   @override
-  LoopState $make(CopyWithData data) => LoopState(
+  SongState $make(CopyWithData data) => SongState(
       status: data.get(#status, or: $value.status),
       loops: data.get(#loops, or: $value.loops),
       error: data.get(#error, or: $value.error));
 
   @override
-  LoopStateCopyWith<$R2, LoopState, $Out2> $chain<$R2, $Out2>(
+  SongStateCopyWith<$R2, SongState, $Out2> $chain<$R2, $Out2>(
           Then<$Out2, $R2> t) =>
-      _LoopStateCopyWithImpl($value, $cast, t);
+      _SongStateCopyWithImpl($value, $cast, t);
 }

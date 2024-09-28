@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:looplab/app/view/repository_wrapper.dart';
 import 'package:looplab/data/repositories/song_repository.dart';
-import 'package:looplab/home/cubit/songs_cubit.dart';
+import 'package:looplab/home/cubit/all_songs_cubit.dart';
 import 'package:looplab/home/home_page.dart';
 import 'package:looplab/l10n/l10n.dart';
 import 'package:sembast/sembast.dart';
@@ -20,7 +20,7 @@ class App extends StatelessWidget {
       db: db,
       soLoud: soloud,
       child: BlocProvider(
-        create: (context) => SongsCubit(
+        create: (context) => AllSongsCubit(
           songRepository: context.read<SongRepository>(),
         )..loadSongs(),
         child: MaterialApp(

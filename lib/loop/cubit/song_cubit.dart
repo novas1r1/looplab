@@ -3,13 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:looplab/data/repositories/loop_repository.dart';
 import 'package:looplab/models/loop.dart';
 
-part 'loop_cubit.mapper.dart';
-part 'loop_state.dart';
+part 'song_cubit.mapper.dart';
+part 'song_state.dart';
 
-class LoopCubit extends Cubit<LoopState> {
+class SongCubit extends Cubit<SongState> {
   final LoopRepository loopRepository;
 
-  LoopCubit(this.loopRepository) : super(const LoopState());
+  SongCubit(this.loopRepository) : super(const SongState());
 
   Future<void> loadLoops(String songId) async {
     emit(state.copyWith(status: LoopStatus.loading));
@@ -36,9 +36,7 @@ class LoopCubit extends Cubit<LoopState> {
       await loopRepository.updateLoop(updatedLoop);
       emit(
         state.copyWith(
-          loops: state.loops
-              .map((loop) => loop.id == updatedLoop.id ? updatedLoop : loop)
-              .toList(),
+          loops: state.loops.map((loop) => loop.id == updatedLoop.id ? updatedLoop : loop).toList(),
         ),
       );
     } catch (e) {

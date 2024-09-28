@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:looplab/core/utils/duration_extension.dart';
 import 'package:looplab/data/repositories/file_repository.dart';
-import 'package:looplab/home/cubit/songs_cubit.dart';
+import 'package:looplab/home/cubit/all_songs_cubit.dart';
 import 'package:looplab/models/song.dart';
 import 'package:looplab/song/view/song_page.dart';
 
@@ -21,12 +21,12 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: BlocBuilder<SongsCubit, SongsState>(
+      body: BlocBuilder<AllSongsCubit, AllSongsState>(
         builder: (context, state) {
           switch (state.status) {
-            case SongsStatus.loading:
+            case AllSongsStatus.loading:
               return const Center(child: CircularProgressIndicator());
-            case SongsStatus.loaded:
+            case AllSongsStatus.loaded:
               return ListView.builder(
                 itemCount: state.songs.length,
                 itemBuilder: (context, index) {
@@ -42,9 +42,9 @@ class HomePage extends StatelessWidget {
                   );
                 },
               );
-            case SongsStatus.error:
+            case AllSongsStatus.error:
               return Center(child: Text('Error: ${state.errorMessage}'));
-            case SongsStatus.initial:
+            case AllSongsStatus.initial:
               return const SizedBox.shrink();
           }
         },
@@ -61,7 +61,7 @@ class HomePage extends StatelessWidget {
     final file = await context.read<FileRepository>().pickSingleAudioFile();
     if (file != null) {
       // TODO: Upload song
-      context.read<SongsCubit>().addSong(file);
+      context.read<AllSongsCubit>().addSong(file);
     }
   }
 
@@ -73,6 +73,6 @@ class HomePage extends StatelessWidget {
   }
 
   Future<void> _onClearDb(BuildContext context) async {
-    await context.read<SongsCubit>().clearDb();
+    await context.read<AllSongsCubit>().clearDb();
   }
 }

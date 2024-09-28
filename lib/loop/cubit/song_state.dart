@@ -1,12 +1,12 @@
-part of 'loop_cubit.dart';
+part of 'song_cubit.dart';
 
 @MappableClass()
-class LoopState with LoopStateMappable {
+class SongState with SongStateMappable {
   final LoopStatus status;
   final List<Loop> loops;
   final String? error;
 
-  const LoopState({
+  const SongState({
     this.status = LoopStatus.initial,
     this.loops = const [],
     this.error,
