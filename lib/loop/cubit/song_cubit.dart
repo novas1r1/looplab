@@ -303,6 +303,7 @@ class SongCubit extends Cubit<SongState> {
   }
 
   Future<void> addLoop() async {
+    log('ADDING LOOP: ${state.activeLoop}', name: 'SongCubit');
     try {
       // create a new loop
       final loop = Loop(
@@ -344,6 +345,7 @@ class SongCubit extends Cubit<SongState> {
   }
 
   Future<void> deleteLoop(Loop loop) async {
+    log('deleteLoop: $loop');
     try {
       await loopRepository.deleteLoop(loop);
       final updatedLoops = state.loops.where((l) => l.id != loop.id).toList();

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:looplab/models/loop.dart';
 import 'package:sembast/sembast.dart';
 
@@ -15,6 +17,7 @@ class LoopRepository {
   }
 
   Future<void> addLoop(Loop loop) async {
+    log('ADDING LOOP: ${loop.toMap()}');
     await _store.add(db, loop.toMap());
   }
 

@@ -1,0 +1,4 @@
+- add loop description
+- add change speed
+- add change volume
+- add zoom in and out

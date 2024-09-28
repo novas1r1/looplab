@@ -148,20 +148,19 @@ class _SongViewState extends State<_SongView> {
                     const SizedBox(height: 20),
                     Expanded(
                       child: ListView(
-                        children: state.loops
-                            .map(
-                              (loop) => LoopTile(
-                                loop: loop,
-                                isSelected: loop == state.activeLoop,
-                                isPaused: context.read<SongCubit>().isPaused,
-                                onTap: (loop) => context.read<SongCubit>().selectLoop(loop),
-                                onDelete: (loop) => context.read<SongCubit>().deleteLoop(loop),
-                                onPlay: (loop) => context.read<SongCubit>().playLoop(loop),
-                                onPause: (loop) => context.read<SongCubit>().pauseLoop(loop),
-                                onUpdate: (loop) => context.read<SongCubit>().updateLoop(loop),
-                              ),
-                            )
-                            .toList(),
+                        children: [
+                          for (final loop in state.loops)
+                            LoopTile(
+                              loop: loop,
+                              isSelected: loop == state.activeLoop,
+                              isPaused: context.read<SongCubit>().isPaused,
+                              onTap: (loop) => context.read<SongCubit>().selectLoop(loop),
+                              onDelete: (loop) => context.read<SongCubit>().deleteLoop(loop),
+                              onPlay: (loop) => context.read<SongCubit>().playLoop(loop),
+                              onPause: (loop) => context.read<SongCubit>().pauseLoop(loop),
+                              onUpdate: (loop) => context.read<SongCubit>().updateLoop(loop),
+                            ),
+                        ],
                       ),
                     ),
                   ],
