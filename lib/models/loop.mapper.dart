@@ -20,26 +20,25 @@ class LoopMapper extends ClassMapperBase<Loop> {
   @override
   final String id = 'Loop';
 
-  static String _$id(Loop v) => v.id;
-  static const Field<Loop, String> _f$id = Field('id', _$id);
+  static String? _$id(Loop v) => v.id;
+  static const Field<Loop, String> _f$id = Field('id', _$id, opt: true);
   static String _$name(Loop v) => v.name;
   static const Field<Loop, String> _f$name = Field('name', _$name);
   static String _$songId(Loop v) => v.songId;
   static const Field<Loop, String> _f$songId = Field('songId', _$songId);
-  static int _$microsecondStart(Loop v) => v.microsecondStart;
-  static const Field<Loop, int> _f$microsecondStart =
-      Field('microsecondStart', _$microsecondStart);
-  static int _$microsecondEnd(Loop v) => v.microsecondEnd;
-  static const Field<Loop, int> _f$microsecondEnd =
-      Field('microsecondEnd', _$microsecondEnd);
+  static Duration? _$start(Loop v) => v.start;
+  static const Field<Loop, Duration> _f$start =
+      Field('start', _$start, opt: true);
+  static Duration? _$end(Loop v) => v.end;
+  static const Field<Loop, Duration> _f$end = Field('end', _$end, opt: true);
 
   @override
   final MappableFields<Loop> fields = const {
     #id: _f$id,
     #name: _f$name,
     #songId: _f$songId,
-    #microsecondStart: _f$microsecondStart,
-    #microsecondEnd: _f$microsecondEnd,
+    #start: _f$start,
+    #end: _f$end,
   };
 
   static Loop _instantiate(DecodingData data) {
@@ -47,8 +46,8 @@ class LoopMapper extends ClassMapperBase<Loop> {
         id: data.dec(_f$id),
         name: data.dec(_f$name),
         songId: data.dec(_f$songId),
-        microsecondStart: data.dec(_f$microsecondStart),
-        microsecondEnd: data.dec(_f$microsecondEnd));
+        start: data.dec(_f$start),
+        end: data.dec(_f$end));
   }
 
   @override
@@ -101,8 +100,8 @@ abstract class LoopCopyWith<$R, $In extends Loop, $Out>
       {String? id,
       String? name,
       String? songId,
-      int? microsecondStart,
-      int? microsecondEnd});
+      Duration? start,
+      Duration? end});
   LoopCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -114,26 +113,25 @@ class _LoopCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Loop, $Out>
   late final ClassMapperBase<Loop> $mapper = LoopMapper.ensureInitialized();
   @override
   $R call(
-          {String? id,
+          {Object? id = $none,
           String? name,
           String? songId,
-          int? microsecondStart,
-          int? microsecondEnd}) =>
+          Object? start = $none,
+          Object? end = $none}) =>
       $apply(FieldCopyWithData({
-        if (id != null) #id: id,
+        if (id != $none) #id: id,
         if (name != null) #name: name,
         if (songId != null) #songId: songId,
-        if (microsecondStart != null) #microsecondStart: microsecondStart,
-        if (microsecondEnd != null) #microsecondEnd: microsecondEnd
+        if (start != $none) #start: start,
+        if (end != $none) #end: end
       }));
   @override
   Loop $make(CopyWithData data) => Loop(
       id: data.get(#id, or: $value.id),
       name: data.get(#name, or: $value.name),
       songId: data.get(#songId, or: $value.songId),
-      microsecondStart:
-          data.get(#microsecondStart, or: $value.microsecondStart),
-      microsecondEnd: data.get(#microsecondEnd, or: $value.microsecondEnd));
+      start: data.get(#start, or: $value.start),
+      end: data.get(#end, or: $value.end));
 
   @override
   LoopCopyWith<$R2, Loop, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:looplab/models/loop.dart';
 import 'package:looplab/song/widgets/wave_painter.dart';
 
 // https://github.com/alnitak/flutter_soloud/blob/feat_waveform/example/lib/wave_data/wave_data.dart
@@ -10,8 +11,7 @@ class WaveFormSoLoud extends StatefulWidget {
   final void Function(Duration duration) onPositionChanged;
   final VoidCallback onStartDrag;
 
-  final Duration? loopStartPosition;
-  final Duration? loopEndPosition;
+  final List<Loop> loops;
 
   const WaveFormSoLoud({
     super.key,
@@ -20,8 +20,7 @@ class WaveFormSoLoud extends StatefulWidget {
     required this.currentPosition,
     required this.onPositionChanged,
     required this.onStartDrag,
-    this.loopStartPosition,
-    this.loopEndPosition,
+    required this.loops,
   });
 
   @override
@@ -64,7 +63,7 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
     final width = MediaQuery.sizeOf(context).width;
 
     return SizedBox(
-      height: 100,
+      height: 132,
       child: Stack(
         children: [
           Positioned.fill(
@@ -78,8 +77,7 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
                 onHorizontalDragStart: (details) => widget.onStartDrag(),
                 onHorizontalDragUpdate: (details) {
                   // Update scroll position based on drag
-                  final newScrollPosition =
-                      _scrollController.position.pixels - details.delta.dx;
+                  final newScrollPosition = _scrollController.position.pixels - details.delta.dx;
                   _scrollController.jumpTo(
                     newScrollPosition.clamp(
                       0,
@@ -89,13 +87,10 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
                 },
                 onHorizontalDragEnd: (details) {
                   // Update position
-                  final scrollPercentage =
-                      _scrollController.position.pixels / widget.data.length;
+                  final scrollPercentage = _scrollController.position.pixels / widget.data.length;
                   widget.onPositionChanged(
                     Duration(
-                      milliseconds:
-                          (scrollPercentage * widget.duration.inMilliseconds)
-                              .toInt(),
+                      milliseconds: (scrollPercentage * widget.duration.inMilliseconds).toInt(),
                     ),
                   );
                 },
@@ -106,8 +101,7 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
                       data: widget.data,
                       duration: widget.duration,
                       currentPosition: widget.currentPosition,
-                      loopStartPosition: widget.loopStartPosition,
-                      loopEndPosition: widget.loopEndPosition,
+                      loops: widget.loops,
                     ),
                   ),
                 ),

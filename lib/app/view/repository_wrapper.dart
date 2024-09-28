@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:looplab/data/repositories/file_repository.dart';
+import 'package:looplab/data/repositories/loop_repository.dart';
 import 'package:looplab/data/repositories/song_repository.dart';
 import 'package:sembast/sembast.dart';
 
@@ -28,8 +29,10 @@ class RepositoryWrapper extends StatelessWidget {
           ),
         ),
         RepositoryProvider(
-          create: (context) =>
-              SongRepository(db: db, soLoud: soLoud)..getAllSongs(),
+          create: (context) => SongRepository(db: db, soLoud: soLoud)..getAllSongs(),
+        ),
+        RepositoryProvider(
+          create: (context) => LoopRepository(db: db),
         ),
       ],
       child: child,

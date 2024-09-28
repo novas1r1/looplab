@@ -1,7 +1,7 @@
 part of 'all_songs_cubit.dart';
 
 @MappableClass()
-class AllSongsState {
+class AllSongsState with AllSongsStateMappable {
   final AllSongsStatus status;
   final List<Song> songs;
   final String? errorMessage;

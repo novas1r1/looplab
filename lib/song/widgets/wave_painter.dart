@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:looplab/models/loop.dart';
 
 class WavePainter extends CustomPainter {
   /// Wave data given for the duration of the song.
@@ -12,17 +13,13 @@ class WavePainter extends CustomPainter {
   final Duration currentPosition;
 
   /// Loop start position of the song.
-  final Duration? loopStartPosition;
-
-  /// Loop end position of the song.
-  final Duration? loopEndPosition;
+  final List<Loop> loops;
 
   const WavePainter({
     required this.data,
     required this.duration,
     required this.currentPosition,
-    this.loopStartPosition,
-    this.loopEndPosition,
+    required this.loops,
   });
 
   @override
@@ -43,39 +40,76 @@ class WavePainter extends CustomPainter {
     }
 
     // paint loop start
-    if (loopStartPosition != null) {
-      final paintLoopStart = Paint()
-        ..color = Colors.purple
-        ..strokeWidth = 2;
+    // if loops.isNotEmpty
+    if (loops.isNotEmpty) {
+      for (final loop in loops) {
+        if (loop.start == null && loop.end == null) {
+          continue;
+        }
 
-      final x = scaleX(loopStartPosition!.inMilliseconds.toDouble());
-      canvas.drawLine(
-        Offset(x, 0),
-        Offset(x, size.height),
-        paintLoopStart,
-      );
-    }
+        if (loop.start != null) {
+          final paintLoopStart = Paint()
+            ..color = Colors.purple
+            ..strokeWidth = 2;
 
-    // paint loop end
-    if (loopEndPosition != null) {
-      final paintLoopEnd = Paint()
-        ..color = Colors.purple
-        ..strokeWidth = 2;
+          final xStart = scaleX(loop.start!.inMilliseconds.toDouble());
+          canvas.drawLine(
+            Offset(xStart, 0),
+            Offset(xStart, size.height),
+            paintLoopStart,
+          );
 
-      final x = scaleX(loopEndPosition!.inMilliseconds.toDouble());
-      canvas.drawLine(
-        Offset(x, 0),
-        Offset(x, size.height),
-        paintLoopEnd,
-      );
+          // add text to the top of the line with "loop.name Start"
+          final textPainter = TextPainter(
+            text: TextSpan(
+              text: '${loop.name} Start',
+              style: const TextStyle(
+                color: Colors.purple,
+                fontSize: 12,
+              ),
+            ),
+            textDirection: TextDirection.ltr,
+          );
+          textPainter.layout();
+          textPainter.paint(canvas, Offset(xStart + 4, 0));
+        }
+
+        if (loop.end != null) {
+          // paint loop end
+          final endPosition = loop.end;
+          final paintLoopEnd = Paint()
+            ..color = Colors.purple
+            ..strokeWidth = 2;
+
+          final xEnd = scaleX(endPosition!.inMilliseconds.toDouble());
+          canvas.drawLine(
+            Offset(xEnd, 0),
+            Offset(xEnd, size.height),
+            paintLoopEnd,
+          );
+
+          // add text to the top of the line with "loop.name End"
+          final textPainter = TextPainter(
+            text: TextSpan(
+              text: '${loop.name} End',
+              style: const TextStyle(
+                color: Colors.purple,
+                fontSize: 12,
+              ),
+            ),
+            textDirection: TextDirection.ltr,
+          );
+          textPainter.layout();
+          textPainter.paint(canvas, Offset(xEnd - textPainter.width - 4, size.height - 14));
+        }
+      }
     }
 
     final currentPositionInMilliseconds = currentPosition.inMilliseconds;
     // final durationInMilliseconds = duration.inMilliseconds;
 
     // Calculate the fraction of the song played
-    final playedFraction =
-        currentPositionInMilliseconds / durationInMilliseconds;
+    final playedFraction = currentPositionInMilliseconds / durationInMilliseconds;
     final playedDataLength = (playedFraction * data.length).toInt();
 
     for (int i = 0; i < data.length; i++) {
