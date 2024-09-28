@@ -10,6 +10,7 @@ import 'package:looplab/data/repositories/loop_repository.dart';
 import 'package:looplab/data/repositories/song_repository.dart';
 import 'package:looplab/models/loop.dart';
 import 'package:looplab/models/song.dart';
+import 'package:uuid/uuid.dart';
 
 // part 'song_cubit.mapper.dart';
 part 'song_state.dart';
@@ -35,9 +36,7 @@ class SongCubit extends Cubit<SongState> {
 
   Stream<Duration> get positionStream => Stream.periodic(
         const Duration(milliseconds: 50),
-        (_) {
-          return (state.handle == null) ? Duration.zero : soloud.getPosition(state.handle!);
-        },
+        (_) => (state.handle == null) ? Duration.zero : soloud.getPosition(state.handle!),
       );
 
   @override
@@ -65,19 +64,22 @@ class SongCubit extends Cubit<SongState> {
       }
 
       final source = await soloud.loadFile(song.path);
-
+      final handle = await soloud.play(source, paused: true);
       final bytes = file.readAsBytesSync();
-
       final data = await soloud.readSamplesFromMem(
         bytes,
         200 * 10,
       );
+
+      final loops = await loopRepository.getLoopsBySongId(song.id);
 
       emit(
         state.copyWith(
           audioSource: source,
           data: data,
           status: LoopStatus.loaded,
+          loops: loops,
+          handle: handle,
         ),
       );
     } catch (e, stackTrace) {
@@ -107,22 +109,9 @@ class SongCubit extends Cubit<SongState> {
     // Start the position timer
     _positionTimer?.cancel();
     _positionTimer = Timer.periodic(const Duration(milliseconds: 50), (_) {
-      // if loop is active, check if the current position is greater than the end position
-      if (state.activeLoop != null &&
-          state.activeLoop!.start != null &&
-          state.activeLoop!.end != null) {
-        final position = soloud.getPosition(state.handle!);
-
-        if (position >= state.activeLoop!.end!) {
-          soloud.setPause(state.handle!, true);
-          soloud.seek(state.handle!, state.activeLoop!.start!);
-          soloud.setPause(state.handle!, false);
-        }
-      } else {
-        log('seek to ${currentPosition.toFormattedString()}');
-        soloud.seek(state.handle!, currentPosition);
-        soloud.setPause(state.handle!, false);
-      }
+      log('seek to ${currentPosition.toFormattedString()}');
+      soloud.seek(state.handle!, currentPosition);
+      soloud.setPause(state.handle!, false);
     });
   }
 
@@ -227,28 +216,46 @@ class SongCubit extends Cubit<SongState> {
   }
 
   void selectLoop(Loop loop) {
-    // set active loop
     emit(state.copyWith(activeLoop: loop));
+
+    if (state.handle == null || loop.start == null) return;
+
+    // set active loop
+    // set to current position
+    soloud.setPause(state.handle!, true);
+    soloud.seek(state.handle!, loop.start!);
   }
 
   void playLoop(Loop loop) {
     selectLoop(loop);
     // play the loop if start is not null
-    if (loop.start != null) {
-      soloud.seek(state.handle!, loop.start!);
-      soloud.setPause(state.handle!, false);
-    }
+    // Start the position timer
+    _positionTimer?.cancel();
+    _positionTimer = Timer.periodic(const Duration(milliseconds: 50), (_) {
+      // if loop is active, check if the current position is greater than the end position
+      if (state.activeLoop == null ||
+          state.activeLoop!.start == null ||
+          state.activeLoop!.end == null) return;
+
+      final position = soloud.getPosition(state.handle!);
+
+      if (position >= state.activeLoop!.end!) {
+        soloud.setPause(state.handle!, true);
+        soloud.seek(state.handle!, state.activeLoop!.start!);
+        soloud.setPause(state.handle!, false);
+      } else {
+        soloud.setPause(state.handle!, true);
+        soloud.seek(state.handle!, position);
+        soloud.setPause(state.handle!, false);
+      }
+    });
   }
 
-  Future<void> loadLoops(String songId) async {
-    emit(state.copyWith(status: LoopStatus.loading));
+  void pauseLoop(Loop loop) {
+    if (state.activeLoop == null) return;
 
-    try {
-      final loops = await loopRepository.getLoopsBySongId(songId);
-      emit(state.copyWith(loops: loops, status: LoopStatus.loaded));
-    } catch (e) {
-      emit(state.copyWith(error: 'Failed to load loops: $e'));
-    }
+    soloud.setPause(state.handle!, true);
+    _positionTimer?.cancel();
   }
 
   void nextLoop() {
@@ -299,16 +306,17 @@ class SongCubit extends Cubit<SongState> {
     try {
       // create a new loop
       final loop = Loop(
+        id: const Uuid().v4(),
         name: 'Loop ${state.loops.length + 1}',
         songId: song.id,
       );
 
-      final newLoop = await loopRepository.addLoop(loop);
+      await loopRepository.addLoop(loop);
 
       emit(
         state.copyWith(
-          loops: [...state.loops, newLoop],
-          activeLoop: newLoop,
+          loops: [...state.loops, loop],
+          activeLoop: loop,
         ),
       );
     } catch (e) {
@@ -332,6 +340,16 @@ class SongCubit extends Cubit<SongState> {
       );
     } catch (e) {
       emit(state.copyWith(error: 'Failed to update loop: $e'));
+    }
+  }
+
+  Future<void> deleteLoop(Loop loop) async {
+    try {
+      await loopRepository.deleteLoop(loop);
+      final updatedLoops = state.loops.where((l) => l.id != loop.id).toList();
+      emit(state.copyWith(loops: updatedLoops));
+    } catch (e) {
+      emit(state.copyWith(error: 'Failed to delete loop: $e'));
     }
   }
 }

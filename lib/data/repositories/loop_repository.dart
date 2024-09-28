@@ -14,10 +14,8 @@ class LoopRepository {
     return records.map((e) => LoopMapper.fromMap(e.value)).toList();
   }
 
-  Future<Loop> addLoop(Loop loop) async {
-    final key = await _store.add(db, loop.toMap());
-
-    return loop.copyWith(id: key);
+  Future<void> addLoop(Loop loop) async {
+    await _store.add(db, loop.toMap());
   }
 
   Future<void> updateLoop(Loop loop) async {
@@ -29,6 +27,10 @@ class LoopRepository {
   }
 
   Future<List<Loop>> getLoopsBySongId(String songId) async {
+    if (songId.isEmpty) {
+      throw Exception('Song ID is empty');
+    }
+
     final finder = Finder(filter: Filter.equals('songId', songId));
     final records = await _store.find(db, finder: finder);
 

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:looplab/models/song.dart';
 import 'package:sembast/sembast.dart';
+import 'package:uuid/uuid.dart';
 
 class SongRepository {
   final Database db;
@@ -29,7 +30,7 @@ class SongRepository {
     await soLoud.disposeSource(source);
 
     final song = Song(
-      id: '',
+      id: const Uuid().v4(),
       title: file.path.split('/').last,
       artist: '',
       path: file.path,
