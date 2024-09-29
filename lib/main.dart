@@ -15,7 +15,7 @@ Future<void> main() async {
 // make sure it exists
   await dir.create(recursive: true);
 // build the database path
-  final dbPath = join(dir.path, 'my_database.db');
+  final dbPath = join(dir.path, 'looplab.db');
 // open the database
   final db = await databaseFactoryIo.openDatabase(dbPath);
 

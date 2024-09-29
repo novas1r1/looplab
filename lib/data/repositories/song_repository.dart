@@ -41,7 +41,11 @@ class SongRepository {
   }
 
   Future<void> updateSong(Song song) async {
-    await _store.update(db, song.toMap());
+    await _store.update(
+      db,
+      song.toMap(),
+      finder: Finder(filter: Filter.byKey(song.id)),
+    );
   }
 
   Future<void> deleteSong(Song song) async {
