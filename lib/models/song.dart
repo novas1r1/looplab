@@ -1,4 +1,5 @@
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:looplab/models/loop.dart';
 
 part 'song.mapper.dart';
 
@@ -11,6 +12,7 @@ class Song with SongMappable {
   final String artist;
   final String path;
   final Duration duration;
+  final List<Loop> loops;
 
   const Song({
     required this.id,
@@ -18,6 +20,7 @@ class Song with SongMappable {
     required this.artist,
     required this.path,
     required this.duration,
+    this.loops = const [],
   });
 }
 

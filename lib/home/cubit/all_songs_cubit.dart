@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dart_mappable/dart_mappable.dart';
@@ -11,10 +12,20 @@ part 'all_songs_state.dart';
 class AllSongsCubit extends Cubit<AllSongsState> {
   final SongRepository songRepository;
 
-  AllSongsCubit({required this.songRepository}) : super(const AllSongsState());
+  StreamSubscription<List<Song>>? _songSubscription;
+
+  AllSongsCubit({
+    required this.songRepository,
+  }) : super(const AllSongsState()) {
+    // Subscribe to song updates when created
+    _songSubscription = songRepository.songs.listen((songs) {
+      emit(state.copyWith(songs: songs));
+    });
+  }
 
   Future<void> loadSongs() async {
     emit(state.copyWith(status: AllSongsStatus.loading));
+
     try {
       final songs = await songRepository.getAllSongs();
       emit(state.copyWith(status: AllSongsStatus.loaded, songs: songs));
@@ -30,6 +41,7 @@ class AllSongsCubit extends Cubit<AllSongsState> {
 
   Future<void> addSong(File file) async {
     emit(state.copyWith(status: AllSongsStatus.loading));
+
     try {
       await songRepository.addSongFile(file);
       await loadSongs();
@@ -46,5 +58,12 @@ class AllSongsCubit extends Cubit<AllSongsState> {
   Future<void> clearDb() async {
     await songRepository.clearDb();
     await loadSongs();
+  }
+
+  @override
+  Future<void> close() {
+    _songSubscription?.cancel();
+
+    return super.close();
   }
 }

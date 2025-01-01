@@ -25,11 +25,11 @@ class WavePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.white
+      ..color = Colors.white.withOpacity(0.6)
       ..strokeWidth = 1;
 
     final paintPlayed = Paint()
-      ..color = Colors.blue.shade200
+      ..color = Colors.white
       ..strokeWidth = 1;
 
     final durationInMilliseconds = duration.inMilliseconds.toDouble();
@@ -49,7 +49,7 @@ class WavePainter extends CustomPainter {
 
         if (loop.start != null) {
           final paintLoopStart = Paint()
-            ..color = Colors.purple
+            ..color = loop.color.color
             ..strokeWidth = 2;
 
           final xStart = scaleX(loop.start!.inMilliseconds.toDouble());
@@ -63,8 +63,8 @@ class WavePainter extends CustomPainter {
           final textPainter = TextPainter(
             text: TextSpan(
               text: '${loop.name} Start',
-              style: const TextStyle(
-                color: Colors.purple,
+              style: TextStyle(
+                color: loop.color.color,
                 fontSize: 12,
               ),
             ),
@@ -78,7 +78,7 @@ class WavePainter extends CustomPainter {
           // paint loop end
           final endPosition = loop.end;
           final paintLoopEnd = Paint()
-            ..color = Colors.purple
+            ..color = loop.color.color
             ..strokeWidth = 2;
 
           final xEnd = scaleX(endPosition!.inMilliseconds.toDouble());
@@ -92,8 +92,8 @@ class WavePainter extends CustomPainter {
           final textPainter = TextPainter(
             text: TextSpan(
               text: '${loop.name} End',
-              style: const TextStyle(
-                color: Colors.purple,
+              style: TextStyle(
+                color: loop.color.color,
                 fontSize: 12,
               ),
             ),

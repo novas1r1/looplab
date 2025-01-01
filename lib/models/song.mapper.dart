@@ -14,6 +14,7 @@ class SongMapper extends ClassMapperBase<Song> {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = SongMapper._());
       MapperContainer.globals.useAll([DurationMapper()]);
+      LoopMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -32,6 +33,9 @@ class SongMapper extends ClassMapperBase<Song> {
   static Duration _$duration(Song v) => v.duration;
   static const Field<Song, Duration> _f$duration =
       Field('duration', _$duration);
+  static List<Loop> _$loops(Song v) => v.loops;
+  static const Field<Song, List<Loop>> _f$loops =
+      Field('loops', _$loops, opt: true, def: const []);
 
   @override
   final MappableFields<Song> fields = const {
@@ -40,6 +44,7 @@ class SongMapper extends ClassMapperBase<Song> {
     #artist: _f$artist,
     #path: _f$path,
     #duration: _f$duration,
+    #loops: _f$loops,
   };
 
   static Song _instantiate(DecodingData data) {
@@ -48,7 +53,8 @@ class SongMapper extends ClassMapperBase<Song> {
         title: data.dec(_f$title),
         artist: data.dec(_f$artist),
         path: data.dec(_f$path),
-        duration: data.dec(_f$duration));
+        duration: data.dec(_f$duration),
+        loops: data.dec(_f$loops));
   }
 
   @override
@@ -97,12 +103,14 @@ extension SongValueCopy<$R, $Out> on ObjectCopyWith<$R, Song, $Out> {
 
 abstract class SongCopyWith<$R, $In extends Song, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
+  ListCopyWith<$R, Loop, LoopCopyWith<$R, Loop, Loop>> get loops;
   $R call(
       {String? id,
       String? title,
       String? artist,
       String? path,
-      Duration? duration});
+      Duration? duration,
+      List<Loop>? loops});
   SongCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -113,18 +121,24 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
   @override
   late final ClassMapperBase<Song> $mapper = SongMapper.ensureInitialized();
   @override
+  ListCopyWith<$R, Loop, LoopCopyWith<$R, Loop, Loop>> get loops =>
+      ListCopyWith(
+          $value.loops, (v, t) => v.copyWith.$chain(t), (v) => call(loops: v));
+  @override
   $R call(
           {String? id,
           String? title,
           String? artist,
           String? path,
-          Duration? duration}) =>
+          Duration? duration,
+          List<Loop>? loops}) =>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
         if (title != null) #title: title,
         if (artist != null) #artist: artist,
         if (path != null) #path: path,
-        if (duration != null) #duration: duration
+        if (duration != null) #duration: duration,
+        if (loops != null) #loops: loops
       }));
   @override
   Song $make(CopyWithData data) => Song(
@@ -132,7 +146,8 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
       title: data.get(#title, or: $value.title),
       artist: data.get(#artist, or: $value.artist),
       path: data.get(#path, or: $value.path),
-      duration: data.get(#duration, or: $value.duration));
+      duration: data.get(#duration, or: $value.duration),
+      loops: data.get(#loops, or: $value.loops));
 
   @override
   SongCopyWith<$R2, Song, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>

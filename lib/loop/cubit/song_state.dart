@@ -2,8 +2,8 @@ part of 'song_cubit.dart';
 
 // @MappableClass()
 class SongState {
-  final LoopStatus status;
-  final List<Loop> loops;
+  final SongStatus status;
+  final Song song;
   final AudioSource? audioSource;
   final SoundHandle? handle;
   final Loop? activeLoop;
@@ -11,8 +11,8 @@ class SongState {
   final String? error;
 
   const SongState({
-    this.status = LoopStatus.loading,
-    this.loops = const [],
+    this.status = SongStatus.loading,
+    required this.song,
     this.audioSource,
     this.handle,
     this.error,
@@ -21,8 +21,8 @@ class SongState {
   });
 
   SongState copyWith({
-    LoopStatus? status,
-    List<Loop>? loops,
+    SongStatus? status,
+    Song? song,
     AudioSource? audioSource,
     SoundHandle? handle,
     Loop? activeLoop,
@@ -31,7 +31,7 @@ class SongState {
   }) {
     return SongState(
       status: status ?? this.status,
-      loops: loops ?? this.loops,
+      song: song ?? this.song,
       audioSource: audioSource ?? this.audioSource,
       handle: handle ?? this.handle,
       activeLoop: activeLoop ?? this.activeLoop,
@@ -42,4 +42,4 @@ class SongState {
 }
 
 // @MappableEnum()
-enum LoopStatus { loading, loaded, error }
+enum SongStatus { loading, loaded, error, songDeleted }

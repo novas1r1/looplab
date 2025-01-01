@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:looplab/core/utils/duration_extension.dart';
-import 'package:looplab/data/repositories/loop_repository.dart';
 import 'package:looplab/data/repositories/song_repository.dart';
 import 'package:looplab/loop/cubit/song_cubit.dart';
 import 'package:looplab/models/song.dart';
@@ -20,7 +19,6 @@ class SongPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SongCubit(
-        loopRepository: context.read<LoopRepository>(),
         songRepository: context.read<SongRepository>(),
         soloud: SoLoud.instance,
         song: song,
@@ -65,16 +63,31 @@ class _SongViewState extends State<_SongView> {
     return Scaffold(
       appBar: AppBar(
         title: Text(song.title),
+        actions: [
+          IconButton(
+            onPressed: () => _onTapDeleteSong(context),
+            icon: const Icon(Icons.delete),
+          ),
+        ],
       ),
       body: BlocConsumer<SongCubit, SongState>(
         listener: (context, state) {
-          // TODO: implement listener
+          if (state.status == SongStatus.error) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.error ?? 'Unknown error')),
+            );
+          }
+          if (state.status == SongStatus.songDeleted) {
+            Navigator.of(context).pop();
+          }
         },
         builder: (context, state) {
           switch (state.status) {
-            case LoopStatus.loading:
+            case SongStatus.loading:
               return const Center(child: CircularProgressIndicator());
-            case LoopStatus.loaded:
+            case SongStatus.loaded:
+            case SongStatus.songDeleted:
+            case SongStatus.error:
               return Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
@@ -87,7 +100,7 @@ class _SongViewState extends State<_SongView> {
                         onStartDrag: () => context.read<SongCubit>().pauseSong(),
                         onPositionChanged: (position) =>
                             context.read<SongCubit>().updatePosition(position),
-                        loops: state.loops,
+                        loops: state.song.loops,
                       ),
                     const SizedBox(height: 20),
                     Row(
@@ -101,11 +114,10 @@ class _SongViewState extends State<_SongView> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         IconButton(
-                          onPressed: () => context.read<SongCubit>().previousLoop(),
-                          icon: const Icon(Icons.skip_previous),
-                        ),
-                        IconButton(
                           onPressed: () {
+                            // unselect loop
+                            context.read<SongCubit>().unselectLoop();
+
                             if (context.read<SongCubit>().isPaused) {
                               context.read<SongCubit>().playSong();
                             } else {
@@ -118,18 +130,37 @@ class _SongViewState extends State<_SongView> {
                                 : Icons.pause_rounded,
                           ),
                         ),
+                      ],
+                    ),
+                    const Divider(height: 32),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Loop part of the song',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          onPressed: () => context.read<SongCubit>().previousLoop(),
+                          icon: const Icon(Icons.skip_previous),
+                        ),
+                        ElevatedButton(
+                          onPressed: () => context.read<SongCubit>().addLoop(),
+                          child: const Text('Create Loop'),
+                        ),
                         IconButton(
                           onPressed: () => context.read<SongCubit>().nextLoop(),
                           icon: const Icon(Icons.skip_next),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () => context.read<SongCubit>().addLoop(),
-                      child: const Text('Create Loop'),
-                    ),
-                    if (state.activeLoop != null) ...[
+                    const SizedBox(height: 16),
+
+                    /* if (state.activeLoop != null) ...[
                       const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -143,16 +174,17 @@ class _SongViewState extends State<_SongView> {
                             child: const Text('Set Loop End'),
                           ),
                         ],
-                      ),
-                    ],
+                      ), 
+                    ],*/
                     const SizedBox(height: 20),
                     Expanded(
                       child: ListView(
                         children: [
-                          for (final loop in state.loops)
+                          for (var index = 0; index < state.song.loops.length; index++)
                             LoopTile(
-                              loop: loop,
-                              isSelected: loop == state.activeLoop,
+                              index: index,
+                              loop: state.song.loops[index],
+                              isSelected: state.song.loops[index] == state.activeLoop,
                               isPaused: context.read<SongCubit>().isPaused,
                               onTap: (loop) => context.read<SongCubit>().selectLoop(loop),
                               onDelete: (loop) => context.read<SongCubit>().deleteLoop(loop),
@@ -166,11 +198,38 @@ class _SongViewState extends State<_SongView> {
                   ],
                 ),
               );
-            case LoopStatus.error:
-              return Center(child: Text('Error: ${state.error ?? 'Unknown error'}'));
           }
         },
       ),
     );
+  }
+
+  Future<void> _onTapDeleteSong(BuildContext context) async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Song & Loops'),
+        content: const Text(
+          "Are you sure you want to delete this song and all attached loops? This can't be undone.",
+        ),
+        actions: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+            ),
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Delete'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancel'),
+          ),
+        ],
+      ),
+    );
+
+    if (result != null && result) {
+      context.read<SongCubit>().deleteSong();
+    }
   }
 }

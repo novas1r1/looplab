@@ -33,6 +33,9 @@ class HomePage extends StatelessWidget {
                   final song = state.songs[index];
 
                   return ListTile(
+                    leading: CircleAvatar(
+                      child: Text('${song.loops.length}'),
+                    ),
                     onTap: () => _onTapSong(context, song),
                     title: Text(song.title),
                     trailing: Text(

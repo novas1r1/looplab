@@ -1,4 +1,4 @@
-import 'dart:developer';
+/* import 'dart:developer';
 
 import 'package:looplab/models/loop.dart';
 import 'package:sembast/sembast.dart';
@@ -40,3 +40,4 @@ class LoopRepository {
     return records.map((e) => LoopMapper.fromMap(e.value)).toList();
   }
 }
+ */
