@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:looplab/models/loop.dart';
+import 'package:repeatlab/models/loop.dart';
 
 class LoopTimeline extends StatelessWidget {
   final List<Loop> loops;
@@ -28,9 +28,8 @@ class LoopTimeline extends StatelessWidget {
         children: [
           // Current position indicator
           Positioned(
-            left:
-                (currentPosition.inMilliseconds / songDuration.inMilliseconds) *
-                    MediaQuery.of(context).size.width,
+            left: (currentPosition.inMilliseconds / songDuration.inMilliseconds) *
+                MediaQuery.of(context).size.width,
             top: 0,
             bottom: 0,
             child: Container(
@@ -44,10 +43,8 @@ class LoopTimeline extends StatelessWidget {
               return const SizedBox.shrink();
             }
 
-            final startPosition =
-                loop.start!.inMilliseconds / songDuration.inMilliseconds;
-            final endPosition =
-                loop.end!.inMilliseconds / songDuration.inMilliseconds;
+            final startPosition = loop.start!.inMilliseconds / songDuration.inMilliseconds;
+            final endPosition = loop.end!.inMilliseconds / songDuration.inMilliseconds;
             final width = MediaQuery.of(context).size.width;
 
             return Positioned(
@@ -70,8 +67,7 @@ class LoopTimeline extends StatelessWidget {
                     child: Text(
                       loop.name,
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
+                            color: Theme.of(context).colorScheme.onSurfaceVariant,
                           ),
                       overflow: TextOverflow.ellipsis,
                     ),

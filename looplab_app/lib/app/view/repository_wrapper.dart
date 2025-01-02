@@ -2,9 +2,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
-import 'package:looplab/data/repositories/file_repository.dart';
-import 'package:looplab/data/repositories/song_repository.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:repeatlab/data/repositories/file_repository.dart';
+import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:sembast/sembast.dart';
 
 class RepositoryWrapper extends StatelessWidget {
@@ -31,8 +31,7 @@ class RepositoryWrapper extends StatelessWidget {
           ),
         ),
         RepositoryProvider(
-          create: (context) =>
-              SongRepository(db: db, soLoud: soLoud)..getAllSongs(),
+          create: (context) => SongRepository(db: db, soLoud: soLoud)..getAllSongs(),
         ),
         RepositoryProvider(
           create: (context) => packageInfo,

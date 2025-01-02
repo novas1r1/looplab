@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter_soloud/flutter_soloud.dart';
-import 'package:looplab/models/loop.dart';
-import 'package:looplab/models/song.dart';
+import 'package:repeatlab/models/loop.dart';
+import 'package:repeatlab/models/song.dart';
 import 'package:sembast/sembast.dart';
 import 'package:uuid/uuid.dart';
 
@@ -92,8 +92,7 @@ class SongRepository {
     log('UPDATING LOOP: ${loop.toMap()}');
 
     // update the loop in the song
-    final updatedLoops =
-        song.loops.map((e) => e.id == loop.id ? loop : e).toList();
+    final updatedLoops = song.loops.map((e) => e.id == loop.id ? loop : e).toList();
     final updatedSong = song.copyWith(loops: updatedLoops);
 
     await _store.update(

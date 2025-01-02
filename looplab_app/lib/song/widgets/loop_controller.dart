@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:looplab/core/utils/duration_extension.dart';
-import 'package:looplab/core/utils/snackbar_helper.dart';
-import 'package:looplab/loop/cubit/song_cubit.dart';
-import 'package:looplab/models/loop.dart';
+import 'package:repeatlab/core/utils/duration_extension.dart';
+import 'package:repeatlab/core/utils/snackbar_helper.dart';
+import 'package:repeatlab/loop/cubit/song_cubit.dart';
+import 'package:repeatlab/models/loop.dart';
 
 class LoopController extends StatelessWidget {
   final Loop? activeLoop;
@@ -18,6 +18,10 @@ class LoopController extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.secondaryContainer,
         borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: activeLoop?.color.color ?? Colors.transparent,
+          width: 2,
+        ),
       ),
       child: (activeLoop == null)
           ? Column(
@@ -48,8 +52,7 @@ class LoopController extends StatelessWidget {
                     ),
                     IconButton(
                       iconSize: 36,
-                      onPressed: activeLoop?.start != null &&
-                              activeLoop?.end != null
+                      onPressed: activeLoop?.start != null && activeLoop?.end != null
                           ? () => context.read<SongCubit>().isPaused
                               ? context.read<SongCubit>().playLoop(activeLoop!)
                               : context.read<SongCubit>().pauseLoop(activeLoop!)
@@ -84,8 +87,7 @@ class LoopController extends StatelessWidget {
                     TextButton(
                       onPressed: () {
                         if (activeLoop?.end != null &&
-                            context.read<SongCubit>().currentPosition <
-                                activeLoop!.end!) {
+                            context.read<SongCubit>().currentPosition < activeLoop!.end!) {
                           context.read<SongCubit>().setLoopStart();
                         } else if (activeLoop?.end != null) {
                           SnackbarHelper.showError(
@@ -102,8 +104,7 @@ class LoopController extends StatelessWidget {
                     TextButton(
                       onPressed: () {
                         if (activeLoop?.start != null &&
-                            context.read<SongCubit>().currentPosition >
-                                activeLoop!.start!) {
+                            context.read<SongCubit>().currentPosition > activeLoop!.start!) {
                           context.read<SongCubit>().setLoopEnd();
                         } else if (activeLoop?.start != null) {
                           SnackbarHelper.showError(

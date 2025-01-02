@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:looplab/core/utils/duration_extension.dart';
-import 'package:looplab/models/loop.dart';
-import 'package:looplab/song/widgets/edit_loop_bottom_up.dart';
+import 'package:repeatlab/core/utils/duration_extension.dart';
+import 'package:repeatlab/models/loop.dart';
+import 'package:repeatlab/song/widgets/edit_loop_bottom_up.dart';
 
 class LoopTile extends StatefulWidget {
   final int index;

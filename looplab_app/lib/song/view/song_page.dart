@@ -3,15 +3,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
-import 'package:looplab/core/ui/widgets/loading.dart';
-import 'package:looplab/core/utils/duration_extension.dart';
-import 'package:looplab/data/repositories/song_repository.dart';
-import 'package:looplab/loop/cubit/song_cubit.dart';
-import 'package:looplab/models/song.dart';
-import 'package:looplab/song/widgets/loop_controller.dart';
-import 'package:looplab/song/widgets/loop_tile.dart';
-import 'package:looplab/song/widgets/loop_timeline.dart';
-import 'package:looplab/song/widgets/wave_form_soloud.dart';
+import 'package:repeatlab/core/ui/widgets/loading.dart';
+import 'package:repeatlab/core/utils/duration_extension.dart';
+import 'package:repeatlab/data/repositories/song_repository.dart';
+import 'package:repeatlab/loop/cubit/song_cubit.dart';
+import 'package:repeatlab/models/song.dart';
+import 'package:repeatlab/song/widgets/loop_controller.dart';
+import 'package:repeatlab/song/widgets/loop_tile.dart';
+import 'package:repeatlab/song/widgets/loop_timeline.dart';
+import 'package:repeatlab/song/widgets/wave_form_soloud.dart';
 
 class SongPage extends StatelessWidget {
   final Song song;
@@ -50,8 +50,7 @@ class _SongViewState extends State<_SongView> {
   @override
   void initState() {
     super.initState();
-    _positionSubscription =
-        context.read<SongCubit>().positionStream.listen((position) {
+    _positionSubscription = context.read<SongCubit>().positionStream.listen((position) {
       setState(() {
         _currentPlayerPosition = position;
       });
@@ -113,8 +112,7 @@ class _SongViewState extends State<_SongView> {
                         data: state.data!,
                         duration: state.song.duration,
                         currentPosition: _currentPlayerPosition,
-                        onStartDrag: () =>
-                            context.read<SongCubit>().pauseSong(),
+                        onStartDrag: () => context.read<SongCubit>().pauseSong(),
                         onPositionChanged: (position) =>
                             context.read<SongCubit>().updatePosition(position),
                         loops: state.song.loops,
@@ -124,8 +122,7 @@ class _SongViewState extends State<_SongView> {
                       loops: state.song.loops,
                       songDuration: state.song.duration,
                       currentPosition: _currentPlayerPosition,
-                      onLoopTap: (loop) =>
-                          context.read<SongCubit>().playLoop(loop),
+                      onLoopTap: (loop) => context.read<SongCubit>().playLoop(loop),
                     ),
                     const SizedBox(height: 12),
                     Container(
@@ -173,10 +170,8 @@ class _SongViewState extends State<_SongView> {
                         ElevatedButton(
                           onPressed: () => context.read<SongCubit>().addLoop(),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primary,
-                            foregroundColor:
-                                Theme.of(context).colorScheme.onPrimary,
+                            backgroundColor: Theme.of(context).colorScheme.primary,
+                            foregroundColor: Theme.of(context).colorScheme.onPrimary,
                           ),
                           child: const Text('Add'),
                         ),
@@ -189,29 +184,19 @@ class _SongViewState extends State<_SongView> {
                       child: ListView(
                         controller: _loopListController,
                         children: [
-                          for (var index = 0;
-                              index < state.song.loops.length;
-                              index++)
+                          for (var index = 0; index < state.song.loops.length; index++)
                             LoopTile(
                               index: index,
                               loop: state.song.loops[index],
-                              isSelected:
-                                  state.song.loops[index] == state.activeLoop,
+                              isSelected: state.song.loops[index] == state.activeLoop,
                               isPaused: context.read<SongCubit>().isPaused,
-                              onTap: (loop) =>
-                                  context.read<SongCubit>().playLoop(loop),
-                              onDelete: (loop) =>
-                                  context.read<SongCubit>().deleteLoop(loop),
-                              onPlay: (loop) =>
-                                  context.read<SongCubit>().playLoop(loop),
-                              onPause: (loop) =>
-                                  context.read<SongCubit>().pauseLoop(loop),
-                              onUpdate: (loop) =>
-                                  context.read<SongCubit>().updateLoop(loop),
-                              onSetLoopStart: () =>
-                                  context.read<SongCubit>().setLoopStart(),
-                              onSetLoopEnd: () =>
-                                  context.read<SongCubit>().setLoopEnd(),
+                              onTap: (loop) => context.read<SongCubit>().playLoop(loop),
+                              onDelete: (loop) => context.read<SongCubit>().deleteLoop(loop),
+                              onPlay: (loop) => context.read<SongCubit>().playLoop(loop),
+                              onPause: (loop) => context.read<SongCubit>().pauseLoop(loop),
+                              onUpdate: (loop) => context.read<SongCubit>().updateLoop(loop),
+                              onSetLoopStart: () => context.read<SongCubit>().setLoopStart(),
+                              onSetLoopEnd: () => context.read<SongCubit>().setLoopEnd(),
                             ),
                         ],
                       ),
@@ -234,8 +219,7 @@ class _SongViewState extends State<_SongView> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
           side: BorderSide(
-            color:
-                Theme.of(context).colorScheme.outlineVariant.withOpacity(0.8),
+            color: Theme.of(context).colorScheme.outlineVariant.withOpacity(0.8),
             width: 1.5,
           ),
         ),

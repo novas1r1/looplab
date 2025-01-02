@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:looplab/home/dataprotection_page.dart';
-import 'package:looplab/home/legal_notices_page.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:repeatlab/home/dataprotection_page.dart';
+import 'package:repeatlab/home/legal_notices_page.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
@@ -27,7 +27,7 @@ class CustomDrawer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  'LoopLab',
+                  'RepeatLab',
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                         color: Theme.of(context).colorScheme.onPrimary,
                         fontWeight: FontWeight.bold,
@@ -37,10 +37,7 @@ class CustomDrawer extends StatelessWidget {
                 Text(
                   'Your Music Loop Station',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onPrimary
-                            .withOpacity(0.8),
+                        color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.8),
                       ),
                 ),
               ],
@@ -94,10 +91,7 @@ class CustomDrawer extends StatelessWidget {
             child: Text(
               'Version $appVersion ($buildNumber)',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withOpacity(0.6),
+                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                   ),
             ),
           ),

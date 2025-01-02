@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:looplab/core/utils/duration_extension.dart';
-import 'package:looplab/models/loop.dart';
+import 'package:repeatlab/core/utils/duration_extension.dart';
+import 'package:repeatlab/models/loop.dart';
 
 class EditLoopBottomUp extends StatefulWidget {
   final Loop loop;
@@ -30,10 +30,8 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
   void initState() {
     super.initState();
     _titleController.text = widget.loop.name;
-    _startController.text =
-        widget.loop.start?.toFormattedStringMinutesSecondsMilliseconds() ?? '-';
-    _endController.text =
-        widget.loop.end?.toFormattedStringMinutesSecondsMilliseconds() ?? '-';
+    _startController.text = widget.loop.start?.toFormattedStringMinutesSecondsMilliseconds() ?? '-';
+    _endController.text = widget.loop.end?.toFormattedStringMinutesSecondsMilliseconds() ?? '-';
 
     _updatedLoop = widget.loop;
   }
@@ -231,8 +229,7 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
       _startError = null;
       _endError = null;
 
-      final start =
-          startStr != null ? _parseDuration(startStr) : widget.loop.start;
+      final start = startStr != null ? _parseDuration(startStr) : widget.loop.start;
       final end = endStr != null ? _parseDuration(endStr) : widget.loop.end;
 
       if (startStr != null && start == null) {
@@ -254,8 +251,7 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
       }
 
       // Update the loop if validation passes
-      if ((startStr != null && start != null) ||
-          (endStr != null && end != null)) {
+      if ((startStr != null && start != null) || (endStr != null && end != null)) {
         _updatedLoop = _updatedLoop.copyWith(
           start: start ?? widget.loop.start,
           end: end ?? widget.loop.end,

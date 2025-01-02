@@ -8,10 +8,10 @@ import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
-import 'package:looplab/core/utils/duration_extension.dart';
-import 'package:looplab/data/repositories/song_repository.dart';
-import 'package:looplab/models/loop.dart';
-import 'package:looplab/models/song.dart';
+import 'package:repeatlab/core/utils/duration_extension.dart';
+import 'package:repeatlab/data/repositories/song_repository.dart';
+import 'package:repeatlab/models/loop.dart';
+import 'package:repeatlab/models/song.dart';
 
 // part 'song_cubit.mapper.dart';
 part 'song_cubit.mapper.dart';
@@ -286,8 +286,7 @@ class SongCubit extends Cubit<SongState> {
       final position = soloud.getPosition(state.handle!);
       if (position >= state.activeLoop!.end!) {
         // Prevent potential audio glitch by doing seek only when necessary
-        if (position - state.activeLoop!.end! >
-            const Duration(milliseconds: 32)) {
+        if (position - state.activeLoop!.end! > const Duration(milliseconds: 32)) {
           soloud.seek(state.handle!, state.activeLoop!.start!);
         }
       }
@@ -307,8 +306,7 @@ class SongCubit extends Cubit<SongState> {
 
     // if not null get the next loop
     if (currentLoop != null) {
-      final currentLoopIndex =
-          state.song.loops.indexWhere((loop) => loop.id == currentLoop.id);
+      final currentLoopIndex = state.song.loops.indexWhere((loop) => loop.id == currentLoop.id);
       final nextLoopIndex = currentLoopIndex + 1;
       // check if last loop
       if (nextLoopIndex >= state.song.loops.length) {
@@ -332,8 +330,7 @@ class SongCubit extends Cubit<SongState> {
 
     // if not null get the previous loop
     if (currentLoop != null) {
-      final currentLoopIndex =
-          state.song.loops.indexWhere((loop) => loop.id == currentLoop.id);
+      final currentLoopIndex = state.song.loops.indexWhere((loop) => loop.id == currentLoop.id);
       final previousLoopIndex = currentLoopIndex - 1;
       // check if first loop
       if (previousLoopIndex < 0) {
@@ -358,13 +355,11 @@ class SongCubit extends Cubit<SongState> {
         // for each new loop assign a color based on LoopColor.values
         // for the first loop, first color, for the second loop, second color, etc.
         // if the number of loops is greater than the number of colors, start again from the first color
-        color:
-            LoopColor.values[state.song.loops.length % LoopColor.values.length],
+        color: LoopColor.values[state.song.loops.length % LoopColor.values.length],
         start: soloud.getPosition(state.handle!),
       );
 
-      final updatedSong =
-          await songRepository.addLoopToSong(song: state.song, loop: loop);
+      final updatedSong = await songRepository.addLoopToSong(song: state.song, loop: loop);
 
       emit(
         state.copyWith(
