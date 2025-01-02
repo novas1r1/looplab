@@ -54,7 +54,7 @@ class SongRepository {
     await _store.update(
       db,
       song.toMap(),
-      finder: Finder(filter: Filter.byKey(song.id)),
+      finder: Finder(filter: Filter.equals('id', song.id)),
     );
     await getAllSongs();
   }
@@ -62,9 +62,7 @@ class SongRepository {
   Future<void> deleteSong(Song song) async {
     await _store.delete(
       db,
-      finder: Finder(
-        filter: Filter.equals('id', song.id),
-      ),
+      finder: Finder(filter: Filter.equals('id', song.id)),
     );
     await getAllSongs();
   }
@@ -77,7 +75,11 @@ class SongRepository {
 
     final updatedSong = song.copyWith(loops: [...song.loops, loop]);
 
-    await _store.update(db, updatedSong.toMap());
+    await _store.update(
+      db,
+      updatedSong.toMap(),
+      finder: Finder(filter: Filter.equals('id', song.id)),
+    );
     await getAllSongs();
 
     return updatedSong;
@@ -94,7 +96,11 @@ class SongRepository {
         song.loops.map((e) => e.id == loop.id ? loop : e).toList();
     final updatedSong = song.copyWith(loops: updatedLoops);
 
-    await _store.update(db, updatedSong.toMap());
+    await _store.update(
+      db,
+      updatedSong.toMap(),
+      finder: Finder(filter: Filter.equals('id', song.id)),
+    );
     await getAllSongs();
 
     return updatedSong;
@@ -109,7 +115,11 @@ class SongRepository {
     final updatedLoops = song.loops.where((e) => e.id != loop.id).toList();
     final updatedSong = song.copyWith(loops: updatedLoops);
 
-    await _store.update(db, updatedSong.toMap());
+    await _store.update(
+      db,
+      updatedSong.toMap(),
+      finder: Finder(filter: Filter.equals('id', song.id)),
+    );
     await getAllSongs();
 
     return updatedSong;

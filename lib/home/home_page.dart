@@ -17,6 +17,10 @@ class HomePage extends StatelessWidget {
         title: const Text('LoopLab'),
         actions: [
           IconButton(
+            onPressed: () => context.read<AllSongsCubit>().loadSongs(),
+            icon: const Icon(Icons.refresh),
+          ),
+          IconButton(
             onPressed: () => _onClearDb(context),
             icon: const Icon(Icons.delete),
           ),

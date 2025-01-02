@@ -22,7 +22,9 @@ Future<void> main() async {
   MapperContainer.globals.use(const DurationMapper());
 
   final soloud = SoLoud.instance;
-  await soloud.init();
+  await soloud.init(
+    sampleRate: 48000,
+  );
 
   bootstrap(() => App(db: db, soloud: soloud));
 }
