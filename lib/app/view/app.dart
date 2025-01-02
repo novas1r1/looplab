@@ -8,13 +8,20 @@ import 'package:looplab/data/repositories/song_repository.dart';
 import 'package:looplab/home/cubit/all_songs_cubit.dart';
 import 'package:looplab/home/home_page.dart';
 import 'package:looplab/l10n/l10n.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sembast/sembast.dart';
 
 class App extends StatelessWidget {
   final Database db;
   final SoLoud soloud;
+  final PackageInfo packageInfo;
 
-  const App({required this.db, required this.soloud, super.key});
+  const App({
+    required this.db,
+    required this.soloud,
+    required this.packageInfo,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +35,7 @@ class App extends StatelessWidget {
     return RepositoryWrapper(
       db: db,
       soLoud: soloud,
+      packageInfo: packageInfo,
       child: BlocProvider(
         create: (context) => AllSongsCubit(
           songRepository: context.read<SongRepository>(),

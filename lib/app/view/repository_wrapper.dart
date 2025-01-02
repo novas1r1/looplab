@@ -4,17 +4,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:looplab/data/repositories/file_repository.dart';
 import 'package:looplab/data/repositories/song_repository.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sembast/sembast.dart';
 
 class RepositoryWrapper extends StatelessWidget {
   final Widget child;
   final Database db;
   final SoLoud soLoud;
+  final PackageInfo packageInfo;
 
   const RepositoryWrapper({
     required this.db,
     required this.child,
     required this.soLoud,
+    required this.packageInfo,
     super.key,
   });
 
@@ -28,7 +31,11 @@ class RepositoryWrapper extends StatelessWidget {
           ),
         ),
         RepositoryProvider(
-          create: (context) => SongRepository(db: db, soLoud: soLoud)..getAllSongs(),
+          create: (context) =>
+              SongRepository(db: db, soLoud: soLoud)..getAllSongs(),
+        ),
+        RepositoryProvider(
+          create: (context) => packageInfo,
         ),
       ],
       child: child,

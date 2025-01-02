@@ -25,6 +25,9 @@ class SongCubit extends Cubit<SongState> {
   StreamSubscription<List<Song>>? _songSubscription;
   Timer? _positionTimer;
 
+  // Add static cache map
+  static final Map<String, Float32List> _waveformCache = {};
+
   bool get isPaused => state.handle == null || soloud.getPause(state.handle!);
   Duration get currentPosition =>
       state.handle == null ? Duration.zero : soloud.getPosition(state.handle!);
@@ -79,6 +82,9 @@ class SongCubit extends Cubit<SongState> {
       await soloud.disposeSource(state.audioSource!);
     }
 
+    // Optional: Clear cache when cubit is closed
+    // _waveformCache.remove(state.song.path);
+
     return super.close();
   }
 
@@ -91,26 +97,28 @@ class SongCubit extends Cubit<SongState> {
         throw Exception('File not found: ${state.song.path}');
       }
 
-      // Pre-load the file into memory for better performance
-      final bytes = await file.readAsBytes();
+      // Check cache first
+      Float32List? waveformData = _waveformCache[state.song.path];
 
-      // Load audio with better buffering
-      final source = await soloud.loadFile(
-        state.song.path,
-      );
+      if (waveformData == null) {
+        log('NO CACHE AVAILABLE FOR ${state.song.path}');
+        // Only read bytes and generate waveform if not cached
+        final bytes = await file.readAsBytes();
+        waveformData = await soloud.readSamplesFromMem(
+          bytes,
+          200 * 10,
+        );
+        // Store in cache
+        _waveformCache[state.song.path] = waveformData;
+      }
 
+      final source = await soloud.loadFile(state.song.path);
       final handle = await soloud.play(source, paused: true);
-
-      // Read waveform data directly since we can't use compute with native resources
-      final data = await soloud.readSamplesFromMem(
-        bytes,
-        200 * 10,
-      );
 
       emit(
         state.copyWith(
           audioSource: source,
-          data: data,
+          data: waveformData,
           status: SongStatus.loaded,
           handle: handle,
           song: state.song,

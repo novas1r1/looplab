@@ -4,6 +4,7 @@ import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:looplab/app/app.dart';
 import 'package:looplab/bootstrap.dart';
 import 'package:looplab/models/song.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast_io.dart';
@@ -26,5 +27,7 @@ Future<void> main() async {
     sampleRate: 48000,
   );
 
-  bootstrap(() => App(db: db, soloud: soloud));
+  final packageInfo = await PackageInfo.fromPlatform();
+
+  bootstrap(() => App(db: db, soloud: soloud, packageInfo: packageInfo));
 }

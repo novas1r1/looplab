@@ -141,6 +141,7 @@ class _SongViewState extends State<_SongView> {
                             _currentPlayerPosition.toFormattedString(),
                           ),
                           IconButton(
+                            iconSize: 36,
                             onPressed: () {
                               // unselect loop
                               context.read<SongCubit>().unselectLoop();
@@ -254,15 +255,11 @@ class _SongViewState extends State<_SongView> {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-              foregroundColor:
-                  Theme.of(context).colorScheme.onPrimaryFixedVariant,
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              foregroundColor: Theme.of(context).colorScheme.onPrimary,
             ),
             onPressed: () => Navigator.of(context).pop(false),
-            child: Text(
-              'Cancel',
-              style: Theme.of(context).textTheme.labelLarge,
-            ),
+            child: const Text('Cancel'),
           ),
         ],
       ),
