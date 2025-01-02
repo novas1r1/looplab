@@ -25,11 +25,11 @@ class Loop with LoopMappable {
 
 @MappableEnum()
 enum LoopColor {
-  purple(Color(0xFF6200FF)),
-  green(Color(0xFF00FF00)),
-  red(Color(0xFFFF0000)),
-  pink(Color(0xFFFF00FF)),
-  yellow(Color(0xFFFFFF00));
+  green(Color(0xFFA3FF12)),
+  orange(Color(0xFFFF7849)),
+  pink(Color(0xFFFF3D81)),
+  purple(Color(0xFFC084FC)),
+  yellow(Color(0xFFFFE933));
 
   final Color color;
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:looplab/core/ui/widgets/loading.dart';
 import 'package:looplab/core/utils/duration_extension.dart';
 import 'package:looplab/data/repositories/file_repository.dart';
 import 'package:looplab/home/cubit/all_songs_cubit.dart';
@@ -25,8 +26,11 @@ class HomePage extends StatelessWidget {
         builder: (context, state) {
           switch (state.status) {
             case AllSongsStatus.loading:
-              return const Center(child: CircularProgressIndicator());
+              return const Center(child: Loading());
             case AllSongsStatus.loaded:
+              if (state.songs.isEmpty) {
+                return const Center(child: Text('No songs found'));
+              }
               return ListView.builder(
                 itemCount: state.songs.length,
                 itemBuilder: (context, index) {
@@ -62,7 +66,7 @@ class HomePage extends StatelessWidget {
 
   Future<void> _onAddSong(BuildContext context) async {
     final file = await context.read<FileRepository>().pickSingleAudioFile();
-    if (file != null) {
+    if (file != null && context.mounted) {
       // TODO: Upload song
       context.read<AllSongsCubit>().addSong(file);
     }

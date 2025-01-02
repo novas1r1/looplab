@@ -1,6 +1,6 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
 
 abstract final class AppColors {
-  static const primary = Color(0xFF6200FF);
-  static const danger = Color(0xFFFF0000);
+  static const primary = Colors.deepPurple;
+  static const danger = Colors.red;
 }

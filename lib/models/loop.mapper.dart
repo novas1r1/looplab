@@ -25,14 +25,14 @@ class LoopColorMapper extends EnumMapper<LoopColor> {
   @override
   LoopColor decode(dynamic value) {
     switch (value) {
-      case 'purple':
-        return LoopColor.purple;
       case 'green':
         return LoopColor.green;
-      case 'red':
-        return LoopColor.red;
+      case 'orange':
+        return LoopColor.orange;
       case 'pink':
         return LoopColor.pink;
+      case 'purple':
+        return LoopColor.purple;
       case 'yellow':
         return LoopColor.yellow;
       default:
@@ -43,14 +43,14 @@ class LoopColorMapper extends EnumMapper<LoopColor> {
   @override
   dynamic encode(LoopColor self) {
     switch (self) {
-      case LoopColor.purple:
-        return 'purple';
       case LoopColor.green:
         return 'green';
-      case LoopColor.red:
-        return 'red';
+      case LoopColor.orange:
+        return 'orange';
       case LoopColor.pink:
         return 'pink';
+      case LoopColor.purple:
+        return 'purple';
       case LoopColor.yellow:
         return 'yellow';
     }

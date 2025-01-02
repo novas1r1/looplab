@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:looplab/core/utils/duration_extension.dart';
 import 'package:looplab/models/loop.dart';
+import 'package:looplab/song/widgets/edit_loop_bottom_up.dart';
 
 class LoopTile extends StatefulWidget {
   final int index;
   final Loop loop;
   final bool isSelected;
   final bool isPaused;
+
   final Function(Loop) onTap;
   final Function(Loop) onDelete;
   final Function(Loop) onPlay;
   final Function(Loop) onPause;
   final Function(Loop) onUpdate;
+  final Function() onSetLoopStart;
+  final Function() onSetLoopEnd;
 
   const LoopTile({
     super.key,
@@ -24,6 +28,8 @@ class LoopTile extends StatefulWidget {
     required this.onPlay,
     required this.onPause,
     required this.onUpdate,
+    required this.onSetLoopStart,
+    required this.onSetLoopEnd,
   });
 
   @override
@@ -31,30 +37,11 @@ class LoopTile extends StatefulWidget {
 }
 
 class _LoopTileState extends State<LoopTile> {
-  final _titleController = TextEditingController();
-
-  String? _loopTitle;
-  bool _isEditing = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _loopTitle = widget.loop.name;
-    _titleController.text = widget.loop.name;
-  }
-
-  @override
-  void dispose() {
-    _titleController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    // Generate a unique color for each loop based on its ID
-    final color = widget.loop.color.color;
+    final color = Theme.of(context).colorScheme.primaryContainer;
 
-    return Container(
+    return Ink(
       decoration: BoxDecoration(
         color: widget.isSelected ? color.withOpacity(0.2) : null,
         border: Border.all(
@@ -63,68 +50,68 @@ class _LoopTileState extends State<LoopTile> {
         ),
         borderRadius: BorderRadius.circular(8),
       ),
-      child: ListTile(
-        selectedColor: Theme.of(context).colorScheme.primary,
-        selected: widget.isSelected,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(8),
         onTap: () => widget.onTap(widget.loop),
-        contentPadding: EdgeInsets.zero,
-        leading: IconButton(
-          onPressed: () =>
-              widget.isPaused ? widget.onPlay(widget.loop) : widget.onPause(widget.loop),
-          icon: Icon(
-            widget.isPaused ? Icons.play_arrow_rounded : Icons.pause_rounded,
-            color: color,
-          ),
-        ),
-        title: Row(
-          children: [
-            if (_isEditing)
-              Expanded(
-                child: TextField(
-                  controller: _titleController,
-                  onSubmitted: (value) => setState(() {
-                    _loopTitle = value;
-                    _isEditing = false;
-                    widget.onUpdate(widget.loop.copyWith(name: _loopTitle));
-                  }),
-                ),
-              ),
-            if (!_isEditing) Text(widget.loop.name),
-            IconButton(
-              onPressed: () => setState(() => _isEditing = !_isEditing),
-              icon: const Icon(Icons.edit, size: 20),
-            ),
-          ],
-        ),
-        subtitle: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Stack(
           children: [
             Column(
-              mainAxisSize: MainAxisSize.min,
               children: [
-                Text(widget.loop.start?.toFormattedString() ?? '00:00'),
-                ElevatedButton(
-                  onPressed: () => widget.onDelete(widget.loop),
-                  child: const Text('set start'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            color: widget.loop.color.color,
+                            width: 16,
+                            height: 16,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            widget.loop.name,
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        ],
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () => _onEditLoop(),
+                      icon: const Icon(Icons.more_vert, size: 20),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            Column(
-              children: [
-                Text(widget.loop.end?.toFormattedString() ?? '00:00'),
-                ElevatedButton(
-                  onPressed: () => widget.onDelete(widget.loop),
-                  child: const Text('set end'),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(widget.loop.start?.toFormattedString() ?? '-'),
+                      Text(widget.loop.end?.toFormattedString() ?? '-'),
+                    ],
+                  ),
                 ),
               ],
             ),
           ],
-        ),
-        trailing: IconButton(
-          onPressed: () => widget.onDelete(widget.loop),
-          icon: const Icon(Icons.delete),
         ),
       ),
     );
+  }
+
+  Future<void> _onEditLoop() async {
+    final updatedLoop = await showModalBottomSheet<Loop?>(
+      context: context,
+      builder: (context) => EditLoopBottomUp(loop: widget.loop),
+    );
+
+    if (updatedLoop != null) {
+      widget.onUpdate(updatedLoop);
+    }
   }
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:looplab/app/view/repository_wrapper.dart';
+import 'package:looplab/core/ui/theme.dart';
+import 'package:looplab/core/ui/util.dart';
 import 'package:looplab/data/repositories/song_repository.dart';
 import 'package:looplab/home/cubit/all_songs_cubit.dart';
 import 'package:looplab/home/home_page.dart';
@@ -16,6 +18,13 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final brightness = View.of(context).platformDispatcher.platformBrightness;
+
+    // Use with Google Fonts package to use downloadable fonts
+    final TextTheme textTheme =
+        createTextTheme(context, "Nunito Sans", "Oswald");
+    final MaterialTheme theme = MaterialTheme(textTheme);
+
     return RepositoryWrapper(
       db: db,
       soLoud: soloud,
@@ -24,18 +33,7 @@ class App extends StatelessWidget {
           songRepository: context.read<SongRepository>(),
         )..loadSongs(),
         child: MaterialApp(
-          theme: ThemeData(
-            brightness: Brightness.dark,
-            elevatedButtonTheme: ElevatedButtonThemeData(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-            ),
-          ),
+          theme: theme.dark(),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           home: const HomePage(),

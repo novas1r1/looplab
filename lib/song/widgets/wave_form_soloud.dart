@@ -77,7 +77,8 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
                 onHorizontalDragStart: (details) => widget.onStartDrag(),
                 onHorizontalDragUpdate: (details) {
                   // Update scroll position based on drag
-                  final newScrollPosition = _scrollController.position.pixels - details.delta.dx;
+                  final newScrollPosition =
+                      _scrollController.position.pixels - details.delta.dx;
                   _scrollController.jumpTo(
                     newScrollPosition.clamp(
                       0,
@@ -87,10 +88,13 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
                 },
                 onHorizontalDragEnd: (details) {
                   // Update position
-                  final scrollPercentage = _scrollController.position.pixels / widget.data.length;
+                  final scrollPercentage =
+                      _scrollController.position.pixels / widget.data.length;
                   widget.onPositionChanged(
                     Duration(
-                      milliseconds: (scrollPercentage * widget.duration.inMilliseconds).toInt(),
+                      milliseconds:
+                          (scrollPercentage * widget.duration.inMilliseconds)
+                              .toInt(),
                     ),
                   );
                 },
@@ -102,6 +106,12 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
                       duration: widget.duration,
                       currentPosition: widget.currentPosition,
                       loops: widget.loops,
+                      colorPlayed:
+                          Theme.of(context).colorScheme.primaryFixedDim,
+                      colorUnplayed: Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withOpacity(0.3),
                     ),
                   ),
                 ),
@@ -115,7 +125,7 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
             top: 0,
             child: Container(
               width: 2,
-              color: Colors.yellow,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
         ],

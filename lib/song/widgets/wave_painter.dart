@@ -15,21 +15,26 @@ class WavePainter extends CustomPainter {
   /// Loop start position of the song.
   final List<Loop> loops;
 
+  final Color colorPlayed;
+  final Color colorUnplayed;
+
   const WavePainter({
     required this.data,
     required this.duration,
     required this.currentPosition,
     required this.loops,
+    required this.colorPlayed,
+    required this.colorUnplayed,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.white.withOpacity(0.6)
+      ..color = colorUnplayed
       ..strokeWidth = 1;
 
     final paintPlayed = Paint()
-      ..color = Colors.white
+      ..color = colorPlayed
       ..strokeWidth = 1;
 
     final durationInMilliseconds = duration.inMilliseconds.toDouble();
@@ -100,7 +105,10 @@ class WavePainter extends CustomPainter {
             textDirection: TextDirection.ltr,
           );
           textPainter.layout();
-          textPainter.paint(canvas, Offset(xEnd - textPainter.width - 4, size.height - 14));
+          textPainter.paint(
+            canvas,
+            Offset(xEnd - textPainter.width - 4, size.height - 14),
+          );
         }
       }
     }
@@ -109,7 +117,8 @@ class WavePainter extends CustomPainter {
     // final durationInMilliseconds = duration.inMilliseconds;
 
     // Calculate the fraction of the song played
-    final playedFraction = currentPositionInMilliseconds / durationInMilliseconds;
+    final playedFraction =
+        currentPositionInMilliseconds / durationInMilliseconds;
     final playedDataLength = (playedFraction * data.length).toInt();
 
     for (int i = 0; i < data.length; i++) {

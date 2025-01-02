@@ -11,4 +11,12 @@ extension DurationExtension on Duration {
       return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}:${(milliseconds / 10).round().toString().padLeft(2, '0')}';
     }
   }
+
+  String toFormattedStringMinutesSecondsMilliseconds() {
+    final minutes = inMinutes.remainder(60);
+    final seconds = inSeconds.remainder(60);
+    final milliseconds = inMilliseconds.remainder(1000);
+
+    return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}:${(milliseconds / 10).round().toString().padLeft(2, '0')}';
+  }
 }

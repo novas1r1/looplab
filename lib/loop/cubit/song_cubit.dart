@@ -1,9 +1,11 @@
+// ignore_for_file: avoid_redundant_argument_values
+
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
-import 'dart:math' as math;
 import 'dart:typed_data';
 
+import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:looplab/core/utils/duration_extension.dart';
@@ -12,6 +14,7 @@ import 'package:looplab/models/loop.dart';
 import 'package:looplab/models/song.dart';
 
 // part 'song_cubit.mapper.dart';
+part 'song_cubit.mapper.dart';
 part 'song_state.dart';
 
 class SongCubit extends Cubit<SongState> {
@@ -37,13 +40,15 @@ class SongCubit extends Cubit<SongState> {
         orElse: () => state.song,
       );
 
-      emit(state.copyWith(song: updatedSong));
+      emit(state.copyWith(status: SongStatus.updated, song: updatedSong));
     });
   }
 
   Stream<Duration> get positionStream => Stream.periodic(
         const Duration(milliseconds: 50),
-        (_) => (state.handle == null) ? Duration.zero : soloud.getPosition(state.handle!),
+        (_) => (state.handle == null)
+            ? Duration.zero
+            : soloud.getPosition(state.handle!),
       );
 
   @override
@@ -82,9 +87,9 @@ class SongCubit extends Cubit<SongState> {
 
       emit(
         state.copyWith(
+          status: SongStatus.loaded,
           audioSource: source,
           data: data,
-          status: SongStatus.loaded,
           handle: handle,
           song: state.song,
         ),
@@ -110,7 +115,13 @@ class SongCubit extends Cubit<SongState> {
   Future<void> playSong() async {
     if (state.handle == null) {
       final handle = await soloud.play(state.audioSource!);
-      emit(state.copyWith(handle: handle));
+
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          handle: handle,
+        ),
+      );
     }
 
     // Start the position timer
@@ -223,12 +234,11 @@ class SongCubit extends Cubit<SongState> {
   }
 
   void unselectLoop() {
-    // ignore: avoid_redundant_argument_values, avoid-passing-default-values
-    emit(state.copyWith(activeLoop: null));
+    emit(state.copyWith(status: SongStatus.updated, activeLoop: null));
   }
 
   void selectLoop(Loop loop) {
-    emit(state.copyWith(activeLoop: loop));
+    emit(state.copyWith(status: SongStatus.updated, activeLoop: loop));
 
     if (state.handle == null || loop.start == null) return;
 
@@ -276,7 +286,8 @@ class SongCubit extends Cubit<SongState> {
 
     // if not null get the next loop
     if (currentLoop != null) {
-      final currentLoopIndex = state.song.loops.indexWhere((loop) => loop.id == currentLoop.id);
+      final currentLoopIndex =
+          state.song.loops.indexWhere((loop) => loop.id == currentLoop.id);
       final nextLoopIndex = currentLoopIndex + 1;
       // check if last loop
       if (nextLoopIndex >= state.song.loops.length) {
@@ -300,7 +311,8 @@ class SongCubit extends Cubit<SongState> {
 
     // if not null get the previous loop
     if (currentLoop != null) {
-      final currentLoopIndex = state.song.loops.indexWhere((loop) => loop.id == currentLoop.id);
+      final currentLoopIndex =
+          state.song.loops.indexWhere((loop) => loop.id == currentLoop.id);
       final previousLoopIndex = currentLoopIndex - 1;
       // check if first loop
       if (previousLoopIndex < 0) {
@@ -322,20 +334,31 @@ class SongCubit extends Cubit<SongState> {
         id: state.song.loops.length,
         name: 'Loop ${state.song.loops.length + 1}',
         songId: state.song.id,
-        // random color from AppColors.loopColors
-        color: LoopColor.values[math.Random().nextInt(LoopColor.values.length)],
+        // for each new loop assign a color based on LoopColor.values
+        // for the first loop, first color, for the second loop, second color, etc.
+        // if the number of loops is greater than the number of colors, start again from the first color
+        color:
+            LoopColor.values[state.song.loops.length % LoopColor.values.length],
+        start: soloud.getPosition(state.handle!),
       );
 
-      final updatedSong = await songRepository.addLoopToSong(song: state.song, loop: loop);
+      final updatedSong =
+          await songRepository.addLoopToSong(song: state.song, loop: loop);
 
       emit(
         state.copyWith(
+          status: SongStatus.loopAdded,
           song: updatedSong,
           activeLoop: loop,
         ),
       );
     } catch (e) {
-      emit(state.copyWith(status: SongStatus.error, error: 'Failed to add loop: $e'));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to add loop: $e',
+        ),
+      );
     }
   }
 
@@ -343,17 +366,25 @@ class SongCubit extends Cubit<SongState> {
     log('updateLoop: $updatedLoop');
 
     try {
-      final updatedSong =
-          await songRepository.updateLoopForSong(song: state.song, loop: updatedLoop);
+      final updatedSong = await songRepository.updateLoopForSong(
+        song: state.song,
+        loop: updatedLoop,
+      );
 
       emit(
         state.copyWith(
+          status: SongStatus.updated,
           song: updatedSong,
           activeLoop: updatedLoop,
         ),
       );
     } catch (e) {
-      emit(state.copyWith(error: 'Failed to update loop: $e'));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to update loop: $e',
+        ),
+      );
     }
   }
 
@@ -364,16 +395,31 @@ class SongCubit extends Cubit<SongState> {
         song: state.song,
         loop: loop,
       );
-      emit(state.copyWith(song: updatedSong));
+      emit(
+        state.copyWith(
+          song: updatedSong,
+          status: SongStatus.loopDeleted,
+        ),
+      );
     } catch (e) {
-      emit(state.copyWith(error: 'Failed to delete loop: $e'));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to delete loop: $e',
+        ),
+      );
     }
   }
 
   Future<void> deleteSong() async {
     try {
       await songRepository.deleteSong(state.song);
-      emit(state.copyWith(status: SongStatus.songDeleted));
+      emit(
+        state.copyWith(
+          status: SongStatus.songDeleted,
+          song: null,
+        ),
+      );
     } catch (e) {
       emit(
         state.copyWith(

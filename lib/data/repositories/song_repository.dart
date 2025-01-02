@@ -60,7 +60,12 @@ class SongRepository {
   }
 
   Future<void> deleteSong(Song song) async {
-    await _store.delete(db, finder: Finder(filter: Filter.byKey(song.id)));
+    await _store.delete(
+      db,
+      finder: Finder(
+        filter: Filter.equals('id', song.id),
+      ),
+    );
     await getAllSongs();
   }
 
@@ -85,7 +90,8 @@ class SongRepository {
     log('UPDATING LOOP: ${loop.toMap()}');
 
     // update the loop in the song
-    final updatedLoops = song.loops.map((e) => e.id == loop.id ? loop : e).toList();
+    final updatedLoops =
+        song.loops.map((e) => e.id == loop.id ? loop : e).toList();
     final updatedSong = song.copyWith(loops: updatedLoops);
 
     await _store.update(db, updatedSong.toMap());
