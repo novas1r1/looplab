@@ -15,6 +15,18 @@
         "--target",
         "lib/main.dart"
       ]
+    },
+    {
+      "name": "Release",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": [
+        "--flavor",
+        "production",
+        "--target",
+        "lib/main.dart"
+      ]
     }
   ]
 }

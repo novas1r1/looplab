@@ -1,0 +1,87 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="LoopLab - Music Loop Creation Made Easy">
+	<main>
+		<!-- Hero Section -->
+		<section class="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
+			<div class="container mx-auto px-4 py-32">
+				<div class="flex flex-col items-center text-center">
+					<h1 class="text-6xl font-bold mb-6">LoopLab</h1>
+					<p class="text-xl text-gray-300 mb-8 max-w-2xl">
+						Create, manage, and perfect your music loops with our intuitive audio loop management tool.
+					</p>
+					<div class="flex gap-4">
+						<a href="#download" class="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-lg font-medium transition-colors">
+							Download Now
+						</a>
+						<a href="#features" class="border border-white/20 hover:bg-white/10 px-8 py-3 rounded-lg font-medium transition-colors">
+							Learn More
+						</a>
+					</div>
+					<img src="/hero-mockup.png" alt="LoopLab Interface" class="mt-16 rounded-lg shadow-2xl max-w-4xl w-full" />
+				</div>
+			</div>
+		</section>
+
+		<!-- Features Section -->
+		<section id="features" class="py-24 bg-gray-50">
+			<div class="container mx-auto px-4">
+				<h2 class="text-4xl font-bold text-center mb-16">Features</h2>
+				<div class="grid md:grid-cols-3 gap-8">
+					<div class="bg-white p-8 rounded-xl shadow-lg">
+						<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+							</svg>
+						</div>
+						<h3 class="text-xl font-semibold mb-2">Loop Management</h3>
+						<p class="text-gray-600">Easily create, edit, and organize your audio loops with our intuitive interface.</p>
+					</div>
+					<div class="bg-white p-8 rounded-xl shadow-lg">
+						<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m0 0l-2.828 2.828" />
+							</svg>
+						</div>
+						<h3 class="text-xl font-semibold mb-2">Waveform Visualization</h3>
+						<p class="text-gray-600">See your audio in beautiful waveform displays for precise control and editing.</p>
+					</div>
+					<div class="bg-white p-8 rounded-xl shadow-lg">
+						<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+							</svg>
+						</div>
+						<h3 class="text-xl font-semibold mb-2">Easy Import</h3>
+						<p class="text-gray-600">Import your audio files with a simple drag and drop interface.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- CTA Section -->
+		<section id="download" class="py-24 bg-primary text-white">
+			<div class="container mx-auto px-4 text-center">
+				<h2 class="text-4xl font-bold mb-8">Ready to Start Creating?</h2>
+				<p class="text-xl mb-8 max-w-2xl mx-auto">Download LoopLab now and transform the way you work with audio loops.</p>
+				<a href="#" class="bg-white text-primary hover:bg-gray-100 px-8 py-3 rounded-lg font-medium transition-colors inline-block">
+					Download for Windows
+				</a>
+			</div>
+		</section>
+	</main>
+</Layout>
+
+<style>
+	:root {
+		--color-primary: #6366f1;
+	}
+	.bg-primary {
+		background-color: var(--color-primary);
+	}
+	.text-primary {
+		color: var(--color-primary);
+	}
+</style>
