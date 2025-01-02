@@ -261,6 +261,4 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
       }
     });
   }
-
-  void _showColorPicker() {}
 }

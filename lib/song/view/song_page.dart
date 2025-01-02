@@ -25,13 +25,15 @@ class SongPage extends StatelessWidget {
         soloud: SoLoud.instance,
         song: song,
       )..initSong(),
-      child: const _SongView(),
+      child: _SongView(song: song),
     );
   }
 }
 
 class _SongView extends StatefulWidget {
-  const _SongView();
+  final Song song;
+
+  const _SongView({required this.song});
 
   @override
   State<_SongView> createState() => _SongViewState();
@@ -64,11 +66,9 @@ class _SongViewState extends State<_SongView> {
 
   @override
   Widget build(BuildContext context) {
-    final song = context.read<SongCubit>().song;
-
     return Scaffold(
       appBar: AppBar(
-        title: Text(song.title),
+        title: Text(widget.song.title),
         actions: [
           IconButton(
             onPressed: () => _onTapDeleteSong(context),
@@ -102,6 +102,7 @@ class _SongViewState extends State<_SongView> {
             case SongStatus.error:
             case SongStatus.loopAdded:
             case SongStatus.updated:
+            case SongStatus.loopDeleted:
               return Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
@@ -109,7 +110,7 @@ class _SongViewState extends State<_SongView> {
                     if (state.data != null)
                       WaveFormSoLoud(
                         data: state.data!,
-                        duration: song.duration,
+                        duration: state.song.duration,
                         currentPosition: _currentPlayerPosition,
                         onStartDrag: () =>
                             context.read<SongCubit>().pauseSong(),
@@ -147,7 +148,7 @@ class _SongViewState extends State<_SongView> {
                                   : Icons.pause_rounded,
                             ),
                           ),
-                          Text(song.duration.toFormattedString()),
+                          Text(widget.song.duration.toFormattedString()),
                         ],
                       ),
                     ),
@@ -161,12 +162,12 @@ class _SongViewState extends State<_SongView> {
                         ),
                         ElevatedButton(
                           onPressed: () => context.read<SongCubit>().addLoop(),
-                          /* style: ElevatedButton.styleFrom(
+                          style: ElevatedButton.styleFrom(
                             backgroundColor:
                                 Theme.of(context).colorScheme.primary,
                             foregroundColor:
                                 Theme.of(context).colorScheme.onPrimary,
-                          ), */
+                          ),
                           child: const Text('Add'),
                         ),
                       ],
@@ -188,7 +189,7 @@ class _SongViewState extends State<_SongView> {
                                   state.song.loops[index] == state.activeLoop,
                               isPaused: context.read<SongCubit>().isPaused,
                               onTap: (loop) =>
-                                  context.read<SongCubit>().selectLoop(loop),
+                                  context.read<SongCubit>().playLoop(loop),
                               onDelete: (loop) =>
                                   context.read<SongCubit>().deleteLoop(loop),
                               onPlay: (loop) =>

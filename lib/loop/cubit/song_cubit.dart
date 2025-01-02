@@ -87,9 +87,9 @@ class SongCubit extends Cubit<SongState> {
 
       emit(
         state.copyWith(
-          status: SongStatus.loaded,
           audioSource: source,
           data: data,
+          status: SongStatus.loaded,
           handle: handle,
           song: state.song,
         ),
@@ -115,13 +115,7 @@ class SongCubit extends Cubit<SongState> {
   Future<void> playSong() async {
     if (state.handle == null) {
       final handle = await soloud.play(state.audioSource!);
-
-      emit(
-        state.copyWith(
-          status: SongStatus.updated,
-          handle: handle,
-        ),
-      );
+      emit(state.copyWith(status: SongStatus.updated, handle: handle));
     }
 
     // Start the position timer
