@@ -107,7 +107,10 @@ class _LoopTileState extends State<LoopTile> {
   Future<void> _onEditLoop() async {
     final updatedLoop = await showModalBottomSheet<Loop?>(
       context: context,
-      builder: (context) => EditLoopBottomUp(loop: widget.loop),
+      builder: (context) => EditLoopBottomUp(
+        loop: widget.loop,
+        onDelete: (loop) => widget.onDelete(widget.loop),
+      ),
     );
 
     if (updatedLoop != null) {

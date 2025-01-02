@@ -10,6 +10,7 @@ import 'package:looplab/loop/cubit/song_cubit.dart';
 import 'package:looplab/models/song.dart';
 import 'package:looplab/song/widgets/loop_controller.dart';
 import 'package:looplab/song/widgets/loop_tile.dart';
+import 'package:looplab/song/widgets/loop_timeline.dart';
 import 'package:looplab/song/widgets/wave_form_soloud.dart';
 
 class SongPage extends StatelessWidget {
@@ -118,7 +119,15 @@ class _SongViewState extends State<_SongView> {
                             context.read<SongCubit>().updatePosition(position),
                         loops: state.song.loops,
                       ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 8),
+                    LoopTimeline(
+                      loops: state.song.loops,
+                      songDuration: state.song.duration,
+                      currentPosition: _currentPlayerPosition,
+                      onLoopTap: (loop) =>
+                          context.read<SongCubit>().playLoop(loop),
+                    ),
+                    const SizedBox(height: 12),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       decoration: BoxDecoration(
@@ -219,6 +228,16 @@ class _SongViewState extends State<_SongView> {
     final result = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        elevation: 24, // Adds a more prominent shadow
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: BorderSide(
+            color:
+                Theme.of(context).colorScheme.outlineVariant.withOpacity(0.8),
+            width: 1.5,
+          ),
+        ),
         title: const Text('Delete Song & Loops'),
         content: const Text(
           "Are you sure you want to delete this song and all attached loops? This can't be undone.",

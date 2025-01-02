@@ -64,19 +64,32 @@ class WavePainter extends CustomPainter {
             paintLoopStart,
           );
 
+          // also draw horizontal line at the top and the bottom of the line to the right
+          canvas.drawLine(
+            Offset(xStart, 1),
+            Offset(xStart + 10, 1),
+            paintLoopStart,
+          );
+
+          canvas.drawLine(
+            Offset(xStart, size.height - 1),
+            Offset(xStart + 10, size.height - 1),
+            paintLoopStart,
+          );
+
           // add text to the top of the line with "loop.name Start"
           final textPainter = TextPainter(
             text: TextSpan(
               text: '${loop.name} Start',
               style: TextStyle(
                 color: loop.color.color,
-                fontSize: 12,
+                fontSize: 10,
               ),
             ),
             textDirection: TextDirection.ltr,
           );
           textPainter.layout();
-          textPainter.paint(canvas, Offset(xStart + 4, 0));
+          textPainter.paint(canvas, Offset(xStart + 4, 2));
         }
 
         if (loop.end != null) {
@@ -93,13 +106,26 @@ class WavePainter extends CustomPainter {
             paintLoopEnd,
           );
 
+          // also draw horizontal line at the top and the bottom of the line to the left
+          canvas.drawLine(
+            Offset(xEnd, 1),
+            Offset(xEnd - 10, 1),
+            paintLoopEnd,
+          );
+
+          canvas.drawLine(
+            Offset(xEnd, size.height - 1),
+            Offset(xEnd - 10, size.height - 1),
+            paintLoopEnd,
+          );
+
           // add text to the top of the line with "loop.name End"
           final textPainter = TextPainter(
             text: TextSpan(
               text: '${loop.name} End',
               style: TextStyle(
                 color: loop.color.color,
-                fontSize: 12,
+                fontSize: 10,
               ),
             ),
             textDirection: TextDirection.ltr,
@@ -107,7 +133,7 @@ class WavePainter extends CustomPainter {
           textPainter.layout();
           textPainter.paint(
             canvas,
-            Offset(xEnd - textPainter.width - 4, size.height - 14),
+            Offset(xEnd - textPainter.width - 4, size.height - 16),
           );
         }
       }

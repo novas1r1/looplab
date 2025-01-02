@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:looplab/core/utils/duration_extension.dart';
+import 'package:looplab/core/utils/snackbar_helper.dart';
 import 'package:looplab/loop/cubit/song_cubit.dart';
 import 'package:looplab/models/loop.dart';
 
@@ -80,11 +81,39 @@ class LoopController extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TextButton(
-                      onPressed: () => context.read<SongCubit>().setLoopStart(),
+                      onPressed: () {
+                        if (activeLoop?.end != null &&
+                            context.read<SongCubit>().currentPosition <
+                                activeLoop!.end!) {
+                          context.read<SongCubit>().setLoopStart();
+                        } else if (activeLoop?.end != null) {
+                          SnackbarHelper.showError(
+                            context,
+                            'Start position must be before end position.',
+                          );
+                        } else {
+                          // No end position set yet, so it's safe to set start
+                          context.read<SongCubit>().setLoopStart();
+                        }
+                      },
                       child: const Text('Set Loop Start'),
                     ),
                     TextButton(
-                      onPressed: () => context.read<SongCubit>().setLoopEnd(),
+                      onPressed: () {
+                        if (activeLoop?.start != null &&
+                            context.read<SongCubit>().currentPosition >
+                                activeLoop!.start!) {
+                          context.read<SongCubit>().setLoopEnd();
+                        } else if (activeLoop?.start != null) {
+                          SnackbarHelper.showError(
+                            context,
+                            'End position must be after start position.',
+                          );
+                        } else {
+                          // No start position set yet, so it's safe to set end
+                          context.read<SongCubit>().setLoopEnd();
+                        }
+                      },
                       child: const Text('Set Loop End'),
                     ),
                   ],

@@ -408,6 +408,11 @@ class SongCubit extends Cubit<SongState> {
         song: state.song,
         loop: loop,
       );
+
+      if (loop == state.activeLoop) {
+        unselectLoop();
+      }
+
       emit(
         state.copyWith(
           song: updatedSong,

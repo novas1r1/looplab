@@ -4,10 +4,12 @@ import 'package:looplab/models/loop.dart';
 
 class EditLoopBottomUp extends StatefulWidget {
   final Loop loop;
+  final void Function(Loop loop) onDelete;
 
   const EditLoopBottomUp({
     super.key,
     required this.loop,
+    required this.onDelete,
   });
 
   @override
@@ -171,7 +173,7 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
               children: [
                 ElevatedButton.icon(
                   onPressed: () {
-                    // if delete, pop and return null
+                    widget.onDelete(widget.loop);
                     Navigator.pop(context);
                   },
                   icon: const Icon(Icons.delete),
