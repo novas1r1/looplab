@@ -1,4 +1,4 @@
-package de.zaiser.looplab.looplab
+package de.zaiser.looplab
 
 import io.flutter.embedding.android.FlutterActivity
 

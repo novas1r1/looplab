@@ -29,17 +29,17 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace "de.zaiser.looplab.looplab"
-    compileSdkVersion flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
+    namespace "de.zaiser.looplab"
+    compileSdk = 35
+    ndkVersion = "25.1.8937393"
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
-        jvmTarget = 17
+        jvmTarget = JavaVersion.VERSION_1_8
     }
 
     sourceSets {
@@ -48,11 +48,11 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "de.zaiser.looplab.looplab"
+        applicationId "de.zaiser.looplab"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
+        minSdkVersion 21
+        targetSdkVersion 35
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -81,11 +81,6 @@ android {
             dimension "default"
             applicationIdSuffix ""
             manifestPlaceholders = [appName: "Looplab"]
-        }
-        staging {
-            dimension "default"
-            applicationIdSuffix ".stg"
-            manifestPlaceholders = [appName: "[STG] Looplab"]
         }
         development {
             dimension "default"
