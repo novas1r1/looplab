@@ -46,23 +46,24 @@ class SongCubit extends Cubit<SongState> {
 
   Stream<Duration> get positionStream => Stream.periodic(
         const Duration(milliseconds: 50),
-        (_) => (state.handle == null)
-            ? Duration.zero
-            : soloud.getPosition(state.handle!),
-      );
+        (_) => state.handle != null
+            ? soloud.getPosition(state.handle!)
+            : Duration.zero,
+      ).distinct();
 
   @override
   Future<void> close() async {
+    await _songSubscription?.cancel();
     _positionTimer?.cancel();
+
     if (state.handle != null) {
+      soloud.setPause(state.handle!, true);
       await soloud.stop(state.handle!);
     }
 
     if (state.audioSource != null) {
-      soloud.disposeSource(state.audioSource!);
+      await soloud.disposeSource(state.audioSource!);
     }
-
-    _songSubscription?.cancel();
 
     return super.close();
   }
@@ -116,15 +117,9 @@ class SongCubit extends Cubit<SongState> {
     if (state.handle == null) {
       final handle = await soloud.play(state.audioSource!);
       emit(state.copyWith(status: SongStatus.updated, handle: handle));
-    }
-
-    // Start the position timer
-    _positionTimer?.cancel();
-    _positionTimer = Timer.periodic(const Duration(milliseconds: 50), (_) {
-      log('seek to ${currentPosition.toFormattedString()}');
-      soloud.seek(state.handle!, currentPosition);
+    } else {
       soloud.setPause(state.handle!, false);
-    });
+    }
   }
 
   Future<void> stopSong() async {
@@ -243,26 +238,22 @@ class SongCubit extends Cubit<SongState> {
   }
 
   void playLoop(Loop loop) {
-    selectLoop(loop);
-    // play the loop if start is not null
-    // Start the position timer
+    if (state.handle == null || loop.start == null) return;
+
+    emit(state.copyWith(status: SongStatus.updated, activeLoop: loop));
+
+    soloud.setPause(state.handle!, true);
+    soloud.seek(state.handle!, loop.start!);
+    soloud.setPause(state.handle!, false);
+
+    // Only use timer for loop boundary checking
     _positionTimer?.cancel();
-    _positionTimer = Timer.periodic(const Duration(milliseconds: 50), (_) {
-      // if loop is active, check if the current position is greater than the end position
-      if (state.activeLoop == null ||
-          state.activeLoop!.start == null ||
-          state.activeLoop!.end == null) return;
+    _positionTimer = Timer.periodic(const Duration(milliseconds: 100), (_) {
+      if (state.activeLoop?.end == null) return;
 
       final position = soloud.getPosition(state.handle!);
-
       if (position >= state.activeLoop!.end!) {
-        soloud.setPause(state.handle!, true);
         soloud.seek(state.handle!, state.activeLoop!.start!);
-        soloud.setPause(state.handle!, false);
-      } else {
-        soloud.setPause(state.handle!, true);
-        soloud.seek(state.handle!, position);
-        soloud.setPause(state.handle!, false);
       }
     });
   }
