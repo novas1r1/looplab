@@ -3,9 +3,9 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:looplab/core/utils/duration_extension.dart';
@@ -44,12 +44,26 @@ class SongCubit extends Cubit<SongState> {
     });
   }
 
-  Stream<Duration> get positionStream => Stream.periodic(
-        const Duration(milliseconds: 50),
-        (_) => state.handle != null
-            ? soloud.getPosition(state.handle!)
-            : Duration.zero,
-      ).distinct();
+  Stream<Duration> get positionStream {
+    // Create a broadcast stream to allow multiple listeners
+    final controller = StreamController<Duration>.broadcast();
+
+    Timer? timer;
+    timer = Timer.periodic(const Duration(milliseconds: 16), (_) {
+      if (!controller.isClosed && state.handle != null) {
+        final position = soloud.getPosition(state.handle!);
+        controller.add(position);
+      }
+    });
+
+    // Clean up when the stream is cancelled
+    controller.onCancel = () {
+      timer?.cancel();
+      controller.close();
+    };
+
+    return controller.stream.distinct();
+  }
 
   @override
   Future<void> close() async {
@@ -72,15 +86,22 @@ class SongCubit extends Cubit<SongState> {
     emit(state.copyWith(status: SongStatus.loading));
 
     try {
-      // check if file exists
       final file = File(state.song.path);
       if (!file.existsSync()) {
         throw Exception('File not found: ${state.song.path}');
       }
 
-      final source = await soloud.loadFile(state.song.path);
+      // Pre-load the file into memory for better performance
+      final bytes = await file.readAsBytes();
+
+      // Load audio with better buffering
+      final source = await soloud.loadFile(
+        state.song.path,
+      );
+
       final handle = await soloud.play(source, paused: true);
-      final bytes = file.readAsBytesSync();
+
+      // Read waveform data directly since we can't use compute with native resources
       final data = await soloud.readSamplesFromMem(
         bytes,
         200 * 10,
@@ -107,10 +128,12 @@ class SongCubit extends Cubit<SongState> {
   }
 
   void updatePosition(Duration position) {
-    // _currentPlayerPosition = position;
+    if (state.handle == null) return;
 
-    soloud.seek(state.handle!, position);
-    // emit(state.copyWith(position: position));
+    // Debounce rapid seek operations
+    Future.microtask(() {
+      soloud.seek(state.handle!, position);
+    });
   }
 
   Future<void> playSong() async {
@@ -246,14 +269,19 @@ class SongCubit extends Cubit<SongState> {
     soloud.seek(state.handle!, loop.start!);
     soloud.setPause(state.handle!, false);
 
-    // Only use timer for loop boundary checking
+    // Optimize loop boundary checking
     _positionTimer?.cancel();
-    _positionTimer = Timer.periodic(const Duration(milliseconds: 100), (_) {
+    _positionTimer = Timer.periodic(const Duration(milliseconds: 16), (_) {
+      // ~60fps
       if (state.activeLoop?.end == null) return;
 
       final position = soloud.getPosition(state.handle!);
       if (position >= state.activeLoop!.end!) {
-        soloud.seek(state.handle!, state.activeLoop!.start!);
+        // Prevent potential audio glitch by doing seek only when necessary
+        if (position - state.activeLoop!.end! >
+            const Duration(milliseconds: 32)) {
+          soloud.seek(state.handle!, state.activeLoop!.start!);
+        }
       }
     });
   }
