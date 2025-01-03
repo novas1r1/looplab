@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
@@ -8,7 +9,6 @@ import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:repeatlab/loop/cubit/song_cubit.dart';
 import 'package:repeatlab/models/song.dart';
-import 'package:repeatlab/song/widgets/loop_controller.dart';
 import 'package:repeatlab/song/widgets/loop_tile.dart';
 import 'package:repeatlab/song/widgets/loop_timeline.dart';
 import 'package:repeatlab/song/widgets/wave_form_soloud.dart';
@@ -50,7 +50,8 @@ class _SongViewState extends State<_SongView> {
   @override
   void initState() {
     super.initState();
-    _positionSubscription = context.read<SongCubit>().positionStream.listen((position) {
+    _positionSubscription =
+        context.read<SongCubit>().positionStream.listen((position) {
       setState(() {
         _currentPlayerPosition = position;
       });
@@ -75,6 +76,11 @@ class _SongViewState extends State<_SongView> {
             icon: const Icon(Icons.delete),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => context.read<SongCubit>().addLoop(),
+        icon: const Icon(Icons.add),
+        label: const Text('Add Loop'),
       ),
       body: BlocConsumer<SongCubit, SongState>(
         listener: (context, state) {
@@ -112,7 +118,8 @@ class _SongViewState extends State<_SongView> {
                         data: state.data!,
                         duration: state.song.duration,
                         currentPosition: _currentPlayerPosition,
-                        onStartDrag: () => context.read<SongCubit>().pauseSong(),
+                        onStartDrag: () =>
+                            context.read<SongCubit>().pauseSong(),
                         onPositionChanged: (position) =>
                             context.read<SongCubit>().updatePosition(position),
                         loops: state.song.loops,
@@ -122,7 +129,11 @@ class _SongViewState extends State<_SongView> {
                       loops: state.song.loops,
                       songDuration: state.song.duration,
                       currentPosition: _currentPlayerPosition,
-                      onLoopTap: (loop) => context.read<SongCubit>().playLoop(loop),
+                      onLoopTap: (loop) =>
+                          context.read<SongCubit>().playLoop(loop),
+                      onPreviousLoop: () =>
+                          context.read<SongCubit>().previousLoop(),
+                      onNextLoop: () => context.read<SongCubit>().nextLoop(),
                     ),
                     const SizedBox(height: 12),
                     Container(
@@ -137,14 +148,24 @@ class _SongViewState extends State<_SongView> {
                           Text(
                             _currentPlayerPosition.toFormattedString(),
                           ),
+                          // back 10sec
+                          IconButton(
+                            onPressed: () {
+                              // context.read<SongCubit>().back(10);
+                            },
+                            icon: const Icon(Icons.replay_10_rounded),
+                          ),
                           IconButton(
                             iconSize: 36,
                             onPressed: () {
-                              // unselect loop
-                              context.read<SongCubit>().unselectLoop();
-
                               if (context.read<SongCubit>().isPaused) {
-                                context.read<SongCubit>().playSong();
+                                if (state.isLoopModeEnabled == true) {
+                                  context
+                                      .read<SongCubit>()
+                                      .playLoop(state.activeLoop!);
+                                } else {
+                                  context.read<SongCubit>().playSong();
+                                }
                               } else {
                                 context.read<SongCubit>().pauseSong();
                               }
@@ -155,50 +176,114 @@ class _SongViewState extends State<_SongView> {
                                   : Icons.pause_rounded,
                             ),
                           ),
+                          IconButton(
+                            onPressed: () {
+                              // context.read<SongCubit>().forward(10);
+                            },
+                            icon: const Icon(Icons.forward_10_rounded),
+                          ),
                           Text(widget.song.duration.toFormattedString()),
                         ],
                       ),
                     ),
                     const Divider(height: 32),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Loops',
+                        style: Theme.of(context).textTheme.headlineLarge,
+                      ),
+                    ),
+
+                    const SizedBox(height: 8),
+
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Loops',
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
                         ElevatedButton(
-                          onPressed: () => context.read<SongCubit>().addLoop(),
+                          onPressed: (state.activeLoop != null)
+                              ? () => context.read<SongCubit>().setLoopStart()
+                              : null,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Theme.of(context).colorScheme.primary,
-                            foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            foregroundColor:
+                                Theme.of(context).colorScheme.onPrimary,
                           ),
-                          child: const Text('Add'),
+                          child: const Text('Set Loop Start'),
                         ),
+                        const SizedBox(width: 8),
+                        ElevatedButton(
+                          onPressed: (state.activeLoop != null)
+                              ? () => context.read<SongCubit>().setLoopEnd()
+                              : null,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            foregroundColor:
+                                Theme.of(context).colorScheme.onPrimary,
+                          ),
+                          child: const Text('Set Loop End'),
+                        ),
+                        const Spacer(),
+                        CupertinoSwitch(
+                          // thumbIcon:
+                          activeTrackColor:
+                              Theme.of(context).colorScheme.primary,
+                          value: state.isLoopModeEnabled,
+                          onChanged: (state.activeLoop != null)
+                              ? (value) =>
+                                  context.read<SongCubit>().toggleLoopMode()
+                              : null,
+                        ),
+                        /* IconButton.filled(
+                          style: IconButton.styleFrom(
+                            backgroundColor: state.isLoopModeEnabled == true
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context).colorScheme.secondary,
+                            foregroundColor: state.isLoopModeEnabled == true
+                                ? Theme.of(context).colorScheme.onPrimary
+                                : Theme.of(context).colorScheme.onSecondary,
+                          ),
+                          onPressed: (state.activeLoop != null)
+                              ? () => context.read<SongCubit>().toggleLoopMode()
+                              : null,
+                          icon: const Icon(Icons.loop_rounded),
+                        ), */
                       ],
                     ),
                     const SizedBox(height: 16),
-                    LoopController(activeLoop: state.activeLoop),
-                    const SizedBox(height: 20),
+
+                    // LoopController(activeLoop: state.activeLoop),
+                    // const SizedBox(height: 20),
+
                     Expanded(
-                      child: ListView(
+                      child: ListView.separated(
                         controller: _loopListController,
-                        children: [
-                          for (var index = 0; index < state.song.loops.length; index++)
-                            LoopTile(
-                              index: index,
-                              loop: state.song.loops[index],
-                              isSelected: state.song.loops[index] == state.activeLoop,
-                              isPaused: context.read<SongCubit>().isPaused,
-                              onTap: (loop) => context.read<SongCubit>().playLoop(loop),
-                              onDelete: (loop) => context.read<SongCubit>().deleteLoop(loop),
-                              onPlay: (loop) => context.read<SongCubit>().playLoop(loop),
-                              onPause: (loop) => context.read<SongCubit>().pauseLoop(loop),
-                              onUpdate: (loop) => context.read<SongCubit>().updateLoop(loop),
-                              onSetLoopStart: () => context.read<SongCubit>().setLoopStart(),
-                              onSetLoopEnd: () => context.read<SongCubit>().setLoopEnd(),
-                            ),
-                        ],
+                        separatorBuilder: (context, index) => const SizedBox(
+                          height: 8,
+                        ),
+                        itemBuilder: (context, index) => LoopTile(
+                          index: index,
+                          loop: state.song.loops[index],
+                          isSelected:
+                              state.song.loops[index] == state.activeLoop,
+                          isPaused: context.read<SongCubit>().isPaused,
+                          onTap: (loop) =>
+                              context.read<SongCubit>().selectLoop(loop),
+                          onDelete: (loop) =>
+                              context.read<SongCubit>().deleteLoop(loop),
+                          onPlay: (loop) =>
+                              context.read<SongCubit>().playLoop(loop),
+                          onPause: (loop) =>
+                              context.read<SongCubit>().pauseLoop(loop),
+                          onUpdate: (loop) =>
+                              context.read<SongCubit>().updateLoop(loop),
+                          onSetLoopStart: () =>
+                              context.read<SongCubit>().setLoopStart(),
+                          onSetLoopEnd: () =>
+                              context.read<SongCubit>().setLoopEnd(),
+                        ),
+                        itemCount: state.song.loops.length,
                       ),
                     ),
                   ],
@@ -219,7 +304,8 @@ class _SongViewState extends State<_SongView> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
           side: BorderSide(
-            color: Theme.of(context).colorScheme.outlineVariant.withOpacity(0.8),
+            color:
+                Theme.of(context).colorScheme.outlineVariant.withOpacity(0.8),
             width: 1.5,
           ),
         ),

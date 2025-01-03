@@ -30,8 +30,10 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
   void initState() {
     super.initState();
     _titleController.text = widget.loop.name;
-    _startController.text = widget.loop.start?.toFormattedStringMinutesSecondsMilliseconds() ?? '-';
-    _endController.text = widget.loop.end?.toFormattedStringMinutesSecondsMilliseconds() ?? '-';
+    _startController.text =
+        widget.loop.start?.toFormattedStringMinutesSecondsMilliseconds() ?? '-';
+    _endController.text =
+        widget.loop.end?.toFormattedStringMinutesSecondsMilliseconds() ?? '-';
 
     _updatedLoop = widget.loop;
   }
@@ -174,7 +176,10 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                     widget.onDelete(widget.loop);
                     Navigator.pop(context);
                   },
-                  icon: const Icon(Icons.delete),
+                  icon: Icon(
+                    Icons.delete,
+                    color: Theme.of(context).colorScheme.onError,
+                  ),
                   label: const Text('Delete'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.error,
@@ -229,7 +234,8 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
       _startError = null;
       _endError = null;
 
-      final start = startStr != null ? _parseDuration(startStr) : widget.loop.start;
+      final start =
+          startStr != null ? _parseDuration(startStr) : widget.loop.start;
       final end = endStr != null ? _parseDuration(endStr) : widget.loop.end;
 
       if (startStr != null && start == null) {
@@ -251,7 +257,8 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
       }
 
       // Update the loop if validation passes
-      if ((startStr != null && start != null) || (endStr != null && end != null)) {
+      if ((startStr != null && start != null) ||
+          (endStr != null && end != null)) {
         _updatedLoop = _updatedLoop.copyWith(
           start: start ?? widget.loop.start,
           end: end ?? widget.loop.end,

@@ -271,7 +271,13 @@ class SongCubit extends Cubit<SongState> {
   void playLoop(Loop loop) {
     if (state.handle == null || loop.start == null) return;
 
-    emit(state.copyWith(status: SongStatus.updated, activeLoop: loop));
+    emit(
+      state.copyWith(
+        status: SongStatus.updated,
+        activeLoop: loop,
+        isLoopModeEnabled: true,
+      ),
+    );
 
     soloud.setPause(state.handle!, true);
     soloud.seek(state.handle!, loop.start!);
@@ -286,7 +292,8 @@ class SongCubit extends Cubit<SongState> {
       final position = soloud.getPosition(state.handle!);
       if (position >= state.activeLoop!.end!) {
         // Prevent potential audio glitch by doing seek only when necessary
-        if (position - state.activeLoop!.end! > const Duration(milliseconds: 32)) {
+        if (position - state.activeLoop!.end! >
+            const Duration(milliseconds: 32)) {
           soloud.seek(state.handle!, state.activeLoop!.start!);
         }
       }
@@ -306,7 +313,8 @@ class SongCubit extends Cubit<SongState> {
 
     // if not null get the next loop
     if (currentLoop != null) {
-      final currentLoopIndex = state.song.loops.indexWhere((loop) => loop.id == currentLoop.id);
+      final currentLoopIndex =
+          state.song.loops.indexWhere((loop) => loop.id == currentLoop.id);
       final nextLoopIndex = currentLoopIndex + 1;
       // check if last loop
       if (nextLoopIndex >= state.song.loops.length) {
@@ -330,7 +338,8 @@ class SongCubit extends Cubit<SongState> {
 
     // if not null get the previous loop
     if (currentLoop != null) {
-      final currentLoopIndex = state.song.loops.indexWhere((loop) => loop.id == currentLoop.id);
+      final currentLoopIndex =
+          state.song.loops.indexWhere((loop) => loop.id == currentLoop.id);
       final previousLoopIndex = currentLoopIndex - 1;
       // check if first loop
       if (previousLoopIndex < 0) {
@@ -355,11 +364,13 @@ class SongCubit extends Cubit<SongState> {
         // for each new loop assign a color based on LoopColor.values
         // for the first loop, first color, for the second loop, second color, etc.
         // if the number of loops is greater than the number of colors, start again from the first color
-        color: LoopColor.values[state.song.loops.length % LoopColor.values.length],
+        color:
+            LoopColor.values[state.song.loops.length % LoopColor.values.length],
         start: soloud.getPosition(state.handle!),
       );
 
-      final updatedSong = await songRepository.addLoopToSong(song: state.song, loop: loop);
+      final updatedSong =
+          await songRepository.addLoopToSong(song: state.song, loop: loop);
 
       emit(
         state.copyWith(
@@ -449,5 +460,9 @@ class SongCubit extends Cubit<SongState> {
         ),
       );
     }
+  }
+
+  Future<void> toggleLoopMode() async {
+    emit(state.copyWith(isLoopModeEnabled: !state.isLoopModeEnabled));
   }
 }

@@ -41,11 +41,11 @@ class _LoopTileState extends State<LoopTile> {
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme.primaryContainer;
 
-    return Ink(
+    return Container(
       decoration: BoxDecoration(
         color: widget.isSelected ? color.withOpacity(0.2) : null,
         border: Border.all(
-          color: widget.isSelected ? color : Colors.transparent,
+          color: widget.isSelected ? color : Colors.grey,
           width: 2,
         ),
         borderRadius: BorderRadius.circular(8),
@@ -53,50 +53,73 @@ class _LoopTileState extends State<LoopTile> {
       child: InkWell(
         borderRadius: BorderRadius.circular(8),
         onTap: () => widget.onTap(widget.loop),
-        child: Stack(
+        child: Column(
           children: [
-            Column(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            color: widget.loop.color.color,
-                            width: 16,
-                            height: 16,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            widget.loop.name,
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                        ],
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () => _onEditLoop(),
-                      icon: const Icon(Icons.more_vert, size: 20),
-                    ),
-                  ],
-                ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(widget.loop.start?.toFormattedString() ?? '-'),
-                      Text(widget.loop.end?.toFormattedString() ?? '-'),
+                      Container(
+                        color: widget.loop.color.color,
+                        width: 16,
+                        height: 16,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        widget.loop.name,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
                     ],
                   ),
                 ),
+                IconButton(
+                  onPressed: () => _onEditLoop(),
+                  icon: const Icon(Icons.more_vert, size: 20),
+                ),
               ],
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Start',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: widget.loop.color.color,
+                        ),
+                  ),
+                  Text(
+                    'End',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: widget.loop.color.color,
+                        ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 4),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    widget.loop.start?.toFormattedString() ?? '-',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  Text(
+                    widget.loop.end?.toFormattedString() ?? '-',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ],
+              ),
             ),
           ],
         ),
