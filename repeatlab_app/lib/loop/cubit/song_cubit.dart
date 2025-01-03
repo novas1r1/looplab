@@ -254,11 +254,23 @@ class SongCubit extends Cubit<SongState> {
   }
 
   void unselectLoop() {
-    emit(state.copyWith(status: SongStatus.updated, activeLoop: null));
+    emit(
+      state.copyWith(
+        status: SongStatus.updated,
+        activeLoop: null,
+        isLoopModeEnabled: false,
+      ),
+    );
   }
 
   void selectLoop(Loop loop) {
-    emit(state.copyWith(status: SongStatus.updated, activeLoop: loop));
+    emit(
+      state.copyWith(
+        status: SongStatus.updated,
+        activeLoop: loop,
+        isLoopModeEnabled: true,
+      ),
+    );
 
     if (state.handle == null || loop.start == null) return;
 
@@ -320,15 +332,15 @@ class SongCubit extends Cubit<SongState> {
       if (nextLoopIndex >= state.song.loops.length) {
         // play the first loop
         final firstLoop = state.song.loops.first;
-        playLoop(firstLoop);
+        selectLoop(firstLoop);
       } else {
         final nextLoop = state.song.loops[nextLoopIndex];
-        playLoop(nextLoop);
+        selectLoop(nextLoop);
       }
     } else {
       // play the first loop
       final firstLoop = state.song.loops.first;
-      playLoop(firstLoop);
+      selectLoop(firstLoop);
     }
   }
 
@@ -345,10 +357,10 @@ class SongCubit extends Cubit<SongState> {
       if (previousLoopIndex < 0) {
         // play the last loop
         final lastLoop = state.song.loops.last;
-        playLoop(lastLoop);
+        selectLoop(lastLoop);
       } else {
         final previousLoop = state.song.loops[previousLoopIndex];
-        playLoop(previousLoop);
+        selectLoop(previousLoop);
       }
     }
   }
@@ -377,6 +389,7 @@ class SongCubit extends Cubit<SongState> {
           status: SongStatus.loopAdded,
           song: updatedSong,
           activeLoop: loop,
+          isLoopModeEnabled: true,
         ),
       );
     } catch (e) {
@@ -403,6 +416,7 @@ class SongCubit extends Cubit<SongState> {
           status: SongStatus.updated,
           song: updatedSong,
           activeLoop: updatedLoop,
+          isLoopModeEnabled: true,
         ),
       );
     } catch (e) {
@@ -463,6 +477,38 @@ class SongCubit extends Cubit<SongState> {
   }
 
   Future<void> toggleLoopMode() async {
-    emit(state.copyWith(isLoopModeEnabled: !state.isLoopModeEnabled));
+    emit(
+      state.copyWith(
+        isLoopModeEnabled: !state.isLoopModeEnabled,
+        activeLoop: null,
+      ),
+    );
+
+    if (!state.isLoopModeEnabled) {
+      // stop the song
+      pauseSong();
+    }
+  }
+
+  void back(int seconds) {
+    if (state.handle == null) return;
+
+    final position = soloud.getPosition(state.handle!);
+
+    // only seek if the position is greater than the duration
+    if (position > Duration(seconds: seconds)) {
+      soloud.seek(state.handle!, position - Duration(seconds: seconds));
+    }
+  }
+
+  void forward(int seconds) {
+    if (state.handle == null) return;
+
+    final position = soloud.getPosition(state.handle!);
+
+    // only seek if the position is less than the duration
+    if (position < state.song.duration - Duration(seconds: seconds)) {
+      soloud.seek(state.handle!, position + Duration(seconds: seconds));
+    }
   }
 }

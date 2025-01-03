@@ -134,6 +134,7 @@ class _SongViewState extends State<_SongView> {
                       onPreviousLoop: () =>
                           context.read<SongCubit>().previousLoop(),
                       onNextLoop: () => context.read<SongCubit>().nextLoop(),
+                      hasMoreThan1Loop: state.song.loops.length > 1,
                     ),
                     const SizedBox(height: 12),
                     Container(
@@ -150,9 +151,7 @@ class _SongViewState extends State<_SongView> {
                           ),
                           // back 10sec
                           IconButton(
-                            onPressed: () {
-                              // context.read<SongCubit>().back(10);
-                            },
+                            onPressed: () => context.read<SongCubit>().back(10),
                             icon: const Icon(Icons.replay_10_rounded),
                           ),
                           IconButton(
@@ -177,9 +176,8 @@ class _SongViewState extends State<_SongView> {
                             ),
                           ),
                           IconButton(
-                            onPressed: () {
-                              // context.read<SongCubit>().forward(10);
-                            },
+                            onPressed: () =>
+                                context.read<SongCubit>().forward(10),
                             icon: const Icon(Icons.forward_10_rounded),
                           ),
                           Text(widget.song.duration.toFormattedString()),
@@ -194,9 +192,7 @@ class _SongViewState extends State<_SongView> {
                         style: Theme.of(context).textTheme.headlineLarge,
                       ),
                     ),
-
                     const SizedBox(height: 8),
-
                     Row(
                       children: [
                         ElevatedButton(
@@ -226,7 +222,13 @@ class _SongViewState extends State<_SongView> {
                         ),
                         const Spacer(),
                         CupertinoSwitch(
-                          // thumbIcon:
+                          thumbIcon: WidgetStateProperty.resolveWith<Icon?>(
+                              (Set<WidgetState> states) {
+                            if (states.contains(WidgetState.disabled)) {
+                              return const Icon(Icons.close);
+                            }
+                            return const Icon(Icons.loop_rounded);
+                          }),
                           activeTrackColor:
                               Theme.of(context).colorScheme.primary,
                           value: state.isLoopModeEnabled,
@@ -235,27 +237,9 @@ class _SongViewState extends State<_SongView> {
                                   context.read<SongCubit>().toggleLoopMode()
                               : null,
                         ),
-                        /* IconButton.filled(
-                          style: IconButton.styleFrom(
-                            backgroundColor: state.isLoopModeEnabled == true
-                                ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context).colorScheme.secondary,
-                            foregroundColor: state.isLoopModeEnabled == true
-                                ? Theme.of(context).colorScheme.onPrimary
-                                : Theme.of(context).colorScheme.onSecondary,
-                          ),
-                          onPressed: (state.activeLoop != null)
-                              ? () => context.read<SongCubit>().toggleLoopMode()
-                              : null,
-                          icon: const Icon(Icons.loop_rounded),
-                        ), */
                       ],
                     ),
                     const SizedBox(height: 16),
-
-                    // LoopController(activeLoop: state.activeLoop),
-                    // const SizedBox(height: 20),
-
                     Expanded(
                       child: ListView.separated(
                         controller: _loopListController,

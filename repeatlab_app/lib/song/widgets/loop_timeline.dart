@@ -10,6 +10,8 @@ class LoopTimeline extends StatelessWidget {
   final void Function() onPreviousLoop;
   final void Function() onNextLoop;
 
+  final bool hasMoreThan1Loop;
+
   const LoopTimeline({
     super.key,
     required this.loops,
@@ -18,6 +20,7 @@ class LoopTimeline extends StatelessWidget {
     this.onLoopTap,
     required this.onPreviousLoop,
     required this.onNextLoop,
+    required this.hasMoreThan1Loop,
   });
 
   @override
@@ -26,7 +29,7 @@ class LoopTimeline extends StatelessWidget {
       children: [
         // Previous loop button
         IconButton(
-          onPressed: onPreviousLoop,
+          onPressed: hasMoreThan1Loop ? onPreviousLoop : null,
           icon: const Icon(Icons.skip_previous),
         ),
         // Timeline container
@@ -105,7 +108,7 @@ class LoopTimeline extends StatelessWidget {
         ),
         // Next loop button
         IconButton(
-          onPressed: onNextLoop,
+          onPressed: hasMoreThan1Loop ? onNextLoop : null,
           icon: const Icon(Icons.skip_next),
         ),
       ],
