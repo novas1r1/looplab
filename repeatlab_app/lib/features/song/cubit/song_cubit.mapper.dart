@@ -112,6 +112,10 @@ class SongStateMapper extends ClassMapperBase<SongState> {
   static bool _$isLoopModeEnabled(SongState v) => v.isLoopModeEnabled;
   static const Field<SongState, bool> _f$isLoopModeEnabled =
       Field('isLoopModeEnabled', _$isLoopModeEnabled, opt: true, def: false);
+  static bool _$isTutorialCompleted(SongState v) => v.isTutorialCompleted;
+  static const Field<SongState, bool> _f$isTutorialCompleted = Field(
+      'isTutorialCompleted', _$isTutorialCompleted,
+      opt: true, def: false);
 
   @override
   final MappableFields<SongState> fields = const {
@@ -123,6 +127,7 @@ class SongStateMapper extends ClassMapperBase<SongState> {
     #data: _f$data,
     #activeLoop: _f$activeLoop,
     #isLoopModeEnabled: _f$isLoopModeEnabled,
+    #isTutorialCompleted: _f$isTutorialCompleted,
   };
 
   static SongState _instantiate(DecodingData data) {
@@ -134,7 +139,8 @@ class SongStateMapper extends ClassMapperBase<SongState> {
         error: data.dec(_f$error),
         data: data.dec(_f$data),
         activeLoop: data.dec(_f$activeLoop),
-        isLoopModeEnabled: data.dec(_f$isLoopModeEnabled));
+        isLoopModeEnabled: data.dec(_f$isLoopModeEnabled),
+        isTutorialCompleted: data.dec(_f$isTutorialCompleted));
   }
 
   @override
@@ -197,7 +203,8 @@ abstract class SongStateCopyWith<$R, $In extends SongState, $Out>
       String? error,
       Float32List? data,
       Loop? activeLoop,
-      bool? isLoopModeEnabled});
+      bool? isLoopModeEnabled,
+      bool? isTutorialCompleted});
   SongStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -224,7 +231,8 @@ class _SongStateCopyWithImpl<$R, $Out>
           Object? error = $none,
           Object? data = $none,
           Object? activeLoop = $none,
-          bool? isLoopModeEnabled}) =>
+          bool? isLoopModeEnabled,
+          bool? isTutorialCompleted}) =>
       $apply(FieldCopyWithData({
         if (status != null) #status: status,
         if (song != null) #song: song,
@@ -233,7 +241,9 @@ class _SongStateCopyWithImpl<$R, $Out>
         if (error != $none) #error: error,
         if (data != $none) #data: data,
         if (activeLoop != $none) #activeLoop: activeLoop,
-        if (isLoopModeEnabled != null) #isLoopModeEnabled: isLoopModeEnabled
+        if (isLoopModeEnabled != null) #isLoopModeEnabled: isLoopModeEnabled,
+        if (isTutorialCompleted != null)
+          #isTutorialCompleted: isTutorialCompleted
       }));
   @override
   SongState $make(CopyWithData data) => SongState(
@@ -245,7 +255,9 @@ class _SongStateCopyWithImpl<$R, $Out>
       data: data.get(#data, or: $value.data),
       activeLoop: data.get(#activeLoop, or: $value.activeLoop),
       isLoopModeEnabled:
-          data.get(#isLoopModeEnabled, or: $value.isLoopModeEnabled));
+          data.get(#isLoopModeEnabled, or: $value.isLoopModeEnabled),
+      isTutorialCompleted:
+          data.get(#isTutorialCompleted, or: $value.isTutorialCompleted));
 
   @override
   SongStateCopyWith<$R2, SongState, $Out2> $chain<$R2, $Out2>(

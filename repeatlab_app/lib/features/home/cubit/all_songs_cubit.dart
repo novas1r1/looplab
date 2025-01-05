@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
-import 'package:repeatlab/models/song.dart';
 
 part 'all_songs_cubit.mapper.dart';
 part 'all_songs_state.dart';

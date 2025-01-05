@@ -9,9 +9,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
+import 'package:repeatlab/data/models/loop.dart';
+import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
-import 'package:repeatlab/models/loop.dart';
-import 'package:repeatlab/models/song.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // part 'song_cubit.mapper.dart';
 part 'song_cubit.mapper.dart';
@@ -20,6 +21,7 @@ part 'song_state.dart';
 class SongCubit extends Cubit<SongState> {
   final SongRepository songRepository;
   final SoLoud soloud;
+  final SharedPreferences sharedPreferences;
   final Song song;
 
   StreamSubscription<List<Song>>? _songSubscription;
@@ -36,6 +38,7 @@ class SongCubit extends Cubit<SongState> {
     required this.songRepository,
     required this.soloud,
     required this.song,
+    required this.sharedPreferences,
   }) : super(SongState(song: song)) {
     _songSubscription = songRepository.songs.listen((songs) {
       final updatedSong = songs.firstWhere(
@@ -115,6 +118,10 @@ class SongCubit extends Cubit<SongState> {
       final source = await soloud.loadFile(state.song.path);
       final handle = await soloud.play(source, paused: true);
 
+      // check if tutorial is completed
+      final isTutorialCompleted =
+          sharedPreferences.getBool('tutorialCompleted') ?? false;
+
       emit(
         state.copyWith(
           audioSource: source,
@@ -122,6 +129,7 @@ class SongCubit extends Cubit<SongState> {
           status: SongStatus.loaded,
           handle: handle,
           song: state.song,
+          isTutorialCompleted: isTutorialCompleted,
         ),
       );
     } catch (e, stackTrace) {
@@ -133,6 +141,12 @@ class SongCubit extends Cubit<SongState> {
         ),
       );
     }
+  }
+
+  Future<void> updateTutorialCompleted() async {
+    await sharedPreferences.setBool('tutorialCompleted', true);
+
+    emit(state.copyWith(isTutorialCompleted: true));
   }
 
   void updatePosition(Duration position) {

@@ -6,20 +6,23 @@ import 'package:repeatlab/app/view/repository_wrapper.dart';
 import 'package:repeatlab/core/ui/theme.dart';
 import 'package:repeatlab/core/ui/util.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
-import 'package:repeatlab/home/cubit/all_songs_cubit.dart';
-import 'package:repeatlab/home/home_page.dart';
+import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
+import 'package:repeatlab/features/home/home_page.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 import 'package:sembast/sembast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class App extends StatelessWidget {
   final Database db;
   final SoLoud soloud;
   final PackageInfo packageInfo;
+  final SharedPreferences sharedPreferences;
 
   const App({
     required this.db,
     required this.soloud,
     required this.packageInfo,
+    required this.sharedPreferences,
     super.key,
   });
 
@@ -28,13 +31,14 @@ class App extends StatelessWidget {
     // final brightness = View.of(context).platformDispatcher.platformBrightness;
 
     // Use with Google Fonts package to use downloadable fonts
-    final TextTheme textTheme = createTextTheme(context, "Nunito Sans", "Oswald");
-    final MaterialTheme theme = MaterialTheme(textTheme);
+    final textTheme = createTextTheme(context, "Nunito Sans", "Oswald");
+    final theme = MaterialTheme(textTheme);
 
     return RepositoryWrapper(
       db: db,
       soLoud: soloud,
       packageInfo: packageInfo,
+      sharedPreferences: sharedPreferences,
       child: BlocProvider(
         create: (context) => AllSongsCubit(
           songRepository: context.read<SongRepository>(),

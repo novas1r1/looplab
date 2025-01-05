@@ -1,5 +1,5 @@
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:repeatlab/models/loop.dart';
+import 'package:repeatlab/data/models/loop.dart';
 
 part 'song.mapper.dart';
 

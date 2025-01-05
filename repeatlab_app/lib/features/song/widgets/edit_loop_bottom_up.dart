@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
-import 'package:repeatlab/models/loop.dart';
+import 'package:repeatlab/data/models/loop.dart';
 
 class EditLoopBottomUp extends StatefulWidget {
   final Loop loop;

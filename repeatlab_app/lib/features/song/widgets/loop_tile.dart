@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
-import 'package:repeatlab/models/loop.dart';
-import 'package:repeatlab/song/widgets/edit_loop_bottom_up.dart';
+import 'package:repeatlab/data/models/loop.dart';
+import 'package:repeatlab/features/song/widgets/edit_loop_bottom_up.dart';
 
 class LoopTile extends StatefulWidget {
   final int index;
@@ -14,8 +14,6 @@ class LoopTile extends StatefulWidget {
   final Function(Loop) onPlay;
   final Function(Loop) onPause;
   final Function(Loop) onUpdate;
-  final Function() onSetLoopStart;
-  final Function() onSetLoopEnd;
 
   const LoopTile({
     super.key,
@@ -28,8 +26,6 @@ class LoopTile extends StatefulWidget {
     required this.onPlay,
     required this.onPause,
     required this.onUpdate,
-    required this.onSetLoopStart,
-    required this.onSetLoopEnd,
   });
 
   @override
@@ -85,26 +81,25 @@ class _LoopTileState extends State<LoopTile> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Start',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
                           color: widget.loop.color.color,
                         ),
                   ),
                   Text(
                     'End',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
                           color: widget.loop.color.color,
                         ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 4),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
               child: Row(

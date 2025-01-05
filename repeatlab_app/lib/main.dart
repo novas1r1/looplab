@@ -6,8 +6,9 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:repeatlab/app/app.dart';
 import 'package:repeatlab/bootstrap.dart';
-import 'package:repeatlab/models/song.dart';
+import 'package:repeatlab/data/models/song.dart';
 import 'package:sembast/sembast_io.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +29,14 @@ Future<void> main() async {
   );
 
   final packageInfo = await PackageInfo.fromPlatform();
+  final sharedPreferences = await SharedPreferences.getInstance();
 
-  bootstrap(() => App(db: db, soloud: soloud, packageInfo: packageInfo));
+  bootstrap(
+    () => App(
+      db: db,
+      soloud: soloud,
+      packageInfo: packageInfo,
+      sharedPreferences: sharedPreferences,
+    ),
+  );
 }

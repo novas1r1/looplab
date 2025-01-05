@@ -10,6 +10,7 @@ class SongState with SongStateMappable {
   final Float32List? data;
   final String? error;
   final bool isLoopModeEnabled;
+  final bool isTutorialCompleted;
 
   const SongState({
     this.status = SongStatus.loading,
@@ -20,6 +21,7 @@ class SongState with SongStateMappable {
     this.data,
     this.activeLoop,
     this.isLoopModeEnabled = false,
+    this.isTutorialCompleted = false,
   });
 }
 

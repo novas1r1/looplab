@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:repeatlab/models/loop.dart';
+import 'package:repeatlab/data/models/loop.dart';
 
 class LoopTimeline extends StatelessWidget {
   final List<Loop> loops;

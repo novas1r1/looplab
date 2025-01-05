@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:repeatlab/models/loop.dart';
+import 'package:repeatlab/data/models/loop.dart';
 
 class WavePainter extends CustomPainter {
   /// Wave data given for the duration of the song.
@@ -143,7 +143,8 @@ class WavePainter extends CustomPainter {
     // final durationInMilliseconds = duration.inMilliseconds;
 
     // Calculate the fraction of the song played
-    final playedFraction = currentPositionInMilliseconds / durationInMilliseconds;
+    final playedFraction =
+        currentPositionInMilliseconds / durationInMilliseconds;
     final playedDataLength = (playedFraction * data.length).toInt();
 
     for (int i = 0; i < data.length; i++) {
