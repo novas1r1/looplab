@@ -5,6 +5,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:repeatlab/app/view/repository_wrapper.dart';
 import 'package:repeatlab/core/ui/theme.dart';
 import 'package:repeatlab/core/ui/util.dart';
+import 'package:repeatlab/data/repositories/file_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
 import 'package:repeatlab/features/home/home_page.dart';
@@ -42,6 +43,7 @@ class App extends StatelessWidget {
       child: BlocProvider(
         create: (context) => AllSongsCubit(
           songRepository: context.read<SongRepository>(),
+          fileRepository: context.read<FileRepository>(),
         )..loadSongs(),
         child: MaterialApp(
           theme: theme.dark(),

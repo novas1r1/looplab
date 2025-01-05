@@ -28,8 +28,8 @@ class SongMapper extends ClassMapperBase<Song> {
   static const Field<Song, String> _f$title = Field('title', _$title);
   static String _$artist(Song v) => v.artist;
   static const Field<Song, String> _f$artist = Field('artist', _$artist);
-  static String _$path(Song v) => v.path;
-  static const Field<Song, String> _f$path = Field('path', _$path);
+  static String _$fileName(Song v) => v.fileName;
+  static const Field<Song, String> _f$fileName = Field('fileName', _$fileName);
   static Duration _$duration(Song v) => v.duration;
   static const Field<Song, Duration> _f$duration =
       Field('duration', _$duration);
@@ -42,7 +42,7 @@ class SongMapper extends ClassMapperBase<Song> {
     #id: _f$id,
     #title: _f$title,
     #artist: _f$artist,
-    #path: _f$path,
+    #fileName: _f$fileName,
     #duration: _f$duration,
     #loops: _f$loops,
   };
@@ -52,7 +52,7 @@ class SongMapper extends ClassMapperBase<Song> {
         id: data.dec(_f$id),
         title: data.dec(_f$title),
         artist: data.dec(_f$artist),
-        path: data.dec(_f$path),
+        fileName: data.dec(_f$fileName),
         duration: data.dec(_f$duration),
         loops: data.dec(_f$loops));
   }
@@ -108,7 +108,7 @@ abstract class SongCopyWith<$R, $In extends Song, $Out>
       {String? id,
       String? title,
       String? artist,
-      String? path,
+      String? fileName,
       Duration? duration,
       List<Loop>? loops});
   SongCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
@@ -129,14 +129,14 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
           {String? id,
           String? title,
           String? artist,
-          String? path,
+          String? fileName,
           Duration? duration,
           List<Loop>? loops}) =>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
         if (title != null) #title: title,
         if (artist != null) #artist: artist,
-        if (path != null) #path: path,
+        if (fileName != null) #fileName: fileName,
         if (duration != null) #duration: duration,
         if (loops != null) #loops: loops
       }));
@@ -145,7 +145,7 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
       id: data.get(#id, or: $value.id),
       title: data.get(#title, or: $value.title),
       artist: data.get(#artist, or: $value.artist),
-      path: data.get(#path, or: $value.path),
+      fileName: data.get(#fileName, or: $value.fileName),
       duration: data.get(#duration, or: $value.duration),
       loops: data.get(#loops, or: $value.loops));
 

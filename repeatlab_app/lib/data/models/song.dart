@@ -1,4 +1,5 @@
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:repeatlab/data/models/loop.dart';
 
 part 'song.mapper.dart';
@@ -10,7 +11,7 @@ class Song with SongMappable {
   final String id;
   final String title;
   final String artist;
-  final String path;
+  final String fileName;
   final Duration duration;
   final List<Loop> loops;
 
@@ -18,10 +19,16 @@ class Song with SongMappable {
     required this.id,
     required this.title,
     required this.artist,
-    required this.path,
+    required this.fileName,
     required this.duration,
     this.loops = const [],
   });
+
+  Future<String> get path async {
+    final appDir = await getApplicationDocumentsDirectory();
+
+    return '${appDir.path}/$fileName';
+  }
 }
 
 class DurationMapper extends SimpleMapper<Duration> {

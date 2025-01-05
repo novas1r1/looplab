@@ -95,13 +95,21 @@ class SongCubit extends Cubit<SongState> {
     emit(state.copyWith(status: SongStatus.loading));
 
     try {
-      final file = File(state.song.path);
+      final path = await state.song.path;
+      final file = File(path);
+
       if (!file.existsSync()) {
-        throw Exception('File not found: ${state.song.path}');
+        emit(
+          state.copyWith(
+            status: SongStatus.loadError,
+            error: 'File not found: $path',
+          ),
+        );
+        return;
       }
 
       // Check cache first
-      Float32List? waveformData = _waveformCache[state.song.path];
+      Float32List? waveformData = _waveformCache[path];
 
       if (waveformData == null) {
         log('NO CACHE AVAILABLE FOR ${state.song.path}');
@@ -112,21 +120,20 @@ class SongCubit extends Cubit<SongState> {
           200 * 10,
         );
         // Store in cache
-        _waveformCache[state.song.path] = waveformData;
+        _waveformCache[path] = waveformData;
       }
 
-      final source = await soloud.loadFile(state.song.path);
+      final source = await soloud.loadFile(path);
       final handle = await soloud.play(source, paused: true);
 
       // check if tutorial is completed
-      final isTutorialCompleted =
-          sharedPreferences.getBool('tutorialCompleted') ?? false;
+      final isTutorialCompleted = sharedPreferences.getBool('tutorialCompleted') ?? false;
 
       emit(
         state.copyWith(
           audioSource: source,
           data: waveformData,
-          status: SongStatus.songLoaded,
+          status: SongStatus.loadSuccess,
           handle: handle,
           song: state.song,
           isTutorialCompleted: isTutorialCompleted,
@@ -318,8 +325,7 @@ class SongCubit extends Cubit<SongState> {
       final position = soloud.getPosition(state.handle!);
       if (position >= state.activeLoop!.end!) {
         // Prevent potential audio glitch by doing seek only when necessary
-        if (position - state.activeLoop!.end! >
-            const Duration(milliseconds: 32)) {
+        if (position - state.activeLoop!.end! > const Duration(milliseconds: 32)) {
           soloud.seek(state.handle!, state.activeLoop!.start!);
         }
       }
@@ -339,8 +345,7 @@ class SongCubit extends Cubit<SongState> {
 
     // if not null get the next loop
     if (currentLoop != null) {
-      final currentLoopIndex =
-          state.song.loops.indexWhere((loop) => loop.id == currentLoop.id);
+      final currentLoopIndex = state.song.loops.indexWhere((loop) => loop.id == currentLoop.id);
       final nextLoopIndex = currentLoopIndex + 1;
       // check if last loop
       if (nextLoopIndex >= state.song.loops.length) {
@@ -364,8 +369,7 @@ class SongCubit extends Cubit<SongState> {
 
     // if not null get the previous loop
     if (currentLoop != null) {
-      final currentLoopIndex =
-          state.song.loops.indexWhere((loop) => loop.id == currentLoop.id);
+      final currentLoopIndex = state.song.loops.indexWhere((loop) => loop.id == currentLoop.id);
       final previousLoopIndex = currentLoopIndex - 1;
       // check if first loop
       if (previousLoopIndex < 0) {
@@ -390,13 +394,11 @@ class SongCubit extends Cubit<SongState> {
         // for each new loop assign a color based on LoopColor.values
         // for the first loop, first color, for the second loop, second color, etc.
         // if the number of loops is greater than the number of colors, start again from the first color
-        color:
-            LoopColor.values[state.song.loops.length % LoopColor.values.length],
+        color: LoopColor.values[state.song.loops.length % LoopColor.values.length],
         start: soloud.getPosition(state.handle!),
       );
 
-      final updatedSong =
-          await songRepository.addLoopToSong(song: state.song, loop: loop);
+      final updatedSong = await songRepository.addLoopToSong(song: state.song, loop: loop);
 
       emit(
         state.copyWith(

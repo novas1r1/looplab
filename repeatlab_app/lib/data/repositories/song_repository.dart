@@ -38,11 +38,14 @@ class SongRepository {
     // Don't forget to dispose the source when you're done with it
     await soLoud.disposeSource(source);
 
+    // store under file name because ios changes the folder name on every update
+    final fileName = file.path.split('/').last;
+
     final song = Song(
       id: const Uuid().v4(),
-      title: file.path.split('/').last,
+      title: fileName,
       artist: '',
-      path: file.path,
+      fileName: fileName,
       duration: duration,
     );
 
@@ -92,8 +95,7 @@ class SongRepository {
     log('UPDATING LOOP: ${loop.toMap()}');
 
     // update the loop in the song
-    final updatedLoops =
-        song.loops.map((e) => e.id == loop.id ? loop : e).toList();
+    final updatedLoops = song.loops.map((e) => e.id == loop.id ? loop : e).toList();
     final updatedSong = song.copyWith(loops: updatedLoops);
 
     await _store.update(
