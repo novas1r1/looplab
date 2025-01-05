@@ -28,7 +28,8 @@ class SongState with SongStateMappable {
 @MappableEnum()
 enum SongStatus {
   loading,
-  loaded,
+  songLoaded,
+  songLoadedError,
   error,
   loopAdded,
   loopDeleted,

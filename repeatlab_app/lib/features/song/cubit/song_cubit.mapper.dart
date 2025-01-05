@@ -28,7 +28,7 @@ class SongStatusMapper extends EnumMapper<SongStatus> {
       case 'loading':
         return SongStatus.loading;
       case 'loaded':
-        return SongStatus.loaded;
+        return SongStatus.songLoaded;
       case 'error':
         return SongStatus.error;
       case 'loopAdded':
@@ -49,7 +49,7 @@ class SongStatusMapper extends EnumMapper<SongStatus> {
     switch (self) {
       case SongStatus.loading:
         return 'loading';
-      case SongStatus.loaded:
+      case SongStatus.songLoaded:
         return 'loaded';
       case SongStatus.error:
         return 'error';

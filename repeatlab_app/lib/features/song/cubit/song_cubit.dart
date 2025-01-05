@@ -126,7 +126,7 @@ class SongCubit extends Cubit<SongState> {
         state.copyWith(
           audioSource: source,
           data: waveformData,
-          status: SongStatus.loaded,
+          status: SongStatus.songLoaded,
           handle: handle,
           song: state.song,
           isTutorialCompleted: isTutorialCompleted,

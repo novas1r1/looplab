@@ -87,7 +87,7 @@ class _SongViewState extends State<_SongView> {
   Widget build(BuildContext context) {
     return BlocConsumer<SongCubit, SongState>(
       listener: (context, state) {
-        if (state.status == SongStatus.loaded) {
+        if (state.status == SongStatus.songLoaded) {
           createTutorial(context);
 
           if (!state.isTutorialCompleted) {
@@ -112,7 +112,11 @@ class _SongViewState extends State<_SongView> {
         switch (state.status) {
           case SongStatus.loading:
             return const Scaffold(body: Center(child: Loading()));
-          case SongStatus.loaded:
+          case SongStatus.songLoadedError:
+            return const Scaffold(
+              body: Text('Error loading song'),
+            );
+          case SongStatus.songLoaded:
           case SongStatus.songDeleted:
           case SongStatus.error:
           case SongStatus.loopAdded:
