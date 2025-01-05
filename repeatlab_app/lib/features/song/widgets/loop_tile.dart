@@ -39,7 +39,7 @@ class _LoopTileState extends State<LoopTile> {
 
     return Container(
       decoration: BoxDecoration(
-        color: widget.isSelected ? color.withOpacity(0.2) : null,
+        color: widget.isSelected ? color.withValues(alpha: 0.2) : null,
         border: Border.all(
           color: widget.isSelected ? color : Colors.grey,
           width: 2,
@@ -107,11 +107,11 @@ class _LoopTileState extends State<LoopTile> {
                 children: [
                   Text(
                     widget.loop.start?.toFormattedString() ?? '-',
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
                   Text(
                     widget.loop.end?.toFormattedString() ?? '-',
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
                 ],
               ),

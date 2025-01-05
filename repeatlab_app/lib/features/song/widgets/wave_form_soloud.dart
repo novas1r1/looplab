@@ -111,7 +111,7 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
                       colorUnplayed: Theme.of(context)
                           .colorScheme
                           .primary
-                          .withOpacity(0.3),
+                          .withValues(alpha: 0.3),
                     ),
                   ),
                 ),

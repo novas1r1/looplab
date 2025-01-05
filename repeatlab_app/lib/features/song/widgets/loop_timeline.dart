@@ -12,6 +12,8 @@ class LoopTimeline extends StatelessWidget {
 
   final bool hasMoreThan1Loop;
 
+  final void Function(Duration position) onSeek;
+
   const LoopTimeline({
     super.key,
     required this.loops,
@@ -21,6 +23,7 @@ class LoopTimeline extends StatelessWidget {
     required this.onPreviousLoop,
     required this.onNextLoop,
     required this.hasMoreThan1Loop,
+    required this.onSeek,
   });
 
   @override
@@ -34,75 +37,94 @@ class LoopTimeline extends StatelessWidget {
         ),
         // Timeline container
         Expanded(
-          child: Container(
-            height: 40,
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceContainerHighest,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Stack(
-              children: [
-                // Current position indicator
-                Positioned(
-                  left: (currentPosition.inMilliseconds /
-                          songDuration.inMilliseconds) *
-                      (MediaQuery.of(context).size.width -
-                          96), // Subtract space for buttons
-                  top: 0,
-                  bottom: 0,
-                  child: Container(
-                    width: 2,
-                    color: Theme.of(context).colorScheme.primary,
+          child: GestureDetector(
+            onHorizontalDragUpdate: (details) {
+              final RenderBox box = context.findRenderObject()! as RenderBox;
+              final localPosition = details.localPosition;
+              final timelineWidth = box.size.width;
+
+              // Calculate position percentage (constrained between 0 and 1)
+              final percentage =
+                  (localPosition.dx / timelineWidth).clamp(0.0, 1.0);
+
+              // Convert to duration
+              final newPosition = Duration(
+                milliseconds:
+                    (percentage * songDuration.inMilliseconds).round(),
+              );
+
+              onSeek(newPosition);
+            },
+            child: Container(
+              height: 40,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Stack(
+                children: [
+                  // Current position indicator
+                  Positioned(
+                    left: (currentPosition.inMilliseconds /
+                            songDuration.inMilliseconds) *
+                        (MediaQuery.of(context).size.width -
+                            96), // Subtract space for buttons
+                    top: 0,
+                    bottom: 0,
+                    child: Container(
+                      width: 2,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
-                ),
-                // Loop containers
-                ...loops.map((loop) {
-                  if (loop.start == null || loop.end == null) {
-                    return const SizedBox.shrink();
-                  }
+                  // Loop containers
+                  ...loops.map((loop) {
+                    if (loop.start == null || loop.end == null) {
+                      return const SizedBox.shrink();
+                    }
 
-                  final startPosition =
-                      loop.start!.inMilliseconds / songDuration.inMilliseconds;
-                  final endPosition =
-                      loop.end!.inMilliseconds / songDuration.inMilliseconds;
-                  final width = MediaQuery.of(context).size.width -
-                      96; // Subtract space for buttons
+                    final startPosition = loop.start!.inMilliseconds /
+                        songDuration.inMilliseconds;
+                    final endPosition =
+                        loop.end!.inMilliseconds / songDuration.inMilliseconds;
+                    final width = MediaQuery.of(context).size.width -
+                        96; // Subtract space for buttons
 
-                  return Positioned(
-                    left: startPosition * width,
-                    width: (endPosition - startPosition) * width,
-                    top: 8,
-                    bottom: 8,
-                    child: GestureDetector(
-                      onTap: () => onLoopTap?.call(loop),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: loop.color.color.withOpacity(0.5),
-                          borderRadius: BorderRadius.circular(4),
-                          border: Border.all(
-                            color: loop.color.color,
-                            width: 2,
+                    return Positioned(
+                      left: startPosition * width,
+                      width: (endPosition - startPosition) * width,
+                      top: 8,
+                      bottom: 8,
+                      child: GestureDetector(
+                        onTap: () => onLoopTap?.call(loop),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: loop.color.color.withValues(alpha: 0.5),
+                            borderRadius: BorderRadius.circular(4),
+                            border: Border.all(
+                              color: loop.color.color,
+                              width: 2,
+                            ),
                           ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            loop.name,
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelSmall
-                                ?.copyWith(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSurfaceVariant,
-                                ),
-                            overflow: TextOverflow.ellipsis,
+                          child: Center(
+                            child: Text(
+                              loop.name,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelSmall
+                                  ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                                  ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                }),
-              ],
+                    );
+                  }),
+                ],
+              ),
             ),
           ),
         ),

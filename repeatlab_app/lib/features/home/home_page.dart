@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                         color: Theme.of(context)
                             .colorScheme
                             .primary
-                            .withOpacity(0.5),
+                            .withValues(alpha: 0.5),
                       ),
                       const SizedBox(height: 16),
                       Text(
@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
                               color: Theme.of(context)
                                   .colorScheme
                                   .onSurface
-                                  .withOpacity(0.6),
+                                  .withValues(alpha: 0.6),
                             ),
                       ),
                     ],
@@ -139,7 +139,8 @@ class HomeTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Theme.of(context).colorScheme.inversePrimary.withOpacity(00.7),
+      color:
+          Theme.of(context).colorScheme.inversePrimary.withValues(alpha: 0.7),
       elevation: 2,
       child: Container(
         decoration: const BoxDecoration(

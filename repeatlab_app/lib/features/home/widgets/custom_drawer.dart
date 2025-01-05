@@ -40,7 +40,7 @@ class CustomDrawer extends StatelessWidget {
                         color: Theme.of(context)
                             .colorScheme
                             .onPrimary
-                            .withOpacity(0.8),
+                            .withValues(alpha: 0.8),
                       ),
                 ),
               ],
@@ -97,7 +97,7 @@ class CustomDrawer extends StatelessWidget {
                     color: Theme.of(context)
                         .colorScheme
                         .onSurface
-                        .withOpacity(0.6),
+                        .withValues(alpha: 0.6),
                   ),
             ),
           ),

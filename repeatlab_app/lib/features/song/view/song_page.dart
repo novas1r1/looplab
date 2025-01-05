@@ -167,6 +167,8 @@ class _SongViewState extends State<_SongView> {
                           context.read<SongCubit>().previousLoop(),
                       onNextLoop: () => context.read<SongCubit>().nextLoop(),
                       hasMoreThan1Loop: state.song.loops.length > 1,
+                      onSeek: (position) =>
+                          context.read<SongCubit>().updatePosition(position),
                     ),
                     const SizedBox(height: 12),
                     _SongController(
@@ -283,8 +285,10 @@ class _SongViewState extends State<_SongView> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
           side: BorderSide(
-            color:
-                Theme.of(context).colorScheme.outlineVariant.withOpacity(0.8),
+            color: Theme.of(context)
+                .colorScheme
+                .outlineVariant
+                .withValues(alpha: 0.8),
             width: 1.5,
           ),
         ),
