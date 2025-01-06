@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/data/models/song.dart';
+import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/file_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 
@@ -12,12 +13,14 @@ part 'all_songs_state.dart';
 class AllSongsCubit extends Cubit<AllSongsState> {
   final SongRepository songRepository;
   final FileRepository fileRepository;
+  final CrashReportingRepository crashReportingRepository;
 
   StreamSubscription<List<Song>>? _songSubscription;
 
   AllSongsCubit({
     required this.songRepository,
     required this.fileRepository,
+    required this.crashReportingRepository,
   }) : super(const AllSongsState()) {
     // Subscribe to song updates when created
     _songSubscription = songRepository.songs.listen((songs) {
@@ -32,6 +35,7 @@ class AllSongsCubit extends Cubit<AllSongsState> {
       final songs = await songRepository.getAllSongs();
       emit(state.copyWith(status: AllSongsStatus.loaded, songs: songs));
     } catch (e) {
+      crashReportingRepository.reportError(e, StackTrace.current);
       emit(
         state.copyWith(
           status: AllSongsStatus.error,
@@ -56,6 +60,7 @@ class AllSongsCubit extends Cubit<AllSongsState> {
       await songRepository.addSongFile(file);
       await loadSongs();
     } catch (e) {
+      crashReportingRepository.reportError(e, StackTrace.current);
       emit(
         state.copyWith(
           status: AllSongsStatus.error,

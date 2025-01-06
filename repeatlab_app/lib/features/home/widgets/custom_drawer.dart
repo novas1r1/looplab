@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:repeatlab/features/home/dataprotection_page.dart';
 import 'package:repeatlab/features/home/legal_notices_page.dart';
+import 'package:wiredash/wiredash.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
@@ -76,7 +77,7 @@ class CustomDrawer extends StatelessWidget {
             leading: const Icon(Icons.feedback),
             title: const Text('Feedback'),
             onTap: () {
-              // TODO: Implement feedback functionality
+              Wiredash.of(context).show(inheritMaterialTheme: true);
               Navigator.pop(context);
             },
           ),
