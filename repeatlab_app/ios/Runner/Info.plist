@@ -59,5 +59,7 @@
 			<string>fetch</string>
 			<string>remote-notification</string>
 		</array>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>This app needs access to files in your file system to pick audio files.</string>
 	</dict>
 </plist>
