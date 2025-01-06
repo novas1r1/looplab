@@ -194,14 +194,14 @@ class SongCubit extends Cubit<SongState> {
     log('PAUSE song at ${currentPosition.toFormattedString()}');
   }
 
-  void seekSong(Duration position) {
-    soloud.seek(state.handle!, position);
-    log('SEEK song to ${position.toFormattedString()}');
-  }
-
   void resumeSong() {
     soloud.setPause(state.handle!, false);
     log('RESUME song at ${currentPosition.toFormattedString()}');
+  }
+
+  void seekSong(Duration position) {
+    soloud.seek(state.handle!, position);
+    log('SEEK song to ${position.toFormattedString()}');
   }
 
   Future<void> setLoopStart() async {
@@ -212,43 +212,6 @@ class SongCubit extends Cubit<SongState> {
     final startPosition = soloud.getPosition(state.handle!);
 
     await updateLoop(state.activeLoop!.copyWith(start: startPosition));
-
-    // check if active loop exists
-    // if yes update start position
-    // if no create a new loop
-
-    /*
-    Loop? loop = _currentLoop;
-
-    // if loop is null, create a new one
-    if (_currentLoop == null) {
-      loop = Loop(
-        id: const Uuid().v4(),
-        name: 'Loop ${_loops.length + 1}',
-        songId: widget.song.id,
-        microsecondStart: _currentPlayerPosition.inMicroseconds,
-        microsecondEnd: _currentPlayerPosition.inMicroseconds,
-      );
-
-      _loops.add(loop);
-      setState(() => _currentLoop = loop);
-    } else {
-      final updatedLoop = _currentLoop!.copyWith(
-        microsecondStart: _currentPlayerPosition.inMicroseconds,
-      );
-
-      setState(() => _currentLoop = updatedLoop);
-
-      final currentLoopIndex = _loops.indexWhere((loop) => loop.id == _currentLoop?.id);
-
-      if (currentLoopIndex == -1) return;
-
-      // update the loop in the list
-      setState(() {
-        _loops[currentLoopIndex] = updatedLoop;
-        _startPosition = Duration(microseconds: updatedLoop.microsecondStart);
-      });
-    */
   }
 
   Future<void> setLoopEnd() async {
@@ -259,27 +222,6 @@ class SongCubit extends Cubit<SongState> {
     final endPosition = soloud.getPosition(state.handle!);
 
     await updateLoop(state.activeLoop!.copyWith(end: endPosition));
-    // check if active loop exists
-    // if yes update end position
-    // if no create a new loop
-
-    /* if (_currentLoop == null) return;
-
-    final updatedLoop = _currentLoop!.copyWith(
-      microsecondEnd: _currentPlayerPosition.inMicroseconds,
-    );
-
-    setState(() => _currentLoop = updatedLoop);
-
-    final currentLoopIndex = _loops.indexWhere((loop) => loop.id == _currentLoop?.id);
-
-    if (currentLoopIndex == -1) return;
-
-    // update the loop in the list
-    setState(() {
-      _loops[currentLoopIndex] = updatedLoop;
-      _endPosition = Duration(microseconds: updatedLoop.microsecondEnd);
-    }); */
   }
 
   void unselectLoop() {
@@ -346,6 +288,26 @@ class SongCubit extends Cubit<SongState> {
 
     soloud.setPause(state.handle!, true);
     _positionTimer?.cancel();
+  }
+
+  void resumeLoop(Loop loop) {
+    if (state.activeLoop == null) return;
+
+    soloud.setPause(state.handle!, false);
+
+    // Restart the loop boundary checking timer
+    _positionTimer?.cancel();
+    _positionTimer = Timer.periodic(const Duration(milliseconds: 16), (_) {
+      if (state.activeLoop?.end == null) return;
+
+      final position = soloud.getPosition(state.handle!);
+      if (position >= state.activeLoop!.end!) {
+        if (position - state.activeLoop!.end! >
+            const Duration(milliseconds: 32)) {
+          soloud.seek(state.handle!, state.activeLoop!.start!);
+        }
+      }
+    });
   }
 
   void nextLoop() {

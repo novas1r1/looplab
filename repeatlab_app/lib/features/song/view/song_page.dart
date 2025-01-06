@@ -589,12 +589,16 @@ class _SongController extends StatelessWidget {
             onPressed: () {
               if (context.read<SongCubit>().isPaused) {
                 if (isLoopModeEnabled == true) {
-                  context.read<SongCubit>().playLoop(activeLoop!);
+                  context.read<SongCubit>().resumeLoop(activeLoop!);
                 } else {
-                  context.read<SongCubit>().playSong();
+                  context.read<SongCubit>().resumeSong();
                 }
               } else {
-                context.read<SongCubit>().pauseSong();
+                if (isLoopModeEnabled == true) {
+                  context.read<SongCubit>().pauseLoop(activeLoop!);
+                } else {
+                  context.read<SongCubit>().pauseSong();
+                }
               }
             },
             icon: Icon(

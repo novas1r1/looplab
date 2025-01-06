@@ -7,11 +7,9 @@ import 'package:repeatlab/core/ui/theme.dart';
 import 'package:repeatlab/core/ui/util.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/file_repository.dart';
-import 'package:repeatlab/data/repositories/paywall_service.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
 import 'package:repeatlab/features/home/home_page.dart';
-import 'package:repeatlab/features/paywall/cubits/paywall_cubit.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 import 'package:sembast/sembast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -53,13 +51,6 @@ class App extends StatelessWidget {
               crashReportingRepository:
                   context.read<CrashReportingRepository>(),
             )..loadSongs(),
-          ),
-          BlocProvider(
-            create: (context) => PaywallCubit(
-              paywallRepository: context.read<PaywallRepository>(),
-              crashReportingRepository:
-                  context.read<CrashReportingRepository>(),
-            )..init(),
           ),
         ],
         child: Wiredash(
