@@ -1,0 +1,3 @@
+class PurchasesRepository {
+  const PurchasesRepository();
+}

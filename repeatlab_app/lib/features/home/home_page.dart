@@ -64,7 +64,10 @@ class _HomePageState extends State<HomePage> {
                       Icon(
                         Icons.music_note,
                         size: 64,
-                        color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.5),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withValues(alpha: 0.5),
                       ),
                       const SizedBox(height: 16),
                       Text(
@@ -75,7 +78,10 @@ class _HomePageState extends State<HomePage> {
                       Text(
                         'Tap + to add your first song',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withValues(alpha: 0.6),
                             ),
                       ),
                     ],
@@ -83,7 +89,8 @@ class _HomePageState extends State<HomePage> {
                 );
               }
               return ListView.separated(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 separatorBuilder: (context, index) => const SizedBox(height: 8),
                 itemCount: state.songs.length,
                 itemBuilder: (context, index) {
@@ -126,7 +133,8 @@ class HomeTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Theme.of(context).colorScheme.inversePrimary.withValues(alpha: 0.7),
+      color:
+          Theme.of(context).colorScheme.inversePrimary.withValues(alpha: 0.7),
       elevation: 2,
       child: Container(
         decoration: const BoxDecoration(
