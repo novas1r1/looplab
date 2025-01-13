@@ -36,8 +36,6 @@ PODS:
     - DKImagePickerController/PhotoGallery
     - Flutter
   - Flutter (1.0.0)
-  - flutter_native_splash (2.4.3):
-    - Flutter
   - flutter_soloud (0.0.1):
     - Flutter
   - package_info_plus (0.4.5):
@@ -48,9 +46,17 @@ PODS:
   - purchases_flutter (8.4.0):
     - Flutter
     - PurchasesHybridCommon (= 13.13.0)
+  - purchases_ui_flutter (8.4.0):
+    - Flutter
+    - PurchasesHybridCommonUI (= 13.13.0)
   - PurchasesHybridCommon (13.13.0):
     - RevenueCat (= 5.14.0)
+  - PurchasesHybridCommonUI (13.13.0):
+    - PurchasesHybridCommon (= 13.13.0)
+    - RevenueCatUI (= 5.14.0)
   - RevenueCat (5.14.0)
+  - RevenueCatUI (5.14.0):
+    - RevenueCat (= 5.14.0)
   - SDWebImage (5.20.0):
     - SDWebImage/Core (= 5.20.0)
   - SDWebImage/Core (5.20.0)
@@ -68,11 +74,11 @@ DEPENDENCIES:
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Flutter (from `Flutter`)
-  - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - flutter_soloud (from `.symlinks/plugins/flutter_soloud/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - purchases_flutter (from `.symlinks/plugins/purchases_flutter/ios`)
+  - purchases_ui_flutter (from `.symlinks/plugins/purchases_ui_flutter/ios`)
   - sentry_flutter (from `.symlinks/plugins/sentry_flutter/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
 
@@ -81,7 +87,9 @@ SPEC REPOS:
     - DKImagePickerController
     - DKPhotoGallery
     - PurchasesHybridCommon
+    - PurchasesHybridCommonUI
     - RevenueCat
+    - RevenueCatUI
     - SDWebImage
     - Sentry
     - SwiftyGif
@@ -93,8 +101,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/file_picker/ios"
   Flutter:
     :path: Flutter
-  flutter_native_splash:
-    :path: ".symlinks/plugins/flutter_native_splash/ios"
   flutter_soloud:
     :path: ".symlinks/plugins/flutter_soloud/ios"
   package_info_plus:
@@ -103,6 +109,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   purchases_flutter:
     :path: ".symlinks/plugins/purchases_flutter/ios"
+  purchases_ui_flutter:
+    :path: ".symlinks/plugins/purchases_ui_flutter/ios"
   sentry_flutter:
     :path: ".symlinks/plugins/sentry_flutter/ios"
   shared_preferences_foundation:
@@ -114,13 +122,15 @@ SPEC CHECKSUMS:
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
   file_picker: 09aa5ec1ab24135ccd7a1621c46c84134bfd6655
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_native_splash: f71420956eb811e6d310720fee915f1d42852e7a
   flutter_soloud: 12a37f5fb426c94671d762cbb059bbeb1b46ad97
   package_info_plus: c0502532a26c7662a62a356cebe2692ec5fe4ec4
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   purchases_flutter: 14969127a5cc8a1abe7addcf00cd0ee874877c38
+  purchases_ui_flutter: 7c7683c4606bf1e84e031a0aeac1abed26900250
   PurchasesHybridCommon: a712dcce0d81fa39dada521292408816146ca58c
+  PurchasesHybridCommonUI: edcf863269959b17a16b3a4e88b71c1b7e6451e3
   RevenueCat: 34f4147c8d26d2f3c691be4e3c9f033698e557f2
+  RevenueCatUI: d07cd11f991f9fe72fbc64aa14257438ff1b3189
   SDWebImage: 73c6079366fea25fa4bb9640d5fb58f0893facd8
   Sentry: 38ed8bf38eab5812787274bf591e528074c19e02
   sentry_flutter: 7d1f1df30f3768c411603ed449519bbb90a7d87b
