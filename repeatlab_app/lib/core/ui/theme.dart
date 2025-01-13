@@ -5,6 +5,14 @@ class MaterialTheme {
 
   const MaterialTheme(this.textTheme);
 
+  ThemeData light() {
+    return theme(lightScheme());
+  }
+
+  ThemeData dark() {
+    return theme(darkScheme());
+  }
+
   static ColorScheme lightScheme() {
     return const ColorScheme(
       brightness: Brightness.light,
@@ -56,11 +64,21 @@ class MaterialTheme {
     );
   }
 
-  ThemeData light() {
-    return theme(lightScheme());
-  }
+  ThemeData theme(ColorScheme colorScheme) => ThemeData(
+        useMaterial3: true,
+        brightness: colorScheme.brightness,
+        colorScheme: colorScheme,
+        textTheme: textTheme.apply(
+          bodyColor: colorScheme.onSurface,
+          displayColor: colorScheme.onSurface,
+        ),
+        scaffoldBackgroundColor: colorScheme.surface,
+        canvasColor: colorScheme.surface,
+      );
 
-  static ColorScheme lightMediumContrastScheme() {
+  List<ExtendedColor> get extendedColors => [];
+
+  /*static ColorScheme lightMediumContrastScheme() {
     return const ColorScheme(
       brightness: Brightness.light,
       primary: Color(0xff004b4f),
@@ -168,7 +186,7 @@ class MaterialTheme {
 
   ThemeData lightHighContrast() {
     return theme(lightHighContrastScheme());
-  }
+  }*/
 
   static ColorScheme darkScheme() {
     return const ColorScheme(
@@ -221,11 +239,7 @@ class MaterialTheme {
     );
   }
 
-  ThemeData dark() {
-    return theme(darkScheme());
-  }
-
-  static ColorScheme darkMediumContrastScheme() {
+  /*static ColorScheme darkMediumContrastScheme() {
     return const ColorScheme(
       brightness: Brightness.dark,
       primary: Color(0xff5adde5),
@@ -333,21 +347,7 @@ class MaterialTheme {
 
   ThemeData darkHighContrast() {
     return theme(darkHighContrastScheme());
-  }
-
-  ThemeData theme(ColorScheme colorScheme) => ThemeData(
-        useMaterial3: true,
-        brightness: colorScheme.brightness,
-        colorScheme: colorScheme,
-        textTheme: textTheme.apply(
-          bodyColor: colorScheme.onSurface,
-          displayColor: colorScheme.onSurface,
-        ),
-        scaffoldBackgroundColor: colorScheme.surface,
-        canvasColor: colorScheme.surface,
-      );
-
-  List<ExtendedColor> get extendedColors => [];
+  }*/
 }
 
 class ExtendedColor {
