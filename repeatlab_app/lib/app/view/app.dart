@@ -48,8 +48,7 @@ class App extends StatelessWidget {
             create: (context) => AllSongsCubit(
               songRepository: context.read<SongRepository>(),
               fileRepository: context.read<FileRepository>(),
-              crashReportingRepository:
-                  context.read<CrashReportingRepository>(),
+              crashReportingRepository: context.read<CrashReportingRepository>(),
             )..loadSongs(),
           ),
         ],
@@ -57,6 +56,7 @@ class App extends StatelessWidget {
           projectId: 'repeatlab-vvi4662',
           secret: '31TK1lGlcgAPuF4bp1fc3SlhLgtfJVop',
           child: MaterialApp(
+            themeMode: ThemeMode.dark,
             theme: theme.dark(),
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
