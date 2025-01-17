@@ -65,6 +65,7 @@ class App extends StatelessWidget {
           projectId: 'repeatlab-vvi4662',
           secret: '31TK1lGlcgAPuF4bp1fc3SlhLgtfJVop',
           child: MaterialApp(
+            debugShowCheckedModeBanner: false,
             themeMode: ThemeMode.dark,
             theme: theme.dark(),
             localizationsDelegates: AppLocalizations.localizationsDelegates,

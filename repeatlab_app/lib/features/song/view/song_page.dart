@@ -71,8 +71,7 @@ class _SongViewState extends State<_SongView> {
   void initState() {
     super.initState();
 
-    _positionSubscription =
-        context.read<SongCubit>().positionStream.listen((position) {
+    _positionSubscription = context.read<SongCubit>().positionStream.listen((position) {
       setState(() {
         _currentPlayerPosition = position;
       });
@@ -143,6 +142,7 @@ class _SongViewState extends State<_SongView> {
                   ),
                   // add pop up menu
                   PopupMenuButton(
+                    icon: const Icon(Icons.more_vert),
                     itemBuilder: (context) => [
                       PopupMenuItem(
                         child: const Row(
@@ -152,8 +152,7 @@ class _SongViewState extends State<_SongView> {
                             Text('Report Bug & Feedback'),
                           ],
                         ),
-                        onTap: () => Wiredash.of(context)
-                            .show(inheritMaterialTheme: true),
+                        onTap: () => Wiredash.of(context).show(inheritMaterialTheme: true),
                       ),
                       PopupMenuItem(
                         child: const Row(
@@ -186,8 +185,7 @@ class _SongViewState extends State<_SongView> {
                         data: state.data!,
                         duration: state.song.duration,
                         currentPosition: _currentPlayerPosition,
-                        onStartDrag: () =>
-                            context.read<SongCubit>().pauseSong(),
+                        onStartDrag: () => context.read<SongCubit>().pauseSong(),
                         onPositionChanged: (position) =>
                             context.read<SongCubit>().updatePosition(position),
                         loops: state.song.loops,
@@ -198,14 +196,11 @@ class _SongViewState extends State<_SongView> {
                       loops: state.song.loops,
                       songDuration: state.song.duration,
                       currentPosition: _currentPlayerPosition,
-                      onLoopTap: (loop) =>
-                          context.read<SongCubit>().playLoop(loop),
-                      onPreviousLoop: () =>
-                          context.read<SongCubit>().previousLoop(),
+                      onLoopTap: (loop) => context.read<SongCubit>().playLoop(loop),
+                      onPreviousLoop: () => context.read<SongCubit>().previousLoop(),
                       onNextLoop: () => context.read<SongCubit>().nextLoop(),
                       hasMoreThan1Loop: state.song.loops.length > 1,
-                      onSeek: (position) =>
-                          context.read<SongCubit>().updatePosition(position),
+                      onSeek: (position) => context.read<SongCubit>().updatePosition(position),
                     ),
                     const SizedBox(height: 12),
                     _SongController(
@@ -229,15 +224,11 @@ class _SongViewState extends State<_SongView> {
                         ElevatedButton(
                           key: tutorialKeyLoopStart,
                           onPressed: (state.activeLoop != null)
-                              ? () =>
-                                  _onSetLoopStart(context, state.activeLoop!)
+                              ? () => _onSetLoopStart(context, state.activeLoop!)
                               : null,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primaryContainer,
-                            foregroundColor: Theme.of(context)
-                                .colorScheme
-                                .onPrimaryContainer,
+                            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                            foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
                           ),
                           child: const Text('Set Loop Start'),
                         ),
@@ -248,30 +239,25 @@ class _SongViewState extends State<_SongView> {
                               ? () => _onSetLoopEnd(context, state.activeLoop!)
                               : null,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primaryContainer,
-                            foregroundColor: Theme.of(context)
-                                .colorScheme
-                                .onPrimaryContainer,
+                            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                            foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
                           ),
                           child: const Text('Set Loop End'),
                         ),
                         const Spacer(),
                         CupertinoSwitch(
                           key: tutorialKeyLoopActivate,
-                          thumbIcon: WidgetStateProperty.resolveWith<Icon?>(
-                              (Set<WidgetState> states) {
+                          thumbIcon:
+                              WidgetStateProperty.resolveWith<Icon?>((Set<WidgetState> states) {
                             if (states.contains(WidgetState.disabled)) {
                               return const Icon(Icons.close);
                             }
                             return const Icon(Icons.loop_rounded);
                           }),
-                          activeTrackColor:
-                              Theme.of(context).colorScheme.primaryContainer,
+                          activeTrackColor: Theme.of(context).colorScheme.primaryContainer,
                           value: state.isLoopModeEnabled,
                           onChanged: (state.activeLoop != null)
-                              ? (value) =>
-                                  context.read<SongCubit>().toggleLoopMode()
+                              ? (value) => context.read<SongCubit>().toggleLoopMode()
                               : null,
                         ),
                       ],
@@ -286,19 +272,13 @@ class _SongViewState extends State<_SongView> {
                         itemBuilder: (context, index) => LoopTile(
                           index: index,
                           loop: state.song.loops[index],
-                          isSelected:
-                              state.song.loops[index] == state.activeLoop,
+                          isSelected: state.song.loops[index] == state.activeLoop,
                           isPaused: context.read<SongCubit>().isPaused,
-                          onTap: (loop) =>
-                              context.read<SongCubit>().selectLoop(loop),
-                          onDelete: (loop) =>
-                              context.read<SongCubit>().deleteLoop(loop),
-                          onPlay: (loop) =>
-                              context.read<SongCubit>().playLoop(loop),
-                          onPause: (loop) =>
-                              context.read<SongCubit>().pauseLoop(loop),
-                          onUpdate: (loop) =>
-                              context.read<SongCubit>().updateLoop(loop),
+                          onTap: (loop) => context.read<SongCubit>().selectLoop(loop),
+                          onDelete: (loop) => context.read<SongCubit>().deleteLoop(loop),
+                          onPlay: (loop) => context.read<SongCubit>().playLoop(loop),
+                          onPause: (loop) => context.read<SongCubit>().pauseLoop(loop),
+                          onUpdate: (loop) => context.read<SongCubit>().updateLoop(loop),
                         ),
                         itemCount: state.song.loops.length,
                       ),
@@ -322,10 +302,7 @@ class _SongViewState extends State<_SongView> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
           side: BorderSide(
-            color: Theme.of(context)
-                .colorScheme
-                .outlineVariant
-                .withValues(alpha: 0.8),
+            color: Theme.of(context).colorScheme.outlineVariant.withValues(alpha: 0.8),
             width: 1.5,
           ),
         ),
@@ -365,8 +342,7 @@ class _SongViewState extends State<_SongView> {
   }
 
   Future<void> _onSetLoopStart(BuildContext context, Loop activeLoop) async {
-    if (activeLoop.end != null &&
-        context.read<SongCubit>().currentPosition < activeLoop.end!) {
+    if (activeLoop.end != null && context.read<SongCubit>().currentPosition < activeLoop.end!) {
       context.read<SongCubit>().setLoopStart();
     } else if (activeLoop.end != null) {
       SnackbarHelper.showError(
@@ -380,8 +356,7 @@ class _SongViewState extends State<_SongView> {
   }
 
   Future<void> _onSetLoopEnd(BuildContext context, Loop activeLoop) async {
-    if (activeLoop.start != null &&
-        context.read<SongCubit>().currentPosition > activeLoop.start!) {
+    if (activeLoop.start != null && context.read<SongCubit>().currentPosition > activeLoop.start!) {
       context.read<SongCubit>().setLoopEnd();
     } else if (activeLoop.start != null) {
       SnackbarHelper.showError(
@@ -422,8 +397,7 @@ class _SongViewState extends State<_SongView> {
           TargetContent(
             builder: (context, controller) => TutorialItem(
               title: "Navigate through the song with dragging and dropping",
-              content:
-                  "Use your fingers to drag and drop the whole song to the left or right",
+              content: "Use your fingers to drag and drop the whole song to the left or right",
               onNext: () => controller.next(),
             ),
           ),
@@ -440,8 +414,7 @@ class _SongViewState extends State<_SongView> {
             builder: (context, controller) => Center(
               child: TutorialItem(
                 title: "Play and pause the whole song or an activted loop",
-                content:
-                    "Use your fingers to drag and drop the whole song to the left or right",
+                content: "Use your fingers to drag and drop the whole song to the left or right",
                 onNext: () => controller.next(),
                 onPrevious: () => controller.previous(),
               ),
@@ -477,8 +450,7 @@ class _SongViewState extends State<_SongView> {
           TargetContent(
             builder: (context, controller) => TutorialItem(
               title: "Set the start position of the loop",
-              content:
-                  "Use your fingers to drag and drop the whole song to the left or right",
+              content: "Use your fingers to drag and drop the whole song to the left or right",
               onNext: () => controller.next(),
               onPrevious: () => controller.previous(),
             ),
@@ -495,8 +467,7 @@ class _SongViewState extends State<_SongView> {
           TargetContent(
             builder: (context, controller) => TutorialItem(
               title: "Set the end position of the loop",
-              content:
-                  "Use your fingers to drag and drop the whole song to the left or right",
+              content: "Use your fingers to drag and drop the whole song to the left or right",
               onNext: () => controller.next(),
               onPrevious: () => controller.previous(),
             ),
@@ -532,8 +503,7 @@ class _SongViewState extends State<_SongView> {
             align: ContentAlign.top,
             builder: (context, controller) => TutorialItem(
               title: "Add a new loop",
-              content:
-                  "You can add a new loop and activate it by tapping on it.",
+              content: "You can add a new loop and activate it by tapping on it.",
               onNext: () => controller.next(),
               onPrevious: () => controller.previous(),
               isLast: true,
@@ -602,9 +572,7 @@ class _SongController extends StatelessWidget {
               }
             },
             icon: Icon(
-              context.read<SongCubit>().isPaused
-                  ? Icons.play_arrow_rounded
-                  : Icons.pause_rounded,
+              context.read<SongCubit>().isPaused ? Icons.play_arrow_rounded : Icons.pause_rounded,
             ),
           ),
           IconButton(

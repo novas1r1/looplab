@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/widgets/loading.dart';
@@ -6,7 +5,6 @@ import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
 import 'package:repeatlab/features/home/widgets/custom_drawer.dart';
-import 'package:repeatlab/features/paywall/cubits/paywall_cubit.dart';
 import 'package:repeatlab/features/song/view/song_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -43,11 +41,11 @@ class _HomePageState extends State<HomePage> {
             onPressed: () => context.read<AllSongsCubit>().loadSongs(),
             icon: const Icon(Icons.refresh),
           ),
-          if (kDebugMode)
+          /* if (kDebugMode)
             IconButton(
               onPressed: () => _onClearDb(context),
               icon: const Icon(Icons.delete),
-            ),
+            ), */
         ],
       ),
       body: BlocBuilder<AllSongsCubit, AllSongsState>(
@@ -109,9 +107,9 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _onAddSong(BuildContext context) async {
     // show paywall
-    await context.read<PaywallCubit>().showPaywall();
+    // await context.read<PaywallCubit>().showPaywall();
 
-    // context.read<AllSongsCubit>().addSong();
+    context.read<AllSongsCubit>().addSong();
   }
 
   Future<void> _onClearDb(BuildContext context) async {
