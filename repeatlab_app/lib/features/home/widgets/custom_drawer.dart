@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:repeatlab/core/utils/dialog_helper.dart';
 import 'package:repeatlab/features/home/dataprotection_page.dart';
 import 'package:repeatlab/features/home/legal_notices_page.dart';
+import 'package:repeatlab/features/licenses/licenses_page.dart';
 import 'package:wiredash/wiredash.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -47,6 +49,40 @@ class CustomDrawer extends StatelessWidget {
               ],
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Improve the app',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w300,
+                  ),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.feedback),
+            title: const Text('Feedback/Bugs'),
+            onTap: () {
+              Wiredash.of(context).show(inheritMaterialTheme: true);
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.star),
+            title: const Text('Rate App'),
+            onTap: () async {
+              await DialogHelper.displayRateAppDialog(context);
+              Navigator.pop(context);
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Legals',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w300,
+                  ),
+            ),
+          ),
           ListTile(
             leading: const Icon(Icons.security),
             title: const Text('Data Protection'),
@@ -74,19 +110,15 @@ class CustomDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.feedback),
-            title: const Text('Feedback'),
+            leading: const Icon(Icons.list_alt),
+            title: const Text('Licenses'),
             onTap: () {
-              Wiredash.of(context).show(inheritMaterialTheme: true);
               Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.star),
-            title: const Text('Rate App'),
-            onTap: () {
-              // TODO: Implement app rating functionality
-              Navigator.pop(context);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const LicensesPage(),
+                ),
+              );
             },
           ),
           const Divider(),

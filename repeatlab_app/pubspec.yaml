@@ -9,6 +9,7 @@ environment:
 dependencies:
   # audio_waveforms: ^1.0.5
   alchemist: ^0.11.0
+  audiotags: ^1.4.3
   bloc: ^8.1.4
   change_app_package_name: ^1.4.0
   dart_mappable: ^4.3.0
@@ -19,10 +20,11 @@ dependencies:
   # flutter_launcher_icons: ^0.14.2
   flutter_localizations:
     sdk: flutter
-  # flutter_native_splash: ^2.4.4
   flutter_soloud: ^2.1.7
 
-  google_fonts: ^6.2.1
+  # google_fonts: ^6.2.1
+  flutter_svg: ^2.0.17
+  in_app_review: ^2.0.10
   intl: ^0.19.0
   lint: ^2.3.0
   lottie: ^3.2.0
@@ -46,6 +48,7 @@ dev_dependencies:
     sdk: flutter
   mocktail: ^1.0.4
   # flutter_launcher_icons: ^0.14.3
+  flutter_native_splash: ^2.4.4
 
 flutter:
   uses-material-design: true
@@ -54,4 +57,26 @@ flutter:
   assets:
     - assets/animations/
     - assets/images/
+    - assets/fonts/
     - assets/icons/
+
+  fonts:
+    - family: Nunito Sans
+      fonts:
+        - asset: assets/fonts/NunitoSans_7pt-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/NunitoSans_7pt-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/NunitoSans_7pt-Light.ttf
+          weight: 300
+        - asset: assets/fonts/NunitoSans_7pt-Italic.ttf
+          weight: 400
+          style: italic
+    - family: Oswald
+      fonts:
+        - asset: assets/fonts/Oswald-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Oswald-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Oswald-Light.ttf
+          weight: 300

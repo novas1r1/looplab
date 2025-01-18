@@ -12,8 +12,8 @@ import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
+import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 // part 'song_cubit.mapper.dart';
 part 'song_cubit.mapper.dart';
@@ -22,7 +22,7 @@ part 'song_state.dart';
 class SongCubit extends Cubit<SongState> {
   final SongRepository songRepository;
   final SoLoud soloud;
-  final SharedPreferences sharedPreferences;
+  final LocalConfigRepository localConfigRepository;
   final Song song;
   final CrashReportingRepository crashReportingRepository;
 
@@ -40,7 +40,7 @@ class SongCubit extends Cubit<SongState> {
     required this.songRepository,
     required this.soloud,
     required this.song,
-    required this.sharedPreferences,
+    required this.localConfigRepository,
     required this.crashReportingRepository,
   }) : super(SongState(song: song)) {
     _songSubscription = songRepository.songs.listen((songs) {
@@ -134,8 +134,7 @@ class SongCubit extends Cubit<SongState> {
       final handle = await soloud.play(source, paused: true);
 
       // check if tutorial is completed
-      final isTutorialCompleted =
-          sharedPreferences.getBool('tutorialCompleted') ?? false;
+      final isTutorialCompleted = localConfigRepository.hasCompletedTutorial;
 
       emit(
         state.copyWith(
@@ -159,7 +158,7 @@ class SongCubit extends Cubit<SongState> {
   }
 
   Future<void> updateTutorialCompleted() async {
-    await sharedPreferences.setBool('tutorialCompleted', true);
+    await localConfigRepository.setHasCompletedTutorial(hasCompleted: true);
 
     emit(state.copyWith(isTutorialCompleted: true));
   }

@@ -176,3 +176,12 @@ Alternatively, run `flutter run` and code generation will take place automatical
 - buttons für 10sec vor zurück
 - hälfte markieren falls loop
 - loop buttons next prev grau
+
+# Splash Screen
+- https://pub.dev/packages/flutter_native_splash
+- dart run flutter_native_splash:create
+
+# Icons
+- https://pub.dev/packages/flutter_launcher_icons
+- flutter pub run flutter_launcher_icons:main
+

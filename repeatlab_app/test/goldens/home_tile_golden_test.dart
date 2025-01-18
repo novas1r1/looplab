@@ -2,7 +2,7 @@ import 'package:alchemist/alchemist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:repeatlab/data/models/song.dart';
-import 'package:repeatlab/features/home/home_page.dart';
+import 'package:repeatlab/features/home/widgets/home_tile.dart';
 
 import '../helpers/device.dart';
 import '../helpers/golden_test_device_scenario.dart';

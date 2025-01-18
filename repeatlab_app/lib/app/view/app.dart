@@ -33,10 +33,9 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final brightness = View.of(context).platformDispatcher.platformBrightness;
-    // set to dark mode
-    // Use with Google Fonts package to use downloadable fonts
-    final textTheme = createTextTheme(context, "Nunito Sans", "Oswald");
+    // Simply use the font family names directly since they're declared in pubspec.yaml
+    final baseTextTheme = Theme.of(context).textTheme;
+    final textTheme = createTextTheme(baseTextTheme, "Nunito Sans", "Oswald");
     final theme = MaterialTheme(textTheme);
 
     return RepositoryWrapper(
@@ -50,14 +49,16 @@ class App extends StatelessWidget {
             create: (context) => AllSongsCubit(
               songRepository: context.read<SongRepository>(),
               fileRepository: context.read<FileRepository>(),
-              crashReportingRepository: context.read<CrashReportingRepository>(),
+              crashReportingRepository:
+                  context.read<CrashReportingRepository>(),
             )..loadSongs(),
           ),
           BlocProvider(
             lazy: false,
             create: (context) => PaywallCubit(
               purchasesRepository: context.read<PurchasesRepository>(),
-              crashReportingRepository: context.read<CrashReportingRepository>(),
+              crashReportingRepository:
+                  context.read<CrashReportingRepository>(),
             )..init(),
           ),
         ],

@@ -17,11 +17,13 @@ abstract class SnackbarHelper {
               color: Theme.of(context).colorScheme.onPrimaryContainer,
             ),
             const SizedBox(width: 8),
-            Text(
-              message,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
-                  ),
+            Expanded(
+              child: Text(
+                message,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    ),
+              ),
             ),
           ],
         ),
@@ -43,11 +45,13 @@ abstract class SnackbarHelper {
               color: Theme.of(context).colorScheme.onErrorContainer,
             ),
             const SizedBox(width: 8),
-            Text(
-              message,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onErrorContainer,
-                  ),
+            Expanded(
+              child: Text(
+                message,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onErrorContainer,
+                    ),
+              ),
             ),
           ],
         ),

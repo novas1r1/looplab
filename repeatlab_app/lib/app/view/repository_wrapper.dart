@@ -5,6 +5,7 @@ import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/file_repository.dart';
+import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/purchases_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:sembast/sembast.dart';
@@ -52,6 +53,11 @@ class RepositoryWrapper extends StatelessWidget {
         ),
         RepositoryProvider(
           create: (context) => const PurchasesRepository(),
+        ),
+        RepositoryProvider(
+          create: (context) => LocalConfigRepository(
+            sharedPreferences: sharedPreferences,
+          ),
         ),
       ],
       child: child,
