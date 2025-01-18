@@ -90,8 +90,7 @@ class _HomePageState extends State<HomePage> {
                 );
               }
               return ListView.separated(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 92),
                 separatorBuilder: (context, index) => const SizedBox(height: 8),
                 itemCount: state.songs.length,
                 itemBuilder: (context, index) {

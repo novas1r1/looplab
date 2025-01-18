@@ -287,6 +287,7 @@ class _SongViewState extends State<_SongView> {
                     Expanded(
                       child: ListView.separated(
                         controller: _loopListController,
+                        padding: const EdgeInsets.only(bottom: 92),
                         separatorBuilder: (context, index) => const SizedBox(
                           height: 8,
                         ),
@@ -310,7 +311,7 @@ class _SongViewState extends State<_SongView> {
                         itemCount: state.song.loops.length,
                       ),
                     ),
-                    const SizedBox(height: 58),
+                    // const SizedBox(height: 58),
                   ],
                 ),
               ),
