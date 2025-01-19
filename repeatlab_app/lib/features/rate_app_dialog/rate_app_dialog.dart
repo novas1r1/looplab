@@ -53,7 +53,13 @@ class _RateAppDialogState extends State<RateAppDialog>
         ),
         onPressed: () => _sendStoreRating(_selectedRating!),
         iconAlignment: IconAlignment.end,
-        child: const Text('Send Rating'),
+        child: Text(
+          'Send Rating',
+          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                color: Theme.of(context).colorScheme.onPrimary,
+                fontWeight: FontWeight.bold,
+              ),
+        ),
       );
     }
 
@@ -64,7 +70,13 @@ class _RateAppDialogState extends State<RateAppDialog>
           onPressed: () => _sendStoreRating(_selectedRating!),
           icon: const Icon(Icons.send),
           iconAlignment: IconAlignment.end,
-          label: const Text('Send Rating'),
+          label: Text(
+            'Send Rating',
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
         ),
         const SizedBox(width: 8),
         Expanded(
@@ -74,7 +86,13 @@ class _RateAppDialogState extends State<RateAppDialog>
               foregroundColor: Theme.of(context).colorScheme.onPrimary,
             ),
             onPressed: () => _sendReview(context),
-            child: const Text('Leave Review'),
+            child: Text(
+              'Leave Review',
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
           ),
         ),
       ],

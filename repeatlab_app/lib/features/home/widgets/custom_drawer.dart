@@ -4,7 +4,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:repeatlab/core/utils/dialog_helper.dart';
 import 'package:repeatlab/features/home/dataprotection_page.dart';
 import 'package:repeatlab/features/home/legal_notices_page.dart';
-import 'package:repeatlab/features/licenses/licenses_page.dart';
 import 'package:wiredash/wiredash.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -71,7 +70,6 @@ class CustomDrawer extends StatelessWidget {
             title: const Text('Rate App'),
             onTap: () async {
               await DialogHelper.displayRateAppDialog(context);
-              Navigator.pop(context);
             },
           ),
           Padding(
@@ -116,7 +114,10 @@ class CustomDrawer extends StatelessWidget {
               Navigator.pop(context);
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => const LicensesPage(),
+                  builder: (context) => LicensePage(
+                    applicationName: 'RepeatLab',
+                    applicationVersion: appVersion,
+                  ),
                 ),
               );
             },

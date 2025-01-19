@@ -1,4 +1,4 @@
-part of 'audio_player_cubit.dart';
+/* part of 'audio_player_cubit.dart';
 
 class AudioPlayerState extends Equatable {
   final AudioPlayerStatus status;
@@ -46,3 +46,4 @@ enum AudioPlayerStatus {
   playError,
   fileNotFoundError,
 }
+ */

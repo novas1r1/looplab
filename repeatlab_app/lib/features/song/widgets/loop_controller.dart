@@ -1,9 +1,10 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/core/utils/snackbar_helper.dart';
 import 'package:repeatlab/data/models/loop.dart';
-import 'package:repeatlab/features/song/cubit/song_cubit.dart';
+import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 
 class LoopController extends StatelessWidget {
   final Loop? activeLoop;
@@ -14,6 +15,9 @@ class LoopController extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isPaused =
+        context.watch<SongCubit>().state.playerState == PlayerState.paused;
+
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.secondaryContainer,
@@ -52,14 +56,14 @@ class LoopController extends StatelessWidget {
                     ),
                     IconButton(
                       iconSize: 36,
-                      onPressed: activeLoop?.start != null &&
-                              activeLoop?.end != null
-                          ? () => context.read<SongCubit>().isPaused
-                              ? context.read<SongCubit>().playLoop(activeLoop!)
-                              : context.read<SongCubit>().pauseLoop(activeLoop!)
-                          : null,
+                      onPressed:
+                          activeLoop?.start != null && activeLoop?.end != null
+                              ? () => context
+                                  .read<SongCubit>()
+                                  .togglePlayLoop(activeLoop!)
+                              : null,
                       icon: Icon(
-                        context.read<SongCubit>().isPaused
+                        isPaused
                             ? Icons.play_arrow_rounded
                             : Icons.pause_rounded,
                       ),
@@ -88,7 +92,7 @@ class LoopController extends StatelessWidget {
                     TextButton(
                       onPressed: () {
                         if (activeLoop?.end != null &&
-                            context.read<SongCubit>().currentPosition <
+                            context.read<SongCubit>().state.position! <
                                 activeLoop!.end!) {
                           context.read<SongCubit>().setLoopStart();
                         } else if (activeLoop?.end != null) {
@@ -106,7 +110,7 @@ class LoopController extends StatelessWidget {
                     TextButton(
                       onPressed: () {
                         if (activeLoop?.start != null &&
-                            context.read<SongCubit>().currentPosition >
+                            context.read<SongCubit>().state.position! >
                                 activeLoop!.start!) {
                           context.read<SongCubit>().setLoopEnd();
                         } else if (activeLoop?.start != null) {

@@ -32,9 +32,7 @@ Future<void> main() async {
   MapperContainer.globals.use(const DurationMapper());
 
   final soloud = SoLoud.instance;
-  await soloud.init(
-    sampleRate: 48000,
-  );
+  await soloud.init(sampleRate: 48000);
 
   final packageInfo = await PackageInfo.fromPlatform();
   final sharedPreferences = await SharedPreferences.getInstance();

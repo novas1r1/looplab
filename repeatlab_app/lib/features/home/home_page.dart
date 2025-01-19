@@ -123,10 +123,12 @@ class _HomePageState extends State<HomePage> {
       await DialogHelper.displayRateAppDialog(context);
     }
 
-    context.read<AllSongsCubit>().addSong();
+    if (context.mounted) {
+      context.read<AllSongsCubit>().addSong();
+    }
   }
 
-  Future<void> _onClearDb(BuildContext context) async {
+  /* Future<void> _onClearDb(BuildContext context) async {
     await context.read<AllSongsCubit>().clearDb();
-  }
+  } */
 }

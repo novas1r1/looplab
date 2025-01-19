@@ -1,4 +1,4 @@
-import 'dart:async';
+/* import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:drumbitious/data/repositories/repositories.dart';
@@ -6,8 +6,10 @@ import 'package:drumbitious_api/drumbitious_api.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/file_repository.dart';
+import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 
 part 'audio_player_state.dart';
@@ -16,7 +18,7 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   final SongRepository songRepository;
   final LocalConfigRepository localConfigRepository;
   final AudioPlayer audioPlayer;
-  final ExerciseAudio exerciseAudio;
+  final Song song;
   final CrashReportingRepository crashReportingRepository;
   final FileRepository fileRepository;
 
@@ -140,3 +142,4 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     emit(state.copyWith(position: duration));
   }
 }
+ */
