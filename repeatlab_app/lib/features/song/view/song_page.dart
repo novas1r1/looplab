@@ -582,13 +582,16 @@ class _SongController extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                currentPlayerPosition.toFormattedString(),
+              Expanded(
+                child: Text(
+                  currentPlayerPosition.toFormattedString(),
+                ),
               ),
               IconButton(
                 onPressed: () => context.read<SongCubit>().back(10),
                 icon: const Icon(Icons.replay_10_rounded),
               ),
+              const SizedBox(width: 8),
               IconButton(
                 iconSize: 36,
                 onPressed: () => _onTapPlay(context),
@@ -596,11 +599,19 @@ class _SongController extends StatelessWidget {
                   isPaused ? Icons.play_arrow_rounded : Icons.pause_rounded,
                 ),
               ),
+              const SizedBox(width: 8),
               IconButton(
                 onPressed: () => context.read<SongCubit>().forward(10),
                 icon: const Icon(Icons.forward_10_rounded),
               ),
-              Text(songDuration.toFormattedString()),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    songDuration.toFormattedString(),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -617,9 +628,9 @@ class _SongController extends StatelessWidget {
               Expanded(
                 child: Slider(
                   value: speed,
-                  min: 0.1,
+                  min: 0.5,
                   max: 2.0,
-                  divisions: 19,
+                  divisions: 15,
                   label: '${speed.toStringAsFixed(1)}x',
                   onChanged: (value) =>
                       context.read<SongCubit>().updateSpeed(value),
