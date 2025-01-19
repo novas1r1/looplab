@@ -505,4 +505,57 @@ class SongCubit extends Cubit<SongState> {
       soloud.seek(state.handle!, position + Duration(seconds: seconds));
     }
   }
+
+  // Add new method
+  void updateSpeed(double newSpeed) {
+    // pause the song
+    soloud.setPause(state.handle!, true);
+
+    if (!soloud.filters.pitchShiftFilter.isActive) {
+      soloud.filters.pitchShiftFilter.activate();
+    }
+    /* if (state.audioSource != null &&
+        !state.audioSource!.filters.pitchShiftFilter.isActive) {
+      state.audioSource!.filters.pitchShiftFilter.activate();
+    } */
+
+    soloud.setRelativePlaySpeed(state.handle!, newSpeed);
+    // Adjust the pitchShift relatively to the
+    // speed. The relation between speed and shift
+    // is shift = 1 / speed.
+    // final shift = 1 / newSpeed;
+    soloud.filters.pitchShiftFilter.shift.value = 1.0 / newSpeed;
+
+    /* state.audioSource!.filters.pitchShiftFilter
+        .timeStretch(state.handle!, newSpeed); */
+
+    emit(
+      state.copyWith(
+        status: SongStatus.updated,
+        speed: newSpeed,
+      ),
+    );
+  }
+
+  void updateSpeedGlobally(double newSpeed) {
+    soloud.setPause(state.handle!, true);
+
+    final audioSource = state.audioSource;
+
+    if (audioSource == null) return;
+
+    if (!audioSource.filters.pitchShiftFilter.isActive) {
+      audioSource.filters.pitchShiftFilter.activate();
+    }
+
+    soloud.setRelativePlaySpeed(state.handle!, newSpeed);
+    audioSource.filters.pitchShiftFilter.timeStretch(state.handle!, newSpeed);
+
+    emit(
+      state.copyWith(
+        status: SongStatus.updated,
+        speed: newSpeed,
+      ),
+    );
+  }
 }

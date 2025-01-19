@@ -81,6 +81,7 @@ class _SongViewState extends State<_SongView> {
 
   @override
   void dispose() {
+    // context.read<SongCubit>().close();
     _positionSubscription?.cancel();
     _loopListController.dispose();
     super.dispose();
@@ -215,6 +216,7 @@ class _SongViewState extends State<_SongView> {
                       isLoopModeEnabled: state.isLoopModeEnabled,
                       activeLoop: state.activeLoop,
                       songDuration: state.song.duration,
+                      speed: state.speed,
                     ),
                     const Divider(height: 32),
                     Align(
@@ -564,64 +566,95 @@ class _SongController extends StatelessWidget {
   final Duration songDuration;
   final bool isLoopModeEnabled;
   final Loop? activeLoop;
+  final double speed;
 
   const _SongController({
     required this.currentPlayerPosition,
     required this.isLoopModeEnabled,
     required this.activeLoop,
     required this.songDuration,
+    required this.speed,
     required super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.secondaryContainer,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            currentPlayerPosition.toFormattedString(),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.secondaryContainer,
+            borderRadius: BorderRadius.circular(10),
           ),
-          // back 10sec
-          IconButton(
-            onPressed: () => context.read<SongCubit>().back(10),
-            icon: const Icon(Icons.replay_10_rounded),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                currentPlayerPosition.toFormattedString(),
+              ),
+              IconButton(
+                onPressed: () => context.read<SongCubit>().back(10),
+                icon: const Icon(Icons.replay_10_rounded),
+              ),
+              IconButton(
+                iconSize: 36,
+                onPressed: () {
+                  if (context.read<SongCubit>().isPaused) {
+                    if (isLoopModeEnabled == true) {
+                      context.read<SongCubit>().resumeLoop(activeLoop!);
+                    } else {
+                      context.read<SongCubit>().resumeSong();
+                    }
+                  } else {
+                    if (isLoopModeEnabled == true) {
+                      context.read<SongCubit>().pauseLoop(activeLoop!);
+                    } else {
+                      context.read<SongCubit>().pauseSong();
+                    }
+                  }
+                },
+                icon: Icon(
+                  context.read<SongCubit>().isPaused
+                      ? Icons.play_arrow_rounded
+                      : Icons.pause_rounded,
+                ),
+              ),
+              IconButton(
+                onPressed: () => context.read<SongCubit>().forward(10),
+                icon: const Icon(Icons.forward_10_rounded),
+              ),
+              Text(songDuration.toFormattedString()),
+            ],
           ),
-          IconButton(
-            iconSize: 36,
-            onPressed: () {
-              if (context.read<SongCubit>().isPaused) {
-                if (isLoopModeEnabled == true) {
-                  context.read<SongCubit>().resumeLoop(activeLoop!);
-                } else {
-                  context.read<SongCubit>().resumeSong();
-                }
-              } else {
-                if (isLoopModeEnabled == true) {
-                  context.read<SongCubit>().pauseLoop(activeLoop!);
-                } else {
-                  context.read<SongCubit>().pauseSong();
-                }
-              }
-            },
-            icon: Icon(
-              context.read<SongCubit>().isPaused
-                  ? Icons.play_arrow_rounded
-                  : Icons.pause_rounded,
-            ),
+        ),
+        const SizedBox(height: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.secondaryContainer,
+            borderRadius: BorderRadius.circular(10),
           ),
-          IconButton(
-            onPressed: () => context.read<SongCubit>().forward(10),
-            icon: const Icon(Icons.forward_10_rounded),
+          child: Row(
+            children: [
+              const Icon(Icons.speed),
+              Expanded(
+                child: Slider(
+                  value: speed,
+                  min: 0.1,
+                  max: 2.0,
+                  divisions: 19,
+                  label: '${speed.toStringAsFixed(1)}x',
+                  onChanged: (value) =>
+                      context.read<SongCubit>().updateSpeed(value),
+                ),
+              ),
+              Text('${speed.toStringAsFixed(1)}x'),
+            ],
           ),
-          Text(songDuration.toFormattedString()),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

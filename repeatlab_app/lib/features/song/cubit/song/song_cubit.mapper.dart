@@ -93,6 +93,9 @@ class SongStateMapper extends ClassMapperBase<SongState> {
   @override
   final String id = 'SongState';
 
+  static double _$speed(SongState v) => v.speed;
+  static const Field<SongState, double> _f$speed =
+      Field('speed', _$speed, opt: true, def: 1.0);
   static SongStatus _$status(SongState v) => v.status;
   static const Field<SongState, SongStatus> _f$status =
       Field('status', _$status, opt: true, def: SongStatus.loading);
@@ -123,6 +126,7 @@ class SongStateMapper extends ClassMapperBase<SongState> {
 
   @override
   final MappableFields<SongState> fields = const {
+    #speed: _f$speed,
     #status: _f$status,
     #song: _f$song,
     #audioSource: _f$audioSource,
@@ -136,6 +140,7 @@ class SongStateMapper extends ClassMapperBase<SongState> {
 
   static SongState _instantiate(DecodingData data) {
     return SongState(
+        speed: data.dec(_f$speed),
         status: data.dec(_f$status),
         song: data.dec(_f$song),
         audioSource: data.dec(_f$audioSource),
@@ -200,7 +205,8 @@ abstract class SongStateCopyWith<$R, $In extends SongState, $Out>
   SongCopyWith<$R, Song, Song> get song;
   LoopCopyWith<$R, Loop, Loop>? get activeLoop;
   $R call(
-      {SongStatus? status,
+      {double? speed,
+      SongStatus? status,
       Song? song,
       AudioSource? audioSource,
       SoundHandle? handle,
@@ -228,7 +234,8 @@ class _SongStateCopyWithImpl<$R, $Out>
       $value.activeLoop?.copyWith.$chain((v) => call(activeLoop: v));
   @override
   $R call(
-          {SongStatus? status,
+          {double? speed,
+          SongStatus? status,
           Song? song,
           Object? audioSource = $none,
           Object? handle = $none,
@@ -238,6 +245,7 @@ class _SongStateCopyWithImpl<$R, $Out>
           bool? isLoopModeEnabled,
           bool? isTutorialCompleted}) =>
       $apply(FieldCopyWithData({
+        if (speed != null) #speed: speed,
         if (status != null) #status: status,
         if (song != null) #song: song,
         if (audioSource != $none) #audioSource: audioSource,
@@ -251,6 +259,7 @@ class _SongStateCopyWithImpl<$R, $Out>
       }));
   @override
   SongState $make(CopyWithData data) => SongState(
+      speed: data.get(#speed, or: $value.speed),
       status: data.get(#status, or: $value.status),
       song: data.get(#song, or: $value.song),
       audioSource: data.get(#audioSource, or: $value.audioSource),
