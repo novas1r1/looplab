@@ -118,14 +118,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.0"
-  audiotags:
-    dependency: "direct main"
-    description:
-      name: audiotags
-      sha256: "92a08782be943fbd2ac00a742c04cccbd0f5be413e491d1a4fb41b78b607ba1e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.4.3"
   bloc:
     dependency: "direct main"
     description:
@@ -158,14 +150,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.2"
-  build_cli_annotations:
-    dependency: transitive
-    description:
-      name: build_cli_annotations
-      sha256: b59d2769769efd6c9ff6d4c4cede0be115a566afc591705c2040b707534b1172
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.0"
   build_config:
     dependency: transitive
     description:
@@ -424,14 +408,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.24"
-  flutter_rust_bridge:
-    dependency: transitive
-    description:
-      name: flutter_rust_bridge
-      sha256: "35c257fc7f98e34c1314d6c145e5ed54e7c94e8a9f469947e31c9298177d546f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.7.0"
   flutter_soloud:
     dependency: "direct main"
     description:

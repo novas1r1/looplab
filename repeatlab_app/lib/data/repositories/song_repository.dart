@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:audiotags/audiotags.dart';
+// import 'package:audiotags/audiotags.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
@@ -43,14 +43,14 @@ class SongRepository {
     final fileName = file.path.split('/').last;
 
     // Get metadata from the file
-    final metadata = await AudioTags.read(file.path);
+    // final metadata = await AudioTags.read(file.path);
 
     final song = Song(
       id: const Uuid().v4(),
-      title: metadata?.title ?? fileName,
-      artist: metadata?.trackArtist ?? 'Unknown Artist',
+      title: fileName, //metadata?.title ?? fileName,
+      artist: 'Unknown Artist', //metadata?.trackArtist ?? 'Unknown Artist',
       fileName: fileName,
-      duration: duration,
+      duration: Duration.zero, //duration,
     );
 
     await _store.add(db, song.toMap());
