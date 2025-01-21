@@ -50,7 +50,7 @@ class SongRepository {
       title: fileName, //metadata?.title ?? fileName,
       artist: 'Unknown Artist', //metadata?.trackArtist ?? 'Unknown Artist',
       fileName: fileName,
-      duration: Duration.zero, //duration,
+      duration: duration,
     );
 
     await _store.add(db, song.toMap());
@@ -99,8 +99,7 @@ class SongRepository {
     log('UPDATING LOOP: ${loop.toMap()}');
 
     // update the loop in the song
-    final updatedLoops =
-        song.loops.map((e) => e.id == loop.id ? loop : e).toList();
+    final updatedLoops = song.loops.map((e) => e.id == loop.id ? loop : e).toList();
     final updatedSong = song.copyWith(loops: updatedLoops);
 
     await _store.update(
