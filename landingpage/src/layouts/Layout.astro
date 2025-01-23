@@ -1,39 +1,25 @@
 ---
+import '../styles/global.css';
+
 interface Props {
-	title: string;
+  title: string;
 }
 
 const { title } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="LoopLab - The ultimate tool for creating and managing music loops" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-	</head>
-	<body class="font-sans antialiased">
-		<slot />
-		<footer class="bg-gray-900 text-white py-12">
-			<div class="container mx-auto px-4 text-center">
-				<p class="text-gray-400">&copy; {new Date().getFullYear()} LoopLab. All rights reserved.</p>
-			</div>
-		</footer>
-	</body>
-</html>
-<style is:global>
-	:root {
-		--font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
-	}
-	html {
-		font-family: var(--font-sans);
-		background: #13151a;
-	}
-</style>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="RepeatLab - Loop your music practice" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="bg-surface text-secondary min-h-screen">
+    <slot />
+  </body>
+</html> 
