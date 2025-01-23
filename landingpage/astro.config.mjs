@@ -9,5 +9,9 @@ export default defineConfig({
     },
     build: {
         inlineStylesheets: 'auto'
-    }
+    },
+    site: 'https://repeatlab.app', // Replace with your actual domain
+    compressHTML: true,
+    // Enable service worker for offline support
+    serviceWorker: true,
 }); 

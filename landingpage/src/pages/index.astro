@@ -14,11 +14,11 @@ import Layout from '../layouts/Layout.astro';
           Create perfect practice loops, track your progress, and improve your musical skills with our intuitive looping tool.
         </p>
         <div class="flex justify-center gap-4">
-          <a href="#" class="bg-primary text-surface px-8 py-3 rounded-lg font-semibold hover:bg-primary-container transition-colors">
-            Download Now
+          <a href="#" class="flex items-center gap-2">
+            <img src="/images/app-store-badge-black.png" alt="Download on App Store" class="h-12">
           </a>
-          <a href="#features" class="border-2 border-primary text-primary px-8 py-3 rounded-lg font-semibold hover:bg-primary hover:text-surface transition-colors">
-            Learn More
+          <a href="#" class="flex items-center gap-2">
+            <img src="/images/google-play-badge.png" alt="Get it on Google Play" class="h-12">
           </a>
         </div>
       </div>
@@ -80,9 +80,14 @@ import Layout from '../layouts/Layout.astro';
       <div class="max-w-4xl mx-auto text-center px-4 md:px-6 lg:px-8">
         <h2 class="text-3xl md:text-4xl font-display font-bold mb-6">Ready to Transform Your Practice?</h2>
         <p class="text-xl mb-8">Download RepeatLab today and take your music practice to the next level.</p>
-        <a href="#" class="bg-surface text-primary px-8 py-3 rounded-lg font-semibold hover:bg-surface-bright transition-colors inline-block">
-          Get Started
-        </a>
+        <div class="flex justify-center gap-4">
+            <a href="#" class="flex items-center gap-2">
+              <img src="/images/app-store-badge-black.png" alt="Download on App Store" class="h-12">
+            </a>
+            <a href="#" class="flex items-center gap-2">
+              <img src="/images/google-play-badge.png" alt="Get it on Google Play" class="h-12">
+            </a>
+          </div>
       </div>
     </section>
   </main>
@@ -95,7 +100,7 @@ import Layout from '../layouts/Layout.astro';
           <a href="/legal" class="hover:text-primary transition-colors">Legal Notices</a>
           <a href="/terms" class="hover:text-primary transition-colors">Terms & Conditions</a>
         </div>
-        <p>&copy; {new Date().getFullYear()} RepeatLab. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} RepeatLab.</p>
       </div>
     </div>
   </footer>
