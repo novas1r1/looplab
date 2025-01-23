@@ -43,11 +43,10 @@ class _HomePageState extends State<HomePage> {
             onPressed: () => context.read<AllSongsCubit>().loadSongs(),
             icon: const Icon(Icons.refresh),
           ),
-          /* if (kDebugMode)
-            IconButton(
-              onPressed: () => _onClearDb(context),
-              icon: const Icon(Icons.delete),
-            ), */
+          IconButton(
+            onPressed: () => _onClearDb(context),
+            icon: const Icon(Icons.delete),
+          ),
         ],
       ),
       body: BlocBuilder<AllSongsCubit, AllSongsState>(
@@ -65,10 +64,7 @@ class _HomePageState extends State<HomePage> {
                       Icon(
                         Icons.music_note,
                         size: 64,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primary
-                            .withValues(alpha: 0.5),
+                        color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.5),
                       ),
                       const SizedBox(height: 16),
                       Text(
@@ -79,10 +75,7 @@ class _HomePageState extends State<HomePage> {
                       Text(
                         'Tap + to add your first song',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurface
-                                  .withValues(alpha: 0.6),
+                              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                             ),
                       ),
                     ],
@@ -128,7 +121,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  /* Future<void> _onClearDb(BuildContext context) async {
+  Future<void> _onClearDb(BuildContext context) async {
     await context.read<AllSongsCubit>().clearDb();
-  } */
+  }
 }

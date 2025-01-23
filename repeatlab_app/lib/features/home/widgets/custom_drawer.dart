@@ -39,10 +39,7 @@ class CustomDrawer extends StatelessWidget {
                 Text(
                   'Your Music Loop Station',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onPrimary
-                            .withValues(alpha: 0.8),
+                        color: Theme.of(context).colorScheme.onPrimary.withValues(alpha: 0.8),
                       ),
                 ),
               ],
@@ -122,16 +119,12 @@ class CustomDrawer extends StatelessWidget {
               );
             },
           ),
-          const Divider(),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
               'Version $appVersion ($buildNumber)',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withValues(alpha: 0.6),
+                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                   ),
             ),
           ),

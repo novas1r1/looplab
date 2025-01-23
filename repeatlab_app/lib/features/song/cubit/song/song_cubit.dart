@@ -225,16 +225,26 @@ class SongCubit extends Cubit<SongState> {
 
     final path = await state.song.path;
 
-    switch (state.playerState) {
-      case PlayerState.paused:
-        await audioPlayer.resume();
-      case PlayerState.playing:
-        await audioPlayer.pause();
-      case null:
-      case PlayerState.stopped:
-      case PlayerState.completed:
-      case PlayerState.disposed:
-        await audioPlayer.play(DeviceFileSource(path));
+    try {
+      switch (state.playerState) {
+        case PlayerState.paused:
+          await audioPlayer.resume();
+        case PlayerState.playing:
+          await audioPlayer.pause();
+        case null:
+        case PlayerState.stopped:
+        case PlayerState.completed:
+        case PlayerState.disposed:
+          await audioPlayer.play(DeviceFileSource(path));
+      }
+    } catch (e, stackTrace) {
+      crashReportingRepository.reportError(e, stackTrace);
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to play audio file. The file format might not be supported: $e',
+        ),
+      );
     }
   }
 
@@ -303,10 +313,38 @@ class SongCubit extends Cubit<SongState> {
 
     if (loop.start == null) return;
 
-    // set active loop
-    // set to current position
-    await audioPlayer.pause();
-    await audioPlayer.seek(loop.start!);
+    try {
+      // Add timeout to audio operations
+      await Future.wait([
+        audioPlayer.pause(),
+        audioPlayer.seek(loop.start!),
+      ]).timeout(
+        const Duration(seconds: 5),
+        onTimeout: () {
+          throw TimeoutException('Audio player operations timed out');
+        },
+      );
+    } catch (e, stackTrace) {
+      log('Failed to select loop: $e', name: 'SongCubit');
+      crashReportingRepository.reportError(e, stackTrace);
+
+      // Reset state on error
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to select loop. Please try again.',
+          activeLoop: null,
+          isLoopModeEnabled: false,
+        ),
+      );
+
+      // Try to reset audio player
+      try {
+        await audioPlayer.stop();
+      } catch (_) {
+        // Ignore errors during cleanup
+      }
+    }
   }
 
   Future<void> togglePlayLoop(Loop loop) async {
@@ -333,8 +371,7 @@ class SongCubit extends Cubit<SongState> {
       final position = state.position;
       if (position != null && position >= state.activeLoop!.end!) {
         // Prevent potential audio glitch by doing seek only when necessary
-        if (position - state.activeLoop!.end! >
-            const Duration(milliseconds: 32)) {
+        if (position - state.activeLoop!.end! > const Duration(milliseconds: 32)) {
           audioPlayer.seek(state.activeLoop!.start!);
         }
       }
@@ -342,6 +379,8 @@ class SongCubit extends Cubit<SongState> {
 
     if (state.playerState != PlayerState.playing) {
       await audioPlayer.resume();
+
+      if (state.position == null) return;
 
       // check if loop end is reached
       // if reached, start over
@@ -367,8 +406,7 @@ class SongCubit extends Cubit<SongState> {
 
     // if not null get the next loop
     if (currentLoop != null) {
-      final currentLoopIndex =
-          state.song.loops.indexWhere((loop) => loop.id == currentLoop.id);
+      final currentLoopIndex = state.song.loops.indexWhere((loop) => loop.id == currentLoop.id);
       final nextLoopIndex = currentLoopIndex + 1;
       // check if last loop
       if (nextLoopIndex >= state.song.loops.length) {
@@ -392,8 +430,7 @@ class SongCubit extends Cubit<SongState> {
 
     // if not null get the previous loop
     if (currentLoop != null) {
-      final currentLoopIndex =
-          state.song.loops.indexWhere((loop) => loop.id == currentLoop.id);
+      final currentLoopIndex = state.song.loops.indexWhere((loop) => loop.id == currentLoop.id);
       final previousLoopIndex = currentLoopIndex - 1;
       // check if first loop
       if (previousLoopIndex < 0) {
@@ -421,13 +458,11 @@ class SongCubit extends Cubit<SongState> {
         // for each new loop assign a color based on LoopColor.values
         // for the first loop, first color, for the second loop, second color, etc.
         // if the number of loops is greater than the number of colors, start again from the first color
-        color:
-            LoopColor.values[state.song.loops.length % LoopColor.values.length],
+        color: LoopColor.values[state.song.loops.length % LoopColor.values.length],
         start: startPosition,
       );
 
-      final updatedSong =
-          await songRepository.addLoopToSong(song: state.song, loop: loop);
+      final updatedSong = await songRepository.addLoopToSong(song: state.song, loop: loop);
 
       emit(
         state.copyWith(
@@ -553,8 +588,7 @@ class SongCubit extends Cubit<SongState> {
     final position = state.position;
 
     // only seek if the position is less than the duration
-    if (position != null &&
-        position < state.song.duration - Duration(seconds: seconds)) {
+    if (position != null && position < state.song.duration - Duration(seconds: seconds)) {
       final newPosition = position + Duration(seconds: seconds);
       await audioPlayer.seek(newPosition);
     }
