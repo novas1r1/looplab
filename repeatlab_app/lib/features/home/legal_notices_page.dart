@@ -22,7 +22,7 @@ class LegalNoticesPage extends StatelessWidget {
                     'Verena Zaiser\n'
                     'Reichenbachstr. 17\n'
                     '70372 Stuttgart\n'
-                    'E-Mail: support@repeatlab.app\n\n'
+                    'E-Mail: support@repeatlab.de\n\n'
                     'Rechtsform: Freiberufler',
               ),
             ],

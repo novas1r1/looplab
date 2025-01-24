@@ -315,15 +315,8 @@ class SongCubit extends Cubit<SongState> {
 
     try {
       // Add timeout to audio operations
-      await Future.wait([
-        audioPlayer.pause(),
-        audioPlayer.seek(loop.start!),
-      ]).timeout(
-        const Duration(seconds: 5),
-        onTimeout: () {
-          throw TimeoutException('Audio player operations timed out');
-        },
-      );
+      await audioPlayer.pause();
+      await audioPlayer.seek(loop.start!);
     } catch (e, stackTrace) {
       log('Failed to select loop: $e', name: 'SongCubit');
       crashReportingRepository.reportError(e, stackTrace);
