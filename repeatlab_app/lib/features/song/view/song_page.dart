@@ -13,6 +13,7 @@ import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
+import 'package:repeatlab/features/paywall/cubits/paywall_cubit.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/features/song/widgets/loop_tile.dart';
 import 'package:repeatlab/features/song/widgets/loop_timeline.dart';
@@ -158,7 +159,7 @@ class _SongViewState extends State<_SongView> {
                 ],
               ),
               floatingActionButton: FloatingActionButton.extended(
-                onPressed: () => context.read<SongCubit>().addLoop(),
+                onPressed: () => _onAddLoop(context),
                 icon: const Icon(Icons.add),
                 label: const Text('Add Loop'),
                 key: tutorialKeyLoopAdd,
@@ -517,6 +518,20 @@ class _SongViewState extends State<_SongView> {
   void showTutorial() {
     tutorialCoachMark.show(context: context);
   }
+
+  Future<void> _onAddLoop(BuildContext context) async {
+    final paywallCubit = context.read<PaywallCubit>();
+
+    final hasPurchased = await paywallCubit.hasUserPurched();
+
+    if (!context.mounted) return;
+
+    if (hasPurchased) {
+      context.read<SongCubit>().addLoop();
+    } else {
+      context.read<PaywallCubit>().showPaywall();
+    }
+  }
 }
 
 class _SongController extends StatelessWidget {
@@ -602,7 +617,7 @@ class _SongController extends StatelessWidget {
                   max: 2.0,
                   divisions: 15,
                   label: '${speed.toStringAsFixed(1)}x',
-                  onChanged: (value) => context.read<SongCubit>().updateSpeed(value),
+                  onChanged: (value) => _onUpdateSpeed(context, value),
                 ),
               ),
               Text('${speed.toStringAsFixed(1)}x'),
@@ -618,6 +633,20 @@ class _SongController extends StatelessWidget {
       context.read<SongCubit>().togglePlayLoop(activeLoop!);
     } else {
       context.read<SongCubit>().togglePlaySong();
+    }
+  }
+
+  Future<void> _onUpdateSpeed(BuildContext context, double value) async {
+    final paywallCubit = context.read<PaywallCubit>();
+
+    final hasPurchased = await paywallCubit.hasUserPurched();
+
+    if (!context.mounted) return;
+
+    if (hasPurchased) {
+      context.read<SongCubit>().updateSpeed(value);
+    } else {
+      context.read<PaywallCubit>().showPaywall();
     }
   }
 }

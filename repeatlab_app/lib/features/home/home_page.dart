@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/widgets/loading.dart';
@@ -43,10 +44,16 @@ class _HomePageState extends State<HomePage> {
             onPressed: () => context.read<AllSongsCubit>().loadSongs(),
             icon: const Icon(Icons.refresh),
           ),
-          IconButton(
-            onPressed: () => _onClearDb(context),
-            icon: const Icon(Icons.delete),
-          ),
+          if (kDebugMode)
+            IconButton(
+              onPressed: () => _onClearDb(context),
+              icon: const Icon(Icons.delete),
+            ),
+          if (kDebugMode)
+            IconButton(
+              onPressed: () => _onClearSharedPrefs(context),
+              icon: const Icon(Icons.delete_forever),
+            ),
         ],
       ),
       body: BlocBuilder<AllSongsCubit, AllSongsState>(
@@ -123,5 +130,9 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _onClearDb(BuildContext context) async {
     await context.read<AllSongsCubit>().clearDb();
+  }
+
+  void _onClearSharedPrefs(BuildContext context) {
+    context.read<LocalConfigRepository>().clear();
   }
 }

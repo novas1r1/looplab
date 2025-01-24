@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:repeatlab/app/router.dart';
 import 'package:repeatlab/app/view/repository_wrapper.dart';
 import 'package:repeatlab/core/ui/theme.dart';
 import 'package:repeatlab/core/ui/util.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/file_repository.dart';
+import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/purchases_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
-import 'package:repeatlab/features/home/home_page.dart';
 import 'package:repeatlab/features/paywall/cubits/paywall_cubit.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 import 'package:sembast/sembast.dart';
@@ -49,29 +50,32 @@ class App extends StatelessWidget {
             create: (context) => AllSongsCubit(
               songRepository: context.read<SongRepository>(),
               fileRepository: context.read<FileRepository>(),
-              crashReportingRepository:
-                  context.read<CrashReportingRepository>(),
+              crashReportingRepository: context.read<CrashReportingRepository>(),
             )..loadSongs(),
           ),
           BlocProvider(
             lazy: false,
             create: (context) => PaywallCubit(
               purchasesRepository: context.read<PurchasesRepository>(),
-              crashReportingRepository:
-                  context.read<CrashReportingRepository>(),
+              crashReportingRepository: context.read<CrashReportingRepository>(),
             )..init(),
           ),
         ],
         child: Wiredash(
           projectId: 'repeatlab-vvi4662',
           secret: '31TK1lGlcgAPuF4bp1fc3SlhLgtfJVop',
-          child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            themeMode: ThemeMode.dark,
-            theme: theme.dark(),
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            home: const HomePage(),
+          child: Builder(
+            builder: (context) {
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                themeMode: ThemeMode.dark,
+                theme: theme.dark(),
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
+                onGenerateRoute: AppRouter.generateRoute,
+                home: AppRouter.initialRoute(context.read<LocalConfigRepository>()),
+              );
+            },
           ),
         ),
       ),

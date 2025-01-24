@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/data/models/loop.dart';
+import 'package:repeatlab/features/paywall/cubits/paywall_cubit.dart';
 import 'package:repeatlab/features/song/widgets/wave_painter.dart';
 
 // https://github.com/alnitak/flutter_soloud/blob/feat_waveform/example/lib/wave_data/wave_data.dart
@@ -196,13 +198,12 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
             right: 8,
             top: 0,
             child: GestureDetector(
-              onTap: _zoomScale < maxZoom
-                  ? () {
-                      _zoomIn();
-                      _showZoomControls();
-                    }
-                  : null,
-              child: const Icon(Icons.zoom_in, size: 24),
+              onTap: _zoomScale < maxZoom ? () => _onZoomIn(context) : null,
+              child: Icon(
+                Icons.zoom_in,
+                size: 24,
+                color: _zoomScale < maxZoom ? Colors.white : Colors.grey,
+              ),
             ),
           ),
           Positioned(
@@ -235,17 +236,39 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
             left: 8,
             top: 0,
             child: GestureDetector(
-              onTap: _zoomScale > minZoom
-                  ? () {
-                      _zoomOut();
-                      _showZoomControls();
-                    }
-                  : null,
-              child: const Icon(Icons.zoom_out, size: 24),
+              onTap: _zoomScale > minZoom ? () => _onZoomOut(context) : null,
+              child: Icon(
+                Icons.zoom_out,
+                size: 24,
+                color: _zoomScale > minZoom ? Colors.white : Colors.grey,
+              ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  Future<void> _onZoomOut(BuildContext context) async {
+    final paywallCubit = context.read<PaywallCubit>();
+    // check if user has premium subscription
+    if (await paywallCubit.hasUserPurched()) {
+      _zoomOut();
+      _showZoomControls();
+    } else {
+      if (!context.mounted) return;
+      context.read<PaywallCubit>().showPaywall();
+    }
+  }
+
+  Future<void> _onZoomIn(BuildContext context) async {
+    final paywallCubit = context.read<PaywallCubit>();
+    if (await paywallCubit.hasUserPurched()) {
+      _zoomIn();
+      _showZoomControls();
+    } else {
+      if (!context.mounted) return;
+      context.read<PaywallCubit>().showPaywall();
+    }
   }
 }

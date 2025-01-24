@@ -24,6 +24,10 @@ abstract final class AppAnalytics {
   static const clickPlayLoop = 'click_play_loop';
   static const clickStopLoop = 'click_stop_loop';
 
+  // subscription
+  static const clickCancelSubscriptionAndroid = 'click_cancel_subscription_android';
+  static const clickCancelSubscriptionIos = 'click_cancel_subscription_ios';
+
   static Future<void> trackEvent(
     String event, {
     Map<String, dynamic>? data,

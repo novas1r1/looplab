@@ -1,3 +1,7 @@
 abstract class AppConstants {
-  static const appStoreId = '???';
+  static const appStoreId = '6740175553';
+
+  static const urlIosSubscriptions =
+      'https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/manageSubscriptions';
+  static const urlAndroidSubscriptions = 'https://play.google.com/store/account/subscriptions';
 }

@@ -4,6 +4,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:repeatlab/core/utils/dialog_helper.dart';
 import 'package:repeatlab/features/home/dataprotection_page.dart';
 import 'package:repeatlab/features/home/legal_notices_page.dart';
+import 'package:repeatlab/features/paywall/cubits/paywall_cubit.dart';
 import 'package:wiredash/wiredash.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -44,6 +45,36 @@ class CustomDrawer extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'User Settings',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w300,
+                  ),
+            ),
+          ),
+          FutureBuilder(
+            future: context.read<PaywallCubit>().hasUserPurched(),
+            initialData: false,
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              return snapshot.data == true
+                  ? ListTile(
+                      leading: const Icon(Icons.free_cancellation),
+                      title: const Text('Cancel Subscription'),
+                      onTap: () {
+                        context.read<PaywallCubit>().cancelSubscription();
+                      },
+                    )
+                  : ListTile(
+                      leading: const Icon(Icons.shopping_cart),
+                      title: const Text('Buy RepeatLab Pro'),
+                      onTap: () {
+                        context.read<PaywallCubit>().showPaywall();
+                      },
+                    );
+            },
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
