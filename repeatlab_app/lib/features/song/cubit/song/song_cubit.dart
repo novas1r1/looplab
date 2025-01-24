@@ -207,19 +207,6 @@ class SongCubit extends Cubit<SongState> {
     emit(state.copyWith(isTutorialCompleted: true));
   }
 
-  void updatePosition(Duration position) {
-    /// soloud
-    /* if (state.handle == null) return;
-
-    // Debounce rapid seek operations
-    Future.microtask(() {
-      soloud.seek(state.handle!, position);
-    }); */
-
-    /// audio player
-    audioPlayer.seek(position);
-  }
-
   Future<void> togglePlaySong() async {
     log('togglePlaySong state.playerState: ${state.playerState}');
 
@@ -284,13 +271,15 @@ class SongCubit extends Cubit<SongState> {
   }
 
   Future<void> setLoopStart() async {
-    log('setLoopStart: ${state.activeLoop}');
+    log('setLoopStart to ${state.position}');
+
+    if (state.position == null) return;
     // if (state.handle == null) return;
 
     // // get current position
     // final startPosition = soloud.getPosition(state.handle!);
 
-    final startPosition = await audioPlayer.getCurrentPosition();
+    final startPosition = state.position ?? Duration.zero;
 
     await updateLoop(state.activeLoop!.copyWith(start: startPosition));
   }
@@ -397,7 +386,7 @@ class SongCubit extends Cubit<SongState> {
 
       // check if loop end is reached
       // if reached, start over
-      if (state.position! >= loop.end!) {
+      if (loop.end != null && state.position! >= loop.end!) {
         await audioPlayer.seek(loop.start!);
       }
     } else {

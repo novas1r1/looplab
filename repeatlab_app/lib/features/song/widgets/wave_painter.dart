@@ -173,7 +173,13 @@ class WavePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(WavePainter oldDelegate) {
-    return oldDelegate.currentPosition != currentPosition || oldDelegate.zoomScale != zoomScale;
+  bool shouldRepaint(covariant WavePainter oldDelegate) {
+    return data != oldDelegate.data ||
+        duration != oldDelegate.duration ||
+        currentPosition != oldDelegate.currentPosition ||
+        !listEquals(loops, oldDelegate.loops) ||
+        colorPlayed != oldDelegate.colorPlayed ||
+        colorUnplayed != oldDelegate.colorUnplayed ||
+        zoomScale != oldDelegate.zoomScale;
   }
 }

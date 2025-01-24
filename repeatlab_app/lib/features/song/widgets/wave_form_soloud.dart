@@ -33,10 +33,13 @@ class WaveFormSoLoud extends StatefulWidget {
 
 class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
   late ScrollController _scrollController;
+
   double _zoomScale = 1.0;
+
   static const double minZoom = 0.25;
   static const double maxZoom = 5.0;
   static const double zoomStep = 0.25;
+
   bool _showZoomSlider = false;
   Timer? _zoomSliderTimer;
 

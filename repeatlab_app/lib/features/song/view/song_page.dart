@@ -177,7 +177,7 @@ class _SongViewState extends State<_SongView> {
                         currentPosition: state.position ?? Duration.zero,
                         onStartDrag: () => context.read<SongCubit>().pauseSong(),
                         onPositionChanged: (position) =>
-                            context.read<SongCubit>().updatePosition(position),
+                            context.read<SongCubit>().seekSong(position),
                         loops: state.song.loops,
                       ),
                     const SizedBox(height: 8),
@@ -190,7 +190,7 @@ class _SongViewState extends State<_SongView> {
                       onPreviousLoop: () => context.read<SongCubit>().previousLoop(),
                       onNextLoop: () => context.read<SongCubit>().nextLoop(),
                       hasMoreThan1Loop: state.song.loops.length > 1,
-                      onSeek: (position) => context.read<SongCubit>().updatePosition(position),
+                      onSeek: (position) => context.read<SongCubit>().seekSong(position),
                     ),
                     const SizedBox(height: 12),
                     _SongController(
@@ -341,16 +341,15 @@ class _SongViewState extends State<_SongView> {
   }
 
   Future<void> _onSetLoopStart(BuildContext context, Loop activeLoop) async {
-    if (activeLoop.end != null && context.read<SongCubit>().state.position! < activeLoop.end!) {
+    final currentPosition = context.read<SongCubit>().state.position ?? Duration.zero;
+
+    if (activeLoop.end != null && currentPosition < activeLoop.end!) {
       context.read<SongCubit>().setLoopStart();
     } else if (activeLoop.end != null) {
       SnackbarHelper.showError(
         context,
         'Start position must be before end position.',
       );
-    } else {
-      // No end position set yet, so it's safe to set start
-      context.read<SongCubit>().setLoopStart();
     }
   }
 
@@ -519,14 +518,14 @@ class _SongViewState extends State<_SongView> {
     tutorialCoachMark.show(context: context);
   }
 
+  /// If user already has added one loop, show paywall if not already purchased
   Future<void> _onAddLoop(BuildContext context) async {
     final paywallCubit = context.read<PaywallCubit>();
-
     final hasPurchased = await paywallCubit.hasUserPurched();
 
     if (!context.mounted) return;
 
-    if (hasPurchased) {
+    if (hasPurchased || context.read<SongCubit>().state.song.loops.isEmpty) {
       context.read<SongCubit>().addLoop();
     } else {
       context.read<PaywallCubit>().showPaywall();
