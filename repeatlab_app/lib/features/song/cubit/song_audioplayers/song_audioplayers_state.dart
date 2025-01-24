@@ -1,29 +1,34 @@
-part of 'song_cubit.dart';
+part of 'song_audioplayers_cubit.dart';
 
 @MappableClass()
-class SongState with SongStateMappable {
+class SongAudioplayersState with SongAudioplayersStateMappable {
   final double speed;
   final SongStatus status;
   final Song song;
-  final AudioSource? audioSource;
-  final SoundHandle? handle;
   final Loop? activeLoop;
   final Float32List? data;
-  final String? error;
   final bool isLoopModeEnabled;
   final bool isTutorialCompleted;
 
-  const SongState({
+  /// AudioPlayer
+  final PlayerState? playerState;
+  final Duration? position;
+  final Duration? duration;
+
+  final String? error;
+
+  const SongAudioplayersState({
     this.speed = 1.0,
     this.status = SongStatus.loading,
     required this.song,
-    this.audioSource,
-    this.handle,
     this.error,
     this.data,
     this.activeLoop,
     this.isLoopModeEnabled = false,
     this.isTutorialCompleted = false,
+    this.playerState,
+    this.position,
+    this.duration,
   });
 }
 

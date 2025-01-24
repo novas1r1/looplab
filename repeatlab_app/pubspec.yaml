@@ -22,7 +22,10 @@ dependencies:
   # flutter_launcher_icons: ^0.14.2
   flutter_localizations:
     sdk: flutter
-  flutter_soloud: ^2.1.7
+  flutter_soloud:
+    git:
+      url: https://github.com/alnitak/flutter_soloud.git
+      ref: pitchShiftFix
 
   # google_fonts: ^6.2.1
   flutter_svg: ^2.0.17

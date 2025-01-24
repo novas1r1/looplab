@@ -1,5 +1,6 @@
-import 'dart:async';
+/* import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,6 +30,7 @@ class SongPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SongCubit(
+        audioPlayer: AudioPlayer(),
         songRepository: context.read<SongRepository>(),
         localConfigRepository: context.read<LocalConfigRepository>(),
         crashReportingRepository: context.read<CrashReportingRepository>(),
@@ -50,9 +52,7 @@ class _SongView extends StatefulWidget {
 }
 
 class _SongViewState extends State<_SongView> {
-  Duration _currentPlayerPosition = Duration.zero;
-
-  StreamSubscription<Duration>? _positionSubscription;
+  // final Duration _currentPlayerPosition = Duration.zero;
 
   final ScrollController _loopListController = ScrollController();
 
@@ -68,20 +68,8 @@ class _SongViewState extends State<_SongView> {
   GlobalKey tutorialKeyLoopAdd = GlobalKey();
 
   @override
-  void initState() {
-    super.initState();
-
-    _positionSubscription = context.read<SongCubit>().positionStream.listen((position) {
-      setState(() {
-        _currentPlayerPosition = position;
-      });
-    });
-  }
-
-  @override
   void dispose() {
     // context.read<SongCubit>().close();
-    _positionSubscription?.cancel();
     _loopListController.dispose();
     super.dispose();
   }
@@ -185,7 +173,7 @@ class _SongViewState extends State<_SongView> {
                         key: tutorialKeyWaveform,
                         data: state.data!,
                         duration: state.song.duration,
-                        currentPosition: _currentPlayerPosition,
+                        currentPosition: state.position ?? Duration.zero,
                         onStartDrag: () => context.read<SongCubit>().pauseSong(),
                         onPositionChanged: (position) =>
                             context.read<SongCubit>().updatePosition(position),
@@ -196,8 +184,8 @@ class _SongViewState extends State<_SongView> {
                       key: tutorialKeyLoopTimeline,
                       loops: state.song.loops,
                       songDuration: state.song.duration,
-                      currentPosition: _currentPlayerPosition,
-                      onLoopTap: (loop) => context.read<SongCubit>().playLoop(loop),
+                      currentPosition: state.position ?? Duration.zero,
+                      onLoopTap: (loop) => context.read<SongCubit>().selectLoop(loop),
                       onPreviousLoop: () => context.read<SongCubit>().previousLoop(),
                       onNextLoop: () => context.read<SongCubit>().nextLoop(),
                       hasMoreThan1Loop: state.song.loops.length > 1,
@@ -206,7 +194,7 @@ class _SongViewState extends State<_SongView> {
                     const SizedBox(height: 12),
                     _SongController(
                       key: tutorialKeySongController,
-                      currentPlayerPosition: _currentPlayerPosition,
+                      currentPlayerPosition: state.position ?? Duration.zero,
                       isLoopModeEnabled: state.isLoopModeEnabled,
                       activeLoop: state.activeLoop,
                       songDuration: state.song.duration,
@@ -282,10 +270,11 @@ class _SongViewState extends State<_SongView> {
                           index: index,
                           loop: state.song.loops[index],
                           isSelected: state.song.loops[index] == state.activeLoop,
-                          isPaused: context.read<SongCubit>().isPaused,
+                          isPaused:
+                              state.playerState == null || state.playerState == PlayerState.paused,
                           onTap: (loop) => context.read<SongCubit>().selectLoop(loop),
                           onDelete: (loop) => context.read<SongCubit>().deleteLoop(loop),
-                          onPlay: (loop) => context.read<SongCubit>().playLoop(loop),
+                          onPlay: (loop) => context.read<SongCubit>().togglePlayLoop(loop),
                           onPause: (loop) => context.read<SongCubit>().pauseLoop(loop),
                           onUpdate: (loop) => context.read<SongCubit>().updateLoop(loop),
                         ),
@@ -351,7 +340,7 @@ class _SongViewState extends State<_SongView> {
   }
 
   Future<void> _onSetLoopStart(BuildContext context, Loop activeLoop) async {
-    if (activeLoop.end != null && context.read<SongCubit>().currentPosition < activeLoop.end!) {
+    if (activeLoop.end != null && context.read<SongCubit>().state.position! < activeLoop.end!) {
       context.read<SongCubit>().setLoopStart();
     } else if (activeLoop.end != null) {
       SnackbarHelper.showError(
@@ -365,7 +354,7 @@ class _SongViewState extends State<_SongView> {
   }
 
   Future<void> _onSetLoopEnd(BuildContext context, Loop activeLoop) async {
-    if (activeLoop.start != null && context.read<SongCubit>().currentPosition > activeLoop.start!) {
+    if (activeLoop.start != null && context.read<SongCubit>().state.position! > activeLoop.start!) {
       context.read<SongCubit>().setLoopEnd();
     } else if (activeLoop.start != null) {
       SnackbarHelper.showError(
@@ -548,6 +537,9 @@ class _SongController extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final playerState = context.watch<SongCubit>().state.playerState;
+    final isPaused = playerState == PlayerState.paused || playerState == null;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -560,41 +552,36 @@ class _SongController extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                currentPlayerPosition.toFormattedString(),
+              Expanded(
+                child: Text(
+                  currentPlayerPosition.toFormattedString(),
+                ),
               ),
               IconButton(
                 onPressed: () => context.read<SongCubit>().back(10),
                 icon: const Icon(Icons.replay_10_rounded),
               ),
+              const SizedBox(width: 8),
               IconButton(
                 iconSize: 36,
-                onPressed: () {
-                  if (context.read<SongCubit>().isPaused) {
-                    if (isLoopModeEnabled == true) {
-                      context.read<SongCubit>().resumeLoop(activeLoop!);
-                    } else {
-                      context.read<SongCubit>().resumeSong();
-                    }
-                  } else {
-                    if (isLoopModeEnabled == true) {
-                      context.read<SongCubit>().pauseLoop(activeLoop!);
-                    } else {
-                      context.read<SongCubit>().pauseSong();
-                    }
-                  }
-                },
+                onPressed: () => _onTapPlay(context),
                 icon: Icon(
-                  context.read<SongCubit>().isPaused
-                      ? Icons.play_arrow_rounded
-                      : Icons.pause_rounded,
+                  isPaused ? Icons.play_arrow_rounded : Icons.pause_rounded,
                 ),
               ),
+              const SizedBox(width: 8),
               IconButton(
                 onPressed: () => context.read<SongCubit>().forward(10),
                 icon: const Icon(Icons.forward_10_rounded),
               ),
-              Text(songDuration.toFormattedString()),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    songDuration.toFormattedString(),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -611,11 +598,11 @@ class _SongController extends StatelessWidget {
               Expanded(
                 child: Slider(
                   value: speed,
-                  min: 0.1,
+                  min: 0.5,
                   max: 2.0,
-                  divisions: 19,
+                  divisions: 15,
                   label: '${speed.toStringAsFixed(1)}x',
-                  onChanged: (value) => context.read<SongCubit>().updateSpeedGlobally(value),
+                  onChanged: (value) => context.read<SongCubit>().updateSpeed(value),
                 ),
               ),
               Text('${speed.toStringAsFixed(1)}x'),
@@ -625,4 +612,13 @@ class _SongController extends StatelessWidget {
       ],
     );
   }
+
+  void _onTapPlay(BuildContext context) {
+    if (isLoopModeEnabled == true) {
+      context.read<SongCubit>().togglePlayLoop(activeLoop!);
+    } else {
+      context.read<SongCubit>().togglePlaySong();
+    }
+  }
 }
+ */
