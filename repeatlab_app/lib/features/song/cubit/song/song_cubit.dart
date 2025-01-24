@@ -256,16 +256,31 @@ class SongCubit extends Cubit<SongState> {
   }
 
   Future<void> pauseSong() async {
-    log('PAUSE song at ${state.position!.toFormattedString()}');
+    log('PAUSE song at ${state.position?.toFormattedString()}');
     _positionTimer?.cancel();
     // soloud.setPause(state.handle!, true);
     await audioPlayer.pause();
   }
 
   Future<void> seekSong(Duration position) async {
-    // soloud.seek(state.handle!, position);
-    await audioPlayer.seek(position);
-    log('SEEK song to ${position.toFormattedString()}');
+    try {
+      // Add timeout to seek operation
+      await audioPlayer.seek(position);
+      log('SEEK song to ${position.toFormattedString()}');
+    } catch (e, stackTrace) {
+      crashReportingRepository.reportError(e, stackTrace);
+      // Try to recover by stopping and restarting playback
+      final wasPlaying = state.playerState == PlayerState.playing;
+      final path = await state.song.path;
+
+      await audioPlayer.stop();
+      await audioPlayer.play(DeviceFileSource(path));
+      if (!wasPlaying) {
+        await audioPlayer.pause();
+      }
+      // Try seek operation again
+      await audioPlayer.seek(position);
+    }
   }
 
   Future<void> setLoopStart() async {
@@ -333,9 +348,14 @@ class SongCubit extends Cubit<SongState> {
 
       // Try to reset audio player
       try {
+        final path = await state.song.path;
         await audioPlayer.stop();
-      } catch (_) {
+        await audioPlayer.play(DeviceFileSource(path));
+        await audioPlayer.pause();
+        await audioPlayer.seek(loop.start!);
+      } catch (e2) {
         // Ignore errors during cleanup
+        log('Failed to recover from seek error: $e2', name: 'SongCubit');
       }
     }
   }

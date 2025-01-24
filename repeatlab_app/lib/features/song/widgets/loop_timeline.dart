@@ -44,13 +44,11 @@ class LoopTimeline extends StatelessWidget {
               final timelineWidth = box.size.width;
 
               // Calculate position percentage (constrained between 0 and 1)
-              final percentage =
-                  (localPosition.dx / timelineWidth).clamp(0.0, 1.0);
+              final percentage = (localPosition.dx / timelineWidth).clamp(0.0, 1.0);
 
               // Convert to duration
               final newPosition = Duration(
-                milliseconds:
-                    (percentage * songDuration.inMilliseconds).round(),
+                milliseconds: (percentage * songDuration.inMilliseconds).round(),
               );
 
               onSeek(newPosition);
@@ -65,10 +63,8 @@ class LoopTimeline extends StatelessWidget {
                 children: [
                   // Current position indicator
                   Positioned(
-                    left: (currentPosition.inMilliseconds /
-                            songDuration.inMilliseconds) *
-                        (MediaQuery.of(context).size.width -
-                            96), // Subtract space for buttons
+                    left: (currentPosition.inMilliseconds / songDuration.inMilliseconds) *
+                        (MediaQuery.of(context).size.width - 96), // Subtract space for buttons
                     top: 0,
                     bottom: 0,
                     child: Container(
@@ -82,12 +78,10 @@ class LoopTimeline extends StatelessWidget {
                       return const SizedBox.shrink();
                     }
 
-                    final startPosition = loop.start!.inMilliseconds /
-                        songDuration.inMilliseconds;
-                    final endPosition =
-                        loop.end!.inMilliseconds / songDuration.inMilliseconds;
-                    final width = MediaQuery.of(context).size.width -
-                        96; // Subtract space for buttons
+                    final startPosition = loop.start!.inMilliseconds / songDuration.inMilliseconds;
+                    final endPosition = loop.end!.inMilliseconds / songDuration.inMilliseconds;
+                    final width =
+                        MediaQuery.of(context).size.width - 96; // Subtract space for buttons
 
                     return Positioned(
                       left: startPosition * width,
@@ -108,13 +102,8 @@ class LoopTimeline extends StatelessWidget {
                           child: Center(
                             child: Text(
                               loop.name,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelSmall
-                                  ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant,
+                              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                                   ),
                               overflow: TextOverflow.ellipsis,
                             ),

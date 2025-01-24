@@ -17,6 +17,7 @@ class WavePainter extends CustomPainter {
 
   final Color colorPlayed;
   final Color colorUnplayed;
+  final double zoomScale;
 
   const WavePainter({
     required this.data,
@@ -25,6 +26,7 @@ class WavePainter extends CustomPainter {
     required this.loops,
     required this.colorPlayed,
     required this.colorUnplayed,
+    this.zoomScale = 1.0,
   });
 
   @override
@@ -89,7 +91,7 @@ class WavePainter extends CustomPainter {
             textDirection: TextDirection.ltr,
           );
           textPainter.layout();
-          textPainter.paint(canvas, Offset(xStart + 4, 2));
+          textPainter.paint(canvas, Offset(xStart + 4, 4));
         }
 
         if (loop.end != null) {
@@ -140,28 +142,30 @@ class WavePainter extends CustomPainter {
     }
 
     final currentPositionInMilliseconds = currentPosition.inMilliseconds;
-    // final durationInMilliseconds = duration.inMilliseconds;
 
     // Calculate the fraction of the song played
-    final playedFraction =
-        currentPositionInMilliseconds / durationInMilliseconds;
+    final playedFraction = currentPositionInMilliseconds / durationInMilliseconds;
     final playedDataLength = (playedFraction * data.length).toInt();
+
+    // Calculate the spacing between bars based on zoom
+    final barSpacing = zoomScale;
 
     for (int i = 0; i < data.length; i++) {
       final barHeight = size.height * data[i] * 2;
+      final x = i * barSpacing;
 
       // Use yellow paint for the part that has been played
       if (i <= playedDataLength) {
         canvas.drawLine(
-          Offset(i.toDouble(), (size.height - barHeight) / 2),
-          Offset(i.toDouble(), (size.height + barHeight) / 2),
+          Offset(x, (size.height - barHeight) / 2),
+          Offset(x, (size.height + barHeight) / 2),
           paintPlayed,
         );
       } else {
         // Use white paint for the remaining part
         canvas.drawLine(
-          Offset(i.toDouble(), (size.height - barHeight) / 2),
-          Offset(i.toDouble(), (size.height + barHeight) / 2),
+          Offset(x, (size.height - barHeight) / 2),
+          Offset(x, (size.height + barHeight) / 2),
           paint,
         );
       }
@@ -170,6 +174,6 @@ class WavePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(WavePainter oldDelegate) {
-    return true;
+    return oldDelegate.currentPosition != currentPosition || oldDelegate.zoomScale != zoomScale;
   }
 }
