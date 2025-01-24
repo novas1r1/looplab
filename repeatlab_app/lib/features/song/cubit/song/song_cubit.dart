@@ -155,8 +155,9 @@ class SongCubit extends Cubit<SongState> {
 
       final waveformData = await _getWaveformData(path);
 
-      // await soloud.loadFile(path);
-      // final handle = await soloud.play(source, paused: true);
+      // Initialize audio player with the file but keep it paused
+      await audioPlayer.play(DeviceFileSource(path));
+      await audioPlayer.pause();
 
       // check if tutorial is completed
       final isTutorialCompleted = localConfigRepository.hasCompletedTutorial;
@@ -251,9 +252,12 @@ class SongCubit extends Cubit<SongState> {
 
   Future<void> seekSong(Duration position) async {
     try {
-      // Ensure audio player is initialized first
-      if (state.playerState == null) {
-        final path = await state.song.path;
+      final path = await state.song.path;
+
+      // If player is not initialized or in an error state, reinitialize it
+      if (state.playerState == null ||
+          state.playerState == PlayerState.disposed ||
+          state.playerState == PlayerState.stopped) {
         await audioPlayer.play(DeviceFileSource(path));
         await audioPlayer.pause();
       }
