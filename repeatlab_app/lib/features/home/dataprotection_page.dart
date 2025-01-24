@@ -7,7 +7,7 @@ class DataprotectionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Data Protection'),
+        title: const Text('Privacy Policy'),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -17,45 +17,69 @@ class DataprotectionPage extends StatelessWidget {
             children: [
               _buildSection(
                 context,
-                'Overview',
-                'We take your privacy seriously. This policy describes what personal information we collect and how we use it.',
+                'Information We Collect',
+                'Your privacy is important to us. This Privacy Policy outlines how we collect, use, and protect your information when you use our mobile application (the "App"), which is available on iOS and Android platforms. This policy is compliant with the General Data Protection Regulation (GDPR).\n\n'
+                    'Effective Date: 23. January 2025',
               ),
               _buildSection(
                 context,
-                'User Feedback (Wiredash)',
-                'We use Wiredash to collect user feedback and improve our app. When you submit feedback:'
-                    '\n\n• Screenshots you choose to share'
-                    '\n• Device information for bug reporting'
-                    '\n• Any text feedback you provide'
-                    '\n\nWiredash is GDPR compliant and hosted in the EU.',
+                'Data Controller',
+                'The data controller responsible for your information is:\n\n'
+                    'Verena Zaiser\n'
+                    'Reichenbachstr. 17\n'
+                    '70372 Stuttgart\n\n'
+                    'Email: support@repeatlab.de',
               ),
               _buildSection(
                 context,
-                'Analytics (PostHog)',
-                'We use PostHog to understand app usage patterns:'
-                    '\n\n• Basic usage statistics'
-                    '\n• Feature interaction data'
-                    '\n• Performance metrics'
-                    '\n\nThis helps us improve the app experience. Data is anonymized where possible.',
+                'Information We Collect',
+                '• Personal Information: Information you provide to us, such as your email address when submitting feedback via Wiredash.\n'
+                    '• Payment Information: Data related to in-app purchases and subscriptions, processed by RevenueCat.\n'
+                    '• Crash Logs: Information about app errors and crashes, collected through Sentry.\n'
+                    '• Usage Data: Analytics data to help us improve your experience.',
               ),
               _buildSection(
                 context,
-                'Purchases (RevenueCat)',
-                'For processing in-app purchases, we use RevenueCat:'
-                    '\n\n• Purchase history'
-                    '\n• Subscription status'
-                    '\n• Transaction information'
-                    '\n\nThis information is necessary to provide access to purchased features.',
+                'Legal Basis for Processing',
+                'We process your data based on the following legal bases:\n\n'
+                    '• Your consent for feedback submissions via Wiredash and app analytics.\n'
+                    '• Performance of a contract for processing payments and managing subscriptions through RevenueCat.\n'
+                    '• Our legitimate interest in ensuring the App operates effectively by using Sentry for crash reporting.',
+              ),
+              _buildSection(
+                context,
+                'How We Use Your Information',
+                'We use the information we collect for the following purposes:\n\n'
+                    '• To process in-app purchases and manage subscriptions through RevenueCat.\n'
+                    '• To gather feedback and improve the App using Wiredash.\n'
+                    '• To monitor and fix issues using Sentry crash logging.\n'
+                    '• To improve user experience and enhance App features.',
               ),
               _buildSection(
                 context,
                 'Your Rights',
-                'You have the right to:'
-                    '\n\n• Access your personal data'
-                    '\n• Request data deletion'
-                    '\n• Opt out of analytics'
-                    '\n• Request data correction'
-                    '\n\nContact us for any privacy-related concerns.',
+                'Under the GDPR, you have the following rights:\n\n'
+                    '• The right to access the personal information we hold about you.\n'
+                    '• The right to request corrections to your personal information.\n'
+                    '• The right to request deletion of your personal information ("right to be forgotten").\n'
+                    '• The right to data portability.\n'
+                    '• The right to object to processing based on our legitimate interests.\n'
+                    '• The right to withdraw consent at any time.\n'
+                    '• The right to lodge a complaint with a supervisory authority.',
+              ),
+              _buildSection(
+                context,
+                'Third-Party Services',
+                'We use third-party services to enhance our App:\n\n'
+                    '• Wiredash: Used to collect user feedback.\n'
+                    '• RevenueCat: Used to process in-app purchases and subscriptions.\n'
+                    '• Sentry: Used for error monitoring and crash reporting.',
+              ),
+              _buildSection(
+                context,
+                'Contact Us',
+                'If you have any questions or concerns about this Privacy Policy, or if you wish to exercise your rights under GDPR, please contact us at support@repeatlab.de\n\n'
+                    'Thank you for using our App!',
               ),
             ],
           ),

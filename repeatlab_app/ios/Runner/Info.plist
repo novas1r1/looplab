@@ -63,5 +63,7 @@
 		<string>This app needs access to files in your file system to pick audio files.</string>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>ITSAppUsesNonExemptEncryption</key>
+		<false/>
 	</dict>
 </plist>
