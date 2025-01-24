@@ -251,6 +251,13 @@ class SongCubit extends Cubit<SongState> {
 
   Future<void> seekSong(Duration position) async {
     try {
+      // Ensure audio player is initialized first
+      if (state.playerState == null) {
+        final path = await state.song.path;
+        await audioPlayer.play(DeviceFileSource(path));
+        await audioPlayer.pause();
+      }
+
       // Add timeout to seek operation
       await audioPlayer.seek(position);
       log('SEEK song to ${position.toFormattedString()}');
