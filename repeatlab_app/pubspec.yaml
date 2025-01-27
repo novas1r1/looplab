@@ -1,6 +1,6 @@
 name: repeatlab
 description: Audio loop studio
-version: 1.0.0+13
+version: 1.0.1+14
 publish_to: none
 
 environment:
@@ -50,7 +50,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   mocktail: ^1.0.4
-  flutter_launcher_icons: ^0.14.3
+  # flutter_launcher_icons: ^0.14.3
   # flutter_native_splash: ^2.4.4
 
 flutter:
