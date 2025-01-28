@@ -67,13 +67,14 @@ class CustomDrawer extends StatelessWidget {
                         context.read<PaywallCubit>().cancelSubscription();
                       },
                     )
-                  : ListTile(
-                      leading: const Icon(Icons.shopping_cart),
-                      title: const Text('Buy RepeatLab Pro'),
-                      onTap: () {
-                        context.read<PaywallCubit>().showPaywall();
-                      },
-                    );
+                  : const SizedBox.shrink();
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.shopping_cart),
+            title: const Text('Buy RepeatLab Pro'),
+            onTap: () {
+              context.read<PaywallCubit>().showPaywall();
             },
           ),
           Padding(
