@@ -152,3 +152,6 @@ flutter gen-l10n --arb-dir="lib/l10n/arb"
 - https://pub.dev/packages/flutter_launcher_icons
 - flutter pub run flutter_launcher_icons:main
 
+## Obfuscation
+flutter build ipa --release --obfuscate --split-debug-info=./debug-info
+
