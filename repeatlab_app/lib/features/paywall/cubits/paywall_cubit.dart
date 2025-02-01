@@ -45,6 +45,24 @@ class PaywallCubit extends Cubit<PaywallState> {
     emit(state.copyWith(status: PaywallStatus.loading));
 
     try {
+      final paywallResult = await purchasesRepository.presentPaywall();
+
+      emit(
+        state.copyWith(
+          status: PaywallStatus.loaded,
+          paywallResult: paywallResult,
+        ),
+      );
+    } catch (e, stackTrace) {
+      crashReportingRepository.reportError(e, stackTrace);
+      emit(state.copyWith(status: PaywallStatus.error));
+    }
+  }
+
+  Future<void> showPaywallIfNeeded() async {
+    emit(state.copyWith(status: PaywallStatus.loading));
+
+    try {
       final paywallResult = await purchasesRepository.presentPaywallIfNeeded();
 
       emit(

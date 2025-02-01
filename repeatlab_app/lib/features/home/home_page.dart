@@ -114,8 +114,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _onAddSong(BuildContext context, int numberOfSongs) async {
-    // show paywall
-    // await context.read<PaywallCubit>().showPaywall();
     // check if user already added 2 songs. If yes, show rating dialog
     final hasRatedAlready = context.read<LocalConfigRepository>().hasRatedApp;
 

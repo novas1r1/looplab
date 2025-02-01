@@ -528,7 +528,7 @@ class _SongViewState extends State<_SongView> {
     if (hasPurchased || context.read<SongCubit>().state.song.loops.isEmpty) {
       context.read<SongCubit>().addLoop();
     } else {
-      context.read<PaywallCubit>().showPaywall();
+      context.read<PaywallCubit>().showPaywallIfNeeded();
     }
   }
 }
@@ -645,7 +645,7 @@ class _SongController extends StatelessWidget {
     if (hasPurchased) {
       context.read<SongCubit>().updateSpeed(value);
     } else {
-      context.read<PaywallCubit>().showPaywall();
+      context.read<PaywallCubit>().showPaywallIfNeeded();
     }
   }
 }

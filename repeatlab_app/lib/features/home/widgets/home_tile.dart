@@ -14,8 +14,7 @@ class HomeTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color:
-          Theme.of(context).colorScheme.inversePrimary.withValues(alpha: 0.7),
+      color: Theme.of(context).colorScheme.inversePrimary.withValues(alpha: 0.7),
       elevation: 2,
       child: Container(
         decoration: const BoxDecoration(

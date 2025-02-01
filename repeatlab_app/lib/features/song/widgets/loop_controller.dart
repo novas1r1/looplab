@@ -15,8 +15,7 @@ class LoopController extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isPaused =
-        context.watch<SongCubit>().state.playerState == PlayerState.paused;
+    final isPaused = context.watch<SongCubit>().state.playerState == PlayerState.paused;
 
     return Container(
       decoration: BoxDecoration(
@@ -56,16 +55,11 @@ class LoopController extends StatelessWidget {
                     ),
                     IconButton(
                       iconSize: 36,
-                      onPressed:
-                          activeLoop?.start != null && activeLoop?.end != null
-                              ? () => context
-                                  .read<SongCubit>()
-                                  .togglePlayLoop(activeLoop!)
-                              : null,
+                      onPressed: activeLoop?.start != null && activeLoop?.end != null
+                          ? () => context.read<SongCubit>().togglePlayLoop(activeLoop!)
+                          : null,
                       icon: Icon(
-                        isPaused
-                            ? Icons.play_arrow_rounded
-                            : Icons.pause_rounded,
+                        isPaused ? Icons.play_arrow_rounded : Icons.pause_rounded,
                       ),
                     ),
                     IconButton(
@@ -92,8 +86,7 @@ class LoopController extends StatelessWidget {
                     TextButton(
                       onPressed: () {
                         if (activeLoop?.end != null &&
-                            context.read<SongCubit>().state.position! <
-                                activeLoop!.end!) {
+                            context.read<SongCubit>().state.position! < activeLoop!.end!) {
                           context.read<SongCubit>().setLoopStart();
                         } else if (activeLoop?.end != null) {
                           SnackbarHelper.showError(
@@ -110,8 +103,7 @@ class LoopController extends StatelessWidget {
                     TextButton(
                       onPressed: () {
                         if (activeLoop?.start != null &&
-                            context.read<SongCubit>().state.position! >
-                                activeLoop!.start!) {
+                            context.read<SongCubit>().state.position! > activeLoop!.start!) {
                           context.read<SongCubit>().setLoopEnd();
                         } else if (activeLoop?.start != null) {
                           SnackbarHelper.showError(

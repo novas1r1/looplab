@@ -260,7 +260,7 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
       _showZoomControls();
     } else {
       if (!context.mounted) return;
-      context.read<PaywallCubit>().showPaywall();
+      context.read<PaywallCubit>().showPaywallIfNeeded();
     }
   }
 
@@ -271,7 +271,7 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
       _showZoomControls();
     } else {
       if (!context.mounted) return;
-      context.read<PaywallCubit>().showPaywall();
+      context.read<PaywallCubit>().showPaywallIfNeeded();
     }
   }
 }

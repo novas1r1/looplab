@@ -11,6 +11,8 @@ class PurchasesRepository {
   }
 
   Future<PaywallResult> presentPaywall() async {
-    return await RevenueCatUI.presentPaywall();
+    return await RevenueCatUI.presentPaywall(
+      displayCloseButton: true,
+    );
   }
 }

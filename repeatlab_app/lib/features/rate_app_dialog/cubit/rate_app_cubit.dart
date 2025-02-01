@@ -8,8 +8,7 @@ part 'rate_app_state.dart';
 class RateAppCubit extends Cubit<RateAppState> {
   final LocalConfigRepository localConfigRepository;
 
-  RateAppCubit({required this.localConfigRepository})
-      : super(const RateAppState());
+  RateAppCubit({required this.localConfigRepository}) : super(const RateAppState());
 
   Future<void> checkRateAppDialog() async {
     await Future.delayed(const Duration(seconds: 3));
