@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:repeatlab/core/ui/widgets/loading.dart';
+import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/core/utils/snackbar_helper.dart';
 import 'package:repeatlab/data/models/loop.dart';
@@ -142,7 +143,10 @@ class _SongViewState extends State<_SongView> {
                             Text('Report Bug & Feedback'),
                           ],
                         ),
-                        onTap: () => Wiredash.of(context).show(inheritMaterialTheme: true),
+                        onTap: () {
+                          AppAnalytics.trackEvent(AppAnalytics.clickReportBug);
+                          Wiredash.of(context).show(inheritMaterialTheme: true);
+                        },
                       ),
                       PopupMenuItem(
                         child: const Row(
@@ -293,6 +297,8 @@ class _SongViewState extends State<_SongView> {
   }
 
   Future<void> _onTapDeleteSong(BuildContext context) async {
+    AppAnalytics.trackEvent(AppAnalytics.clickDeleteSong);
+
     final result = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -341,6 +347,7 @@ class _SongViewState extends State<_SongView> {
   }
 
   Future<void> _onSetLoopStart(BuildContext context, Loop activeLoop) async {
+    AppAnalytics.trackEvent(AppAnalytics.clickSetLoopStart);
     final currentPosition = context.read<SongCubit>().state.position ?? Duration.zero;
 
     if (activeLoop.end != null && currentPosition < activeLoop.end!) {
@@ -354,6 +361,7 @@ class _SongViewState extends State<_SongView> {
   }
 
   Future<void> _onSetLoopEnd(BuildContext context, Loop activeLoop) async {
+    AppAnalytics.trackEvent(AppAnalytics.clickSetLoopEnd);
     if (activeLoop.start != null && context.read<SongCubit>().state.position! > activeLoop.start!) {
       context.read<SongCubit>().setLoopEnd();
     } else if (activeLoop.start != null) {
@@ -377,6 +385,7 @@ class _SongViewState extends State<_SongView> {
       onClickTargetWithTapPosition: (target, tapDetails) {},
       onClickOverlay: (target) {},
       onSkip: () {
+        AppAnalytics.trackEvent(AppAnalytics.clickSkipTutorial);
         context.read<SongCubit>().updateTutorialCompleted();
         return true;
       },
@@ -515,11 +524,14 @@ class _SongViewState extends State<_SongView> {
   }
 
   void showTutorial() {
+    AppAnalytics.trackEvent(AppAnalytics.clickShowTutorial);
     tutorialCoachMark.show(context: context);
   }
 
   /// If user already has added one loop, show paywall if not already purchased
   Future<void> _onAddLoop(BuildContext context) async {
+    AppAnalytics.trackEvent(AppAnalytics.clickAddLoop);
+
     final paywallCubit = context.read<PaywallCubit>();
     final hasPurchased = await paywallCubit.hasUserPurched();
 
@@ -528,6 +540,7 @@ class _SongViewState extends State<_SongView> {
     if (hasPurchased || context.read<SongCubit>().state.song.loops.isEmpty) {
       context.read<SongCubit>().addLoop();
     } else {
+      AppAnalytics.trackEvent(AppAnalytics.showPaywallSongLoops);
       context.read<PaywallCubit>().showPaywallIfNeeded();
     }
   }
@@ -636,6 +649,8 @@ class _SongController extends StatelessWidget {
   }
 
   Future<void> _onUpdateSpeed(BuildContext context, double value) async {
+    AppAnalytics.trackEvent(AppAnalytics.clickUpdateSpeed, data: {'speed': value});
+
     final paywallCubit = context.read<PaywallCubit>();
 
     final hasPurchased = await paywallCubit.hasUserPurched();
@@ -645,6 +660,7 @@ class _SongController extends StatelessWidget {
     if (hasPurchased) {
       context.read<SongCubit>().updateSpeed(value);
     } else {
+      AppAnalytics.trackEvent(AppAnalytics.showPaywallSongSpeed);
       context.read<PaywallCubit>().showPaywallIfNeeded();
     }
   }

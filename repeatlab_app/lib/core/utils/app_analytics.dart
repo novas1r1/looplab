@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:flutter/foundation.dart';
 import 'package:wiredash/wiredash.dart';
 
 abstract final class AppAnalytics {
@@ -5,6 +8,12 @@ abstract final class AppAnalytics {
   // screens
   static const viewHome = 'view_home';
   static const viewSong = 'view_song';
+  static const viewPaywallFromDrawer = 'view_paywall_from_drawer';
+  static const viewFeedback = 'view_feedback';
+  static const viewRateApp = 'view_rate_app';
+  static const viewDataProtection = 'view_data_protection';
+  static const viewLegalNotices = 'view_legal_notices';
+  static const viewLicenses = 'view_licenses';
 
   // events home screen
   static const clickAddSong = 'click_add_song';
@@ -14,7 +23,8 @@ abstract final class AppAnalytics {
   static const clickRateApp = 'click_rate_app';
   static const clickFeedback = 'click_feedback';
   static const clickHelp = 'click_help';
-
+  static const clickOpenSong = 'click_open_song';
+  static const clickSkipTutorial = 'click_skip_tutorial';
   // events song screen
   static const clickDeleteLoop = 'click_delete_loop';
   static const clickAddLoop = 'click_add_loop';
@@ -23,6 +33,16 @@ abstract final class AppAnalytics {
   static const clickEditLoop = 'click_edit_loop';
   static const clickPlayLoop = 'click_play_loop';
   static const clickStopLoop = 'click_stop_loop';
+  static const clickSetLoopStart = 'click_set_loop_start';
+  static const clickSetLoopEnd = 'click_set_loop_end';
+  static const clickUpdateSpeed = 'click_update_speed';
+  static const clickShowTutorial = 'click_show_tutorial';
+  static const clickZoomIn = 'click_zoom_in';
+  static const clickZoomOut = 'click_zoom_out';
+  static const clickUpdateZoom = 'click_update_zoom';
+
+  static const showPaywallSongLoops = 'show_paywall_song_loops';
+  static const showPaywallSongSpeed = 'show_paywall_song_speed';
 
   // subscription
   static const clickCancelSubscriptionAndroid = 'click_cancel_subscription_android';
@@ -32,6 +52,9 @@ abstract final class AppAnalytics {
     String event, {
     Map<String, dynamic>? data,
   }) async {
-    await Wiredash.trackEvent(event, data: data);
+    log('ANALYTICS: $event, data: $data');
+    if (!kDebugMode) {
+      await Wiredash.trackEvent(event, data: data);
+    }
   }
 }

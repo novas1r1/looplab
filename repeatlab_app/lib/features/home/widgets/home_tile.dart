@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/features/song/view/song_page.dart';
@@ -79,6 +80,8 @@ class HomeTile extends StatelessWidget {
   }
 
   void _onTapSong(BuildContext context, Song song) {
+    AppAnalytics.trackEvent(AppAnalytics.clickOpenSong);
+
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => SongPage(song: song)),

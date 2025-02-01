@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/features/paywall/cubits/paywall_cubit.dart';
 import 'package:repeatlab/features/song/widgets/wave_painter.dart';
@@ -74,6 +75,7 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
   }
 
   void _zoomIn() {
+    AppAnalytics.trackEvent(AppAnalytics.clickZoomIn, data: {'zoom_scale': _zoomScale});
     if (_zoomScale >= maxZoom) return;
 
     // Calculate the center position before zooming
@@ -119,6 +121,8 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
   }
 
   void _updateZoom(double value) {
+    AppAnalytics.trackEvent(AppAnalytics.clickUpdateZoom, data: {'zoom_scale': value});
+
     // Calculate the center position before zooming
     final centerPosition = _scrollController.position.pixels / _zoomScale;
 
@@ -253,6 +257,8 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
   }
 
   Future<void> _onZoomOut(BuildContext context) async {
+    AppAnalytics.trackEvent(AppAnalytics.clickZoomOut, data: {'zoom_scale': _zoomScale});
+
     final paywallCubit = context.read<PaywallCubit>();
     // check if user has premium subscription
     if (await paywallCubit.hasUserPurched()) {
@@ -265,6 +271,8 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
   }
 
   Future<void> _onZoomIn(BuildContext context) async {
+    AppAnalytics.trackEvent(AppAnalytics.clickZoomIn, data: {'zoom_scale': _zoomScale});
+
     final paywallCubit = context.read<PaywallCubit>();
     if (await paywallCubit.hasUserPurched()) {
       _zoomIn();

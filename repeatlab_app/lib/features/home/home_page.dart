@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/widgets/loading.dart';
+import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/dialog_helper.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
@@ -115,6 +116,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _onAddSong(BuildContext context, int numberOfSongs) async {
+    AppAnalytics.trackEvent(AppAnalytics.clickAddSong);
     // check if user already added 2 songs. If yes, show rating dialog
     final hasRatedAlready = context.read<LocalConfigRepository>().hasRatedApp;
 
@@ -128,6 +130,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _onClearDb(BuildContext context) async {
+    AppAnalytics.trackEvent(AppAnalytics.clickClearDb);
     await context.read<AllSongsCubit>().clearDb();
   }
 
