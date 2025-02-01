@@ -5,6 +5,7 @@ import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/core/utils/snackbar_helper.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
+import 'package:repeatlab/l10n/l10n.dart';
 
 class LoopController extends StatelessWidget {
   final Loop? activeLoop;
@@ -34,7 +35,7 @@ class LoopController extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'No active loop.\nAdd a new loop or select an existing one.',
+                      context.l10n.noActiveLoop,
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             fontStyle: FontStyle.italic,
@@ -91,14 +92,14 @@ class LoopController extends StatelessWidget {
                         } else if (activeLoop?.end != null) {
                           SnackbarHelper.showError(
                             context,
-                            'Start position must be before end position.',
+                            context.l10n.startMustBeBeforeEnd,
                           );
                         } else {
                           // No end position set yet, so it's safe to set start
                           context.read<SongCubit>().setLoopStart();
                         }
                       },
-                      child: const Text('Set Loop Start'),
+                      child: Text(context.l10n.setLoopStart),
                     ),
                     TextButton(
                       onPressed: () {
@@ -108,14 +109,14 @@ class LoopController extends StatelessWidget {
                         } else if (activeLoop?.start != null) {
                           SnackbarHelper.showError(
                             context,
-                            'End position must be after start position.',
+                            context.l10n.endMustBeAfterStart,
                           );
                         } else {
                           // No start position set yet, so it's safe to set end
                           context.read<SongCubit>().setLoopEnd();
                         }
                       },
-                      child: const Text('Set Loop End'),
+                      child: Text(context.l10n.setLoopEnd),
                     ),
                   ],
                 ),

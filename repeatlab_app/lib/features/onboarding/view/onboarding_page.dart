@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/app/router.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
+import 'package:repeatlab/l10n/l10n.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -16,27 +17,32 @@ class _OnboardingPageState extends State<OnboardingPage> {
   bool _privacyAccepted = false;
   int _currentPage = 0;
 
-  final List<OnboardingSlide> _slides = [
-    OnboardingSlide(
-      title: 'Welcome to RepeatLab',
-      description:
-          'Master any song by practicing difficult sections with repeating them or slowing them down.',
-      icon: Icons.music_note,
-    ),
-    OnboardingSlide(
-      title: 'Create Smart Loops',
-      description:
-          'Simply tap to mark the start and end of a section you want to practice. Adjust and fine-tune with our intuitive waveform display.',
-      icon: Icons.loop,
-    ),
-    OnboardingSlide(
-      title: 'Privacy First',
-      description:
-          'We value your privacy and handle your data with care. Please review our privacy policy and accept to continue.',
-      icon: Icons.security,
-      isPrivacySlide: true,
-    ),
-  ];
+  List<OnboardingSlide> _slides = [];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _slides = [
+        OnboardingSlide(
+          title: context.l10n.onboardingTitle1,
+          description: context.l10n.onboardingDescription1,
+          icon: Icons.music_note,
+        ),
+        OnboardingSlide(
+          title: context.l10n.onboardingTitle2,
+          description: context.l10n.onboardingDescription2,
+          icon: Icons.loop,
+        ),
+        OnboardingSlide(
+          title: context.l10n.onboardingTitle3,
+          description: context.l10n.onboardingDescription3,
+          icon: Icons.security,
+          isPrivacySlide: true,
+        ),
+      ];
+    });
+  }
 
   @override
   void dispose() {
@@ -109,12 +115,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: 'I accept the ',
+                                  text: context.l10n.onboardingPrivacyPolicy,
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                                 TextSpan(
                                   recognizer: TapGestureRecognizer()..onTap = _showPrivacyPolicy,
-                                  text: 'Privacy Policy',
+                                  text: context.l10n.onboardingPrivacyPolicyLink,
                                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                         decoration: TextDecoration.underline,
                                         color: Theme.of(context).colorScheme.primary,
@@ -140,7 +146,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                               );
                             },
                       child: Text(
-                        _currentPage == _slides.length - 1 ? 'Get Started' : 'Next',
+                        _currentPage == _slides.length - 1
+                            ? context.l10n.onboardingGetStarted
+                            : context.l10n.onboardingNext,
                       ),
                     ),
                   ),

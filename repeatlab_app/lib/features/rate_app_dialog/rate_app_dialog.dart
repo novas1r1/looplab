@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:repeatlab/core/app_constants.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/features/rate_app_dialog/widgets/rating_button_row.dart';
+import 'package:repeatlab/l10n/l10n.dart';
 import 'package:wiredash/wiredash.dart';
 
 class RateAppDialog extends StatefulWidget {
@@ -53,7 +54,7 @@ class _RateAppDialogState extends State<RateAppDialog> with TickerProviderStateM
         onPressed: () => _sendStoreRating(_selectedRating!),
         iconAlignment: IconAlignment.end,
         child: Text(
-          'Send Rating',
+          context.l10n.sendRating,
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
                 color: Theme.of(context).colorScheme.onPrimary,
                 fontWeight: FontWeight.bold,
@@ -70,7 +71,7 @@ class _RateAppDialogState extends State<RateAppDialog> with TickerProviderStateM
           icon: const Icon(Icons.send),
           iconAlignment: IconAlignment.end,
           label: Text(
-            'Send Rating',
+            context.l10n.sendRating,
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   color: Theme.of(context).colorScheme.primary,
                   fontWeight: FontWeight.bold,
@@ -86,7 +87,7 @@ class _RateAppDialogState extends State<RateAppDialog> with TickerProviderStateM
             ),
             onPressed: () => _sendReview(context),
             child: Text(
-              'Leave Review',
+              context.l10n.leaveReview,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     color: Theme.of(context).colorScheme.onPrimary,
                     fontWeight: FontWeight.bold,
@@ -135,17 +136,17 @@ class _RateAppDialogState extends State<RateAppDialog> with TickerProviderStateM
                 text: TextSpan(
                   style: Theme.of(context).textTheme.displaySmall,
                   children: [
-                    const TextSpan(
-                      text: 'Your Feedback helps me to add the features',
+                    TextSpan(
+                      text: context.l10n.yourFeedbackHelpsMe,
                     ),
                     TextSpan(
-                      text: ' you ',
+                      text: context.l10n.you,
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.primary,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const TextSpan(text: 'want'),
+                    TextSpan(text: context.l10n.want),
                   ],
                 ),
               ),
@@ -166,7 +167,7 @@ class _RateAppDialogState extends State<RateAppDialog> with TickerProviderStateM
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      "Hi! I'm the creator of this app. Loving the app? A quick 5-star review would mean the world to me 😊! It motivates me to add more cool features for you.\nThank you! ❤️",
+                      context.l10n.rateDialogDescription,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 16),
                       textAlign: TextAlign.center,
                     ),
@@ -179,7 +180,7 @@ class _RateAppDialogState extends State<RateAppDialog> with TickerProviderStateM
                     const SizedBox(height: 8),
                     ElevatedButton(
                       onPressed: () => Navigator.of(context).pop(),
-                      child: const Text('Not Now'),
+                      child: Text(context.l10n.notNow),
                     ),
                   ],
                 ),

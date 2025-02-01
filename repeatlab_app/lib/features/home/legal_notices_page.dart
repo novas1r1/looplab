@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:repeatlab/l10n/l10n.dart';
 
 class LegalNoticesPage extends StatelessWidget {
   const LegalNoticesPage({super.key});
@@ -7,7 +8,7 @@ class LegalNoticesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Legal Notices'),
+        title: Text(context.l10n.legalNotices),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -17,13 +18,8 @@ class LegalNoticesPage extends StatelessWidget {
             children: [
               _buildSection(
                 context,
-                'Impressum',
-                'Angaben gemäß §5 TMG\n\n'
-                    'Verena Zaiser\n'
-                    'Reichenbachstr. 17\n'
-                    '70372 Stuttgart\n'
-                    'E-Mail: support@repeatlab.de\n\n'
-                    'Rechtsform: Freiberufler',
+                context.l10n.legalNotices,
+                context.l10n.legalNoticesDescription,
               ),
             ],
           ),

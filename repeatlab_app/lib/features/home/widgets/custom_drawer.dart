@@ -5,6 +5,7 @@ import 'package:repeatlab/core/utils/dialog_helper.dart';
 import 'package:repeatlab/features/home/dataprotection_page.dart';
 import 'package:repeatlab/features/home/legal_notices_page.dart';
 import 'package:repeatlab/features/paywall/cubits/paywall_cubit.dart';
+import 'package:repeatlab/l10n/l10n.dart';
 import 'package:wiredash/wiredash.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -38,7 +39,7 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Your Music Loop Station',
+                  context.l10n.appSubtitle,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: Theme.of(context).colorScheme.onPrimary.withValues(alpha: 0.8),
                       ),
@@ -49,11 +50,12 @@ class CustomDrawer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              'User Settings',
+              context.l10n.userSettings,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w300,
                   ),
             ),
+
           ),
           FutureBuilder(
             future: context.read<PaywallCubit>().hasUserPurched(),
@@ -62,59 +64,66 @@ class CustomDrawer extends StatelessWidget {
               return snapshot.data == true
                   ? ListTile(
                       leading: const Icon(Icons.free_cancellation),
-                      title: const Text('Cancel Subscription'),
+                      title: Text(context.l10n.cancelSubscription),
                       onTap: () {
                         context.read<PaywallCubit>().cancelSubscription();
                       },
+
                     )
                   : const SizedBox.shrink();
             },
           ),
           ListTile(
             leading: const Icon(Icons.shopping_cart),
-            title: const Text('Buy RepeatLab Pro'),
+            title: Text(context.l10n.buyRepeatLabPro),
             onTap: () {
               context.read<PaywallCubit>().showPaywall();
             },
+
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              'Improve the app',
+              context.l10n.improveTheApp,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w300,
                   ),
             ),
+
           ),
           ListTile(
             leading: const Icon(Icons.feedback),
-            title: const Text('Feedback/Bugs'),
+            title: Text(context.l10n.feedback),
             onTap: () {
               Wiredash.of(context).show(inheritMaterialTheme: true);
               Navigator.pop(context);
             },
+
           ),
           ListTile(
             leading: const Icon(Icons.star),
-            title: const Text('Rate App'),
+            title: Text(context.l10n.rateApp),
             onTap: () async {
               await DialogHelper.displayRateAppDialog(context);
             },
           ),
+
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              'Legals',
+              context.l10n.legals,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w300,
                   ),
             ),
+
           ),
           ListTile(
             leading: const Icon(Icons.security),
-            title: const Text('Data Protection'),
+            title: Text(context.l10n.dataProtection),
             onTap: () {
               Navigator.pop(context);
+
 
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -125,9 +134,10 @@ class CustomDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.gavel),
-            title: const Text('Legal Notices'),
+            title: Text(context.l10n.legalNotices),
             onTap: () {
               Navigator.pop(context);
+
 
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -138,10 +148,11 @@ class CustomDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.list_alt),
-            title: const Text('Licenses'),
+            title: Text(context.l10n.licenses),
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(
+
                 MaterialPageRoute(
                   builder: (context) => LicensePage(
                     applicationName: 'RepeatLab',
@@ -154,11 +165,12 @@ class CustomDrawer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              'Version $appVersion ($buildNumber)',
+              '${context.l10n.version} $appVersion ($buildNumber)',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                   ),
             ),
+
           ),
         ],
       ),

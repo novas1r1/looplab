@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/data/models/loop.dart';
+import 'package:repeatlab/l10n/l10n.dart';
 
 class EditLoopBottomUp extends StatefulWidget {
   final Loop loop;
@@ -63,7 +64,7 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Edit Loop',
+                    context.l10n.editLoop,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   IconButton(
@@ -80,9 +81,9 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                   Expanded(
                     child: TextField(
                       controller: _titleController,
-                      decoration: const InputDecoration(
-                        labelText: 'Loop Name',
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        labelText: context.l10n.loopName,
+                        border: const OutlineInputBorder(),
                       ),
                       onChanged: (value) {
                         _updatedLoop = _updatedLoop.copyWith(name: value);
@@ -140,7 +141,7 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                     child: TextField(
                       controller: _startController,
                       decoration: InputDecoration(
-                        labelText: 'Start Time (mm:ss:ms)',
+                        labelText: '${context.l10n.startTime} (mm:ss:ms)',
                         errorText: _startError,
                         border: const OutlineInputBorder(),
                         /* suffixIcon: IconButton(
@@ -148,7 +149,7 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                           onPressed: widget.onSetLoopStart,
                         ), */
                       ),
-                      onChanged: (value) => _validateAndUpdateTimes(value, null),
+                      onChanged: (value) => _validateAndUpdateTimes(context, value, null),
                     ),
                   ),
                   const SizedBox(width: 16),
@@ -156,7 +157,7 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                     child: TextField(
                       controller: _endController,
                       decoration: InputDecoration(
-                        labelText: 'End Time (mm:ss:ms)',
+                        labelText: '${context.l10n.endTime} (mm:ss:ms)',
                         errorText: _endError,
                         border: const OutlineInputBorder(),
                         /* suffixIcon: IconButton(
@@ -164,7 +165,7 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                           onPressed: widget.onSetLoopEnd,
                         ), */
                       ),
-                      onChanged: (value) => _validateAndUpdateTimes(null, value),
+                      onChanged: (value) => _validateAndUpdateTimes(context, null, value),
                     ),
                   ),
                 ],
@@ -184,7 +185,7 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                       Icons.delete,
                       color: Theme.of(context).colorScheme.onError,
                     ),
-                    label: const Text('Delete'),
+                    label: Text(context.l10n.delete),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.error,
                       foregroundColor: Theme.of(context).colorScheme.onError,
@@ -195,7 +196,7 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                     child: ElevatedButton.icon(
                       onPressed: () => Navigator.pop(context, _updatedLoop),
                       icon: const Icon(Icons.save),
-                      label: const Text('Save'),
+                      label: Text(context.l10n.save),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         foregroundColor: Theme.of(context).colorScheme.onPrimary,
@@ -234,7 +235,7 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
     }
   }
 
-  void _validateAndUpdateTimes(String? startStr, String? endStr) {
+  void _validateAndUpdateTimes(BuildContext context, String? startStr, String? endStr) {
     setState(() {
       _startError = null;
       _endError = null;
@@ -243,19 +244,19 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
       final end = endStr != null ? _parseDuration(endStr) : widget.loop.end;
 
       if (startStr != null && start == null) {
-        _startError = 'Invalid format (mm:ss:ms)';
+        _startError = context.l10n.invalidFormat;
         return;
       }
 
       if (endStr != null && end == null) {
-        _endError = 'Invalid format (mm:ss:ms)';
+        _endError = context.l10n.invalidFormat;
         return;
       }
 
       if (start != null && end != null) {
         if (start > end) {
-          _startError = 'Start cannot be after end';
-          _endError = 'End cannot be before start';
+          _startError = context.l10n.startCannotBeAfterEnd;
+          _endError = context.l10n.endCannotBeBeforeStart;
           return;
         }
       }

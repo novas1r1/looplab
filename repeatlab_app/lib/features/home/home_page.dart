@@ -7,6 +7,7 @@ import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
 import 'package:repeatlab/features/home/widgets/custom_drawer.dart';
 import 'package:repeatlab/features/home/widgets/home_tile.dart';
+import 'package:repeatlab/l10n/l10n.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -75,12 +76,12 @@ class _HomePageState extends State<HomePage> {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'No songs found',
+                        context.l10n.noSongsFound,
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Tap + to add your first song',
+                        context.l10n.tapToAddSong,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                               color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                             ),
@@ -108,7 +109,7 @@ class _HomePageState extends State<HomePage> {
         heroTag: 'addSong',
         onPressed: () => _onAddSong(context, songCount),
         icon: const Icon(Icons.add),
-        label: const Text('Add Song'),
+        label: Text(context.l10n.addSong),
       ),
     );
   }
