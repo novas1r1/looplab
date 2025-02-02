@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/features/home/dataprotection_page.dart';
 import 'package:repeatlab/features/home/home_page.dart';
 import 'package:repeatlab/features/onboarding/view/onboarding_page.dart';
@@ -28,9 +27,5 @@ abstract class AppRouter {
           ),
         );
     }
-  }
-
-  static Widget initialRoute(LocalConfigRepository localConfig) {
-    return localConfig.introShown ? const HomePage() : const OnboardingPage();
   }
 }

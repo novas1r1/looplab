@@ -20,59 +20,32 @@ class _OnboardingPageState extends State<OnboardingPage> {
   List<OnboardingSlide> _slides = [];
 
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _slides = [
-        OnboardingSlide(
-          title: context.l10n.onboardingTitle1,
-          description: context.l10n.onboardingDescription1,
-          icon: Icons.music_note,
-        ),
-        OnboardingSlide(
-          title: context.l10n.onboardingTitle2,
-          description: context.l10n.onboardingDescription2,
-          icon: Icons.loop,
-        ),
-        OnboardingSlide(
-          title: context.l10n.onboardingTitle3,
-          description: context.l10n.onboardingDescription3,
-          icon: Icons.security,
-          isPrivacySlide: true,
-        ),
-      ];
-    });
-  }
-
-  @override
   void dispose() {
     _pageController.dispose();
     super.dispose();
   }
 
-  void _onPageChanged(int page) {
-    setState(() {
-      _currentPage = page;
-    });
-  }
-
-  Future<void> _finishOnboarding() async {
-    final localConfig = context.read<LocalConfigRepository>();
-
-    await localConfig.setIntroShown(wasShown: true);
-
-    if (mounted) {
-      Navigator.of(context)
-          .pushReplacement(AppRouter.generateRoute(const RouteSettings(name: '/')));
-    }
-  }
-
-  void _showPrivacyPolicy() {
-    Navigator.of(context).pushNamed('/privacy');
-  }
-
   @override
   Widget build(BuildContext context) {
+    _slides = [
+      OnboardingSlide(
+        title: context.l10n.onboardingTitle1,
+        description: context.l10n.onboardingDescription1,
+        icon: Icons.music_note,
+      ),
+      OnboardingSlide(
+        title: context.l10n.onboardingTitle2,
+        description: context.l10n.onboardingDescription2,
+        icon: Icons.loop,
+      ),
+      OnboardingSlide(
+        title: context.l10n.onboardingTitle3,
+        description: context.l10n.onboardingDescription3,
+        icon: Icons.security,
+        isPrivacySlide: true,
+      ),
+    ];
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -159,6 +132,27 @@ class _OnboardingPageState extends State<OnboardingPage> {
         ),
       ),
     );
+  }
+
+  void _onPageChanged(int page) {
+    setState(() {
+      _currentPage = page;
+    });
+  }
+
+  Future<void> _finishOnboarding() async {
+    final localConfig = context.read<LocalConfigRepository>();
+
+    await localConfig.setIntroShown(wasShown: true);
+
+    if (mounted) {
+      Navigator.of(context)
+          .pushReplacement(AppRouter.generateRoute(const RouteSettings(name: '/')));
+    }
+  }
+
+  void _showPrivacyPolicy() {
+    Navigator.of(context).pushNamed('/privacy');
   }
 
   Widget _buildSlide(OnboardingSlide slide) {

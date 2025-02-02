@@ -12,6 +12,8 @@ import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/purchases_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
+import 'package:repeatlab/features/home/home_page.dart';
+import 'package:repeatlab/features/onboarding/view/onboarding_page.dart';
 import 'package:repeatlab/features/paywall/cubits/paywall_cubit.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 import 'package:sembast/sembast.dart';
@@ -66,6 +68,8 @@ class App extends StatelessWidget {
           secret: '31TK1lGlcgAPuF4bp1fc3SlhLgtfJVop',
           child: Builder(
             builder: (context) {
+              final introShown = context.watch<LocalConfigRepository>().introShown;
+
               return MaterialApp(
                 debugShowCheckedModeBanner: false,
                 themeMode: ThemeMode.dark,
@@ -73,7 +77,7 @@ class App extends StatelessWidget {
                 localizationsDelegates: AppLocalizations.localizationsDelegates,
                 supportedLocales: AppLocalizations.supportedLocales,
                 onGenerateRoute: AppRouter.generateRoute,
-                home: AppRouter.initialRoute(context.read<LocalConfigRepository>()),
+                home: introShown ? const HomePage() : const OnboardingPage(),
               );
             },
           ),
