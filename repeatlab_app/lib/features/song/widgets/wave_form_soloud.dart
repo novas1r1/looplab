@@ -121,9 +121,6 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
   }
 
   void _updateZoom(double value) {
-    AppAnalytics.trackEvent(AppAnalytics.clickUpdateZoom, data: {'zoom_scale': value});
-
-    // Calculate the center position before zooming
     final centerPosition = _scrollController.position.pixels / _zoomScale;
 
     setState(() {
