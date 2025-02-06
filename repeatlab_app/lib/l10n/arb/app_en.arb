@@ -65,5 +65,11 @@
     "startMustBeBeforeEnd": "Start position must be before end position",
     "setLoopStart": "Set Loop Start",
     "setLoopEnd": "Set Loop End",
-    "endMustBeAfterStart": "End position must be after start position"
+    "endMustBeAfterStart": "End position must be after start position",
+    "premiumHeadline": "Master Your Favorite Songs",
+    "premiumFeatureUnlimitedLoops": "Unlimited Loops",
+    "premiumFeatureChangeMusicSpeed": "Change Music Speed",
+    "premiumFeatureZoomInOut": "Zoom In/Out on Audio Wave",
+    "premiumFeatureSupportDeveloper": "Support the independent Developer",
+    "premiumYearlyDescription": "Get 12 months of RepeatLab Pro for the price of 10."
 }

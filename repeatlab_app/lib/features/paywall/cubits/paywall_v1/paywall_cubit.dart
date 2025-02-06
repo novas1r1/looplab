@@ -1,10 +1,8 @@
-import 'dart:io' show Platform;
+/* import 'dart:io' show Platform;
 
 import 'package:bloc/bloc.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
-import 'package:purchases_ui_flutter/paywall_result.dart';
-import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 import 'package:repeatlab/core/app_constants.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
@@ -27,18 +25,7 @@ class PaywallCubit extends Cubit<PaywallState> {
   }) : super(const PaywallState());
 
   Future<void> init() async {
-    await Purchases.setLogLevel(LogLevel.debug);
-
-    PurchasesConfiguration? configuration;
-    if (Platform.isAndroid) {
-      configuration = PurchasesConfiguration('goog_NhdNoPthClDEMfKSoFnpljqybdX');
-    } else if (Platform.isIOS) {
-      configuration = PurchasesConfiguration('appl_sUAEypMdINdSIzcVlkUWvVZPjlN');
-    }
-
-    if (configuration != null) {
-      await Purchases.configure(configuration);
-    }
+    await purchasesRepository.setup();
   }
 
   Future<void> showPaywall() async {
@@ -93,3 +80,4 @@ class PaywallCubit extends Cubit<PaywallState> {
     }
   }
 }
+ */

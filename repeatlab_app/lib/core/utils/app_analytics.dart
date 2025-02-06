@@ -14,6 +14,7 @@ abstract final class AppAnalytics {
   static const viewDataProtection = 'view_data_protection';
   static const viewLegalNotices = 'view_legal_notices';
   static const viewLicenses = 'view_licenses';
+  static const viewPremiumScreen = 'view_premium_screen';
 
   // events home screen
   static const clickAddSong = 'click_add_song';

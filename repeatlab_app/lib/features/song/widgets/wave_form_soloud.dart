@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/models/loop.dart';
-import 'package:repeatlab/features/paywall/cubits/paywall_cubit.dart';
+import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
+import 'package:repeatlab/features/paywall/premium_screen.dart';
 import 'package:repeatlab/features/song/widgets/wave_painter.dart';
 
 // https://github.com/alnitak/flutter_soloud/blob/feat_waveform/example/lib/wave_data/wave_data.dart
@@ -256,27 +257,35 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
   Future<void> _onZoomOut(BuildContext context) async {
     AppAnalytics.trackEvent(AppAnalytics.clickZoomOut, data: {'zoom_scale': _zoomScale});
 
-    final paywallCubit = context.read<PaywallCubit>();
+    final hasPurchased = context.read<PremiumSubscriptionCubit>().hasSubscribed;
     // check if user has premium subscription
-    if (await paywallCubit.hasUserPurched()) {
+    if (hasPurchased) {
       _zoomOut();
       _showZoomControls();
     } else {
       if (!context.mounted) return;
-      context.read<PaywallCubit>().showPaywallIfNeeded();
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const PremiumScreen(),
+        ),
+      );
     }
   }
 
   Future<void> _onZoomIn(BuildContext context) async {
     AppAnalytics.trackEvent(AppAnalytics.clickZoomIn, data: {'zoom_scale': _zoomScale});
 
-    final paywallCubit = context.read<PaywallCubit>();
-    if (await paywallCubit.hasUserPurched()) {
+    final premiumSubscriptionCubit = context.read<PremiumSubscriptionCubit>();
+    if (premiumSubscriptionCubit.hasSubscribed) {
       _zoomIn();
       _showZoomControls();
     } else {
       if (!context.mounted) return;
-      context.read<PaywallCubit>().showPaywallIfNeeded();
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const PremiumScreen(),
+        ),
+      );
     }
   }
 }

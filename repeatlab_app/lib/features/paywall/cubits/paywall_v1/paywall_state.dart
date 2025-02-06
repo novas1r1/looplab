@@ -1,4 +1,4 @@
-part of 'paywall_cubit.dart';
+/* part of 'paywall_cubit.dart';
 
 @MappableClass()
 class PaywallState with PaywallStateMappable {
@@ -20,3 +20,4 @@ enum PaywallStatus {
   loaded,
   error,
 }
+ */

@@ -14,7 +14,7 @@ import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
 import 'package:repeatlab/features/home/home_page.dart';
 import 'package:repeatlab/features/onboarding/view/onboarding_page.dart';
-import 'package:repeatlab/features/paywall/cubits/paywall_cubit.dart';
+import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 import 'package:sembast/sembast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -57,11 +57,19 @@ class App extends StatelessWidget {
           ),
           BlocProvider(
             lazy: false,
-            create: (context) => PaywallCubit(
+            create: (context) => PremiumSubscriptionCubit(
               purchasesRepository: context.read<PurchasesRepository>(),
               crashReportingRepository: context.read<CrashReportingRepository>(),
             )..init(),
           ),
+          /* BlocProvider(
+            lazy: false,
+            create: (context) => PaywallCubit(
+
+              purchasesRepository: context.read<PurchasesRepository>(),
+              crashReportingRepository: context.read<CrashReportingRepository>(),
+            )..init(),
+          ), */
         ],
         child: Wiredash(
           projectId: 'repeatlab-vvi4662',

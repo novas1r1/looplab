@@ -14,7 +14,8 @@ import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
-import 'package:repeatlab/features/paywall/cubits/paywall_cubit.dart';
+import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
+import 'package:repeatlab/features/paywall/premium_screen.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/features/song/widgets/loop_tile.dart';
 import 'package:repeatlab/features/song/widgets/loop_timeline.dart';
@@ -532,8 +533,8 @@ class _SongViewState extends State<_SongView> {
   Future<void> _onAddLoop(BuildContext context) async {
     AppAnalytics.trackEvent(AppAnalytics.clickAddLoop);
 
-    final paywallCubit = context.read<PaywallCubit>();
-    final hasPurchased = await paywallCubit.hasUserPurched();
+    final premiumSubscriptionCubit = context.read<PremiumSubscriptionCubit>();
+    final hasPurchased = premiumSubscriptionCubit.hasSubscribed;
 
     if (!context.mounted) return;
 
@@ -541,7 +542,11 @@ class _SongViewState extends State<_SongView> {
       context.read<SongCubit>().addLoop();
     } else {
       AppAnalytics.trackEvent(AppAnalytics.showPaywallSongLoops);
-      context.read<PaywallCubit>().showPaywallIfNeeded();
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const PremiumScreen(),
+        ),
+      );
     }
   }
 }
@@ -651,9 +656,7 @@ class _SongController extends StatelessWidget {
   Future<void> _onUpdateSpeed(BuildContext context, double value) async {
     AppAnalytics.trackEvent(AppAnalytics.clickUpdateSpeed, data: {'speed': value});
 
-    final paywallCubit = context.read<PaywallCubit>();
-
-    final hasPurchased = await paywallCubit.hasUserPurched();
+    final hasPurchased = context.read<PremiumSubscriptionCubit>().hasSubscribed;
 
     if (!context.mounted) return;
 
@@ -661,7 +664,11 @@ class _SongController extends StatelessWidget {
       context.read<SongCubit>().updateSpeed(value);
     } else {
       AppAnalytics.trackEvent(AppAnalytics.showPaywallSongSpeed);
-      context.read<PaywallCubit>().showPaywallIfNeeded();
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const PremiumScreen(),
+        ),
+      );
     }
   }
 }
