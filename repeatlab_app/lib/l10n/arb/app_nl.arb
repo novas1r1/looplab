@@ -62,5 +62,44 @@
     "startMustBeBeforeEnd": "Startpositie moet voor eindpositie zijn",
     "setLoopStart": "Loop Start Instellen",
     "setLoopEnd": "Loop Einde Instellen",
-    "endMustBeAfterStart": "Eindpositie moet na startpositie zijn"
+    "endMustBeAfterStart": "Eindpositie moet na startpositie zijn",
+    "premiumHeadline": "Beheers Je Favoriete Nummers",
+    "premiumFeatureUnlimitedLoops": "Onbeperkte Loops",
+    "premiumFeatureChangeMusicSpeed": "Verander de Muzieksnelheid",
+    "premiumFeatureZoomInOut": "Zoom voor Maximale Precisie",
+    "premiumFeatureSupportDeveloper": "Steun de Onafhankelijke Ontwikkelaar",
+    "purchase": "Kopen",
+    "notAvailable": "Niet Beschikbaar",
+    "cancelAnytime": "Je kunt op elk moment voor het einde van de proefperiode annuleren in de Google Play-instellingen om te voorkomen dat je wordt gefactureerd.",
+    "restore": "Herstellen",
+    "terms": "Voorwaarden",
+    "privacy": "Privacy",
+    "yearlyDescription": "5 dagen gratis proefperiode, daarna {priceString}/jaar. Abonnement wordt automatisch verlengd tenzij geannuleerd in Google Play-instellingen voor het einde van de proefperiode.",
+    "@yearlyDescription": {
+        "placeholders": {
+            "priceString": {
+                "type": "String"
+            }
+        }
+    },
+    "lifetimeDescription": "Eenmalige betaling. Geen abonnement vereist.",
+    "deleteSongLoops": "Nummer en Loops Verwijderen",
+    "deleteSongLoopsDescription": "Weet je zeker dat je dit nummer en alle bijbehorende loops wilt verwijderen? Dit kan niet ongedaan worden gemaakt.",
+    "cancel": "Annuleren",
+    "startPositionMustBeBeforeEndPosition": "Startpositie moet voor eindpositie zijn",
+    "endPositionMustBeAfterStartPosition": "Eindpositie moet na startpositie zijn",
+    "tutorialNavigateThroughSong": "Navigeer door het nummer met slepen",
+    "tutorialNavigateThroughSongDescription": "Gebruik je vingers om het hele nummer naar links of rechts te slepen en zoom voor betere precisie",
+    "tutorialPlayAndPauseSong": "Speel, pauzeer of verander de snelheid van het nummer",
+    "tutorialPlayAndPauseSongDescription": "Gebruik deze knoppen om het nummer en de loops te bedienen",
+    "tutorialJumpToLoop": "Bekijk en spring naar loops",
+    "tutorialJumpToLoopDescription": "Je loops worden hier weergegeven. Je kunt ernaar springen door erop te tikken",
+    "tutorialSetLoopStart": "Stel de startpositie van de loop in",
+    "tutorialSetLoopStartDescription": "Je kunt de startpositie van de loop altijd aanpassen door de nummermarkering te verplaatsen en op de startpositie te tikken",
+    "tutorialSetLoopEnd": "Stel de eindpositie van de loop in",
+    "tutorialSetLoopEndDescription": "Je kunt de eindpositie van de loop altijd aanpassen door de nummermarkering te verplaatsen en op de eindpositie te tikken",
+    "tutorialActivateLoop": "Activeer de loopmodus voor geselecteerde loop",
+    "tutorialActivateLoopDescription": "Als je de loop wilt afspelen, moet je de loopmodus activeren. Als deze is uitgeschakeld, wordt het hele nummer afgespeeld.",
+    "tutorialAddLoop": "Voeg een nieuwe loop toe",
+    "tutorialAddLoopDescription": "Je kunt een nieuwe loop toevoegen door op de + knop te tikken"
 } 

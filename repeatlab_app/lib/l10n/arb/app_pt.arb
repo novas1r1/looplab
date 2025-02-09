@@ -62,5 +62,44 @@
     "startMustBeBeforeEnd": "A posição inicial deve ser antes da posição final",
     "setLoopStart": "Definir Início do Loop",
     "setLoopEnd": "Definir Fim do Loop",
-    "endMustBeAfterStart": "A posição final deve ser depois da posição inicial"
+    "endMustBeAfterStart": "A posição final deve ser depois da posição inicial",
+    "premiumHeadline": "Domine Suas Músicas Favoritas",
+    "premiumFeatureUnlimitedLoops": "Loops Ilimitados",
+    "premiumFeatureChangeMusicSpeed": "Altere a Velocidade da Música",
+    "premiumFeatureZoomInOut": "Zoom para Máxima Precisão",
+    "premiumFeatureSupportDeveloper": "Apoie o Desenvolvedor Independente",
+    "purchase": "Comprar",
+    "notAvailable": "Não Disponível",
+    "cancelAnytime": "Você pode cancelar a qualquer momento antes do fim do período de teste nas configurações do Google Play para evitar cobranças.",
+    "restore": "Restaurar",
+    "terms": "Termos",
+    "privacy": "Privacidade",
+    "yearlyDescription": "5 dias de teste grátis, depois {priceString}/ano. A assinatura renova automaticamente a menos que seja cancelada nas configurações do Google Play antes do fim do período de teste.",
+    "@yearlyDescription": {
+        "placeholders": {
+            "priceString": {
+                "type": "String"
+            }
+        }
+    },
+    "lifetimeDescription": "Pagamento único. Sem necessidade de assinatura.",
+    "deleteSongLoops": "Excluir Música e Loops",
+    "deleteSongLoopsDescription": "Tem certeza que deseja excluir esta música e todos os loops anexados? Isso não pode ser desfeito.",
+    "cancel": "Cancelar",
+    "startPositionMustBeBeforeEndPosition": "A posição inicial deve ser antes da posição final",
+    "endPositionMustBeAfterStartPosition": "A posição final deve ser depois da posição inicial",
+    "tutorialNavigateThroughSong": "Navegue pela música com arrastar e soltar",
+    "tutorialNavigateThroughSongDescription": "Use seus dedos para arrastar toda a música para a esquerda ou direita e zoom para melhor precisão",
+    "tutorialPlayAndPauseSong": "Reproduza, pause ou altere a velocidade da música",
+    "tutorialPlayAndPauseSongDescription": "Use estes botões para controlar a música e os loops",
+    "tutorialJumpToLoop": "Veja e pule para os loops",
+    "tutorialJumpToLoopDescription": "Seus loops serão exibidos aqui. Você pode pular para eles tocando neles",
+    "tutorialSetLoopStart": "Defina a posição inicial do loop",
+    "tutorialSetLoopStartDescription": "Você sempre pode ajustar a posição inicial do loop movendo o marcador da música e tocando na posição inicial",
+    "tutorialSetLoopEnd": "Defina a posição final do loop",
+    "tutorialSetLoopEndDescription": "Você sempre pode ajustar a posição final do loop movendo o marcador da música e tocando na posição final",
+    "tutorialActivateLoop": "Ative o modo loop para o loop selecionado",
+    "tutorialActivateLoopDescription": "Se você quiser reproduzir o loop, você precisa ativar o modo loop. Se estiver desativado, toda a música será reproduzida.",
+    "tutorialAddLoop": "Adicione um novo loop",
+    "tutorialAddLoopDescription": "Você pode adicionar um novo loop tocando no botão +"
 } 

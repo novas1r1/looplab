@@ -62,5 +62,44 @@
     "startMustBeBeforeEnd": "Начальная позиция должна быть перед конечной",
     "setLoopStart": "Установить Начало Лупа",
     "setLoopEnd": "Установить Конец Лупа",
-    "endMustBeAfterStart": "Конечная позиция должна быть после начальной"
+    "endMustBeAfterStart": "Конечная позиция должна быть после начальной",
+    "premiumHeadline": "Освойте Ваши Любимые Песни",
+    "premiumFeatureUnlimitedLoops": "Неограниченное Количество Лупов",
+    "premiumFeatureChangeMusicSpeed": "Изменение Скорости Музыки",
+    "premiumFeatureZoomInOut": "Масштабирование для Максимальной Точности",
+    "premiumFeatureSupportDeveloper": "Поддержка Независимого Разработчика",
+    "purchase": "Купить",
+    "notAvailable": "Недоступно",
+    "cancelAnytime": "Вы можете отменить в любое время до окончания пробного периода в настройках Google Play, чтобы избежать списания средств.",
+    "restore": "Восстановить",
+    "terms": "Условия",
+    "privacy": "Конфиденциальность",
+    "yearlyDescription": "5-дневный бесплатный пробный период, затем {priceString}/год. Подписка продлевается автоматически, если не отменить в настройках Google Play до окончания пробного периода.",
+    "@yearlyDescription": {
+        "placeholders": {
+            "priceString": {
+                "type": "String"
+            }
+        }
+    },
+    "lifetimeDescription": "Единоразовый платеж. Подписка не требуется.",
+    "deleteSongLoops": "Удалить Песню и Лупы",
+    "deleteSongLoopsDescription": "Вы уверены, что хотите удалить эту песню и все прикрепленные лупы? Это действие нельзя отменить.",
+    "cancel": "Отмена",
+    "startPositionMustBeBeforeEndPosition": "Начальная позиция должна быть перед конечной",
+    "endPositionMustBeAfterStartPosition": "Конечная позиция должна быть после начальной",
+    "tutorialNavigateThroughSong": "Навигация по песне с помощью перетаскивания",
+    "tutorialNavigateThroughSongDescription": "Используйте пальцы для перетаскивания всей песни влево или вправо и масштабирования для лучшей точности",
+    "tutorialPlayAndPauseSong": "Воспроизведение, пауза или изменение скорости песни",
+    "tutorialPlayAndPauseSongDescription": "Используйте эти кнопки для управления песней и лупами",
+    "tutorialJumpToLoop": "Просмотр и переход к лупам",
+    "tutorialJumpToLoopDescription": "Ваши лупы будут отображаться здесь. Вы можете перейти к ним, нажав на них",
+    "tutorialSetLoopStart": "Установка начальной позиции лупа",
+    "tutorialSetLoopStartDescription": "Вы всегда можете настроить начальную позицию лупа, перемещая маркер песни и нажимая на начальную позицию",
+    "tutorialSetLoopEnd": "Установка конечной позиции лупа",
+    "tutorialSetLoopEndDescription": "Вы всегда можете настроить конечную позицию лупа, перемещая маркер песни и нажимая на конечную позицию",
+    "tutorialActivateLoop": "Активация режима лупа для выбранного лупа",
+    "tutorialActivateLoopDescription": "Если вы хотите воспроизвести луп, вы должны активировать режим лупа. Если он отключен, будет воспроизведена вся песня.",
+    "tutorialAddLoop": "Добавление нового лупа",
+    "tutorialAddLoopDescription": "Вы можете добавить новый луп, нажав на кнопку +"
 } 

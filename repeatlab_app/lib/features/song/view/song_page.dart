@@ -21,6 +21,7 @@ import 'package:repeatlab/features/song/widgets/loop_tile.dart';
 import 'package:repeatlab/features/song/widgets/loop_timeline.dart';
 import 'package:repeatlab/features/song/widgets/tutorial_item.dart';
 import 'package:repeatlab/features/song/widgets/wave_form_soloud.dart';
+import 'package:repeatlab/l10n/l10n.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:wiredash/wiredash.dart';
 
@@ -312,10 +313,11 @@ class _SongViewState extends State<_SongView> {
             width: 1.5,
           ),
         ),
-        title: const Text('Delete Song & Loops'),
-        content: const Text(
-          "Are you sure you want to delete this song and all attached loops? This can't be undone.",
+        title: Text(context.l10n.deleteSongLoops),
+        content: Text(
+          context.l10n.deleteSongLoopsDescription,
         ),
+
         actions: [
           ElevatedButton.icon(
             icon: Icon(
@@ -327,7 +329,7 @@ class _SongViewState extends State<_SongView> {
               foregroundColor: Theme.of(context).colorScheme.onError,
             ),
             onPressed: () => Navigator.of(context).pop(true),
-            label: const Text('Delete'),
+            label: Text(context.l10n.delete),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -335,7 +337,7 @@ class _SongViewState extends State<_SongView> {
               foregroundColor: Theme.of(context).colorScheme.onPrimary,
             ),
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancel'),
+            child: Text(context.l10n.cancel),
           ),
         ],
       ),
@@ -356,7 +358,7 @@ class _SongViewState extends State<_SongView> {
     } else if (activeLoop.end != null) {
       SnackbarHelper.showError(
         context,
-        'Start position must be before end position.',
+        context.l10n.startPositionMustBeBeforeEndPosition,
       );
     }
   }
@@ -368,7 +370,7 @@ class _SongViewState extends State<_SongView> {
     } else if (activeLoop.start != null) {
       SnackbarHelper.showError(
         context,
-        'End position must be after start position.',
+        context.l10n.endPositionMustBeAfterStartPosition,
       );
     } else {
       // No start position set yet, so it's safe to set end
@@ -404,8 +406,8 @@ class _SongViewState extends State<_SongView> {
         contents: [
           TargetContent(
             builder: (context, controller) => TutorialItem(
-              title: "Navigate through the song with dragging and dropping",
-              content: "Use your fingers to drag and drop the whole song to the left or right",
+              title: context.l10n.tutorialNavigateThroughSong,
+              content: context.l10n.tutorialNavigateThroughSongDescription,
               onNext: () => controller.next(),
             ),
           ),
@@ -421,8 +423,8 @@ class _SongViewState extends State<_SongView> {
           TargetContent(
             builder: (context, controller) => Center(
               child: TutorialItem(
-                title: "Play and pause the whole song or an activted loop",
-                content: "Use your fingers to drag and drop the whole song to the left or right",
+                title: context.l10n.tutorialPlayAndPauseSong,
+                content: context.l10n.tutorialPlayAndPauseSongDescription,
                 onNext: () => controller.next(),
                 onPrevious: () => controller.previous(),
               ),
@@ -439,9 +441,8 @@ class _SongViewState extends State<_SongView> {
         contents: [
           TargetContent(
             builder: (context, controller) => TutorialItem(
-              title: "See and jump to loops",
-              content:
-                  "Your loops will be displayed here. You can jump to them by tapping on them.",
+              title: context.l10n.tutorialJumpToLoop,
+              content: context.l10n.tutorialJumpToLoopDescription,
               onNext: () => controller.next(),
               onPrevious: () => controller.previous(),
             ),
@@ -457,8 +458,8 @@ class _SongViewState extends State<_SongView> {
         contents: [
           TargetContent(
             builder: (context, controller) => TutorialItem(
-              title: "Set the start position of the loop",
-              content: "Use your fingers to drag and drop the whole song to the left or right",
+              title: context.l10n.tutorialSetLoopStart,
+              content: context.l10n.tutorialSetLoopStartDescription,
               onNext: () => controller.next(),
               onPrevious: () => controller.previous(),
             ),
@@ -474,8 +475,8 @@ class _SongViewState extends State<_SongView> {
         contents: [
           TargetContent(
             builder: (context, controller) => TutorialItem(
-              title: "Set the end position of the loop",
-              content: "Use your fingers to drag and drop the whole song to the left or right",
+              title: context.l10n.tutorialSetLoopEnd,
+              content: context.l10n.tutorialSetLoopEndDescription,
               onNext: () => controller.next(),
               onPrevious: () => controller.previous(),
             ),
@@ -491,9 +492,8 @@ class _SongViewState extends State<_SongView> {
         contents: [
           TargetContent(
             builder: (context, controller) => TutorialItem(
-              title: "Activate the loop mode for selected loop",
-              content:
-                  "If you want to play the loop, you have to activate the loop mode. If it's disabled, the whole song will be played.",
+              title: context.l10n.tutorialActivateLoop,
+              content: context.l10n.tutorialActivateLoopDescription,
               onNext: () => controller.next(),
               onPrevious: () => controller.previous(),
             ),
@@ -510,8 +510,8 @@ class _SongViewState extends State<_SongView> {
           TargetContent(
             align: ContentAlign.top,
             builder: (context, controller) => TutorialItem(
-              title: "Add a new loop",
-              content: "You can add a new loop and activate it by tapping on it.",
+              title: context.l10n.tutorialAddLoop,
+              content: context.l10n.tutorialAddLoopDescription,
               onNext: () => controller.next(),
               onPrevious: () => controller.previous(),
               isLast: true,

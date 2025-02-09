@@ -107,7 +107,7 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                     period: PlanPeriod.yearly,
                     isSelected: _selectedPlan == PlanPeriod.yearly,
                     onSelected: () => setState(() => _selectedPlan = PlanPeriod.yearly),
-                    priceString: yearlyPrice ?? 'Not available',
+                    priceString: yearlyPrice ?? context.l10n.notAvailable,
                   ),
 
                   const SizedBox(height: 16),
@@ -116,13 +116,13 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                     period: PlanPeriod.lifetime,
                     isSelected: _selectedPlan == PlanPeriod.lifetime,
                     onSelected: () => setState(() => _selectedPlan = PlanPeriod.lifetime),
-                    priceString: lifetimePrice ?? 'Not available',
+                    priceString: lifetimePrice ?? context.l10n.notAvailable,
                   ),
 
                   const SizedBox(height: 16),
                   if (_selectedPlan == PlanPeriod.yearly) ...[
                     Text(
-                      "You can cancel anytime before the trial ends in Google Play settings to avoid being charged.",
+                      context.l10n.cancelAnytime,
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                     const SizedBox(height: 16),
@@ -144,9 +144,10 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                             );
                       }
                     },
-                    child: const Text('Purchase'),
+                    child: Text(context.l10n.purchase),
                   ),
                   const SizedBox(height: 16),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -158,7 +159,7 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                           //launchUrl(Uri.parse(AppConstants.urlRestore));
                           context.read<PremiumSubscriptionCubit>().restore();
                         },
-                        child: const Text('Restore'),
+                        child: Text(context.l10n.restore),
                       ),
                       // Terms
 
@@ -167,14 +168,15 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                           // open terms and conditions
                           launchUrl(Uri.parse(AppConstants.urlTermsAndConditions));
                         },
-                        child: const Text('Terms'),
+                        child: Text(context.l10n.terms),
                       ),
                       // Privacy
+
                       TextButton(
                         onPressed: () {
                           launchUrl(Uri.parse(AppConstants.urlPrivacyPolicy));
                         },
-                        child: const Text('Privacy'),
+                        child: Text(context.l10n.privacy),
                       ),
                     ],
                   ),
@@ -182,272 +184,10 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
               ),
             ),
           ],
-        ), /* SingleChildScrollView(
-
-          child: Stack(
-            children: [
-              Transform.translate(
-                offset: const Offset(0, -120),
-                child: Transform.scale(
-                  scale: 2,
-                  child: ClipOval(
-                    child: Container(
-                      color: Colors.white,
-                      height: 200,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    Text(
-                      context.l10n.premiumDescription,
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(height: 1.5),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 24),
-                    Image.asset(
-                      'assets/images/badge_pro_large.png',
-                      height: 100,
-                      semanticLabel: 'Image Premium Badge',
-                    ),
-                    AppSpacings.sbh16,
-                    ListView.separated(
-                      shrinkWrap: true,
-                      separatorBuilder: (context, index) => const Divider(),
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: _paidFeatures.length,
-                      itemBuilder: (context, index) =>
-                          FeatureTile(title: _paidFeatures[index].title),
-                    ),
-                    AppSpacings.sbh16,
-                    ContentBox(
-                      child: _displayMonhtlyOffer(premiumState.status),
-                    ).animate().shimmer(
-                          delay: const Duration(milliseconds: 500),
-                          duration: const Duration(milliseconds: 700),
-                        ),
-                    AppSpacings.sbh16,
-                    Stack(
-                      children: [
-                        ContentBox(
-                          child: _displayAnualOffer(premiumState.status),
-                        ).animate().shimmer(
-                              delay: const Duration(milliseconds: 700),
-                              duration: const Duration(milliseconds: 700),
-                            ),
-                        Positioned(
-                          top: 0,
-                          right: 0,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Text(
-                              '30% off',
-                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    SecondaryButton(
-                      text: context.l10n.close,
-                      onPressed: _onPressedClose(context),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ), */
+        ),
       ),
     );
   }
-
-  /*Future<void> _onCancelSubscription(
-    BuildContext context,
-  ) async {
-    final result = await DrumbitiousDialogs.showConfirmCancelDialog(
-      context: context,
-      title: context.l10n.cancelSubscriptionTitle,
-      message: context.l10n.cancelSubscriptionText,
-      noButtonText: context.l10n.cancel,
-      yesButtonText: context.l10n.cancelSubscriptionButton,
-    );
-
-    if (result != null && result) { 
-      if (Platform.isIOS) {
-        AppAnalytics.trackEvent(
-          AppAnalytics.clickCancelSubscriptionIos,
-        );
-        final uri = Uri.parse(AppConstants.urlIosSubscriptions);
-        launchUrl(uri);
-
-      } else {
-        AppAnalytics.logEvent(
-          name: AppAnalyticsEvent.cancelSubscriptionAndroidClicked,
-        );
-        final uri = Uri.parse(Config.URL_ANDROID_SUBSCRIPTIONS);
-        launchUrl(uri);
-      }
-    } else {
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pop();
-    }
-  }*/
-
-  /* void _onPressedClose(BuildContext context) {
-    AppAnalytics.logEvent(name: AppAnalyticsEvent.premiumBuyCancelled);
-    context.pop();
-  } */
-
-  /* String _getLifetimePriceText(
-    Package? package,
-    AppLocalizations translator,
-  ) {
-    if (package == null) return 'NO PRICE';
-
-    return '${translator.premiumHints5Days} '
-        '${package.storeProduct.priceString}'
-        '${translator.premiumHintsMonthly}';
-  } */
-
-  /*  String _getAnnualPriceText(
-    Package? package,
-    AppLocalizations translator,
-  ) {
-    if (package == null) return 'NO PRICE';
-
-    return '${translator.premiumHints14Days} '
-        '${package.storeProduct.priceString}'
-        '${translator.premiumHintsAnnual}';
-  } */
-
-  /* Widget _displayMonhtlyOffer(PremiumSubscriptionStatus premiumStatus) {
-    switch (widget.fetchProductsState.status) {
-      case FetchProductsStatus.loading:
-        return const CircularProgressIndicator();
-      case FetchProductsStatus.success:
-      case FetchProductsStatus.failure:
-        return Column(
-          children: [
-            PremiumPrice(
-              monthlyPackage: widget.fetchProductsState.monthlyPackage,
-              annualPackage: widget.fetchProductsState.annualPackage,
-              planPeriod: PlanPeriod.monthly,
-            ),
-            AppSpacings.sbh8,
-            Text(
-              _getMonthlyPriceText(
-                widget.fetchProductsState.monthlyPackage,
-                context.l10n,
-              ),
-            ),
-            AppSpacings.sbh16,
-            PrimaryButton(
-              prefixIcon: const Icon(
-                DrumbitiousIcons.ic_diamond,
-                color: Colors.white,
-              ),
-              text: premiumStatus == PremiumSubscriptionStatus.subscribed
-                  ? context.l10n.buttonAlreadyPurchased
-                  : context.l10n.buttonBuyMonthly,
-              onPressed: premiumStatus == PremiumSubscriptionStatus.subscribed ||
-                      widget.fetchProductsState.monthlyPackage == null
-                  ? null
-                  : () {
-                      AppAnalytics.logEvent(
-                        name: AppAnalyticsEvent.premiumBuyMonthlyClicked,
-                      );
-                      if (widget.fetchProductsState.monthlyPackage != null) {
-                        context.read<FetchProductsCubit>().purchase(
-                              widget.fetchProductsState.monthlyPackage!,
-                            );
-                      } else {
-                        context.read<CrashReportingRepository>().reportCrash(
-                              const PremiumNoOfferAvailableException(),
-                            );
-                      }
-                    },
-            ),
-          ],
-        );
-    }
-  } */
-
-  /* Widget _displayAnualOffer(PremiumSubscriptionStatus premiumStatus) {
-    switch (widget.fetchProductsState.status) {
-      case FetchProductsStatus.loading:
-        return const AppLoadingWidget();
-      case FetchProductsStatus.success:
-      case FetchProductsStatus.anonymousAccount:
-      case FetchProductsStatus.failure:
-        return Column(
-          children: [
-            PremiumPrice(
-              monthlyPackage: widget.fetchProductsState.monthlyPackage,
-              annualPackage: widget.fetchProductsState.annualPackage,
-              planPeriod: PlanPeriod.annual,
-            ),
-            AppSpacings.sbh8,
-            Text(
-              _getAnnualPriceText(
-                widget.fetchProductsState.annualPackage,
-                context.l10n,
-              ),
-            ),
-            AppSpacings.sbh16,
-            PrimaryButton(
-              prefixIcon: const Icon(
-                DrumbitiousIcons.ic_diamond,
-                color: Colors.white,
-              ),
-              text: premiumStatus == PremiumSubscriptionStatus.subscribed
-                  ? context.l10n.buttonAlreadyPurchased
-                  : context.l10n.buttonBuyAnnual,
-              onPressed: premiumStatus == PremiumSubscriptionStatus.subscribed ||
-                      widget.fetchProductsState.annualPackage == null
-                  ? null
-                  : () {
-                      AppAnalytics.logEvent(
-                        name: AppAnalyticsEvent.premiumBuyAnnualClicked,
-                      );
-                      if (widget.fetchProductsState.annualPackage != null) {
-                        context.read<FetchProductsCubit>().purchase(
-                              widget.fetchProductsState.annualPackage!,
-                            );
-                      } else {
-                        context.read<CrashReportingRepository>().reportCrash(
-                              const PremiumNoOfferAvailableException(),
-                            );
-                      }
-                    },
-            ),
-            if (premiumStatus == PremiumSubscriptionStatus.subscribed) ...[
-              AppSpacings.sbh8,
-              PrimaryButton(
-                prefixIcon: const Icon(Icons.cancel_outlined),
-                text: context.l10n.cancelSubscription,
-                onPressed: () => _onCancelSubscription(context),
-              ),
-            ],
-          ],
-        );
-      // return Text(widget.fetchProductsState.exception.toString());
-    }
-  } */
 }
 
 class PackageWidget extends StatelessWidget {
@@ -496,12 +236,12 @@ class PackageWidget extends StatelessWidget {
                   const SizedBox(height: 8),
                   if (period == PlanPeriod.yearly)
                     Text(
-                      '5-day free trial, then $priceString/year. Subscription auto-renews unless canceled in Google Play settings before the trial ends.',
+                      context.l10n.yearlyDescription(priceString),
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   if (period == PlanPeriod.lifetime)
                     Text(
-                      'One-time payment. No subscription required.',
+                      context.l10n.lifetimeDescription,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                 ],

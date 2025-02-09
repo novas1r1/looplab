@@ -62,5 +62,45 @@
     "startMustBeBeforeEnd": "La position de début doit être avant la position de fin",
     "setLoopStart": "Définir le Début de la Boucle",
     "setLoopEnd": "Définir la Fin de la Boucle",
-    "endMustBeAfterStart": "La position de fin doit être après la position de début"
+    "endMustBeAfterStart": "La position de fin doit être après la position de début",
+    "premiumHeadline": "Maîtrisez Vos Chansons Préférées",
+    "premiumFeatureUnlimitedLoops": "Boucles Illimitées",
+    "premiumFeatureChangeMusicSpeed": "Modifier la Vitesse de la Musique",
+    "premiumFeatureZoomInOut": "Zoom pour une Précision Maximale",
+    "premiumFeatureSupportDeveloper": "Soutenez le Développeur Indépendant",
+    "purchase": "Acheter",
+    "notAvailable": "Non Disponible",
+    "cancelAnytime": "Vous pouvez annuler à tout moment avant la fin de l'essai dans les paramètres Google Play pour éviter d'être facturé.",
+    "restore": "Restaurer",
+    "terms": "Conditions",
+    "privacy": "Confidentialité",
+    "yearlyDescription": "Essai gratuit de 5 jours, puis {priceString}/an. L'abonnement se renouvelle automatiquement sauf annulation dans les paramètres Google Play avant la fin de l'essai.",
+    "@yearlyDescription": {
+        "placeholders": {
+            "priceString": {
+                "type": "String"
+            }
+        }
+    },
+    "lifetimeDescription": "Paiement unique. Pas d'abonnement requis.",
+    "deleteSongLoops": "Supprimer la Chanson et les Boucles",
+    "deleteSongLoopsDescription": "Êtes-vous sûr de vouloir supprimer cette chanson et toutes les boucles associées ? Cette action ne peut pas être annulée.",
+    "delete": "Supprimer",
+    "cancel": "Annuler",
+    "startPositionMustBeBeforeEndPosition": "La position de début doit être avant la position de fin",
+    "endPositionMustBeAfterStartPosition": "La position de fin doit être après la position de début",
+    "tutorialNavigateThroughSong": "Naviguez dans la chanson par glisser-déposer",
+    "tutorialNavigateThroughSongDescription": "Utilisez vos doigts pour faire glisser toute la chanson vers la gauche ou la droite et zoomer pour plus de précision",
+    "tutorialPlayAndPauseSong": "Lecture, pause ou changement de vitesse de la chanson",
+    "tutorialPlayAndPauseSongDescription": "Utilisez ces boutons pour contrôler la chanson et les boucles",
+    "tutorialJumpToLoop": "Voir et sauter aux boucles",
+    "tutorialJumpToLoopDescription": "Vos boucles seront affichées ici. Vous pouvez sauter vers elles en les touchant",
+    "tutorialSetLoopStart": "Définir la position de début de la boucle",
+    "tutorialSetLoopStartDescription": "Vous pouvez toujours ajuster la position de début de la boucle en déplaçant le marqueur de chanson et en touchant la position de début",
+    "tutorialSetLoopEnd": "Définir la position de fin de la boucle",
+    "tutorialSetLoopEndDescription": "Vous pouvez toujours ajuster la position de fin de la boucle en déplaçant le marqueur de chanson et en touchant la position de fin",
+    "tutorialActivateLoop": "Activer le mode boucle pour la boucle sélectionnée",
+    "tutorialActivateLoopDescription": "Si vous voulez jouer la boucle, vous devez activer le mode boucle. S'il est désactivé, toute la chanson sera jouée.",
+    "tutorialAddLoop": "Ajouter une nouvelle boucle",
+    "tutorialAddLoopDescription": "Vous pouvez ajouter une nouvelle boucle en touchant le bouton +"
 } 

@@ -62,5 +62,44 @@
     "startMustBeBeforeEnd": "Pozycja początkowa musi być przed pozycją końcową",
     "setLoopStart": "Ustaw Początek Pętli",
     "setLoopEnd": "Ustaw Koniec Pętli",
-    "endMustBeAfterStart": "Pozycja końcowa musi być po pozycji początkowej"
+    "endMustBeAfterStart": "Pozycja końcowa musi być po pozycji początkowej",
+    "premiumHeadline": "Opanuj Swoje Ulubione Utwory",
+    "premiumFeatureUnlimitedLoops": "Nieograniczona Liczba Pętli",
+    "premiumFeatureChangeMusicSpeed": "Zmień Prędkość Muzyki",
+    "premiumFeatureZoomInOut": "Zoom dla Maksymalnej Precyzji",
+    "premiumFeatureSupportDeveloper": "Wesprzyj Niezależnego Dewelopera",
+    "purchase": "Kup",
+    "notAvailable": "Niedostępne",
+    "cancelAnytime": "Możesz anulować w dowolnym momencie przed końcem okresu próbnego w ustawieniach Google Play, aby uniknąć opłat.",
+    "restore": "Przywróć",
+    "terms": "Warunki",
+    "privacy": "Prywatność",
+    "yearlyDescription": "5-dniowy okres próbny, następnie {priceString}/rok. Subskrypcja odnawia się automatycznie, chyba że zostanie anulowana w ustawieniach Google Play przed końcem okresu próbnego.",
+    "@yearlyDescription": {
+        "placeholders": {
+            "priceString": {
+                "type": "String"
+            }
+        }
+    },
+    "lifetimeDescription": "Jednorazowa płatność. Bez subskrypcji.",
+    "deleteSongLoops": "Usuń Utwór i Pętle",
+    "deleteSongLoopsDescription": "Czy na pewno chcesz usunąć ten utwór i wszystkie powiązane pętle? Tej operacji nie można cofnąć.",
+    "cancel": "Anuluj",
+    "startPositionMustBeBeforeEndPosition": "Pozycja początkowa musi być przed pozycją końcową",
+    "endPositionMustBeAfterStartPosition": "Pozycja końcowa musi być po pozycji początkowej",
+    "tutorialNavigateThroughSong": "Nawiguj po utworze przeciągając",
+    "tutorialNavigateThroughSongDescription": "Użyj palców, aby przeciągnąć cały utwór w lewo lub prawo i przybliżyć dla lepszej precyzji",
+    "tutorialPlayAndPauseSong": "Odtwarzaj, pauzuj lub zmieniaj prędkość utworu",
+    "tutorialPlayAndPauseSongDescription": "Użyj tych przycisków do kontrolowania utworu i pętli",
+    "tutorialJumpToLoop": "Zobacz i skocz do pętli",
+    "tutorialJumpToLoopDescription": "Twoje pętle będą wyświetlane tutaj. Możesz do nich przeskoczyć dotykając ich",
+    "tutorialSetLoopStart": "Ustaw pozycję początkową pętli",
+    "tutorialSetLoopStartDescription": "Zawsze możesz dostosować pozycję początkową pętli przesuwając znacznik utworu i dotykając pozycji początkowej",
+    "tutorialSetLoopEnd": "Ustaw pozycję końcową pętli",
+    "tutorialSetLoopEndDescription": "Zawsze możesz dostosować pozycję końcową pętli przesuwając znacznik utworu i dotykając pozycji końcowej",
+    "tutorialActivateLoop": "Aktywuj tryb pętli dla wybranej pętli",
+    "tutorialActivateLoopDescription": "Jeśli chcesz odtworzyć pętlę, musisz aktywować tryb pętli. Jeśli jest wyłączony, zostanie odtworzony cały utwór.",
+    "tutorialAddLoop": "Dodaj nową pętlę",
+    "tutorialAddLoopDescription": "Możesz dodać nową pętlę dotykając przycisku +"
 } 

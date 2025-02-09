@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchases_flutter/object_wrappers.dart';
 import 'package:repeatlab/core/utils/cubit_extension.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
-import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/purchases_repository.dart';
 
 part 'fetch_products_cubit.mapper.dart';

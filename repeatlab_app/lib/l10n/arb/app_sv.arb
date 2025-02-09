@@ -62,5 +62,44 @@
     "startMustBeBeforeEnd": "Startposition måste vara före slutposition",
     "setLoopStart": "Ställ In Loopstart",
     "setLoopEnd": "Ställ In Loopslut",
-    "endMustBeAfterStart": "Slutposition måste vara efter startposition"
+    "endMustBeAfterStart": "Slutposition måste vara efter startposition",
+    "premiumHeadline": "Bemästra Dina Favoritlåtar",
+    "premiumFeatureUnlimitedLoops": "Obegränsade Loopar",
+    "premiumFeatureChangeMusicSpeed": "Ändra Musikhastighet",
+    "premiumFeatureZoomInOut": "Zoom för Maximal Precision",
+    "premiumFeatureSupportDeveloper": "Stöd den Oberoende Utvecklaren",
+    "purchase": "Köp",
+    "notAvailable": "Inte Tillgänglig",
+    "cancelAnytime": "Du kan avbryta när som helst före provperiodens slut i Google Play-inställningarna för att undvika debitering.",
+    "restore": "Återställ",
+    "terms": "Villkor",
+    "privacy": "Integritet",
+    "yearlyDescription": "5 dagars gratis provperiod, sedan {priceString}/år. Prenumerationen förnyas automatiskt om den inte avbryts i Google Play-inställningarna före provperiodens slut.",
+    "@yearlyDescription": {
+        "placeholders": {
+            "priceString": {
+                "type": "String"
+            }
+        }
+    },
+    "lifetimeDescription": "Engångsbetalning. Ingen prenumeration krävs.",
+    "deleteSongLoops": "Radera Låt och Loopar",
+    "deleteSongLoopsDescription": "Är du säker på att du vill radera denna låt och alla tillhörande loopar? Detta kan inte ångras.",
+    "cancel": "Avbryt",
+    "startPositionMustBeBeforeEndPosition": "Startposition måste vara före slutposition",
+    "endPositionMustBeAfterStartPosition": "Slutposition måste vara efter startposition",
+    "tutorialNavigateThroughSong": "Navigera genom låten med dra och släpp",
+    "tutorialNavigateThroughSongDescription": "Använd dina fingrar för att dra hela låten åt vänster eller höger och zooma för bättre precision",
+    "tutorialPlayAndPauseSong": "Spela, pausa eller ändra låtens hastighet",
+    "tutorialPlayAndPauseSongDescription": "Använd dessa knappar för att kontrollera låten och looparna",
+    "tutorialJumpToLoop": "Se och hoppa till loopar",
+    "tutorialJumpToLoopDescription": "Dina loopar kommer att visas här. Du kan hoppa till dem genom att trycka på dem",
+    "tutorialSetLoopStart": "Ställ in loopens startposition",
+    "tutorialSetLoopStartDescription": "Du kan alltid justera loopens startposition genom att flytta låtmarkören och trycka på startpositionen",
+    "tutorialSetLoopEnd": "Ställ in loopens slutposition",
+    "tutorialSetLoopEndDescription": "Du kan alltid justera loopens slutposition genom att flytta låtmarkören och trycka på slutpositionen",
+    "tutorialActivateLoop": "Aktivera loopläget för vald loop",
+    "tutorialActivateLoopDescription": "Om du vill spela loopen måste du aktivera loopläget. Om det är inaktiverat kommer hela låten att spelas.",
+    "tutorialAddLoop": "Lägg till en ny loop",
+    "tutorialAddLoopDescription": "Du kan lägga till en ny loop genom att trycka på + knappen"
 } 

@@ -71,5 +71,40 @@
     "premiumFeatureChangeMusicSpeed": "Change Music Speed",
     "premiumFeatureZoomInOut": "Zoom In/Out on Audio Wave",
     "premiumFeatureSupportDeveloper": "Support the independent Developer",
-    "premiumYearlyDescription": "Get 12 months of RepeatLab Pro for the price of 10."
+    "premiumYearlyDescription": "Get 12 months of RepeatLab Pro for the price of 10.",
+    "purchase": "Purchase",
+    "notAvailable": "Not available",
+    "cancelAnytime": "You can cancel anytime before the trial ends in Google Play settings to avoid being charged.",
+    "restore": "Restore",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "yearlyDescription": "5-day free trial, then {priceString}/year. Subscription auto-renews unless canceled in Google Play settings before the trial ends.",
+    "@yearlyDescription": {
+        "placeholders": {
+            "priceString": {
+                "type": "String"
+            }
+        }
+    },
+    "lifetimeDescription": "One-time payment. No subscription required.",
+    "deleteSongLoops": "Delete Song & Loops",
+    "deleteSongLoopsDescription": "Are you sure you want to delete this song and all attached loops? This can't be undone.",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "startPositionMustBeBeforeEndPosition": "Start position must be before end position",
+    "endPositionMustBeAfterStartPosition": "End position must be after start position",
+    "tutorialNavigateThroughSong": "Navigate through the song with dragging and dropping",
+    "tutorialNavigateThroughSongDescription": "Use your fingers to drag and drop the whole song to the left or right and zoom in/out for better precision",
+    "tutorialPlayAndPauseSong": "Play, pause or change the speed of the song",
+    "tutorialPlayAndPauseSongDescription": "Use these buttons to control the song and loops",
+    "tutorialJumpToLoop": "See and jump to loops",
+    "tutorialJumpToLoopDescription": "Your loops will be displayed here. You can jump to them by tapping on them",
+    "tutorialSetLoopStart": "Set the start position of the loop",
+    "tutorialSetLoopStartDescription": "You can always adjust the start position of the loop by moving the song marker and tapping on the start position",
+    "tutorialSetLoopEnd": "Set the end position of the loop",
+    "tutorialSetLoopEndDescription": "You can always adjust the end position of the loop by moving the song marker and tapping on the end position",
+    "tutorialActivateLoop": "Activate the loop mode for selected loop",
+    "tutorialActivateLoopDescription": "If you want to play the loop, you have to activate the loop mode. If it's disabled, the whole song will be played.",
+    "tutorialAddLoop": "Add a new loop",
+    "tutorialAddLoopDescription": "You can add a new loop by tapping on the + button"
 }
