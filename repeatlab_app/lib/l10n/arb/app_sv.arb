@@ -74,10 +74,13 @@
     "restore": "Återställ",
     "terms": "Villkor",
     "privacy": "Integritet",
-    "yearlyDescription": "5 dagars gratis provperiod, sedan {priceString}/år. Prenumerationen förnyas automatiskt om den inte avbryts i Google Play-inställningarna före provperiodens slut.",
+    "yearlyDescription": "{trialString} dagars gratis provperiod, sedan {priceString}/år. Prenumerationen förnyas automatiskt om den inte avbryts i Google Play-inställningarna före provperiodens slut.",
     "@yearlyDescription": {
         "placeholders": {
             "priceString": {
+                "type": "String"
+            },
+            "trialString": {
                 "type": "String"
             }
         }

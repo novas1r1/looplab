@@ -77,10 +77,13 @@
     "restore": "Restore",
     "terms": "Terms",
     "privacy": "Privacy",
-    "yearlyDescription": "5-day free trial, then {priceString}/year. Subscription auto-renews unless canceled in Google Play settings before the trial ends.",
+    "yearlyDescription": "{trialString}-day free trial, then {priceString}/year. Subscription auto-renews unless canceled in Google Play settings before the trial ends.",
     "@yearlyDescription": {
         "placeholders": {
             "priceString": {
+                "type": "String"
+            },
+            "trialString": {
                 "type": "String"
             }
         }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/app_constants.dart';
@@ -223,6 +225,8 @@ class PackageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isApple = Platform.isIOS;
+
     return GestureDetector(
       onTap: () => onSelected(),
       child: Container(
@@ -255,7 +259,7 @@ class PackageWidget extends StatelessWidget {
                     children: [
                       if (period == PlanPeriod.yearly)
                         Text(
-                          context.l10n.yearlyDescription(priceString),
+                          context.l10n.yearlyDescription(priceString, isApple ? '3' : '5'),
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       if (period == PlanPeriod.lifetime)

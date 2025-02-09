@@ -74,16 +74,20 @@
     "restore": "Wiederherstellen",
     "terms": "Nutzungsbedingungen",
     "privacy": "Datenschutz",
-    "yearlyDescription": "5-tägiger kostenloser Testzeitraum, dann {priceString}/Jahr. Das Abo erneuert sich automatisch, es sei denn, es wird in den Google Play Einstellungen vor Ablauf des Testzeitraums storniert.",
+    "yearlyDescription": "{trialString}-tägiger kostenloser Testzeitraum, dann {priceString}/Jahr. Das Abo erneuert sich automatisch, es sei denn, es wird in den Google Play Einstellungen vor Ablauf des Testzeitraums storniert.",
     "@yearlyDescription": {
         "placeholders": {
             "priceString": {
+                "type": "String"
+            },
+            "trialString": {
                 "type": "String"
             }
         }
     },
     "lifetimeDescription": "Einmalzahlung. Kein Abo.",
     "deleteSongLoops": "Song und Loops löschen",
+
     "deleteSongLoopsDescription": "Bist du sicher, dass du diesen Song und alle angehängten Loops löschen möchtest? Dies kann nicht rückgängig gemacht werden.",
     "delete": "Löschen",
     "cancel": "Abbrechen",

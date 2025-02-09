@@ -74,10 +74,13 @@
     "restore": "Восстановить",
     "terms": "Условия",
     "privacy": "Конфиденциальность",
-    "yearlyDescription": "5-дневный бесплатный пробный период, затем {priceString}/год. Подписка продлевается автоматически, если не отменить в настройках Google Play до окончания пробного периода.",
+    "yearlyDescription": "{trialString}-дневный бесплатный пробный период, затем {priceString}/год. Подписка продлевается автоматически, если не отменить в настройках Google Play до окончания пробного периода.",
     "@yearlyDescription": {
         "placeholders": {
             "priceString": {
+                "type": "String"
+            },
+            "trialString": {
                 "type": "String"
             }
         }

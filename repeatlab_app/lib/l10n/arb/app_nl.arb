@@ -74,10 +74,13 @@
     "restore": "Herstellen",
     "terms": "Voorwaarden",
     "privacy": "Privacy",
-    "yearlyDescription": "5 dagen gratis proefperiode, daarna {priceString}/jaar. Abonnement wordt automatisch verlengd tenzij geannuleerd in Google Play-instellingen voor het einde van de proefperiode.",
+    "yearlyDescription": "{trialString} dagen gratis proefperiode, daarna {priceString}/jaar. Abonnement wordt automatisch verlengd tenzij geannuleerd in Google Play-instellingen voor het einde van de proefperiode.",
     "@yearlyDescription": {
         "placeholders": {
             "priceString": {
+                "type": "String"
+            },
+            "trialString": {
                 "type": "String"
             }
         }
