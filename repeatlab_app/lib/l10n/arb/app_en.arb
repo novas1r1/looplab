@@ -71,7 +71,6 @@
     "premiumFeatureChangeMusicSpeed": "Change Music Speed",
     "premiumFeatureZoomInOut": "Zoom In/Out on Audio Wave",
     "premiumFeatureSupportDeveloper": "Support the independent Developer",
-    "premiumYearlyDescription": "Get 12 months of RepeatLab Pro for the price of 10.",
     "purchase": "Purchase",
     "notAvailable": "Not available",
     "cancelAnytime": "You can cancel anytime before the trial ends in Google Play settings to avoid being charged.",
@@ -106,5 +105,6 @@
     "tutorialActivateLoop": "Activate the loop mode for selected loop",
     "tutorialActivateLoopDescription": "If you want to play the loop, you have to activate the loop mode. If it's disabled, the whole song will be played.",
     "tutorialAddLoop": "Add a new loop",
-    "tutorialAddLoopDescription": "You can add a new loop by tapping on the + button"
+    "tutorialAddLoopDescription": "You can add a new loop by tapping on the + button",
+    "year": "year"
 }

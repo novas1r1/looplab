@@ -9,7 +9,6 @@ import 'package:repeatlab/core/utils/dialog_helper.dart';
 import 'package:repeatlab/data/repositories/purchases_repository.dart';
 import 'package:repeatlab/features/home/dataprotection_page.dart';
 import 'package:repeatlab/features/home/legal_notices_page.dart';
-import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/paywall/premium_screen.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -24,7 +23,7 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final appVersion = context.read<PackageInfo>().version;
     final buildNumber = context.read<PackageInfo>().buildNumber;
-    final hasSubscribed = context.watch<PremiumSubscriptionCubit>().hasSubscribed;
+    // final hasSubscribed = context.watch<PremiumSubscriptionCubit>().hasSubscribed;
 
     return Drawer(
       child: ListView(
@@ -83,9 +82,7 @@ class CustomDrawer extends StatelessWidget {
             leading: const Icon(Icons.shopping_cart),
             title: Text(context.l10n.buyRepeatLabPro),
             onTap: () {
-              AppAnalytics.trackEvent(
-                AppAnalytics.viewPremiumScreen,
-              );
+              AppAnalytics.trackEvent(AppAnalytics.viewPremiumScreen);
 
               Navigator.of(context).push(
                 MaterialPageRoute(

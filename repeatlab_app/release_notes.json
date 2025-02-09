@@ -1,6 +1,10 @@
 [
     {
         "language": "en-US",
-        "text": "Added new languages: German, Spanish, French, Italian, Dutch, Polish, Portuguese, Russian :)"
+        "text": "Fixed a bug where the loop start position was not set correctly if the end position was already set."
+    },
+    {
+        "language": "en-DE",
+        "text": "Fehler behoben: Der Loop-Start wurde nicht korrekt gesetzt, wenn die Endposition bereits festgelegt war."
     }
 ]

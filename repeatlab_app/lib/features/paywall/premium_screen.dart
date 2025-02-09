@@ -76,8 +76,6 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
 
   @override
   Widget build(BuildContext context) {
-    final premiumState = context.watch<PremiumSubscriptionCubit>().state;
-
     final yearlyPrice = widget.fetchProductsState.annualPackage?.storeProduct.priceString;
     final lifetimePrice = widget.fetchProductsState.lifetimePackage?.storeProduct.priceString;
 
@@ -85,7 +83,19 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
       child: Scaffold(
         body: ListView(
           children: [
-            Image.asset('assets/images/header_2.png'),
+            Stack(
+              children: [
+                Image.asset('assets/images/header_2.png'),
+                Positioned(
+                  top: 16,
+                  right: 16,
+                  child: IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.close, color: Colors.white, size: 32),
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -152,31 +162,37 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       // Restore
-                      TextButton(
-                        onPressed: () {
-                          // restore
-                          // TODO(Verena): what to do here?
-                          //launchUrl(Uri.parse(AppConstants.urlRestore));
-                          context.read<PremiumSubscriptionCubit>().restore();
-                        },
-                        child: Text(context.l10n.restore),
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {
+                            // restore
+                            // TODO(Verena): what to do here?
+                            //launchUrl(Uri.parse(AppConstants.urlRestore));
+                            context.read<PremiumSubscriptionCubit>().restore();
+                          },
+                          child: FittedBox(child: Text(context.l10n.restore)),
+                        ),
                       ),
                       // Terms
 
-                      TextButton(
-                        onPressed: () {
-                          // open terms and conditions
-                          launchUrl(Uri.parse(AppConstants.urlTermsAndConditions));
-                        },
-                        child: Text(context.l10n.terms),
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {
+                            // open terms and conditions
+                            launchUrl(Uri.parse(AppConstants.urlTermsAndConditions));
+                          },
+                          child: FittedBox(child: Text(context.l10n.terms)),
+                        ),
                       ),
                       // Privacy
 
-                      TextButton(
-                        onPressed: () {
-                          launchUrl(Uri.parse(AppConstants.urlPrivacyPolicy));
-                        },
-                        child: Text(context.l10n.privacy),
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {
+                            launchUrl(Uri.parse(AppConstants.urlPrivacyPolicy));
+                          },
+                          child: FittedBox(child: Text(context.l10n.privacy)),
+                        ),
                       ),
                     ],
                   ),
@@ -220,44 +236,49 @@ class PackageWidget extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(16),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'RepeatLab Pro ${period.name}',
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+            Text(
+              'RepeatLab Pro ${period.name}',
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    fontWeight: FontWeight.bold,
                   ),
-                  const SizedBox(height: 8),
-                  if (period == PlanPeriod.yearly)
-                    Text(
-                      context.l10n.yearlyDescription(priceString),
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  if (period == PlanPeriod.lifetime)
-                    Text(
-                      context.l10n.lifetimeDescription,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                ],
-              ),
             ),
-            const SizedBox(width: 16),
-            if (period == PlanPeriod.yearly)
-              Text(
-                "$priceString/year",
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-            if (period == PlanPeriod.lifetime)
-              Text(
-                priceString,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (period == PlanPeriod.yearly)
+                        Text(
+                          context.l10n.yearlyDescription(priceString),
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      if (period == PlanPeriod.lifetime)
+                        Text(
+                          context.l10n.lifetimeDescription,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 16),
+                if (period == PlanPeriod.yearly)
+                  Text(
+                    "$priceString/${context.l10n.year}",
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                if (period == PlanPeriod.lifetime)
+                  Text(
+                    priceString,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+              ],
+            ),
           ],
         ),
       ),

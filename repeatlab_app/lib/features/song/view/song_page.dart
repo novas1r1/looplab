@@ -353,14 +353,17 @@ class _SongViewState extends State<_SongView> {
     AppAnalytics.trackEvent(AppAnalytics.clickSetLoopStart);
     final currentPosition = context.read<SongCubit>().state.position ?? Duration.zero;
 
-    if (activeLoop.end != null && currentPosition < activeLoop.end!) {
-      context.read<SongCubit>().setLoopStart();
-    } else if (activeLoop.end != null) {
-      SnackbarHelper.showError(
-        context,
-        context.l10n.startPositionMustBeBeforeEndPosition,
-      );
+    if (activeLoop.end != null) {
+      if (currentPosition >= activeLoop.end!) {
+        SnackbarHelper.showError(
+          context,
+          context.l10n.startPositionMustBeBeforeEndPosition,
+        );
+        return;
+      }
     }
+
+    context.read<SongCubit>().setLoopStart();
   }
 
   Future<void> _onSetLoopEnd(BuildContext context, Loop activeLoop) async {

@@ -102,5 +102,6 @@
     "tutorialActivateLoop": "Activer le mode boucle pour la boucle sélectionnée",
     "tutorialActivateLoopDescription": "Si vous voulez jouer la boucle, vous devez activer le mode boucle. S'il est désactivé, toute la chanson sera jouée.",
     "tutorialAddLoop": "Ajouter une nouvelle boucle",
-    "tutorialAddLoopDescription": "Vous pouvez ajouter une nouvelle boucle en touchant le bouton +"
+    "tutorialAddLoopDescription": "Vous pouvez ajouter une nouvelle boucle en touchant le bouton +",
+    "year": "an"
 } 

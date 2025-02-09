@@ -101,5 +101,6 @@
     "tutorialActivateLoop": "Activeer de loopmodus voor geselecteerde loop",
     "tutorialActivateLoopDescription": "Als je de loop wilt afspelen, moet je de loopmodus activeren. Als deze is uitgeschakeld, wordt het hele nummer afgespeeld.",
     "tutorialAddLoop": "Voeg een nieuwe loop toe",
-    "tutorialAddLoopDescription": "Je kunt een nieuwe loop toevoegen door op de + knop te tikken"
+    "tutorialAddLoopDescription": "Je kunt een nieuwe loop toevoegen door op de + knop te tikken",
+    "year": "jaar"
 } 

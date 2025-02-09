@@ -67,7 +67,7 @@ class PurchasesRepository {
 
       return proEntitlement.isActive;
     } catch (e) {
-      print('RevenueCat error: $e');
+      log('RevenueCat error: $e');
       rethrow;
     }
   }

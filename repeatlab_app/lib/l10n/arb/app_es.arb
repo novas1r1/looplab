@@ -101,5 +101,6 @@
     "tutorialActivateLoop": "Activa el modo loop para el loop seleccionado",
     "tutorialActivateLoopDescription": "Si quieres reproducir el loop, debes activar el modo loop. Si está desactivado, se reproducirá toda la canción.",
     "tutorialAddLoop": "Añade un nuevo loop",
-    "tutorialAddLoopDescription": "Puedes añadir un nuevo loop tocando el botón +"
+    "tutorialAddLoopDescription": "Puedes añadir un nuevo loop tocando el botón +",
+    "year": "año"
 } 

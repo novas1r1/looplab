@@ -101,5 +101,6 @@
     "tutorialActivateLoop": "Aktywuj tryb pętli dla wybranej pętli",
     "tutorialActivateLoopDescription": "Jeśli chcesz odtworzyć pętlę, musisz aktywować tryb pętli. Jeśli jest wyłączony, zostanie odtworzony cały utwór.",
     "tutorialAddLoop": "Dodaj nową pętlę",
-    "tutorialAddLoopDescription": "Możesz dodać nową pętlę dotykając przycisku +"
+    "tutorialAddLoopDescription": "Możesz dodać nową pętlę dotykając przycisku +",
+    "year": "rok"
 } 

@@ -101,5 +101,6 @@
     "tutorialActivateLoop": "Aktivera loopläget för vald loop",
     "tutorialActivateLoopDescription": "Om du vill spela loopen måste du aktivera loopläget. Om det är inaktiverat kommer hela låten att spelas.",
     "tutorialAddLoop": "Lägg till en ny loop",
-    "tutorialAddLoopDescription": "Du kan lägga till en ny loop genom att trycka på + knappen"
+    "tutorialAddLoopDescription": "Du kan lägga till en ny loop genom att trycka på + knappen",
+    "year": "år"
 } 
