@@ -220,9 +220,7 @@ class _SongViewState extends State<_SongView> {
                       children: [
                         ElevatedButton(
                           key: tutorialKeyLoopStart,
-                          onPressed: (state.activeLoop != null)
-                              ? () => _onSetLoopStart(context, state.activeLoop!)
-                              : null,
+                          onPressed: () => _onSetLoopStart(context, state.activeLoop),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                             foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -349,21 +347,30 @@ class _SongViewState extends State<_SongView> {
     }
   }
 
-  Future<void> _onSetLoopStart(BuildContext context, Loop activeLoop) async {
+  Future<void> _onSetLoopStart(BuildContext context, Loop? activeLoop) async {
     AppAnalytics.trackEvent(AppAnalytics.clickSetLoopStart);
     final currentPosition = context.read<SongCubit>().state.position ?? Duration.zero;
 
-    if (activeLoop.end != null) {
-      if (currentPosition >= activeLoop.end!) {
-        SnackbarHelper.showError(
-          context,
-          context.l10n.startPositionMustBeBeforeEndPosition,
-        );
-        return;
-      }
-    }
+    if (activeLoop == null) {
+      // add new loop and set start
+      await context.read<SongCubit>().addLoop();
 
-    context.read<SongCubit>().setLoopStart();
+      if (context.mounted) {
+        context.read<SongCubit>().setLoopStart();
+      }
+    } else {
+      if (activeLoop.end != null) {
+        if (currentPosition >= activeLoop.end!) {
+          SnackbarHelper.showError(
+            context,
+            context.l10n.startPositionMustBeBeforeEndPosition,
+          );
+          return;
+        }
+      }
+
+      context.read<SongCubit>().setLoopStart();
+    }
   }
 
   Future<void> _onSetLoopEnd(BuildContext context, Loop activeLoop) async {

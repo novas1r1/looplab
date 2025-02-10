@@ -105,5 +105,8 @@
     "tutorialActivateLoopDescription": "Om du vill spela loopen måste du aktivera loopläget. Om det är inaktiverat kommer hela låten att spelas.",
     "tutorialAddLoop": "Lägg till en ny loop",
     "tutorialAddLoopDescription": "Du kan lägga till en ny loop genom att trycka på + knappen",
-    "year": "år"
+    "year": "år",
+    "purchasedAlready": "Redan köpt",
+    "purchaseSuccess": "Köp lyckades. Tack för att du stödjer utvecklaren ❤️!",
+    "cancelSubscription": "Avbryt Prenumeration"
 } 

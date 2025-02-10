@@ -109,5 +109,8 @@
     "tutorialActivateLoopDescription": "If you want to play the loop, you have to activate the loop mode. If it's disabled, the whole song will be played.",
     "tutorialAddLoop": "Add a new loop",
     "tutorialAddLoopDescription": "You can add a new loop by tapping on the + button",
-    "year": "year"
+    "year": "year",
+    "purchasedAlready": "Purchased already",
+    "purchaseSuccess": "Purchase successful. Thank you for supporting the developer ❤️!",
+    "cancelSubscription": "Cancel Subscription"
 }

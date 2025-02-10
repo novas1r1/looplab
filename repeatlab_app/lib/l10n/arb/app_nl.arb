@@ -105,5 +105,8 @@
     "tutorialActivateLoopDescription": "Als je de loop wilt afspelen, moet je de loopmodus activeren. Als deze is uitgeschakeld, wordt het hele nummer afgespeeld.",
     "tutorialAddLoop": "Voeg een nieuwe loop toe",
     "tutorialAddLoopDescription": "Je kunt een nieuwe loop toevoegen door op de + knop te tikken",
-    "year": "jaar"
+    "year": "jaar",
+    "purchasedAlready": "Al gekocht",
+    "purchaseSuccess": "Aankoop succesvol. Bedankt voor je ondersteuning aan de ontwikkelaar ❤️!",
+    "cancelSubscription": "Abonnement Opzeggen"
 } 

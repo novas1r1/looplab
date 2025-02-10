@@ -105,5 +105,8 @@
     "tutorialActivateLoopDescription": "Se vuoi riprodurre il loop, devi attivare la modalità loop. Se è disattivata, verrà riprodotta l'intera canzone.",
     "tutorialAddLoop": "Aggiungi un nuovo loop",
     "tutorialAddLoopDescription": "Puoi aggiungere un nuovo loop toccando il pulsante +",
-    "year": "anno"
+    "year": "anno",
+    "purchasedAlready": "Già acquistato",
+    "purchaseSuccess": "Acquisto riuscito. Grazie per il tuo supporto al developer ❤️!",
+    "cancelSubscription": "Annulla Abbonamento"
 } 

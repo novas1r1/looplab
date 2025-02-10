@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/app_constants.dart';
+import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/snackbar_helper.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/purchases_repository.dart';
@@ -52,6 +53,10 @@ class _PremiumView extends StatelessWidget {
     if (state.action == FetchProductsAction.purchase) {
       if (state.status == FetchProductsStatus.success) {
         context.read<PremiumSubscriptionCubit>().checkStatus();
+        SnackbarHelper.showSuccess(
+          context,
+          context.l10n.purchaseSuccess,
+        );
       } else if (state.status == FetchProductsStatus.failure) {
         SnackbarHelper.showError(
           context,
@@ -80,6 +85,7 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
   Widget build(BuildContext context) {
     final yearlyPrice = widget.fetchProductsState.annualPackage?.storeProduct.priceString;
     final lifetimePrice = widget.fetchProductsState.lifetimePackage?.storeProduct.priceString;
+    final hasSubscribed = context.watch<PremiumSubscriptionCubit>().hasSubscribed;
 
     return SafeArea(
       child: Scaffold(
@@ -120,6 +126,7 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                     isSelected: _selectedPlan == PlanPeriod.yearly,
                     onSelected: () => setState(() => _selectedPlan = PlanPeriod.yearly),
                     priceString: yearlyPrice ?? context.l10n.notAvailable,
+                    hasSubscribed: hasSubscribed,
                   ),
 
                   const SizedBox(height: 16),
@@ -129,9 +136,11 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                     isSelected: _selectedPlan == PlanPeriod.lifetime,
                     onSelected: () => setState(() => _selectedPlan = PlanPeriod.lifetime),
                     priceString: lifetimePrice ?? context.l10n.notAvailable,
+                    hasSubscribed: hasSubscribed,
                   ),
 
                   const SizedBox(height: 16),
+
                   if (_selectedPlan == PlanPeriod.yearly) ...[
                     Text(
                       context.l10n.cancelAnytime,
@@ -145,18 +154,22 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                       backgroundColor: Theme.of(context).colorScheme.primary,
                       foregroundColor: Theme.of(context).colorScheme.onPrimary,
                     ),
-                    onPressed: () {
-                      if (_selectedPlan == PlanPeriod.yearly) {
-                        context.read<FetchProductsCubit>().purchase(
-                              widget.fetchProductsState.annualPackage!,
-                            );
-                      } else if (_selectedPlan == PlanPeriod.lifetime) {
-                        context.read<FetchProductsCubit>().purchase(
-                              widget.fetchProductsState.lifetimePackage!,
-                            );
-                      }
-                    },
-                    child: Text(context.l10n.purchase),
+                    onPressed: !hasSubscribed
+                        ? () {
+                            if (_selectedPlan == PlanPeriod.yearly) {
+                              context.read<FetchProductsCubit>().purchase(
+                                    widget.fetchProductsState.annualPackage!,
+                                  );
+                            } else if (_selectedPlan == PlanPeriod.lifetime) {
+                              context.read<FetchProductsCubit>().purchase(
+                                    widget.fetchProductsState.lifetimePackage!,
+                                  );
+                            }
+                          }
+                        : null,
+                    child: !hasSubscribed
+                        ? Text(context.l10n.purchase)
+                        : Text(context.l10n.purchasedAlready),
                   ),
                   const SizedBox(height: 16),
 
@@ -211,7 +224,7 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
 class PackageWidget extends StatelessWidget {
   final PlanPeriod period;
   final bool isSelected;
-
+  final bool hasSubscribed;
   final VoidCallback onSelected;
   final String priceString;
 
@@ -221,6 +234,7 @@ class PackageWidget extends StatelessWidget {
     required this.isSelected,
     required this.onSelected,
     required this.priceString,
+    required this.hasSubscribed,
   });
 
   @override
@@ -241,7 +255,7 @@ class PackageWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
               'RepeatLab Pro ${period.name}',
@@ -283,6 +297,46 @@ class PackageWidget extends StatelessWidget {
                   ),
               ],
             ),
+            if (hasSubscribed && period == PlanPeriod.yearly) ...[
+              const SizedBox(height: 16),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                ),
+                onPressed: () {
+                  // TODO(Verena): Add a confirmation dialog
+                  /* final result = await DrumbitiousDialogs.showConfirmCancelDialog(
+                    context: context,
+                    title: context.l10n.cancelSubscriptionTitle,
+                    message: context.l10n.cancelSubscriptionText,
+                    noButtonText: context.l10n.cancel,
+                    yesButtonText: context.l10n.cancelSubscriptionButton,
+                  );
+
+                  if (result != null && result) { */
+                  if (Platform.isIOS) {
+                    AppAnalytics.trackEvent(
+                      AppAnalytics.clickCancelSubscriptionIos,
+                    );
+                    final uri = Uri.parse(AppConstants.urlIosSubscriptions);
+                    launchUrl(uri);
+                  } else {
+                    AppAnalytics.trackEvent(
+                      AppAnalytics.clickCancelSubscriptionAndroid,
+                    );
+                    final uri = Uri.parse(AppConstants.urlAndroidSubscriptions);
+                    launchUrl(uri);
+                  }
+
+                  /* } else {
+                      // ignore: use_build_context_synchronously
+                      Navigator.of(context).pop();
+                    } */
+                },
+                child: Text(context.l10n.cancelSubscription),
+              ),
+            ],
           ],
         ),
       ),

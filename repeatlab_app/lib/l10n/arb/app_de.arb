@@ -107,5 +107,8 @@
     "tutorialActivateLoopDescription": "Wenn du den Loop spielen möchtest, musst du den Loop-Modus aktivieren. Wenn er deaktiviert ist, wird der gesamte Song gespielt.",
     "tutorialAddLoop": "Füge einen neuen Loop hinzu",
     "tutorialAddLoopDescription": "Du kannst eine neue Loop hinzufügen, indem du auf den + Button tippst",
-    "year": "Jahr"
+    "year": "Jahr",
+    "purchasedAlready": "Bereits gekauft",
+    "purchaseSuccess": "Kauf erfolgreich. Vielen Dank für die Unterstützung der Entwicklerin ❤️!",
+    "cancelSubscription": "Abonnement kündigen"
 } 
