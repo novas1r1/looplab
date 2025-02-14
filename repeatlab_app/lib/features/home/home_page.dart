@@ -5,6 +5,8 @@ import 'package:repeatlab/core/ui/widgets/loading.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/dialog_helper.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
+import 'package:repeatlab/features/changelog_dialog/changelog_dialog.dart';
+import 'package:repeatlab/features/changelog_dialog/cubits/changelog_dialog_cubit.dart';
 import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
 import 'package:repeatlab/features/home/widgets/custom_drawer.dart';
 import 'package:repeatlab/features/home/widgets/home_tile.dart';
@@ -21,96 +23,110 @@ class _HomePageState extends State<HomePage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ChangelogDialogCubit>().checkChangelogDialog();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final songCount = context.watch<AllSongsCubit>().state.songs.length;
 
-    return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      drawer: const CustomDrawer(),
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        leading: IconButton(
-          icon: const Icon(Icons.menu),
-          onPressed: () => _scaffoldKey.currentState?.openDrawer(),
-        ),
-        title: Text(
-          'RepeatLab',
-          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () => context.read<AllSongsCubit>().loadSongs(),
-            icon: const Icon(Icons.refresh),
+    return BlocListener<ChangelogDialogCubit, ChangelogDialogState>(
+      listener: (context, state) {
+        _displayChangelogDialog(state, context);
+      },
+      child: Scaffold(
+        key: _scaffoldKey,
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        drawer: const CustomDrawer(),
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          leading: IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () => _scaffoldKey.currentState?.openDrawer(),
           ),
-          if (kDebugMode)
+          title: Text(
+            'RepeatLab',
+            style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          actions: [
             IconButton(
-              onPressed: () => _onClearDb(context),
-              icon: const Icon(Icons.delete),
+              onPressed: () => context.read<AllSongsCubit>().loadSongs(),
+              icon: const Icon(Icons.refresh),
             ),
-          if (kDebugMode)
-            IconButton(
-              onPressed: () => _onClearSharedPrefs(context),
-              icon: const Icon(Icons.delete_forever),
-            ),
-        ],
-      ),
-      body: BlocBuilder<AllSongsCubit, AllSongsState>(
-        builder: (context, state) {
-          switch (state.status) {
-            case AllSongsStatus.loading:
-              return const Center(child: Loading());
-            case AllSongsStatus.initial:
-            case AllSongsStatus.loaded:
-              if (state.songs.isEmpty) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.music_note,
-                        size: 64,
-                        color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.5),
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        context.l10n.noSongsFound,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        context.l10n.tapToAddSong,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
-                            ),
-                      ),
-                    ],
-                  ),
-                );
-              }
-              return ListView.separated(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 92),
-                separatorBuilder: (context, index) => const SizedBox(height: 8),
-                itemCount: state.songs.length,
-                itemBuilder: (context, index) {
-                  final song = state.songs[index];
+            if (kDebugMode)
+              IconButton(
+                onPressed: () => _onClearDb(context),
+                icon: const Icon(Icons.delete),
+              ),
+            if (kDebugMode)
+              IconButton(
+                onPressed: () => _onClearSharedPrefs(context),
+                icon: const Icon(Icons.delete_forever),
+              ),
+          ],
+        ),
+        body: BlocBuilder<AllSongsCubit, AllSongsState>(
+          builder: (context, state) {
+            switch (state.status) {
+              case AllSongsStatus.loading:
+                return const Center(child: Loading());
+              case AllSongsStatus.initial:
+              case AllSongsStatus.loaded:
+                if (state.songs.isEmpty) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.music_note,
+                          size: 64,
+                          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.5),
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          context.l10n.noSongsFound,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          context.l10n.tapToAddSong,
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color:
+                                    Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                              ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                return ListView.separated(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 92),
+                  separatorBuilder: (context, index) => const SizedBox(height: 8),
+                  itemCount: state.songs.length,
+                  itemBuilder: (context, index) {
+                    final song = state.songs[index];
 
-                  return HomeTile(song: song);
-                },
-              );
-            case AllSongsStatus.error:
-              return Center(child: Text('Error: ${state.errorMessage}'));
-          }
-        },
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        heroTag: 'addSong',
-        onPressed: () => _onAddSong(context, songCount),
-        icon: const Icon(Icons.add),
-        label: Text(context.l10n.addSong),
+                    return HomeTile(song: song);
+                  },
+                );
+              case AllSongsStatus.error:
+                return Center(child: Text('Error: ${state.errorMessage}'));
+            }
+          },
+        ),
+        floatingActionButton: FloatingActionButton.extended(
+          heroTag: 'addSong',
+          onPressed: () => _onAddSong(context, songCount),
+          icon: const Icon(Icons.add),
+          label: Text(context.l10n.addSong),
+        ),
       ),
     );
   }
@@ -136,5 +152,30 @@ class _HomePageState extends State<HomePage> {
 
   void _onClearSharedPrefs(BuildContext context) {
     context.read<LocalConfigRepository>().clear();
+  }
+
+  Future<void> _displayChangelogDialog(
+    ChangelogDialogState state,
+    BuildContext context,
+  ) async {
+    if (!state.shouldShowDialog) return;
+
+    AppAnalytics.trackEvent(AppAnalytics.viewChangelogDialog);
+
+    await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(24),
+          topRight: Radius.circular(24),
+        ),
+      ),
+      builder: (context) => const ChangelogDialog(),
+    );
+
+    if (!context.mounted) return;
+    context.read<ChangelogDialogCubit>().setChangelogDialogSeen();
   }
 }

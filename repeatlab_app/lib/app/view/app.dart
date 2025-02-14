@@ -11,6 +11,7 @@ import 'package:repeatlab/data/repositories/file_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/purchases_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
+import 'package:repeatlab/features/changelog_dialog/cubits/changelog_dialog_cubit.dart';
 import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
 import 'package:repeatlab/features/home/home_page.dart';
 import 'package:repeatlab/features/onboarding/view/onboarding_page.dart';
@@ -62,14 +63,13 @@ class App extends StatelessWidget {
               crashReportingRepository: context.read<CrashReportingRepository>(),
             )..init(),
           ),
-          /* BlocProvider(
+          BlocProvider(
             lazy: false,
-            create: (context) => PaywallCubit(
-
-              purchasesRepository: context.read<PurchasesRepository>(),
-              crashReportingRepository: context.read<CrashReportingRepository>(),
-            )..init(),
-          ), */
+            create: (context) => ChangelogDialogCubit(
+              localConfigRepository: context.read<LocalConfigRepository>(),
+              packageInfo: context.read<PackageInfo>(),
+            ),
+          ),
         ],
         child: Wiredash(
           projectId: 'repeatlab-vvi4662',

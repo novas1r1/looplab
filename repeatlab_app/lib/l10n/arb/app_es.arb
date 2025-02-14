@@ -108,5 +108,10 @@
     "year": "año",
     "purchasedAlready": "Ya comprado",
     "purchaseSuccess": "Compra exitosa. ¡Gracias por apoyar al desarrollador ❤️!",
-    "cancelSubscription": "Cancelar Suscripción"
+    "cancelSubscription": "Cancelar Suscripción",
+    "voteForFeatures": "Vota por Funciones",
+    "changelogTitle": "Cambios",
+    "changelog1013Title": "Votación de Funciones & Propuesta de Funciones ahora posible",
+    "changelog1013Description": "Ahora puedes votar por nuevas funciones o enviar tus propias propuestas de funciones en la app. Simplemente abre el menú y abre el tablero 'Votar por Funciones'. ¡Encantado de oír tus deseos!",
+    "whatsNew": "¿Qué hay de nuevo?"
 } 

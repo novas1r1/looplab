@@ -108,5 +108,9 @@
     "year": "rok",
     "purchasedAlready": "Już kupione",
     "purchaseSuccess": "Kupienie powiodło się. Dziękujemy za wsparcie dla dewelopera ❤️!",
-    "cancelSubscription": "Anuluj Subskrypcję"
+    "cancelSubscription": "Anuluj Subskrypcję",
+    "voteForFeatures": "Głosuj na Funkcje",
+    "changelogTitle": "Zmiany",
+    "changelog1013Title": "Głosowanie na funkcje & sugestia funkcji teraz możliwe",
+    "changelog1013Description": "Teraz możesz głosować na nowe funkcje lub sugerować swoje własne funkcje w aplikacji. Wystarczy otworzyć menu i otworzyć tablicę 'Głosuj na funkcje'. Miłego głosowania!"
 } 

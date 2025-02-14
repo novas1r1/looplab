@@ -108,5 +108,10 @@
     "year": "год",
     "purchasedAlready": "Уже приобретено",
     "purchaseSuccess": "Покупка прошла успешно. Спасибо за поддержку разработчика ❤️!",
-    "cancelSubscription": "Отменить Подписку"
+    "cancelSubscription": "Отменить Подписку",
+    "voteForFeatures": "Предложить Функции",
+    "changelogTitle": "Changelog",
+    "changelog1013Title": "Feature Voting & Feature proposal now possible",
+    "changelog1013Description": "You can now vote for new features or submit your own feature proposals in the app. Just open the menu and open the 'Vote for Features' board. Happy to hear your wishes!",
+    "whatsNew": "Что нового?"
 } 

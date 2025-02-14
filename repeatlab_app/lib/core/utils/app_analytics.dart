@@ -15,7 +15,7 @@ abstract final class AppAnalytics {
   static const viewLegalNotices = 'view_legal_notices';
   static const viewLicenses = 'view_licenses';
   static const viewPremiumScreen = 'view_premium_screen';
-
+  static const viewChangelogDialog = 'view_changelog_dialog';
   // events home screen
   static const clickAddSong = 'click_add_song';
   static const clickClearDb = 'click_clear_db';

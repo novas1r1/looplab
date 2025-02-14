@@ -110,5 +110,10 @@
     "year": "Jahr",
     "purchasedAlready": "Bereits gekauft",
     "purchaseSuccess": "Kauf erfolgreich. Vielen Dank für die Unterstützung der Entwicklerin ❤️!",
-    "cancelSubscription": "Abonnement kündigen"
+    "cancelSubscription": "Abonnement kündigen",
+    "voteForFeatures": "Feature Voting",
+    "changelogTitle": "Changelog",
+    "changelog1013Title": "Du kannst jetzt für neue Funktionen voten oder deine eigenen Funktionen vorschlagen",
+    "changelog1013Description": "Öffne das Menü und klicke auf 'Feature Voting'. Hier kannst du deine Stimme abgeben und/oder neue Features vorschlagen. Ich freue mich auf deine Ideen!",
+    "whatsNew": "Was ist neu?"
 } 

@@ -1,6 +1,6 @@
 name: repeatlab
 description: Audio loop studio
-version: 1.0.12+25
+version: 1.0.13+26
 publish_to: none
 
 environment:
@@ -38,6 +38,7 @@ dependencies:
   shared_preferences: ^2.3.5
   tutorial_coach_mark: ^1.2.12
   url_launcher: ^6.3.1
+  userorient_flutter: ^0.2.0
   uuid: ^4.5.1
   wiredash: ^2.3.0
 

@@ -108,5 +108,10 @@
     "year": "ano",
     "purchasedAlready": "Já comprado",
     "purchaseSuccess": "Compra realizada com sucesso. Obrigado pelo apoio ao desenvolvedor ❤️!",
-    "cancelSubscription": "Cancelar Assinatura"
+    "cancelSubscription": "Cancelar Assinatura",
+    "voteForFeatures": "Votar por Recursos",
+    "changelogTitle": "Changelog",
+    "changelog1013Title": "Feature Voting & Feature proposal now possible",
+    "changelog1013Description": "You can now vote for new features or submit your own feature proposals in the app. Just open the menu and open the 'Vote for Features' board. Happy to hear your wishes!",
+    "whatsNew": "O que há de novo?"
 } 

@@ -7,12 +7,14 @@ import 'package:repeatlab/core/app_constants.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/dialog_helper.dart';
 import 'package:repeatlab/data/repositories/purchases_repository.dart';
+import 'package:repeatlab/features/changelog_dialog/changelog_dialog.dart';
 import 'package:repeatlab/features/home/dataprotection_page.dart';
 import 'package:repeatlab/features/home/legal_notices_page.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/paywall/premium_screen.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:userorient_flutter/userorient_flutter.dart';
 import 'package:wiredash/wiredash.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -54,6 +56,26 @@ class CustomDrawer extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.newspaper),
+            title: Text(context.l10n.whatsNew),
+            onTap: () async {
+              AppAnalytics.trackEvent(AppAnalytics.viewChangelogDialog);
+
+              await showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Theme.of(context).colorScheme.surface,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(24),
+                  ),
+                ),
+                builder: (context) => const ChangelogDialog(),
+              );
+            },
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -100,6 +122,20 @@ class CustomDrawer extends StatelessWidget {
                     fontWeight: FontWeight.w300,
                   ),
             ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.volunteer_activism),
+            title: Text(context.l10n.voteForFeatures),
+            onTap: () {
+              UserOrient.setUser(
+                extra: {
+                  'appVersion': appVersion,
+                  'buildNumber': buildNumber,
+                  'isPremium': hasSubscribed,
+                },
+              );
+              UserOrient.openBoard(context);
+            },
           ),
           ListTile(
             leading: const Icon(Icons.feedback),

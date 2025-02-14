@@ -108,5 +108,10 @@
     "year": "jaar",
     "purchasedAlready": "Al gekocht",
     "purchaseSuccess": "Aankoop succesvol. Bedankt voor je ondersteuning aan de ontwikkelaar ❤️!",
-    "cancelSubscription": "Abonnement Opzeggen"
+    "cancelSubscription": "Abonnement Opzeggen",
+    "voteForFeatures": "Functies Voorstellen",
+    "changelogTitle": "Wijzigingen",
+    "changelog1013Title": "Feature Voting & Feature proposal now possible",
+    "changelog1013Description": "You can now vote for new features or submit your own feature proposals in the app. Just open the menu and open the 'Vote for Features' board. Happy to hear your wishes!",
+    "whatsNew": "Wat is er nieuw?"
 } 
