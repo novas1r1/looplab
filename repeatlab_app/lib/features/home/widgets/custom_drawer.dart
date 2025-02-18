@@ -26,7 +26,7 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final appVersion = context.read<PackageInfo>().version;
     final buildNumber = context.read<PackageInfo>().buildNumber;
-    final hasSubscribed = context.watch<PremiumSubscriptionCubit>().hasSubscribed;
+    final hasSubscribed = context.watch<PremiumSubscriptionCubit>().hasPremium;
 
     return Drawer(
       child: ListView(
@@ -87,7 +87,7 @@ class CustomDrawer extends StatelessWidget {
             ),
           ),
           FutureBuilder(
-            future: context.read<PurchasesRepository>().hasActiveSubscription,
+            future: context.read<PurchasesRepository>().hasSubscription,
             initialData: false,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               return snapshot.data == true

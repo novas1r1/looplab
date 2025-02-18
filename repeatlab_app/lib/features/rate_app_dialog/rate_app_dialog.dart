@@ -212,12 +212,14 @@ class _RateAppDialogState extends State<RateAppDialog> with TickerProviderStateM
     }
   }
 
-  void _sendReview(BuildContext context) {
-    Wiredash.of(context).show();
+  Future<void> _sendReview(BuildContext context) async {
+    final result = await Wiredash.of(context).show();
 
-    if (mounted) {
+    if (result.hasSubmittedFeedback == true && context.mounted) {
       context.read<LocalConfigRepository>().setHasRatedApp(true);
+    }
 
+    if (context.mounted) {
       Navigator.of(context).pop();
     }
   }

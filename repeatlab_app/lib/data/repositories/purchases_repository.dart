@@ -21,21 +21,30 @@ class PurchasesRepository {
     }
   }
 
-  Future<bool> get hasActiveSubscription async {
-    // always enabled for testing
-    // if (FlavorConfig.instance.name == 'DEV') return true;
-
+  Future<bool> get hasSubscription async {
     final purchaserInfo = await Purchases.getCustomerInfo();
 
-    //drumbitious_149_1m
+    // Check for active subscriptions
     if (purchaserInfo.activeSubscriptions.isNotEmpty) {
       log('--- REVENUECAT: SUBSCRIBED');
-
       return true;
     }
 
-    log('--- REVENUECAT: UNSUBSCRIBED');
+    log('--- REVENUECAT: NO ACTIVE SUBSCRIPTION');
+    return false;
+  }
 
+  Future<bool> get hasLifetimePurchase async {
+    final purchaserInfo = await Purchases.getCustomerInfo();
+
+    // Check for lifetime purchase through entitlements
+    final proEntitlement = purchaserInfo.entitlements.all['Pro'];
+    if (proEntitlement?.isActive == true) {
+      log('--- REVENUECAT: LIFETIME PURCHASE ACTIVE');
+      return true;
+    }
+
+    log('--- REVENUECAT: NO ACTIVE LIFETIME PURCHASE');
     return false;
   }
 

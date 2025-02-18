@@ -33,8 +33,9 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
     super.close();
   }
 
-  bool get hasSubscribed {
-    return state.status == PremiumSubscriptionStatus.subscribed;
+  bool get hasPremium {
+    return state.status == PremiumSubscriptionStatus.subscribed ||
+        state.status == PremiumSubscriptionStatus.lifetimePurchased;
   }
 
   /// Initializes the [Purchases] SDK.
@@ -77,8 +78,10 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
     } */
 
     try {
-      if (await purchasesRepository.hasActiveSubscription) {
+      if (await purchasesRepository.hasSubscription) {
         emit(state.copyWith(status: PremiumSubscriptionStatus.subscribed));
+      } else if (await purchasesRepository.hasLifetimePurchase) {
+        emit(state.copyWith(status: PremiumSubscriptionStatus.lifetimePurchased));
       } else {
         emit(state.copyWith(status: PremiumSubscriptionStatus.notSubscribed));
       }
@@ -96,9 +99,15 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
   Future<void> restore() async {
     try {
       final customerInfo = await purchasesRepository.restorePurchases();
+      final proEntitlement = customerInfo.entitlements.all['Pro'];
 
-      if (customerInfo.entitlements.all['Pro']?.isActive == true) {
-        emit(state.copyWith(status: PremiumSubscriptionStatus.subscribed));
+      if (proEntitlement?.isActive == true) {
+        // Check if it's a lifetime purchase by looking at the product identifier
+        if (proEntitlement?.productIdentifier.contains('repeatlab_full_extended') == true) {
+          emit(state.copyWith(status: PremiumSubscriptionStatus.lifetimePurchased));
+        } else {
+          emit(state.copyWith(status: PremiumSubscriptionStatus.subscribed));
+        }
       } else {
         emit(state.copyWith(status: PremiumSubscriptionStatus.notSubscribed));
       }

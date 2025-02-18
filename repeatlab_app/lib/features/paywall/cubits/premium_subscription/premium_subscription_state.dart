@@ -17,5 +17,6 @@ enum PremiumSubscriptionStatus {
   initial,
   subscribed,
   notSubscribed,
+  lifetimePurchased,
   failure,
 }

@@ -257,7 +257,7 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
   Future<void> _onZoomOut(BuildContext context) async {
     AppAnalytics.trackEvent(AppAnalytics.clickZoomOut, data: {'zoom_scale': _zoomScale});
 
-    final hasPurchased = context.read<PremiumSubscriptionCubit>().hasSubscribed;
+    final hasPurchased = context.read<PremiumSubscriptionCubit>().hasPremium;
     // check if user has premium subscription
     if (hasPurchased) {
       _zoomOut();
@@ -276,7 +276,7 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
     AppAnalytics.trackEvent(AppAnalytics.clickZoomIn, data: {'zoom_scale': _zoomScale});
 
     final premiumSubscriptionCubit = context.read<PremiumSubscriptionCubit>();
-    if (premiumSubscriptionCubit.hasSubscribed) {
+    if (premiumSubscriptionCubit.hasPremium) {
       _zoomIn();
       _showZoomControls();
     } else {

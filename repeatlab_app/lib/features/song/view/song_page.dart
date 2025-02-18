@@ -544,7 +544,7 @@ class _SongViewState extends State<_SongView> {
     AppAnalytics.trackEvent(AppAnalytics.clickAddLoop);
 
     final premiumSubscriptionCubit = context.read<PremiumSubscriptionCubit>();
-    final hasPurchased = premiumSubscriptionCubit.hasSubscribed;
+    final hasPurchased = premiumSubscriptionCubit.hasPremium;
 
     if (!context.mounted) return;
 
@@ -666,7 +666,7 @@ class _SongController extends StatelessWidget {
   Future<void> _onUpdateSpeed(BuildContext context, double value) async {
     AppAnalytics.trackEvent(AppAnalytics.clickUpdateSpeed, data: {'speed': value});
 
-    final hasPurchased = context.read<PremiumSubscriptionCubit>().hasSubscribed;
+    final hasPurchased = context.read<PremiumSubscriptionCubit>().hasPremium;
 
     if (!context.mounted) return;
 
