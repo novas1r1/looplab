@@ -113,5 +113,10 @@
     "changelogTitle": "Changelog",
     "changelog1013Title": "Feature Voting & Feature proposal now possible",
     "changelog1013Description": "You can now vote for new features or submit your own feature proposals in the app. Just open the menu and open the 'Vote for Features' board. Happy to hear your wishes!",
-    "whatsNew": "Что нового?"
+    "whatsNew": "Что нового?",
+    "songAddError": "Ошибка при добавлении песни. Это может быть связано с проблемой с форматом файла. Пожалуйста, попробуйте преобразовать файл в поддерживаемый формат, например mp3 или wav.",
+    "loopAdded": "Луп добавлен и активирован",
+    "loopModeEnabled": "Режим лупа включен",
+    "loopModeDisabled": "Режим лупа выключен",
+    "pleaseSelectLoop": "Пожалуйста, выберите луп"
 } 

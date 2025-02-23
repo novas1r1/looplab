@@ -165,7 +165,10 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                       backgroundColor: Theme.of(context).colorScheme.primary,
                       foregroundColor: Theme.of(context).colorScheme.onPrimary,
                     ),
-                    onPressed: !hasSubscription && !hasLifetimePurchase
+                    onPressed: !hasSubscription &&
+                            !hasLifetimePurchase &&
+                            widget.fetchProductsState.annualPackage != null &&
+                            widget.fetchProductsState.lifetimePackage != null
                         ? () {
                             if (_selectedPlan == PlanPeriod.yearly) {
                               context.read<FetchProductsCubit>().purchase(

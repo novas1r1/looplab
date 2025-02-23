@@ -40,6 +40,7 @@ enum SongStatus {
   error,
   loopAdded,
   loopDeleted,
+  loopModeToggled,
   updated,
   songDeleted
 }

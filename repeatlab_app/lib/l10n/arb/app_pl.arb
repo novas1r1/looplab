@@ -112,5 +112,11 @@
     "voteForFeatures": "Głosuj na Funkcje",
     "changelogTitle": "Zmiany",
     "changelog1013Title": "Głosowanie na funkcje & sugestia funkcji teraz możliwe",
-    "changelog1013Description": "Teraz możesz głosować na nowe funkcje lub sugerować swoje własne funkcje w aplikacji. Wystarczy otworzyć menu i otworzyć tablicę 'Głosuj na funkcje'. Miłego głosowania!"
+    "changelog1013Description": "Teraz możesz głosować na nowe funkcje lub sugerować swoje własne funkcje w aplikacji. Wystarczy otworzyć menu i otworzyć tablicę 'Głosuj na funkcje'. Miłego głosowania!",
+    "whatsNew": "Co nowego?",
+    "songAddError": "Wystąpił błąd podczas dodawania utworu. Może to być spowodowane problemem z formatem pliku. Proszę spróbować przekonwertować plik na obsługiwany format, takich jak mp3 lub wav.",
+    "loopAdded": "Pętla dodana i aktywowana",
+    "loopModeEnabled": "Tryb pętli aktywowany",
+    "loopModeDisabled": "Tryb pętli wyłączony",
+    "pleaseSelectLoop": "Proszę wybrać pętlę"
 } 

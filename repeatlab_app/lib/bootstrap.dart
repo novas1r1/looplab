@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:repeatlab/app_bloc_observer.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -20,6 +21,8 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
       options.tracesSampleRate = 1.0;
       options.profilesSampleRate = 1.0;
       options.sendDefaultPii = false;
+      options.attachScreenshot = true;
+      options.environment = kDebugMode ? 'dev' : 'prod';
     },
     appRunner: () async => runApp(await builder()),
   );

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,7 +23,6 @@ class AllSongsCubit extends Cubit<AllSongsState> {
     required this.fileRepository,
     required this.crashReportingRepository,
   }) : super(const AllSongsState()) {
-    // Subscribe to song updates when created
     _songSubscription = songRepository.songs.listen((songs) {
       emit(state.copyWith(songs: songs));
     });
@@ -34,12 +34,12 @@ class AllSongsCubit extends Cubit<AllSongsState> {
     try {
       final songs = await songRepository.getAllSongs();
       emit(state.copyWith(status: AllSongsStatus.loaded, songs: songs));
-    } catch (e) {
-      crashReportingRepository.reportError(e, StackTrace.current);
+    } catch (ex, stack) {
+      crashReportingRepository.reportError(ex, stack);
       emit(
         state.copyWith(
           status: AllSongsStatus.error,
-          errorMessage: e.toString(),
+          errorMessage: ex.toString(),
         ),
       );
     }
@@ -48,8 +48,10 @@ class AllSongsCubit extends Cubit<AllSongsState> {
   Future<void> addSong() async {
     emit(state.copyWith(status: AllSongsStatus.loading));
 
+    File? file;
+
     try {
-      final file = await fileRepository.pickSingleAudioFile();
+      file = await fileRepository.pickSingleAudioFile();
 
       if (file == null) {
         emit(state.copyWith(status: AllSongsStatus.initial));
@@ -59,20 +61,24 @@ class AllSongsCubit extends Cubit<AllSongsState> {
 
       await songRepository.addSongFile(file);
       await loadSongs();
-    } catch (e) {
-      crashReportingRepository.reportError(e, StackTrace.current);
+    } catch (ex, stack) {
+      crashReportingRepository.reportError(ex, stack);
       emit(
         state.copyWith(
           status: AllSongsStatus.error,
-          errorMessage: e.toString(),
+          errorMessage: ex.toString(),
         ),
       );
     }
   }
 
   Future<void> clearDb() async {
-    await songRepository.clearDb();
-    await loadSongs();
+    try {
+      await songRepository.clearDb();
+      await loadSongs();
+    } catch (ex, stack) {
+      crashReportingRepository.reportError(ex, stack);
+    }
   }
 
   @override

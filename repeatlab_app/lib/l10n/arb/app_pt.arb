@@ -113,5 +113,10 @@
     "changelogTitle": "Changelog",
     "changelog1013Title": "Feature Voting & Feature proposal now possible",
     "changelog1013Description": "You can now vote for new features or submit your own feature proposals in the app. Just open the menu and open the 'Vote for Features' board. Happy to hear your wishes!",
-    "whatsNew": "O que há de novo?"
+    "whatsNew": "O que há de novo?",
+    "songAddError": "Erro ao adicionar a música. Isso pode ser devido a um problema com o formato do arquivo. Por favor, tente converter o arquivo para um formato suportado como mp3 ou wav.",
+    "loopAdded": "Loop adicionado e ativado",
+    "loopModeEnabled": "Modo loop ativado",
+    "loopModeDisabled": "Modo loop desativado",
+    "pleaseSelectLoop": "Por favor, selecione um loop"
 } 

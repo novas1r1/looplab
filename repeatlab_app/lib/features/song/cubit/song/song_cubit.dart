@@ -66,7 +66,7 @@ class SongCubit extends Cubit<SongState> {
       if (event == PlayerState.completed) {
         stopSong();
       }
-      maybeEmit(state.copyWith(playerState: event));
+      maybeEmit(state.copyWith(status: SongStatus.updated, playerState: event));
     });
 
     /// audio player subscriptions for position
@@ -171,7 +171,8 @@ class SongCubit extends Cubit<SongState> {
         ),
       );
     } catch (e, stackTrace) {
-      crashReportingRepository.reportError(e, stackTrace);
+      await crashReportingRepository.reportError(e, stackTrace);
+
       emit(
         state.copyWith(
           status: SongStatus.error,
@@ -265,6 +266,8 @@ class SongCubit extends Cubit<SongState> {
       // Add timeout to seek operation
       await audioPlayer.seek(position);
       log('SEEK song to ${position.toFormattedString()}');
+
+      emit(state.copyWith(status: SongStatus.updated));
     } catch (e, stackTrace) {
       crashReportingRepository.reportError(e, stackTrace);
       // Try to recover by stopping and restarting playback
@@ -310,7 +313,7 @@ class SongCubit extends Cubit<SongState> {
   void unselectLoop() {
     emit(
       state.copyWith(
-        status: SongStatus.updated,
+        status: SongStatus.loopModeToggled,
         activeLoop: null,
         isLoopModeEnabled: false,
       ),
@@ -320,7 +323,7 @@ class SongCubit extends Cubit<SongState> {
   Future<void> selectLoop(Loop loop) async {
     emit(
       state.copyWith(
-        status: SongStatus.updated,
+        status: SongStatus.loopModeToggled,
         activeLoop: loop,
         isLoopModeEnabled: true,
       ),
@@ -578,6 +581,7 @@ class SongCubit extends Cubit<SongState> {
       state.copyWith(
         isLoopModeEnabled: !state.isLoopModeEnabled,
         activeLoop: null,
+        status: SongStatus.loopModeToggled,
       ),
     );
 
@@ -605,6 +609,8 @@ class SongCubit extends Cubit<SongState> {
       final newPosition = position + Duration(seconds: seconds);
       await audioPlayer.seek(newPosition);
     }
+
+    emit(state.copyWith(status: SongStatus.updated));
   }
 
   // Add new method

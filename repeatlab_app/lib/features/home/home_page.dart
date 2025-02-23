@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/widgets/loading.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/dialog_helper.dart';
+import 'package:repeatlab/core/utils/snackbar_helper.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/features/changelog_dialog/changelog_dialog.dart';
 import 'package:repeatlab/features/changelog_dialog/cubits/changelog_dialog_cubit.dart';
@@ -72,13 +73,20 @@ class _HomePageState extends State<HomePage> {
               ),
           ],
         ),
-        body: BlocBuilder<AllSongsCubit, AllSongsState>(
+        body: BlocConsumer<AllSongsCubit, AllSongsState>(
+          listenWhen: (previous, current) => previous.status != current.status,
+          listener: (context, state) {
+            if (state.status == AllSongsStatus.error) {
+              SnackbarHelper.showError(context, context.l10n.songAddError);
+            }
+          },
           builder: (context, state) {
             switch (state.status) {
               case AllSongsStatus.loading:
                 return const Center(child: Loading());
               case AllSongsStatus.initial:
               case AllSongsStatus.loaded:
+              case AllSongsStatus.error:
                 if (state.songs.isEmpty) {
                   return Center(
                     child: Column(
@@ -116,8 +124,6 @@ class _HomePageState extends State<HomePage> {
                     return HomeTile(song: song);
                   },
                 );
-              case AllSongsStatus.error:
-                return Center(child: Text('Error: ${state.errorMessage}'));
             }
           },
         ),

@@ -9,6 +9,7 @@ import 'package:repeatlab/app/app.dart';
 import 'package:repeatlab/bootstrap.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:sembast/sembast_io.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:userorient_flutter/userorient_flutter.dart';
 
@@ -46,11 +47,13 @@ Future<void> main() async {
   );
 
   bootstrap(
-    () => App(
-      db: db,
-      soloud: soloud,
-      packageInfo: packageInfo,
-      sharedPreferences: sharedPreferences,
+    () => SentryWidget(
+      child: App(
+        db: db,
+        soloud: soloud,
+        packageInfo: packageInfo,
+        sharedPreferences: sharedPreferences,
+      ),
     ),
   );
 }

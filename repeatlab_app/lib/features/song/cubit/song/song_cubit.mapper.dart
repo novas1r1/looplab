@@ -37,6 +37,8 @@ class SongStatusMapper extends EnumMapper<SongStatus> {
         return SongStatus.loopAdded;
       case 'loopDeleted':
         return SongStatus.loopDeleted;
+      case 'loopModeToggled':
+        return SongStatus.loopModeToggled;
       case 'updated':
         return SongStatus.updated;
       case 'songDeleted':
@@ -61,6 +63,8 @@ class SongStatusMapper extends EnumMapper<SongStatus> {
         return 'loopAdded';
       case SongStatus.loopDeleted:
         return 'loopDeleted';
+      case SongStatus.loopModeToggled:
+        return 'loopModeToggled';
       case SongStatus.updated:
         return 'updated';
       case SongStatus.songDeleted:
