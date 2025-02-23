@@ -113,5 +113,10 @@
     "changelogTitle": "Cambios",
     "changelog1013Title": "Votación de Funciones & Propuesta de Funciones ahora posible",
     "changelog1013Description": "Ahora puedes votar por nuevas funciones o enviar tus propias propuestas de funciones en la app. Simplemente abre el menú y abre el tablero 'Votar por Funciones'. ¡Encantado de oír tus deseos!",
-    "whatsNew": "¿Qué hay de nuevo?"
+    "whatsNew": "¿Qué hay de nuevo?",
+    "songAddError": "Error al añadir la canción. Esto podría deberse a un problema con el formato de archivo. Por favor, intenta convertir el archivo a un formato compatible como mp3 o wav.",
+    "loopAdded": "Loop añadido y activado",
+    "loopModeEnabled": "Modo loop activado",
+    "loopModeDisabled": "Modo loop desactivado",
+    "pleaseSelectLoop": "Por favor, selecciona un loop"
 } 

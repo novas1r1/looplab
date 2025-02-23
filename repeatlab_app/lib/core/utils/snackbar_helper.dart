@@ -4,6 +4,7 @@ abstract class SnackbarHelper {
   const SnackbarHelper._();
 
   static void showSuccess(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         shape: RoundedRectangleBorder(
@@ -32,6 +33,7 @@ abstract class SnackbarHelper {
   }
 
   static void showError(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         shape: RoundedRectangleBorder(
@@ -60,6 +62,7 @@ abstract class SnackbarHelper {
   }
 
   static void showInfo(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         shape: RoundedRectangleBorder(

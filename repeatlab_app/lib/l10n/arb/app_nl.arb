@@ -113,5 +113,10 @@
     "changelogTitle": "Wijzigingen",
     "changelog1013Title": "Feature Voting & Feature proposal now possible",
     "changelog1013Description": "You can now vote for new features or submit your own feature proposals in the app. Just open the menu and open the 'Vote for Features' board. Happy to hear your wishes!",
-    "whatsNew": "Wat is er nieuw?"
+    "whatsNew": "Wat is er nieuw?",
+    "songAddError": "Fout bij het toevoegen van het nummer. Dit kan veroorzaakt worden door een probleem met het bestandsformaat. Probeer het bestand om te zetten in een ondersteund formaat zoals mp3 of wav.",
+    "loopAdded": "Loop toegevoegd en geactiveerd",
+    "loopModeEnabled": "Loopmodus geactiveerd",
+    "loopModeDisabled": "Loopmodus uitgeschakeld",
+    "pleaseSelectLoop": "Kies een loop"
 } 

@@ -6,11 +6,16 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 class CrashReportingRepository {
   const CrashReportingRepository();
 
-  Future<void> reportError(Object error, StackTrace stackTrace) async {
+  Future<SentryId?> reportError(
+    Object error,
+    StackTrace stackTrace,
+  ) async {
     log('ERROR: $error');
-    if (Sentry.isEnabled && !kDebugMode) {
+    if (Sentry.isEnabled) {
       await Sentry.captureException(error, stackTrace: stackTrace);
     }
+
+    return null;
   }
 
   Future<void> logInfos(String message) async {
