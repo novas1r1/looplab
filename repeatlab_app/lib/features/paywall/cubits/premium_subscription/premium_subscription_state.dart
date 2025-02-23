@@ -3,20 +3,21 @@ part of 'premium_subscription_cubit.dart';
 @MappableClass()
 class PremiumSubscriptionState with PremiumSubscriptionStateMappable {
   final PremiumSubscriptionStatus status;
-  // final bool isConnected;
+  final bool hasSubscription;
+  final bool hasLifetimePurchase;
   final String? errorMessage;
 
   const PremiumSubscriptionState({
     this.status = PremiumSubscriptionStatus.initial,
-    // this.isConnected = true,
+    this.hasSubscription = false,
+    this.hasLifetimePurchase = false,
     this.errorMessage,
   });
 }
 
 enum PremiumSubscriptionStatus {
   initial,
-  subscribed,
-  notSubscribed,
-  lifetimePurchased,
+  premium,
+  noPremium,
   failure,
 }

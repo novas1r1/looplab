@@ -85,10 +85,8 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
   Widget build(BuildContext context) {
     final yearlyPrice = widget.fetchProductsState.annualPackage?.storeProduct.priceString;
     final lifetimePrice = widget.fetchProductsState.lifetimePackage?.storeProduct.priceString;
-    final hasSubscription = context.watch<PremiumSubscriptionCubit>().state.status ==
-        PremiumSubscriptionStatus.subscribed;
-    final hasLifetimePurchase = context.watch<PremiumSubscriptionCubit>().state.status ==
-        PremiumSubscriptionStatus.lifetimePurchased;
+    final hasSubscription = context.watch<PremiumSubscriptionCubit>().state.hasSubscription;
+    final hasLifetimePurchase = context.watch<PremiumSubscriptionCubit>().state.hasLifetimePurchase;
 
     // yearly box should be selected if yearly was bought OR if lifetime was NOT bought and box was selected
     final yearlySelected =
@@ -194,9 +192,7 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                       Expanded(
                         child: TextButton(
                           onPressed: () {
-                            // restore
-                            // TODO(Verena): what to do here?
-                            //launchUrl(Uri.parse(AppConstants.urlRestore));
+                            AppAnalytics.trackEvent(AppAnalytics.clickRestore);
                             context.read<PremiumSubscriptionCubit>().restore();
                           },
                           child: FittedBox(child: Text(context.l10n.restore)),
@@ -208,6 +204,7 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                         child: TextButton(
                           onPressed: () {
                             // open terms and conditions
+                            AppAnalytics.trackEvent(AppAnalytics.clickTerms);
                             launchUrl(Uri.parse(AppConstants.urlTermsAndConditions));
                           },
                           child: FittedBox(child: Text(context.l10n.terms)),
@@ -218,6 +215,7 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                       Expanded(
                         child: TextButton(
                           onPressed: () {
+                            AppAnalytics.trackEvent(AppAnalytics.clickPrivacy);
                             launchUrl(Uri.parse(AppConstants.urlPrivacyPolicy));
                           },
                           child: FittedBox(child: Text(context.l10n.privacy)),

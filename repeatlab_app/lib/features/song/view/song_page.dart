@@ -551,11 +551,10 @@ class _SongViewState extends State<_SongView> {
     AppAnalytics.trackEvent(AppAnalytics.clickAddLoop);
 
     final premiumSubscriptionCubit = context.read<PremiumSubscriptionCubit>();
-    final hasPurchased = premiumSubscriptionCubit.hasPremium;
 
     if (!context.mounted) return;
 
-    if (hasPurchased || context.read<SongCubit>().state.song.loops.isEmpty) {
+    if (premiumSubscriptionCubit.hasPremium || context.read<SongCubit>().state.song.loops.isEmpty) {
       context.read<SongCubit>().addLoop();
     } else {
       AppAnalytics.trackEvent(AppAnalytics.showPaywallSongLoops);

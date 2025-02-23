@@ -10,10 +10,7 @@ class PremiumWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PremiumSubscriptionCubit, PremiumSubscriptionState>(
       builder: (context, state) {
-        return state.status == PremiumSubscriptionStatus.subscribed ||
-                state.status == PremiumSubscriptionStatus.lifetimePurchased
-            ? child
-            : const SizedBox.shrink();
+        return state.hasSubscription || state.hasLifetimePurchase ? child : const SizedBox.shrink();
       },
     );
   }

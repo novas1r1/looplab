@@ -26,7 +26,9 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final appVersion = context.read<PackageInfo>().version;
     final buildNumber = context.read<PackageInfo>().buildNumber;
-    final hasSubscribed = context.watch<PremiumSubscriptionCubit>().hasPremium;
+    final hasSubscribed = context.watch<PremiumSubscriptionCubit>().state.hasSubscription;
+    final hasLifetimePurchased =
+        context.watch<PremiumSubscriptionCubit>().state.hasLifetimePurchase;
 
     return Drawer(
       child: ListView(
@@ -131,7 +133,8 @@ class CustomDrawer extends StatelessWidget {
                 extra: {
                   'appVersion': appVersion,
                   'buildNumber': buildNumber,
-                  'isPremium': hasSubscribed,
+                  'hasSubscribed': hasSubscribed,
+                  'hasLifetimePurchased': hasLifetimePurchased,
                 },
               );
               UserOrient.openBoard(context);

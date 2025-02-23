@@ -33,10 +33,7 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
     super.close();
   }
 
-  bool get hasPremium {
-    return state.status == PremiumSubscriptionStatus.subscribed ||
-        state.status == PremiumSubscriptionStatus.lifetimePurchased;
-  }
+  bool get hasPremium => state.hasSubscription || state.hasLifetimePurchase;
 
   /// Initializes the [Purchases] SDK.
   /// Checks if the user is subscribed to the premium plan.
@@ -50,7 +47,7 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
       // final isConnected = await purchasesRepository.isConnected;
       // emit(state.copyWith(isConnected: isConnected));
 
-      checkStatus();
+      await checkStatus();
 
       /* purchases.addPurchaserInfoUpdateListener((purchaserInfo) {
         if (purchaserInfo.activeSubscriptions.isNotEmpty) {
@@ -78,12 +75,22 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
     } */
 
     try {
-      if (await purchasesRepository.hasSubscription) {
-        emit(state.copyWith(status: PremiumSubscriptionStatus.subscribed));
-      } else if (await purchasesRepository.hasLifetimePurchase) {
-        emit(state.copyWith(status: PremiumSubscriptionStatus.lifetimePurchased));
+      final hasSubscription = await purchasesRepository.hasSubscription;
+      final hasLifetimePurchase = await purchasesRepository.hasLifetimePurchase;
+
+      log('--- REVENUECAT: hasSubscription: $hasSubscription');
+      log('--- REVENUECAT: hasLifetimePurchase: $hasLifetimePurchase');
+
+      if (hasSubscription || hasLifetimePurchase) {
+        emit(
+          state.copyWith(
+            status: PremiumSubscriptionStatus.premium,
+            hasSubscription: hasSubscription,
+            hasLifetimePurchase: hasLifetimePurchase,
+          ),
+        );
       } else {
-        emit(state.copyWith(status: PremiumSubscriptionStatus.notSubscribed));
+        emit(state.copyWith(status: PremiumSubscriptionStatus.noPremium));
       }
     } catch (ex, stackTrace) {
       crashReportingRepository.reportError(ex, stackTrace);
@@ -104,12 +111,24 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
       if (proEntitlement?.isActive == true) {
         // Check if it's a lifetime purchase by looking at the product identifier
         if (proEntitlement?.productIdentifier.contains('repeatlab_full_extended') == true) {
-          emit(state.copyWith(status: PremiumSubscriptionStatus.lifetimePurchased));
+          emit(
+            state.copyWith(
+              status: PremiumSubscriptionStatus.premium,
+              hasLifetimePurchase: true,
+              hasSubscription: false,
+            ),
+          );
         } else {
-          emit(state.copyWith(status: PremiumSubscriptionStatus.subscribed));
+          emit(
+            state.copyWith(
+              status: PremiumSubscriptionStatus.premium,
+              hasSubscription: true,
+              hasLifetimePurchase: false,
+            ),
+          );
         }
       } else {
-        emit(state.copyWith(status: PremiumSubscriptionStatus.notSubscribed));
+        emit(state.copyWith(status: PremiumSubscriptionStatus.noPremium));
       }
     } catch (ex, stackTrace) {
       crashReportingRepository.reportError(ex, stackTrace);

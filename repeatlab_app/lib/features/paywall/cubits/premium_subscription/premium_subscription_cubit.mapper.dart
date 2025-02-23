@@ -27,6 +27,15 @@ class PremiumSubscriptionStateMapper
   static const Field<PremiumSubscriptionState, PremiumSubscriptionStatus>
       _f$status = Field('status', _$status,
           opt: true, def: PremiumSubscriptionStatus.initial);
+  static bool _$hasSubscription(PremiumSubscriptionState v) =>
+      v.hasSubscription;
+  static const Field<PremiumSubscriptionState, bool> _f$hasSubscription =
+      Field('hasSubscription', _$hasSubscription, opt: true, def: false);
+  static bool _$hasLifetimePurchase(PremiumSubscriptionState v) =>
+      v.hasLifetimePurchase;
+  static const Field<PremiumSubscriptionState, bool> _f$hasLifetimePurchase =
+      Field('hasLifetimePurchase', _$hasLifetimePurchase,
+          opt: true, def: false);
   static String? _$errorMessage(PremiumSubscriptionState v) => v.errorMessage;
   static const Field<PremiumSubscriptionState, String> _f$errorMessage =
       Field('errorMessage', _$errorMessage, opt: true);
@@ -34,12 +43,17 @@ class PremiumSubscriptionStateMapper
   @override
   final MappableFields<PremiumSubscriptionState> fields = const {
     #status: _f$status,
+    #hasSubscription: _f$hasSubscription,
+    #hasLifetimePurchase: _f$hasLifetimePurchase,
     #errorMessage: _f$errorMessage,
   };
 
   static PremiumSubscriptionState _instantiate(DecodingData data) {
     return PremiumSubscriptionState(
-        status: data.dec(_f$status), errorMessage: data.dec(_f$errorMessage));
+        status: data.dec(_f$status),
+        hasSubscription: data.dec(_f$hasSubscription),
+        hasLifetimePurchase: data.dec(_f$hasLifetimePurchase),
+        errorMessage: data.dec(_f$errorMessage));
   }
 
   @override
@@ -99,7 +113,11 @@ abstract class PremiumSubscriptionStateCopyWith<
     $R,
     $In extends PremiumSubscriptionState,
     $Out> implements ClassCopyWith<$R, $In, $Out> {
-  $R call({PremiumSubscriptionStatus? status, String? errorMessage});
+  $R call(
+      {PremiumSubscriptionStatus? status,
+      bool? hasSubscription,
+      bool? hasLifetimePurchase,
+      String? errorMessage});
   PremiumSubscriptionStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -114,14 +132,24 @@ class _PremiumSubscriptionStateCopyWithImpl<$R, $Out>
   late final ClassMapperBase<PremiumSubscriptionState> $mapper =
       PremiumSubscriptionStateMapper.ensureInitialized();
   @override
-  $R call({PremiumSubscriptionStatus? status, Object? errorMessage = $none}) =>
+  $R call(
+          {PremiumSubscriptionStatus? status,
+          bool? hasSubscription,
+          bool? hasLifetimePurchase,
+          Object? errorMessage = $none}) =>
       $apply(FieldCopyWithData({
         if (status != null) #status: status,
+        if (hasSubscription != null) #hasSubscription: hasSubscription,
+        if (hasLifetimePurchase != null)
+          #hasLifetimePurchase: hasLifetimePurchase,
         if (errorMessage != $none) #errorMessage: errorMessage
       }));
   @override
   PremiumSubscriptionState $make(CopyWithData data) => PremiumSubscriptionState(
       status: data.get(#status, or: $value.status),
+      hasSubscription: data.get(#hasSubscription, or: $value.hasSubscription),
+      hasLifetimePurchase:
+          data.get(#hasLifetimePurchase, or: $value.hasLifetimePurchase),
       errorMessage: data.get(#errorMessage, or: $value.errorMessage));
 
   @override

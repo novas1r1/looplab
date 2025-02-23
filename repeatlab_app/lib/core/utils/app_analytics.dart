@@ -40,6 +40,9 @@ abstract final class AppAnalytics {
   static const clickShowTutorial = 'click_show_tutorial';
   static const clickZoomIn = 'click_zoom_in';
   static const clickZoomOut = 'click_zoom_out';
+  static const clickRestore = 'click_restore';
+  static const clickTerms = 'click_terms';
+  static const clickPrivacy = 'click_privacy';
 
   static const showPaywallSongLoops = 'show_paywall_song_loops';
   static const showPaywallSongSpeed = 'show_paywall_song_speed';
