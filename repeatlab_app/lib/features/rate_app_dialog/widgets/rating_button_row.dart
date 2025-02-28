@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/svg_icon.dart';
 
 class RatingButtonRow extends StatefulWidget {
@@ -31,6 +32,13 @@ class _RatingButtonRowState extends State<RatingButtonRow> {
   }
 
   void _onSelect(int starCount) {
+    AppAnalytics.trackEvent(
+      AppAnalytics.clickRateApp,
+      data: {
+        'rating': starCount.toString(),
+      },
+    );
+
     switch (starCount) {
       case 1:
         _isSelected = [true, false, false, false, false];

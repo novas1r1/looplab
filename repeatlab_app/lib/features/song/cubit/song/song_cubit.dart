@@ -287,7 +287,7 @@ class SongCubit extends Cubit<SongState> {
   Future<void> setLoopStart() async {
     log('setLoopStart to ${state.position}');
 
-    if (state.position == null) return;
+    if (state.position == null || state.activeLoop == null) return;
     // if (state.handle == null) return;
 
     // // get current position

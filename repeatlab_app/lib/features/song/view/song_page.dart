@@ -359,11 +359,25 @@ class _SongViewState extends State<_SongView> {
     final currentPosition = context.read<SongCubit>().state.position ?? Duration.zero;
 
     if (activeLoop == null) {
-      // add new loop and set start
-      await context.read<SongCubit>().addLoop();
+      // check if user has premium
+      final premiumSubscriptionCubit = context.read<PremiumSubscriptionCubit>();
 
-      if (context.mounted) {
-        context.read<SongCubit>().setLoopStart();
+      if (!context.mounted) return;
+
+      if (premiumSubscriptionCubit.hasPremium ||
+          context.read<SongCubit>().state.song.loops.isEmpty) {
+        context.read<SongCubit>().addLoop();
+
+        if (context.mounted) {
+          context.read<SongCubit>().setLoopStart();
+        }
+      } else {
+        AppAnalytics.trackEvent(AppAnalytics.showPaywallSongLoops);
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const PremiumScreen(),
+          ),
+        );
       }
     } else {
       if (activeLoop.end != null) {

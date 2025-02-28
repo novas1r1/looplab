@@ -3,6 +3,10 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="RepeatLab - Loop your music practice">
+  <script
+  src="https://cdn.telemetrydeck.com/websdk/telemetrydeck.min.js"
+  data-app-id="B19DAFCB-056C-4F08-974B-ABA8F42C2E5F"
+  ></script>
   <main>
     <!-- Hero Section -->
     <section class="py-20 px-4 md:px-6 lg:px-8">
@@ -343,6 +347,7 @@ import Layout from '../layouts/Layout.astro';
             href="https://apps.apple.com/us/app/audio-looper-speed-changer/id6740175553"
             target="_blank"
             class="flex items-center gap-2"
+            onclick="window.telemetrydeck.send({type: 'app_store_click'})"
           >
             <img
               src="/images/app-store-badge-black.png"
@@ -354,6 +359,7 @@ import Layout from '../layouts/Layout.astro';
             href="https://play.google.com/store/apps/details?id=com.repeatlab.app"
             target="_blank"
             class="flex items-center gap-2"
+            onclick="window.telemetrydeck.send({type: 'google_play_click'})"
           >
             <img
               src="/images/google-play-badge.png"
@@ -370,13 +376,16 @@ import Layout from '../layouts/Layout.astro';
     <div class="max-w-6xl mx-auto px-4 md:px-6 lg:px-8">
       <div class="flex flex-col items-center gap-4">
         <div class="flex flex-wrap justify-center gap-6">
-          <a href="/privacy" class="hover:text-primary transition-colors"
+          <a href="/privacy" class="hover:text-primary transition-colors" 
+            onclick="window.telemetrydeck.send({type: 'privacy_policy_click'})"
             >Privacy Policy</a
           >
           <a href="/legal" class="hover:text-primary transition-colors"
+            onclick="window.telemetrydeck.send({type: 'legal_notices_click'})"
             >Legal Notices</a
           >
           <a href="/terms" class="hover:text-primary transition-colors"
+            onclick="window.telemetrydeck.send({type: 'terms_and_conditions_click'})"
             >Terms & Conditions</a
           >
         </div>
