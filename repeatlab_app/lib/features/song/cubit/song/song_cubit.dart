@@ -624,4 +624,33 @@ class SongCubit extends Cubit<SongState> {
       ),
     );
   }
+
+  Future<void> updateLoopSort(LoopSort newSort) async {
+    final updatedSong = state.song.copyWith(sort: newSort);
+    await songRepository.updateSong(updatedSong);
+
+    emit(state.copyWith(status: SongStatus.updated, song: updatedSong));
+  }
+
+  Future<void> updateLoopOrder(List<Loop> newLoops) async {
+    try {
+      final updatedSong = state.song.copyWith(loops: newLoops);
+      await songRepository.updateSong(updatedSong);
+
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          song: updatedSong,
+        ),
+      );
+    } catch (e, stackTrace) {
+      crashReportingRepository.reportError(e, stackTrace);
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to update loop order: $e',
+        ),
+      );
+    }
+  }
 }

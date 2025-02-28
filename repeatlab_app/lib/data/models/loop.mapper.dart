@@ -87,6 +87,9 @@ class LoopMapper extends ClassMapperBase<Loop> {
   static const Field<Loop, String> _f$songId = Field('songId', _$songId);
   static LoopColor _$color(Loop v) => v.color;
   static const Field<Loop, LoopColor> _f$color = Field('color', _$color);
+  static int _$orderNumber(Loop v) => v.orderNumber;
+  static const Field<Loop, int> _f$orderNumber =
+      Field('orderNumber', _$orderNumber, opt: true, def: 0);
   static Duration? _$start(Loop v) => v.start;
   static const Field<Loop, Duration> _f$start =
       Field('start', _$start, opt: true);
@@ -99,6 +102,7 @@ class LoopMapper extends ClassMapperBase<Loop> {
     #name: _f$name,
     #songId: _f$songId,
     #color: _f$color,
+    #orderNumber: _f$orderNumber,
     #start: _f$start,
     #end: _f$end,
   };
@@ -109,6 +113,7 @@ class LoopMapper extends ClassMapperBase<Loop> {
         name: data.dec(_f$name),
         songId: data.dec(_f$songId),
         color: data.dec(_f$color),
+        orderNumber: data.dec(_f$orderNumber),
         start: data.dec(_f$start),
         end: data.dec(_f$end));
   }
@@ -164,6 +169,7 @@ abstract class LoopCopyWith<$R, $In extends Loop, $Out>
       String? name,
       String? songId,
       LoopColor? color,
+      int? orderNumber,
       Duration? start,
       Duration? end});
   LoopCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
@@ -181,6 +187,7 @@ class _LoopCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Loop, $Out>
           String? name,
           String? songId,
           LoopColor? color,
+          int? orderNumber,
           Object? start = $none,
           Object? end = $none}) =>
       $apply(FieldCopyWithData({
@@ -188,6 +195,7 @@ class _LoopCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Loop, $Out>
         if (name != null) #name: name,
         if (songId != null) #songId: songId,
         if (color != null) #color: color,
+        if (orderNumber != null) #orderNumber: orderNumber,
         if (start != $none) #start: start,
         if (end != $none) #end: end
       }));
@@ -197,6 +205,7 @@ class _LoopCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Loop, $Out>
       name: data.get(#name, or: $value.name),
       songId: data.get(#songId, or: $value.songId),
       color: data.get(#color, or: $value.color),
+      orderNumber: data.get(#orderNumber, or: $value.orderNumber),
       start: data.get(#start, or: $value.start),
       end: data.get(#end, or: $value.end));
 

@@ -6,6 +6,56 @@
 
 part of 'song.dart';
 
+class LoopSortMapper extends EnumMapper<LoopSort> {
+  LoopSortMapper._();
+
+  static LoopSortMapper? _instance;
+  static LoopSortMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = LoopSortMapper._());
+    }
+    return _instance!;
+  }
+
+  static LoopSort fromValue(dynamic value) {
+    ensureInitialized();
+    return MapperContainer.globals.fromValue(value);
+  }
+
+  @override
+  LoopSort decode(dynamic value) {
+    switch (value) {
+      case 'manual':
+        return LoopSort.manual;
+      case 'startTime':
+        return LoopSort.startTime;
+      case 'none':
+        return LoopSort.none;
+      default:
+        throw MapperException.unknownEnumValue(value);
+    }
+  }
+
+  @override
+  dynamic encode(LoopSort self) {
+    switch (self) {
+      case LoopSort.manual:
+        return 'manual';
+      case LoopSort.startTime:
+        return 'startTime';
+      case LoopSort.none:
+        return 'none';
+    }
+  }
+}
+
+extension LoopSortMapperExtension on LoopSort {
+  String toValue() {
+    LoopSortMapper.ensureInitialized();
+    return MapperContainer.globals.toValue<LoopSort>(this) as String;
+  }
+}
+
 class SongMapper extends ClassMapperBase<Song> {
   SongMapper._();
 
@@ -15,6 +65,7 @@ class SongMapper extends ClassMapperBase<Song> {
       MapperContainer.globals.use(_instance = SongMapper._());
       MapperContainer.globals.useAll([DurationMapper()]);
       LoopMapper.ensureInitialized();
+      LoopSortMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -36,6 +87,9 @@ class SongMapper extends ClassMapperBase<Song> {
   static List<Loop> _$loops(Song v) => v.loops;
   static const Field<Song, List<Loop>> _f$loops =
       Field('loops', _$loops, opt: true, def: const []);
+  static LoopSort _$loopSort(Song v) => v.loopSort;
+  static const Field<Song, LoopSort> _f$loopSort =
+      Field('loopSort', _$loopSort, opt: true, def: LoopSort.none);
 
   @override
   final MappableFields<Song> fields = const {
@@ -45,6 +99,7 @@ class SongMapper extends ClassMapperBase<Song> {
     #fileName: _f$fileName,
     #duration: _f$duration,
     #loops: _f$loops,
+    #loopSort: _f$loopSort,
   };
 
   static Song _instantiate(DecodingData data) {
@@ -54,7 +109,8 @@ class SongMapper extends ClassMapperBase<Song> {
         artist: data.dec(_f$artist),
         fileName: data.dec(_f$fileName),
         duration: data.dec(_f$duration),
-        loops: data.dec(_f$loops));
+        loops: data.dec(_f$loops),
+        loopSort: data.dec(_f$loopSort));
   }
 
   @override
@@ -110,7 +166,8 @@ abstract class SongCopyWith<$R, $In extends Song, $Out>
       String? artist,
       String? fileName,
       Duration? duration,
-      List<Loop>? loops});
+      List<Loop>? loops,
+      LoopSort? loopSort});
   SongCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -131,14 +188,16 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
           String? artist,
           String? fileName,
           Duration? duration,
-          List<Loop>? loops}) =>
+          List<Loop>? loops,
+          LoopSort? loopSort}) =>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
         if (title != null) #title: title,
         if (artist != null) #artist: artist,
         if (fileName != null) #fileName: fileName,
         if (duration != null) #duration: duration,
-        if (loops != null) #loops: loops
+        if (loops != null) #loops: loops,
+        if (loopSort != null) #loopSort: loopSort
       }));
   @override
   Song $make(CopyWithData data) => Song(
@@ -147,7 +206,8 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
       artist: data.get(#artist, or: $value.artist),
       fileName: data.get(#fileName, or: $value.fileName),
       duration: data.get(#duration, or: $value.duration),
-      loops: data.get(#loops, or: $value.loops));
+      loops: data.get(#loops, or: $value.loops),
+      loopSort: data.get(#loopSort, or: $value.loopSort));
 
   @override
   SongCopyWith<$R2, Song, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>

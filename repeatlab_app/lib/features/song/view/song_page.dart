@@ -217,12 +217,18 @@ class _SongViewState extends State<_SongView> {
                       speed: state.speed,
                     ),
                     const Divider(height: 32),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Loops',
-                        style: Theme.of(context).textTheme.headlineLarge,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Loops',
+                          style: Theme.of(context).textTheme.headlineLarge,
+                        ),
+                        IconButton(
+                          onPressed: () => _onSortLoops(context, state),
+                          icon: const Icon(Icons.sort),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 8),
                     Row(
@@ -272,13 +278,26 @@ class _SongViewState extends State<_SongView> {
                     ),
                     const SizedBox(height: 16),
                     Expanded(
-                      child: ListView.separated(
-                        controller: _loopListController,
+                      child: ReorderableListView.builder(
+                        onReorder: (oldIndex, newIndex) {
+                          if (oldIndex < newIndex) {
+                            newIndex -= 1;
+                          }
+                          final List<Loop> newLoops = List<Loop>.from(state.song.loops);
+                          final Loop item = newLoops.removeAt(oldIndex);
+                          newLoops.insert(newIndex, item);
+
+                          // Update order numbers
+                          for (var i = 0; i < newLoops.length; i++) {
+                            newLoops[i] = newLoops[i].copyWith(orderNumber: i);
+                          }
+
+                          context.read<SongCubit>().updateLoopOrder(newLoops);
+                        },
+                        scrollController: _loopListController,
                         padding: const EdgeInsets.only(bottom: 92),
-                        separatorBuilder: (context, index) => const SizedBox(
-                          height: 8,
-                        ),
                         itemBuilder: (context, index) => LoopTile(
+                          key: ValueKey(state.song.loops[index].id),
                           index: index,
                           loop: state.song.loops[index],
                           isSelected: state.song.loops[index] == state.activeLoop,
@@ -396,9 +415,14 @@ class _SongViewState extends State<_SongView> {
 
   Future<void> _onSetLoopEnd(BuildContext context, Loop activeLoop) async {
     AppAnalytics.trackEvent(AppAnalytics.clickSetLoopEnd);
-    if (activeLoop.start != null && context.read<SongCubit>().state.position! > activeLoop.start!) {
+
+    final currentPosition = context.read<SongCubit>().state.position ?? Duration.zero;
+
+    // if active loop was set and current position is after start, set end
+    if (activeLoop.start != null && currentPosition > activeLoop.start!) {
       context.read<SongCubit>().setLoopEnd();
-    } else if (activeLoop.start != null) {
+      // if active loop was set and current position is before start, show error
+    } else if (activeLoop.start != null && currentPosition < activeLoop.start!) {
       SnackbarHelper.showError(
         context,
         context.l10n.endPositionMustBeAfterStartPosition,
@@ -591,5 +615,51 @@ class _SongViewState extends State<_SongView> {
         SnackbarHelper.showError(context, context.l10n.pleaseSelectLoop);
       }
     }
+  }
+
+  void _onSortLoops(BuildContext context, SongState state) {
+    final cubit = context.read<SongCubit>();
+
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => BlocProvider.value(
+        value: cubit,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Text('Sort Loops', style: Theme.of(context).textTheme.titleLarge),
+              const SizedBox(height: 16),
+              ListTile(
+                title: const Text('Sort by Start Time'),
+                onTap: () {
+                  final sortedLoops = List<Loop>.from(state.song.loops)
+                    ..sort((a, b) {
+                      if (a.start == null) return 1;
+                      if (b.start == null) return -1;
+                      return a.start!.compareTo(b.start!);
+                    });
+
+                  // Update order numbers
+                  for (var i = 0; i < sortedLoops.length; i++) {
+                    sortedLoops[i] = sortedLoops[i].copyWith(orderNumber: i);
+                  }
+
+                  cubit.updateLoopOrder(sortedLoops);
+                },
+              ),
+              ListTile(
+                title: const Text('Sort by Manual Order'),
+                onTap: () {
+                  final sortedLoops = List<Loop>.from(state.song.loops)
+                    ..sort((a, b) => a.orderNumber.compareTo(b.orderNumber));
+                  cubit.updateLoopOrder(sortedLoops);
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

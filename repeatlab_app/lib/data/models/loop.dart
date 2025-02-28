@@ -9,6 +9,7 @@ class Loop with LoopMappable {
   final String name;
   final String songId;
   final LoopColor color;
+  final int orderNumber;
 
   final Duration? start;
   final Duration? end;
@@ -18,6 +19,7 @@ class Loop with LoopMappable {
     required this.name,
     required this.songId,
     required this.color,
+    this.orderNumber = 0,
     this.start,
     this.end,
   });

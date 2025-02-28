@@ -14,6 +14,7 @@ class Song with SongMappable {
   final String fileName;
   final Duration duration;
   final List<Loop> loops;
+  final LoopSort loopSort;
 
   const Song({
     required this.id,
@@ -22,6 +23,7 @@ class Song with SongMappable {
     required this.fileName,
     required this.duration,
     this.loops = const [],
+    this.loopSort = LoopSort.none,
   });
 
   Future<String> get path async {
@@ -29,6 +31,13 @@ class Song with SongMappable {
 
     return '${appDir.path}/$fileName';
   }
+}
+
+@MappableEnum()
+enum LoopSort {
+  manual,
+  startTime,
+  none,
 }
 
 class DurationMapper extends SimpleMapper<Duration> {
