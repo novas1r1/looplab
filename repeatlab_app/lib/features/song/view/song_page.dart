@@ -224,10 +224,6 @@ class _SongViewState extends State<_SongView> {
                           'Loops',
                           style: Theme.of(context).textTheme.headlineLarge,
                         ),
-                        IconButton(
-                          onPressed: () => _onSortLoops(context, state),
-                          icon: const Icon(Icons.sort),
-                        ),
                       ],
                     ),
                     const SizedBox(height: 8),
@@ -296,18 +292,21 @@ class _SongViewState extends State<_SongView> {
                         },
                         scrollController: _loopListController,
                         padding: const EdgeInsets.only(bottom: 92),
-                        itemBuilder: (context, index) => LoopTile(
+                        itemBuilder: (context, index) => Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4),
                           key: ValueKey(state.song.loops[index].id),
-                          index: index,
-                          loop: state.song.loops[index],
-                          isSelected: state.song.loops[index] == state.activeLoop,
-                          isPaused:
-                              state.playerState == null || state.playerState == PlayerState.paused,
-                          onTap: (loop) => context.read<SongCubit>().selectLoop(loop),
-                          onDelete: (loop) => context.read<SongCubit>().deleteLoop(loop),
-                          onPlay: (loop) => context.read<SongCubit>().togglePlayLoop(loop),
-                          onPause: (loop) => context.read<SongCubit>().pauseLoop(loop),
-                          onUpdate: (loop) => context.read<SongCubit>().updateLoop(loop),
+                          child: LoopTile(
+                            index: index,
+                            loop: state.song.loops[index],
+                            isSelected: state.song.loops[index] == state.activeLoop,
+                            isPaused: state.playerState == null ||
+                                state.playerState == PlayerState.paused,
+                            onTap: (loop) => context.read<SongCubit>().selectLoop(loop),
+                            onDelete: (loop) => context.read<SongCubit>().deleteLoop(loop),
+                            onPlay: (loop) => context.read<SongCubit>().togglePlayLoop(loop),
+                            onPause: (loop) => context.read<SongCubit>().pauseLoop(loop),
+                            onUpdate: (loop) => context.read<SongCubit>().updateLoop(loop),
+                          ),
                         ),
                         itemCount: state.song.loops.length,
                       ),
@@ -615,51 +614,5 @@ class _SongViewState extends State<_SongView> {
         SnackbarHelper.showError(context, context.l10n.pleaseSelectLoop);
       }
     }
-  }
-
-  void _onSortLoops(BuildContext context, SongState state) {
-    final cubit = context.read<SongCubit>();
-
-    showModalBottomSheet(
-      context: context,
-      builder: (context) => BlocProvider.value(
-        value: cubit,
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Text('Sort Loops', style: Theme.of(context).textTheme.titleLarge),
-              const SizedBox(height: 16),
-              ListTile(
-                title: const Text('Sort by Start Time'),
-                onTap: () {
-                  final sortedLoops = List<Loop>.from(state.song.loops)
-                    ..sort((a, b) {
-                      if (a.start == null) return 1;
-                      if (b.start == null) return -1;
-                      return a.start!.compareTo(b.start!);
-                    });
-
-                  // Update order numbers
-                  for (var i = 0; i < sortedLoops.length; i++) {
-                    sortedLoops[i] = sortedLoops[i].copyWith(orderNumber: i);
-                  }
-
-                  cubit.updateLoopOrder(sortedLoops);
-                },
-              ),
-              ListTile(
-                title: const Text('Sort by Manual Order'),
-                onTap: () {
-                  final sortedLoops = List<Loop>.from(state.song.loops)
-                    ..sort((a, b) => a.orderNumber.compareTo(b.orderNumber));
-                  cubit.updateLoopOrder(sortedLoops);
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }

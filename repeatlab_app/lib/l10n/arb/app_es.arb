@@ -111,6 +111,8 @@
     "cancelSubscription": "Cancelar Suscripción",
     "voteForFeatures": "Vota por Funciones",
     "changelogTitle": "Cambios",
+    "changelog1017Title": "Reordenar Loops",
+    "changelog1017Description": "Ahora puedes reordenar tus loops arrastrando y soltándolos. Simplemente toca largo en un loop y arrastra hasta la nueva posición.",
     "changelog1013Title": "Votación de Funciones & Propuesta de Funciones ahora posible",
     "changelog1013Description": "Ahora puedes votar por nuevas funciones o enviar tus propias propuestas de funciones en la app. Simplemente abre el menú y abre el tablero 'Votar por Funciones'. ¡Encantado de oír tus deseos!",
     "whatsNew": "¿Qué hay de nuevo?",

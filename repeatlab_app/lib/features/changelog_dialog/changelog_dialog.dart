@@ -36,6 +36,19 @@ class _ChangelogDialogState extends State<ChangelogDialog> with TickerProviderSt
   Widget build(BuildContext context) {
     final versions = [
       ChangelogVersion(
+        version: '1.0.17',
+        releaseDate: DateTime(2025, 02, 28),
+        updates: [
+          ChangelogElement(
+            title: context.l10n.changelog1017Title,
+            description: context.l10n.changelog1017Description,
+            imagePaths: const [
+              'assets/images/update_reorder_loop.png',
+            ],
+          ),
+        ],
+      ),
+      ChangelogVersion(
         version: '1.0.13',
         releaseDate: DateTime(2025, 02, 14),
         updates: [
@@ -103,6 +116,7 @@ class _ChangelogDialogState extends State<ChangelogDialog> with TickerProviderSt
                             imagePaths: updates[index].imagePaths,
                           ),
                         ),
+                        const SizedBox(height: 16),
                       ],
                     );
                   },

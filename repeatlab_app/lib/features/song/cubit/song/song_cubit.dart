@@ -626,7 +626,7 @@ class SongCubit extends Cubit<SongState> {
   }
 
   Future<void> updateLoopSort(LoopSort newSort) async {
-    final updatedSong = state.song.copyWith(sort: newSort);
+    final updatedSong = state.song.copyWith(loopSort: newSort);
     await songRepository.updateSong(updatedSong);
 
     emit(state.copyWith(status: SongStatus.updated, song: updatedSong));

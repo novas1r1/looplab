@@ -113,6 +113,8 @@
     "cancelSubscription": "Abonnement kündigen",
     "voteForFeatures": "Feature Voting",
     "changelogTitle": "Changelog",
+    "changelog1017Title": "Loops neu anordnen",
+    "changelog1017Description": "Du kannst jetzt deine Loops neu anordnen, indem du sie lange antippst und sie an die neue Position ziehst.",
     "changelog1013Title": "Du kannst jetzt für neue Funktionen voten oder deine eigenen Funktionen vorschlagen",
     "changelog1013Description": "Öffne das Menü und klicke auf 'Feature Voting'. Hier kannst du deine Stimme abgeben und/oder neue Features vorschlagen. Ich freue mich auf deine Ideen!",
     "whatsNew": "Was ist neu?",

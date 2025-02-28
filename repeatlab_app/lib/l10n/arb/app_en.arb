@@ -115,6 +115,8 @@
     "cancelSubscription": "Cancel Subscription",
     "voteForFeatures": "Vote for Features",
     "changelogTitle": "Changelog",
+    "changelog1017Title": "Reorder Loops",
+    "changelog1017Description": "You can now reorder your loops by dragging and dropping them. Just long press on a loop and drag it to the new position.",
     "changelog1013Title": "Feature Voting & Feature proposal now possible",
     "changelog1013Description": "You can now vote for new features or submit your own feature proposals in the app. Just open the menu and open the 'Vote for Features' board. Happy to hear your wishes!",
     "whatsNew": "What's New",

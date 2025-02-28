@@ -111,6 +111,8 @@
     "cancelSubscription": "Abonnement Opzeggen",
     "voteForFeatures": "Functies Voorstellen",
     "changelogTitle": "Wijzigingen",
+    "changelog1017Title": "Loops Opnieuw Ordenen",
+    "changelog1017Description": "Je kunt nu je loops opnieuw ordenen door ze lang te tikken en naar de nieuwe positie te slepen.",
     "changelog1013Title": "Feature Voting & Feature proposal now possible",
     "changelog1013Description": "You can now vote for new features or submit your own feature proposals in the app. Just open the menu and open the 'Vote for Features' board. Happy to hear your wishes!",
     "whatsNew": "Wat is er nieuw?",

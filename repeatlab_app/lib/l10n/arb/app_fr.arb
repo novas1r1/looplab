@@ -112,6 +112,8 @@
     "cancelSubscription": "Annuler l'Abonnement",
     "voteForFeatures": "Voter pour les Fonctionnalités",
     "changelogTitle": "Changelog",
+    "changelog1017Title": "Réorganiser les Boucles",
+    "changelog1017Description": "Vous pouvez maintenant réorganiser vos boucles en les touchant longuement et en les déplaçant vers la nouvelle position.",
     "changelog1013Title": "Votation de Fonctionnalités & Proposition de Fonctionnalités maintenant possible",
     "changelog1013Description": "Vous pouvez maintenant voter pour de nouvelles fonctionnalités ou soumettre vos propres propositions de fonctionnalités dans l'app. Simplement ouvrez le menu et ouvrez le tableau 'Voter pour les Fonctionnalités'. Heureux de recevoir vos souhaits !",
     "whatsNew": "Qu'y a-t-il de nouveau ?",
