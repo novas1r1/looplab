@@ -47,8 +47,10 @@ class SongRepository {
 
     final song = Song(
       id: const Uuid().v4(),
-      title: fileName, //metadata?.title ?? fileName,
-      artist: 'Unknown Artist', //metadata?.trackArtist ?? 'Unknown Artist',
+      // title: metadata?.title ?? fileName,
+      title: fileName,
+      // artist: metadata?.trackArtist ?? 'Unknown Artist',
+      artist: 'Unknown Artist',
       fileName: fileName,
       duration: duration,
     );

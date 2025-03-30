@@ -111,6 +111,8 @@
     "cancelSubscription": "Anuluj Subskrypcję",
     "voteForFeatures": "Głosuj na Funkcje",
     "changelogTitle": "Zmiany",
+    "changelog110Title": "Audio odtwarza również w tle i w trybie standby",
+    "changelog110Description": "Pliki audio teraz odtwarzają się również w tle i w trybie standby.",
     "changelog1017Title": "Pętle ponownie sortuj",
     "changelog1017Description": "Teraz możesz ponownie sortować swoje pętle, przeciągając je i zwalniając na nową pozycję.",
     "changelog1013Title": "Głosowanie na funkcje & sugestia funkcji teraz możliwe",

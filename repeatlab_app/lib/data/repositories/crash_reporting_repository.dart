@@ -8,11 +8,16 @@ class CrashReportingRepository {
 
   Future<SentryId?> reportError(
     Object error,
-    StackTrace stackTrace,
-  ) async {
+    StackTrace stackTrace, {
+    Map<String, dynamic>? properties,
+  }) async {
     log('ERROR: $error');
     if (Sentry.isEnabled) {
-      await Sentry.captureException(error, stackTrace: stackTrace);
+      if (properties != null) {
+        await Sentry.captureMessage(properties.toString());
+      } else {
+        await Sentry.captureException(error, stackTrace: stackTrace);
+      }
     }
 
     return null;

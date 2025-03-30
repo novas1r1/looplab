@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +9,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:repeatlab/app/app.dart';
 import 'package:repeatlab/bootstrap.dart';
 import 'package:repeatlab/data/models/song.dart';
+import 'package:repeatlab/data/services/audio_service_provider.dart';
 import 'package:sembast/sembast_io.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,6 +38,11 @@ Future<void> main() async {
   final soloud = SoLoud.instance;
   await soloud.init(sampleRate: 48000);
 
+  final audioPlayer = AudioPlayer();
+
+  // Initialize audio service for background playback
+  await AudioServiceProvider.init(audioPlayer);
+
   final packageInfo = await PackageInfo.fromPlatform();
   final sharedPreferences = await SharedPreferences.getInstance();
 
@@ -53,6 +60,7 @@ Future<void> main() async {
         soloud: soloud,
         packageInfo: packageInfo,
         sharedPreferences: sharedPreferences,
+        audioPlayer: audioPlayer,
       ),
     ),
   );

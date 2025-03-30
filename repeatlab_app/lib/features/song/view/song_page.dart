@@ -34,7 +34,7 @@ class SongPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SongCubit(
-        audioPlayer: AudioPlayer(),
+        audioPlayer: context.read<AudioPlayer>(),
         songRepository: context.read<SongRepository>(),
         localConfigRepository: context.read<LocalConfigRepository>(),
         crashReportingRepository: context.read<CrashReportingRepository>(),
