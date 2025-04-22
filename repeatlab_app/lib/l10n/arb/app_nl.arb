@@ -63,12 +63,25 @@
     "setLoopStart": "Loop Start Instellen",
     "setLoopEnd": "Loop Einde Instellen",
     "endMustBeAfterStart": "Eindpositie moet na startpositie zijn",
-    "premiumHeadline": "Beheers Je Favoriete Nummers",
+    "premiumHeadline": "Beheers Je Favoriete Nummers als een Pro met Tempo Controle, Zoom & Onbeperkte Loops!",
     "premiumFeatureUnlimitedLoops": "Onbeperkte Loops",
     "premiumFeatureChangeMusicSpeed": "Verander de Muzieksnelheid",
-    "premiumFeatureZoomInOut": "Zoom voor Maximale Precisie",
+    "premiumFeatureZoomInOut": "Waveform Zoom-In/Out",
     "premiumFeatureSupportDeveloper": "Steun de Onafhankelijke Ontwikkelaar",
+    "freeFeatureUnlimitedSongs": "Onbeperkte Nummers + Een Loop per Nummer",
+    "freeFeatureNoAds": "Geen Advertenties",
+    "freeFeatureOneLoopPerSong": "Een Loop per Nummer",
     "purchase": "Kopen",
+    "purchaseYearly": "Probeer gratis {trialString} dagen",
+    "@purchaseYearly": {
+        "placeholders": {
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
+    "purchaseLifetime": "Kopen",
+    "deny": "Ablehnen",
     "notAvailable": "Niet Beschikbaar",
     "cancelAnytime": "Je kunt op elk moment voor het einde van de proefperiode annuleren in de Google Play-instellingen om te voorkomen dat je wordt gefactureerd.",
     "restore": "Herstellen",
@@ -120,5 +133,9 @@
     "loopAdded": "Loop toegevoegd en geactiveerd",
     "loopModeEnabled": "Loopmodus geactiveerd",
     "loopModeDisabled": "Loopmodus uitgeschakeld",
-    "pleaseSelectLoop": "Kies een loop"
+    "pleaseSelectLoop": "Kies een loop",
+    "free": "Free",
+    "pro": "Pro",
+    "oneCoffee": "= Een Koffie voor de Ontwikkelaar (per Jaar)",
+    "onePairOfDrumSticks": "= Een Set van Drumsticks voor de Ontwikkelaar (eenmalig)"
 } 

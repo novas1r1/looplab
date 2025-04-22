@@ -63,12 +63,23 @@
     "setLoopStart": "Définir le Début de la Boucle",
     "setLoopEnd": "Définir la Fin de la Boucle",
     "endMustBeAfterStart": "La position de fin doit être après la position de début",
-    "premiumHeadline": "Maîtrisez Vos Chansons Préférées",
+    "premiumHeadline": "Maîtrisez Vos Chansons Préférées comme un Pro avec Contrôle de Tempo, Zoom et Boucles Ilimitées",
     "premiumFeatureUnlimitedLoops": "Boucles Illimitées",
     "premiumFeatureChangeMusicSpeed": "Modifier la Vitesse de la Musique",
-    "premiumFeatureZoomInOut": "Zoom pour une Précision Maximale",
+    "premiumFeatureZoomInOut": "Waveform Zoom-In/Out",
     "premiumFeatureSupportDeveloper": "Soutenez le Développeur Indépendant",
+    "freeFeatureUnlimitedSongs": "Chansons Illimitées + Une Boucle par Chanson",
+    "freeFeatureNoAds": "Pas de Publicité",
+    "freeFeatureOneLoopPerSong": "Une Boucle par Chanson",
     "purchase": "Acheter",
+    "purchaseYearly": "Essayer gratuitement {trialString} jours",
+    "@purchaseYearly": {
+        "placeholders": {
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
     "notAvailable": "Non Disponible",
     "cancelAnytime": "Vous pouvez annuler à tout moment avant la fin de l'essai dans les paramètres Google Play pour éviter d'être facturé.",
     "restore": "Restaurer",
@@ -109,6 +120,9 @@
     "year": "an",
     "purchasedAlready": "Déjà acheté",
     "purchaseSuccess": "Achat réussi. Merci pour votre soutien au développeur ❤️!",
+    "purchaseYearly": "Essayer gratuitement",
+    "purchaseLifetime": "Acheter",
+    "deny": "Refuser",
     "cancelSubscription": "Annuler l'Abonnement",
     "voteForFeatures": "Voter pour les Fonctionnalités",
     "changelogTitle": "Changelog",
@@ -121,5 +135,9 @@
     "loopAdded": "Boucle ajoutée et activée",
     "loopModeEnabled": "Mode boucle activé",
     "loopModeDisabled": "Mode boucle désactivé",
-    "pleaseSelectLoop": "Veuillez sélectionner une boucle"
+    "pleaseSelectLoop": "Veuillez sélectionner une boucle",
+    "free": "Free",
+    "pro": "Pro",
+    "oneCoffee": "= Un Café pour le Développeur (par An)",
+    "onePairOfDrumSticks": "= Un Set de Batterie pour le Développeur (une fois)"
 } 

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/app_constants.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
+import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/core/utils/snackbar_helper.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/purchases_repository.dart';
@@ -83,6 +84,8 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isApple = Platform.isIOS;
+
     final yearlyPrice = widget.fetchProductsState.annualPackage?.storeProduct.priceString;
     final lifetimePrice = widget.fetchProductsState.lifetimePackage?.storeProduct.priceString;
     final hasSubscription = context.watch<PremiumSubscriptionCubit>().state.hasSubscription;
@@ -119,13 +122,108 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                 children: [
                   Text(
                     context.l10n.premiumHeadline,
-                    style: Theme.of(context).textTheme.headlineLarge,
+                    style: Theme.of(context).textTheme.headlineMedium,
                   ),
                   const SizedBox(height: 16),
-                  FeatureTile(title: context.l10n.premiumFeatureUnlimitedLoops),
-                  FeatureTile(title: context.l10n.premiumFeatureChangeMusicSpeed),
-                  FeatureTile(title: context.l10n.premiumFeatureZoomInOut),
-                  FeatureTile(title: context.l10n.premiumFeatureSupportDeveloper),
+                  const Divider(),
+                  Table(
+                    columnWidths: const {
+                      0: FlexColumnWidth(),
+                      1: FlexColumnWidth(4),
+                      2: FlexColumnWidth(),
+                      3: FlexColumnWidth(),
+                    },
+                    children: [
+                      TableRow(
+                        children: [
+                          Text('', style: context.bodyMediumBold),
+                          Text('', style: context.bodyMediumBold),
+                          TableCell(
+                            verticalAlignment: TableCellVerticalAlignment.middle,
+                            child: Text(
+                              'Free',
+                              style: context.bodyMediumBold,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          TableCell(
+                            verticalAlignment: TableCellVerticalAlignment.middle,
+                            child: Text(
+                              'Pro',
+                              style: context.bodyMediumBold,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          Text('', style: context.bodyLargeBold),
+                          Text('', style: context.bodyLargeBold),
+                          Text('', style: context.bodyLargeBold),
+                          Text('', style: context.bodyLargeBold),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          Text('🎵', style: context.bodyLargeBold),
+                          Text(context.l10n.freeFeatureUnlimitedSongs),
+                          const Icon(Icons.check, color: Colors.green),
+                          const Icon(Icons.check, color: Colors.green),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          Text('🚫', style: context.bodyLargeBold),
+                          Text(context.l10n.freeFeatureNoAds),
+                          const Icon(Icons.check, color: Colors.green),
+                          const Icon(Icons.check, color: Colors.green),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          Text('', style: context.bodyLargeBold),
+                          Text('', style: context.bodyLargeBold),
+                          Text('', style: context.bodyLargeBold),
+                          Text('', style: context.bodyLargeBold),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          Text('🔁', style: context.bodyLargeBold),
+                          Text(context.l10n.premiumFeatureUnlimitedLoops),
+                          const Icon(Icons.close, color: Colors.red),
+                          const Icon(Icons.check, color: Colors.green),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          Text('🚀', style: context.bodyLargeBold),
+                          Text(context.l10n.premiumFeatureChangeMusicSpeed),
+                          const Icon(Icons.close, color: Colors.red),
+                          const Icon(Icons.check, color: Colors.green),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          Text('🔍', style: context.bodyLargeBold),
+                          Text(context.l10n.premiumFeatureZoomInOut),
+                          const Icon(Icons.close, color: Colors.red),
+                          const Icon(Icons.check, color: Colors.green),
+                        ],
+                      ),
+                      /*  TableRow(
+                        children: [
+                          Text('💖', style: context.bodyLargeBold),
+                          Text(context.l10n.premiumFeatureSupportDeveloper),
+                          const Icon(Icons.close, color: Colors.red),
+                          const Icon(Icons.check, color: Colors.green),
+                        ],
+                      ), */
+                    ],
+                  ),
+                  const Divider(),
+
                   const SizedBox(height: 16),
                   // package yearly with title, subtitle, border if selected
                   PackageWidget(
@@ -180,8 +278,18 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                           }
                         : null,
                     child: !hasSubscription && !hasLifetimePurchase
-                        ? Text(context.l10n.purchase)
+                        ? _selectedPlan == PlanPeriod.yearly
+                            ? Text(context.l10n.purchaseYearly(isApple ? '3' : '5'))
+                            : Text(context.l10n.purchaseLifetime)
                         : Text(context.l10n.purchasedAlready),
+                  ),
+                  const SizedBox(height: 8),
+                  TextButton(
+                    onPressed: () {
+                      // TODO(Verena): Add a confirmation dialog
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(context.l10n.deny),
                   ),
                   const SizedBox(height: 16),
 
@@ -273,10 +381,18 @@ class PackageWidget extends StatelessWidget {
           children: [
             Text(
               'RepeatLab Pro ${period.name}',
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+              style: context.bodyLargeBold.copyWith(color: Theme.of(context).colorScheme.primary),
             ),
+            if (period == PlanPeriod.yearly)
+              Text(
+                context.l10n.oneCoffee,
+                style: context.bodyMediumBold,
+              ),
+            if (period == PlanPeriod.lifetime)
+              Text(
+                context.l10n.onePairOfDrumSticks,
+                style: context.bodyMediumBold,
+              ),
             const SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

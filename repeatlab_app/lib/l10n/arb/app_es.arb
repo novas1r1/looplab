@@ -63,12 +63,25 @@
     "setLoopStart": "Establecer Inicio del Loop",
     "setLoopEnd": "Establecer Final del Loop",
     "endMustBeAfterStart": "La posición final debe estar después de la posición inicial",
-    "premiumHeadline": "Domina Tus Canciones Favoritas",
+    "premiumHeadline": "Domina Tus Canciones Favoritas como un Pro con Control de Tempo, Zoom y Loops Ilimitados",
     "premiumFeatureUnlimitedLoops": "Loops Ilimitados",
     "premiumFeatureChangeMusicSpeed": "Cambiar la Velocidad de la Música",
-    "premiumFeatureZoomInOut": "Zoom para Máxima Precisión",
+    "premiumFeatureZoomInOut": "Waveform Zoom-In/Out",
     "premiumFeatureSupportDeveloper": "Apoya al Desarrollador Independiente",
+    "freeFeatureUnlimitedSongs": "Canciones Ilimitadas + Un Loop por Canción",
+    "freeFeatureNoAds": "Sin Anuncios",
+    "freeFeatureOneLoopPerSong": "Un Loop por Canción",
     "purchase": "Comprar",
+    "purchaseLifetime": "Comprar",
+    "purchaseYearly": "Prueba gratis {trialString} días",
+    "@purchaseYearly": {
+        "placeholders": {
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
+    "deny": "Ablehnen",
     "notAvailable": "No Disponible",
     "cancelAnytime": "Puedes cancelar en cualquier momento antes de que termine la prueba en la configuración de Google Play para evitar cargos.",
     "restore": "Restaurar",
@@ -120,5 +133,9 @@
     "loopAdded": "Loop añadido y activado",
     "loopModeEnabled": "Modo loop activado",
     "loopModeDisabled": "Modo loop desactivado",
-    "pleaseSelectLoop": "Por favor, selecciona un loop"
+    "pleaseSelectLoop": "Por favor, selecciona un loop",
+    "free": "Free",
+    "pro": "Pro",
+    "oneCoffee": "= Un Café para el Desarrollador (por Año)",
+    "onePairOfDrumSticks": "= Un Par de Baterías para el Desarrollador (una vez)"
 } 

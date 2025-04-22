@@ -63,12 +63,25 @@
     "setLoopStart": "Установить Начало Лупа",
     "setLoopEnd": "Установить Конец Лупа",
     "endMustBeAfterStart": "Конечная позиция должна быть после начальной",
-    "premiumHeadline": "Освойте Ваши Любимые Песни",
+    "premiumHeadline": "Освойте Ваши Любимые Песни как Про с Контролем Скорости, Zoom и Неограниченными Лупами!",
     "premiumFeatureUnlimitedLoops": "Неограниченное Количество Лупов",
     "premiumFeatureChangeMusicSpeed": "Изменение Скорости Музыки",
-    "premiumFeatureZoomInOut": "Масштабирование для Максимальной Точности",
+    "premiumFeatureZoomInOut": "Waveform Zoom-In/Out",
     "premiumFeatureSupportDeveloper": "Поддержка Независимого Разработчика",
+    "freeFeatureUnlimitedSongs": "Неограниченное Количество Песен + Один Луп на Песню",
+    "freeFeatureNoAds": "Без Рекламы",
+    "freeFeatureOneLoopPerSong": "Один Луп на Песню",
     "purchase": "Купить",
+    "purchaseYearly": "Попробовать Бесплатно {trialString} дней",
+    "@purchaseYearly": {
+        "placeholders": {
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
+    "purchaseLifetime": "Купить",
+    "deny": "Отменить",
     "notAvailable": "Недоступно",
     "cancelAnytime": "Вы можете отменить в любое время до окончания пробного периода в настройках Google Play, чтобы избежать списания средств.",
     "restore": "Восстановить",
@@ -120,5 +133,9 @@
     "loopAdded": "Луп добавлен и активирован",
     "loopModeEnabled": "Режим лупа включен",
     "loopModeDisabled": "Режим лупа выключен",
-    "pleaseSelectLoop": "Пожалуйста, выберите луп"
+    "pleaseSelectLoop": "Пожалуйста, выберите луп",
+    "free": "Free",
+    "pro": "Pro",
+    "oneCoffee": "= Один Кофе для Разработчика (в Год)",
+    "onePairOfDrumSticks": "= Один Набор Барабанных палочек для Разработчика (один раз)"
 } 

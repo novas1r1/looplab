@@ -63,12 +63,25 @@
     "setLoopStart": "Imposta Inizio Loop",
     "setLoopEnd": "Imposta Fine Loop",
     "endMustBeAfterStart": "La posizione di fine deve essere dopo la posizione di inizio",
-    "premiumHeadline": "Padroneggia le Tue Canzoni Preferite",
+    "premiumHeadline": "Padroneggia le Tue Canzoni Preferite come un Pro con Controllo di Tempo, Zoom e Loop Ilimitati",
     "premiumFeatureUnlimitedLoops": "Loop Illimitati",
     "premiumFeatureChangeMusicSpeed": "Modifica la Velocità della Musica",
-    "premiumFeatureZoomInOut": "Zoom per Massima Precisione",
+    "premiumFeatureZoomInOut": "Waveform Zoom-In/Out",
     "premiumFeatureSupportDeveloper": "Supporta lo Sviluppatore Indipendente",
+    "freeFeatureUnlimitedSongs": "Canzoni Illimitate + Un Loop per Canzone",
+    "freeFeatureNoAds": "Nessuna Pubblicità",
+    "freeFeatureOneLoopPerSong": "Un Loop per Canzone",
     "purchase": "Acquista",
+    "purchaseYearly": "Prova Gratuita {trialString} giorni",
+    "@purchaseYearly": {
+        "placeholders": {
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
+    "purchaseLifetime": "Acquista",
+    "deny": "Annulla",
     "notAvailable": "Non Disponibile",
     "cancelAnytime": "Puoi annullare in qualsiasi momento prima della fine del periodo di prova nelle impostazioni di Google Play per evitare addebiti.",
     "restore": "Ripristina",
@@ -120,5 +133,9 @@
     "loopAdded": "Loop aggiunto e attivato",
     "loopModeEnabled": "Modalità loop attivata",
     "loopModeDisabled": "Modalità loop disattivata",
-    "pleaseSelectLoop": "Per favore, seleziona un loop"
+    "pleaseSelectLoop": "Per favore, seleziona un loop",
+    "free": "Free",
+    "pro": "Pro",
+    "oneCoffee": "= Un Cappuccino per il Developer (per Anno)",
+    "onePairOfDrumSticks": "= Un Set di Tamburi per il Developer (una volta)"
 } 

@@ -66,12 +66,25 @@
     "setLoopStart": "Set Loop Start",
     "setLoopEnd": "Set Loop End",
     "endMustBeAfterStart": "End position must be after start position",
-    "premiumHeadline": "Master Your Favorite Songs",
+    "premiumHeadline": "Master Your Favorite Songs like a Pro with Tempo Control, Zoom & Unlimited Loops!",
     "premiumFeatureUnlimitedLoops": "Unlimited Loops",
     "premiumFeatureChangeMusicSpeed": "Change Music Speed",
-    "premiumFeatureZoomInOut": "Zoom In/Out on Audio Wave",
+    "premiumFeatureZoomInOut": "Waveform Zoom-In/Out",
     "premiumFeatureSupportDeveloper": "Support the independent Developer",
+    "freeFeatureUnlimitedSongs": "Unlimited Songs + One Loop per Song",
+    "freeFeatureNoAds": "No Ads",
+    "freeFeatureOneLoopPerSong": "One Loop per Song",
     "purchase": "Purchase",
+    "purchaseYearly": "Try for {trialString} days free",
+    "@purchaseYearly": {
+        "placeholders": {
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
+    "purchaseLifetime": "Purchase",
+    "deny": "Deny",
     "notAvailable": "Not available",
     "cancelAnytime": "You can cancel anytime before the trial ends in Google Play settings to avoid being charged.",
     "restore": "Restore",
@@ -124,5 +137,9 @@
     "loopAdded": "Loop added and activated",
     "loopModeEnabled": "Loop mode enabled",
     "loopModeDisabled": "Loop mode disabled",
-    "pleaseSelectLoop": "Please select a loop"
+    "pleaseSelectLoop": "Please select a loop",
+    "free": "Free",
+    "pro": "Pro",
+    "oneCoffee": "= One Coffee for the Developer (per Year)",
+    "onePairOfDrumSticks": "= One Pair of Drum Sticks for the Developer (one-time)"
 }

@@ -117,3 +117,4 @@ app.*.map.json
 **/goldens/macos
 **/goldens/linux
 **/goldens/windows
+.qodo

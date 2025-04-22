@@ -63,12 +63,25 @@
     "setLoopStart": "Ustaw Początek Pętli",
     "setLoopEnd": "Ustaw Koniec Pętli",
     "endMustBeAfterStart": "Pozycja końcowa musi być po pozycji początkowej",
-    "premiumHeadline": "Opanuj Swoje Ulubione Utwory",
+    "premiumHeadline": "Opanuj Swoje Ulubione Utwory jako Pro wraz z Kontrolą Tempa, Zoomem & Nieograniczonymi Pętlami!",
     "premiumFeatureUnlimitedLoops": "Nieograniczona Liczba Pętli",
     "premiumFeatureChangeMusicSpeed": "Zmień Prędkość Muzyki",
-    "premiumFeatureZoomInOut": "Zoom dla Maksymalnej Precyzji",
+    "premiumFeatureZoomInOut": "Waveform Zoom-In/Out",
     "premiumFeatureSupportDeveloper": "Wesprzyj Niezależnego Dewelopera",
+    "freeFeatureUnlimitedSongs": "Nieograniczona Liczba Utworów + Jedna Pętla na Utwór",
+    "freeFeatureNoAds": "Brak Reklam",
+    "freeFeatureOneLoopPerSong": "Jedna Pętla na Utwór",
     "purchase": "Kup",
+    "purchaseYearly": "Spróbuj za darmo {trialString} dni",
+    "@purchaseYearly": {
+        "placeholders": {
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
+    "purchaseLifetime": "Kup",
+    "deny": "Odrzuć",
     "notAvailable": "Niedostępne",
     "cancelAnytime": "Możesz anulować w dowolnym momencie przed końcem okresu próbnego w ustawieniach Google Play, aby uniknąć opłat.",
     "restore": "Przywróć",
@@ -120,5 +133,9 @@
     "loopAdded": "Pętla dodana i aktywowana",
     "loopModeEnabled": "Tryb pętli aktywowany",
     "loopModeDisabled": "Tryb pętli wyłączony",
-    "pleaseSelectLoop": "Proszę wybrać pętlę"
+    "pleaseSelectLoop": "Proszę wybrać pętlę",
+    "free": "Free",
+    "pro": "Pro",
+    "oneCoffee": "= Kawa dla dewelopera (rocznie)",
+    "onePairOfDrumSticks": "= Para baterii dla dewelopera (jednorazowo)"
 } 

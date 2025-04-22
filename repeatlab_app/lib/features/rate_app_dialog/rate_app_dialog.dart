@@ -66,7 +66,7 @@ class _RateAppDialogState extends State<RateAppDialog> with TickerProviderStateM
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        ElevatedButton.icon(
+        /* ElevatedButton.icon(
           onPressed: () => _sendStoreRating(_selectedRating!),
           icon: const Icon(Icons.send),
           iconAlignment: IconAlignment.end,
@@ -78,7 +78,7 @@ class _RateAppDialogState extends State<RateAppDialog> with TickerProviderStateM
                 ),
           ),
         ),
-        const SizedBox(width: 8),
+        const SizedBox(width: 8), */
         Expanded(
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -182,6 +182,7 @@ class _RateAppDialogState extends State<RateAppDialog> with TickerProviderStateM
                       onPressed: () => Navigator.of(context).pop(),
                       child: Text(context.l10n.notNow),
                     ),
+                    const SizedBox(height: 24),
                   ],
                 ),
               ),

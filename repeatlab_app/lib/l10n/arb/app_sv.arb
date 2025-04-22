@@ -63,12 +63,25 @@
     "setLoopStart": "Ställ In Loopstart",
     "setLoopEnd": "Ställ In Loopslut",
     "endMustBeAfterStart": "Slutposition måste vara efter startposition",
-    "premiumHeadline": "Bemästra Dina Favoritlåtar",
+    "premiumHeadline": "Bemästra Dina Favoritlåtar som en Pro med Tempo Kontroll, Zoom och Obegränsade Loopar!",
     "premiumFeatureUnlimitedLoops": "Obegränsade Loopar",
     "premiumFeatureChangeMusicSpeed": "Ändra Musikhastighet",
-    "premiumFeatureZoomInOut": "Zoom för Maximal Precision",
+    "premiumFeatureZoomInOut": "Waveform Zoom-In/Out",
     "premiumFeatureSupportDeveloper": "Stöd den Oberoende Utvecklaren",
+    "freeFeatureUnlimitedSongs": "Obegränsade Låtar + En Loop per Låt",
+    "freeFeatureNoAds": "Inga Annonser",
+    "freeFeatureOneLoopPerSong": "En Loop per Låt",
     "purchase": "Köp",
+    "purchaseYearly": "Prova Gratis",
+    "@purchaseYearly": {
+        "placeholders": {
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
+    "purchaseLifetime": "Köp",
+    "deny": "Avbryt",
     "notAvailable": "Inte Tillgänglig",
     "cancelAnytime": "Du kan avbryta när som helst före provperiodens slut i Google Play-inställningarna för att undvika debitering.",
     "restore": "Återställ",
@@ -120,5 +133,9 @@
     "loopAdded": "Loop tillagd och aktiverad",
     "loopModeEnabled": "Loopläget är aktiverat",
     "loopModeDisabled": "Loopläget är inaktiverat",
-    "pleaseSelectLoop": "Välj en loop"
+    "pleaseSelectLoop": "Välj en loop",
+    "free": "Free",
+    "pro": "Pro",
+    "oneCoffee": "= En Kopp Kaffe för Utvecklaren (per År)",
+    "onePairOfDrumSticks": "= En Par Drumsticks för Utvecklaren (en gång)"
 } 

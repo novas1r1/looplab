@@ -2,7 +2,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/app/router.dart';
+import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
+import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
+import 'package:repeatlab/features/paywall/premium_screen.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
 class OnboardingPage extends StatefulWidget {
@@ -146,8 +149,28 @@ class _OnboardingPageState extends State<OnboardingPage> {
     await localConfig.setIntroShown(wasShown: true);
 
     if (mounted) {
-      Navigator.of(context)
-          .pushReplacement(AppRouter.generateRoute(const RouteSettings(name: '/')));
+      // show paywall, after paywall is dismissed, navigate to home
+      final hasSubscribed = context.read<PremiumSubscriptionCubit>().state.hasSubscription;
+      final hasLifetimePurchased =
+          context.read<PremiumSubscriptionCubit>().state.hasLifetimePurchase;
+
+      if (!hasSubscribed && !hasLifetimePurchased) {
+        AppAnalytics.trackEvent(
+          AppAnalytics.viewPremiumScreen,
+          data: {'fromOnboarding': true},
+        );
+
+        await Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const PremiumScreen(),
+          ),
+        );
+      }
+
+      if (mounted) {
+        Navigator.of(context)
+            .pushReplacement(AppRouter.generateRoute(const RouteSettings(name: '/')));
+      }
     }
   }
 

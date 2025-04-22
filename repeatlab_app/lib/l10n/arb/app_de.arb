@@ -47,7 +47,7 @@
     "yourFeedbackHelpsMe": "Dein Feedback hilft mir, die Funktionen hinzuzufügen, die ",
     "you": " du ",
     "want": "möchtest",
-    "rateDialogDescription": "Hi! Ich bin der Entwickler dieser App. Gefällt dir die App? Eine schnelle 5-Sterne-Bewertung würde mir sehr viel bedeuten 😊! Es motiviert mich, weitere coole Funktionen für dich hinzuzufügen.\nDanke! ❤️",
+    "rateDialogDescription": "Hi! Ich bin die Entwicklerin dieser App. Wenn sie dir gefällt und dich beim Üben unterstützt würde ich mich riesig über eine schnelle 5-Sterne-Bewertung freuen 😊! Es motiviert mich, weitere coole Funktionen für dich hinzuzufügen.\nDanke! ❤️",
     "notNow": "Nicht jetzt",
     "editLoop": "Loop bearbeiten",
     "loopName": "Loop-Name",
@@ -63,12 +63,25 @@
     "setLoopStart": "Loop-Start setzen",
     "setLoopEnd": "Loop-Ende setzen",
     "endMustBeAfterStart": "Endposition muss nach Startposition sein",
-    "premiumHeadline": "Übe deine Lieblingssongs",
-    "premiumFeatureUnlimitedLoops": "Unbegrenzte Anzahl von Loops",
-    "premiumFeatureChangeMusicSpeed": "Verändere die Musikgeschwindigkeit",
-    "premiumFeatureZoomInOut": "Zoom In/Out für maximale Präzision",
+    "premiumHeadline": "Übe deine Lieblingssongs wie ein Profi – mit Tempo-Kontrolle, Zoom & unbegrenzten Loops!",
+    "premiumFeatureUnlimitedLoops": "Unbegrenzt viele Loops",
+    "premiumFeatureChangeMusicSpeed": "Tempo ändern",
+    "premiumFeatureZoomInOut": "Waveform-Zoom In/Out",
     "premiumFeatureSupportDeveloper": "Unterstütze die unabhängige Entwicklerin",
+    "freeFeatureUnlimitedSongs": "Unbegrenzt viele Songs + eine Loop pro Song",
+    "freeFeatureNoAds": "Keine Werbung",
+    "freeFeatureOneLoopPerSong": "Eine Loop pro Song",
+    "deny": "Ablehnen",
     "purchase": "Kaufen",
+    "purchaseLifetime": "Kaufen",
+    "purchaseYearly": "Jetzt {trialString}-Tage kostenlos testen",
+    "@purchaseYearly": {
+        "placeholders": {
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
     "notAvailable": "Nicht verfügbar",
     "cancelAnytime": "Du kannst das Abo jederzeit vor Ablauf des Testzeitraums in den Google Play Einstellungen stornieren und musst nichts bezahlen.",
     "restore": "Wiederherstellen",
@@ -87,7 +100,6 @@
     },
     "lifetimeDescription": "Einmalzahlung. Kein Abo.",
     "deleteSongLoops": "Song und Loops löschen",
-
     "deleteSongLoopsDescription": "Bist du sicher, dass du diesen Song und alle angehängten Loops löschen möchtest? Dies kann nicht rückgängig gemacht werden.",
     "delete": "Löschen",
     "cancel": "Abbrechen",
@@ -122,5 +134,9 @@
     "loopAdded": "Loop hinzugefügt und aktiviert",
     "loopModeEnabled": "Loop-Modus aktiviert",
     "loopModeDisabled": "Loop-Modus deaktiviert",
-    "pleaseSelectLoop": "Bitte wähle eine Loop aus"
+    "pleaseSelectLoop": "Bitte wähle eine Loop aus",
+    "free": "Free",
+    "pro": "Pro",
+    "oneCoffee": "= Ein Kaffee für die Entwicklerin (pro Jahr)",
+    "onePairOfDrumSticks": "= Ein Paar Drumsticks für die Entwicklerin (einmalig)"
 } 
