@@ -1,4 +1,9 @@
 PODS:
+  - audio_service (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - audio_session (0.0.1):
+    - Flutter
   - audioplayers_darwin (0.0.1):
     - Flutter
   - device_info_plus (0.0.1):
@@ -47,21 +52,24 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - purchases_flutter (8.4.2):
+  - purchases_flutter (8.7.0):
     - Flutter
-    - PurchasesHybridCommon (= 13.15.2)
-  - PurchasesHybridCommon (13.15.2):
-    - RevenueCat (= 5.14.5)
-  - RevenueCat (5.14.5)
-  - SDWebImage (5.20.0):
-    - SDWebImage/Core (= 5.20.0)
-  - SDWebImage/Core (5.20.0)
-  - Sentry/HybridSDK (8.44.0)
-  - sentry_flutter (8.13.2):
+    - PurchasesHybridCommon (= 13.26.0)
+  - PurchasesHybridCommon (13.26.0):
+    - RevenueCat (= 5.20.0)
+  - RevenueCat (5.20.0)
+  - SDWebImage (5.21.0):
+    - SDWebImage/Core (= 5.21.0)
+  - SDWebImage/Core (5.21.0)
+  - Sentry/HybridSDK (8.46.0)
+  - sentry_flutter (8.14.1):
     - Flutter
     - FlutterMacOS
-    - Sentry/HybridSDK (= 8.44.0)
+    - Sentry/HybridSDK (= 8.46.0)
   - shared_preferences_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - sqflite_darwin (0.0.4):
     - Flutter
     - FlutterMacOS
   - SwiftyGif (5.4.5)
@@ -69,6 +77,8 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - audio_service (from `.symlinks/plugins/audio_service/darwin`)
+  - audio_session (from `.symlinks/plugins/audio_session/ios`)
   - audioplayers_darwin (from `.symlinks/plugins/audioplayers_darwin/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
@@ -80,6 +90,7 @@ DEPENDENCIES:
   - purchases_flutter (from `.symlinks/plugins/purchases_flutter/ios`)
   - sentry_flutter (from `.symlinks/plugins/sentry_flutter/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
+  - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
 SPEC REPOS:
@@ -93,6 +104,10 @@ SPEC REPOS:
     - SwiftyGif
 
 EXTERNAL SOURCES:
+  audio_service:
+    :path: ".symlinks/plugins/audio_service/darwin"
+  audio_session:
+    :path: ".symlinks/plugins/audio_session/ios"
   audioplayers_darwin:
     :path: ".symlinks/plugins/audioplayers_darwin/ios"
   device_info_plus:
@@ -115,27 +130,32 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sentry_flutter/ios"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
+  sqflite_darwin:
+    :path: ".symlinks/plugins/sqflite_darwin/darwin"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
 
 SPEC CHECKSUMS:
+  audio_service: aa99a6ba2ae7565996015322b0bb024e1d25c6fd
+  audio_session: 9bb7f6c970f21241b19f5a3658097ae459681ba0
   audioplayers_darwin: ccf9c770ee768abb07e26d90af093f7bab1c12ab
   device_info_plus: 21fcca2080fbcd348be798aa36c3e5ed849eefbe
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
-  file_picker: 9b3292d7c8bc68c8a7bf8eb78f730e49c8efc517
+  file_picker: a0560bc09d61de87f12d246fc47d2119e6ef37be
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_soloud: ceb463dfdba562ed9e3798855eca9a4ecc72d23c
+  flutter_soloud: 02a4ecb1b8365e2be3e2a012b8b8ee0d99e6c05c
   in_app_review: 5596fe56fab799e8edb3561c03d053363ab13457
   package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
   path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
-  purchases_flutter: a3f9f057c0f437b8e9b4ed1985b2036d8aa95ec1
-  PurchasesHybridCommon: 8af6bb6d85b794dc47ccef1b536ed0e677c789ea
-  RevenueCat: 4c0e809f7c7428cbe8d79cbb9a0dc7551e71e74e
-  SDWebImage: 73c6079366fea25fa4bb9640d5fb58f0893facd8
-  Sentry: 0f9bc9adfc0b960e7f3bb5ec67e9a3d8193f3bdb
-  sentry_flutter: f4a0466dc8855998ffd59378ec33507c7dc32d7b
+  purchases_flutter: c9fb5ac9bb67f96a33eec1d714c31f28a4770f85
+  PurchasesHybridCommon: fa166fc8b385cf80f581f923c91d8ccffe5dd7f8
+  RevenueCat: e47ff90dfd271fde155a4befe48e8fc02e8281e4
+  SDWebImage: f84b0feeb08d2d11e6a9b843cb06d75ebf5b8868
+  Sentry: da60d980b197a46db0b35ea12cb8f39af48d8854
+  sentry_flutter: 942017adbe00f963061cb11ec260414a990b7a42
   shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
+  sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
   SwiftyGif: 706c60cf65fa2bc5ee0313beece843c8eb8194d4
   url_launcher_ios: 694010445543906933d732453a59da0a173ae33d
 

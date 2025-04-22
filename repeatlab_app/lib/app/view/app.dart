@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
@@ -26,12 +27,14 @@ class App extends StatelessWidget {
   final SoLoud soloud;
   final PackageInfo packageInfo;
   final SharedPreferences sharedPreferences;
+  final AudioPlayer audioPlayer;
 
   const App({
     required this.db,
     required this.soloud,
     required this.packageInfo,
     required this.sharedPreferences,
+    required this.audioPlayer,
     super.key,
   });
 
@@ -47,6 +50,7 @@ class App extends StatelessWidget {
       soLoud: soloud,
       packageInfo: packageInfo,
       sharedPreferences: sharedPreferences,
+      audioPlayer: audioPlayer,
       child: MultiBlocProvider(
         providers: [
           BlocProvider(

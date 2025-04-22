@@ -124,6 +124,8 @@
     "cancelSubscription": "Annulla Abbonamento",
     "voteForFeatures": "Vota per le Funzionalità",
     "changelogTitle": "Changelog",
+    "changelog110Title": "Audio ora si riproduce anche in background e standby",
+    "changelog110Description": "I file audio ora si riproducono anche quando l'app passa al fondo o il telefono passa in modalità standby.",
     "changelog1017Title": "Riordina i Loop",
     "changelog1017Description": "Puoi ora riordinare i tuoi loop trascinandoli e rilasciandoli. Basta toccare a lungo un loop e trascinarlo alla nuova posizione.",
     "changelog1013Title": "Feature Voting & Feature proposal now possible",

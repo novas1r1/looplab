@@ -62,7 +62,13 @@ class AllSongsCubit extends Cubit<AllSongsState> {
       await songRepository.addSongFile(file);
       await loadSongs();
     } catch (ex, stack) {
-      crashReportingRepository.reportError(ex, stack);
+      crashReportingRepository.reportError(
+        ex,
+        stack,
+        properties: {
+          'file': file?.path,
+        },
+      );
       emit(
         state.copyWith(
           status: AllSongsStatus.error,

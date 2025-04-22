@@ -16,6 +16,7 @@ import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
+import 'package:repeatlab/data/services/audio_service_provider.dart';
 
 // part 'song_cubit.mapper.dart';
 part 'song_cubit.mapper.dart';
@@ -109,7 +110,9 @@ class SongCubit extends Cubit<SongState> {
 
   @override
   Future<void> close() async {
-    await audioPlayer.stop();
+    if (state.playerState == PlayerState.playing) {
+      await audioPlayer.stop();
+    }
 
     await _songSubscription?.cancel();
     _positionTimer?.cancel();
@@ -119,7 +122,7 @@ class SongCubit extends Cubit<SongState> {
     positionSubscription?.cancel();
     durationSubscription?.cancel();
 
-    await audioPlayer.dispose();
+    // await audioPlayer.dispose();
 
     /* if (state.handle != null) {
       soloud.setPause(state.handle!, true);
@@ -153,7 +156,7 @@ class SongCubit extends Cubit<SongState> {
         return;
       }
 
-      final waveformData = await _getWaveformData(path);
+      final waveformData = await getWaveformData(path);
 
       // Initialize audio player with the file but keep it paused
       await audioPlayer.play(DeviceFileSource(path));
@@ -182,7 +185,7 @@ class SongCubit extends Cubit<SongState> {
     }
   }
 
-  Future<Float32List> _getWaveformData(String path) async {
+  Future<Float32List> getWaveformData(String path) async {
     // Check cache first
     Float32List? waveformData = _waveformCache[path];
 
@@ -213,18 +216,35 @@ class SongCubit extends Cubit<SongState> {
     log('togglePlaySong state.playerState: ${state.playerState}');
 
     final path = await state.song.path;
+    final audioHandler = AudioServiceProvider.audioHandler;
 
     try {
-      switch (state.playerState) {
-        case PlayerState.paused:
-          await audioPlayer.resume();
-        case PlayerState.playing:
-          await audioPlayer.pause();
-        case null:
-        case PlayerState.stopped:
-        case PlayerState.completed:
-        case PlayerState.disposed:
-          await audioPlayer.play(DeviceFileSource(path));
+      // If audio handler is available, use it for background playback
+      if (audioHandler != null) {
+        switch (state.playerState) {
+          case PlayerState.paused:
+            await audioHandler.play();
+          case PlayerState.playing:
+            await audioHandler.pause();
+          case null:
+          case PlayerState.stopped:
+          case PlayerState.completed:
+          case PlayerState.disposed:
+            await audioHandler.playSong(state.song);
+        }
+      } else {
+        // Fallback to regular audioplayer if audio handler is not available
+        switch (state.playerState) {
+          case PlayerState.paused:
+            await audioPlayer.resume();
+          case PlayerState.playing:
+            await audioPlayer.pause();
+          case null:
+          case PlayerState.stopped:
+          case PlayerState.completed:
+          case PlayerState.disposed:
+            await audioPlayer.play(DeviceFileSource(path));
+        }
       }
     } catch (e, stackTrace) {
       crashReportingRepository.reportError(e, stackTrace);
@@ -239,32 +259,58 @@ class SongCubit extends Cubit<SongState> {
 
   Future<void> stopSong() async {
     _positionTimer?.cancel();
-    // await soloud.stop(state.handle!);
-    await audioPlayer.stop();
+
+    final audioHandler = AudioServiceProvider.audioHandler;
+    if (audioHandler != null) {
+      await audioHandler.stop();
+    } else {
+      await audioPlayer.stop();
+    }
+
     log('STOP song at ${state.position!.toFormattedString()}');
   }
 
   Future<void> pauseSong() async {
     log('PAUSE song at ${state.position?.toFormattedString()}');
     _positionTimer?.cancel();
-    // soloud.setPause(state.handle!, true);
-    await audioPlayer.pause();
+
+    final audioHandler = AudioServiceProvider.audioHandler;
+    if (audioHandler != null) {
+      await audioHandler.pause();
+    } else {
+      await audioPlayer.pause();
+    }
   }
 
   Future<void> seekSong(Duration position) async {
     try {
       final path = await state.song.path;
+      final audioHandler = AudioServiceProvider.audioHandler;
 
-      // If player is not initialized or in an error state, reinitialize it
-      if (state.playerState == null ||
-          state.playerState == PlayerState.disposed ||
-          state.playerState == PlayerState.stopped) {
-        await audioPlayer.play(DeviceFileSource(path));
-        await audioPlayer.pause();
+      if (audioHandler != null) {
+        // If player is not initialized or in an error state, reinitialize it
+        if (state.playerState == null ||
+            state.playerState == PlayerState.disposed ||
+            state.playerState == PlayerState.stopped) {
+          await audioHandler.playSong(state.song);
+          await audioHandler.pause();
+        }
+
+        // Seek to position
+        await audioHandler.seek(position);
+      } else {
+        // If player is not initialized or in an error state, reinitialize it
+        if (state.playerState == null ||
+            state.playerState == PlayerState.disposed ||
+            state.playerState == PlayerState.stopped) {
+          await audioPlayer.play(DeviceFileSource(path));
+          await audioPlayer.pause();
+        }
+
+        // Add timeout to seek operation
+        await audioPlayer.seek(position);
       }
 
-      // Add timeout to seek operation
-      await audioPlayer.seek(position);
       log('SEEK song to ${position.toFormattedString()}');
 
       emit(state.copyWith(status: SongStatus.updated));
@@ -364,8 +410,6 @@ class SongCubit extends Cubit<SongState> {
   }
 
   Future<void> togglePlayLoop(Loop loop) async {
-    // if (state.handle == null || loop.start == null) return;
-
     emit(
       state.copyWith(
         status: SongStatus.updated,
@@ -374,37 +418,54 @@ class SongCubit extends Cubit<SongState> {
       ),
     );
 
-    // soloud.setPause(state.handle!, true);
-    // soloud.seek(state.handle!, loop.start!);
-    // soloud.setPause(state.handle!, false);
+    final audioHandler = AudioServiceProvider.audioHandler;
 
-    // // Optimize loop boundary checking
-    _positionTimer?.cancel();
-    _positionTimer = Timer.periodic(const Duration(milliseconds: 16), (_) {
-      // ~60fps
-      if (state.activeLoop?.end == null) return;
+    if (audioHandler != null) {
+      // Use audio service for background playback with loop
+      audioHandler.customAction('enableLoop', {'loop': loop});
 
-      final position = state.position;
-      if (position != null && position >= state.activeLoop!.end!) {
-        // Prevent potential audio glitch by doing seek only when necessary
-        if (position - state.activeLoop!.end! > const Duration(milliseconds: 32)) {
-          audioPlayer.seek(state.activeLoop!.start!);
+      if (state.playerState != PlayerState.playing) {
+        await audioHandler.play();
+
+        if (state.position == null) return;
+
+        // check if loop end is reached
+        // if reached, start over
+        if (loop.end != null && state.position! >= loop.end!) {
+          await audioHandler.seek(loop.start!);
         }
-      }
-    });
-
-    if (state.playerState != PlayerState.playing) {
-      await audioPlayer.resume();
-
-      if (state.position == null) return;
-
-      // check if loop end is reached
-      // if reached, start over
-      if (loop.end != null && state.position! >= loop.end!) {
-        await audioPlayer.seek(loop.start!);
+      } else {
+        await audioHandler.pause();
       }
     } else {
-      await audioPlayer.pause();
+      // Fallback to regular timer-based loop
+      _positionTimer?.cancel();
+      _positionTimer = Timer.periodic(const Duration(milliseconds: 16), (_) {
+        // ~60fps
+        if (state.activeLoop?.end == null) return;
+
+        final position = state.position;
+        if (position != null && position >= state.activeLoop!.end!) {
+          // Prevent potential audio glitch by doing seek only when necessary
+          if (position - state.activeLoop!.end! > const Duration(milliseconds: 32)) {
+            audioPlayer.seek(state.activeLoop!.start!);
+          }
+        }
+      });
+
+      if (state.playerState != PlayerState.playing) {
+        await audioPlayer.resume();
+
+        if (state.position == null) return;
+
+        // check if loop end is reached
+        // if reached, start over
+        if (loop.end != null && state.position! >= loop.end!) {
+          await audioPlayer.seek(loop.start!);
+        }
+      } else {
+        await audioPlayer.pause();
+      }
     }
   }
 
@@ -413,7 +474,12 @@ class SongCubit extends Cubit<SongState> {
 
     _positionTimer?.cancel();
 
-    audioPlayer.pause();
+    final audioHandler = AudioServiceProvider.audioHandler;
+    if (audioHandler != null) {
+      audioHandler.pause();
+    } else {
+      audioPlayer.pause();
+    }
   }
 
   void nextLoop() {
@@ -577,6 +643,8 @@ class SongCubit extends Cubit<SongState> {
   }
 
   Future<void> toggleLoopMode() async {
+    final audioHandler = AudioServiceProvider.audioHandler;
+
     emit(
       state.copyWith(
         isLoopModeEnabled: !state.isLoopModeEnabled,
@@ -587,7 +655,9 @@ class SongCubit extends Cubit<SongState> {
 
     if (!state.isLoopModeEnabled) {
       // stop the song
-      pauseSong();
+      await pauseSong();
+      // Disable loop mode in audio handler
+      await audioHandler?.customAction('disableLoop');
     }
   }
 

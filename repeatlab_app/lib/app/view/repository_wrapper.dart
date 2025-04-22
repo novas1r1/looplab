@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +18,7 @@ class RepositoryWrapper extends StatelessWidget {
   final SoLoud soLoud;
   final PackageInfo packageInfo;
   final SharedPreferences sharedPreferences;
+  final AudioPlayer audioPlayer;
 
   const RepositoryWrapper({
     required this.db,
@@ -24,6 +26,7 @@ class RepositoryWrapper extends StatelessWidget {
     required this.soLoud,
     required this.packageInfo,
     required this.sharedPreferences,
+    required this.audioPlayer,
     super.key,
   });
 
@@ -58,6 +61,9 @@ class RepositoryWrapper extends StatelessWidget {
           create: (context) => LocalConfigRepository(
             sharedPreferences: sharedPreferences,
           ),
+        ),
+        RepositoryProvider(
+          create: (context) => audioPlayer,
         ),
       ],
       child: child,

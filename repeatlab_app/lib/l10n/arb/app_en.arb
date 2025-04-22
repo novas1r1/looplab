@@ -128,6 +128,8 @@
     "cancelSubscription": "Cancel Subscription",
     "voteForFeatures": "Vote for Features",
     "changelogTitle": "Changelog",
+    "changelog110Title": "Audio now plays in background and standby",
+    "changelog110Description": "The audio files now play even when the app goes to the background or the phone goes into standby mode.",
     "changelog1017Title": "Reorder Loops",
     "changelog1017Description": "You can now reorder your loops by dragging and dropping them. Just long press on a loop and drag it to the new position.",
     "changelog1013Title": "Feature Voting & Feature proposal now possible",

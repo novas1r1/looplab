@@ -124,6 +124,8 @@
     "cancelSubscription": "Abonnement Opzeggen",
     "voteForFeatures": "Functies Voorstellen",
     "changelogTitle": "Wijzigingen",
+    "changelog110Title": "Audio speelt ook in de achtergrond en standby",
+    "changelog110Description": "De audio bestanden spelen nu ook wanneer de app naar de achtergrond gaat of het telefoon in standby modus gaat.",
     "changelog1017Title": "Loops Opnieuw Ordenen",
     "changelog1017Description": "Je kunt nu je loops opnieuw ordenen door ze lang te tikken en naar de nieuwe positie te slepen.",
     "changelog1013Title": "Feature Voting & Feature proposal now possible",

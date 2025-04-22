@@ -125,6 +125,8 @@
     "cancelSubscription": "Abonnement kündigen",
     "voteForFeatures": "Feature Voting",
     "changelogTitle": "Changelog",
+    "changelog110Title": "Audio spielt auch im Hintergrund und Standby",
+    "changelog110Description": "Die Audio Dateien spielen nun weiter, selbst wenn die App in den Hintergrund wandert oder das Handy in den Standby Modus wechselt.",
     "changelog1017Title": "Loops neu anordnen",
     "changelog1017Description": "Du kannst jetzt deine Loops neu anordnen, indem du sie lange antippst und sie an die neue Position ziehst.",
     "changelog1013Title": "Du kannst jetzt für neue Funktionen voten oder deine eigenen Funktionen vorschlagen",

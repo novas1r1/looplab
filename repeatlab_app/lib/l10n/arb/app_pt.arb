@@ -124,6 +124,8 @@
     "cancelSubscription": "Cancelar Assinatura",
     "voteForFeatures": "Votar por Recursos",
     "changelogTitle": "Changelog",
+    "changelog110Title": "Audio agora se reproduz também em segundo plano e em modo standby",
+    "changelog110Description": "Os arquivos de áudio agora se reproduzem mesmo quando a aplicação passa para o fundo ou o telefone passa para o modo standby.",
     "changelog1017Title": "Reordenar Loops",
     "changelog1017Description": "Você pode agora reordenar seus loops arrastando e soltando. Basta tocar longamente em um loop e arrastá-lo para a nova posição.",
     "changelog1013Title": "Feature Voting & Feature proposal now possible",

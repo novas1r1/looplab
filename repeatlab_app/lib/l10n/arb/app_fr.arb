@@ -126,6 +126,8 @@
     "cancelSubscription": "Annuler l'Abonnement",
     "voteForFeatures": "Voter pour les Fonctionnalités",
     "changelogTitle": "Changelog",
+    "changelog110Title": "Audio joue également en arrière-plan et en mode veille",
+    "changelog110Description": "Les fichiers audio jouent maintenant même lorsque l'application passe en arrière-plan ou que le téléphone passe en mode veille.",   
     "changelog1017Title": "Réorganiser les Boucles",
     "changelog1017Description": "Vous pouvez maintenant réorganiser vos boucles en les touchant longuement et en les déplaçant vers la nouvelle position.",
     "changelog1013Title": "Votation de Fonctionnalités & Proposition de Fonctionnalités maintenant possible",
