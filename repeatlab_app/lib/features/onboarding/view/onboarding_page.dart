@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -155,6 +157,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
           context.read<PremiumSubscriptionCubit>().state.hasLifetimePurchase;
 
       if (!hasSubscribed && !hasLifetimePurchased) {
+        log('no subscription or lifetime purchase');
         AppAnalytics.trackEvent(
           AppAnalytics.viewPremiumScreen,
           data: {'fromOnboarding': true},
@@ -165,6 +168,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
             builder: (context) => const PremiumScreen(),
           ),
         );
+      } else {
+        log('has subscribed or has lifetime purchased');
       }
 
       if (mounted) {

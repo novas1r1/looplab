@@ -97,10 +97,11 @@ packages:
   audioplayers:
     dependency: "direct main"
     description:
-      name: audioplayers
-      sha256: a5341380a4f1d3a10a4edde5bb75de5127fe31e0faa8c4d860e64d2f91ad84c7
-      url: "https://pub.dev"
-    source: hosted
+      path: "packages/audioplayers"
+      ref: "feat/1920-timeout"
+      resolved-ref: cb34be587a0e8dbe4cdeed026a1332cca7fc87c8
+      url: "https://github.com/kubito/audioplayers.git"
+    source: git
     version: "6.4.0"
   audioplayers_android:
     dependency: transitive

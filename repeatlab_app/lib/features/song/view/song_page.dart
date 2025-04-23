@@ -191,10 +191,11 @@ class _SongViewState extends State<_SongView> {
                         data: state.data!,
                         duration: state.song.duration,
                         currentPosition: state.position ?? Duration.zero,
-                        onStartDrag: () => context.read<SongCubit>().pauseSong(),
-                        onPositionChanged: (position) {
-                          context.read<SongCubit>().seekSong(position);
+                        onStartDrag: () {
+                          // context.read<SongCubit>().pauseSong();
                         },
+                        onPositionChanged: (position) =>
+                            context.read<SongCubit>().seekSong(position),
                         loops: state.song.loops,
                       ),
                     const SizedBox(height: 8),

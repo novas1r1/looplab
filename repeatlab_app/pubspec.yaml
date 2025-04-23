@@ -11,7 +11,12 @@ dependencies:
   # audio_waveforms: ^1.0.5
   alchemist: ^0.11.0
   audio_service: ^0.18.17
-  audioplayers: ^6.4.0
+  audioplayers:
+    git:
+      url: https://github.com/kubito/audioplayers.git
+      ref: feat/1920-timeout
+      path: packages/audioplayers
+
   # audiotags: ^1.4.5
   bloc: ^9.0.0
   dart_mappable: ^4.3.0

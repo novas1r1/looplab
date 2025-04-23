@@ -16,8 +16,8 @@ import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
-import 'package:repeatlab/data/services/audio_service_handler.dart';
 import 'package:repeatlab/data/services/audio_service_provider.dart';
+import 'package:repeatlab/data/services/soloud_audio_service_handler.dart';
 
 // part 'song_cubit.mapper.dart';
 part 'song_cubit.mapper.dart';
@@ -32,7 +32,7 @@ class SongCubit extends Cubit<SongState> {
   final LocalConfigRepository localConfigRepository;
   final CrashReportingRepository crashReportingRepository;
 
-  late final RepeatLabAudioHandler audioHandler;
+  late final SoloudAudioServiceHandler audioHandler;
   StreamSubscription<List<Song>>? _songSubscription;
   Timer? _positionTimer;
 
@@ -281,6 +281,9 @@ class SongCubit extends Cubit<SongState> {
           position: positionToSeek,
         ),
       );
+    } on TimeoutException catch (e) {
+      log('seek timeout: $e');
+      return;
     } catch (e, stackTrace) {
       unawaited(crashReportingRepository.reportError(e, stackTrace));
       log('seek error: $e');
