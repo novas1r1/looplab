@@ -35,6 +35,8 @@ class WaveFormSoLoud extends StatefulWidget {
 
 class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
   late ScrollController _scrollController;
+  Timer? _seekDebounceTimer;
+  bool _isDragging = false;
 
   double _zoomScale = 1.0;
 
@@ -49,20 +51,39 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
   void initState() {
     super.initState();
     _scrollController = ScrollController();
+    _scrollController.addListener(_onScroll);
   }
 
   @override
   void dispose() {
+    _seekDebounceTimer?.cancel();
     _zoomSliderTimer?.cancel();
+    _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     super.dispose();
+  }
+
+  void _onScroll() {
+    if (!_isDragging) return;
+
+    _seekDebounceTimer?.cancel();
+    _seekDebounceTimer = Timer(const Duration(milliseconds: 50), () {
+      if (!mounted) return;
+
+      final scrollPercentage =
+          _scrollController.position.pixels / (widget.data.length.toDouble() * _zoomScale);
+      final newPosition = Duration(
+        milliseconds: (scrollPercentage * widget.duration.inMilliseconds).round(),
+      );
+      widget.onPositionChanged(newPosition);
+    });
   }
 
   @override
   void didUpdateWidget(covariant WaveFormSoLoud oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (widget.currentPosition != oldWidget.currentPosition) {
+    if (widget.currentPosition != oldWidget.currentPosition && !_isDragging) {
       _updateScrollPosition();
     }
   }
@@ -145,29 +166,27 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
         children: [
           Positioned.fill(
             child: SingleChildScrollView(
-              // should NOT bounce
               controller: _scrollController,
               scrollDirection: Axis.horizontal,
-              // add padding to the left so it starts at the center
               padding: EdgeInsets.symmetric(horizontal: (width / 2) - 16),
               child: GestureDetector(
-                onHorizontalDragStart: (details) => widget.onStartDrag(),
+                onHorizontalDragStart: (details) {
+                  widget.onStartDrag();
+                  _isDragging = true;
+                },
                 onHorizontalDragUpdate: (details) {
-                  // Update scroll position based on drag
                   final newScrollPosition = _scrollController.position.pixels - details.delta.dx;
                   _scrollController.jumpTo(
-                    newScrollPosition.clamp(
-                      0,
-                      waveformWidth,
-                    ),
+                    newScrollPosition.clamp(0, waveformWidth),
                   );
                 },
                 onHorizontalDragEnd: (details) {
-                  // Update position
+                  _isDragging = false;
+                  _seekDebounceTimer?.cancel();
                   final scrollPercentage = _scrollController.position.pixels / waveformWidth;
                   widget.onPositionChanged(
                     Duration(
-                      milliseconds: (scrollPercentage * widget.duration.inMilliseconds).toInt(),
+                      milliseconds: (scrollPercentage * widget.duration.inMilliseconds).round(),
                     ),
                   );
                 },

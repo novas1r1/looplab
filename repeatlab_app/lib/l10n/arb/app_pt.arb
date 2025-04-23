@@ -124,6 +124,8 @@
     "cancelSubscription": "Cancelar Assinatura",
     "voteForFeatures": "Votar por Recursos",
     "changelogTitle": "Changelog",
+    "changelog113Title": "Correção de erros",
+    "changelog113Description": "Se não havia uma posição final para o loop, o loop foi reproduzido até o final da música e a posição final da música foi considerada como a posição final do loop. O serviço de áudio em segundo plano agora é encerrado quando a aplicação é fechada.",
     "changelog110Title": "Audio agora se reproduz também em segundo plano e em modo standby",
     "changelog110Description": "Os arquivos de áudio agora se reproduzem mesmo quando a aplicação passa para o fundo ou o telefone passa para o modo standby.",
     "changelog1017Title": "Reordenar Loops",

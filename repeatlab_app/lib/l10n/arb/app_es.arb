@@ -124,6 +124,8 @@
     "cancelSubscription": "Cancelar Suscripción",
     "voteForFeatures": "Vota por Funciones",
     "changelogTitle": "Cambios",
+    "changelog113Title": "Corrección de errores",
+    "changelog113Description": "Si no se estableció un final de loop, el loop se reproducirá hasta el final de la canción y se considerará el final de la canción como el final del loop. El servicio de audio en segundo plano ahora se detendrá cuando se cierre la app.",
     "changelog110Title": "Audio ahora se reproduce en segundo plano y en modo Standby",
     "changelog110Description": "Los archivos de audio ahora se reproducen incluso cuando la app pasa al fondo o el teléfono entra en modo Standby.",
     "changelog1017Title": "Reordenar Loops",

@@ -124,6 +124,8 @@
     "cancelSubscription": "Avbryt Prenumeration",
     "voteForFeatures": "Funktioner förfråga",
     "changelogTitle": "Changelog",
+    "changelog113Title": "Felsökning",
+    "changelog113Description": "Om inget slut för loopen var inställt, spelades loopen till slutet av låten och låtens slut användes som loopens slut. Ljudfilerna spelar nu också när appen går tillbaka eller telefonen går in standby-läge.",
     "changelog110Title": "Audio spelar också i bakgrunden och standby",
     "changelog110Description": "Ljudfilerna spelar nu också när appen går tillbaka eller telefonen går in standby-läge.",
     "changelog1017Title": "Omordna Loopar",

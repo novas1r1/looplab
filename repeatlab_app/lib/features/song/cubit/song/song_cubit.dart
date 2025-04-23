@@ -71,8 +71,8 @@ class SongCubit extends Cubit<SongState> {
     });
 
     /// audio player subscriptions for position
-    positionSubscription = audioPlayer.onPositionChanged.listen((event) {
-      maybeEmit(state.copyWith(position: event));
+    positionSubscription = audioPlayer.onPositionChanged.listen((position) {
+      maybeEmit(state.copyWith(position: position));
     });
 
     /// audio player subscriptions for duration
@@ -111,7 +111,8 @@ class SongCubit extends Cubit<SongState> {
   @override
   Future<void> close() async {
     if (state.playerState == PlayerState.playing) {
-      await audioPlayer.stop();
+      // await audioPlayer.stop();
+      await stopSong();
     }
 
     await _songSubscription?.cancel();
@@ -131,6 +132,11 @@ class SongCubit extends Cubit<SongState> {
 
     // Optional: Clear cache when cubit is closed
     // _waveformCache.remove(state.song.path);
+    // Clean up audio service if available
+    final audioHandler = AudioServiceProvider.audioHandler;
+    if (audioHandler != null) {
+      await audioHandler.stop();
+    }
 
     return super.close();
   }
@@ -262,8 +268,10 @@ class SongCubit extends Cubit<SongState> {
 
     final audioHandler = AudioServiceProvider.audioHandler;
     if (audioHandler != null) {
+      log('STOP song with audio handler');
       await audioHandler.stop();
     } else {
+      log('STOP song with audio player');
       await audioPlayer.stop();
     }
 
@@ -287,6 +295,17 @@ class SongCubit extends Cubit<SongState> {
       final path = await state.song.path;
       final audioHandler = AudioServiceProvider.audioHandler;
 
+      log('SEEK song to $position');
+
+      var positionToSeek = position;
+
+      // Ensure position is within valid range
+      if (positionToSeek < Duration.zero) {
+        positionToSeek = Duration.zero;
+      } else if (position > state.song.duration) {
+        positionToSeek = state.song.duration;
+      }
+
       if (audioHandler != null) {
         // If player is not initialized or in an error state, reinitialize it
         if (state.playerState == null ||
@@ -297,7 +316,7 @@ class SongCubit extends Cubit<SongState> {
         }
 
         // Seek to position
-        await audioHandler.seek(position);
+        await audioHandler.seek(positionToSeek);
       } else {
         // If player is not initialized or in an error state, reinitialize it
         if (state.playerState == null ||
@@ -313,7 +332,13 @@ class SongCubit extends Cubit<SongState> {
 
       log('SEEK song to ${position.toFormattedString()}');
 
-      emit(state.copyWith(status: SongStatus.updated));
+      // Update state immediately after successful seek
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          position: position,
+        ),
+      );
     } catch (e, stackTrace) {
       crashReportingRepository.reportError(e, stackTrace);
       // Try to recover by stopping and restarting playback
@@ -333,15 +358,15 @@ class SongCubit extends Cubit<SongState> {
   Future<void> setLoopStart() async {
     log('setLoopStart to ${state.position}');
 
-    if (state.position == null || state.activeLoop == null) return;
-    // if (state.handle == null) return;
+    final activeLoop = state.activeLoop;
+    final position = state.position;
 
-    // // get current position
+    if (position == null || activeLoop == null) return;
     // final startPosition = soloud.getPosition(state.handle!);
 
     final startPosition = state.position ?? Duration.zero;
 
-    await updateLoop(state.activeLoop!.copyWith(start: startPosition));
+    await updateLoop(activeLoop.copyWith(start: startPosition));
   }
 
   Future<void> setLoopEnd() async {
@@ -350,6 +375,13 @@ class SongCubit extends Cubit<SongState> {
 
     // get current position
     // final endPosition = soloud.getPosition(state.handle!);
+
+    // If song is completed, use song duration as end position
+    if (state.playerState == PlayerState.completed) {
+      final endPosition = state.song.duration;
+      await updateLoop(state.activeLoop!.copyWith(end: endPosition));
+      return;
+    }
 
     final endPosition = await audioPlayer.getCurrentPosition();
 

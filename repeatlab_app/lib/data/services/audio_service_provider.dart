@@ -11,8 +11,6 @@ class AudioServiceProvider {
   const AudioServiceProvider({required this.audioPlayer});
 
   /// Initialize the audio service
-
-  /// Initialize the audio service
   static Future<RepeatLabAudioHandler> init(AudioPlayer audioPlayer) async {
     if (_audioHandler != null) {
       return _audioHandler!;

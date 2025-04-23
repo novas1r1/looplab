@@ -125,6 +125,8 @@
     "cancelSubscription": "Abonnement kündigen",
     "voteForFeatures": "Feature Voting",
     "changelogTitle": "Changelog",
+    "changelog113Title": "Fehlerbehebungen",
+    "changelog113Description": "Wenn kein Loop-Ende festgelegt wird, wird die Loop bis zum Ende des Songs gespielt und das Song-Ende als Loop-Ende gesetzt. Der Audio-Hintergrundservice wird nun beendet, wenn die App geschlossen wird.",
     "changelog110Title": "Audio spielt auch im Hintergrund und Standby",
     "changelog110Description": "Die Audio Dateien spielen nun weiter, selbst wenn die App in den Hintergrund wandert oder das Handy in den Standby Modus wechselt.",
     "changelog1017Title": "Loops neu anordnen",

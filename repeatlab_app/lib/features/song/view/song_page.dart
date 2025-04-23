@@ -134,6 +134,7 @@ class _SongViewState extends State<_SongView> {
           case SongStatus.updated:
           case SongStatus.loopDeleted:
           case SongStatus.loopModeToggled:
+          case SongStatus.updating:
             return Scaffold(
               appBar: AppBar(
                 title: Text(widget.song.title),

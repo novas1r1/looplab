@@ -42,5 +42,6 @@ enum SongStatus {
   loopDeleted,
   loopModeToggled,
   updated,
+  updating,
   songDeleted
 }

@@ -12,7 +12,7 @@ class CrashReportingRepository {
     Map<String, dynamic>? properties,
   }) async {
     log('ERROR: $error');
-    if (Sentry.isEnabled) {
+    if (Sentry.isEnabled && !kDebugMode) {
       if (properties != null) {
         await Sentry.captureMessage(properties.toString());
       } else {

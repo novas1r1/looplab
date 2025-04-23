@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:repeatlab/data/models/loop.dart';
 
-class LoopTimeline extends StatelessWidget {
+class LoopTimeline extends StatefulWidget {
   final List<Loop> loops;
   final Duration songDuration;
   final Duration currentPosition;
@@ -27,18 +27,23 @@ class LoopTimeline extends StatelessWidget {
   });
 
   @override
+  State<LoopTimeline> createState() => _LoopTimelineState();
+}
+
+class _LoopTimelineState extends State<LoopTimeline> {
+  @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         // Previous loop button
         IconButton(
-          onPressed: hasMoreThan1Loop ? onPreviousLoop : null,
+          onPressed: widget.hasMoreThan1Loop ? widget.onPreviousLoop : null,
           icon: const Icon(Icons.skip_previous),
         ),
         // Timeline container
         Expanded(
           child: GestureDetector(
-            onHorizontalDragUpdate: (details) {
+            onHorizontalDragEnd: (details) {
               final RenderBox box = context.findRenderObject()! as RenderBox;
               final localPosition = details.localPosition;
               final timelineWidth = box.size.width;
@@ -48,10 +53,10 @@ class LoopTimeline extends StatelessWidget {
 
               // Convert to duration
               final newPosition = Duration(
-                milliseconds: (percentage * songDuration.inMilliseconds).round(),
+                milliseconds: (percentage * widget.songDuration.inMilliseconds).round(),
               );
 
-              onSeek(newPosition);
+              widget.onSeek(newPosition);
             },
             child: Container(
               height: 40,
@@ -63,7 +68,8 @@ class LoopTimeline extends StatelessWidget {
                 children: [
                   // Current position indicator
                   Positioned(
-                    left: (currentPosition.inMilliseconds / songDuration.inMilliseconds) *
+                    left: (widget.currentPosition.inMilliseconds /
+                            widget.songDuration.inMilliseconds) *
                         (MediaQuery.of(context).size.width - 96), // Subtract space for buttons
                     top: 0,
                     bottom: 0,
@@ -73,13 +79,15 @@ class LoopTimeline extends StatelessWidget {
                     ),
                   ),
                   // Loop containers
-                  ...loops.map((loop) {
+                  ...widget.loops.map((loop) {
                     if (loop.start == null || loop.end == null) {
                       return const SizedBox.shrink();
                     }
 
-                    final startPosition = loop.start!.inMilliseconds / songDuration.inMilliseconds;
-                    final endPosition = loop.end!.inMilliseconds / songDuration.inMilliseconds;
+                    final startPosition =
+                        loop.start!.inMilliseconds / widget.songDuration.inMilliseconds;
+                    final endPosition =
+                        loop.end!.inMilliseconds / widget.songDuration.inMilliseconds;
                     final width =
                         MediaQuery.of(context).size.width - 96; // Subtract space for buttons
 
@@ -89,7 +97,7 @@ class LoopTimeline extends StatelessWidget {
                       top: 8,
                       bottom: 8,
                       child: GestureDetector(
-                        onTap: () => onLoopTap?.call(loop),
+                        onTap: () => widget.onLoopTap?.call(loop),
                         child: Container(
                           decoration: BoxDecoration(
                             color: loop.color.color.withValues(alpha: 0.5),
@@ -119,7 +127,7 @@ class LoopTimeline extends StatelessWidget {
         ),
         // Next loop button
         IconButton(
-          onPressed: hasMoreThan1Loop ? onNextLoop : null,
+          onPressed: widget.hasMoreThan1Loop ? widget.onNextLoop : null,
           icon: const Icon(Icons.skip_next),
         ),
       ],

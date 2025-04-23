@@ -124,6 +124,8 @@
     "cancelSubscription": "Anuluj Subskrypcję",
     "voteForFeatures": "Głosuj na Funkcje",
     "changelogTitle": "Zmiany",
+    "changelog113Title": "Poprawki błędów",
+    "changelog113Description": "Jeśli nie było ustawione końcowe położenie pętli, pętla odtwarza się do końca utworu i uważa, że końcowe położenie utworu jest końcem pętli. Usługa audio w tle zostaje teraz zamknięta po zamknięciu aplikacji.",
     "changelog110Title": "Audio odtwarza również w tle i w trybie standby",
     "changelog110Description": "Pliki audio teraz odtwarzają się również w tle i w trybie standby.",
     "changelog1017Title": "Pętle ponownie sortuj",
