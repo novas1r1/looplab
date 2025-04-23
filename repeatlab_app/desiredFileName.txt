@@ -1,1 +1,46 @@
-{}
+{
+  "de": [
+    "changelog113Title",
+    "changelog113Description"
+  ],
+
+  "es": [
+    "changelog113Title",
+    "changelog113Description"
+  ],
+
+  "fr": [
+    "changelog113Title",
+    "changelog113Description"
+  ],
+
+  "it": [
+    "changelog113Title",
+    "changelog113Description"
+  ],
+
+  "nl": [
+    "changelog113Title",
+    "changelog113Description"
+  ],
+
+  "pl": [
+    "changelog113Title",
+    "changelog113Description"
+  ],
+
+  "pt": [
+    "changelog113Title",
+    "changelog113Description"
+  ],
+
+  "ru": [
+    "changelog113Title",
+    "changelog113Description"
+  ],
+
+  "sv": [
+    "changelog113Title",
+    "changelog113Description"
+  ]
+}
