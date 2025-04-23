@@ -63,20 +63,41 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
     super.dispose();
   }
 
-  void _onScroll() {
+  void _handleDragStart(DragStartDetails details) {
+    widget.onStartDrag();
+    _isDragging = true;
+    _seekDebounceTimer?.cancel(); // Cancel any pending seek
+  }
+
+  void _handleDragUpdate(DragUpdateDetails details) {
     if (!_isDragging) return;
 
-    _seekDebounceTimer?.cancel();
-    _seekDebounceTimer = Timer(const Duration(milliseconds: 50), () {
-      if (!mounted) return;
+    final newScrollPosition = _scrollController.position.pixels - details.delta.dx;
+    final maxScroll = widget.data.length.toDouble() * _zoomScale;
 
-      final scrollPercentage =
-          _scrollController.position.pixels / (widget.data.length.toDouble() * _zoomScale);
-      final newPosition = Duration(
-        milliseconds: (scrollPercentage * widget.duration.inMilliseconds).round(),
-      );
-      widget.onPositionChanged(newPosition);
-    });
+    _scrollController.jumpTo(newScrollPosition.clamp(0, maxScroll));
+
+    // Calculate and update position immediately instead of using debounce
+    final scrollPercentage = _scrollController.position.pixels / maxScroll;
+    final newPosition = Duration(
+      milliseconds: (scrollPercentage * widget.duration.inMilliseconds).round(),
+    );
+    widget.onPositionChanged(newPosition);
+  }
+
+  void _handleDragEnd(DragEndDetails details) {
+    if (!_isDragging) return;
+
+    _isDragging = false;
+    _seekDebounceTimer?.cancel();
+
+    final maxScroll = widget.data.length.toDouble() * _zoomScale;
+    final scrollPercentage = _scrollController.position.pixels / maxScroll;
+
+    final finalPosition = Duration(
+      milliseconds: (scrollPercentage * widget.duration.inMilliseconds).round(),
+    );
+    widget.onPositionChanged(finalPosition);
   }
 
   @override
@@ -89,11 +110,10 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
   }
 
   void _updateScrollPosition() {
-    _scrollController.jumpTo(
-      (widget.currentPosition.inMilliseconds / widget.duration.inMilliseconds) *
-          widget.data.length.toDouble() *
-          _zoomScale,
-    );
+    final maxScroll = widget.data.length.toDouble() * _zoomScale;
+    final scrollPercentage = widget.currentPosition.inMilliseconds / widget.duration.inMilliseconds;
+
+    _scrollController.jumpTo(scrollPercentage * maxScroll);
   }
 
   void _zoomIn() {
@@ -155,6 +175,18 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
     _resetZoomTimer(); // Reset timer when user adjusts the slider
   }
 
+  void _onScroll() {
+    if (!_isDragging) return;
+
+    final maxScroll = widget.data.length.toDouble() * _zoomScale;
+    final scrollPercentage = _scrollController.position.pixels / maxScroll;
+
+    final newPosition = Duration(
+      milliseconds: (scrollPercentage * widget.duration.inMilliseconds).round(),
+    );
+    widget.onPositionChanged(newPosition);
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
@@ -165,49 +197,55 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
       child: Stack(
         children: [
           Positioned.fill(
-            child: SingleChildScrollView(
-              controller: _scrollController,
-              scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.symmetric(horizontal: (width / 2) - 16),
-              child: GestureDetector(
-                onHorizontalDragStart: (details) {
-                  widget.onStartDrag();
-                  _isDragging = true;
-                },
-                onHorizontalDragUpdate: (details) {
-                  final newScrollPosition = _scrollController.position.pixels - details.delta.dx;
-                  _scrollController.jumpTo(
-                    newScrollPosition.clamp(0, waveformWidth),
-                  );
-                },
-                onHorizontalDragEnd: (details) {
-                  _isDragging = false;
-                  _seekDebounceTimer?.cancel();
-                  final scrollPercentage = _scrollController.position.pixels / waveformWidth;
-                  widget.onPositionChanged(
-                    Duration(
-                      milliseconds: (scrollPercentage * widget.duration.inMilliseconds).round(),
-                    ),
-                  );
-                },
-                child: SizedBox(
-                  width: waveformWidth,
-                  child: CustomPaint(
-                    painter: WavePainter(
-                      data: widget.data,
-                      duration: widget.duration,
-                      currentPosition: widget.currentPosition,
-                      loops: widget.loops,
-                      colorPlayed: Theme.of(context).colorScheme.primaryFixedDim,
-                      colorUnplayed: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
-                      zoomScale: _zoomScale,
+            child: Listener(
+              onPointerDown: (details) {
+                _handleDragStart(
+                  DragStartDetails(
+                    globalPosition: details.position,
+                    localPosition: details.localPosition,
+                  ),
+                );
+              },
+              onPointerMove: (details) {
+                _handleDragUpdate(
+                  DragUpdateDetails(
+                    globalPosition: details.position,
+                    localPosition: details.localPosition,
+                    delta: details.delta,
+                  ),
+                );
+              },
+              onPointerUp: (details) {
+                _handleDragEnd(DragEndDetails());
+              },
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                scrollDirection: Axis.horizontal,
+                padding: EdgeInsets.symmetric(horizontal: (width / 2) - 16),
+                physics: const NeverScrollableScrollPhysics(),
+                child: GestureDetector(
+                  onHorizontalDragStart: _handleDragStart,
+                  onHorizontalDragUpdate: _handleDragUpdate,
+                  onHorizontalDragEnd: _handleDragEnd,
+                  child: SizedBox(
+                    width: waveformWidth,
+                    child: CustomPaint(
+                      painter: WavePainter(
+                        data: widget.data,
+                        duration: widget.duration,
+                        currentPosition: widget.currentPosition,
+                        loops: widget.loops,
+                        colorPlayed: Theme.of(context).colorScheme.primaryFixedDim,
+                        colorUnplayed: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
+                        zoomScale: _zoomScale,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
           ),
-          // a vertical line at the center
+          // Center line
           Positioned(
             left: (width / 2) - 16,
             bottom: 0,

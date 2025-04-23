@@ -31,34 +31,27 @@ class LoopTimeline extends StatefulWidget {
 }
 
 class _LoopTimelineState extends State<LoopTimeline> {
+  final _timelineKey = GlobalKey();
+
+  double get _timelineWidth {
+    final RenderBox? box = _timelineKey.currentContext?.findRenderObject() as RenderBox?;
+    return box?.size.width ?? 0;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        // Previous loop button
         IconButton(
           onPressed: widget.hasMoreThan1Loop ? widget.onPreviousLoop : null,
           icon: const Icon(Icons.skip_previous),
         ),
-        // Timeline container
         Expanded(
           child: GestureDetector(
-            onHorizontalDragEnd: (details) {
-              final RenderBox box = context.findRenderObject()! as RenderBox;
-              final localPosition = details.localPosition;
-              final timelineWidth = box.size.width;
-
-              // Calculate position percentage (constrained between 0 and 1)
-              final percentage = (localPosition.dx / timelineWidth).clamp(0.0, 1.0);
-
-              // Convert to duration
-              final newPosition = Duration(
-                milliseconds: (percentage * widget.songDuration.inMilliseconds).round(),
-              );
-
-              widget.onSeek(newPosition);
-            },
+            onTapDown: (details) => _handleTimelineInteraction(details.localPosition),
+            onHorizontalDragUpdate: (details) => _handleTimelineInteraction(details.localPosition),
             child: Container(
+              key: _timelineKey,
               height: 40,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surfaceContainerHighest,
@@ -70,7 +63,7 @@ class _LoopTimelineState extends State<LoopTimeline> {
                   Positioned(
                     left: (widget.currentPosition.inMilliseconds /
                             widget.songDuration.inMilliseconds) *
-                        (MediaQuery.of(context).size.width - 96), // Subtract space for buttons
+                        _timelineWidth,
                     top: 0,
                     bottom: 0,
                     child: Container(
@@ -88,12 +81,10 @@ class _LoopTimelineState extends State<LoopTimeline> {
                         loop.start!.inMilliseconds / widget.songDuration.inMilliseconds;
                     final endPosition =
                         loop.end!.inMilliseconds / widget.songDuration.inMilliseconds;
-                    final width =
-                        MediaQuery.of(context).size.width - 96; // Subtract space for buttons
 
                     return Positioned(
-                      left: startPosition * width,
-                      width: (endPosition - startPosition) * width,
+                      left: startPosition * _timelineWidth,
+                      width: (endPosition - startPosition) * _timelineWidth,
                       top: 8,
                       bottom: 8,
                       child: GestureDetector(
@@ -125,12 +116,23 @@ class _LoopTimelineState extends State<LoopTimeline> {
             ),
           ),
         ),
-        // Next loop button
         IconButton(
           onPressed: widget.hasMoreThan1Loop ? widget.onNextLoop : null,
           icon: const Icon(Icons.skip_next),
         ),
       ],
     );
+  }
+
+  void _handleTimelineInteraction(Offset localPosition) {
+    // Calculate position percentage (constrained between 0 and 1)
+    final percentage = (localPosition.dx / _timelineWidth).clamp(0.0, 1.0);
+
+    // Convert to duration
+    final newPosition = Duration(
+      milliseconds: (percentage * widget.songDuration.inMilliseconds).round(),
+    );
+
+    widget.onSeek(newPosition);
   }
 }

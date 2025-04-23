@@ -34,13 +34,12 @@ class SongPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SongCubit(
-        audioPlayer: context.read<AudioPlayer>(),
         songRepository: context.read<SongRepository>(),
         localConfigRepository: context.read<LocalConfigRepository>(),
         crashReportingRepository: context.read<CrashReportingRepository>(),
         soloud: SoLoud.instance,
         song: song,
-      )..initSong(),
+      )..initSong(AudioPlayer()),
       child: _SongView(song: song),
     );
   }
@@ -89,6 +88,7 @@ class _SongViewState extends State<_SongView> {
             showTutorial();
           }
         } else if (state.status == SongStatus.error) {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.error ?? 'Unknown error')),
           );
@@ -192,8 +192,9 @@ class _SongViewState extends State<_SongView> {
                         duration: state.song.duration,
                         currentPosition: state.position ?? Duration.zero,
                         onStartDrag: () => context.read<SongCubit>().pauseSong(),
-                        onPositionChanged: (position) =>
-                            context.read<SongCubit>().seekSong(position),
+                        onPositionChanged: (position) {
+                          context.read<SongCubit>().seekSong(position);
+                        },
                         loops: state.song.loops,
                       ),
                     const SizedBox(height: 8),
