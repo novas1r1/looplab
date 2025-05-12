@@ -153,5 +153,7 @@
     "reportBugAndFeedback": "Signaler un Bug & Retour",
     "start": "Début",
     "end": "Fin",
-    "finish": "Terminer"
+    "finish": "Terminer",
+    "deleteAllDataSuccess": "Tous les données ont été supprimées avec succès",
+    "deleteAllDataError": "Erreur lors de la suppression des données"
 } 

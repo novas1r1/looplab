@@ -135,17 +135,7 @@ class CustomDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.volunteer_activism),
             title: Text(context.l10n.voteForFeatures),
-            onTap: () {
-              UserOrient.setUser(
-                extra: {
-                  'appVersion': appVersion,
-                  'buildNumber': buildNumber,
-                  'hasSubscribed': hasSubscribed,
-                  'hasLifetimePurchased': hasLifetimePurchased,
-                },
-              );
-              UserOrient.openBoard(context);
-            },
+            onTap: () => _onVoteForFeatures(context),
           ),
           ListTile(
             leading: const Icon(Icons.feedback),
@@ -271,11 +261,47 @@ class CustomDrawer extends StatelessWidget {
 
     if (result == null || !result || !context.mounted) return;
 
-    await context.read<AllSongsCubit>().clearDb();
+    bool success = false;
+
+    success = await context.read<AllSongsCubit>().clearDb();
 
     // clear local config
     if (context.mounted) {
-      await context.read<LocalConfigRepository>().clear();
+      success = await context.read<LocalConfigRepository>().clear();
     }
+
+    Navigator.pop(context);
+
+    if (success) {
+      // show success dialog
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(context.l10n.deleteAllDataSuccess),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(context.l10n.deleteAllDataError),
+        ),
+      );
+    }
+  }
+
+  void _onVoteForFeatures(BuildContext context) {
+    final appVersion = context.read<PackageInfo>().version;
+    final buildNumber = context.read<PackageInfo>().buildNumber;
+    final hasSubscribed = context.read<PremiumSubscriptionCubit>().state.hasSubscription;
+    final hasLifetimePurchased = context.read<PremiumSubscriptionCubit>().state.hasLifetimePurchase;
+
+    UserOrient.setUser(
+      extra: {
+        'appVersion': appVersion,
+        'buildNumber': buildNumber,
+        'hasSubscribed': hasSubscribed,
+        'hasLifetimePurchased': hasLifetimePurchased,
+      },
+    );
+    UserOrient.openBoard(context);
   }
 }

@@ -646,7 +646,10 @@ class SongCubit extends Cubit<SongState> {
 
     // only seek if the position is greater than the duration
     if (position != null && position > Duration(seconds: seconds)) {
-      await audioHandler.seek(position - Duration(seconds: seconds));
+      final newPosition = position - Duration(seconds: seconds);
+      await audioHandler.seek(newPosition);
+
+      emit(state.copyWith(status: SongStatus.updated, position: newPosition));
     }
   }
 
@@ -658,9 +661,9 @@ class SongCubit extends Cubit<SongState> {
     if (position != null && position < state.song.duration - Duration(seconds: seconds)) {
       final newPosition = position + Duration(seconds: seconds);
       await audioHandler.seek(newPosition);
-    }
 
-    emit(state.copyWith(status: SongStatus.updated));
+      emit(state.copyWith(status: SongStatus.updated, position: newPosition));
+    }
   }
 
   // Add new method

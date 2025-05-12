@@ -151,5 +151,7 @@
     "reportBugAndFeedback": "Сообщить об ошибке и отправить отзыв",
     "start": "Начало",
     "end": "Конец",
-    "finish": "Завершить"
+    "finish": "Завершить",
+    "deleteAllDataSuccess": "Все данные удалены",
+    "deleteAllDataError": "Ошибка при удалении данных"
 } 

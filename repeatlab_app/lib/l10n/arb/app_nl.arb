@@ -151,5 +151,7 @@
     "reportBugAndFeedback": "Foutmelding & Feedback",
     "start": "Start",
     "end": "Einde",
-    "finish": "Voltooien"
+    "finish": "Voltooien",
+    "deleteAllDataSuccess": "Alle gegevens verwijderd",
+    "deleteAllDataError": "Fout bij het verwijderen van alle gegevens"
 } 

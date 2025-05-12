@@ -155,5 +155,7 @@
     "reportBugAndFeedback": "Report Bug & Feedback",
     "start": "Start",
     "end": "End",
-    "finish": "Finish"
+    "finish": "Finish",
+    "deleteAllDataSuccess": "All data deleted successfully",
+    "deleteAllDataError": "Failed to delete all data"
 }

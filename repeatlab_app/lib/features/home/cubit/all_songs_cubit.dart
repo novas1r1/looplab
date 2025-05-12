@@ -78,12 +78,14 @@ class AllSongsCubit extends Cubit<AllSongsState> {
     }
   }
 
-  Future<void> clearDb() async {
+  Future<bool> clearDb() async {
     try {
       await songRepository.clearDb();
       await loadSongs();
+      return true;
     } catch (ex, stack) {
-      crashReportingRepository.reportError(ex, stack);
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      return false;
     }
   }
 

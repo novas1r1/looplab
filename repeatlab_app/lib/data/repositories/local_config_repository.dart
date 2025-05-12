@@ -41,7 +41,7 @@ class LocalConfigRepository {
   Future<void> setHasCompletedTutorial({required bool hasCompleted}) =>
       sharedPreferences.setBool(kHasCompletedTutorial, hasCompleted);
 
-  Future<bool> clear() => sharedPreferences.clear();
+  Future<bool> clear() async => sharedPreferences.clear();
 
   Future<void> setChangelogShown(int version) =>
       sharedPreferences.setInt(kChangelogVersionShown, version);

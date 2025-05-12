@@ -151,5 +151,7 @@
     "reportBugAndFeedback": "Rapportera Buggar & Feedback",
     "start": "Start",
     "end": "Slut",
-    "finish": "Slut"
+    "finish": "Slut",
+    "deleteAllDataSuccess": "Alla data har raderats",
+    "deleteAllDataError": "Fel vid radering av data"
 } 
