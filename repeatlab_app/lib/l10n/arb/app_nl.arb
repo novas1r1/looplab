@@ -81,6 +81,7 @@
         }
     },
     "purchaseLifetime": "Kopen",
+    "close": "Sluiten",
     "deny": "Ablehnen",
     "notAvailable": "Niet Beschikbaar",
     "cancelAnytime": "Je kunt op elk moment voor het einde van de proefperiode annuleren in de Google Play-instellingen om te voorkomen dat je wordt gefactureerd.",
@@ -141,5 +142,14 @@
     "free": "Free",
     "pro": "Pro",
     "oneCoffee": "= Een Koffie voor de Ontwikkelaar (per Jaar)",
-    "onePairOfDrumSticks": "= Een Set van Drumsticks voor de Ontwikkelaar (eenmalig)"
+    "onePairOfDrumSticks": "= Een Set van Drumsticks voor de Ontwikkelaar (eenmalig)",
+    "deleteAllData": "Alle Gegevens Verwijderen",
+    "deleteAllDataTitle": "Alle Gegevens, Nummers en Loops Verwijderen",
+    "deleteAllDataMessage": "Weet je zeker dat je alle gegevens, nummers en loops wilt verwijderen? Dit kan niet ongedaan worden gemaakt.",
+    "addLoop": "Loop Toevoegen",
+    "deleteSong": "Nummer Verwijderen",
+    "reportBugAndFeedback": "Foutmelding & Feedback",
+    "start": "Start",
+    "end": "Einde",
+    "finish": "Voltooien"
 } 

@@ -6,8 +6,10 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:repeatlab/core/app_constants.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/dialog_helper.dart';
+import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/purchases_repository.dart';
 import 'package:repeatlab/features/changelog_dialog/changelog_dialog.dart';
+import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
 import 'package:repeatlab/features/home/dataprotection_page.dart';
 import 'package:repeatlab/features/home/legal_notices_page.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
@@ -116,6 +118,11 @@ class CustomDrawer extends StatelessWidget {
               );
             },
           ),
+          ListTile(
+            leading: const Icon(Icons.delete_forever),
+            title: Text(context.l10n.deleteAllData),
+            onTap: () => _onDeleteAllData(context),
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
@@ -152,6 +159,8 @@ class CustomDrawer extends StatelessWidget {
             leading: const Icon(Icons.star),
             title: Text(context.l10n.rateApp),
             onTap: () async {
+              AppAnalytics.trackEvent(AppAnalytics.clickRateAppDrawer);
+
               await DialogHelper.displayRateAppDialog(context);
             },
           ),
@@ -248,5 +257,25 @@ class CustomDrawer extends StatelessWidget {
       // ignore: use_build_context_synchronously
       Navigator.of(context).pop();
     } */
+  }
+
+  Future<void> _onDeleteAllData(BuildContext context) async {
+    AppAnalytics.trackEvent(AppAnalytics.clickDeleteAllData);
+
+    // show confirmation dialog
+    final result = await DialogHelper.displayDeleteDialog(
+      context,
+      title: context.l10n.deleteAllDataTitle,
+      message: context.l10n.deleteAllDataMessage,
+    );
+
+    if (result == null || !result || !context.mounted) return;
+
+    await context.read<AllSongsCubit>().clearDb();
+
+    // clear local config
+    if (context.mounted) {
+      await context.read<LocalConfigRepository>().clear();
+    }
   }
 }

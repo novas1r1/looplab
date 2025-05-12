@@ -82,6 +82,7 @@
         }
     },
     "deny": "Ablehnen",
+    "close": "Cerrar",
     "notAvailable": "No Disponible",
     "cancelAnytime": "Puedes cancelar en cualquier momento antes de que termine la prueba en la configuración de Google Play para evitar cargos.",
     "restore": "Restaurar",
@@ -141,5 +142,14 @@
     "free": "Free",
     "pro": "Pro",
     "oneCoffee": "= Un Café para el Desarrollador (por Año)",
-    "onePairOfDrumSticks": "= Un Par de Baterías para el Desarrollador (una vez)"
+    "onePairOfDrumSticks": "= Un Par de Baterías para el Desarrollador (una vez)",
+    "deleteAllData": "Eliminar Todos los Datos",
+    "deleteAllDataTitle": "Eliminar Todos los Datos, Canciones y Loops",
+    "deleteAllDataMessage": "¿Estás seguro de que quieres eliminar todos los datos? Esto eliminará todas tus canciones y loops. Esta acción no se puede deshacer.",
+    "addLoop": "Añadir Loop",
+    "deleteSong": "Eliminar Canción",
+    "reportBugAndFeedback": "Reportar Bug & Feedback",
+    "start": "Inicio",
+    "end": "Fin",
+    "finish": "Finalizar"
 } 

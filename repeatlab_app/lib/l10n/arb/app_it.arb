@@ -82,6 +82,7 @@
     },
     "purchaseLifetime": "Acquista",
     "deny": "Annulla",
+    "close": "Chiudi",
     "notAvailable": "Non Disponibile",
     "cancelAnytime": "Puoi annullare in qualsiasi momento prima della fine del periodo di prova nelle impostazioni di Google Play per evitare addebiti.",
     "restore": "Ripristina",
@@ -141,5 +142,14 @@
     "free": "Free",
     "pro": "Pro",
     "oneCoffee": "= Un Cappuccino per il Developer (per Anno)",
-    "onePairOfDrumSticks": "= Un Set di Tamburi per il Developer (una volta)"
+    "onePairOfDrumSticks": "= Un Set di Tamburi per il Developer (una volta)",
+    "deleteAllData": "Elimina Tutti i Dati",
+    "deleteAllDataTitle": "Elimina Tutti i Dati, Canzoni e Loop",
+    "deleteAllDataMessage": "Sei sicuro di voler eliminare tutti i dati? Questa azione non può essere annullata.",
+    "addLoop": "Aggiungi Loop",
+    "deleteSong": "Elimina Canzone",
+    "reportBugAndFeedback": "Segnala Bug & Feedback",
+    "start": "Inizio",
+    "end": "Fine",
+    "finish": "Fine"
 } 

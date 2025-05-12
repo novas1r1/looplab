@@ -84,6 +84,7 @@
         }
     },
     "purchaseLifetime": "Purchase",
+    "close": "Close",
     "deny": "Deny",
     "notAvailable": "Not available",
     "cancelAnytime": "You can cancel anytime before the trial ends in Google Play settings to avoid being charged.",
@@ -145,5 +146,14 @@
     "free": "Free",
     "pro": "Pro",
     "oneCoffee": "= One Coffee for the Developer (per Year)",
-    "onePairOfDrumSticks": "= One Pair of Drum Sticks for the Developer (one-time)"
+    "onePairOfDrumSticks": "= One Pair of Drum Sticks for the Developer (one-time)",
+    "deleteAllData": "Delete All Data",
+    "deleteAllDataTitle": "Delete All Data, Songs and Loops",
+    "deleteAllDataMessage": "Are you sure you want to delete all data? This will delete all your songs and loops. This action cannot be undone.",
+    "addLoop": "Add Loop",
+    "deleteSong": "Delete Song",
+    "reportBugAndFeedback": "Report Bug & Feedback",
+    "start": "Start",
+    "end": "End",
+    "finish": "Finish"
 }

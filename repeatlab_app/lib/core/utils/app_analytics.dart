@@ -43,6 +43,8 @@ abstract final class AppAnalytics {
   static const clickRestore = 'click_restore';
   static const clickTerms = 'click_terms';
   static const clickPrivacy = 'click_privacy';
+  static const clickDeleteAllData = 'click_delete_all_data';
+  static const clickRateAppDrawer = 'click_rate_app_drawer';
 
   static const showPaywallSongLoops = 'show_paywall_song_loops';
   static const showPaywallSongSpeed = 'show_paywall_song_speed';

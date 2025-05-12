@@ -123,6 +123,7 @@
     "purchaseYearly": "Essayer gratuitement",
     "purchaseLifetime": "Acheter",
     "deny": "Refuser",
+    "close": "Fermer",
     "cancelSubscription": "Annuler l'Abonnement",
     "voteForFeatures": "Voter pour les Fonctionnalités",
     "changelogTitle": "Changelog",
@@ -143,5 +144,14 @@
     "free": "Free",
     "pro": "Pro",
     "oneCoffee": "= Un Café pour le Développeur (par An)",
-    "onePairOfDrumSticks": "= Un Set de Batterie pour le Développeur (une fois)"
+    "onePairOfDrumSticks": "= Un Set de Batterie pour le Développeur (une fois)",
+    "deleteAllData": "Supprimer tous les Données",
+    "deleteAllDataTitle": "Supprimer tous les Données, Chansons et Boucles",
+    "deleteAllDataMessage": "Êtes-vous sûr de vouloir supprimer tous les données ? Cela supprimera toutes vos chansons et boucles. Cette action ne peut pas être annulée.",
+    "addLoop": "Ajouter une Boucle",
+    "deleteSong": "Supprimer la Chanson",
+    "reportBugAndFeedback": "Signaler un Bug & Retour",
+    "start": "Début",
+    "end": "Fin",
+    "finish": "Terminer"
 } 

@@ -72,6 +72,7 @@
     "freeFeatureNoAds": "Keine Werbung",
     "freeFeatureOneLoopPerSong": "Eine Loop pro Song",
     "deny": "Ablehnen",
+    "close": "Schließen",
     "purchase": "Kaufen",
     "purchaseLifetime": "Kaufen",
     "purchaseYearly": "Jetzt {trialString}-Tage kostenlos testen",
@@ -142,5 +143,14 @@
     "free": "Free",
     "pro": "Pro",
     "oneCoffee": "= Ein Kaffee für die Entwicklerin (pro Jahr)",
-    "onePairOfDrumSticks": "= Ein Paar Drumsticks für die Entwicklerin (einmalig)"
+    "onePairOfDrumSticks": "= Ein Paar Drumsticks für die Entwicklerin (einmalig)",
+    "deleteAllData": "Alle Daten löschen",
+    "deleteAllDataTitle": "Alle Daten, Songs und Loops löschen",
+    "deleteAllDataMessage": "Bist du sicher, dass du alle Daten, Songs und Loops löschen möchtest? Dies kann nicht rückgängig gemacht werden.",
+    "addLoop": "Neue Loop",
+    "deleteSong": "Song löschen",
+    "reportBugAndFeedback": "Fehler melden & Feedback",
+    "start": "Start",
+    "end": "Ende",
+    "finish": "Fertig"
 } 

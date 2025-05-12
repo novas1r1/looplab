@@ -289,7 +289,7 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                       // TODO(Verena): Add a confirmation dialog
                       Navigator.of(context).pop();
                     },
-                    child: Text(context.l10n.deny),
+                    child: Text(context.l10n.close),
                   ),
                   const SizedBox(height: 16),
 

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:lottie/lottie.dart';
 import 'package:repeatlab/core/app_constants.dart';
+import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/features/rate_app_dialog/widgets/rating_button_row.dart';
 import 'package:repeatlab/l10n/l10n.dart';
@@ -28,6 +29,8 @@ class _RateAppDialogState extends State<RateAppDialog> with TickerProviderStateM
       vsync: this,
       duration: const Duration(seconds: 10),
     );
+
+    AppAnalytics.trackEvent(AppAnalytics.viewRateApp);
   }
 
   @override

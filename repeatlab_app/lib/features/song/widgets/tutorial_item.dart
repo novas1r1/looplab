@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:repeatlab/l10n/l10n.dart';
 
 class TutorialItem extends StatelessWidget {
   final String title;
@@ -50,7 +51,7 @@ class TutorialItem extends StatelessWidget {
             if (onNext != null && isLast)
               ElevatedButton(
                 onPressed: () => onNext?.call(),
-                child: const Text('Finish'),
+                child: Text(context.l10n.finish),
               ),
           ],
         ),

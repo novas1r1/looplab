@@ -19,6 +19,9 @@ class WavePainter extends CustomPainter {
   final Color colorUnplayed;
   final double zoomScale;
 
+  final String startText;
+  final String endText;
+
   const WavePainter({
     required this.data,
     required this.duration,
@@ -27,6 +30,8 @@ class WavePainter extends CustomPainter {
     required this.colorPlayed,
     required this.colorUnplayed,
     this.zoomScale = 1.0,
+    required this.startText,
+    required this.endText,
   });
 
   @override
@@ -82,7 +87,7 @@ class WavePainter extends CustomPainter {
           // add text to the top of the line with "loop.name Start"
           final textPainter = TextPainter(
             text: TextSpan(
-              text: '${loop.name} Start',
+              text: '${loop.name} $startText',
               style: TextStyle(
                 color: loop.color.color,
                 fontSize: 10,
@@ -124,7 +129,7 @@ class WavePainter extends CustomPainter {
           // add text to the top of the line with "loop.name End"
           final textPainter = TextPainter(
             text: TextSpan(
-              text: '${loop.name} End',
+              text: '${loop.name} $endText',
               style: TextStyle(
                 color: loop.color.color,
                 fontSize: 10,

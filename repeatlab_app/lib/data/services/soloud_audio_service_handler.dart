@@ -136,7 +136,8 @@ class SoloudAudioServiceHandler extends BaseAudioHandler with QueueHandler, Seek
           // Check again if loop is still active before using it
           if (_activeLoop == null || position == null) return;
 
-          if (position >= _activeLoop!.end!) {
+          // only if is playing
+          if (audioPlayer.state == PlayerState.playing && position >= _activeLoop!.end!) {
             audioPlayer.seek(_activeLoop!.start!, timeout: const Duration(seconds: 3));
           }
         });
@@ -178,7 +179,7 @@ class SoloudAudioServiceHandler extends BaseAudioHandler with QueueHandler, Seek
     playbackState.add(
       playbackState.value.copyWith(
         playing: false,
-        processingState: AudioProcessingState.idle,
+        processingState: AudioProcessingState.completed,
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/features/song/widgets/edit_loop_bottom_up.dart';
+import 'package:repeatlab/l10n/l10n.dart';
 
 class LoopTile extends StatefulWidget {
   final int index;
@@ -86,13 +87,13 @@ class _LoopTileState extends State<LoopTile> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Start',
+                    context.l10n.start,
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
                           color: widget.loop.color.color,
                         ),
                   ),
                   Text(
-                    'End',
+                    context.l10n.end,
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
                           color: widget.loop.color.color,
                         ),

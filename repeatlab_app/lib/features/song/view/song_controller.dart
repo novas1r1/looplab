@@ -29,7 +29,9 @@ class SongController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final playerState = context.watch<SongCubit>().state.playerState;
-    final isPaused = playerState == PlayerState.paused || playerState == null;
+    final isPaused = playerState == PlayerState.paused ||
+        playerState == null ||
+        playerState == PlayerState.stopped;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -105,7 +107,7 @@ class SongController extends StatelessWidget {
   }
 
   void _onTapPlay(BuildContext context) {
-    if (isLoopModeEnabled == true) {
+    if (isLoopModeEnabled) {
       context.read<SongCubit>().togglePlayLoop(activeLoop!);
     } else {
       context.read<SongCubit>().togglePlaySong();

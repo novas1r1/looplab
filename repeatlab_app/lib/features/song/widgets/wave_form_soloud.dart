@@ -8,6 +8,7 @@ import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/paywall/premium_screen.dart';
 import 'package:repeatlab/features/song/widgets/wave_painter.dart';
+import 'package:repeatlab/l10n/l10n.dart';
 
 // https://github.com/alnitak/flutter_soloud/blob/feat_waveform/example/lib/wave_data/wave_data.dart
 class WaveFormSoLoud extends StatefulWidget {
@@ -102,11 +103,11 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
 
   @override
   void didUpdateWidget(covariant WaveFormSoLoud oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
     if (widget.currentPosition != oldWidget.currentPosition && !_isDragging) {
       _updateScrollPosition();
     }
+
+    super.didUpdateWidget(oldWidget);
   }
 
   void _updateScrollPosition() {
@@ -238,6 +239,8 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
                         colorPlayed: Theme.of(context).colorScheme.primaryFixedDim,
                         colorUnplayed: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
                         zoomScale: _zoomScale,
+                        startText: context.l10n.start,
+                        endText: context.l10n.end,
                       ),
                     ),
                   ),

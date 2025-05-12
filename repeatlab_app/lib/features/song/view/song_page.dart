@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
@@ -148,11 +149,11 @@ class _SongViewState extends State<_SongView> {
                     icon: const Icon(Icons.more_vert),
                     itemBuilder: (context) => [
                       PopupMenuItem(
-                        child: const Row(
+                        child: Row(
                           children: [
-                            Icon(Icons.feedback),
-                            SizedBox(width: 8),
-                            Text('Report Bug & Feedback'),
+                            const Icon(Icons.feedback),
+                            const SizedBox(width: 8),
+                            Text(context.l10n.reportBugAndFeedback),
                           ],
                         ),
                         onTap: () {
@@ -161,11 +162,11 @@ class _SongViewState extends State<_SongView> {
                         },
                       ),
                       PopupMenuItem(
-                        child: const Row(
+                        child: Row(
                           children: [
-                            Icon(Icons.delete),
-                            SizedBox(width: 8),
-                            Text('Delete Song'),
+                            const Icon(Icons.delete),
+                            const SizedBox(width: 8),
+                            Text(context.l10n.deleteSong),
                           ],
                         ),
                         onTap: () => _onTapDeleteSong(context),
@@ -177,7 +178,7 @@ class _SongViewState extends State<_SongView> {
               floatingActionButton: FloatingActionButton.extended(
                 onPressed: () => _onAddLoop(context),
                 icon: const Icon(Icons.add),
-                label: const Text('Add Loop'),
+                label: Text(context.l10n.addLoop),
                 key: tutorialKeyLoopAdd,
                 backgroundColor: Theme.of(context).colorScheme.primary,
               ),
@@ -192,10 +193,12 @@ class _SongViewState extends State<_SongView> {
                         duration: state.song.duration,
                         currentPosition: state.position ?? Duration.zero,
                         onStartDrag: () {
-                          // context.read<SongCubit>().pauseSong();
+                          context.read<SongCubit>().pauseSong();
                         },
-                        onPositionChanged: (position) =>
-                            context.read<SongCubit>().seekSong(position),
+                        onPositionChanged: (position) {
+                          log('onPositionChanged: $position');
+                          context.read<SongCubit>().seekSong(position);
+                        },
                         loops: state.song.loops,
                       ),
                     const SizedBox(height: 8),
@@ -242,7 +245,7 @@ class _SongViewState extends State<_SongView> {
                             minimumSize: const Size(0, 36),
                             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
-                          child: const FittedBox(child: Text('Set Loop Start')),
+                          child: FittedBox(child: Text(context.l10n.setLoopStart)),
                         ),
                         const SizedBox(width: 8),
                         ElevatedButton(
@@ -257,7 +260,7 @@ class _SongViewState extends State<_SongView> {
                             minimumSize: const Size(0, 36),
                             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
-                          child: const FittedBox(child: Text('Set Loop End')),
+                          child: FittedBox(child: Text(context.l10n.setLoopEnd)),
                         ),
                         const Spacer(),
                         CupertinoSwitch(
