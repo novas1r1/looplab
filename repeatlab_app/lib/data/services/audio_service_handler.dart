@@ -2,10 +2,12 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:audio_service/audio_service.dart';
+import 'package:audio_session/audio_session.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 
+/// TODO NOT USED
 /// AudioHandler implementation for background audio playback
 class RepeatLabAudioHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
   final AudioPlayer audioPlayer;
@@ -19,6 +21,8 @@ class RepeatLabAudioHandler extends BaseAudioHandler with QueueHandler, SeekHand
 
   RepeatLabAudioHandler({required this.audioPlayer}) {
     log('RepeatLabAudioHandler constructor');
+
+    _initAudioSession();
 
     playerStateSubscription = audioPlayer.onPlayerStateChanged.listen((state) {
       log('playerStateSubscription: $state');
@@ -73,6 +77,11 @@ class RepeatLabAudioHandler extends BaseAudioHandler with QueueHandler, SeekHand
     durationSubscription = audioPlayer.onDurationChanged.listen((duration) {
       mediaItem.add(mediaItem.value?.copyWith(duration: duration));
     });
+  }
+
+  Future<void> _initAudioSession() async {
+    final session = await AudioSession.instance;
+    await session.configure(const AudioSessionConfiguration.music());
   }
 
   /// Play a song from a file path

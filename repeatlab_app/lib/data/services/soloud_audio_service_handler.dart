@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:audio_service/audio_service.dart';
+import 'package:audio_session/audio_session.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
@@ -19,6 +20,8 @@ class SoloudAudioServiceHandler extends BaseAudioHandler with QueueHandler, Seek
 
   SoloudAudioServiceHandler({required this.audioPlayer}) {
     log('SoloudAudioServiceHandler constructor');
+
+    _initAudioSession();
 
     playerStateSubscription = audioPlayer.onPlayerStateChanged.listen((state) {
       log('playerStateSubscription: $state');
@@ -73,6 +76,13 @@ class SoloudAudioServiceHandler extends BaseAudioHandler with QueueHandler, Seek
     durationSubscription = audioPlayer.onDurationChanged.listen((duration) {
       mediaItem.add(mediaItem.value?.copyWith(duration: duration));
     });
+  }
+
+  Future<void> _initAudioSession() async {
+    final session = await AudioSession.instance;
+    await session.configure(const AudioSessionConfiguration.music());
+
+    log('AudioSession initialized: ${session.isConfigured}');
   }
 
   /// Play a song from a file path

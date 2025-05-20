@@ -200,7 +200,7 @@ class SongCubit extends Cubit<SongState> {
   }
 
   Future<void> togglePlaySong() async {
-    log('togglePlaySong state.playerState: ${state.playerState}');
+    log('togglePlaySong state.playerState was: ${state.playerState}');
 
     try {
       // If audio handler is available, use it for background playback
