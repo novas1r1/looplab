@@ -153,5 +153,6 @@
     "end": "Einde",
     "finish": "Voltooien",
     "deleteAllDataSuccess": "Alle gegevens verwijderd",
-    "deleteAllDataError": "Fout bij het verwijderen van alle gegevens"
+    "deleteAllDataError": "Fout bij het verwijderen van alle gegevens",
+    "errorOpeningStore": "Fout bij het openen van de app store listing. Probeer een review te versturen via Play of Apple Store direct. Bedankt!"
 } 

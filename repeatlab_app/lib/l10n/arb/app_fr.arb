@@ -155,5 +155,6 @@
     "end": "Fin",
     "finish": "Terminer",
     "deleteAllDataSuccess": "Tous les données ont été supprimées avec succès",
-    "deleteAllDataError": "Erreur lors de la suppression des données"
+    "deleteAllDataError": "Erreur lors de la suppression des données",
+    "errorOpeningStore": "Erreur lors de l'ouverture de la liste de l'app. Veuillez essayer d'envoyer un avis directement via Play ou Apple Store. Merci !"
 } 

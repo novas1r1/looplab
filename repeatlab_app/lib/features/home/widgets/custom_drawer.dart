@@ -28,9 +28,6 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final appVersion = context.read<PackageInfo>().version;
     final buildNumber = context.read<PackageInfo>().buildNumber;
-    final hasSubscribed = context.watch<PremiumSubscriptionCubit>().state.hasSubscription;
-    final hasLifetimePurchased =
-        context.watch<PremiumSubscriptionCubit>().state.hasLifetimePurchase;
 
     return Drawer(
       child: ListView(
@@ -143,15 +140,6 @@ class CustomDrawer extends StatelessWidget {
             onTap: () {
               Wiredash.of(context).show(inheritMaterialTheme: true);
               Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.star),
-            title: Text(context.l10n.rateApp),
-            onTap: () async {
-              AppAnalytics.trackEvent(AppAnalytics.clickRateAppDrawer);
-
-              await DialogHelper.displayRateAppDialog(context);
             },
           ),
           Padding(

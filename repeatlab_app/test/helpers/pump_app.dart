@@ -6,7 +6,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
-import 'package:repeatlab/l10n/l10n.dart';
+import 'package:repeatlab/l10n/arb/app_localizations.dart';
 
 class MockSongRepository extends Mock implements SongRepository {
   @override

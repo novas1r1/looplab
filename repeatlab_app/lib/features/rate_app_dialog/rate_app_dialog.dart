@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:lottie/lottie.dart';
 import 'package:repeatlab/core/app_constants.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
+import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/features/rate_app_dialog/widgets/rating_button_row.dart';
 import 'package:repeatlab/l10n/l10n.dart';
@@ -55,7 +58,6 @@ class _RateAppDialogState extends State<RateAppDialog> with TickerProviderStateM
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
         ),
         onPressed: () => _sendStoreRating(_selectedRating!),
-        iconAlignment: IconAlignment.end,
         child: Text(
           context.l10n.sendRating,
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
@@ -199,19 +201,48 @@ class _RateAppDialogState extends State<RateAppDialog> with TickerProviderStateM
   Future<void> _sendStoreRating(int rating) async {
     final inAppReview = InAppReview.instance;
 
-    if (await inAppReview.isAvailable()) {
-      await inAppReview.requestReview();
+    try {
+      if (await inAppReview.isAvailable()) {
+        await inAppReview.requestReview();
+      } else {
+        // Fallback to store listing if review dialog is not available
+        await inAppReview.openStoreListing(
+          appStoreId: AppConstants.appStoreId,
+        );
+      }
 
       if (mounted) {
         context.read<LocalConfigRepository>().setHasRatedApp(true);
         Navigator.of(context).pop();
       }
-    } else {
-      await inAppReview.openStoreListing(appStoreId: AppConstants.appStoreId);
+    } catch (e) {
+      // Log the error
+      unawaited(
+        context.read<CrashReportingRepository>().reportError(
+              'RateAppDialog: Failed to open review dialog',
+              StackTrace.current,
+            ),
+      );
 
-      if (mounted) {
-        context.read<LocalConfigRepository>().setHasRatedApp(true);
-        Navigator.of(context).pop();
+      // Fallback to store listing
+      try {
+        await inAppReview.openStoreListing(
+          appStoreId: AppConstants.appStoreId,
+        );
+
+        if (mounted) {
+          context.read<LocalConfigRepository>().setHasRatedApp(true);
+          Navigator.of(context).pop();
+        }
+      } catch (e) {
+        // If all else fails, show a snackbar
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(context.l10n.errorOpeningStore),
+            ),
+          );
+        }
       }
     }
   }

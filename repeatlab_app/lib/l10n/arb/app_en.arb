@@ -157,5 +157,6 @@
     "end": "End",
     "finish": "Finish",
     "deleteAllDataSuccess": "All data deleted successfully",
-    "deleteAllDataError": "Failed to delete all data"
+    "deleteAllDataError": "Failed to delete all data",
+    "errorOpeningStore": "Failed to open app store listing. Please try to submit a review via Play or Apple Store directly. Thank you!"
 }

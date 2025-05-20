@@ -1,5 +1,5 @@
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:repeatlab/l10n/l10n.dart';
+import 'package:repeatlab/l10n/arb/app_localizations.dart';
 
 part 'repeatlab_feature.mapper.dart';
 
