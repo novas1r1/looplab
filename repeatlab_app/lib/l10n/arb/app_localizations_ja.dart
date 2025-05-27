@@ -1,0 +1,452 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for Japanese (`ja`).
+class AppLocalizationsJa extends AppLocalizations {
+  AppLocalizationsJa([String locale = 'ja']) : super(locale);
+
+  @override
+  String get appSubtitle => 'あなたの音楽ループステーション';
+
+  @override
+  String get userSettings => 'ユーザー設定';
+
+  @override
+  String get cancelSubscription => 'サブスクリプションをキャンセル';
+
+  @override
+  String get buyRepeatLabPro => 'RepeatLab Proを購入';
+
+  @override
+  String get improveTheApp => 'アプリを改善';
+
+  @override
+  String get feedback => 'フィードバック/バグ報告';
+
+  @override
+  String get rateApp => 'アプリを評価';
+
+  @override
+  String get legals => '法的情報';
+
+  @override
+  String get dataProtection => 'データ保護';
+
+  @override
+  String get legalNotices => '法的通知';
+
+  @override
+  String get licenses => 'ライセンス';
+
+  @override
+  String get version => 'バージョン';
+
+  @override
+  String get informationWeCollect => '収集する情報';
+
+  @override
+  String get informationWeCollectSummary =>
+      'あなたのプライバシーは私たちにとって重要です。このプライバシーポリシーは、iOSおよびAndroidプラットフォームで利用可能なモバイルアプリケーション（「アプリ」）を使用する際に、どのように情報を収集、使用、保護するかを概説しています。このポリシーは一般データ保護規則（GDPR）に準拠しています。\n\n発効日：2025年1月23日';
+
+  @override
+  String get informationWeCollectDescription =>
+      '• 個人情報：Wiredashを通じてフィードバックを送信する際のメールアドレスなど、あなたが提供する情報。\n• 支払い情報：RevenueCatによって処理されるアプリ内購入とサブスクリプションに関連するデータ。\n• クラッシュログ：Sentryを通じて収集されるアプリのエラーとクラッシュに関する情報。\n• 使用データ：あなたの体験を向上させるための分析データ。';
+
+  @override
+  String get dataController => 'データ管理者';
+
+  @override
+  String get dataControllerDescription =>
+      'あなたの情報を担当するデータ管理者は：\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\n\nメール：support@repeatlab.de';
+
+  @override
+  String get legalBasisForProcessing => '処理の法的根拠';
+
+  @override
+  String get legalBasisForProcessingDescription =>
+      '私たちは以下の法的根拠に基づいてあなたのデータを処理します：\n\n• Wiredashを通じたフィードバック送信とアプリ分析への同意。\n• RevenueCatを通じた支払い処理とサブスクリプション管理のための契約の履行。\n• Sentryを使用したクラッシュレポートによるアプリの効果的な運用確保のための正当な利益。';
+
+  @override
+  String get howWeUseYourInformation => '情報の使用方法';
+
+  @override
+  String get howWeUseYourInformationDescription =>
+      '収集した情報は以下の目的で使用されます：\n\n• RevenueCatを通じたアプリ内購入の処理とサブスクリプションの管理。\n• Wiredashを使用したフィードバックの収集とアプリの改善。\n• Sentryクラッシュログを使用した問題の監視と修正。\n• ユーザー体験の向上とアプリ機能の強化。';
+
+  @override
+  String get yourRights => 'あなたの権利';
+
+  @override
+  String get yourRightsDescription =>
+      'GDPRに基づき、あなたは以下の権利を持っています：\n\n• 私たちが保持するあなたの個人情報にアクセスする権利。\n• あなたの個人情報の訂正を要求する権利。\n• あなたの個人情報の削除を要求する権利（「忘れられる権利」）。\n• データポータビリティの権利。\n• 私たちの正当な利益に基づく処理に反対する権利。\n• いつでも同意を撤回する権利。\n• 監督当局に苦情を申し立てる権利。';
+
+  @override
+  String get thirdPartyServices => 'サードパーティサービス';
+
+  @override
+  String get thirdPartyServicesDescription =>
+      'アプリを強化するために以下のサードパーティサービスを使用しています：\n\n• Wiredash：ユーザーフィードバックの収集に使用。\n• RevenueCat：アプリ内購入とサブスクリプションの処理に使用。\n• Sentry：エラー監視とクラッシュレポートに使用。';
+
+  @override
+  String get contactUs => 'お問い合わせ';
+
+  @override
+  String get contactUsDescription =>
+      'このプライバシーポリシーについて質問や懸念がある場合、またはGDPRに基づく権利を行使したい場合は、support@repeatlab.deまでご連絡ください。\n\nアプリをご利用いただきありがとうございます！';
+
+  @override
+  String get crashLogs => 'クラッシュログ';
+
+  @override
+  String get addSong => '曲を追加';
+
+  @override
+  String get noSongsFound => '曲が見つかりません';
+
+  @override
+  String get tapToAddSong => '+をタップして最初の曲を追加';
+
+  @override
+  String get legalNoticesDescription =>
+      '§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nメール：support@repeatlab.de\n\n法的形態：フリーランス';
+
+  @override
+  String get onboardingTitle1 => 'RepeatLabへようこそ';
+
+  @override
+  String get onboardingDescription1 => '難しい部分を繰り返したり、速度を落としたりして、どの曲もマスターできます。';
+
+  @override
+  String get onboardingTitle2 => '正確なループを作成';
+
+  @override
+  String get onboardingDescription2 =>
+      '練習したい部分の開始と終了をタップするだけでマークできます。直感的な波形表示で調整と微調整が可能です。';
+
+  @override
+  String get onboardingTitle3 => 'プライバシー優先';
+
+  @override
+  String get onboardingDescription3 =>
+      'あなたのプライバシーを尊重し、データを慎重に扱います。プライバシーポリシーを確認し、続行するには同意してください。';
+
+  @override
+  String get onboardingPrivacyPolicy => '同意します';
+
+  @override
+  String get onboardingPrivacyPolicyLink => 'プライバシーポリシー';
+
+  @override
+  String get onboardingGetStarted => '始める';
+
+  @override
+  String get onboardingNext => '次へ';
+
+  @override
+  String get sendRating => '評価を送信';
+
+  @override
+  String get leaveReview => 'レビューを書く';
+
+  @override
+  String get yourFeedbackHelpsMe => 'あなたのフィードバックは私が';
+
+  @override
+  String get you => 'あなたが';
+
+  @override
+  String get want => '望む';
+
+  @override
+  String get rateDialogDescription =>
+      'こんにちは！私はこのアプリの開発者です。アプリが気に入りましたか？5つ星の評価をいただけると、とても嬉しいです😊！あなたのために、もっと素晴らしい機能を追加するモチベーションになります。\nありがとうございます！❤️';
+
+  @override
+  String get notNow => '後で';
+
+  @override
+  String get editLoop => 'ループを編集';
+
+  @override
+  String get loopName => 'ループ名';
+
+  @override
+  String get startTime => '開始時間';
+
+  @override
+  String get endTime => '終了時間';
+
+  @override
+  String get delete => '削除';
+
+  @override
+  String get save => '保存';
+
+  @override
+  String get invalidFormat => '無効な形式（mm:ss:ms）';
+
+  @override
+  String get startCannotBeAfterEnd => '開始時間は終了時間より後にすることはできません';
+
+  @override
+  String get endCannotBeBeforeStart => '終了時間は開始時間より前にすることはできません';
+
+  @override
+  String get noActiveLoop => 'アクティブなループがありません。\n新しいループを追加するか、既存のループを選択してください。';
+
+  @override
+  String get startMustBeBeforeEnd => '開始位置は終了位置より前である必要があります';
+
+  @override
+  String get setLoopStart => 'ループ開始を設定';
+
+  @override
+  String get setLoopEnd => 'ループ終了を設定';
+
+  @override
+  String get endMustBeAfterStart => '終了位置は開始位置より後である必要があります';
+
+  @override
+  String get premiumHeadline =>
+      'テンポコントロール、ズーム、無制限のループで、プロのようにお気に入りの曲をマスターしましょう！';
+
+  @override
+  String get premiumFeatureUnlimitedLoops => '無制限のループ';
+
+  @override
+  String get premiumFeatureChangeMusicSpeed => '音楽の速度を変更';
+
+  @override
+  String get premiumFeatureZoomInOut => '波形のズームイン/アウト';
+
+  @override
+  String get premiumFeatureSupportDeveloper => '独立系開発者をサポート';
+
+  @override
+  String get freeFeatureUnlimitedSongs => '無制限の曲 + 曲ごとに1つのループ';
+
+  @override
+  String get freeFeatureNoAds => '広告なし';
+
+  @override
+  String get freeFeatureOneLoopPerSong => '曲ごとに1つのループ';
+
+  @override
+  String get purchase => '購入';
+
+  @override
+  String purchaseYearly(String trialString) {
+    return '$trialString日間無料トライアル';
+  }
+
+  @override
+  String get purchaseLifetime => '購入';
+
+  @override
+  String get close => '閉じる';
+
+  @override
+  String get deny => '拒否';
+
+  @override
+  String get notAvailable => '利用できません';
+
+  @override
+  String get cancelAnytime =>
+      'トライアル期間終了前にGoogle Play設定でいつでもキャンセルできます。課金を避けるためにお早めにキャンセルしてください。';
+
+  @override
+  String get restore => '復元';
+
+  @override
+  String get terms => '利用規約';
+
+  @override
+  String get privacy => 'プライバシー';
+
+  @override
+  String yearlyDescription(String priceString, String trialString) {
+    return '$trialString日間の無料トライアル、その後は年間$priceString。トライアル期間終了前にGoogle Play設定でキャンセルしない限り、サブスクリプションは自動更新されます。';
+  }
+
+  @override
+  String get lifetimeDescription => '一度の支払い。サブスクリプションは不要です。';
+
+  @override
+  String get deleteSongLoops => '曲とループを削除';
+
+  @override
+  String get deleteSongLoopsDescription =>
+      'この曲と関連するすべてのループを削除してもよろしいですか？この操作は元に戻せません。';
+
+  @override
+  String get cancel => 'キャンセル';
+
+  @override
+  String get startPositionMustBeBeforeEndPosition => '開始位置は終了位置より前である必要があります';
+
+  @override
+  String get endPositionMustBeAfterStartPosition => '終了位置は開始位置より後である必要があります';
+
+  @override
+  String get tutorialNavigateThroughSong => 'ドラッグ＆ドロップで曲をナビゲート';
+
+  @override
+  String get tutorialNavigateThroughSongDescription =>
+      '指を使って曲全体を左右にドラッグし、ズームイン/アウトして精度を向上させることができます';
+
+  @override
+  String get tutorialPlayAndPauseSong => '曲の再生、一時停止、速度変更';
+
+  @override
+  String get tutorialPlayAndPauseSongDescription => 'これらのボタンを使用して曲とループを制御します';
+
+  @override
+  String get tutorialJumpToLoop => 'ループを表示してジャンプ';
+
+  @override
+  String get tutorialJumpToLoopDescription =>
+      'ループはここに表示されます。タップすることでループにジャンプできます';
+
+  @override
+  String get tutorialSetLoopStart => 'ループの開始位置を設定';
+
+  @override
+  String get tutorialSetLoopStartDescription =>
+      '曲マーカーを移動して開始位置をタップすることで、いつでもループの開始位置を調整できます';
+
+  @override
+  String get tutorialSetLoopEnd => 'ループの終了位置を設定';
+
+  @override
+  String get tutorialSetLoopEndDescription =>
+      '曲マーカーを移動して終了位置をタップすることで、いつでもループの終了位置を調整できます';
+
+  @override
+  String get tutorialActivateLoop => '選択したループのループモードを有効化';
+
+  @override
+  String get tutorialActivateLoopDescription =>
+      'ループを再生したい場合は、ループモードを有効にする必要があります。無効の場合、曲全体が再生されます。';
+
+  @override
+  String get tutorialAddLoop => '新しいループを追加';
+
+  @override
+  String get tutorialAddLoopDescription => '+ボタンをタップして新しいループを追加できます';
+
+  @override
+  String get year => '年';
+
+  @override
+  String get purchasedAlready => 'すでに購入済み';
+
+  @override
+  String get purchaseSuccess => '購入が成功しました。開発者をサポートしていただきありがとうございます❤️！';
+
+  @override
+  String get voteForFeatures => '機能に投票';
+
+  @override
+  String get changelogTitle => '変更履歴';
+
+  @override
+  String get changelog113Title => 'いくつかのバグを修正';
+
+  @override
+  String get changelog113Description =>
+      'ループ終了が設定されていない場合、ループは曲の終わりまで再生され、曲の終わりをループ終了として扱っていました。アプリが閉じられたとき、オーディオバックグラウンドサービスは停止するようになりました。';
+
+  @override
+  String get changelog110Title => 'オーディオがバックグラウンドとスタンバイで再生';
+
+  @override
+  String get changelog110Description =>
+      'アプリがバックグラウンドに移行したり、電話がスタンバイモードになったりしても、オーディオファイルが再生されるようになりました。';
+
+  @override
+  String get changelog1017Title => 'ループの並べ替え';
+
+  @override
+  String get changelog1017Description =>
+      'ドラッグ＆ドロップでループを並べ替えることができるようになりました。ループを長押しして新しい位置にドラッグするだけです。';
+
+  @override
+  String get changelog1013Title => '機能投票と機能提案が可能に';
+
+  @override
+  String get changelog1013Description =>
+      'アプリ内で新機能に投票したり、独自の機能提案を送信したりできるようになりました。メニューを開いて「機能に投票」ボードを開くだけです。あなたの要望をお聞かせください！';
+
+  @override
+  String get whatsNew => '新機能';
+
+  @override
+  String get songAddError =>
+      '曲の追加に失敗しました。ファイル形式に問題がある可能性があります。mp3やwavなどのサポートされている形式に変換してみてください。';
+
+  @override
+  String get loopAdded => 'ループが追加され、有効化されました';
+
+  @override
+  String get loopModeEnabled => 'ループモードが有効になりました';
+
+  @override
+  String get loopModeDisabled => 'ループモードが無効になりました';
+
+  @override
+  String get pleaseSelectLoop => 'ループを選択してください';
+
+  @override
+  String get free => '無料';
+
+  @override
+  String get pro => 'プロ';
+
+  @override
+  String get oneCoffee => '= 開発者のコーヒー1杯分（年間）';
+
+  @override
+  String get onePairOfDrumSticks => '= 開発者のドラムスティック1組分（一度限り）';
+
+  @override
+  String get deleteAllData => 'すべてのデータを削除';
+
+  @override
+  String get deleteAllDataTitle => 'すべてのデータ、曲、ループを削除';
+
+  @override
+  String get deleteAllDataMessage =>
+      'すべてのデータを削除してもよろしいですか？これにより、すべての曲とループが削除されます。この操作は元に戻せません。';
+
+  @override
+  String get addLoop => 'ループを追加';
+
+  @override
+  String get deleteSong => '曲を削除';
+
+  @override
+  String get reportBugAndFeedback => 'バグ報告とフィードバック';
+
+  @override
+  String get start => '開始';
+
+  @override
+  String get end => '終了';
+
+  @override
+  String get finish => '完了';
+
+  @override
+  String get deleteAllDataSuccess => 'すべてのデータが正常に削除されました';
+
+  @override
+  String get deleteAllDataError => 'すべてのデータの削除に失敗しました';
+
+  @override
+  String get errorOpeningStore =>
+      'アプリストアのリストを開けませんでした。PlayストアまたはAppleストアから直接レビューを送信してください。ありがとうございます！';
+}

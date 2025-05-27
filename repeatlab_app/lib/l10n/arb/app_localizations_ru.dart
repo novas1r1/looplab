@@ -48,46 +48,54 @@ class AppLocalizationsRu extends AppLocalizations {
   String get informationWeCollect => 'Информация, Которую Мы Собираем';
 
   @override
-  String get informationWeCollectSummary => 'Ваша конфиденциальность важна для нас. Эта Политика конфиденциальности описывает, как мы собираем, используем и защищаем вашу информацию при использовании нашего мобильного приложения (\'Приложение\'), доступного на платформах iOS и Android. Эта политика соответствует Общему регламенту по защите данных (GDPR).\n\nДата вступления в силу: 23 января 2025 г.';
+  String get informationWeCollectSummary =>
+      'Ваша конфиденциальность важна для нас. Эта Политика конфиденциальности описывает, как мы собираем, используем и защищаем вашу информацию при использовании нашего мобильного приложения (\'Приложение\'), доступного на платформах iOS и Android. Эта политика соответствует Общему регламенту по защите данных (GDPR).\n\nДата вступления в силу: 23 января 2025 г.';
 
   @override
-  String get informationWeCollectDescription => '• Личная Информация: Информация, которую вы предоставляете нам, например, ваш адрес электронной почты при отправке отзыва через Wiredash.\n• Платежная Информация: Данные, связанные с покупками в приложении и подписками, обрабатываемые RevenueCat.\n• Журналы Сбоев: Информация об ошибках и сбоях приложения, собираемая через Sentry.\n• Данные Использования: Аналитические данные, помогающие нам улучшить ваш опыт.';
+  String get informationWeCollectDescription =>
+      '• Личная Информация: Информация, которую вы предоставляете нам, например, ваш адрес электронной почты при отправке отзыва через Wiredash.\n• Платежная Информация: Данные, связанные с покупками в приложении и подписками, обрабатываемые RevenueCat.\n• Журналы Сбоев: Информация об ошибках и сбоях приложения, собираемая через Sentry.\n• Данные Использования: Аналитические данные, помогающие нам улучшить ваш опыт.';
 
   @override
   String get dataController => 'Контролер Данных';
 
   @override
-  String get dataControllerDescription => 'Контролером ваших данных является:\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\n\nEmail: support@repeatlab.de';
+  String get dataControllerDescription =>
+      'Контролером ваших данных является:\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\n\nEmail: support@repeatlab.de';
 
   @override
   String get legalBasisForProcessing => 'Правовая Основа Обработки';
 
   @override
-  String get legalBasisForProcessingDescription => 'Мы обрабатываем ваши данные на следующих правовых основаниях:\n\n• Ваше согласие на отправку отзывов через Wiredash и анализ приложения.\n• Выполнение договора для обработки платежей и управления подписками через RevenueCat.\n• Наш законный интерес в обеспечении эффективной работы Приложения с использованием Sentry для отчетов о сбоях.';
+  String get legalBasisForProcessingDescription =>
+      'Мы обрабатываем ваши данные на следующих правовых основаниях:\n\n• Ваше согласие на отправку отзывов через Wiredash и анализ приложения.\n• Выполнение договора для обработки платежей и управления подписками через RevenueCat.\n• Наш законный интерес в обеспечении эффективной работы Приложения с использованием Sentry для отчетов о сбоях.';
 
   @override
   String get howWeUseYourInformation => 'Как Мы Используем Вашу Информацию';
 
   @override
-  String get howWeUseYourInformationDescription => 'Мы используем собранную информацию для следующих целей:\n\n• Для обработки покупок в приложении и управления подписками через RevenueCat.\n• Для сбора отзывов и улучшения Приложения с помощью Wiredash.\n• Для мониторинга и решения проблем с использованием журналов сбоев Sentry.\n• Для улучшения пользовательского опыта и расширения функций Приложения.';
+  String get howWeUseYourInformationDescription =>
+      'Мы используем собранную информацию для следующих целей:\n\n• Для обработки покупок в приложении и управления подписками через RevenueCat.\n• Для сбора отзывов и улучшения Приложения с помощью Wiredash.\n• Для мониторинга и решения проблем с использованием журналов сбоев Sentry.\n• Для улучшения пользовательского опыта и расширения функций Приложения.';
 
   @override
   String get yourRights => 'Ваши Права';
 
   @override
-  String get yourRightsDescription => 'Согласно GDPR, у вас есть следующие права:\n\n• Право на доступ к личной информации, которую мы храним о вас.\n• Право требовать исправления вашей личной информации.\n• Право требовать удаления вашей личной информации (\'право на забвение\').\n• Право на переносимость данных.\n• Право возражать против обработки на основе наших законных интересов.\n• Право отозвать согласие в любое время.\n• Право подать жалобу в надзорный орган.';
+  String get yourRightsDescription =>
+      'Согласно GDPR, у вас есть следующие права:\n\n• Право на доступ к личной информации, которую мы храним о вас.\n• Право требовать исправления вашей личной информации.\n• Право требовать удаления вашей личной информации (\'право на забвение\').\n• Право на переносимость данных.\n• Право возражать против обработки на основе наших законных интересов.\n• Право отозвать согласие в любое время.\n• Право подать жалобу в надзорный орган.';
 
   @override
   String get thirdPartyServices => 'Сторонние Сервисы';
 
   @override
-  String get thirdPartyServicesDescription => 'Мы используем сторонние сервисы для улучшения нашего Приложения:\n\n• Wiredash: Используется для сбора отзывов пользователей.\n• RevenueCat: Используется для обработки покупок в приложении и подписок.\n• Sentry: Используется для мониторинга ошибок и отчетов о сбоях.';
+  String get thirdPartyServicesDescription =>
+      'Мы используем сторонние сервисы для улучшения нашего Приложения:\n\n• Wiredash: Используется для сбора отзывов пользователей.\n• RevenueCat: Используется для обработки покупок в приложении и подписок.\n• Sentry: Используется для мониторинга ошибок и отчетов о сбоях.';
 
   @override
   String get contactUs => 'Свяжитесь с Нами';
 
   @override
-  String get contactUsDescription => 'Если у вас есть вопросы или concerns о данной Политике конфиденциальности, или если вы хотите воспользоваться своими правами согласно GDPR, пожалуйста, свяжитесь с нами по адресу support@repeatlab.de\n\nСпасибо за использование нашего Приложения!';
+  String get contactUsDescription =>
+      'Если у вас есть вопросы или concerns о данной Политике конфиденциальности, или если вы хотите воспользоваться своими правами согласно GDPR, пожалуйста, свяжитесь с нами по адресу support@repeatlab.de\n\nСпасибо за использование нашего Приложения!';
 
   @override
   String get crashLogs => 'Журналы Сбоев';
@@ -102,25 +110,29 @@ class AppLocalizationsRu extends AppLocalizations {
   String get tapToAddSong => 'Нажмите +, чтобы добавить вашу первую песню';
 
   @override
-  String get legalNoticesDescription => '§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nEmail: support@repeatlab.de\n\nПравовая форма: Фрилансер';
+  String get legalNoticesDescription =>
+      '§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nEmail: support@repeatlab.de\n\nПравовая форма: Фрилансер';
 
   @override
   String get onboardingTitle1 => 'Добро пожаловать в RepeatLab';
 
   @override
-  String get onboardingDescription1 => 'Освойте любую песню, практикуя сложные части путем их повторения или замедления.';
+  String get onboardingDescription1 =>
+      'Освойте любую песню, практикуя сложные части путем их повторения или замедления.';
 
   @override
   String get onboardingTitle2 => 'Создавайте Точные Лупы';
 
   @override
-  String get onboardingDescription2 => 'Просто нажмите, чтобы отметить начало и конец секции, которую вы хотите практиковать. Настройте и уточните с помощью нашего интуитивного отображения волновой формы.';
+  String get onboardingDescription2 =>
+      'Просто нажмите, чтобы отметить начало и конец секции, которую вы хотите практиковать. Настройте и уточните с помощью нашего интуитивного отображения волновой формы.';
 
   @override
   String get onboardingTitle3 => 'Конфиденциальность Прежде Всего';
 
   @override
-  String get onboardingDescription3 => 'Мы ценим вашу конфиденциальность и бережно обращаемся с вашими данными. Пожалуйста, ознакомьтесь с нашей политикой конфиденциальности и примите её, чтобы продолжить.';
+  String get onboardingDescription3 =>
+      'Мы ценим вашу конфиденциальность и бережно обращаемся с вашими данными. Пожалуйста, ознакомьтесь с нашей политикой конфиденциальности и примите её, чтобы продолжить.';
 
   @override
   String get onboardingPrivacyPolicy => 'Я принимаю ';
@@ -141,7 +153,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get leaveReview => 'Оставить Отзыв';
 
   @override
-  String get yourFeedbackHelpsMe => 'Ваши отзывы помогают мне добавлять функции, которые ';
+  String get yourFeedbackHelpsMe =>
+      'Ваши отзывы помогают мне добавлять функции, которые ';
 
   @override
   String get you => ' вы ';
@@ -150,7 +163,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get want => 'хотите';
 
   @override
-  String get rateDialogDescription => 'Привет! Я создатель этого приложения. Нравится приложение? Быстрый 5-звездочный отзыв много значил бы для меня 😊! Это мотивирует меня добавлять больше классных функций для вас.\nСпасибо! ❤️';
+  String get rateDialogDescription =>
+      'Привет! Я создатель этого приложения. Нравится приложение? Быстрый 5-звездочный отзыв много значил бы для меня 😊! Это мотивирует меня добавлять больше классных функций для вас.\nСпасибо! ❤️';
 
   @override
   String get notNow => 'Не Сейчас';
@@ -183,10 +197,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get endCannotBeBeforeStart => 'Конец не может быть перед началом';
 
   @override
-  String get noActiveLoop => 'Нет активного лупа.\nДобавьте новый луп или выберите существующий.';
+  String get noActiveLoop =>
+      'Нет активного лупа.\nДобавьте новый луп или выберите существующий.';
 
   @override
-  String get startMustBeBeforeEnd => 'Начальная позиция должна быть перед конечной';
+  String get startMustBeBeforeEnd =>
+      'Начальная позиция должна быть перед конечной';
 
   @override
   String get setLoopStart => 'Установить Начало Лупа';
@@ -195,10 +211,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get setLoopEnd => 'Установить Конец Лупа';
 
   @override
-  String get endMustBeAfterStart => 'Конечная позиция должна быть после начальной';
+  String get endMustBeAfterStart =>
+      'Конечная позиция должна быть после начальной';
 
   @override
-  String get premiumHeadline => 'Освойте Ваши Любимые Песни как Про с Контролем Скорости, Zoom и Неограниченными Лупами!';
+  String get premiumHeadline =>
+      'Освойте Ваши Любимые Песни как Про с Контролем Скорости, Zoom и Неограниченными Лупами!';
 
   @override
   String get premiumFeatureUnlimitedLoops => 'Неограниченное Количество Лупов';
@@ -210,10 +228,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';
 
   @override
-  String get premiumFeatureSupportDeveloper => 'Поддержка Независимого Разработчика';
+  String get premiumFeatureSupportDeveloper =>
+      'Поддержка Независимого Разработчика';
 
   @override
-  String get freeFeatureUnlimitedSongs => 'Неограниченное Количество Песен + Один Луп на Песню';
+  String get freeFeatureUnlimitedSongs =>
+      'Неограниченное Количество Песен + Один Луп на Песню';
 
   @override
   String get freeFeatureNoAds => 'Без Рекламы';
@@ -242,7 +262,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get notAvailable => 'Недоступно';
 
   @override
-  String get cancelAnytime => 'Вы можете отменить в любое время до окончания пробного периода в настройках Google Play, чтобы избежать списания средств.';
+  String get cancelAnytime =>
+      'Вы можете отменить в любое время до окончания пробного периода в настройках Google Play, чтобы избежать списания средств.';
 
   @override
   String get restore => 'Восстановить';
@@ -259,64 +280,78 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get lifetimeDescription => 'Единоразовый платеж. Подписка не требуется.';
+  String get lifetimeDescription =>
+      'Единоразовый платеж. Подписка не требуется.';
 
   @override
   String get deleteSongLoops => 'Удалить Песню и Лупы';
 
   @override
-  String get deleteSongLoopsDescription => 'Вы уверены, что хотите удалить эту песню и все прикрепленные лупы? Это действие нельзя отменить.';
+  String get deleteSongLoopsDescription =>
+      'Вы уверены, что хотите удалить эту песню и все прикрепленные лупы? Это действие нельзя отменить.';
 
   @override
   String get cancel => 'Отмена';
 
   @override
-  String get startPositionMustBeBeforeEndPosition => 'Начальная позиция должна быть перед конечной';
+  String get startPositionMustBeBeforeEndPosition =>
+      'Начальная позиция должна быть перед конечной';
 
   @override
-  String get endPositionMustBeAfterStartPosition => 'Конечная позиция должна быть после начальной';
+  String get endPositionMustBeAfterStartPosition =>
+      'Конечная позиция должна быть после начальной';
 
   @override
-  String get tutorialNavigateThroughSong => 'Навигация по песне с помощью перетаскивания';
+  String get tutorialNavigateThroughSong =>
+      'Навигация по песне с помощью перетаскивания';
 
   @override
-  String get tutorialNavigateThroughSongDescription => 'Используйте пальцы для перетаскивания всей песни влево или вправо и масштабирования для лучшей точности';
+  String get tutorialNavigateThroughSongDescription =>
+      'Используйте пальцы для перетаскивания всей песни влево или вправо и масштабирования для лучшей точности';
 
   @override
-  String get tutorialPlayAndPauseSong => 'Воспроизведение, пауза или изменение скорости песни';
+  String get tutorialPlayAndPauseSong =>
+      'Воспроизведение, пауза или изменение скорости песни';
 
   @override
-  String get tutorialPlayAndPauseSongDescription => 'Используйте эти кнопки для управления песней и лупами';
+  String get tutorialPlayAndPauseSongDescription =>
+      'Используйте эти кнопки для управления песней и лупами';
 
   @override
   String get tutorialJumpToLoop => 'Просмотр и переход к лупам';
 
   @override
-  String get tutorialJumpToLoopDescription => 'Ваши лупы будут отображаться здесь. Вы можете перейти к ним, нажав на них';
+  String get tutorialJumpToLoopDescription =>
+      'Ваши лупы будут отображаться здесь. Вы можете перейти к ним, нажав на них';
 
   @override
   String get tutorialSetLoopStart => 'Установка начальной позиции лупа';
 
   @override
-  String get tutorialSetLoopStartDescription => 'Вы всегда можете настроить начальную позицию лупа, перемещая маркер песни и нажимая на начальную позицию';
+  String get tutorialSetLoopStartDescription =>
+      'Вы всегда можете настроить начальную позицию лупа, перемещая маркер песни и нажимая на начальную позицию';
 
   @override
   String get tutorialSetLoopEnd => 'Установка конечной позиции лупа';
 
   @override
-  String get tutorialSetLoopEndDescription => 'Вы всегда можете настроить конечную позицию лупа, перемещая маркер песни и нажимая на конечную позицию';
+  String get tutorialSetLoopEndDescription =>
+      'Вы всегда можете настроить конечную позицию лупа, перемещая маркер песни и нажимая на конечную позицию';
 
   @override
-  String get tutorialActivateLoop => 'Активация режима лупа для выбранного лупа';
+  String get tutorialActivateLoop =>
+      'Активация режима лупа для выбранного лупа';
 
   @override
-  String get tutorialActivateLoopDescription => 'Если вы хотите воспроизвести луп, вы должны активировать режим лупа. Если он отключен, будет воспроизведена вся песня.';
+  String get tutorialActivateLoopDescription =>
+      'Если вы хотите воспроизвести луп, вы должны активировать режим лупа. Если он отключен, будет воспроизведена вся песня.';
 
   @override
   String get tutorialAddLoop => 'Добавление нового лупа';
 
   @override
-  String get tutorialAddLoopDescription => 'Вы можете добавить новый луп, нажав на кнопку +';
+  String get tutorialAddLoopDescription =>
+      'Вы можете добавить новый луп, нажав на кнопку +';
 
   @override
   String get year => 'год';
@@ -325,7 +360,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get purchasedAlready => 'Уже приобретено';
 
   @override
-  String get purchaseSuccess => 'Покупка прошла успешно. Спасибо за поддержку разработчика ❤️!';
+  String get purchaseSuccess =>
+      'Покупка прошла успешно. Спасибо за поддержку разработчика ❤️!';
 
   @override
   String get voteForFeatures => 'Предложить Функции';
@@ -337,31 +373,38 @@ class AppLocalizationsRu extends AppLocalizations {
   String get changelog113Title => 'Исправления ошибок';
 
   @override
-  String get changelog113Description => 'Если не было установлено конечное положение лупа, луп будет воспроизводиться до конца песни и будет считаться концом песни как концом лупа. Сервис аудио в фоновом режиме теперь завершается при закрытии приложения.';
+  String get changelog113Description =>
+      'Если не было установлено конечное положение лупа, луп будет воспроизводиться до конца песни и будет считаться концом песни как концом лупа. Сервис аудио в фоновом режиме теперь завершается при закрытии приложения.';
 
   @override
-  String get changelog110Title => 'Audio теперь играет в фоновом режиме и в режиме ожидания';
+  String get changelog110Title =>
+      'Audio теперь играет в фоновом режиме и в режиме ожидания';
 
   @override
-  String get changelog110Description => 'Аудиофайлы теперь играют даже когда приложение переходит в фоновый режим или телефон переходит в режим ожидания.';
+  String get changelog110Description =>
+      'Аудиофайлы теперь играют даже когда приложение переходит в фоновый режим или телефон переходит в режим ожидания.';
 
   @override
   String get changelog1017Title => 'Переупорядочить Лупы';
 
   @override
-  String get changelog1017Description => 'Вы можете теперь переупорядочить свои лупы, перетаскивая их и отпуская на новую позицию. Просто долго нажмите на луп и перетащите его в новую позицию.';
+  String get changelog1017Description =>
+      'Вы можете теперь переупорядочить свои лупы, перетаскивая их и отпуская на новую позицию. Просто долго нажмите на луп и перетащите его в новую позицию.';
 
   @override
-  String get changelog1013Title => 'Голосование за функции и предложение функций теперь возможно';
+  String get changelog1013Title =>
+      'Голосование за функции и предложение функций теперь возможно';
 
   @override
-  String get changelog1013Description => 'Вы можете теперь голосовать за новые функции или предлагать свои собственные функции в приложении. Просто откройте меню и откройте доску \'Голосование за функции\'. Счастливого голосования!';
+  String get changelog1013Description =>
+      'Вы можете теперь голосовать за новые функции или предлагать свои собственные функции в приложении. Просто откройте меню и откройте доску \'Голосование за функции\'. Счастливого голосования!';
 
   @override
   String get whatsNew => 'Что нового?';
 
   @override
-  String get songAddError => 'Ошибка при добавлении песни. Это может быть связано с проблемой с форматом файла. Пожалуйста, попробуйте преобразовать файл в поддерживаемый формат, например mp3 или wav.';
+  String get songAddError =>
+      'Ошибка при добавлении песни. Это может быть связано с проблемой с форматом файла. Пожалуйста, попробуйте преобразовать файл в поддерживаемый формат, например mp3 или wav.';
 
   @override
   String get loopAdded => 'Луп добавлен и активирован';
@@ -385,7 +428,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get oneCoffee => '= Один Кофе для Разработчика (в Год)';
 
   @override
-  String get onePairOfDrumSticks => '= Один Набор Барабанных палочек для Разработчика (один раз)';
+  String get onePairOfDrumSticks =>
+      '= Один Набор Барабанных палочек для Разработчика (один раз)';
 
   @override
   String get deleteAllData => 'Удалить Все Данные';
@@ -394,7 +438,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get deleteAllDataTitle => 'Удалить Все Данные, Песни и Лупы';
 
   @override
-  String get deleteAllDataMessage => 'Вы уверены, что хотите удалить все данные? Это действие нельзя отменить.';
+  String get deleteAllDataMessage =>
+      'Вы уверены, что хотите удалить все данные? Это действие нельзя отменить.';
 
   @override
   String get addLoop => 'Добавить Луп';
@@ -421,5 +466,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get deleteAllDataError => 'Ошибка при удалении данных';
 
   @override
-  String get errorOpeningStore => 'Ошибка при открытии списка приложения. Пожалуйста, попробуйте отправить отзыв напрямую через Play или Apple Store. Спасибо!';
+  String get errorOpeningStore =>
+      'Ошибка при открытии списка приложения. Пожалуйста, попробуйте отправить отзыв напрямую через Play или Apple Store. Спасибо!';
 }
