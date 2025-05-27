@@ -25,25 +25,25 @@ class SongStatusMapper extends EnumMapper<SongStatus> {
   @override
   SongStatus decode(dynamic value) {
     switch (value) {
-      case 'loading':
+      case r'loading':
         return SongStatus.loading;
-      case 'loadSuccess':
+      case r'loadSuccess':
         return SongStatus.loadSuccess;
-      case 'loadError':
+      case r'loadError':
         return SongStatus.loadError;
-      case 'error':
+      case r'error':
         return SongStatus.error;
-      case 'loopAdded':
+      case r'loopAdded':
         return SongStatus.loopAdded;
-      case 'loopDeleted':
+      case r'loopDeleted':
         return SongStatus.loopDeleted;
-      case 'loopModeToggled':
+      case r'loopModeToggled':
         return SongStatus.loopModeToggled;
-      case 'updated':
+      case r'updated':
         return SongStatus.updated;
-      case 'updating':
+      case r'updating':
         return SongStatus.updating;
-      case 'songDeleted':
+      case r'songDeleted':
         return SongStatus.songDeleted;
       default:
         throw MapperException.unknownEnumValue(value);
@@ -54,25 +54,25 @@ class SongStatusMapper extends EnumMapper<SongStatus> {
   dynamic encode(SongStatus self) {
     switch (self) {
       case SongStatus.loading:
-        return 'loading';
+        return r'loading';
       case SongStatus.loadSuccess:
-        return 'loadSuccess';
+        return r'loadSuccess';
       case SongStatus.loadError:
-        return 'loadError';
+        return r'loadError';
       case SongStatus.error:
-        return 'error';
+        return r'error';
       case SongStatus.loopAdded:
-        return 'loopAdded';
+        return r'loopAdded';
       case SongStatus.loopDeleted:
-        return 'loopDeleted';
+        return r'loopDeleted';
       case SongStatus.loopModeToggled:
-        return 'loopModeToggled';
+        return r'loopModeToggled';
       case SongStatus.updated:
-        return 'updated';
+        return r'updated';
       case SongStatus.updating:
-        return 'updating';
+        return r'updating';
       case SongStatus.songDeleted:
-        return 'songDeleted';
+        return r'songDeleted';
     }
   }
 }
@@ -189,7 +189,8 @@ mixin SongStateMappable {
   }
 
   SongStateCopyWith<SongState, SongState, SongState> get copyWith =>
-      _SongStateCopyWithImpl(this as SongState, $identity, $identity);
+      _SongStateCopyWithImpl<SongState, SongState>(
+          this as SongState, $identity, $identity);
   @override
   String toString() {
     return SongStateMapper.ensureInitialized()
@@ -210,7 +211,7 @@ mixin SongStateMappable {
 
 extension SongStateValueCopy<$R, $Out> on ObjectCopyWith<$R, SongState, $Out> {
   SongStateCopyWith<$R, SongState, $Out> get $asSongState =>
-      $base.as((v, t, t2) => _SongStateCopyWithImpl(v, t, t2));
+      $base.as((v, t, t2) => _SongStateCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class SongStateCopyWith<$R, $In extends SongState, $Out>
@@ -292,5 +293,5 @@ class _SongStateCopyWithImpl<$R, $Out>
   @override
   SongStateCopyWith<$R2, SongState, $Out2> $chain<$R2, $Out2>(
           Then<$Out2, $R2> t) =>
-      _SongStateCopyWithImpl($value, $cast, t);
+      _SongStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

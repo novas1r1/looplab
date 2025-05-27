@@ -62,8 +62,9 @@ mixin RepeatLabFeatureMappable {
   }
 
   RepeatLabFeatureCopyWith<RepeatLabFeature, RepeatLabFeature, RepeatLabFeature>
-      get copyWith => _RepeatLabFeatureCopyWithImpl(
-          this as RepeatLabFeature, $identity, $identity);
+      get copyWith =>
+          _RepeatLabFeatureCopyWithImpl<RepeatLabFeature, RepeatLabFeature>(
+              this as RepeatLabFeature, $identity, $identity);
   @override
   String toString() {
     return RepeatLabFeatureMapper.ensureInitialized()
@@ -86,8 +87,8 @@ mixin RepeatLabFeatureMappable {
 extension RepeatLabFeatureValueCopy<$R, $Out>
     on ObjectCopyWith<$R, RepeatLabFeature, $Out> {
   RepeatLabFeatureCopyWith<$R, RepeatLabFeature, $Out>
-      get $asRepeatLabFeature =>
-          $base.as((v, t, t2) => _RepeatLabFeatureCopyWithImpl(v, t, t2));
+      get $asRepeatLabFeature => $base
+          .as((v, t, t2) => _RepeatLabFeatureCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class RepeatLabFeatureCopyWith<$R, $In extends RepeatLabFeature, $Out>
@@ -118,5 +119,5 @@ class _RepeatLabFeatureCopyWithImpl<$R, $Out>
   @override
   RepeatLabFeatureCopyWith<$R2, RepeatLabFeature, $Out2> $chain<$R2, $Out2>(
           Then<$Out2, $R2> t) =>
-      _RepeatLabFeatureCopyWithImpl($value, $cast, t);
+      _RepeatLabFeatureCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

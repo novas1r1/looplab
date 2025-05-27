@@ -68,8 +68,9 @@ mixin ChangelogVersionMappable {
   }
 
   ChangelogVersionCopyWith<ChangelogVersion, ChangelogVersion, ChangelogVersion>
-      get copyWith => _ChangelogVersionCopyWithImpl(
-          this as ChangelogVersion, $identity, $identity);
+      get copyWith =>
+          _ChangelogVersionCopyWithImpl<ChangelogVersion, ChangelogVersion>(
+              this as ChangelogVersion, $identity, $identity);
   @override
   String toString() {
     return ChangelogVersionMapper.ensureInitialized()
@@ -92,8 +93,8 @@ mixin ChangelogVersionMappable {
 extension ChangelogVersionValueCopy<$R, $Out>
     on ObjectCopyWith<$R, ChangelogVersion, $Out> {
   ChangelogVersionCopyWith<$R, ChangelogVersion, $Out>
-      get $asChangelogVersion =>
-          $base.as((v, t, t2) => _ChangelogVersionCopyWithImpl(v, t, t2));
+      get $asChangelogVersion => $base
+          .as((v, t, t2) => _ChangelogVersionCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class ChangelogVersionCopyWith<$R, $In extends ChangelogVersion, $Out>
@@ -140,5 +141,5 @@ class _ChangelogVersionCopyWithImpl<$R, $Out>
   @override
   ChangelogVersionCopyWith<$R2, ChangelogVersion, $Out2> $chain<$R2, $Out2>(
           Then<$Out2, $R2> t) =>
-      _ChangelogVersionCopyWithImpl($value, $cast, t);
+      _ChangelogVersionCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

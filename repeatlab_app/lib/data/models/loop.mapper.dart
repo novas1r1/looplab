@@ -25,15 +25,15 @@ class LoopColorMapper extends EnumMapper<LoopColor> {
   @override
   LoopColor decode(dynamic value) {
     switch (value) {
-      case 'green':
+      case r'green':
         return LoopColor.green;
-      case 'orange':
+      case r'orange':
         return LoopColor.orange;
-      case 'pink':
+      case r'pink':
         return LoopColor.pink;
-      case 'purple':
+      case r'purple':
         return LoopColor.purple;
-      case 'yellow':
+      case r'yellow':
         return LoopColor.yellow;
       default:
         throw MapperException.unknownEnumValue(value);
@@ -44,15 +44,15 @@ class LoopColorMapper extends EnumMapper<LoopColor> {
   dynamic encode(LoopColor self) {
     switch (self) {
       case LoopColor.green:
-        return 'green';
+        return r'green';
       case LoopColor.orange:
-        return 'orange';
+        return r'orange';
       case LoopColor.pink:
-        return 'pink';
+        return r'pink';
       case LoopColor.purple:
-        return 'purple';
+        return r'purple';
       case LoopColor.yellow:
-        return 'yellow';
+        return r'yellow';
     }
   }
 }
@@ -140,7 +140,7 @@ mixin LoopMappable {
   }
 
   LoopCopyWith<Loop, Loop, Loop> get copyWith =>
-      _LoopCopyWithImpl(this as Loop, $identity, $identity);
+      _LoopCopyWithImpl<Loop, Loop>(this as Loop, $identity, $identity);
   @override
   String toString() {
     return LoopMapper.ensureInitialized().stringifyValue(this as Loop);
@@ -159,7 +159,7 @@ mixin LoopMappable {
 
 extension LoopValueCopy<$R, $Out> on ObjectCopyWith<$R, Loop, $Out> {
   LoopCopyWith<$R, Loop, $Out> get $asLoop =>
-      $base.as((v, t, t2) => _LoopCopyWithImpl(v, t, t2));
+      $base.as((v, t, t2) => _LoopCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class LoopCopyWith<$R, $In extends Loop, $Out>
@@ -211,5 +211,5 @@ class _LoopCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Loop, $Out>
 
   @override
   LoopCopyWith<$R2, Loop, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
-      _LoopCopyWithImpl($value, $cast, t);
+      _LoopCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

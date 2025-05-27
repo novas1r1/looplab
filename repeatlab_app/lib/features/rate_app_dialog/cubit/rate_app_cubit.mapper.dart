@@ -25,11 +25,11 @@ class RateAppStatusMapper extends EnumMapper<RateAppStatus> {
   @override
   RateAppStatus decode(dynamic value) {
     switch (value) {
-      case 'initial':
+      case r'initial':
         return RateAppStatus.initial;
-      case 'rated':
+      case r'rated':
         return RateAppStatus.rated;
-      case 'notRated':
+      case r'notRated':
         return RateAppStatus.notRated;
       default:
         throw MapperException.unknownEnumValue(value);
@@ -40,11 +40,11 @@ class RateAppStatusMapper extends EnumMapper<RateAppStatus> {
   dynamic encode(RateAppStatus self) {
     switch (self) {
       case RateAppStatus.initial:
-        return 'initial';
+        return r'initial';
       case RateAppStatus.rated:
-        return 'rated';
+        return r'rated';
       case RateAppStatus.notRated:
-        return 'notRated';
+        return r'notRated';
     }
   }
 }
@@ -114,7 +114,8 @@ mixin RateAppStateMappable {
   }
 
   RateAppStateCopyWith<RateAppState, RateAppState, RateAppState> get copyWith =>
-      _RateAppStateCopyWithImpl(this as RateAppState, $identity, $identity);
+      _RateAppStateCopyWithImpl<RateAppState, RateAppState>(
+          this as RateAppState, $identity, $identity);
   @override
   String toString() {
     return RateAppStateMapper.ensureInitialized()
@@ -137,7 +138,7 @@ mixin RateAppStateMappable {
 extension RateAppStateValueCopy<$R, $Out>
     on ObjectCopyWith<$R, RateAppState, $Out> {
   RateAppStateCopyWith<$R, RateAppState, $Out> get $asRateAppState =>
-      $base.as((v, t, t2) => _RateAppStateCopyWithImpl(v, t, t2));
+      $base.as((v, t, t2) => _RateAppStateCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class RateAppStateCopyWith<$R, $In extends RateAppState, $Out>
@@ -169,5 +170,5 @@ class _RateAppStateCopyWithImpl<$R, $Out>
   @override
   RateAppStateCopyWith<$R2, RateAppState, $Out2> $chain<$R2, $Out2>(
           Then<$Out2, $R2> t) =>
-      _RateAppStateCopyWithImpl($value, $cast, t);
+      _RateAppStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

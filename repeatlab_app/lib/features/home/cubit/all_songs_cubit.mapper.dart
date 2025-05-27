@@ -25,13 +25,13 @@ class AllSongsStatusMapper extends EnumMapper<AllSongsStatus> {
   @override
   AllSongsStatus decode(dynamic value) {
     switch (value) {
-      case 'initial':
+      case r'initial':
         return AllSongsStatus.initial;
-      case 'loading':
+      case r'loading':
         return AllSongsStatus.loading;
-      case 'loaded':
+      case r'loaded':
         return AllSongsStatus.loaded;
-      case 'error':
+      case r'error':
         return AllSongsStatus.error;
       default:
         throw MapperException.unknownEnumValue(value);
@@ -42,13 +42,13 @@ class AllSongsStatusMapper extends EnumMapper<AllSongsStatus> {
   dynamic encode(AllSongsStatus self) {
     switch (self) {
       case AllSongsStatus.initial:
-        return 'initial';
+        return r'initial';
       case AllSongsStatus.loading:
-        return 'loading';
+        return r'loading';
       case AllSongsStatus.loaded:
-        return 'loaded';
+        return r'loaded';
       case AllSongsStatus.error:
-        return 'error';
+        return r'error';
     }
   }
 }
@@ -124,7 +124,7 @@ mixin AllSongsStateMappable {
   }
 
   AllSongsStateCopyWith<AllSongsState, AllSongsState, AllSongsState>
-      get copyWith => _AllSongsStateCopyWithImpl(
+      get copyWith => _AllSongsStateCopyWithImpl<AllSongsState, AllSongsState>(
           this as AllSongsState, $identity, $identity);
   @override
   String toString() {
@@ -148,7 +148,7 @@ mixin AllSongsStateMappable {
 extension AllSongsStateValueCopy<$R, $Out>
     on ObjectCopyWith<$R, AllSongsState, $Out> {
   AllSongsStateCopyWith<$R, AllSongsState, $Out> get $asAllSongsState =>
-      $base.as((v, t, t2) => _AllSongsStateCopyWithImpl(v, t, t2));
+      $base.as((v, t, t2) => _AllSongsStateCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class AllSongsStateCopyWith<$R, $In extends AllSongsState, $Out>
@@ -189,5 +189,5 @@ class _AllSongsStateCopyWithImpl<$R, $Out>
   @override
   AllSongsStateCopyWith<$R2, AllSongsState, $Out2> $chain<$R2, $Out2>(
           Then<$Out2, $R2> t) =>
-      _AllSongsStateCopyWithImpl($value, $cast, t);
+      _AllSongsStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

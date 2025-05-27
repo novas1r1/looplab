@@ -81,7 +81,8 @@ mixin PremiumSubscriptionStateMappable {
 
   PremiumSubscriptionStateCopyWith<PremiumSubscriptionState,
           PremiumSubscriptionState, PremiumSubscriptionState>
-      get copyWith => _PremiumSubscriptionStateCopyWithImpl(
+      get copyWith => _PremiumSubscriptionStateCopyWithImpl<
+              PremiumSubscriptionState, PremiumSubscriptionState>(
           this as PremiumSubscriptionState, $identity, $identity);
   @override
   String toString() {
@@ -105,8 +106,8 @@ mixin PremiumSubscriptionStateMappable {
 extension PremiumSubscriptionStateValueCopy<$R, $Out>
     on ObjectCopyWith<$R, PremiumSubscriptionState, $Out> {
   PremiumSubscriptionStateCopyWith<$R, PremiumSubscriptionState, $Out>
-      get $asPremiumSubscriptionState => $base
-          .as((v, t, t2) => _PremiumSubscriptionStateCopyWithImpl(v, t, t2));
+      get $asPremiumSubscriptionState => $base.as((v, t, t2) =>
+          _PremiumSubscriptionStateCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class PremiumSubscriptionStateCopyWith<
@@ -155,5 +156,5 @@ class _PremiumSubscriptionStateCopyWithImpl<$R, $Out>
   @override
   PremiumSubscriptionStateCopyWith<$R2, PremiumSubscriptionState, $Out2>
       $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
-          _PremiumSubscriptionStateCopyWithImpl($value, $cast, t);
+          _PremiumSubscriptionStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

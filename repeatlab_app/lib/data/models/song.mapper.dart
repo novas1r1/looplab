@@ -25,11 +25,11 @@ class LoopSortMapper extends EnumMapper<LoopSort> {
   @override
   LoopSort decode(dynamic value) {
     switch (value) {
-      case 'manual':
+      case r'manual':
         return LoopSort.manual;
-      case 'startTime':
+      case r'startTime':
         return LoopSort.startTime;
-      case 'none':
+      case r'none':
         return LoopSort.none;
       default:
         throw MapperException.unknownEnumValue(value);
@@ -40,11 +40,11 @@ class LoopSortMapper extends EnumMapper<LoopSort> {
   dynamic encode(LoopSort self) {
     switch (self) {
       case LoopSort.manual:
-        return 'manual';
+        return r'manual';
       case LoopSort.startTime:
-        return 'startTime';
+        return r'startTime';
       case LoopSort.none:
-        return 'none';
+        return r'none';
     }
   }
 }
@@ -135,7 +135,7 @@ mixin SongMappable {
   }
 
   SongCopyWith<Song, Song, Song> get copyWith =>
-      _SongCopyWithImpl(this as Song, $identity, $identity);
+      _SongCopyWithImpl<Song, Song>(this as Song, $identity, $identity);
   @override
   String toString() {
     return SongMapper.ensureInitialized().stringifyValue(this as Song);
@@ -154,7 +154,7 @@ mixin SongMappable {
 
 extension SongValueCopy<$R, $Out> on ObjectCopyWith<$R, Song, $Out> {
   SongCopyWith<$R, Song, $Out> get $asSong =>
-      $base.as((v, t, t2) => _SongCopyWithImpl(v, t, t2));
+      $base.as((v, t, t2) => _SongCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class SongCopyWith<$R, $In extends Song, $Out>
@@ -211,5 +211,5 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
 
   @override
   SongCopyWith<$R2, Song, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
-      _SongCopyWithImpl($value, $cast, t);
+      _SongCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

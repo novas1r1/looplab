@@ -25,11 +25,11 @@ class ChangelogStatusMapper extends EnumMapper<ChangelogStatus> {
   @override
   ChangelogStatus decode(dynamic value) {
     switch (value) {
-      case 'loading':
+      case r'loading':
         return ChangelogStatus.loading;
-      case 'loaded':
+      case r'loaded':
         return ChangelogStatus.loaded;
-      case 'error':
+      case r'error':
         return ChangelogStatus.error;
       default:
         throw MapperException.unknownEnumValue(value);
@@ -40,11 +40,11 @@ class ChangelogStatusMapper extends EnumMapper<ChangelogStatus> {
   dynamic encode(ChangelogStatus self) {
     switch (self) {
       case ChangelogStatus.loading:
-        return 'loading';
+        return r'loading';
       case ChangelogStatus.loaded:
-        return 'loaded';
+        return r'loaded';
       case ChangelogStatus.error:
-        return 'error';
+        return r'error';
     }
   }
 }
@@ -119,9 +119,9 @@ mixin ChangelogDialogStateMappable {
   }
 
   ChangelogDialogStateCopyWith<ChangelogDialogState, ChangelogDialogState,
-          ChangelogDialogState>
-      get copyWith => _ChangelogDialogStateCopyWithImpl(
-          this as ChangelogDialogState, $identity, $identity);
+      ChangelogDialogState> get copyWith => _ChangelogDialogStateCopyWithImpl<
+          ChangelogDialogState, ChangelogDialogState>(
+      this as ChangelogDialogState, $identity, $identity);
   @override
   String toString() {
     return ChangelogDialogStateMapper.ensureInitialized()
@@ -144,8 +144,8 @@ mixin ChangelogDialogStateMappable {
 extension ChangelogDialogStateValueCopy<$R, $Out>
     on ObjectCopyWith<$R, ChangelogDialogState, $Out> {
   ChangelogDialogStateCopyWith<$R, ChangelogDialogState, $Out>
-      get $asChangelogDialogState =>
-          $base.as((v, t, t2) => _ChangelogDialogStateCopyWithImpl(v, t, t2));
+      get $asChangelogDialogState => $base.as(
+          (v, t, t2) => _ChangelogDialogStateCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class ChangelogDialogStateCopyWith<
@@ -186,5 +186,5 @@ class _ChangelogDialogStateCopyWithImpl<$R, $Out>
   @override
   ChangelogDialogStateCopyWith<$R2, ChangelogDialogState, $Out2>
       $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
-          _ChangelogDialogStateCopyWithImpl($value, $cast, t);
+          _ChangelogDialogStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

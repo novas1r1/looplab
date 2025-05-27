@@ -25,11 +25,11 @@ class FetchProductsStatusMapper extends EnumMapper<FetchProductsStatus> {
   @override
   FetchProductsStatus decode(dynamic value) {
     switch (value) {
-      case 'loading':
+      case r'loading':
         return FetchProductsStatus.loading;
-      case 'success':
+      case r'success':
         return FetchProductsStatus.success;
-      case 'failure':
+      case r'failure':
         return FetchProductsStatus.failure;
       default:
         throw MapperException.unknownEnumValue(value);
@@ -40,11 +40,11 @@ class FetchProductsStatusMapper extends EnumMapper<FetchProductsStatus> {
   dynamic encode(FetchProductsStatus self) {
     switch (self) {
       case FetchProductsStatus.loading:
-        return 'loading';
+        return r'loading';
       case FetchProductsStatus.success:
-        return 'success';
+        return r'success';
       case FetchProductsStatus.failure:
-        return 'failure';
+        return r'failure';
     }
   }
 }
@@ -75,11 +75,11 @@ class FetchProductsActionMapper extends EnumMapper<FetchProductsAction> {
   @override
   FetchProductsAction decode(dynamic value) {
     switch (value) {
-      case 'none':
+      case r'none':
         return FetchProductsAction.none;
-      case 'fetch':
+      case r'fetch':
         return FetchProductsAction.fetch;
-      case 'purchase':
+      case r'purchase':
         return FetchProductsAction.purchase;
       default:
         throw MapperException.unknownEnumValue(value);
@@ -90,11 +90,11 @@ class FetchProductsActionMapper extends EnumMapper<FetchProductsAction> {
   dynamic encode(FetchProductsAction self) {
     switch (self) {
       case FetchProductsAction.none:
-        return 'none';
+        return r'none';
       case FetchProductsAction.fetch:
-        return 'fetch';
+        return r'fetch';
       case FetchProductsAction.purchase:
-        return 'purchase';
+        return r'purchase';
     }
   }
 }
@@ -181,8 +181,8 @@ mixin FetchProductsStateMappable {
 
   FetchProductsStateCopyWith<FetchProductsState, FetchProductsState,
           FetchProductsState>
-      get copyWith => _FetchProductsStateCopyWithImpl(
-          this as FetchProductsState, $identity, $identity);
+      get copyWith => _FetchProductsStateCopyWithImpl<FetchProductsState,
+          FetchProductsState>(this as FetchProductsState, $identity, $identity);
   @override
   String toString() {
     return FetchProductsStateMapper.ensureInitialized()
@@ -205,8 +205,8 @@ mixin FetchProductsStateMappable {
 extension FetchProductsStateValueCopy<$R, $Out>
     on ObjectCopyWith<$R, FetchProductsState, $Out> {
   FetchProductsStateCopyWith<$R, FetchProductsState, $Out>
-      get $asFetchProductsState =>
-          $base.as((v, t, t2) => _FetchProductsStateCopyWithImpl(v, t, t2));
+      get $asFetchProductsState => $base.as(
+          (v, t, t2) => _FetchProductsStateCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class FetchProductsStateCopyWith<$R, $In extends FetchProductsState,
@@ -254,5 +254,5 @@ class _FetchProductsStateCopyWithImpl<$R, $Out>
   @override
   FetchProductsStateCopyWith<$R2, FetchProductsState, $Out2> $chain<$R2, $Out2>(
           Then<$Out2, $R2> t) =>
-      _FetchProductsStateCopyWithImpl($value, $cast, t);
+      _FetchProductsStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

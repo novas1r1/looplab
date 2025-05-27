@@ -10,13 +10,13 @@ packages:
     source: hosted
     version: "82.0.0"
   alchemist:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       name: alchemist
-      sha256: "2dcbfb0fe2b108797831241e48bb8d2abb902d2626332fb98b5680fb1f6bdb3a"
+      sha256: "2662c3bc1ddff93ec87271d6c787866337cb5e0990844eeaf299e32149aa9d73"
       url: "https://pub.dev"
     source: hosted
-    version: "0.11.0"
+    version: "0.12.0"
   analyzer:
     dependency: transitive
     description:
@@ -53,10 +53,10 @@ packages:
     dependency: transitive
     description:
       name: async
-      sha256: d2872f9c19731c2e5f10444b14686eb7cc85c76274bd6c16e1816bff9a3bab63
+      sha256: "758e6d74e971c3e5aceb4110bfd6698efc7f501675bcfe0c775459a8140750eb"
       url: "https://pub.dev"
     source: hosted
-    version: "2.12.0"
+    version: "2.13.0"
   audio_service:
     dependency: "direct main"
     description:
@@ -374,10 +374,10 @@ packages:
     dependency: transitive
     description:
       name: fake_async
-      sha256: "6a95e56b2449df2273fd8c45a662d6947ce1ebb7aafe80e550a3f68297f3cacc"
+      sha256: "5368f224a74523e8d2e7399ea1638b37aecfca824a3cc4dfdf77bf1fa905ac44"
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.2"
+    version: "1.3.3"
   ffi:
     dependency: transitive
     description:
@@ -386,6 +386,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  ffmpeg_kit_flutter_android:
+    dependency: transitive
+    description:
+      name: ffmpeg_kit_flutter_android
+      sha256: "1bcd2e18169862d9782f019e3e83f92a41a12692deb25e0e767ecd44518c0f7e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.0"
+  ffmpeg_kit_flutter_new:
+    dependency: "direct main"
+    description:
+      name: ffmpeg_kit_flutter_new
+      sha256: dbaf0f4963b08a034a4f787276c1e12efc36a56670693f1721e46f95554f0979
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.6.1"
+  ffmpeg_kit_flutter_platform_interface:
+    dependency: transitive
+    description:
+      name: ffmpeg_kit_flutter_platform_interface
+      sha256: addf046ae44e190ad0101b2fde2ad909a3cd08a2a109f6106d2f7048b7abedee
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.1"
   file:
     dependency: transitive
     description:
@@ -448,10 +472,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_soloud
-      sha256: "69ab2fc3e860925692451409e77c0e37a17f8a2d066bedc58e8024904eea3630"
+      sha256: "6204837f1326dd3e9a359caba4d8268d2ccafd999fe024d3df32583c6687e84f"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.7"
+    version: "3.1.10"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -554,10 +578,10 @@ packages:
     dependency: "direct main"
     description:
       name: intl
-      sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
+      sha256: "3df61194eb431efc39c4ceba583b95633a403f46c9fd341e550ce0bfa50e9aa5"
       url: "https://pub.dev"
     source: hosted
-    version: "0.19.0"
+    version: "0.20.2"
   io:
     dependency: transitive
     description:
@@ -586,10 +610,10 @@ packages:
     dependency: transitive
     description:
       name: leak_tracker
-      sha256: c35baad643ba394b40aac41080300150a4f08fd0fd6a10378f8f7c6bc161acec
+      sha256: "6bb818ecbdffe216e81182c2f0714a2e62b593f4a4f13098713ff1685dfb6ab0"
       url: "https://pub.dev"
     source: hosted
-    version: "10.0.8"
+    version: "10.0.9"
   leak_tracker_flutter_testing:
     dependency: transitive
     description:
@@ -850,10 +874,10 @@ packages:
     dependency: "direct main"
     description:
       name: purchases_flutter
-      sha256: "652fae594069834a84727edf0751dd9c908df2da0ced7331aa8f2504bc0c10a6"
+      sha256: "4444ca5001d8567a225e9423dca30647f100be30970bcb6ef13704132f9f7177"
       url: "https://pub.dev"
     source: hosted
-    version: "8.8.0"
+    version: "8.9.0"
   rxdart:
     dependency: transitive
     description:
@@ -1279,10 +1303,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: "0968250880a6c5fe7edc067ed0a13d4bae1577fe2771dcf3010d52c4a9d3ca14"
+      sha256: ddfa8d30d89985b96407efce8acbdd124701f96741f2d981ca860662f1c0dc02
       url: "https://pub.dev"
     source: hosted
-    version: "14.3.1"
+    version: "15.0.0"
   watcher:
     dependency: transitive
     description:
@@ -1372,5 +1396,5 @@ packages:
     source: hosted
     version: "3.1.3"
 sdks:
-  dart: ">=3.7.0 <4.0.0"
-  flutter: ">=3.27.3"
+  dart: ">=3.8.0 <4.0.0"
+  flutter: ">=3.32.0"
