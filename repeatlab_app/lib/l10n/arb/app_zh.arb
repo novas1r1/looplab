@@ -156,5 +156,6 @@
     "deleteAllDataSuccess": "所有数据已成功删除",
     "deleteAllDataError": "删除所有数据失败",
     "errorOpeningStore": "无法打开应用商店列表。请尝试直接通过 Play 或 Apple Store 提交评论。谢谢！",
-    "cancel": "取消"
+    "cancel": "取消",
+    "loopMode": "循环模式"
 }

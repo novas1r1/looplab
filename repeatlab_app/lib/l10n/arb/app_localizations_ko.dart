@@ -448,4 +448,7 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get errorOpeningStore =>
       '앱 스토어 목록을 열 수 없습니다. Play 스토어 또는 Apple 스토어에서 직접 리뷰를 제출해 주세요. 감사합니다!';
+
+  @override
+  String get loopMode => '루프 모드';
 }

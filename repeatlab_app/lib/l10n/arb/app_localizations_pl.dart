@@ -465,4 +465,7 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get errorOpeningStore =>
       'Wystąpił błąd podczas otwierania listy aplikacji. Proszę spróbować wysłać opinię bezpośrednio przez Play lub Apple Store. Dziękuję!';
+
+  @override
+  String get loopMode => 'Tryb Pętli';
 }

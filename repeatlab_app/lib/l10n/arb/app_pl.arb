@@ -154,5 +154,6 @@
     "finish": "Zakończ",
     "deleteAllDataSuccess": "Wszystkie dane zostały usunięte",
     "deleteAllDataError": "Wystąpił błąd podczas usuwania danych",
-    "errorOpeningStore": "Wystąpił błąd podczas otwierania listy aplikacji. Proszę spróbować wysłać opinię bezpośrednio przez Play lub Apple Store. Dziękuję!"
+    "errorOpeningStore": "Wystąpił błąd podczas otwierania listy aplikacji. Proszę spróbować wysłać opinię bezpośrednio przez Play lub Apple Store. Dziękuję!",
+    "loopMode": "Tryb Pętli"
 } 

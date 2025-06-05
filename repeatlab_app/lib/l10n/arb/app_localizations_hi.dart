@@ -465,4 +465,7 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get errorOpeningStore =>
       'ऐप स्टोर मेनू खोलने में विफल। कृपया Play या Apple स्टोर के माध्यम से सीधे रेटिंग देने का प्रयास करें। धन्यवाद!';
+
+  @override
+  String get loopMode => 'लूप मोड';
 }

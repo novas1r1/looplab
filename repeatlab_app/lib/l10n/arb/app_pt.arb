@@ -154,5 +154,6 @@
     "finish": "Finalizar",
     "deleteAllDataSuccess": "Todos os dados foram excluídos com sucesso",
     "deleteAllDataError": "Erro ao excluir todos os dados",
-    "errorOpeningStore": "Erro ao abrir a lista da app. Por favor, tente enviar uma avaliação diretamente através do Play ou Apple Store. Obrigado!"
+    "errorOpeningStore": "Erro ao abrir a lista da app. Por favor, tente enviar uma avaliação diretamente através do Play ou Apple Store. Obrigado!",
+    "loopMode": "Modo Loop"
 } 

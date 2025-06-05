@@ -449,4 +449,7 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get errorOpeningStore =>
       'アプリストアのリストを開けませんでした。PlayストアまたはAppleストアから直接レビューを送信してください。ありがとうございます！';
+
+  @override
+  String get loopMode => 'ループモード';
 }

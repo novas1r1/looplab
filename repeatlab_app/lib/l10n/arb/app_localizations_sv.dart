@@ -464,4 +464,7 @@ class AppLocalizationsSv extends AppLocalizations {
   @override
   String get errorOpeningStore =>
       'Fel vid öppning av app store listing. Vänligen försök att skicka in en recension direkt via Play eller Apple Store. Tack!';
+
+  @override
+  String get loopMode => 'Loopläge';
 }

@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:repeatlab/core/ui/widgets/loading.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
+import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/core/utils/snackbar_helper.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
@@ -230,51 +231,67 @@ class _SongViewState extends State<_SongView> {
                           'Loops',
                           style: Theme.of(context).textTheme.headlineLarge,
                         ),
+                        Row(
+                          children: [
+                            Text(context.l10n.loopMode, style: context.bodySmall),
+                            CupertinoSwitch(
+                              key: tutorialKeyLoopActivate,
+                              thumbIcon:
+                                  WidgetStateProperty.resolveWith<Icon?>((Set<WidgetState> states) {
+                                if (states.contains(WidgetState.disabled)) {
+                                  return const Icon(Icons.close);
+                                }
+                                return const Icon(Icons.loop_rounded);
+                              }),
+                              activeTrackColor: Theme.of(context).colorScheme.primaryContainer,
+                              value: state.isLoopModeEnabled,
+                              onChanged: (value) => _onToggleLoopMode(state, context),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                     const SizedBox(height: 8),
                     Row(
                       children: [
-                        ElevatedButton(
-                          key: tutorialKeyLoopStart,
-                          onPressed: () => _onSetLoopStart(context, state.activeLoop),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                            foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            minimumSize: const Size(0, 36),
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        Expanded(
+                          child: ElevatedButton(
+                            key: tutorialKeyLoopStart,
+                            onPressed: () => _onSetLoopStart(context, state.activeLoop),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                              foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              minimumSize: const Size(0, 36),
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
+                            child: Text(
+                              context.l10n.setLoopStart,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
                           ),
-                          child: FittedBox(child: Text(context.l10n.setLoopStart)),
                         ),
                         const SizedBox(width: 8),
-                        ElevatedButton(
-                          key: tutorialKeyLoopEnd,
-                          onPressed: (state.activeLoop != null)
-                              ? () => _onSetLoopEnd(context, state.activeLoop!)
-                              : null,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                            foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            minimumSize: const Size(0, 36),
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        Expanded(
+                          child: ElevatedButton(
+                            key: tutorialKeyLoopEnd,
+                            onPressed: (state.activeLoop != null)
+                                ? () => _onSetLoopEnd(context, state.activeLoop!)
+                                : null,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                              foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              minimumSize: const Size(0, 36),
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
+                            child: Text(
+                              context.l10n.setLoopEnd,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
                           ),
-                          child: FittedBox(child: Text(context.l10n.setLoopEnd)),
-                        ),
-                        const Spacer(),
-                        CupertinoSwitch(
-                          key: tutorialKeyLoopActivate,
-                          thumbIcon:
-                              WidgetStateProperty.resolveWith<Icon?>((Set<WidgetState> states) {
-                            if (states.contains(WidgetState.disabled)) {
-                              return const Icon(Icons.close);
-                            }
-                            return const Icon(Icons.loop_rounded);
-                          }),
-                          activeTrackColor: Theme.of(context).colorScheme.primaryContainer,
-                          value: state.isLoopModeEnabled,
-                          onChanged: (value) => _onToggleLoopMode(state, context),
                         ),
                       ],
                     ),

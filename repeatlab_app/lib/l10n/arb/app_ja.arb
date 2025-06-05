@@ -156,5 +156,6 @@
     "deleteAllDataSuccess": "すべてのデータが正常に削除されました",
     "deleteAllDataError": "すべてのデータの削除に失敗しました",
     "errorOpeningStore": "アプリストアのリストを開けませんでした。PlayストアまたはAppleストアから直接レビューを送信してください。ありがとうございます！",
-    "cancel": "キャンセル"
+    "cancel": "キャンセル",
+    "loopMode": "ループモード"
 } 

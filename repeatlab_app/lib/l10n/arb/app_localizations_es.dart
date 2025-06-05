@@ -470,4 +470,7 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get errorOpeningStore =>
       'Error al abrir la lista de la app. Por favor, intenta enviar una reseña a través de Play o Apple Store directamente. ¡Gracias!';
+
+  @override
+  String get loopMode => 'Modo Loop';
 }

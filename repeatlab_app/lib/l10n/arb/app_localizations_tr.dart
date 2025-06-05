@@ -467,4 +467,7 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get errorOpeningStore =>
       'Uygulama mağazası menüsü açılamadı. Lütfen Play veya Apple mağazası üzerinden doğrudan değerlendirme yapmayı deneyin. Teşekkür ederim!';
+
+  @override
+  String get loopMode => 'Döngü Modu';
 }

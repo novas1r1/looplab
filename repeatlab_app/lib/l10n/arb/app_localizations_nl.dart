@@ -467,4 +467,7 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get errorOpeningStore =>
       'Fout bij het openen van de app store listing. Probeer een review te versturen via Play of Apple Store direct. Bedankt!';
+
+  @override
+  String get loopMode => 'Loop Modus';
 }

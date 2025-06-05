@@ -464,4 +464,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get errorOpeningStore =>
       'Failed to open app store listing. Please try to submit a review via Play or Apple Store directly. Thank you!';
+
+  @override
+  String get loopMode => 'Loop Mode';
 }

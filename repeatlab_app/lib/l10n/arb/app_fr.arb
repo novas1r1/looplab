@@ -60,8 +60,8 @@
     "endCannotBeBeforeStart": "La fin ne peut pas être avant le début",
     "noActiveLoop": "Aucune boucle active.\nAjoutez une nouvelle boucle ou sélectionnez-en une existante.",
     "startMustBeBeforeEnd": "La position de début doit être avant la position de fin",
-    "setLoopStart": "Définir le Début de la Boucle",
-    "setLoopEnd": "Définir la Fin de la Boucle",
+    "setLoopStart": "Début boucle",
+    "setLoopEnd": "Fin boucle",
     "endMustBeAfterStart": "La position de fin doit être après la position de début",
     "premiumHeadline": "Maîtrisez Vos Chansons Préférées comme un Pro avec Contrôle de Tempo, Zoom et Boucles Ilimitées",
     "premiumFeatureUnlimitedLoops": "Boucles Illimitées",
@@ -156,5 +156,6 @@
     "finish": "Terminer",
     "deleteAllDataSuccess": "Tous les données ont été supprimées avec succès",
     "deleteAllDataError": "Erreur lors de la suppression des données",
-    "errorOpeningStore": "Erreur lors de l'ouverture de la liste de l'app. Veuillez essayer d'envoyer un avis directement via Play ou Apple Store. Merci !"
+    "errorOpeningStore": "Erreur lors de l'ouverture de la liste de l'app. Veuillez essayer d'envoyer un avis directement via Play ou Apple Store. Merci !",
+    "loopMode": "Mode Boucle"
 } 

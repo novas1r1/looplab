@@ -439,4 +439,7 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String get errorOpeningStore =>
       '无法打开应用商店列表。请尝试直接通过 Play 或 Apple Store 提交评论。谢谢！';
+
+  @override
+  String get loopMode => '循环模式';
 }

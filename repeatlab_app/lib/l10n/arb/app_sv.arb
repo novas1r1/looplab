@@ -154,5 +154,6 @@
     "finish": "Slut",
     "deleteAllDataSuccess": "Alla data har raderats",
     "deleteAllDataError": "Fel vid radering av data",
-    "errorOpeningStore": "Fel vid öppning av app store listing. Vänligen försök att skicka in en recension direkt via Play eller Apple Store. Tack!"
+    "errorOpeningStore": "Fel vid öppning av app store listing. Vänligen försök att skicka in en recension direkt via Play eller Apple Store. Tack!",
+    "loopMode": "Loopläge"
 } 

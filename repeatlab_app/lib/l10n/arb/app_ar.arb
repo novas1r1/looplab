@@ -156,5 +156,6 @@
     "deleteAllDataSuccess": "تم حذف جميع البيانات بنجاح",
     "deleteAllDataError": "فشل في حذف جميع البيانات",
     "errorOpeningStore": "فشل في فتح قائمة متجر التطبيقات. يرجى محاولة تقديم تقييم عبر متجر Play أو Apple مباشرة. شكرًا لك!",
-    "cancel": "إلغاء"
+    "cancel": "إلغاء",
+    "loopMode": "وضع الحلقة"
 } 

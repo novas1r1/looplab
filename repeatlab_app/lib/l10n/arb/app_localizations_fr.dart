@@ -207,10 +207,10 @@ class AppLocalizationsFr extends AppLocalizations {
       'La position de début doit être avant la position de fin';
 
   @override
-  String get setLoopStart => 'Définir le Début de la Boucle';
+  String get setLoopStart => 'Début boucle';
 
   @override
-  String get setLoopEnd => 'Définir la Fin de la Boucle';
+  String get setLoopEnd => 'Fin boucle';
 
   @override
   String get endMustBeAfterStart =>
@@ -474,4 +474,7 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get errorOpeningStore =>
       'Erreur lors de l\'ouverture de la liste de l\'app. Veuillez essayer d\'envoyer un avis directement via Play ou Apple Store. Merci !';
+
+  @override
+  String get loopMode => 'Mode Boucle';
 }

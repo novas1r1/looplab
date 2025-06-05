@@ -155,5 +155,6 @@
     "finish": "Fertig",
     "deleteAllDataSuccess": "Alle Daten erfolgreich gelöscht",
     "deleteAllDataError": "Fehler beim Löschen der Daten",
-    "errorOpeningStore": "Fehler beim Öffnen des App Stores. Bitte versuche, eine Bewertung über Play oder Apple Store direkt zu senden. Vielen Dank!"
+    "errorOpeningStore": "Fehler beim Öffnen des App Stores. Bitte versuche, eine Bewertung über Play oder Apple Store direkt zu senden. Vielen Dank!",
+    "loopMode": "Loop-Modus"
 } 

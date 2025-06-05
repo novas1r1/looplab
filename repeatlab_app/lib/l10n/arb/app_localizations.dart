@@ -947,6 +947,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to open app store listing. Please try to submit a review via Play or Apple Store directly. Thank you!'**
   String get errorOpeningStore;
+
+  /// No description provided for @loopMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Loop Mode'**
+  String get loopMode;
 }
 
 class _AppLocalizationsDelegate

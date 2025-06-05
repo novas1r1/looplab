@@ -468,4 +468,7 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get errorOpeningStore =>
       'Ошибка при открытии списка приложения. Пожалуйста, попробуйте отправить отзыв напрямую через Play или Apple Store. Спасибо!';
+
+  @override
+  String get loopMode => 'Режим Лупа';
 }

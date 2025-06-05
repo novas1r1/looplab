@@ -461,4 +461,7 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get errorOpeningStore =>
       'فشل في فتح قائمة متجر التطبيقات. يرجى محاولة تقديم تقييم عبر متجر Play أو Apple مباشرة. شكرًا لك!';
+
+  @override
+  String get loopMode => 'وضع الحلقة';
 }

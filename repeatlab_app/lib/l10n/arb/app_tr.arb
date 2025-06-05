@@ -156,5 +156,6 @@
     "deleteAllDataSuccess": "Tüm veriler başarıyla silindi",
     "deleteAllDataError": "Tüm verileri silme başarısız oldu",
     "errorOpeningStore": "Uygulama mağazası menüsü açılamadı. Lütfen Play veya Apple mağazası üzerinden doğrudan değerlendirme yapmayı deneyin. Teşekkür ederim!",
-    "cancel": "İptal"
+    "cancel": "İptal",
+    "loopMode": "Döngü Modu"
 } 
