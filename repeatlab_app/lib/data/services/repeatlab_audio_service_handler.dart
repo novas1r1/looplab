@@ -8,7 +8,7 @@ import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 
 /// AudioHandler implementation for background audio playback
-class SoloudAudioServiceHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
+class RepeatlabAudioServiceHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
   final AudioPlayer audioPlayer;
 
   Timer? _loopTimer;
@@ -18,7 +18,7 @@ class SoloudAudioServiceHandler extends BaseAudioHandler with QueueHandler, Seek
   StreamSubscription<Duration>? positionSubscription;
   StreamSubscription<Duration>? durationSubscription;
 
-  SoloudAudioServiceHandler({required this.audioPlayer}) {
+  RepeatlabAudioServiceHandler({required this.audioPlayer}) {
     log('SoloudAudioServiceHandler constructor');
 
     _initAudioSession();

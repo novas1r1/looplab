@@ -1,23 +1,23 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:repeatlab/data/services/soloud_audio_service_handler.dart';
+import 'package:repeatlab/data/services/repeatlab_audio_service_handler.dart';
 
 /// Provider for the audio service
 class AudioServiceProvider {
-  static SoloudAudioServiceHandler? _audioHandler;
+  static RepeatlabAudioServiceHandler? _audioHandler;
 
   final AudioPlayer audioPlayer;
 
   const AudioServiceProvider({required this.audioPlayer});
 
   /// Initialize the audio service
-  static Future<SoloudAudioServiceHandler> init(AudioPlayer audioPlayer) async {
+  static Future<RepeatlabAudioServiceHandler> init(AudioPlayer audioPlayer) async {
     if (_audioHandler != null) {
       return _audioHandler!;
     }
 
-    _audioHandler = await AudioService.init<SoloudAudioServiceHandler>(
-      builder: () => SoloudAudioServiceHandler(audioPlayer: audioPlayer),
+    _audioHandler = await AudioService.init<RepeatlabAudioServiceHandler>(
+      builder: () => RepeatlabAudioServiceHandler(audioPlayer: audioPlayer),
       config: const AudioServiceConfig(
         androidNotificationChannelId: 'com.repeatlab.audio',
         androidNotificationChannelName: 'RepeatLab Audio Playback',
