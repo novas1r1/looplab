@@ -1,5 +1,5 @@
 import 'package:audio_service/audio_service.dart';
-import 'package:audioplayers/audioplayers.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:repeatlab/data/services/repeatlab_audio_service_handler.dart';
 
 /// Provider for the audio service

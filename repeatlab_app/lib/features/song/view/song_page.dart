@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:repeatlab/core/ui/widgets/loading.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
@@ -322,8 +322,7 @@ class _SongViewState extends State<_SongView> {
                             index: index,
                             loop: state.song.loops[index],
                             isSelected: state.song.loops[index] == state.activeLoop,
-                            isPaused: state.playerState == null ||
-                                state.playerState == PlayerState.paused,
+                            isPaused: state.isPaused,
                             onTap: (loop) => context.read<SongCubit>().selectLoop(loop),
                             onDelete: (loop) => context.read<SongCubit>().deleteLoop(loop),
                             onPlay: (loop) => context.read<SongCubit>().togglePlayLoop(loop),

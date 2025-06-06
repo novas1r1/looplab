@@ -30,6 +30,13 @@ class SongState with SongStateMappable {
     this.position,
     this.duration,
   });
+
+  bool get isPlaying => playerState?.playing ?? false;
+  bool get isPaused => !isPlaying;
+  bool get isCompleted => playerState?.processingState == ProcessingState.completed;
+  bool get isBuffering => playerState?.processingState == ProcessingState.buffering;
+  bool get isReady => playerState?.processingState == ProcessingState.ready;
+  bool get isIdle => playerState?.processingState == ProcessingState.idle;
 }
 
 @MappableEnum()

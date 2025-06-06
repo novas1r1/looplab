@@ -89,63 +89,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.2"
-  audioplayers:
-    dependency: "direct main"
-    description:
-      path: "packages/audioplayers"
-      ref: "feat/1920-timeout"
-      resolved-ref: cb34be587a0e8dbe4cdeed026a1332cca7fc87c8
-      url: "https://github.com/kubito/audioplayers.git"
-    source: git
-    version: "6.4.0"
-  audioplayers_android:
-    dependency: transitive
-    description:
-      name: audioplayers_android
-      sha256: f8c90823a45b475d2c129f85bbda9c029c8d4450b172f62e066564c6e170f69a
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.2.0"
-  audioplayers_darwin:
-    dependency: transitive
-    description:
-      name: audioplayers_darwin
-      sha256: "405cdbd53ebdb4623f1c5af69f275dad4f930ce895512d5261c07cd95d23e778"
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.2.0"
-  audioplayers_linux:
-    dependency: transitive
-    description:
-      name: audioplayers_linux
-      sha256: "7e0d081a6a527c53aef9539691258a08ff69a7dc15ef6335fbea1b4b03ebbef0"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.2.0"
-  audioplayers_platform_interface:
-    dependency: transitive
-    description:
-      name: audioplayers_platform_interface
-      sha256: "77e5fa20fb4a64709158391c75c1cca69a481d35dc879b519e350a05ff520373"
-      url: "https://pub.dev"
-    source: hosted
-    version: "7.1.0"
-  audioplayers_web:
-    dependency: transitive
-    description:
-      name: audioplayers_web
-      sha256: bd99d8821114747682a2be0adcdb70233d4697af989b549d3a20a0f49f6c9b13
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.1.0"
-  audioplayers_windows:
-    dependency: transitive
-    description:
-      name: audioplayers_windows
-      sha256: "871d3831c25cd2408ddc552600fd4b32fba675943e319a41284704ee038ad563"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.2.0"
   bloc:
     dependency: "direct main"
     description:
@@ -606,6 +549,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.9.0"
+  just_audio:
+    dependency: "direct main"
+    description:
+      name: just_audio
+      sha256: "679637a3ec5b6e00f36472f5a3663667df00ee4822cbf5dafca0f568c710960a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.10.4"
+  just_audio_platform_interface:
+    dependency: transitive
+    description:
+      name: just_audio_platform_interface
+      sha256: "4cd94536af0219fa306205a58e78d67e02b0555283c1c094ee41e402a14a5c4a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.5.0"
+  just_audio_web:
+    dependency: transitive
+    description:
+      name: just_audio_web
+      sha256: "6ba8a2a7e87d57d32f0f7b42856ade3d6a9fbe0f1a11fabae0a4f00bb73f0663"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.16"
   leak_tracker:
     dependency: transitive
     description:

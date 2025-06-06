@@ -9,11 +9,11 @@ environment:
 
 dependencies:
   audio_service: ^0.18.18
-  audioplayers:
-    git:
-      url: https://github.com/kubito/audioplayers.git
-      ref: feat/1920-timeout
-      path: packages/audioplayers
+  # audioplayers:
+  #   git:
+  #     url: https://github.com/kubito/audioplayers.git
+  #     ref: feat/1920-timeout
+  #     path: packages/audioplayers
 
   # audiotags: ^1.4.5
   bloc: ^9.0.0
@@ -31,6 +31,7 @@ dependencies:
   flutter_svg: ^2.1.0
   in_app_review: ^2.0.10
   intl: ^0.20.2
+  just_audio: ^0.10.4
   lint: ^2.8.0
   lottie: ^3.3.1
   package_info_plus: ^8.3.0

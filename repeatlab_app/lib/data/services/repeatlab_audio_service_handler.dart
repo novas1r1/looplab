@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:audio_session/audio_session.dart';
-import 'package:audioplayers/audioplayers.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 
@@ -16,56 +16,25 @@ class RepeatlabAudioServiceHandler extends BaseAudioHandler with QueueHandler, S
 
   StreamSubscription<PlayerState>? playerStateSubscription;
   StreamSubscription<Duration>? positionSubscription;
-  StreamSubscription<Duration>? durationSubscription;
+  StreamSubscription<Duration?>? durationSubscription;
 
   RepeatlabAudioServiceHandler({required this.audioPlayer}) {
     log('SoloudAudioServiceHandler constructor');
 
     _initAudioSession();
 
-    playerStateSubscription = audioPlayer.onPlayerStateChanged.listen((state) {
+    playerStateSubscription = audioPlayer.playerStateStream.listen((state) {
       log('playerStateSubscription: $state');
 
-      switch (state) {
-        case PlayerState.playing:
-          playbackState.add(
-            playbackState.value.copyWith(
-              playing: true,
-              processingState: AudioProcessingState.ready,
-            ),
-          );
-        case PlayerState.paused:
-          playbackState.add(
-            playbackState.value.copyWith(
-              playing: false,
-              processingState: AudioProcessingState.ready,
-            ),
-          );
-        case PlayerState.stopped:
-          playbackState.add(
-            playbackState.value.copyWith(
-              playing: false,
-              processingState: AudioProcessingState.idle,
-            ),
-          );
-        case PlayerState.completed:
-          playbackState.add(
-            playbackState.value.copyWith(
-              playing: false,
-              processingState: AudioProcessingState.completed,
-            ),
-          );
-        case PlayerState.disposed:
-          playbackState.add(
-            playbackState.value.copyWith(
-              playing: false,
-              processingState: AudioProcessingState.idle,
-            ),
-          );
-      }
+      playbackState.add(
+        playbackState.value.copyWith(
+          playing: state.playing,
+          processingState: _getAudioProcessingState(state.processingState),
+        ),
+      );
     });
 
-    positionSubscription = audioPlayer.onPositionChanged.listen((position) {
+    positionSubscription = audioPlayer.positionStream.listen((position) {
       playbackState.add(
         playbackState.value.copyWith(
           updatePosition: position,
@@ -73,9 +42,26 @@ class RepeatlabAudioServiceHandler extends BaseAudioHandler with QueueHandler, S
       );
     });
 
-    durationSubscription = audioPlayer.onDurationChanged.listen((duration) {
-      mediaItem.add(mediaItem.value?.copyWith(duration: duration));
+    durationSubscription = audioPlayer.durationStream.listen((duration) {
+      if (duration != null) {
+        mediaItem.add(mediaItem.value?.copyWith(duration: duration));
+      }
     });
+  }
+
+  AudioProcessingState _getAudioProcessingState(ProcessingState state) {
+    switch (state) {
+      case ProcessingState.idle:
+        return AudioProcessingState.idle;
+      case ProcessingState.loading:
+        return AudioProcessingState.buffering;
+      case ProcessingState.buffering:
+        return AudioProcessingState.buffering;
+      case ProcessingState.ready:
+        return AudioProcessingState.ready;
+      case ProcessingState.completed:
+        return AudioProcessingState.completed;
+    }
   }
 
   Future<void> _initAudioSession() async {
@@ -100,7 +86,8 @@ class RepeatlabAudioServiceHandler extends BaseAudioHandler with QueueHandler, S
     mediaItem.add(item);
 
     try {
-      await audioPlayer.play(DeviceFileSource(path));
+      await audioPlayer.setFilePath(path);
+      await audioPlayer.play();
       playbackState.add(
         playbackState.value.copyWith(
           playing: true,
@@ -118,7 +105,7 @@ class RepeatlabAudioServiceHandler extends BaseAudioHandler with QueueHandler, S
   }
 
   Future<void> resume() async {
-    await audioPlayer.resume();
+    await audioPlayer.play();
     playbackState.add(
       playbackState.value.copyWith(
         playing: true,
@@ -142,15 +129,14 @@ class RepeatlabAudioServiceHandler extends BaseAudioHandler with QueueHandler, S
           return;
         }
 
-        audioPlayer.getCurrentPosition().then((position) {
-          // Check again if loop is still active before using it
-          if (_activeLoop == null || position == null) return;
+        final position = audioPlayer.position;
+        // Check again if loop is still active before using it
+        if (_activeLoop == null) return;
 
-          // only if is playing
-          if (audioPlayer.state == PlayerState.playing && position >= _activeLoop!.end!) {
-            audioPlayer.seek(_activeLoop!.start!, timeout: const Duration(seconds: 3));
-          }
-        });
+        // only if is playing
+        if (audioPlayer.playing && position >= _activeLoop!.end!) {
+          audioPlayer.seek(_activeLoop!.start);
+        }
       });
     }
   }
@@ -163,7 +149,7 @@ class RepeatlabAudioServiceHandler extends BaseAudioHandler with QueueHandler, S
 
   @override
   Future<void> play() async {
-    await audioPlayer.resume();
+    await audioPlayer.play();
     playbackState.add(
       playbackState.value.copyWith(
         playing: true,
@@ -195,11 +181,10 @@ class RepeatlabAudioServiceHandler extends BaseAudioHandler with QueueHandler, S
   }
 
   @override
-  Future<void> seek(Duration position) =>
-      audioPlayer.seek(position, timeout: const Duration(seconds: 3));
+  Future<void> seek(Duration position) => audioPlayer.seek(position);
 
   @override
-  Future<void> setSpeed(double speed) => audioPlayer.setPlaybackRate(speed);
+  Future<void> setSpeed(double speed) => audioPlayer.setSpeed(speed);
 
   @override
   Future<void> customAction(String name, [Map<String, dynamic>? extras]) async {
