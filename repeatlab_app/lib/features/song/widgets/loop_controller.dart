@@ -1,4 +1,3 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
@@ -16,7 +15,8 @@ class LoopController extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isPaused = context.watch<SongCubit>().state.playerState == PlayerState.paused;
+    final state = context.watch<SongCubit>().state;
+    final isPaused = state.isPaused;
 
     return Container(
       decoration: BoxDecoration(
