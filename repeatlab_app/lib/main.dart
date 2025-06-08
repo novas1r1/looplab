@@ -52,7 +52,6 @@ Future<void> main() async {
     () => SentryWidget(
       child: App(
         db: db,
-        soloud: soloud,
         packageInfo: packageInfo,
         sharedPreferences: sharedPreferences,
         // audioPlayer: audioPlayer,

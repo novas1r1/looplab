@@ -1,7 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/file_repository.dart';
@@ -14,18 +13,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 class RepositoryWrapper extends StatelessWidget {
   final Widget child;
   final Database db;
-  final SoLoud soLoud;
   final PackageInfo packageInfo;
   final SharedPreferences sharedPreferences;
-  // final AudioPlayer audioPlayer;
 
   const RepositoryWrapper({
     required this.db,
     required this.child,
-    required this.soLoud,
     required this.packageInfo,
     required this.sharedPreferences,
-    // required this.audioPlayer,
     super.key,
   });
 
@@ -41,7 +36,6 @@ class RepositoryWrapper extends StatelessWidget {
         RepositoryProvider(
           create: (context) => SongRepository(
             db: db,
-            soLoud: soLoud,
           )..getAllSongs(),
         ),
         RepositoryProvider(

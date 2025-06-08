@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 // import 'package:audiotags/audiotags.dart';
-import 'package:flutter_soloud/flutter_soloud.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:sembast/sembast.dart';
@@ -11,7 +11,6 @@ import 'package:uuid/uuid.dart';
 
 class SongRepository {
   final Database db;
-  final SoLoud soLoud;
 
   final _store = StoreRef<String, Map<String, dynamic>>('songs');
 
@@ -19,7 +18,6 @@ class SongRepository {
 
   SongRepository({
     required this.db,
-    required this.soLoud,
   });
 
   Stream<List<Song>> get songs => _songController.stream;
@@ -33,11 +31,14 @@ class SongRepository {
   }
 
   Future<void> addSongFile(File file) async {
-    final source = await soLoud.loadFile(file.path);
-    final duration = soLoud.getLength(source);
+    // final source = await soLoud.loadFile(file.path);
+    // final duration = soLoud.getLength(source);
 
     // Don't forget to dispose the source when you're done with it
-    await soLoud.disposeSource(source);
+    // await soLoud.disposeSource(source);
+
+    // get duration from the file using just_audio
+    final duration = await AudioPlayer().setAudioSource(AudioSource.file(file.path));
 
     // store under file name because ios changes the folder name on every update
     final fileName = file.path.split('/').last;
@@ -52,7 +53,7 @@ class SongRepository {
       // artist: metadata?.trackArtist ?? 'Unknown Artist',
       artist: 'Unknown Artist',
       fileName: fileName,
-      duration: duration,
+      duration: duration ?? Duration.zero,
     );
 
     await _store.add(db, song.toMap());

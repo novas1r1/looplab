@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:repeatlab/app/router.dart';
 import 'package:repeatlab/app/view/repository_wrapper.dart';
@@ -23,14 +22,14 @@ import 'package:wiredash/wiredash.dart';
 
 class App extends StatelessWidget {
   final Database db;
-  final SoLoud soloud;
+  // final SoLoud soloud;
   final PackageInfo packageInfo;
   final SharedPreferences sharedPreferences;
   // final AudioPlayer audioPlayer;
 
   const App({
     required this.db,
-    required this.soloud,
+    // required this.soloud,
     required this.packageInfo,
     required this.sharedPreferences,
     // required this.audioPlayer,
@@ -46,7 +45,6 @@ class App extends StatelessWidget {
 
     return RepositoryWrapper(
       db: db,
-      soLoud: soloud,
       packageInfo: packageInfo,
       sharedPreferences: sharedPreferences,
       // audioPlayer: audioPlayer,

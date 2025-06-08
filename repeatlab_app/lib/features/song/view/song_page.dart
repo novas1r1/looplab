@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:repeatlab/core/ui/widgets/loading.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
@@ -39,7 +38,6 @@ class SongPage extends StatelessWidget {
         songRepository: context.read<SongRepository>(),
         localConfigRepository: context.read<LocalConfigRepository>(),
         crashReportingRepository: context.read<CrashReportingRepository>(),
-        soloud: SoLoud.instance,
         song: song,
       )..initSong(AudioPlayer()),
       child: _SongView(song: song),
@@ -202,6 +200,7 @@ class _SongViewState extends State<_SongView> {
                         },
                         loops: state.song.loops,
                       ),
+                    // const AudioWave(),
                     const SizedBox(height: 8),
                     LoopTimeline(
                       key: tutorialKeyLoopTimeline,

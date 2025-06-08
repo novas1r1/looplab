@@ -134,6 +134,13 @@ class SongStateMapper extends ClassMapperBase<SongState> {
   static Duration? _$duration(SongState v) => v.duration;
   static const Field<SongState, Duration> _f$duration =
       Field('duration', _$duration, opt: true);
+  static File? _$file(SongState v) => v.file;
+  static const Field<SongState, File> _f$file =
+      Field('file', _$file, opt: true);
+  static WaveformProgress? _$waveformProgress(SongState v) =>
+      v.waveformProgress;
+  static const Field<SongState, WaveformProgress> _f$waveformProgress =
+      Field('waveformProgress', _$waveformProgress, opt: true);
 
   @override
   final MappableFields<SongState> fields = const {
@@ -148,6 +155,8 @@ class SongStateMapper extends ClassMapperBase<SongState> {
     #playerState: _f$playerState,
     #position: _f$position,
     #duration: _f$duration,
+    #file: _f$file,
+    #waveformProgress: _f$waveformProgress,
   };
 
   static SongState _instantiate(DecodingData data) {
@@ -162,7 +171,9 @@ class SongStateMapper extends ClassMapperBase<SongState> {
         isTutorialCompleted: data.dec(_f$isTutorialCompleted),
         playerState: data.dec(_f$playerState),
         position: data.dec(_f$position),
-        duration: data.dec(_f$duration));
+        duration: data.dec(_f$duration),
+        file: data.dec(_f$file),
+        waveformProgress: data.dec(_f$waveformProgress));
   }
 
   @override
@@ -229,7 +240,9 @@ abstract class SongStateCopyWith<$R, $In extends SongState, $Out>
       bool? isTutorialCompleted,
       PlayerState? playerState,
       Duration? position,
-      Duration? duration});
+      Duration? duration,
+      File? file,
+      WaveformProgress? waveformProgress});
   SongStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -259,7 +272,9 @@ class _SongStateCopyWithImpl<$R, $Out>
           bool? isTutorialCompleted,
           Object? playerState = $none,
           Object? position = $none,
-          Object? duration = $none}) =>
+          Object? duration = $none,
+          Object? file = $none,
+          Object? waveformProgress = $none}) =>
       $apply(FieldCopyWithData({
         if (speed != null) #speed: speed,
         if (status != null) #status: status,
@@ -272,7 +287,9 @@ class _SongStateCopyWithImpl<$R, $Out>
           #isTutorialCompleted: isTutorialCompleted,
         if (playerState != $none) #playerState: playerState,
         if (position != $none) #position: position,
-        if (duration != $none) #duration: duration
+        if (duration != $none) #duration: duration,
+        if (file != $none) #file: file,
+        if (waveformProgress != $none) #waveformProgress: waveformProgress
       }));
   @override
   SongState $make(CopyWithData data) => SongState(
@@ -288,7 +305,10 @@ class _SongStateCopyWithImpl<$R, $Out>
           data.get(#isTutorialCompleted, or: $value.isTutorialCompleted),
       playerState: data.get(#playerState, or: $value.playerState),
       position: data.get(#position, or: $value.position),
-      duration: data.get(#duration, or: $value.duration));
+      duration: data.get(#duration, or: $value.duration),
+      file: data.get(#file, or: $value.file),
+      waveformProgress:
+          data.get(#waveformProgress, or: $value.waveformProgress));
 
   @override
   SongStateCopyWith<$R2, SongState, $Out2> $chain<$R2, $Out2>(

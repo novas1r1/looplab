@@ -10,6 +10,9 @@ class SongState with SongStateMappable {
   final bool isLoopModeEnabled;
   final bool isTutorialCompleted;
 
+  final File? file;
+  final WaveformProgress? waveformProgress;
+
   /// AudioPlayer
   final PlayerState? playerState;
   final Duration? position;
@@ -29,6 +32,8 @@ class SongState with SongStateMappable {
     this.playerState,
     this.position,
     this.duration,
+    this.file,
+    this.waveformProgress,
   });
 
   bool get isPlaying => playerState?.playing ?? false;
