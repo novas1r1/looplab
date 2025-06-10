@@ -74,35 +74,11 @@ class _SongViewState extends State<_SongView> {
 
   @override
   Widget build(BuildContext context) {
+    final status = context.select((SongCubit cubit) => cubit.state.status);
+    final position = context.select((SongCubit cubit) => cubit.state.position);
+
     return BlocConsumer<SongCubit, SongState>(
-      listener: (context, state) {
-        if (state.status == SongStatus.loadSuccess) {
-          createTutorial(context);
-
-          if (!state.isTutorialCompleted) {
-            showTutorial();
-          }
-        } else if (state.status == SongStatus.error) {
-          SnackbarHelper.showError(context, state.error ?? 'Unknown error');
-        } else if (state.status == SongStatus.songDeleted) {
-          Navigator.of(context).popUntil((route) => route.isFirst);
-        } else if (state.status == SongStatus.loopAdded) {
-          // scroll down in looplist
-          _loopListController.animateTo(
-            _loopListController.position.maxScrollExtent + 100,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-          );
-
-          SnackbarHelper.showSuccess(context, context.l10n.loopAdded);
-        } else if (state.status == SongStatus.loopModeToggled) {
-          if (state.isLoopModeEnabled) {
-            SnackbarHelper.showSuccess(context, context.l10n.loopModeEnabled);
-          } else {
-            SnackbarHelper.showSuccess(context, context.l10n.loopModeDisabled);
-          }
-        }
-      },
+      listener: (context, state) => _buildListener(state, context),
       builder: (context, state) {
         switch (state.status) {
           case SongStatus.loading:
@@ -326,6 +302,35 @@ class _SongViewState extends State<_SongView> {
         }
       },
     );
+  }
+
+  void _buildListener(SongState state, BuildContext context) {
+    if (state.status == SongStatus.loadSuccess) {
+      createTutorial(context);
+
+      if (!state.isTutorialCompleted) {
+        showTutorial();
+      }
+    } else if (state.status == SongStatus.error) {
+      SnackbarHelper.showError(context, state.error ?? 'Unknown error');
+    } else if (state.status == SongStatus.songDeleted) {
+      Navigator.of(context).popUntil((route) => route.isFirst);
+    } else if (state.status == SongStatus.loopAdded) {
+      // scroll down in looplist
+      _loopListController.animateTo(
+        _loopListController.position.maxScrollExtent + 100,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+
+      SnackbarHelper.showSuccess(context, context.l10n.loopAdded);
+    } else if (state.status == SongStatus.loopModeToggled) {
+      if (state.isLoopModeEnabled) {
+        SnackbarHelper.showSuccess(context, context.l10n.loopModeEnabled);
+      } else {
+        SnackbarHelper.showSuccess(context, context.l10n.loopModeDisabled);
+      }
+    }
   }
 
   Future<void> _onTapDeleteSong(BuildContext context) async {

@@ -2,11 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/models/loop.dart';
-import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
-import 'package:repeatlab/features/paywall/premium_screen.dart';
 import 'package:repeatlab/features/song/widgets/wave_painter.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
@@ -36,167 +32,57 @@ class WaveFormSoLoud extends StatefulWidget {
 
 class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
   late ScrollController _scrollController;
-  Timer? _seekDebounceTimer;
-  bool _isDragging = false;
-
   double _zoomScale = 1.0;
-
   static const double minZoom = 0.25;
   static const double maxZoom = 5.0;
   static const double zoomStep = 0.25;
-
   bool _showZoomSlider = false;
   Timer? _zoomSliderTimer;
+
+  double? width;
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
-    _scrollController.addListener(_onScroll);
   }
 
   @override
   void dispose() {
-    _seekDebounceTimer?.cancel();
     _zoomSliderTimer?.cancel();
-    _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     super.dispose();
   }
 
   @override
   void didUpdateWidget(covariant WaveFormSoLoud oldWidget) {
-    if (widget.currentPosition != oldWidget.currentPosition && !_isDragging) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.currentPosition != oldWidget.currentPosition) {
       _updateScrollPosition();
     }
-
-    super.didUpdateWidget(oldWidget);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final waveformWidth = widget.data.length.toDouble() * _zoomScale;
-    final width = MediaQuery.sizeOf(context).width;
-
-    return SizedBox(
-      height: 132,
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: Listener(
-              onPointerDown: (details) {
-                _handleDragStart(
-                  DragStartDetails(
-                    globalPosition: details.position,
-                    localPosition: details.localPosition,
-                  ),
-                );
-              },
-              onPointerMove: (details) {
-                _handleDragUpdate(
-                  DragUpdateDetails(
-                    globalPosition: details.position,
-                    localPosition: details.localPosition,
-                    delta: details.delta,
-                  ),
-                );
-              },
-              onPointerUp: (details) {
-                _handleDragEnd(DragEndDetails());
-              },
-              child: SingleChildScrollView(
-                controller: _scrollController,
-                scrollDirection: Axis.horizontal,
-                padding: EdgeInsets.symmetric(horizontal: (width / 2) - 16),
-                physics: const NeverScrollableScrollPhysics(),
-                child: GestureDetector(
-                  onHorizontalDragStart: _handleDragStart,
-                  onHorizontalDragUpdate: _handleDragUpdate,
-                  onHorizontalDragEnd: _handleDragEnd,
-                  child: SizedBox(
-                    width: waveformWidth,
-                    child: CustomPaint(
-                      painter: WavePainter(
-                        data: widget.data,
-                        duration: widget.duration,
-                        currentPosition: widget.currentPosition,
-                        loops: widget.loops,
-                        colorPlayed: Theme.of(context).colorScheme.primaryFixedDim,
-                        colorUnplayed: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
-                        zoomScale: _zoomScale,
-                        startText: context.l10n.start,
-                        endText: context.l10n.end,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          // Center line
-          Positioned(
-            left: (width / 2) - 16,
-            bottom: 0,
-            top: 0,
-            child: Container(
-              width: 2,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          ),
-          // Zoom controls
-          Positioned(
-            right: 8,
-            top: 0,
-            child: GestureDetector(
-              onTap: _zoomScale < maxZoom ? () => _onZoomIn(context) : null,
-              child: Icon(
-                Icons.zoom_in,
-                size: 24,
-                color: _zoomScale < maxZoom ? Colors.white : Colors.grey,
-              ),
-            ),
-          ),
-          Positioned(
-            left: 40,
-            right: 40,
-            top: 0,
-            child: AnimatedOpacity(
-              opacity: _showZoomSlider ? 1.0 : 0.0,
-              duration: const Duration(milliseconds: 200),
-              child: IgnorePointer(
-                ignoring: !_showZoomSlider,
-                child: SliderTheme(
-                  data: SliderTheme.of(context).copyWith(
-                    trackHeight: 2,
-                    thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
-                    overlayShape: SliderComponentShape.noOverlay,
-                    trackShape: const RectangularSliderTrackShape(),
-                  ),
-                  child: Slider(
-                    value: _zoomScale,
-                    min: minZoom,
-                    max: maxZoom,
-                    onChanged: _updateZoom,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 8,
-            top: 0,
-            child: GestureDetector(
-              onTap: _zoomScale > minZoom ? () => _onZoomOut(context) : null,
-              child: Icon(
-                Icons.zoom_out,
-                size: 24,
-                color: _zoomScale > minZoom ? Colors.white : Colors.grey,
-              ),
-            ),
-          ),
-        ],
-      ),
+  void _updateScrollPosition() {
+    _scrollController.jumpTo(
+      (widget.currentPosition.inMilliseconds / widget.duration.inMilliseconds) *
+          widget.data.length.toDouble() *
+          _zoomScale,
     );
+  }
+
+  void _zoomIn() {
+    if (_zoomScale >= maxZoom) return;
+
+    // Calculate the center position before zooming
+    final centerPosition = _scrollController.position.pixels / _zoomScale;
+
+    setState(() {
+      _zoomScale = (_zoomScale + zoomStep).clamp(minZoom, maxZoom);
+    });
+
+    // Maintain the same center position after zooming
+    _scrollController.jumpTo(centerPosition * _zoomScale);
   }
 
   void _zoomOut() {
@@ -231,6 +117,7 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
   }
 
   void _updateZoom(double value) {
+    // Calculate the center position before zooming
     final centerPosition = _scrollController.position.pixels / _zoomScale;
 
     setState(() {
@@ -243,109 +130,130 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
     _resetZoomTimer(); // Reset timer when user adjusts the slider
   }
 
-  void _onScroll() {
-    if (!_isDragging) return;
+  @override
+  Widget build(BuildContext context) {
+    width ??= MediaQuery.sizeOf(context).width;
 
-    final maxScroll = widget.data.length.toDouble() * _zoomScale;
-    final scrollPercentage = _scrollController.position.pixels / maxScroll;
+    final waveformWidth = widget.data.length.toDouble() * _zoomScale;
 
-    final newPosition = Duration(
-      milliseconds: (scrollPercentage * widget.duration.inMilliseconds).round(),
+    return SizedBox(
+      height: 132,
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: SingleChildScrollView(
+              // should NOT bounce
+              controller: _scrollController,
+              scrollDirection: Axis.horizontal,
+              // add padding to the left so it starts at the center
+              padding: EdgeInsets.symmetric(horizontal: (width! / 2) - 16),
+              child: GestureDetector(
+                onHorizontalDragStart: (details) => widget.onStartDrag(),
+                onHorizontalDragUpdate: (details) {
+                  // Update scroll position based on drag
+                  final newScrollPosition = _scrollController.position.pixels - details.delta.dx;
+                  _scrollController.jumpTo(
+                    newScrollPosition.clamp(
+                      0,
+                      waveformWidth,
+                    ),
+                  );
+                },
+                onHorizontalDragEnd: (details) {
+                  // Update position
+                  final scrollPercentage = _scrollController.position.pixels / waveformWidth;
+                  widget.onPositionChanged(
+                    Duration(
+                      milliseconds: (scrollPercentage * widget.duration.inMilliseconds).toInt(),
+                    ),
+                  );
+                },
+                child: SizedBox(
+                  width: waveformWidth,
+                  child: RepaintBoundary(
+                    child: CustomPaint(
+                      painter: WavePainter(
+                        data: widget.data,
+                        duration: widget.duration,
+                        currentPosition: widget.currentPosition,
+                        loops: widget.loops,
+                        colorPlayed: Theme.of(context).colorScheme.primaryFixedDim,
+                        colorUnplayed: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
+                        zoomScale: _zoomScale,
+                        startText: context.l10n.start,
+                        endText: context.l10n.end,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          // a vertical line at the center
+          Positioned(
+            left: (width! / 2) - 16,
+            bottom: 0,
+            top: 0,
+            child: Container(
+              width: 2,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+          // Zoom controls
+          Positioned(
+            right: 8,
+            top: 0,
+            child: GestureDetector(
+              onTap: _zoomScale < maxZoom
+                  ? () {
+                      _zoomIn();
+                      _showZoomControls();
+                    }
+                  : null,
+              child: const Icon(Icons.zoom_in, size: 24),
+            ),
+          ),
+          Positioned(
+            left: 40,
+            right: 40,
+            top: 0,
+            child: AnimatedOpacity(
+              opacity: _showZoomSlider ? 1.0 : 0.0,
+              duration: const Duration(milliseconds: 200),
+              child: IgnorePointer(
+                ignoring: !_showZoomSlider,
+                child: SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    trackHeight: 2,
+                    thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
+                    overlayShape: SliderComponentShape.noOverlay,
+                    trackShape: const RectangularSliderTrackShape(),
+                  ),
+                  child: Slider(
+                    value: _zoomScale,
+                    min: minZoom,
+                    max: maxZoom,
+                    onChanged: _updateZoom,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            left: 8,
+            top: 0,
+            child: GestureDetector(
+              onTap: _zoomScale > minZoom
+                  ? () {
+                      _zoomOut();
+                      _showZoomControls();
+                    }
+                  : null,
+              child: const Icon(Icons.zoom_out, size: 24),
+            ),
+          ),
+        ],
+      ),
     );
-    widget.onPositionChanged(newPosition);
-  }
-
-  void _updateScrollPosition() {
-    final maxScroll = widget.data.length.toDouble() * _zoomScale;
-    final scrollPercentage = widget.currentPosition.inMilliseconds / widget.duration.inMilliseconds;
-
-    _scrollController.jumpTo(scrollPercentage * maxScroll);
-  }
-
-  void _zoomIn() {
-    AppAnalytics.trackEvent(AppAnalytics.clickZoomIn, data: {'zoom_scale': _zoomScale});
-    if (_zoomScale >= maxZoom) return;
-
-    // Calculate the center position before zooming
-    final centerPosition = _scrollController.position.pixels / _zoomScale;
-
-    setState(() {
-      _zoomScale = (_zoomScale + zoomStep).clamp(minZoom, maxZoom);
-    });
-
-    // Maintain the same center position after zooming
-    _scrollController.jumpTo(centerPosition * _zoomScale);
-  }
-
-  void _handleDragStart(DragStartDetails details) {
-    widget.onStartDrag();
-    _isDragging = true;
-    _seekDebounceTimer?.cancel(); // Cancel any pending seek
-  }
-
-  void _handleDragUpdate(DragUpdateDetails details) {
-    if (!_isDragging) return;
-
-    final newScrollPosition = _scrollController.position.pixels - details.delta.dx;
-    final maxScroll = widget.data.length.toDouble() * _zoomScale;
-
-    _scrollController.jumpTo(newScrollPosition.clamp(0, maxScroll));
-
-    // Calculate and update position immediately instead of using debounce
-    final scrollPercentage = _scrollController.position.pixels / maxScroll;
-    final newPosition = Duration(
-      milliseconds: (scrollPercentage * widget.duration.inMilliseconds).round(),
-    );
-    widget.onPositionChanged(newPosition);
-  }
-
-  void _handleDragEnd(DragEndDetails details) {
-    if (!_isDragging) return;
-
-    _isDragging = false;
-    _seekDebounceTimer?.cancel();
-
-    final maxScroll = widget.data.length.toDouble() * _zoomScale;
-    final scrollPercentage = _scrollController.position.pixels / maxScroll;
-
-    final finalPosition = Duration(
-      milliseconds: (scrollPercentage * widget.duration.inMilliseconds).round(),
-    );
-    widget.onPositionChanged(finalPosition);
-  }
-
-  Future<void> _onZoomOut(BuildContext context) async {
-    AppAnalytics.trackEvent(AppAnalytics.clickZoomOut, data: {'zoom_scale': _zoomScale});
-
-    final hasPurchased = context.read<PremiumSubscriptionCubit>().hasPremium;
-    // check if user has premium subscription
-    if (hasPurchased) {
-      _zoomOut();
-      _showZoomControls();
-    } else {
-      if (!context.mounted) return;
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => const PremiumScreen(),
-        ),
-      );
-    }
-  }
-
-  Future<void> _onZoomIn(BuildContext context) async {
-    AppAnalytics.trackEvent(AppAnalytics.clickZoomIn, data: {'zoom_scale': _zoomScale});
-
-    final premiumSubscriptionCubit = context.read<PremiumSubscriptionCubit>();
-    if (premiumSubscriptionCubit.hasPremium) {
-      _zoomIn();
-      _showZoomControls();
-    } else {
-      if (!context.mounted) return;
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => const PremiumScreen(),
-        ),
-      );
-    }
   }
 }

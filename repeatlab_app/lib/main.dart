@@ -1,5 +1,6 @@
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -45,6 +46,9 @@ Future<void> main() async {
     apiKey: '691f5ff6-2fa2-444f-b440-734f7cb12c1d',
     languageCode: 'en',
   );
+
+  // show repaintings
+  debugRepaintRainbowEnabled = true;
 
   bootstrap(
     () => SentryWidget(

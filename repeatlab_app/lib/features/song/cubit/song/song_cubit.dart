@@ -96,12 +96,17 @@ class SongCubit extends Cubit<SongState> {
       await _positionSubscription?.cancel();
       _positionSubscription = audioHandler.positionSubscription;
       _positionSubscription?.onData((position) {
-        maybeEmit(
-          state.copyWith(
-            position: position,
-            status: SongStatus.updated,
-          ),
-        );
+        log('POSITION: $position');
+        // only emit if the position is not the same as the current position and more than 100ms apart
+        if (position != state.position &&
+            position.inMilliseconds - state.position!.inMilliseconds > 100) {
+          maybeEmit(
+            state.copyWith(
+              position: position,
+              status: SongStatus.updated,
+            ),
+          );
+        }
       });
 
       /// audio player subscriptions for duration
