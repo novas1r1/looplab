@@ -11,7 +11,6 @@ class SongState with SongStateMappable {
   final bool isTutorialCompleted;
 
   final File? file;
-  final WaveformProgress? waveformProgress;
 
   /// AudioPlayer
   final PlayerState? playerState;
@@ -33,7 +32,6 @@ class SongState with SongStateMappable {
     this.position,
     this.duration,
     this.file,
-    this.waveformProgress,
   });
 
   bool get isPlaying => playerState?.playing ?? false;

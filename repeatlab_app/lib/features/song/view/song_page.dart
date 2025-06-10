@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:repeatlab/core/ui/widgets/loading.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
@@ -39,7 +37,7 @@ class SongPage extends StatelessWidget {
         localConfigRepository: context.read<LocalConfigRepository>(),
         crashReportingRepository: context.read<CrashReportingRepository>(),
         song: song,
-      )..initSong(AudioPlayer()),
+      )..initSong(),
       child: _SongView(song: song),
     );
   }
@@ -55,8 +53,6 @@ class _SongView extends StatefulWidget {
 }
 
 class _SongViewState extends State<_SongView> {
-  // final Duration _currentPlayerPosition = Duration.zero;
-
   final _loopListController = ScrollController();
 
   late TutorialCoachMark tutorialCoachMark;
@@ -72,7 +68,6 @@ class _SongViewState extends State<_SongView> {
 
   @override
   void dispose() {
-    // context.read<SongCubit>().close();
     _loopListController.dispose();
     super.dispose();
   }
@@ -88,10 +83,7 @@ class _SongViewState extends State<_SongView> {
             showTutorial();
           }
         } else if (state.status == SongStatus.error) {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.error ?? 'Unknown error')),
-          );
+          SnackbarHelper.showError(context, state.error ?? 'Unknown error');
         } else if (state.status == SongStatus.songDeleted) {
           Navigator.of(context).popUntil((route) => route.isFirst);
         } else if (state.status == SongStatus.loopAdded) {
@@ -191,16 +183,10 @@ class _SongViewState extends State<_SongView> {
                         data: state.data!,
                         duration: state.song.duration,
                         currentPosition: state.position ?? Duration.zero,
-                        onStartDrag: () {
-                          context.read<SongCubit>().pauseSong();
-                        },
-                        onPositionChanged: (position) {
-                          log('onPositionChanged: $position');
-                          context.read<SongCubit>().seekSong(position);
-                        },
+                        onStartDrag: () => _onPauseSong(context),
+                        onPositionChanged: (position) => _onPositionChanged(context, position),
                         loops: state.song.loops,
                       ),
-                    // const AudioWave(),
                     const SizedBox(height: 8),
                     LoopTimeline(
                       key: tutorialKeyLoopTimeline,
@@ -211,7 +197,7 @@ class _SongViewState extends State<_SongView> {
                       onPreviousLoop: () => context.read<SongCubit>().previousLoop(),
                       onNextLoop: () => context.read<SongCubit>().nextLoop(),
                       hasMoreThan1Loop: state.song.loops.length > 1,
-                      onSeek: (position) => context.read<SongCubit>().seekSong(position),
+                      onSeek: (position) => _onPositionChanged(context, position),
                     ),
                     const SizedBox(height: 12),
                     SongController(
@@ -635,5 +621,13 @@ class _SongViewState extends State<_SongView> {
         SnackbarHelper.showError(context, context.l10n.pleaseSelectLoop);
       }
     }
+  }
+
+  void _onPauseSong(BuildContext context) {
+    context.read<SongCubit>().pauseSong();
+  }
+
+  void _onPositionChanged(BuildContext context, Duration position) {
+    context.read<SongCubit>().seekSong(position);
   }
 }

@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'dart:io';
 
 // import 'package:audiotags/audiotags.dart';
-import 'package:just_audio/just_audio.dart';
+import 'package:ffmpeg_kit_flutter_new/ffmpeg_kit.dart';
+import 'package:flutter_soloud/flutter_soloud.dart';
+import 'package:path/path.dart' as path;
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:sembast/sembast.dart';
@@ -31,17 +33,16 @@ class SongRepository {
   }
 
   Future<void> addSongFile(File file) async {
-    // final source = await soLoud.loadFile(file.path);
-    // final duration = soLoud.getLength(source);
+    final source = await SoLoud.instance.loadFile(file.path);
+    final duration = SoLoud.instance.getLength(source);
 
     // Don't forget to dispose the source when you're done with it
-    // await soLoud.disposeSource(source);
+    await SoLoud.instance.disposeSource(source);
 
-    // get duration from the file using just_audio
-    final duration = await AudioPlayer().setAudioSource(AudioSource.file(file.path));
+    final wavFile = await convertToWav(file);
 
     // store under file name because ios changes the folder name on every update
-    final fileName = file.path.split('/').last;
+    final fileName = wavFile.path.split('/').last;
 
     // Get metadata from the file
     // final metadata = await AudioTags.read(file.path);
@@ -53,11 +54,56 @@ class SongRepository {
       // artist: metadata?.trackArtist ?? 'Unknown Artist',
       artist: 'Unknown Artist',
       fileName: fileName,
-      duration: duration ?? Duration.zero,
+      duration: duration,
     );
 
     await _store.add(db, song.toMap());
     await getAllSongs();
+  }
+
+  Future<File> convertToWav(File file) async {
+    // use ffmpeg to convert the audio file to wav
+    var audioInFile = file;
+    final isWavFile = audioInFile.path.endsWith('.wav');
+
+    // if the file is not a wav file, convert it to a wav file
+    if (!isWavFile) {
+      // get filename without extension
+      final filename = path.basenameWithoutExtension(audioInFile.path);
+
+      final wavFile = File(path.join(path.dirname(audioInFile.path), '$filename.wav'));
+
+      // Convert to WAV format using FFmpeg with more detailed parameters
+      final command =
+          '-y -i "${audioInFile.path}" -acodec pcm_s16le -ar 48000 -ac 2 "${wavFile.path}"';
+
+      log('Executing FFmpeg command: $command');
+
+      final result = await FFmpegKit.execute(command);
+      final returnCode = await result.getReturnCode();
+      final logs = await result.getAllLogsAsString();
+
+      log('FFmpeg logs: $logs');
+
+      if (returnCode?.isValueSuccess() == true) {
+        if (wavFile.existsSync()) {
+          audioInFile = wavFile;
+          log('Successfully converted audio file to WAV format');
+          return wavFile;
+        } else {
+          throw Exception('WAV file was not created after conversion');
+        }
+      } else {
+        final failStackTrace = await result.getFailStackTrace();
+        throw Exception(
+          'FFmpeg conversion failed. Return code: ${returnCode?.getValue()}, Stack trace: $failStackTrace',
+        );
+      }
+    }
+
+    log('Already a wav file, return original file.');
+
+    return file;
   }
 
   Future<void> updateSong(Song song) async {

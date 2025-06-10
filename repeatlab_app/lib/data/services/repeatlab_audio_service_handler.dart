@@ -19,7 +19,7 @@ class RepeatlabAudioServiceHandler extends BaseAudioHandler with QueueHandler, S
   StreamSubscription<Duration?>? durationSubscription;
 
   RepeatlabAudioServiceHandler({required this.audioPlayer}) {
-    log('SoloudAudioServiceHandler constructor');
+    log('RepeatlabAudioServiceHandler constructor');
 
     _initAudioSession();
 
@@ -72,7 +72,7 @@ class RepeatlabAudioServiceHandler extends BaseAudioHandler with QueueHandler, S
   }
 
   /// Play a song from a file path
-  Future<void> playSong(Song song) async {
+  Future<void> initSong(Song song) async {
     final path = await song.path;
 
     // Create a MediaItem for the song
@@ -87,7 +87,8 @@ class RepeatlabAudioServiceHandler extends BaseAudioHandler with QueueHandler, S
 
     try {
       await audioPlayer.setFilePath(path);
-      await audioPlayer.play();
+      await audioPlayer.setSpeed(1.0);
+      await audioPlayer.stop();
       playbackState.add(
         playbackState.value.copyWith(
           playing: true,
@@ -149,6 +150,12 @@ class RepeatlabAudioServiceHandler extends BaseAudioHandler with QueueHandler, S
 
   @override
   Future<void> play() async {
+    // check if the song is already set
+    if (mediaItem.value == null) {
+      log('No song set');
+      return;
+    }
+
     await audioPlayer.play();
     playbackState.add(
       playbackState.value.copyWith(

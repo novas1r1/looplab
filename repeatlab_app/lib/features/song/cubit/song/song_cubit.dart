@@ -6,14 +6,10 @@ import 'dart:io';
 
 import 'package:async/async.dart';
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:ffmpeg_kit_flutter_new/ffmpeg_kit.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:just_waveform/just_waveform.dart';
-import 'package:path/path.dart' as path;
-import 'package:path_provider/path_provider.dart';
 import 'package:repeatlab/core/utils/cubit_extension.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/data/models/loop.dart';
@@ -72,19 +68,16 @@ class SongCubit extends Cubit<SongState> {
     return super.close();
   }
 
-  Future<void> initSong(AudioPlayer audioPlayer) async {
+  Future<void> initSong() async {
     emit(state.copyWith(status: SongStatus.loading));
 
     try {
-      // Cancel any existing subscriptions before reinitializing
-      await _playerStateSubscription?.cancel();
-      await _positionSubscription?.cancel();
-      await _durationSubscription?.cancel();
-
       // Initialize audio handler first
-      audioHandler = await AudioServiceProvider.init(audioPlayer);
+      audioHandler = await AudioServiceProvider.init(AudioPlayer());
+      await audioHandler.stop();
 
       // Initialize subscriptions before any other operations
+      await _playerStateSubscription?.cancel();
       _playerStateSubscription = audioHandler.playerStateSubscription;
       _playerStateSubscription?.onData((playerState) {
         if (playerState.processingState == ProcessingState.completed && !state.isLoopModeEnabled) {
@@ -100,6 +93,7 @@ class SongCubit extends Cubit<SongState> {
       });
 
       /// audio player subscriptions for position
+      await _positionSubscription?.cancel();
       _positionSubscription = audioHandler.positionSubscription;
       _positionSubscription?.onData((position) {
         maybeEmit(
@@ -111,6 +105,7 @@ class SongCubit extends Cubit<SongState> {
       });
 
       /// audio player subscriptions for duration
+      await _durationSubscription?.cancel();
       _durationSubscription = audioHandler.durationSubscription;
       _durationSubscription?.onData((duration) {
         if (duration != null) {
@@ -124,6 +119,7 @@ class SongCubit extends Cubit<SongState> {
       });
 
       // song data subscription
+      await _songSubscription?.cancel();
       _songSubscription = songRepository.songs.listen((songs) {
         final updatedSong = songs.firstWhere(
           (localSong) => localSong.id == song.id,
@@ -131,7 +127,7 @@ class SongCubit extends Cubit<SongState> {
         );
 
         if (updatedSong != state.song) {
-          emit(
+          maybeEmit(
             state.copyWith(
               status: SongStatus.updated,
               song: updatedSong,
@@ -150,7 +146,7 @@ class SongCubit extends Cubit<SongState> {
             StackTrace.current,
           ),
         );
-        emit(
+        maybeEmit(
           state.copyWith(
             status: SongStatus.loadError,
             error: 'File not found: $filePath',
@@ -159,130 +155,26 @@ class SongCubit extends Cubit<SongState> {
         return;
       }
 
-      // Validate file extension
-      final fileExtension = path.extension(filePath).toLowerCase();
-      final supportedExtensions = ['.mp3', '.wav', '.m4a', '.aac', '.ogg'];
+      final waveformData = await _getWaveformData(filePath);
 
-      if (!supportedExtensions.contains(fileExtension)) {
-        unawaited(
-          crashReportingRepository.reportError(
-            Exception('Unsupported audio format: $fileExtension'),
-            StackTrace.current,
-          ),
-        );
-        emit(
-          state.copyWith(
-            status: SongStatus.loadError,
-            error:
-                'Unsupported audio format: $fileExtension. Supported formats: ${supportedExtensions.join(", ")}',
-          ),
-        );
-        return;
-      }
-
-      // use ffmpeg to convert the audio file to wav
-      var audioInFile = file;
-      final isWavFile = audioInFile.path.endsWith('.wav');
-
-      // if the file is not a wav file, convert it to a wav file
-      if (!isWavFile) {
-        try {
-          // get filename without extension
-          final filename = path.basenameWithoutExtension(audioInFile.path);
-          final wavFile = File(path.join(path.dirname(audioInFile.path), '$filename.wav'));
-
-          // Convert to WAV format using FFmpeg with more detailed parameters
-          final command =
-              '-y -i "${audioInFile.path}" -acodec pcm_s16le -ar 48000 -ac 2 "${wavFile.path}"';
-          log('Executing FFmpeg command: $command');
-
-          final result = await FFmpegKit.execute(command);
-          final returnCode = await result.getReturnCode();
-          final logs = await result.getAllLogsAsString();
-
-          log('FFmpeg logs: $logs');
-
-          if (returnCode?.isValueSuccess() == true) {
-            if (wavFile.existsSync()) {
-              audioInFile = wavFile;
-              log('Successfully converted audio file to WAV format');
-            } else {
-              throw Exception('WAV file was not created after conversion');
-            }
-          } else {
-            final failStackTrace = await result.getFailStackTrace();
-            throw Exception(
-                'FFmpeg conversion failed. Return code: ${returnCode?.getValue()}, Stack trace: $failStackTrace');
-          }
-        } catch (e, stackTrace) {
-          log('Error during audio conversion: $e');
-          log('Stack trace: $stackTrace');
-          unawaited(
-            crashReportingRepository.reportError(
-              Exception('Failed to convert audio file: $e'),
-              stackTrace,
-            ),
-          );
-          emit(
-            state.copyWith(
-              status: SongStatus.loadError,
-              error: 'Failed to process audio file: $e',
-            ),
-          );
-          return;
-        }
-      }
-
-      final tempDir = await getTemporaryDirectory();
-      final tempWaveOutFile = File(path.join(tempDir.path, 'waveform.wave'));
-
-      try {
-        JustWaveform.extract(audioInFile: audioInFile, waveOutFile: tempWaveOutFile).listen(
-          (progress) => emit(
-            state.copyWith(waveformProgress: progress),
-          ),
-          onError: (e) {
-            log('error: audioInFile: ${audioInFile.path} $e');
-            log('error: waveOutFile: ${tempWaveOutFile.path} $e');
-            emit(
-              state.copyWith(
-                status: SongStatus.loadError,
-                error: 'Failed to generate waveform: $e',
-              ),
-            );
-          },
-        );
-      } catch (e) {
-        unawaited(
-          crashReportingRepository.reportError(
-            Exception('Failed to extract waveform: $e'),
-            StackTrace.current,
-          ),
-        );
-        emit(
-          state.copyWith(
-            status: SongStatus.loadError,
-            error: 'Failed to process audio file: $e',
-          ),
-        );
-        return;
-      }
-
-      final waveformData = await _getWaveformData(audioInFile.path);
+      maybeEmit(
+        state.copyWith(
+          data: waveformData,
+          song: state.song,
+        ),
+      );
 
       // Initialize audio player with the file but keep it paused
-      await audioHandler.playSong(state.song);
-      await audioHandler.setSpeed(1.0);
-      await audioHandler.pause();
+      await audioHandler.initSong(state.song);
 
       // check if tutorial is completed
       final isTutorialCompleted = localConfigRepository.hasCompletedTutorial;
 
       // Get initial position and duration
-      final initialPosition = audioPlayer.position;
-      final initialDuration = audioPlayer.duration;
+      final initialPosition = audioHandler.audioPlayer.position;
+      final initialDuration = audioHandler.audioPlayer.duration;
 
-      emit(
+      maybeEmit(
         state.copyWith(
           status: SongStatus.loadSuccess,
           song: state.song,
@@ -298,8 +190,7 @@ class SongCubit extends Cubit<SongState> {
       );
     } catch (e, stackTrace) {
       unawaited(crashReportingRepository.reportError(e, stackTrace));
-
-      emit(
+      maybeEmit(
         state.copyWith(
           status: SongStatus.error,
           error: 'Failed to initialize song: $e',
@@ -336,7 +227,7 @@ class SongCubit extends Cubit<SongState> {
   }
 
   Future<void> stopSong() async {
-    log('STOP song at ${state.position!.toFormattedString()}');
+    log('STOP song');
 
     _positionTimer?.cancel();
     _seekOperation?.cancel();
@@ -347,6 +238,7 @@ class SongCubit extends Cubit<SongState> {
   Future<void> pauseSong() async {
     log('PAUSE song at ${state.position?.toFormattedString()}');
     _positionTimer?.cancel();
+    _seekOperation?.cancel();
 
     await audioHandler.pause();
   }
@@ -454,7 +346,6 @@ class SongCubit extends Cubit<SongState> {
 
   void unselectLoop() {
     log('UNSELECT LOOP: ${state.activeLoop}');
-
     emit(
       state.copyWith(
         status: SongStatus.loopModeToggled,
@@ -504,17 +395,6 @@ class SongCubit extends Cubit<SongState> {
           isLoopModeEnabled: false,
         ),
       );
-
-      // Try to reset audio player
-      /* try {
-        await audioHandler.stop();
-        await audioHandler.playSong(state.song);
-        await audioHandler.pause();
-        await audioHandler.seek(loop.start!);
-      } catch (e2) {
-        // Ignore errors during cleanup
-        log('Failed to recover from seek error: $e2', name: 'SongCubit');
-      } */
     }
   }
 

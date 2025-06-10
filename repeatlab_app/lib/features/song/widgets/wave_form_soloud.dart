@@ -64,43 +64,6 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
     super.dispose();
   }
 
-  void _handleDragStart(DragStartDetails details) {
-    widget.onStartDrag();
-    _isDragging = true;
-    _seekDebounceTimer?.cancel(); // Cancel any pending seek
-  }
-
-  void _handleDragUpdate(DragUpdateDetails details) {
-    if (!_isDragging) return;
-
-    final newScrollPosition = _scrollController.position.pixels - details.delta.dx;
-    final maxScroll = widget.data.length.toDouble() * _zoomScale;
-
-    _scrollController.jumpTo(newScrollPosition.clamp(0, maxScroll));
-
-    // Calculate and update position immediately instead of using debounce
-    final scrollPercentage = _scrollController.position.pixels / maxScroll;
-    final newPosition = Duration(
-      milliseconds: (scrollPercentage * widget.duration.inMilliseconds).round(),
-    );
-    widget.onPositionChanged(newPosition);
-  }
-
-  void _handleDragEnd(DragEndDetails details) {
-    if (!_isDragging) return;
-
-    _isDragging = false;
-    _seekDebounceTimer?.cancel();
-
-    final maxScroll = widget.data.length.toDouble() * _zoomScale;
-    final scrollPercentage = _scrollController.position.pixels / maxScroll;
-
-    final finalPosition = Duration(
-      milliseconds: (scrollPercentage * widget.duration.inMilliseconds).round(),
-    );
-    widget.onPositionChanged(finalPosition);
-  }
-
   @override
   void didUpdateWidget(covariant WaveFormSoLoud oldWidget) {
     if (widget.currentPosition != oldWidget.currentPosition && !_isDragging) {
@@ -110,88 +73,10 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
     super.didUpdateWidget(oldWidget);
   }
 
-  void _updateScrollPosition() {
-    final maxScroll = widget.data.length.toDouble() * _zoomScale;
-    final scrollPercentage = widget.currentPosition.inMilliseconds / widget.duration.inMilliseconds;
-
-    _scrollController.jumpTo(scrollPercentage * maxScroll);
-  }
-
-  void _zoomIn() {
-    AppAnalytics.trackEvent(AppAnalytics.clickZoomIn, data: {'zoom_scale': _zoomScale});
-    if (_zoomScale >= maxZoom) return;
-
-    // Calculate the center position before zooming
-    final centerPosition = _scrollController.position.pixels / _zoomScale;
-
-    setState(() {
-      _zoomScale = (_zoomScale + zoomStep).clamp(minZoom, maxZoom);
-    });
-
-    // Maintain the same center position after zooming
-    _scrollController.jumpTo(centerPosition * _zoomScale);
-  }
-
-  void _zoomOut() {
-    if (_zoomScale <= minZoom) return;
-
-    // Calculate the center position before zooming
-    final centerPosition = _scrollController.position.pixels / _zoomScale;
-
-    setState(() {
-      _zoomScale = (_zoomScale - zoomStep).clamp(minZoom, maxZoom);
-    });
-
-    // Maintain the same center position after zooming
-    _scrollController.jumpTo(centerPosition * _zoomScale);
-  }
-
-  void _showZoomControls() {
-    setState(() {
-      _showZoomSlider = true;
-    });
-
-    _resetZoomTimer();
-  }
-
-  void _resetZoomTimer() {
-    _zoomSliderTimer?.cancel();
-    _zoomSliderTimer = Timer(const Duration(seconds: 2), () {
-      setState(() {
-        _showZoomSlider = false;
-      });
-    });
-  }
-
-  void _updateZoom(double value) {
-    final centerPosition = _scrollController.position.pixels / _zoomScale;
-
-    setState(() {
-      _zoomScale = value;
-    });
-
-    // Maintain the same center position after zooming
-    _scrollController.jumpTo(centerPosition * _zoomScale);
-
-    _resetZoomTimer(); // Reset timer when user adjusts the slider
-  }
-
-  void _onScroll() {
-    if (!_isDragging) return;
-
-    final maxScroll = widget.data.length.toDouble() * _zoomScale;
-    final scrollPercentage = _scrollController.position.pixels / maxScroll;
-
-    final newPosition = Duration(
-      milliseconds: (scrollPercentage * widget.duration.inMilliseconds).round(),
-    );
-    widget.onPositionChanged(newPosition);
-  }
-
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.sizeOf(context).width;
     final waveformWidth = widget.data.length.toDouble() * _zoomScale;
+    final width = MediaQuery.sizeOf(context).width;
 
     return SizedBox(
       height: 132,
@@ -312,6 +197,121 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
         ],
       ),
     );
+  }
+
+  void _zoomOut() {
+    if (_zoomScale <= minZoom) return;
+
+    // Calculate the center position before zooming
+    final centerPosition = _scrollController.position.pixels / _zoomScale;
+
+    setState(() {
+      _zoomScale = (_zoomScale - zoomStep).clamp(minZoom, maxZoom);
+    });
+
+    // Maintain the same center position after zooming
+    _scrollController.jumpTo(centerPosition * _zoomScale);
+  }
+
+  void _showZoomControls() {
+    setState(() {
+      _showZoomSlider = true;
+    });
+
+    _resetZoomTimer();
+  }
+
+  void _resetZoomTimer() {
+    _zoomSliderTimer?.cancel();
+    _zoomSliderTimer = Timer(const Duration(seconds: 2), () {
+      setState(() {
+        _showZoomSlider = false;
+      });
+    });
+  }
+
+  void _updateZoom(double value) {
+    final centerPosition = _scrollController.position.pixels / _zoomScale;
+
+    setState(() {
+      _zoomScale = value;
+    });
+
+    // Maintain the same center position after zooming
+    _scrollController.jumpTo(centerPosition * _zoomScale);
+
+    _resetZoomTimer(); // Reset timer when user adjusts the slider
+  }
+
+  void _onScroll() {
+    if (!_isDragging) return;
+
+    final maxScroll = widget.data.length.toDouble() * _zoomScale;
+    final scrollPercentage = _scrollController.position.pixels / maxScroll;
+
+    final newPosition = Duration(
+      milliseconds: (scrollPercentage * widget.duration.inMilliseconds).round(),
+    );
+    widget.onPositionChanged(newPosition);
+  }
+
+  void _updateScrollPosition() {
+    final maxScroll = widget.data.length.toDouble() * _zoomScale;
+    final scrollPercentage = widget.currentPosition.inMilliseconds / widget.duration.inMilliseconds;
+
+    _scrollController.jumpTo(scrollPercentage * maxScroll);
+  }
+
+  void _zoomIn() {
+    AppAnalytics.trackEvent(AppAnalytics.clickZoomIn, data: {'zoom_scale': _zoomScale});
+    if (_zoomScale >= maxZoom) return;
+
+    // Calculate the center position before zooming
+    final centerPosition = _scrollController.position.pixels / _zoomScale;
+
+    setState(() {
+      _zoomScale = (_zoomScale + zoomStep).clamp(minZoom, maxZoom);
+    });
+
+    // Maintain the same center position after zooming
+    _scrollController.jumpTo(centerPosition * _zoomScale);
+  }
+
+  void _handleDragStart(DragStartDetails details) {
+    widget.onStartDrag();
+    _isDragging = true;
+    _seekDebounceTimer?.cancel(); // Cancel any pending seek
+  }
+
+  void _handleDragUpdate(DragUpdateDetails details) {
+    if (!_isDragging) return;
+
+    final newScrollPosition = _scrollController.position.pixels - details.delta.dx;
+    final maxScroll = widget.data.length.toDouble() * _zoomScale;
+
+    _scrollController.jumpTo(newScrollPosition.clamp(0, maxScroll));
+
+    // Calculate and update position immediately instead of using debounce
+    final scrollPercentage = _scrollController.position.pixels / maxScroll;
+    final newPosition = Duration(
+      milliseconds: (scrollPercentage * widget.duration.inMilliseconds).round(),
+    );
+    widget.onPositionChanged(newPosition);
+  }
+
+  void _handleDragEnd(DragEndDetails details) {
+    if (!_isDragging) return;
+
+    _isDragging = false;
+    _seekDebounceTimer?.cancel();
+
+    final maxScroll = widget.data.length.toDouble() * _zoomScale;
+    final scrollPercentage = _scrollController.position.pixels / maxScroll;
+
+    final finalPosition = Duration(
+      milliseconds: (scrollPercentage * widget.duration.inMilliseconds).round(),
+    );
+    widget.onPositionChanged(finalPosition);
   }
 
   Future<void> _onZoomOut(BuildContext context) async {

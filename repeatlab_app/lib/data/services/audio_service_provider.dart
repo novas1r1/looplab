@@ -21,6 +21,7 @@ class AudioServiceProvider {
       config: const AudioServiceConfig(
         androidNotificationChannelId: 'com.repeatlab.audio',
         androidNotificationChannelName: 'RepeatLab Audio Playback',
+        androidNotificationOngoing: true,
       ),
     );
 

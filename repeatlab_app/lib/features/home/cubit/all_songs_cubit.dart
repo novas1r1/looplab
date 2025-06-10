@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path/path.dart' as path;
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/file_repository.dart';
@@ -56,6 +57,27 @@ class AllSongsCubit extends Cubit<AllSongsState> {
       if (file == null) {
         emit(state.copyWith(status: AllSongsStatus.initial));
 
+        return;
+      }
+
+      // Validate file extension
+      final fileExtension = path.extension(file.path).toLowerCase();
+      final supportedExtensions = ['.mp3', '.wav', '.m4a', '.aac', '.ogg'];
+
+      if (!supportedExtensions.contains(fileExtension)) {
+        unawaited(
+          crashReportingRepository.reportError(
+            Exception('Unsupported audio format: $fileExtension'),
+            StackTrace.current,
+          ),
+        );
+        emit(
+          state.copyWith(
+            status: AllSongsStatus.error,
+            errorMessage:
+                'Unsupported audio format: $fileExtension. Supported formats: ${supportedExtensions.join(", ")}',
+          ),
+        );
         return;
       }
 

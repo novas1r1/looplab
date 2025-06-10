@@ -36,8 +36,6 @@ Future<void> main() async {
   final soloud = SoLoud.instance;
   await soloud.init(sampleRate: 48000);
 
-  // final audioPlayer = AudioPlayer();
-
   final packageInfo = await PackageInfo.fromPlatform();
   final sharedPreferences = await SharedPreferences.getInstance();
 
