@@ -1,6 +1,6 @@
 name: repeatlab
 description: Audio loop studio
-version: 1.1.10+41
+version: 1.1.11+42
 publish_to: none
 
 environment:
@@ -14,7 +14,7 @@ dependencies:
   # audiotags: ^1.4.5
   bloc: ^9.0.0
   dart_mappable: ^4.5.0
-  ffmpeg_kit_flutter_new: ^1.6.1
+  # ffmpeg_kit_flutter_new: ^1.6.1
   file_picker: ^10.1.9
   flutter:
     sdk: flutter
