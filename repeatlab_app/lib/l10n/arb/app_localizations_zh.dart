@@ -123,7 +123,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get onboardingTitle2 => '创建精确循环';
 
   @override
-  String get onboardingDescription2 => '只需点击即可标记您想要练习的部分的开始和结束。使用我们直观的波形显示进行调整和微调。';
+  String get onboardingDescription2 =>
+      '只需点击即可标记您想要练习的部分的开始和结束。使用我们直观的波形显示进行调整和微调。';
 
   @override
   String get onboardingTitle3 => '隐私优先';
@@ -290,7 +291,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get tutorialNavigateThroughSong => '通过拖放浏览歌曲';
 
   @override
-  String get tutorialNavigateThroughSongDescription => '使用手指左右拖动整个歌曲，并缩放以获得更好的精确度';
+  String get tutorialNavigateThroughSongDescription =>
+      '使用手指左右拖动整个歌曲，并缩放以获得更好的精确度';
 
   @override
   String get tutorialPlayAndPauseSong => '播放、暂停或改变歌曲速度';
@@ -308,7 +310,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get tutorialSetLoopStart => '设置循环的开始位置';
 
   @override
-  String get tutorialSetLoopStartDescription => '您可以通过移动歌曲标记并点击开始位置来随时调整循环的开始位置';
+  String get tutorialSetLoopStartDescription =>
+      '您可以通过移动歌曲标记并点击开始位置来随时调整循环的开始位置';
 
   @override
   String get tutorialSetLoopEnd => '设置循环的结束位置';
@@ -320,7 +323,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get tutorialActivateLoop => '为选定的循环激活循环模式';
 
   @override
-  String get tutorialActivateLoopDescription => '如果您想播放循环，您必须激活循环模式。如果禁用，将播放整个歌曲。';
+  String get tutorialActivateLoopDescription =>
+      '如果您想播放循环，您必须激活循环模式。如果禁用，将播放整个歌曲。';
 
   @override
   String get tutorialAddLoop => '添加新循环';
@@ -347,7 +351,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get changelog113Title => '修复了多个错误';
 
   @override
-  String get changelog113Description => '如果未设置循环结束，循环将播放到歌曲结束并将歌曲结束视为循环结束。当应用关闭时，音频后台服务现在将停止。';
+  String get changelog113Description =>
+      '如果未设置循环结束，循环将播放到歌曲结束并将歌曲结束视为循环结束。当应用关闭时，音频后台服务现在将停止。';
 
   @override
   String get changelog110Title => '音频现在在后台和待机状态下播放';
@@ -365,7 +370,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get changelog1013Title => '现在可以进行功能投票和功能提案';
 
   @override
-  String get changelog1013Description => '您现在可以在应用中投票支持新功能或提交自己的功能提案。只需打开菜单并打开\"功能投票\"板。很高兴听到您的愿望！';
+  String get changelog1013Description =>
+      '您现在可以在应用中投票支持新功能或提交自己的功能提案。只需打开菜单并打开\"功能投票\"板。很高兴听到您的愿望！';
 
   @override
   String get whatsNew => '新功能';
@@ -431,7 +437,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get deleteAllDataError => '删除所有数据失败';
 
   @override
-  String get errorOpeningStore => '无法打开应用商店列表。请尝试直接通过 Play 或 Apple Store 提交评论。谢谢！';
+  String get errorOpeningStore =>
+      '无法打开应用商店列表。请尝试直接通过 Play 或 Apple Store 提交评论。谢谢！';
 
   @override
   String get loopMode => '循环模式';

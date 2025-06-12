@@ -153,7 +153,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get leaveReview => 'Feedback';
 
   @override
-  String get yourFeedbackHelpsMe => 'Dein Feedback hilft mir, die Funktionen hinzuzufügen, die ';
+  String get yourFeedbackHelpsMe =>
+      'Dein Feedback hilft mir, die Funktionen hinzuzufügen, die ';
 
   @override
   String get you => ' du ';
@@ -225,10 +226,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get premiumFeatureZoomInOut => 'Waveform-Zoom In/Out';
 
   @override
-  String get premiumFeatureSupportDeveloper => 'Unterstütze die unabhängige Entwicklerin';
+  String get premiumFeatureSupportDeveloper =>
+      'Unterstütze die unabhängige Entwicklerin';
 
   @override
-  String get freeFeatureUnlimitedSongs => 'Unbegrenzt viele Songs + eine Loop pro Song';
+  String get freeFeatureUnlimitedSongs =>
+      'Unbegrenzt viele Songs + eine Loop pro Song';
 
   @override
   String get freeFeatureNoAds => 'Keine Werbung';
@@ -288,13 +291,16 @@ class AppLocalizationsDe extends AppLocalizations {
   String get cancel => 'Abbrechen';
 
   @override
-  String get startPositionMustBeBeforeEndPosition => 'Startposition muss vor Endposition sein';
+  String get startPositionMustBeBeforeEndPosition =>
+      'Startposition muss vor Endposition sein';
 
   @override
-  String get endPositionMustBeAfterStartPosition => 'Endposition muss nach Startposition sein';
+  String get endPositionMustBeAfterStartPosition =>
+      'Endposition muss nach Startposition sein';
 
   @override
-  String get tutorialNavigateThroughSong => 'Navigiere durch den Song mit Drag & Drop';
+  String get tutorialNavigateThroughSong =>
+      'Navigiere durch den Song mit Drag & Drop';
 
   @override
   String get tutorialNavigateThroughSongDescription =>
@@ -331,7 +337,8 @@ class AppLocalizationsDe extends AppLocalizations {
       'Du kannst die Endposition der Loops immer anpassen, indem du den Songmarker bewegst und auf die Endposition tippst';
 
   @override
-  String get tutorialActivateLoop => 'Aktiviere den Loop-Modus für den ausgewählten Loop';
+  String get tutorialActivateLoop =>
+      'Aktiviere den Loop-Modus für den ausgewählten Loop';
 
   @override
   String get tutorialActivateLoopDescription =>
@@ -368,7 +375,8 @@ class AppLocalizationsDe extends AppLocalizations {
       'Wenn kein Loop-Ende festgelegt wird, wird die Loop bis zum Ende des Songs gespielt und das Song-Ende als Loop-Ende gesetzt. Der Audio-Hintergrundservice wird nun beendet, wenn die App geschlossen wird.';
 
   @override
-  String get changelog110Title => 'Audio spielt auch im Hintergrund und Standby';
+  String get changelog110Title =>
+      'Audio spielt auch im Hintergrund und Standby';
 
   @override
   String get changelog110Description =>
@@ -418,7 +426,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get oneCoffee => '= Ein Kaffee für die Entwicklerin (pro Jahr)';
 
   @override
-  String get onePairOfDrumSticks => '= Ein Paar Drumsticks für die Entwicklerin (einmalig)';
+  String get onePairOfDrumSticks =>
+      '= Ein Paar Drumsticks für die Entwicklerin (einmalig)';
 
   @override
   String get deleteAllData => 'Alle Daten löschen';

@@ -153,7 +153,8 @@ class AppLocalizationsPl extends AppLocalizations {
   String get leaveReview => 'Zostaw Recenzję';
 
   @override
-  String get yourFeedbackHelpsMe => 'Twoje opinie pomagają mi dodawać funkcje, których ';
+  String get yourFeedbackHelpsMe =>
+      'Twoje opinie pomagają mi dodawać funkcje, których ';
 
   @override
   String get you => ' Ty ';
@@ -196,10 +197,12 @@ class AppLocalizationsPl extends AppLocalizations {
   String get endCannotBeBeforeStart => 'Koniec nie może być przed początkiem';
 
   @override
-  String get noActiveLoop => 'Brak aktywnej pętli.\nDodaj nową pętlę lub wybierz istniejącą.';
+  String get noActiveLoop =>
+      'Brak aktywnej pętli.\nDodaj nową pętlę lub wybierz istniejącą.';
 
   @override
-  String get startMustBeBeforeEnd => 'Pozycja początkowa musi być przed pozycją końcową';
+  String get startMustBeBeforeEnd =>
+      'Pozycja początkowa musi być przed pozycją końcową';
 
   @override
   String get setLoopStart => 'Ustaw Początek Pętli';
@@ -208,7 +211,8 @@ class AppLocalizationsPl extends AppLocalizations {
   String get setLoopEnd => 'Ustaw Koniec Pętli';
 
   @override
-  String get endMustBeAfterStart => 'Pozycja końcowa musi być po pozycji początkowej';
+  String get endMustBeAfterStart =>
+      'Pozycja końcowa musi być po pozycji początkowej';
 
   @override
   String get premiumHeadline =>
@@ -224,10 +228,12 @@ class AppLocalizationsPl extends AppLocalizations {
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';
 
   @override
-  String get premiumFeatureSupportDeveloper => 'Wesprzyj Niezależnego Dewelopera';
+  String get premiumFeatureSupportDeveloper =>
+      'Wesprzyj Niezależnego Dewelopera';
 
   @override
-  String get freeFeatureUnlimitedSongs => 'Nieograniczona Liczba Utworów + Jedna Pętla na Utwór';
+  String get freeFeatureUnlimitedSongs =>
+      'Nieograniczona Liczba Utworów + Jedna Pętla na Utwór';
 
   @override
   String get freeFeatureNoAds => 'Brak Reklam';
@@ -302,7 +308,8 @@ class AppLocalizationsPl extends AppLocalizations {
       'Użyj palców, aby przeciągnąć cały utwór w lewo lub prawo i przybliżyć dla lepszej precyzji';
 
   @override
-  String get tutorialPlayAndPauseSong => 'Odtwarzaj, pauzuj lub zmieniaj prędkość utworu';
+  String get tutorialPlayAndPauseSong =>
+      'Odtwarzaj, pauzuj lub zmieniaj prędkość utworu';
 
   @override
   String get tutorialPlayAndPauseSongDescription =>
@@ -340,7 +347,8 @@ class AppLocalizationsPl extends AppLocalizations {
   String get tutorialAddLoop => 'Dodaj nową pętlę';
 
   @override
-  String get tutorialAddLoopDescription => 'Możesz dodać nową pętlę dotykając przycisku +';
+  String get tutorialAddLoopDescription =>
+      'Możesz dodać nową pętlę dotykając przycisku +';
 
   @override
   String get year => 'rok';
@@ -349,7 +357,8 @@ class AppLocalizationsPl extends AppLocalizations {
   String get purchasedAlready => 'Już kupione';
 
   @override
-  String get purchaseSuccess => 'Kupienie powiodło się. Dziękujemy za wsparcie dla dewelopera ❤️!';
+  String get purchaseSuccess =>
+      'Kupienie powiodło się. Dziękujemy za wsparcie dla dewelopera ❤️!';
 
   @override
   String get voteForFeatures => 'Głosuj na Funkcje';
@@ -365,7 +374,8 @@ class AppLocalizationsPl extends AppLocalizations {
       'Jeśli nie było ustawione końcowe położenie pętli, pętla odtwarza się do końca utworu i uważa, że końcowe położenie utworu jest końcem pętli. Usługa audio w tle zostaje teraz zamknięta po zamknięciu aplikacji.';
 
   @override
-  String get changelog110Title => 'Audio odtwarza również w tle i w trybie standby';
+  String get changelog110Title =>
+      'Audio odtwarza również w tle i w trybie standby';
 
   @override
   String get changelog110Description =>
@@ -379,7 +389,8 @@ class AppLocalizationsPl extends AppLocalizations {
       'Teraz możesz ponownie sortować swoje pętle, przeciągając je i zwalniając na nową pozycję.';
 
   @override
-  String get changelog1013Title => 'Głosowanie na funkcje & sugestia funkcji teraz możliwe';
+  String get changelog1013Title =>
+      'Głosowanie na funkcje & sugestia funkcji teraz możliwe';
 
   @override
   String get changelog1013Description =>
@@ -414,7 +425,8 @@ class AppLocalizationsPl extends AppLocalizations {
   String get oneCoffee => '= Kawa dla dewelopera (rocznie)';
 
   @override
-  String get onePairOfDrumSticks => '= Para baterii dla dewelopera (jednorazowo)';
+  String get onePairOfDrumSticks =>
+      '= Para baterii dla dewelopera (jednorazowo)';
 
   @override
   String get deleteAllData => 'Usuń wszystkie dane';

@@ -153,7 +153,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get leaveReview => 'Dejar Reseña';
 
   @override
-  String get yourFeedbackHelpsMe => 'Tus comentarios me ayudan a añadir las funciones que ';
+  String get yourFeedbackHelpsMe =>
+      'Tus comentarios me ayudan a añadir las funciones que ';
 
   @override
   String get you => ' tú ';
@@ -190,16 +191,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get invalidFormat => 'Formato inválido (mm:ss:ms)';
 
   @override
-  String get startCannotBeAfterEnd => 'El inicio no puede ser después del final';
+  String get startCannotBeAfterEnd =>
+      'El inicio no puede ser después del final';
 
   @override
   String get endCannotBeBeforeStart => 'El final no puede ser antes del inicio';
 
   @override
-  String get noActiveLoop => 'No hay loop activo.\nAñade un nuevo loop o selecciona uno existente.';
+  String get noActiveLoop =>
+      'No hay loop activo.\nAñade un nuevo loop o selecciona uno existente.';
 
   @override
-  String get startMustBeBeforeEnd => 'La posición de inicio debe estar antes de la posición final';
+  String get startMustBeBeforeEnd =>
+      'La posición de inicio debe estar antes de la posición final';
 
   @override
   String get setLoopStart => 'Establecer Inicio del Loop';
@@ -208,7 +212,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get setLoopEnd => 'Establecer Final del Loop';
 
   @override
-  String get endMustBeAfterStart => 'La posición final debe estar después de la posición inicial';
+  String get endMustBeAfterStart =>
+      'La posición final debe estar después de la posición inicial';
 
   @override
   String get premiumHeadline =>
@@ -218,16 +223,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get premiumFeatureUnlimitedLoops => 'Loops Ilimitados';
 
   @override
-  String get premiumFeatureChangeMusicSpeed => 'Cambiar la Velocidad de la Música';
+  String get premiumFeatureChangeMusicSpeed =>
+      'Cambiar la Velocidad de la Música';
 
   @override
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';
 
   @override
-  String get premiumFeatureSupportDeveloper => 'Apoya al Desarrollador Independiente';
+  String get premiumFeatureSupportDeveloper =>
+      'Apoya al Desarrollador Independiente';
 
   @override
-  String get freeFeatureUnlimitedSongs => 'Canciones Ilimitadas + Un Loop por Canción';
+  String get freeFeatureUnlimitedSongs =>
+      'Canciones Ilimitadas + Un Loop por Canción';
 
   @override
   String get freeFeatureNoAds => 'Sin Anuncios';
@@ -295,14 +303,16 @@ class AppLocalizationsEs extends AppLocalizations {
       'La posición final debe estar después de la posición inicial';
 
   @override
-  String get tutorialNavigateThroughSong => 'Navega por la canción con arrastrar y soltar';
+  String get tutorialNavigateThroughSong =>
+      'Navega por la canción con arrastrar y soltar';
 
   @override
   String get tutorialNavigateThroughSongDescription =>
       'Usa tus dedos para arrastrar y soltar toda la canción hacia la izquierda o derecha y hacer zoom para mejor precisión';
 
   @override
-  String get tutorialPlayAndPauseSong => 'Reproduce, pausa o cambia la velocidad de la canción';
+  String get tutorialPlayAndPauseSong =>
+      'Reproduce, pausa o cambia la velocidad de la canción';
 
   @override
   String get tutorialPlayAndPauseSongDescription =>
@@ -330,7 +340,8 @@ class AppLocalizationsEs extends AppLocalizations {
       'Siempre puedes ajustar la posición final del loop moviendo el marcador de la canción y tocando en la posición final';
 
   @override
-  String get tutorialActivateLoop => 'Activa el modo loop para el loop seleccionado';
+  String get tutorialActivateLoop =>
+      'Activa el modo loop para el loop seleccionado';
 
   @override
   String get tutorialActivateLoopDescription =>
@@ -340,7 +351,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get tutorialAddLoop => 'Añade un nuevo loop';
 
   @override
-  String get tutorialAddLoopDescription => 'Puedes añadir un nuevo loop tocando el botón +';
+  String get tutorialAddLoopDescription =>
+      'Puedes añadir un nuevo loop tocando el botón +';
 
   @override
   String get year => 'año';
@@ -349,7 +361,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get purchasedAlready => 'Ya comprado';
 
   @override
-  String get purchaseSuccess => 'Compra exitosa. ¡Gracias por apoyar al desarrollador ❤️!';
+  String get purchaseSuccess =>
+      'Compra exitosa. ¡Gracias por apoyar al desarrollador ❤️!';
 
   @override
   String get voteForFeatures => 'Vota por Funciones';
@@ -365,7 +378,8 @@ class AppLocalizationsEs extends AppLocalizations {
       'Si no se estableció un final de loop, el loop se reproducirá hasta el final de la canción y se considerará el final de la canción como el final del loop. El servicio de audio en segundo plano ahora se detendrá cuando se cierre la app.';
 
   @override
-  String get changelog110Title => 'Audio ahora se reproduce en segundo plano y en modo Standby';
+  String get changelog110Title =>
+      'Audio ahora se reproduce en segundo plano y en modo Standby';
 
   @override
   String get changelog110Description =>
@@ -379,7 +393,8 @@ class AppLocalizationsEs extends AppLocalizations {
       'Ahora puedes reordenar tus loops arrastrando y soltándolos. Simplemente toca largo en un loop y arrastra hasta la nueva posición.';
 
   @override
-  String get changelog1013Title => 'Votación de Funciones & Propuesta de Funciones ahora posible';
+  String get changelog1013Title =>
+      'Votación de Funciones & Propuesta de Funciones ahora posible';
 
   @override
   String get changelog1013Description =>
@@ -414,13 +429,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get oneCoffee => '= Un Café para el Desarrollador (por Año)';
 
   @override
-  String get onePairOfDrumSticks => '= Un Par de Baterías para el Desarrollador (una vez)';
+  String get onePairOfDrumSticks =>
+      '= Un Par de Baterías para el Desarrollador (una vez)';
 
   @override
   String get deleteAllData => 'Eliminar Todos los Datos';
 
   @override
-  String get deleteAllDataTitle => 'Eliminar Todos los Datos, Canciones y Loops';
+  String get deleteAllDataTitle =>
+      'Eliminar Todos los Datos, Canciones y Loops';
 
   @override
   String get deleteAllDataMessage =>

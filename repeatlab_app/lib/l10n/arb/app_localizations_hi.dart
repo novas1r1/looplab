@@ -70,7 +70,8 @@ class AppLocalizationsHi extends AppLocalizations {
       'हम आपके डेटा को निम्नलिखित कानूनी आधारों पर संसाधित करते हैं:\n\n• Wiredash और ऐप एनालिटिक्स के माध्यम से प्रतिक्रिया देने के लिए आपकी सहमति।\n• RevenueCat के माध्यम से भुगतान और सदस्यता प्रबंधन के लिए अनुबंध के निष्पादन।\n• Sentry के साथ क्रैश रिपोर्टिंग के माध्यम से ऐप के प्रभावी संचालन को सुनिश्चित करने के लिए हमारा वैध हित।';
 
   @override
-  String get howWeUseYourInformation => 'हम आपकी जानकारी का उपयोग कैसे करते हैं';
+  String get howWeUseYourInformation =>
+      'हम आपकी जानकारी का उपयोग कैसे करते हैं';
 
   @override
   String get howWeUseYourInformationDescription =>
@@ -153,7 +154,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get leaveReview => 'समीक्षा छोड़ें';
 
   @override
-  String get yourFeedbackHelpsMe => 'आपकी प्रतिक्रिया मुझे जोड़ने में मदद करती है';
+  String get yourFeedbackHelpsMe =>
+      'आपकी प्रतिक्रिया मुझे जोड़ने में मदद करती है';
 
   @override
   String get you => 'आप';
@@ -190,16 +192,20 @@ class AppLocalizationsHi extends AppLocalizations {
   String get invalidFormat => 'अमान्य प्रारूप (mm:ss:ms)';
 
   @override
-  String get startCannotBeAfterEnd => 'प्रारंभ समय समाप्ति समय के बाद नहीं हो सकता';
+  String get startCannotBeAfterEnd =>
+      'प्रारंभ समय समाप्ति समय के बाद नहीं हो सकता';
 
   @override
-  String get endCannotBeBeforeStart => 'समाप्ति समय प्रारंभ समय से पहले नहीं हो सकता';
+  String get endCannotBeBeforeStart =>
+      'समाप्ति समय प्रारंभ समय से पहले नहीं हो सकता';
 
   @override
-  String get noActiveLoop => 'कोई सक्रिय लूप नहीं है।\nएक नया लूप जोड़ें या मौजूदा लूप चुनें।';
+  String get noActiveLoop =>
+      'कोई सक्रिय लूप नहीं है।\nएक नया लूप जोड़ें या मौजूदा लूप चुनें।';
 
   @override
-  String get startMustBeBeforeEnd => 'प्रारंभ स्थिति समाप्ति स्थिति से पहले होनी चाहिए';
+  String get startMustBeBeforeEnd =>
+      'प्रारंभ स्थिति समाप्ति स्थिति से पहले होनी चाहिए';
 
   @override
   String get setLoopStart => 'लूप प्रारंभ सेट करें';
@@ -208,7 +214,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get setLoopEnd => 'लूप समाप्ति सेट करें';
 
   @override
-  String get endMustBeAfterStart => 'समाप्ति स्थिति प्रारंभ स्थिति के बाद होनी चाहिए';
+  String get endMustBeAfterStart =>
+      'समाप्ति स्थिति प्रारंभ स्थिति के बाद होनी चाहिए';
 
   @override
   String get premiumHeadline =>
@@ -340,7 +347,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get tutorialAddLoop => 'नया लूप जोड़ें';
 
   @override
-  String get tutorialAddLoopDescription => 'आप + बटन पर क्लिक करके एक नया लूप जोड़ सकते हैं';
+  String get tutorialAddLoopDescription =>
+      'आप + बटन पर क्लिक करके एक नया लूप जोड़ सकते हैं';
 
   @override
   String get year => 'वर्ष';
@@ -349,7 +357,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get purchasedAlready => 'पहले से ही खरीदा गया';
 
   @override
-  String get purchaseSuccess => 'सफलतापूर्वक खरीदा गया। डेवलपर का समर्थन करने के लिए धन्यवाद ❤️!';
+  String get purchaseSuccess =>
+      'सफलतापूर्वक खरीदा गया। डेवलपर का समर्थन करने के लिए धन्यवाद ❤️!';
 
   @override
   String get voteForFeatures => 'सुविधाओं के लिए वोट करें';
@@ -365,7 +374,8 @@ class AppLocalizationsHi extends AppLocalizations {
       'यदि लूप समाप्ति सेट नहीं की गई थी, तो लूप गीत के अंत तक चलता और गीत का अंत लूप समाप्ति के रूप में माना जाता। अब ऐप बंद होने पर बैकग्राउंड ऑडियो सेवा बंद हो जाएगी।';
 
   @override
-  String get changelog110Title => 'अब बैकग्राउंड और स्लीप मोड में ऑडियो काम करता है';
+  String get changelog110Title =>
+      'अब बैकग्राउंड और स्लीप मोड में ऑडियो काम करता है';
 
   @override
   String get changelog110Description =>
@@ -379,7 +389,8 @@ class AppLocalizationsHi extends AppLocalizations {
       'अब आप अपने लूपों को ड्रैग एंड ड्रॉप से पुनर्व्यवस्थित कर सकते हैं। बस लूप पर लंबे समय तक दबाएं और इसे नई स्थिति पर खींचें।';
 
   @override
-  String get changelog1013Title => 'अब सुविधाओं के लिए वोट करना और सुविधा सुझाव देना संभव है';
+  String get changelog1013Title =>
+      'अब सुविधाओं के लिए वोट करना और सुविधा सुझाव देना संभव है';
 
   @override
   String get changelog1013Description =>
@@ -414,7 +425,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get oneCoffee => '= डेवलपर के लिए एक कप कॉफी (वार्षिक)';
 
   @override
-  String get onePairOfDrumSticks => '= डेवलपर के लिए एक जोड़ी ड्रम स्टिक्स (एक बार)';
+  String get onePairOfDrumSticks =>
+      '= डेवलपर के लिए एक जोड़ी ड्रम स्टिक्स (एक बार)';
 
   @override
   String get deleteAllData => 'सभी डेटा हटाएं';

@@ -153,7 +153,8 @@ class AppLocalizationsSv extends AppLocalizations {
   String get leaveReview => 'Lämna Recension';
 
   @override
-  String get yourFeedbackHelpsMe => 'Din feedback hjälper mig att lägga till funktioner som ';
+  String get yourFeedbackHelpsMe =>
+      'Din feedback hjälper mig att lägga till funktioner som ';
 
   @override
   String get you => ' du ';
@@ -196,10 +197,12 @@ class AppLocalizationsSv extends AppLocalizations {
   String get endCannotBeBeforeStart => 'Slut kan inte vara före start';
 
   @override
-  String get noActiveLoop => 'Ingen aktiv loop.\nLägg till en ny loop eller välj en befintlig.';
+  String get noActiveLoop =>
+      'Ingen aktiv loop.\nLägg till en ny loop eller välj en befintlig.';
 
   @override
-  String get startMustBeBeforeEnd => 'Startposition måste vara före slutposition';
+  String get startMustBeBeforeEnd =>
+      'Startposition måste vara före slutposition';
 
   @override
   String get setLoopStart => 'Ställ In Loopstart';
@@ -208,7 +211,8 @@ class AppLocalizationsSv extends AppLocalizations {
   String get setLoopEnd => 'Ställ In Loopslut';
 
   @override
-  String get endMustBeAfterStart => 'Slutposition måste vara efter startposition';
+  String get endMustBeAfterStart =>
+      'Slutposition måste vara efter startposition';
 
   @override
   String get premiumHeadline =>
@@ -274,7 +278,8 @@ class AppLocalizationsSv extends AppLocalizations {
   }
 
   @override
-  String get lifetimeDescription => 'Engångsbetalning. Ingen prenumeration krävs.';
+  String get lifetimeDescription =>
+      'Engångsbetalning. Ingen prenumeration krävs.';
 
   @override
   String get deleteSongLoops => 'Radera Låt och Loopar';
@@ -287,20 +292,24 @@ class AppLocalizationsSv extends AppLocalizations {
   String get cancel => 'Avbryt';
 
   @override
-  String get startPositionMustBeBeforeEndPosition => 'Startposition måste vara före slutposition';
+  String get startPositionMustBeBeforeEndPosition =>
+      'Startposition måste vara före slutposition';
 
   @override
-  String get endPositionMustBeAfterStartPosition => 'Slutposition måste vara efter startposition';
+  String get endPositionMustBeAfterStartPosition =>
+      'Slutposition måste vara efter startposition';
 
   @override
-  String get tutorialNavigateThroughSong => 'Navigera genom låten med dra och släpp';
+  String get tutorialNavigateThroughSong =>
+      'Navigera genom låten med dra och släpp';
 
   @override
   String get tutorialNavigateThroughSongDescription =>
       'Använd dina fingrar för att dra hela låten åt vänster eller höger och zooma för bättre precision';
 
   @override
-  String get tutorialPlayAndPauseSong => 'Spela, pausa eller ändra låtens hastighet';
+  String get tutorialPlayAndPauseSong =>
+      'Spela, pausa eller ändra låtens hastighet';
 
   @override
   String get tutorialPlayAndPauseSongDescription =>
@@ -348,7 +357,8 @@ class AppLocalizationsSv extends AppLocalizations {
   String get purchasedAlready => 'Redan köpt';
 
   @override
-  String get purchaseSuccess => 'Köp lyckades. Tack för att du stödjer utvecklaren ❤️!';
+  String get purchaseSuccess =>
+      'Köp lyckades. Tack för att du stödjer utvecklaren ❤️!';
 
   @override
   String get voteForFeatures => 'Funktioner förfråga';
@@ -378,7 +388,8 @@ class AppLocalizationsSv extends AppLocalizations {
       'Du kan nu omordna dina loopar genom att långt trycka på en loop och dra den till den nya positionen.';
 
   @override
-  String get changelog1013Title => 'Rösta för funktioner och skicka in egna funktioner';
+  String get changelog1013Title =>
+      'Rösta för funktioner och skicka in egna funktioner';
 
   @override
   String get changelog1013Description =>
@@ -413,7 +424,8 @@ class AppLocalizationsSv extends AppLocalizations {
   String get oneCoffee => '= En Kopp Kaffe för Utvecklaren (per År)';
 
   @override
-  String get onePairOfDrumSticks => '= En Par Drumsticks för Utvecklaren (en gång)';
+  String get onePairOfDrumSticks =>
+      '= En Par Drumsticks för Utvecklaren (en gång)';
 
   @override
   String get deleteAllData => 'Radera Alla Data';

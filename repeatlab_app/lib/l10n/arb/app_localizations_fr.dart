@@ -70,7 +70,8 @@ class AppLocalizationsFr extends AppLocalizations {
       'Nous traitons vos données sur les bases légales suivantes :\n\n• Votre consentement pour les soumissions de retours via Wiredash et l\'analyse de l\'app.\n• L\'exécution d\'un contrat pour le traitement des paiements et la gestion des abonnements via RevenueCat.\n• Notre intérêt légitime à assurer le fonctionnement efficace de l\'App en utilisant Sentry pour les rapports de plantage.';
 
   @override
-  String get howWeUseYourInformation => 'Comment Nous Utilisons Vos Informations';
+  String get howWeUseYourInformation =>
+      'Comment Nous Utilisons Vos Informations';
 
   @override
   String get howWeUseYourInformationDescription =>
@@ -107,7 +108,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get noSongsFound => 'Aucune chanson trouvée';
 
   @override
-  String get tapToAddSong => 'Appuyez sur + pour ajouter votre première chanson';
+  String get tapToAddSong =>
+      'Appuyez sur + pour ajouter votre première chanson';
 
   @override
   String get legalNoticesDescription =>
@@ -153,7 +155,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get leaveReview => 'Laisser un Avis';
 
   @override
-  String get yourFeedbackHelpsMe => 'Vos retours m\'aident à ajouter les fonctionnalités que ';
+  String get yourFeedbackHelpsMe =>
+      'Vos retours m\'aident à ajouter les fonctionnalités que ';
 
   @override
   String get you => ' vous ';
@@ -200,7 +203,8 @@ class AppLocalizationsFr extends AppLocalizations {
       'Aucune boucle active.\nAjoutez une nouvelle boucle ou sélectionnez-en une existante.';
 
   @override
-  String get startMustBeBeforeEnd => 'La position de début doit être avant la position de fin';
+  String get startMustBeBeforeEnd =>
+      'La position de début doit être avant la position de fin';
 
   @override
   String get setLoopStart => 'Début boucle';
@@ -209,7 +213,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get setLoopEnd => 'Fin boucle';
 
   @override
-  String get endMustBeAfterStart => 'La position de fin doit être après la position de début';
+  String get endMustBeAfterStart =>
+      'La position de fin doit être après la position de début';
 
   @override
   String get premiumHeadline =>
@@ -219,16 +224,19 @@ class AppLocalizationsFr extends AppLocalizations {
   String get premiumFeatureUnlimitedLoops => 'Boucles Illimitées';
 
   @override
-  String get premiumFeatureChangeMusicSpeed => 'Modifier la Vitesse de la Musique';
+  String get premiumFeatureChangeMusicSpeed =>
+      'Modifier la Vitesse de la Musique';
 
   @override
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';
 
   @override
-  String get premiumFeatureSupportDeveloper => 'Soutenez le Développeur Indépendant';
+  String get premiumFeatureSupportDeveloper =>
+      'Soutenez le Développeur Indépendant';
 
   @override
-  String get freeFeatureUnlimitedSongs => 'Chansons Illimitées + Une Boucle par Chanson';
+  String get freeFeatureUnlimitedSongs =>
+      'Chansons Illimitées + Une Boucle par Chanson';
 
   @override
   String get freeFeatureNoAds => 'Pas de Publicité';
@@ -275,7 +283,8 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get lifetimeDescription => 'Paiement unique. Pas d\'abonnement requis.';
+  String get lifetimeDescription =>
+      'Paiement unique. Pas d\'abonnement requis.';
 
   @override
   String get deleteSongLoops => 'Supprimer la Chanson et les Boucles';
@@ -296,14 +305,16 @@ class AppLocalizationsFr extends AppLocalizations {
       'La position de fin doit être après la position de début';
 
   @override
-  String get tutorialNavigateThroughSong => 'Naviguez dans la chanson par glisser-déposer';
+  String get tutorialNavigateThroughSong =>
+      'Naviguez dans la chanson par glisser-déposer';
 
   @override
   String get tutorialNavigateThroughSongDescription =>
       'Utilisez vos doigts pour faire glisser toute la chanson vers la gauche ou la droite et zoomer pour plus de précision';
 
   @override
-  String get tutorialPlayAndPauseSong => 'Lecture, pause ou changement de vitesse de la chanson';
+  String get tutorialPlayAndPauseSong =>
+      'Lecture, pause ou changement de vitesse de la chanson';
 
   @override
   String get tutorialPlayAndPauseSongDescription =>
@@ -317,7 +328,8 @@ class AppLocalizationsFr extends AppLocalizations {
       'Vos boucles seront affichées ici. Vous pouvez sauter vers elles en les touchant';
 
   @override
-  String get tutorialSetLoopStart => 'Définir la position de début de la boucle';
+  String get tutorialSetLoopStart =>
+      'Définir la position de début de la boucle';
 
   @override
   String get tutorialSetLoopStartDescription =>
@@ -331,7 +343,8 @@ class AppLocalizationsFr extends AppLocalizations {
       'Vous pouvez toujours ajuster la position de fin de la boucle en déplaçant le marqueur de chanson et en touchant la position de fin';
 
   @override
-  String get tutorialActivateLoop => 'Activer le mode boucle pour la boucle sélectionnée';
+  String get tutorialActivateLoop =>
+      'Activer le mode boucle pour la boucle sélectionnée';
 
   @override
   String get tutorialActivateLoopDescription =>
@@ -351,7 +364,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get purchasedAlready => 'Déjà acheté';
 
   @override
-  String get purchaseSuccess => 'Achat réussi. Merci pour votre soutien au développeur ❤️!';
+  String get purchaseSuccess =>
+      'Achat réussi. Merci pour votre soutien au développeur ❤️!';
 
   @override
   String get voteForFeatures => 'Voter pour les Fonctionnalités';
@@ -367,7 +381,8 @@ class AppLocalizationsFr extends AppLocalizations {
       'Si aucune fin de boucle n\'était définie, la boucle jouait jusqu\'à la fin de la chanson et considérait la fin de la chanson comme la fin de la boucle. Le service audio en arrière-plan s\'arrête maintenant lorsque l\'application est fermée.';
 
   @override
-  String get changelog110Title => 'Audio joue également en arrière-plan et en mode veille';
+  String get changelog110Title =>
+      'Audio joue également en arrière-plan et en mode veille';
 
   @override
   String get changelog110Description =>
@@ -417,13 +432,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get oneCoffee => '= Un Café pour le Développeur (par An)';
 
   @override
-  String get onePairOfDrumSticks => '= Un Set de Batterie pour le Développeur (une fois)';
+  String get onePairOfDrumSticks =>
+      '= Un Set de Batterie pour le Développeur (une fois)';
 
   @override
   String get deleteAllData => 'Supprimer tous les Données';
 
   @override
-  String get deleteAllDataTitle => 'Supprimer tous les Données, Chansons et Boucles';
+  String get deleteAllDataTitle =>
+      'Supprimer tous les Données, Chansons et Boucles';
 
   @override
   String get deleteAllDataMessage =>
@@ -448,7 +465,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get finish => 'Terminer';
 
   @override
-  String get deleteAllDataSuccess => 'Tous les données ont été supprimées avec succès';
+  String get deleteAllDataSuccess =>
+      'Tous les données ont été supprimées avec succès';
 
   @override
   String get deleteAllDataError => 'Erreur lors de la suppression des données';
