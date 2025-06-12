@@ -66,11 +66,7 @@ class RepeatlabAudioServiceHandler extends BaseAudioHandler with QueueHandler, S
     });
 
     positionSubscription = audioPlayer.onPositionChanged.listen((position) {
-      playbackState.add(
-        playbackState.value.copyWith(
-          updatePosition: position,
-        ),
-      );
+      playbackState.add(playbackState.value.copyWith(updatePosition: position));
     });
 
     durationSubscription = audioPlayer.onDurationChanged.listen((duration) {
@@ -102,17 +98,10 @@ class RepeatlabAudioServiceHandler extends BaseAudioHandler with QueueHandler, S
     try {
       await audioPlayer.play(DeviceFileSource(path));
       playbackState.add(
-        playbackState.value.copyWith(
-          playing: true,
-          processingState: AudioProcessingState.ready,
-        ),
+        playbackState.value.copyWith(playing: true, processingState: AudioProcessingState.ready),
       );
     } catch (e) {
-      playbackState.add(
-        playbackState.value.copyWith(
-          processingState: AudioProcessingState.error,
-        ),
-      );
+      playbackState.add(playbackState.value.copyWith(processingState: AudioProcessingState.error));
       rethrow;
     }
   }
@@ -120,10 +109,7 @@ class RepeatlabAudioServiceHandler extends BaseAudioHandler with QueueHandler, S
   Future<void> resume() async {
     await audioPlayer.resume();
     playbackState.add(
-      playbackState.value.copyWith(
-        playing: true,
-        processingState: AudioProcessingState.ready,
-      ),
+      playbackState.value.copyWith(playing: true, processingState: AudioProcessingState.ready),
     );
   }
 
@@ -148,7 +134,7 @@ class RepeatlabAudioServiceHandler extends BaseAudioHandler with QueueHandler, S
 
           // only if is playing
           if (audioPlayer.state == PlayerState.playing && position >= _activeLoop!.end!) {
-            audioPlayer.seek(_activeLoop!.start!, timeout: const Duration(seconds: 3));
+            audioPlayer.seek(_activeLoop!.start!);
           }
         });
       });
@@ -165,10 +151,7 @@ class RepeatlabAudioServiceHandler extends BaseAudioHandler with QueueHandler, S
   Future<void> play() async {
     await audioPlayer.resume();
     playbackState.add(
-      playbackState.value.copyWith(
-        playing: true,
-        processingState: AudioProcessingState.ready,
-      ),
+      playbackState.value.copyWith(playing: true, processingState: AudioProcessingState.ready),
     );
   }
 
@@ -176,10 +159,7 @@ class RepeatlabAudioServiceHandler extends BaseAudioHandler with QueueHandler, S
   Future<void> pause() async {
     await audioPlayer.pause();
     playbackState.add(
-      playbackState.value.copyWith(
-        playing: false,
-        processingState: AudioProcessingState.ready,
-      ),
+      playbackState.value.copyWith(playing: false, processingState: AudioProcessingState.ready),
     );
   }
 
@@ -187,16 +167,12 @@ class RepeatlabAudioServiceHandler extends BaseAudioHandler with QueueHandler, S
   Future<void> stop() async {
     await audioPlayer.stop();
     playbackState.add(
-      playbackState.value.copyWith(
-        playing: false,
-        processingState: AudioProcessingState.completed,
-      ),
+      playbackState.value.copyWith(playing: false, processingState: AudioProcessingState.completed),
     );
   }
 
   @override
-  Future<void> seek(Duration position) =>
-      audioPlayer.seek(position, timeout: const Duration(seconds: 3));
+  Future<void> seek(Duration position) => audioPlayer.seek(position);
 
   @override
   Future<void> setSpeed(double speed) => audioPlayer.setPlaybackRate(speed);

@@ -236,8 +236,9 @@ class _SongViewState extends State<_SongView> {
                             Text(context.l10n.loopMode, style: context.bodySmall),
                             CupertinoSwitch(
                               key: tutorialKeyLoopActivate,
-                              thumbIcon:
-                                  WidgetStateProperty.resolveWith<Icon?>((Set<WidgetState> states) {
+                              thumbIcon: WidgetStateProperty.resolveWith<Icon?>((
+                                Set<WidgetState> states,
+                              ) {
                                 if (states.contains(WidgetState.disabled)) {
                                   return const Icon(Icons.close);
                                 }
@@ -322,7 +323,8 @@ class _SongViewState extends State<_SongView> {
                             index: index,
                             loop: state.song.loops[index],
                             isSelected: state.song.loops[index] == state.activeLoop,
-                            isPaused: state.playerState == null ||
+                            isPaused:
+                                state.playerState == null ||
                                 state.playerState == PlayerState.paused,
                             onTap: (loop) => context.read<SongCubit>().selectLoop(loop),
                             onDelete: (loop) => context.read<SongCubit>().deleteLoop(loop),

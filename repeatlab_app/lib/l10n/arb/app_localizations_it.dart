@@ -153,8 +153,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get leaveReview => 'Lascia una Recensione';
 
   @override
-  String get yourFeedbackHelpsMe =>
-      'Il tuo feedback mi aiuta ad aggiungere le funzionalità che ';
+  String get yourFeedbackHelpsMe => 'Il tuo feedback mi aiuta ad aggiungere le funzionalità che ';
 
   @override
   String get you => ' tu ';
@@ -194,8 +193,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get startCannotBeAfterEnd => 'L\'inizio non può essere dopo la fine';
 
   @override
-  String get endCannotBeBeforeStart =>
-      'La fine non può essere prima dell\'inizio';
+  String get endCannotBeBeforeStart => 'La fine non può essere prima dell\'inizio';
 
   @override
   String get noActiveLoop =>
@@ -212,8 +210,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get setLoopEnd => 'Imposta Fine Loop';
 
   @override
-  String get endMustBeAfterStart =>
-      'La posizione di fine deve essere dopo la posizione di inizio';
+  String get endMustBeAfterStart => 'La posizione di fine deve essere dopo la posizione di inizio';
 
   @override
   String get premiumHeadline =>
@@ -223,19 +220,16 @@ class AppLocalizationsIt extends AppLocalizations {
   String get premiumFeatureUnlimitedLoops => 'Loop Illimitati';
 
   @override
-  String get premiumFeatureChangeMusicSpeed =>
-      'Modifica la Velocità della Musica';
+  String get premiumFeatureChangeMusicSpeed => 'Modifica la Velocità della Musica';
 
   @override
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';
 
   @override
-  String get premiumFeatureSupportDeveloper =>
-      'Supporta lo Sviluppatore Indipendente';
+  String get premiumFeatureSupportDeveloper => 'Supporta lo Sviluppatore Indipendente';
 
   @override
-  String get freeFeatureUnlimitedSongs =>
-      'Canzoni Illimitate + Un Loop per Canzone';
+  String get freeFeatureUnlimitedSongs => 'Canzoni Illimitate + Un Loop per Canzone';
 
   @override
   String get freeFeatureNoAds => 'Nessuna Pubblicità';
@@ -282,8 +276,7 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
-  String get lifetimeDescription =>
-      'Pagamento unico. Nessun abbonamento richiesto.';
+  String get lifetimeDescription => 'Pagamento unico. Nessun abbonamento richiesto.';
 
   @override
   String get deleteSongLoops => 'Elimina Canzone e Loop';
@@ -304,8 +297,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'La posizione di fine deve essere dopo la posizione di inizio';
 
   @override
-  String get tutorialNavigateThroughSong =>
-      'Naviga attraverso la canzone con il trascinamento';
+  String get tutorialNavigateThroughSong => 'Naviga attraverso la canzone con il trascinamento';
 
   @override
   String get tutorialNavigateThroughSongDescription =>
@@ -341,8 +333,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'Puoi sempre regolare la posizione di fine del loop spostando il marcatore della canzone e toccando la posizione di fine';
 
   @override
-  String get tutorialActivateLoop =>
-      'Attiva la modalità loop per il loop selezionato';
+  String get tutorialActivateLoop => 'Attiva la modalità loop per il loop selezionato';
 
   @override
   String get tutorialActivateLoopDescription =>
@@ -352,8 +343,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get tutorialAddLoop => 'Aggiungi un nuovo loop';
 
   @override
-  String get tutorialAddLoopDescription =>
-      'Puoi aggiungere un nuovo loop toccando il pulsante +';
+  String get tutorialAddLoopDescription => 'Puoi aggiungere un nuovo loop toccando il pulsante +';
 
   @override
   String get year => 'anno';
@@ -362,8 +352,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get purchasedAlready => 'Già acquistato';
 
   @override
-  String get purchaseSuccess =>
-      'Acquisto riuscito. Grazie per il tuo supporto al developer ❤️!';
+  String get purchaseSuccess => 'Acquisto riuscito. Grazie per il tuo supporto al developer ❤️!';
 
   @override
   String get voteForFeatures => 'Vota per le Funzionalità';
@@ -379,8 +368,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'Se non era stato impostato un fine del loop, il loop si riprodurrà fino alla fine della canzone e considererà la fine della canzone come fine del loop. Il servizio audio in background si interrompe ora quando l\'app viene chiusa.';
 
   @override
-  String get changelog110Title =>
-      'Audio ora si riproduce anche in background e standby';
+  String get changelog110Title => 'Audio ora si riproduce anche in background e standby';
 
   @override
   String get changelog110Description =>
@@ -394,8 +382,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'Puoi ora riordinare i tuoi loop trascinandoli e rilasciandoli. Basta toccare a lungo un loop e trascinarlo alla nuova posizione.';
 
   @override
-  String get changelog1013Title =>
-      'Feature Voting & Feature proposal now possible';
+  String get changelog1013Title => 'Feature Voting & Feature proposal now possible';
 
   @override
   String get changelog1013Description =>
@@ -430,8 +417,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get oneCoffee => '= Un Cappuccino per il Developer (per Anno)';
 
   @override
-  String get onePairOfDrumSticks =>
-      '= Un Set di Tamburi per il Developer (una volta)';
+  String get onePairOfDrumSticks => '= Un Set di Tamburi per il Developer (una volta)';
 
   @override
   String get deleteAllData => 'Elimina Tutti i Dati';

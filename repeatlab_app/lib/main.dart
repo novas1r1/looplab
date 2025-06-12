@@ -24,11 +24,11 @@ Future<void> main() async {
   );
 
   final dir = await getApplicationDocumentsDirectory();
-// make sure it exists
+  // make sure it exists
   await dir.create(recursive: true);
-// build the database path
+  // build the database path
   final dbPath = join(dir.path, 'repeatlab.db');
-// open the database
+  // open the database
   final db = await databaseFactoryIo.openDatabase(dbPath);
 
   MapperContainer.globals.use(const DurationMapper());

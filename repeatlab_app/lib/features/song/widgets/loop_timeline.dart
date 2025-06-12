@@ -61,7 +61,8 @@ class _LoopTimelineState extends State<LoopTimeline> {
                 children: [
                   // Current position indicator
                   Positioned(
-                    left: (widget.currentPosition.inMilliseconds /
+                    left:
+                        (widget.currentPosition.inMilliseconds /
                             widget.songDuration.inMilliseconds) *
                         _timelineWidth,
                     top: 0,
@@ -102,8 +103,8 @@ class _LoopTimelineState extends State<LoopTimeline> {
                             child: Text(
                               loop.name,
                               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                                  ),
+                                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                              ),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),

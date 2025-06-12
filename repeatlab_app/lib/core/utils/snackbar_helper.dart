@@ -22,8 +22,8 @@ abstract class SnackbarHelper {
               child: Text(
                 message,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
-                    ),
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                ),
               ),
             ),
           ],
@@ -51,8 +51,8 @@ abstract class SnackbarHelper {
               child: Text(
                 message,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onErrorContainer,
-                    ),
+                  color: Theme.of(context).colorScheme.onErrorContainer,
+                ),
               ),
             ),
           ],
@@ -72,8 +72,8 @@ abstract class SnackbarHelper {
         content: Text(
           message,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
-              ),
+            color: Theme.of(context).colorScheme.onPrimaryContainer,
+          ),
         ),
       ),
     );

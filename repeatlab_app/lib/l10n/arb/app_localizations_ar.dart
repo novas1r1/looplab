@@ -117,8 +117,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get onboardingTitle1 => 'مرحبًا بك في RepeatLab';
 
   @override
-  String get onboardingDescription1 =>
-      'أتقن أي أغنية من خلال تكرار الأجزاء الصعبة أو إبطائها.';
+  String get onboardingDescription1 => 'أتقن أي أغنية من خلال تكرار الأجزاء الصعبة أو إبطائها.';
 
   @override
   String get onboardingTitle2 => 'إنشاء حلقات دقيقة';
@@ -190,16 +189,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get invalidFormat => 'تنسيق غير صالح (mm:ss:ms)';
 
   @override
-  String get startCannotBeAfterEnd =>
-      'لا يمكن أن يكون وقت البدء بعد وقت الانتهاء';
+  String get startCannotBeAfterEnd => 'لا يمكن أن يكون وقت البدء بعد وقت الانتهاء';
 
   @override
-  String get endCannotBeBeforeStart =>
-      'لا يمكن أن يكون وقت الانتهاء قبل وقت البدء';
+  String get endCannotBeBeforeStart => 'لا يمكن أن يكون وقت الانتهاء قبل وقت البدء';
 
   @override
-  String get noActiveLoop =>
-      'لا توجد حلقة نشطة.\nأضف حلقة جديدة أو اختر حلقة موجودة.';
+  String get noActiveLoop => 'لا توجد حلقة نشطة.\nأضف حلقة جديدة أو اختر حلقة موجودة.';
 
   @override
   String get startMustBeBeforeEnd => 'يجب أن يكون موضع البدء قبل موضع الانتهاء';
@@ -230,8 +226,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get premiumFeatureSupportDeveloper => 'دعم المطور المستقل';
 
   @override
-  String get freeFeatureUnlimitedSongs =>
-      'أغاني غير محدودة + حلقة واحدة لكل أغنية';
+  String get freeFeatureUnlimitedSongs => 'أغاني غير محدودة + حلقة واحدة لكل أغنية';
 
   @override
   String get freeFeatureNoAds => 'بدون إعلانات';
@@ -291,35 +286,29 @@ class AppLocalizationsAr extends AppLocalizations {
   String get cancel => 'إلغاء';
 
   @override
-  String get startPositionMustBeBeforeEndPosition =>
-      'يجب أن يكون موضع البدء قبل موضع الانتهاء';
+  String get startPositionMustBeBeforeEndPosition => 'يجب أن يكون موضع البدء قبل موضع الانتهاء';
 
   @override
-  String get endPositionMustBeAfterStartPosition =>
-      'يجب أن يكون موضع الانتهاء بعد موضع البدء';
+  String get endPositionMustBeAfterStartPosition => 'يجب أن يكون موضع الانتهاء بعد موضع البدء';
 
   @override
-  String get tutorialNavigateThroughSong =>
-      'التنقل عبر الأغنية بالسحب والإفلات';
+  String get tutorialNavigateThroughSong => 'التنقل عبر الأغنية بالسحب والإفلات';
 
   @override
   String get tutorialNavigateThroughSongDescription =>
       'استخدم أصابعك لسحب الأغنية بأكملها إلى اليسار أو اليمين والتكبير/التصغير للحصول على دقة أفضل';
 
   @override
-  String get tutorialPlayAndPauseSong =>
-      'تشغيل وإيقاف مؤقت وتغيير سرعة الأغنية';
+  String get tutorialPlayAndPauseSong => 'تشغيل وإيقاف مؤقت وتغيير سرعة الأغنية';
 
   @override
-  String get tutorialPlayAndPauseSongDescription =>
-      'استخدم هذه الأزرار للتحكم في الأغنية والحلقات';
+  String get tutorialPlayAndPauseSongDescription => 'استخدم هذه الأزرار للتحكم في الأغنية والحلقات';
 
   @override
   String get tutorialJumpToLoop => 'عرض والقفز إلى الحلقات';
 
   @override
-  String get tutorialJumpToLoopDescription =>
-      'ستظهر حلقاتك هنا. يمكنك القفز إليها بالنقر عليها';
+  String get tutorialJumpToLoopDescription => 'ستظهر حلقاتك هنا. يمكنك القفز إليها بالنقر عليها';
 
   @override
   String get tutorialSetLoopStart => 'تعيين موضع بداية الحلقة';
@@ -346,8 +335,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get tutorialAddLoop => 'إضافة حلقة جديدة';
 
   @override
-  String get tutorialAddLoopDescription =>
-      'يمكنك إضافة حلقة جديدة بالنقر على زر +';
+  String get tutorialAddLoopDescription => 'يمكنك إضافة حلقة جديدة بالنقر على زر +';
 
   @override
   String get year => 'سنة';
@@ -386,8 +374,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'يمكنك الآن إعادة ترتيب حلقاتك بالسحب والإفلات. ما عليك سوى الضغط مطولاً على الحلقة وسحبها إلى الموضع الجديد.';
 
   @override
-  String get changelog1013Title =>
-      'التصويت على الميزات واقتراح الميزات الآن ممكن';
+  String get changelog1013Title => 'التصويت على الميزات واقتراح الميزات الآن ممكن';
 
   @override
   String get changelog1013Description =>

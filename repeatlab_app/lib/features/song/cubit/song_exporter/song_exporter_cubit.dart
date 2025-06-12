@@ -30,10 +30,12 @@ class SongExporterCubit extends Cubit<SongExporterState> {
       await FFmpegKit.execute(command);
     } catch (ex, stackTrace) {
       unawaited(crashReportingRepository.reportError(ex, stackTrace));
-      emit(state.copyWith(
-        status: SongExporterStatus.exportError,
-        errorMessage: ex.toString(),
-      ));
+      emit(
+        state.copyWith(
+          status: SongExporterStatus.exportError,
+          errorMessage: ex.toString(),
+        ),
+      );
     }
   }
 }

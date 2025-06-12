@@ -100,9 +100,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                   recognizer: TapGestureRecognizer()..onTap = _showPrivacyPolicy,
                                   text: context.l10n.onboardingPrivacyPolicyLink,
                                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                        decoration: TextDecoration.underline,
-                                        color: Theme.of(context).colorScheme.primary,
-                                      ),
+                                    decoration: TextDecoration.underline,
+                                    color: Theme.of(context).colorScheme.primary,
+                                  ),
                                 ),
                               ],
                             ),
@@ -153,8 +153,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
     if (mounted) {
       // show paywall, after paywall is dismissed, navigate to home
       final hasSubscribed = context.read<PremiumSubscriptionCubit>().state.hasSubscription;
-      final hasLifetimePurchased =
-          context.read<PremiumSubscriptionCubit>().state.hasLifetimePurchase;
+      final hasLifetimePurchased = context
+          .read<PremiumSubscriptionCubit>()
+          .state
+          .hasLifetimePurchase;
 
       if (!hasSubscribed && !hasLifetimePurchased) {
         log('no subscription or lifetime purchase');
@@ -173,8 +175,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
       }
 
       if (mounted) {
-        Navigator.of(context)
-            .pushReplacement(AppRouter.generateRoute(const RouteSettings(name: '/')));
+        Navigator.of(
+          context,
+        ).pushReplacement(AppRouter.generateRoute(const RouteSettings(name: '/')));
       }
     }
   }

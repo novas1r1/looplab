@@ -38,8 +38,8 @@ class LoopController extends StatelessWidget {
                       context.l10n.noActiveLoop,
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontStyle: FontStyle.italic,
-                          ),
+                        fontStyle: FontStyle.italic,
+                      ),
                     ),
                   ),
                 ),

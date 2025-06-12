@@ -278,8 +278,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get deleteSongLoops => '곡 및 루프 삭제';
 
   @override
-  String get deleteSongLoopsDescription =>
-      '이 곡과 관련된 모든 루프를 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.';
+  String get deleteSongLoopsDescription => '이 곡과 관련된 모든 루프를 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.';
 
   @override
   String get cancel => '취소';
@@ -307,29 +306,25 @@ class AppLocalizationsKo extends AppLocalizations {
   String get tutorialJumpToLoop => '루프 보기 및 이동';
 
   @override
-  String get tutorialJumpToLoopDescription =>
-      '루프가 여기에 표시됩니다. 탭하여 루프로 이동할 수 있습니다';
+  String get tutorialJumpToLoopDescription => '루프가 여기에 표시됩니다. 탭하여 루프로 이동할 수 있습니다';
 
   @override
   String get tutorialSetLoopStart => '루프 시작 위치 설정';
 
   @override
-  String get tutorialSetLoopStartDescription =>
-      '곡 마커를 이동하고 시작 위치를 탭하여 언제든지 루프의 시작 위치를 조정할 수 있습니다';
+  String get tutorialSetLoopStartDescription => '곡 마커를 이동하고 시작 위치를 탭하여 언제든지 루프의 시작 위치를 조정할 수 있습니다';
 
   @override
   String get tutorialSetLoopEnd => '루프 종료 위치 설정';
 
   @override
-  String get tutorialSetLoopEndDescription =>
-      '곡 마커를 이동하고 종료 위치를 탭하여 언제든지 루프의 종료 위치를 조정할 수 있습니다';
+  String get tutorialSetLoopEndDescription => '곡 마커를 이동하고 종료 위치를 탭하여 언제든지 루프의 종료 위치를 조정할 수 있습니다';
 
   @override
   String get tutorialActivateLoop => '선택한 루프의 루프 모드 활성화';
 
   @override
-  String get tutorialActivateLoopDescription =>
-      '루프를 재생하려면 루프 모드를 활성화해야 합니다. 비활성화된 경우 전체 곡이 재생됩니다.';
+  String get tutorialActivateLoopDescription => '루프를 재생하려면 루프 모드를 활성화해야 합니다. 비활성화된 경우 전체 곡이 재생됩니다.';
 
   @override
   String get tutorialAddLoop => '새 루프 추가';
@@ -363,8 +358,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get changelog110Title => '오디오가 백그라운드 및 대기 모드에서 재생';
 
   @override
-  String get changelog110Description =>
-      '앱이 백그라운드로 전환되거나 전화가 대기 모드로 전환되어도 오디오 파일이 이제 재생됩니다.';
+  String get changelog110Description => '앱이 백그라운드로 전환되거나 전화가 대기 모드로 전환되어도 오디오 파일이 이제 재생됩니다.';
 
   @override
   String get changelog1017Title => '루프 재정렬';
@@ -384,8 +378,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get whatsNew => '새로운 기능';
 
   @override
-  String get songAddError =>
-      '곡 추가에 실패했습니다. 파일 형식에 문제가 있을 수 있습니다. mp3나 wav와 같은 지원되는 형식으로 변환해 보세요.';
+  String get songAddError => '곡 추가에 실패했습니다. 파일 형식에 문제가 있을 수 있습니다. mp3나 wav와 같은 지원되는 형식으로 변환해 보세요.';
 
   @override
   String get loopAdded => '루프가 추가되고 활성화되었습니다';
@@ -418,8 +411,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get deleteAllDataTitle => '모든 데이터, 곡 및 루프 삭제';
 
   @override
-  String get deleteAllDataMessage =>
-      '모든 데이터를 삭제하시겠습니까? 이렇게 하면 모든 곡과 루프가 삭제됩니다. 이 작업은 취소할 수 없습니다.';
+  String get deleteAllDataMessage => '모든 데이터를 삭제하시겠습니까? 이렇게 하면 모든 곡과 루프가 삭제됩니다. 이 작업은 취소할 수 없습니다.';
 
   @override
   String get addLoop => '루프 추가';

@@ -16,22 +16,21 @@ class RepeatLabFeature with RepeatLabFeatureMappable {
 
 List<RepeatLabFeature> getPremiumFeatures(
   AppLocalizations translator,
-) =>
-    [
-      RepeatLabFeature(
-        title: translator.premiumFeatureUnlimitedLoops,
-        isPremium: true,
-      ),
-      RepeatLabFeature(
-        title: translator.premiumFeatureChangeMusicSpeed,
-        isPremium: true,
-      ),
-      RepeatLabFeature(
-        title: translator.premiumFeatureZoomInOut,
-        isPremium: true,
-      ),
-      RepeatLabFeature(
-        title: translator.premiumFeatureSupportDeveloper,
-        isPremium: true,
-      ),
-    ];
+) => [
+  RepeatLabFeature(
+    title: translator.premiumFeatureUnlimitedLoops,
+    isPremium: true,
+  ),
+  RepeatLabFeature(
+    title: translator.premiumFeatureChangeMusicSpeed,
+    isPremium: true,
+  ),
+  RepeatLabFeature(
+    title: translator.premiumFeatureZoomInOut,
+    isPremium: true,
+  ),
+  RepeatLabFeature(
+    title: translator.premiumFeatureSupportDeveloper,
+    isPremium: true,
+  ),
+];

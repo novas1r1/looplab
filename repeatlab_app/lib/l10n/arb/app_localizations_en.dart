@@ -153,8 +153,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get leaveReview => 'Leave Review';
 
   @override
-  String get yourFeedbackHelpsMe =>
-      'Your Feedback helps me to add the features ';
+  String get yourFeedbackHelpsMe => 'Your Feedback helps me to add the features ';
 
   @override
   String get you => ' you ';
@@ -197,12 +196,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get endCannotBeBeforeStart => 'End cannot be before start';
 
   @override
-  String get noActiveLoop =>
-      'No active loop.\nAdd a new loop or select an existing one.';
+  String get noActiveLoop => 'No active loop.\nAdd a new loop or select an existing one.';
 
   @override
-  String get startMustBeBeforeEnd =>
-      'Start position must be before end position';
+  String get startMustBeBeforeEnd => 'Start position must be before end position';
 
   @override
   String get setLoopStart => 'Set Loop Start';
@@ -227,8 +224,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';
 
   @override
-  String get premiumFeatureSupportDeveloper =>
-      'Support the independent Developer';
+  String get premiumFeatureSupportDeveloper => 'Support the independent Developer';
 
   @override
   String get freeFeatureUnlimitedSongs => 'Unlimited Songs + One Loop per Song';
@@ -278,8 +274,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get lifetimeDescription =>
-      'One-time payment. No subscription required.';
+  String get lifetimeDescription => 'One-time payment. No subscription required.';
 
   @override
   String get deleteSongLoops => 'Delete Song & Loops';
@@ -292,24 +287,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cancel => 'Cancel';
 
   @override
-  String get startPositionMustBeBeforeEndPosition =>
-      'Start position must be before end position';
+  String get startPositionMustBeBeforeEndPosition => 'Start position must be before end position';
 
   @override
-  String get endPositionMustBeAfterStartPosition =>
-      'End position must be after start position';
+  String get endPositionMustBeAfterStartPosition => 'End position must be after start position';
 
   @override
-  String get tutorialNavigateThroughSong =>
-      'Navigate through the song with dragging and dropping';
+  String get tutorialNavigateThroughSong => 'Navigate through the song with dragging and dropping';
 
   @override
   String get tutorialNavigateThroughSongDescription =>
       'Use your fingers to drag and drop the whole song to the left or right and zoom in/out for better precision';
 
   @override
-  String get tutorialPlayAndPauseSong =>
-      'Play, pause or change the speed of the song';
+  String get tutorialPlayAndPauseSong => 'Play, pause or change the speed of the song';
 
   @override
   String get tutorialPlayAndPauseSongDescription =>
@@ -347,8 +338,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tutorialAddLoop => 'Add a new loop';
 
   @override
-  String get tutorialAddLoopDescription =>
-      'You can add a new loop by tapping on the + button';
+  String get tutorialAddLoopDescription => 'You can add a new loop by tapping on the + button';
 
   @override
   String get year => 'year';
@@ -357,8 +347,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get purchasedAlready => 'Purchased already';
 
   @override
-  String get purchaseSuccess =>
-      'Purchase successful. Thank you for supporting the developer ❤️!';
+  String get purchaseSuccess => 'Purchase successful. Thank you for supporting the developer ❤️!';
 
   @override
   String get voteForFeatures => 'Vote for Features';
@@ -388,8 +377,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'You can now reorder your loops by dragging and dropping them. Just long press on a loop and drag it to the new position.';
 
   @override
-  String get changelog1013Title =>
-      'Feature Voting & Feature proposal now possible';
+  String get changelog1013Title => 'Feature Voting & Feature proposal now possible';
 
   @override
   String get changelog1013Description =>
@@ -424,8 +412,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get oneCoffee => '= One Coffee for the Developer (per Year)';
 
   @override
-  String get onePairOfDrumSticks =>
-      '= One Pair of Drum Sticks for the Developer (one-time)';
+  String get onePairOfDrumSticks => '= One Pair of Drum Sticks for the Developer (one-time)';
 
   @override
   String get deleteAllData => 'Delete All Data';

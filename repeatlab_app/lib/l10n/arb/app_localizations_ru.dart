@@ -153,8 +153,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get leaveReview => 'Оставить Отзыв';
 
   @override
-  String get yourFeedbackHelpsMe =>
-      'Ваши отзывы помогают мне добавлять функции, которые ';
+  String get yourFeedbackHelpsMe => 'Ваши отзывы помогают мне добавлять функции, которые ';
 
   @override
   String get you => ' вы ';
@@ -197,12 +196,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get endCannotBeBeforeStart => 'Конец не может быть перед началом';
 
   @override
-  String get noActiveLoop =>
-      'Нет активного лупа.\nДобавьте новый луп или выберите существующий.';
+  String get noActiveLoop => 'Нет активного лупа.\nДобавьте новый луп или выберите существующий.';
 
   @override
-  String get startMustBeBeforeEnd =>
-      'Начальная позиция должна быть перед конечной';
+  String get startMustBeBeforeEnd => 'Начальная позиция должна быть перед конечной';
 
   @override
   String get setLoopStart => 'Установить Начало Лупа';
@@ -211,8 +208,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get setLoopEnd => 'Установить Конец Лупа';
 
   @override
-  String get endMustBeAfterStart =>
-      'Конечная позиция должна быть после начальной';
+  String get endMustBeAfterStart => 'Конечная позиция должна быть после начальной';
 
   @override
   String get premiumHeadline =>
@@ -228,12 +224,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';
 
   @override
-  String get premiumFeatureSupportDeveloper =>
-      'Поддержка Независимого Разработчика';
+  String get premiumFeatureSupportDeveloper => 'Поддержка Независимого Разработчика';
 
   @override
-  String get freeFeatureUnlimitedSongs =>
-      'Неограниченное Количество Песен + Один Луп на Песню';
+  String get freeFeatureUnlimitedSongs => 'Неограниченное Количество Песен + Один Луп на Песню';
 
   @override
   String get freeFeatureNoAds => 'Без Рекламы';
@@ -280,8 +274,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get lifetimeDescription =>
-      'Единоразовый платеж. Подписка не требуется.';
+  String get lifetimeDescription => 'Единоразовый платеж. Подписка не требуется.';
 
   @override
   String get deleteSongLoops => 'Удалить Песню и Лупы';
@@ -294,24 +287,20 @@ class AppLocalizationsRu extends AppLocalizations {
   String get cancel => 'Отмена';
 
   @override
-  String get startPositionMustBeBeforeEndPosition =>
-      'Начальная позиция должна быть перед конечной';
+  String get startPositionMustBeBeforeEndPosition => 'Начальная позиция должна быть перед конечной';
 
   @override
-  String get endPositionMustBeAfterStartPosition =>
-      'Конечная позиция должна быть после начальной';
+  String get endPositionMustBeAfterStartPosition => 'Конечная позиция должна быть после начальной';
 
   @override
-  String get tutorialNavigateThroughSong =>
-      'Навигация по песне с помощью перетаскивания';
+  String get tutorialNavigateThroughSong => 'Навигация по песне с помощью перетаскивания';
 
   @override
   String get tutorialNavigateThroughSongDescription =>
       'Используйте пальцы для перетаскивания всей песни влево или вправо и масштабирования для лучшей точности';
 
   @override
-  String get tutorialPlayAndPauseSong =>
-      'Воспроизведение, пауза или изменение скорости песни';
+  String get tutorialPlayAndPauseSong => 'Воспроизведение, пауза или изменение скорости песни';
 
   @override
   String get tutorialPlayAndPauseSongDescription =>
@@ -339,8 +328,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Вы всегда можете настроить конечную позицию лупа, перемещая маркер песни и нажимая на конечную позицию';
 
   @override
-  String get tutorialActivateLoop =>
-      'Активация режима лупа для выбранного лупа';
+  String get tutorialActivateLoop => 'Активация режима лупа для выбранного лупа';
 
   @override
   String get tutorialActivateLoopDescription =>
@@ -350,8 +338,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get tutorialAddLoop => 'Добавление нового лупа';
 
   @override
-  String get tutorialAddLoopDescription =>
-      'Вы можете добавить новый луп, нажав на кнопку +';
+  String get tutorialAddLoopDescription => 'Вы можете добавить новый луп, нажав на кнопку +';
 
   @override
   String get year => 'год';
@@ -360,8 +347,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get purchasedAlready => 'Уже приобретено';
 
   @override
-  String get purchaseSuccess =>
-      'Покупка прошла успешно. Спасибо за поддержку разработчика ❤️!';
+  String get purchaseSuccess => 'Покупка прошла успешно. Спасибо за поддержку разработчика ❤️!';
 
   @override
   String get voteForFeatures => 'Предложить Функции';
@@ -377,8 +363,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Если не было установлено конечное положение лупа, луп будет воспроизводиться до конца песни и будет считаться концом песни как концом лупа. Сервис аудио в фоновом режиме теперь завершается при закрытии приложения.';
 
   @override
-  String get changelog110Title =>
-      'Audio теперь играет в фоновом режиме и в режиме ожидания';
+  String get changelog110Title => 'Audio теперь играет в фоновом режиме и в режиме ожидания';
 
   @override
   String get changelog110Description =>
@@ -392,8 +377,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Вы можете теперь переупорядочить свои лупы, перетаскивая их и отпуская на новую позицию. Просто долго нажмите на луп и перетащите его в новую позицию.';
 
   @override
-  String get changelog1013Title =>
-      'Голосование за функции и предложение функций теперь возможно';
+  String get changelog1013Title => 'Голосование за функции и предложение функций теперь возможно';
 
   @override
   String get changelog1013Description =>
@@ -428,8 +412,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get oneCoffee => '= Один Кофе для Разработчика (в Год)';
 
   @override
-  String get onePairOfDrumSticks =>
-      '= Один Набор Барабанных палочек для Разработчика (один раз)';
+  String get onePairOfDrumSticks => '= Один Набор Барабанных палочек для Разработчика (один раз)';
 
   @override
   String get deleteAllData => 'Удалить Все Данные';

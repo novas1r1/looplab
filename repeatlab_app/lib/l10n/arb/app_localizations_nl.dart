@@ -153,8 +153,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get leaveReview => 'Review Achterlaten';
 
   @override
-  String get yourFeedbackHelpsMe =>
-      'Je feedback helpt me de functies toe te voegen die ';
+  String get yourFeedbackHelpsMe => 'Je feedback helpt me de functies toe te voegen die ';
 
   @override
   String get you => ' jij ';
@@ -226,12 +225,10 @@ class AppLocalizationsNl extends AppLocalizations {
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';
 
   @override
-  String get premiumFeatureSupportDeveloper =>
-      'Steun de Onafhankelijke Ontwikkelaar';
+  String get premiumFeatureSupportDeveloper => 'Steun de Onafhankelijke Ontwikkelaar';
 
   @override
-  String get freeFeatureUnlimitedSongs =>
-      'Onbeperkte Nummers + Een Loop per Nummer';
+  String get freeFeatureUnlimitedSongs => 'Onbeperkte Nummers + Een Loop per Nummer';
 
   @override
   String get freeFeatureNoAds => 'Geen Advertenties';
@@ -278,8 +275,7 @@ class AppLocalizationsNl extends AppLocalizations {
   }
 
   @override
-  String get lifetimeDescription =>
-      'Eenmalige betaling. Geen abonnement vereist.';
+  String get lifetimeDescription => 'Eenmalige betaling. Geen abonnement vereist.';
 
   @override
   String get deleteSongLoops => 'Nummer en Loops Verwijderen';
@@ -292,24 +288,20 @@ class AppLocalizationsNl extends AppLocalizations {
   String get cancel => 'Annuleren';
 
   @override
-  String get startPositionMustBeBeforeEndPosition =>
-      'Startpositie moet voor eindpositie zijn';
+  String get startPositionMustBeBeforeEndPosition => 'Startpositie moet voor eindpositie zijn';
 
   @override
-  String get endPositionMustBeAfterStartPosition =>
-      'Eindpositie moet na startpositie zijn';
+  String get endPositionMustBeAfterStartPosition => 'Eindpositie moet na startpositie zijn';
 
   @override
-  String get tutorialNavigateThroughSong =>
-      'Navigeer door het nummer met slepen';
+  String get tutorialNavigateThroughSong => 'Navigeer door het nummer met slepen';
 
   @override
   String get tutorialNavigateThroughSongDescription =>
       'Gebruik je vingers om het hele nummer naar links of rechts te slepen en zoom voor betere precisie';
 
   @override
-  String get tutorialPlayAndPauseSong =>
-      'Speel, pauzeer of verander de snelheid van het nummer';
+  String get tutorialPlayAndPauseSong => 'Speel, pauzeer of verander de snelheid van het nummer';
 
   @override
   String get tutorialPlayAndPauseSongDescription =>
@@ -337,8 +329,7 @@ class AppLocalizationsNl extends AppLocalizations {
       'Je kunt de eindpositie van de loop altijd aanpassen door de nummermarkering te verplaatsen en op de eindpositie te tikken';
 
   @override
-  String get tutorialActivateLoop =>
-      'Activeer de loopmodus voor geselecteerde loop';
+  String get tutorialActivateLoop => 'Activeer de loopmodus voor geselecteerde loop';
 
   @override
   String get tutorialActivateLoopDescription =>
@@ -375,8 +366,7 @@ class AppLocalizationsNl extends AppLocalizations {
       'Als geen eindpositie voor de loop was ingesteld, werd de loop tot het einde van het nummer afgespeeld en werd het nummer einde als loop einde beschouwd. De audio achtergrondservice wordt nu beëindigd wanneer de app wordt gesloten.';
 
   @override
-  String get changelog110Title =>
-      'Audio speelt ook in de achtergrond en standby';
+  String get changelog110Title => 'Audio speelt ook in de achtergrond en standby';
 
   @override
   String get changelog110Description =>
@@ -390,8 +380,7 @@ class AppLocalizationsNl extends AppLocalizations {
       'Je kunt nu je loops opnieuw ordenen door ze lang te tikken en naar de nieuwe positie te slepen.';
 
   @override
-  String get changelog1013Title =>
-      'Feature Voting & Feature proposal now possible';
+  String get changelog1013Title => 'Feature Voting & Feature proposal now possible';
 
   @override
   String get changelog1013Description =>
@@ -426,15 +415,13 @@ class AppLocalizationsNl extends AppLocalizations {
   String get oneCoffee => '= Een Koffie voor de Ontwikkelaar (per Jaar)';
 
   @override
-  String get onePairOfDrumSticks =>
-      '= Een Set van Drumsticks voor de Ontwikkelaar (eenmalig)';
+  String get onePairOfDrumSticks => '= Een Set van Drumsticks voor de Ontwikkelaar (eenmalig)';
 
   @override
   String get deleteAllData => 'Alle Gegevens Verwijderen';
 
   @override
-  String get deleteAllDataTitle =>
-      'Alle Gegevens, Nummers en Loops Verwijderen';
+  String get deleteAllDataTitle => 'Alle Gegevens, Nummers en Loops Verwijderen';
 
   @override
   String get deleteAllDataMessage =>

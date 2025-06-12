@@ -39,23 +39,23 @@ class HomeTile extends StatelessWidget {
             child: Text(
               '${song.loops.length}',
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                    fontWeight: FontWeight.bold,
-                  ),
+                color: Theme.of(context).colorScheme.onPrimary,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           onTap: () => _onTapSong(context, song),
           title: Text(
             song.title,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
+              fontWeight: FontWeight.w500,
+            ),
           ),
           subtitle: Text(
             song.artist,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
+              fontWeight: FontWeight.w500,
+            ),
           ),
           trailing: Container(
             padding: const EdgeInsets.symmetric(

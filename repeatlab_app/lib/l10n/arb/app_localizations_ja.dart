@@ -123,15 +123,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get onboardingTitle2 => '正確なループを作成';
 
   @override
-  String get onboardingDescription2 =>
-      '練習したい部分の開始と終了をタップするだけでマークできます。直感的な波形表示で調整と微調整が可能です。';
+  String get onboardingDescription2 => '練習したい部分の開始と終了をタップするだけでマークできます。直感的な波形表示で調整と微調整が可能です。';
 
   @override
   String get onboardingTitle3 => 'プライバシー優先';
 
   @override
-  String get onboardingDescription3 =>
-      'あなたのプライバシーを尊重し、データを慎重に扱います。プライバシーポリシーを確認し、続行するには同意してください。';
+  String get onboardingDescription3 => 'あなたのプライバシーを尊重し、データを慎重に扱います。プライバシーポリシーを確認し、続行するには同意してください。';
 
   @override
   String get onboardingPrivacyPolicy => '同意します';
@@ -210,8 +208,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get endMustBeAfterStart => '終了位置は開始位置より後である必要があります';
 
   @override
-  String get premiumHeadline =>
-      'テンポコントロール、ズーム、無制限のループで、プロのようにお気に入りの曲をマスターしましょう！';
+  String get premiumHeadline => 'テンポコントロール、ズーム、無制限のループで、プロのようにお気に入りの曲をマスターしましょう！';
 
   @override
   String get premiumFeatureUnlimitedLoops => '無制限のループ';
@@ -255,8 +252,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get notAvailable => '利用できません';
 
   @override
-  String get cancelAnytime =>
-      'トライアル期間終了前にGoogle Play設定でいつでもキャンセルできます。課金を避けるためにお早めにキャンセルしてください。';
+  String get cancelAnytime => 'トライアル期間終了前にGoogle Play設定でいつでもキャンセルできます。課金を避けるためにお早めにキャンセルしてください。';
 
   @override
   String get restore => '復元';
@@ -279,8 +275,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get deleteSongLoops => '曲とループを削除';
 
   @override
-  String get deleteSongLoopsDescription =>
-      'この曲と関連するすべてのループを削除してもよろしいですか？この操作は元に戻せません。';
+  String get deleteSongLoopsDescription => 'この曲と関連するすべてのループを削除してもよろしいですか？この操作は元に戻せません。';
 
   @override
   String get cancel => 'キャンセル';
@@ -308,22 +303,19 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tutorialJumpToLoop => 'ループを表示してジャンプ';
 
   @override
-  String get tutorialJumpToLoopDescription =>
-      'ループはここに表示されます。タップすることでループにジャンプできます';
+  String get tutorialJumpToLoopDescription => 'ループはここに表示されます。タップすることでループにジャンプできます';
 
   @override
   String get tutorialSetLoopStart => 'ループの開始位置を設定';
 
   @override
-  String get tutorialSetLoopStartDescription =>
-      '曲マーカーを移動して開始位置をタップすることで、いつでもループの開始位置を調整できます';
+  String get tutorialSetLoopStartDescription => '曲マーカーを移動して開始位置をタップすることで、いつでもループの開始位置を調整できます';
 
   @override
   String get tutorialSetLoopEnd => 'ループの終了位置を設定';
 
   @override
-  String get tutorialSetLoopEndDescription =>
-      '曲マーカーを移動して終了位置をタップすることで、いつでもループの終了位置を調整できます';
+  String get tutorialSetLoopEndDescription => '曲マーカーを移動して終了位置をタップすることで、いつでもループの終了位置を調整できます';
 
   @override
   String get tutorialActivateLoop => '選択したループのループモードを有効化';
@@ -385,8 +377,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get whatsNew => '新機能';
 
   @override
-  String get songAddError =>
-      '曲の追加に失敗しました。ファイル形式に問題がある可能性があります。mp3やwavなどのサポートされている形式に変換してみてください。';
+  String get songAddError => '曲の追加に失敗しました。ファイル形式に問題がある可能性があります。mp3やwavなどのサポートされている形式に変換してみてください。';
 
   @override
   String get loopAdded => 'ループが追加され、有効化されました';
@@ -419,8 +410,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get deleteAllDataTitle => 'すべてのデータ、曲、ループを削除';
 
   @override
-  String get deleteAllDataMessage =>
-      'すべてのデータを削除してもよろしいですか？これにより、すべての曲とループが削除されます。この操作は元に戻せません。';
+  String get deleteAllDataMessage => 'すべてのデータを削除してもよろしいですか？これにより、すべての曲とループが削除されます。この操作は元に戻せません。';
 
   @override
   String get addLoop => 'ループを追加';

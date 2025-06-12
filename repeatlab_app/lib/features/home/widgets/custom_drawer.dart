@@ -44,16 +44,16 @@ class CustomDrawer extends StatelessWidget {
                 Text(
                   'RepeatLab',
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.onPrimary,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    color: Theme.of(context).colorScheme.onPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   context.l10n.appSubtitle,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Theme.of(context).colorScheme.onPrimary.withValues(alpha: 0.8),
-                      ),
+                    color: Theme.of(context).colorScheme.onPrimary.withValues(alpha: 0.8),
+                  ),
                 ),
               ],
             ),
@@ -83,8 +83,8 @@ class CustomDrawer extends StatelessWidget {
             child: Text(
               context.l10n.userSettings,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w300,
-                  ),
+                fontWeight: FontWeight.w300,
+              ),
             ),
           ),
           FutureBuilder(
@@ -125,8 +125,8 @@ class CustomDrawer extends StatelessWidget {
             child: Text(
               context.l10n.improveTheApp,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w300,
-                  ),
+                fontWeight: FontWeight.w300,
+              ),
             ),
           ),
           ListTile(
@@ -147,8 +147,8 @@ class CustomDrawer extends StatelessWidget {
             child: Text(
               context.l10n.legals,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w300,
-                  ),
+                fontWeight: FontWeight.w300,
+              ),
             ),
           ),
           ListTile(
@@ -197,8 +197,8 @@ class CustomDrawer extends StatelessWidget {
             child: Text(
               '${context.l10n.version} $appVersion ($buildNumber)',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
-                  ),
+                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+              ),
             ),
           ),
         ],

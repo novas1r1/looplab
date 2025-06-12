@@ -261,26 +261,27 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                       backgroundColor: Theme.of(context).colorScheme.primary,
                       foregroundColor: Theme.of(context).colorScheme.onPrimary,
                     ),
-                    onPressed: !hasSubscription &&
+                    onPressed:
+                        !hasSubscription &&
                             !hasLifetimePurchase &&
                             widget.fetchProductsState.annualPackage != null &&
                             widget.fetchProductsState.lifetimePackage != null
                         ? () {
                             if (_selectedPlan == PlanPeriod.yearly) {
                               context.read<FetchProductsCubit>().purchase(
-                                    widget.fetchProductsState.annualPackage!,
-                                  );
+                                widget.fetchProductsState.annualPackage!,
+                              );
                             } else if (_selectedPlan == PlanPeriod.lifetime) {
                               context.read<FetchProductsCubit>().purchase(
-                                    widget.fetchProductsState.lifetimePackage!,
-                                  );
+                                widget.fetchProductsState.lifetimePackage!,
+                              );
                             }
                           }
                         : null,
                     child: !hasSubscription && !hasLifetimePurchase
                         ? _selectedPlan == PlanPeriod.yearly
-                            ? Text(context.l10n.purchaseYearly(isApple ? '3' : '5'))
-                            : Text(context.l10n.purchaseLifetime)
+                              ? Text(context.l10n.purchaseYearly(isApple ? '3' : '5'))
+                              : Text(context.l10n.purchaseLifetime)
                         : Text(context.l10n.purchasedAlready),
                   ),
                   const SizedBox(height: 8),
@@ -306,8 +307,8 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                           child: FittedBox(child: Text(context.l10n.restore)),
                         ),
                       ),
-                      // Terms
 
+                      // Terms
                       Expanded(
                         child: TextButton(
                           onPressed: () {
@@ -318,8 +319,8 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                           child: FittedBox(child: Text(context.l10n.terms)),
                         ),
                       ),
-                      // Privacy
 
+                      // Privacy
                       Expanded(
                         child: TextButton(
                           onPressed: () {

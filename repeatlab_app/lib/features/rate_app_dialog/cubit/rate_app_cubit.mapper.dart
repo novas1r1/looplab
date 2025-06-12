@@ -72,11 +72,19 @@ class RateAppStateMapper extends ClassMapperBase<RateAppState> {
   final String id = 'RateAppState';
 
   static RateAppStatus _$status(RateAppState v) => v.status;
-  static const Field<RateAppState, RateAppStatus> _f$status =
-      Field('status', _$status, opt: true, def: RateAppStatus.initial);
+  static const Field<RateAppState, RateAppStatus> _f$status = Field(
+    'status',
+    _$status,
+    opt: true,
+    def: RateAppStatus.initial,
+  );
   static bool _$shouldShowDialog(RateAppState v) => v.shouldShowDialog;
-  static const Field<RateAppState, bool> _f$shouldShowDialog =
-      Field('shouldShowDialog', _$shouldShowDialog, opt: true, def: false);
+  static const Field<RateAppState, bool> _f$shouldShowDialog = Field(
+    'shouldShowDialog',
+    _$shouldShowDialog,
+    opt: true,
+    def: false,
+  );
 
   @override
   final MappableFields<RateAppState> fields = const {
@@ -86,8 +94,9 @@ class RateAppStateMapper extends ClassMapperBase<RateAppState> {
 
   static RateAppState _instantiate(DecodingData data) {
     return RateAppState(
-        status: data.dec(_f$status),
-        shouldShowDialog: data.dec(_f$shouldShowDialog));
+      status: data.dec(_f$status),
+      shouldShowDialog: data.dec(_f$shouldShowDialog),
+    );
   }
 
   @override
@@ -104,39 +113,36 @@ class RateAppStateMapper extends ClassMapperBase<RateAppState> {
 
 mixin RateAppStateMappable {
   String toJson() {
-    return RateAppStateMapper.ensureInitialized()
-        .encodeJson<RateAppState>(this as RateAppState);
+    return RateAppStateMapper.ensureInitialized().encodeJson<RateAppState>(this as RateAppState);
   }
 
   Map<String, dynamic> toMap() {
-    return RateAppStateMapper.ensureInitialized()
-        .encodeMap<RateAppState>(this as RateAppState);
+    return RateAppStateMapper.ensureInitialized().encodeMap<RateAppState>(this as RateAppState);
   }
 
   RateAppStateCopyWith<RateAppState, RateAppState, RateAppState> get copyWith =>
       _RateAppStateCopyWithImpl<RateAppState, RateAppState>(
-          this as RateAppState, $identity, $identity);
+        this as RateAppState,
+        $identity,
+        $identity,
+      );
   @override
   String toString() {
-    return RateAppStateMapper.ensureInitialized()
-        .stringifyValue(this as RateAppState);
+    return RateAppStateMapper.ensureInitialized().stringifyValue(this as RateAppState);
   }
 
   @override
   bool operator ==(Object other) {
-    return RateAppStateMapper.ensureInitialized()
-        .equalsValue(this as RateAppState, other);
+    return RateAppStateMapper.ensureInitialized().equalsValue(this as RateAppState, other);
   }
 
   @override
   int get hashCode {
-    return RateAppStateMapper.ensureInitialized()
-        .hashValue(this as RateAppState);
+    return RateAppStateMapper.ensureInitialized().hashValue(this as RateAppState);
   }
 }
 
-extension RateAppStateValueCopy<$R, $Out>
-    on ObjectCopyWith<$R, RateAppState, $Out> {
+extension RateAppStateValueCopy<$R, $Out> on ObjectCopyWith<$R, RateAppState, $Out> {
   RateAppStateCopyWith<$R, RateAppState, $Out> get $asRateAppState =>
       $base.as((v, t, t2) => _RateAppStateCopyWithImpl<$R, $Out>(v, t, t2));
 }
@@ -147,28 +153,26 @@ abstract class RateAppStateCopyWith<$R, $In extends RateAppState, $Out>
   RateAppStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
-class _RateAppStateCopyWithImpl<$R, $Out>
-    extends ClassCopyWithBase<$R, RateAppState, $Out>
+class _RateAppStateCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, RateAppState, $Out>
     implements RateAppStateCopyWith<$R, RateAppState, $Out> {
   _RateAppStateCopyWithImpl(super.value, super.then, super.then2);
 
   @override
-  late final ClassMapperBase<RateAppState> $mapper =
-      RateAppStateMapper.ensureInitialized();
+  late final ClassMapperBase<RateAppState> $mapper = RateAppStateMapper.ensureInitialized();
   @override
-  $R call({RateAppStatus? status, bool? shouldShowDialog}) =>
-      $apply(FieldCopyWithData({
-        if (status != null) #status: status,
-        if (shouldShowDialog != null) #shouldShowDialog: shouldShowDialog
-      }));
+  $R call({RateAppStatus? status, bool? shouldShowDialog}) => $apply(
+    FieldCopyWithData({
+      if (status != null) #status: status,
+      if (shouldShowDialog != null) #shouldShowDialog: shouldShowDialog,
+    }),
+  );
   @override
   RateAppState $make(CopyWithData data) => RateAppState(
-      status: data.get(#status, or: $value.status),
-      shouldShowDialog:
-          data.get(#shouldShowDialog, or: $value.shouldShowDialog));
+    status: data.get(#status, or: $value.status),
+    shouldShowDialog: data.get(#shouldShowDialog, or: $value.shouldShowDialog),
+  );
 
   @override
-  RateAppStateCopyWith<$R2, RateAppState, $Out2> $chain<$R2, $Out2>(
-          Then<$Out2, $R2> t) =>
+  RateAppStateCopyWith<$R2, RateAppState, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
       _RateAppStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

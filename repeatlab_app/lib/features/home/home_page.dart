@@ -53,8 +53,8 @@ class _HomePageState extends State<HomePage> {
           title: Text(
             'RepeatLab',
             style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+              fontWeight: FontWeight.bold,
+            ),
           ),
           actions: [
             IconButton(
@@ -106,9 +106,8 @@ class _HomePageState extends State<HomePage> {
                         Text(
                           context.l10n.tapToAddSong,
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color:
-                                    Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
-                              ),
+                            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                          ),
                         ),
                       ],
                     ),

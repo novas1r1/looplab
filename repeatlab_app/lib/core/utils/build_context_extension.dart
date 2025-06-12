@@ -22,10 +22,10 @@ extension AppTextStyles on BuildContext {
   TextStyle get labelSmall => Theme.of(this).textTheme.labelSmall!;
 
   TextStyle get bodyLargeBold => Theme.of(this).textTheme.bodyLarge!.copyWith(
-        fontWeight: FontWeight.bold,
-      );
+    fontWeight: FontWeight.bold,
+  );
 
   TextStyle get bodyMediumBold => Theme.of(this).textTheme.bodyMedium!.copyWith(
-        fontWeight: FontWeight.bold,
-      );
+    fontWeight: FontWeight.bold,
+  );
 }

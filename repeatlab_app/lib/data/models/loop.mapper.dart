@@ -88,11 +88,14 @@ class LoopMapper extends ClassMapperBase<Loop> {
   static LoopColor _$color(Loop v) => v.color;
   static const Field<Loop, LoopColor> _f$color = Field('color', _$color);
   static int _$orderNumber(Loop v) => v.orderNumber;
-  static const Field<Loop, int> _f$orderNumber =
-      Field('orderNumber', _$orderNumber, opt: true, def: 0);
+  static const Field<Loop, int> _f$orderNumber = Field(
+    'orderNumber',
+    _$orderNumber,
+    opt: true,
+    def: 0,
+  );
   static Duration? _$start(Loop v) => v.start;
-  static const Field<Loop, Duration> _f$start =
-      Field('start', _$start, opt: true);
+  static const Field<Loop, Duration> _f$start = Field('start', _$start, opt: true);
   static Duration? _$end(Loop v) => v.end;
   static const Field<Loop, Duration> _f$end = Field('end', _$end, opt: true);
 
@@ -109,13 +112,14 @@ class LoopMapper extends ClassMapperBase<Loop> {
 
   static Loop _instantiate(DecodingData data) {
     return Loop(
-        id: data.dec(_f$id),
-        name: data.dec(_f$name),
-        songId: data.dec(_f$songId),
-        color: data.dec(_f$color),
-        orderNumber: data.dec(_f$orderNumber),
-        start: data.dec(_f$start),
-        end: data.dec(_f$end));
+      id: data.dec(_f$id),
+      name: data.dec(_f$name),
+      songId: data.dec(_f$songId),
+      color: data.dec(_f$color),
+      orderNumber: data.dec(_f$orderNumber),
+      start: data.dec(_f$start),
+      end: data.dec(_f$end),
+    );
   }
 
   @override
@@ -162,16 +166,16 @@ extension LoopValueCopy<$R, $Out> on ObjectCopyWith<$R, Loop, $Out> {
       $base.as((v, t, t2) => _LoopCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
-abstract class LoopCopyWith<$R, $In extends Loop, $Out>
-    implements ClassCopyWith<$R, $In, $Out> {
-  $R call(
-      {int? id,
-      String? name,
-      String? songId,
-      LoopColor? color,
-      int? orderNumber,
-      Duration? start,
-      Duration? end});
+abstract class LoopCopyWith<$R, $In extends Loop, $Out> implements ClassCopyWith<$R, $In, $Out> {
+  $R call({
+    int? id,
+    String? name,
+    String? songId,
+    LoopColor? color,
+    int? orderNumber,
+    Duration? start,
+    Duration? end,
+  });
   LoopCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -182,32 +186,35 @@ class _LoopCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Loop, $Out>
   @override
   late final ClassMapperBase<Loop> $mapper = LoopMapper.ensureInitialized();
   @override
-  $R call(
-          {int? id,
-          String? name,
-          String? songId,
-          LoopColor? color,
-          int? orderNumber,
-          Object? start = $none,
-          Object? end = $none}) =>
-      $apply(FieldCopyWithData({
-        if (id != null) #id: id,
-        if (name != null) #name: name,
-        if (songId != null) #songId: songId,
-        if (color != null) #color: color,
-        if (orderNumber != null) #orderNumber: orderNumber,
-        if (start != $none) #start: start,
-        if (end != $none) #end: end
-      }));
+  $R call({
+    int? id,
+    String? name,
+    String? songId,
+    LoopColor? color,
+    int? orderNumber,
+    Object? start = $none,
+    Object? end = $none,
+  }) => $apply(
+    FieldCopyWithData({
+      if (id != null) #id: id,
+      if (name != null) #name: name,
+      if (songId != null) #songId: songId,
+      if (color != null) #color: color,
+      if (orderNumber != null) #orderNumber: orderNumber,
+      if (start != $none) #start: start,
+      if (end != $none) #end: end,
+    }),
+  );
   @override
   Loop $make(CopyWithData data) => Loop(
-      id: data.get(#id, or: $value.id),
-      name: data.get(#name, or: $value.name),
-      songId: data.get(#songId, or: $value.songId),
-      color: data.get(#color, or: $value.color),
-      orderNumber: data.get(#orderNumber, or: $value.orderNumber),
-      start: data.get(#start, or: $value.start),
-      end: data.get(#end, or: $value.end));
+    id: data.get(#id, or: $value.id),
+    name: data.get(#name, or: $value.name),
+    songId: data.get(#songId, or: $value.songId),
+    color: data.get(#color, or: $value.color),
+    orderNumber: data.get(#orderNumber, or: $value.orderNumber),
+    start: data.get(#start, or: $value.start),
+    end: data.get(#end, or: $value.end),
+  );
 
   @override
   LoopCopyWith<$R2, Loop, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>

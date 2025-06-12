@@ -29,7 +29,8 @@ class SongController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final playerState = context.watch<SongCubit>().state.playerState;
-    final isPaused = playerState == PlayerState.paused ||
+    final isPaused =
+        playerState == PlayerState.paused ||
         playerState == null ||
         playerState == PlayerState.stopped;
 

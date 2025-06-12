@@ -92,11 +92,10 @@ packages:
   audioplayers:
     dependency: "direct main"
     description:
-      path: "packages/audioplayers"
-      ref: "feat/1920-timeout"
-      resolved-ref: cb34be587a0e8dbe4cdeed026a1332cca7fc87c8
-      url: "https://github.com/kubito/audioplayers.git"
-    source: git
+      name: audioplayers
+      sha256: a5341380a4f1d3a10a4edde5bb75de5127fe31e0faa8c4d860e64d2f91ad84c7
+      url: "https://pub.dev"
+    source: hosted
     version: "6.4.0"
   audioplayers_android:
     dependency: transitive
@@ -874,10 +873,10 @@ packages:
     dependency: "direct main"
     description:
       name: purchases_flutter
-      sha256: "0bbb149e5a875f6f39ca913ea70f9007a2ba1c2556d0c3a99e76ef6d169dac4d"
+      sha256: "4f4ac40780011c8560ab78a7e4803cc7166308642715d302b4adc00cf0000fa6"
       url: "https://pub.dev"
     source: hosted
-    version: "8.10.0"
+    version: "8.10.2"
   rxdart:
     dependency: transitive
     description:
@@ -1271,10 +1270,10 @@ packages:
     dependency: transitive
     description:
       name: vector_graphics
-      sha256: "44cc7104ff32563122a929e4620cf3efd584194eec6d1d913eb5ba593dbcf6de"
+      sha256: a4f059dc26fc8295b5921376600a194c4ec7d55e72f2fe4c7d2831e103d461e6
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.18"
+    version: "1.1.19"
   vector_graphics_codec:
     dependency: transitive
     description:
@@ -1311,10 +1310,10 @@ packages:
     dependency: transitive
     description:
       name: watcher
-      sha256: "69da27e49efa56a15f8afe8f4438c4ec02eff0a117df1b22ea4aad194fe1c104"
+      sha256: "0b7fd4a0bbc4b92641dbf20adfd7e3fd1398fe17102d94b674234563e110088a"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.1"
+    version: "1.1.2"
   web:
     dependency: transitive
     description:
@@ -1396,5 +1395,5 @@ packages:
     source: hosted
     version: "3.1.3"
 sdks:
-  dart: ">=3.8.0 <4.0.0"
-  flutter: ">=3.32.1"
+  dart: ">=3.8.1 <4.0.0"
+  flutter: ">=3.32.3"

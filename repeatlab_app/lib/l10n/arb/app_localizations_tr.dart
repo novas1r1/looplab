@@ -153,8 +153,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get leaveReview => 'İnceleme Bırak';
 
   @override
-  String get yourFeedbackHelpsMe =>
-      'Geri bildiriminiz eklememe yardımcı oluyor';
+  String get yourFeedbackHelpsMe => 'Geri bildiriminiz eklememe yardımcı oluyor';
 
   @override
   String get you => 'Siz';
@@ -191,20 +190,17 @@ class AppLocalizationsTr extends AppLocalizations {
   String get invalidFormat => 'Geçersiz format (mm:ss:ms)';
 
   @override
-  String get startCannotBeAfterEnd =>
-      'Başlangıç zamanı bitiş zamanından sonra olamaz';
+  String get startCannotBeAfterEnd => 'Başlangıç zamanı bitiş zamanından sonra olamaz';
 
   @override
-  String get endCannotBeBeforeStart =>
-      'Bitiş zamanı başlangıç zamanından önce olamaz';
+  String get endCannotBeBeforeStart => 'Bitiş zamanı başlangıç zamanından önce olamaz';
 
   @override
   String get noActiveLoop =>
       'Aktif döngü yok.\nYeni bir döngü ekleyin veya mevcut bir döngü seçin.';
 
   @override
-  String get startMustBeBeforeEnd =>
-      'Başlangıç konumu bitiş konumundan önce olmalıdır';
+  String get startMustBeBeforeEnd => 'Başlangıç konumu bitiş konumundan önce olmalıdır';
 
   @override
   String get setLoopStart => 'Döngü Başlangıcını Ayarla';
@@ -213,8 +209,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get setLoopEnd => 'Döngü Bitişini Ayarla';
 
   @override
-  String get endMustBeAfterStart =>
-      'Bitiş konumu başlangıç konumundan sonra olmalıdır';
+  String get endMustBeAfterStart => 'Bitiş konumu başlangıç konumundan sonra olmalıdır';
 
   @override
   String get premiumHeadline =>
@@ -230,12 +225,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get premiumFeatureZoomInOut => 'Dalga formunu yakınlaştır/uzaklaştır';
 
   @override
-  String get premiumFeatureSupportDeveloper =>
-      'Bağımsız geliştiriciyi destekle';
+  String get premiumFeatureSupportDeveloper => 'Bağımsız geliştiriciyi destekle';
 
   @override
-  String get freeFeatureUnlimitedSongs =>
-      'Sınırsız şarkı + şarkı başına bir döngü';
+  String get freeFeatureUnlimitedSongs => 'Sınırsız şarkı + şarkı başına bir döngü';
 
   @override
   String get freeFeatureNoAds => 'Reklam yok';
@@ -338,8 +331,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'Şarkı işaretçisini hareket ettirerek ve bitiş konumuna tıklayarak her zaman döngü bitiş konumunu ayarlayabilirsiniz';
 
   @override
-  String get tutorialActivateLoop =>
-      'Seçili döngü için döngü modunu etkinleştir';
+  String get tutorialActivateLoop => 'Seçili döngü için döngü modunu etkinleştir';
 
   @override
   String get tutorialActivateLoopDescription =>
@@ -349,8 +341,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get tutorialAddLoop => 'Yeni döngü ekle';
 
   @override
-  String get tutorialAddLoopDescription =>
-      '+ düğmesine tıklayarak yeni bir döngü ekleyebilirsiniz';
+  String get tutorialAddLoopDescription => '+ düğmesine tıklayarak yeni bir döngü ekleyebilirsiniz';
 
   @override
   String get year => 'yıl';
@@ -376,8 +367,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'Döngü bitişi ayarlanmamışsa, döngü şarkının sonuna kadar çalacak ve şarkının sonu döngü bitişi olarak kabul edilecekti. Artık uygulama kapatıldığında arka plan ses servisi duracak.';
 
   @override
-  String get changelog110Title =>
-      'Artık arka planda ve uyku modunda ses çalışıyor';
+  String get changelog110Title => 'Artık arka planda ve uyku modunda ses çalışıyor';
 
   @override
   String get changelog110Description =>
@@ -427,8 +417,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get oneCoffee => '= Geliştirici için bir fincan kahve (yıllık)';
 
   @override
-  String get onePairOfDrumSticks =>
-      '= Geliştirici için bir çift davul çubuğu (bir kez)';
+  String get onePairOfDrumSticks => '= Geliştirici için bir çift davul çubuğu (bir kez)';
 
   @override
   String get deleteAllData => 'Tüm verileri sil';

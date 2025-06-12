@@ -89,14 +89,14 @@ class _LoopTileState extends State<LoopTile> {
                   Text(
                     context.l10n.start,
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          color: widget.loop.color.color,
-                        ),
+                      color: widget.loop.color.color,
+                    ),
                   ),
                   Text(
                     context.l10n.end,
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          color: widget.loop.color.color,
-                        ),
+                      color: widget.loop.color.color,
+                    ),
                   ),
                 ],
               ),

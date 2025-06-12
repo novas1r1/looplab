@@ -61,9 +61,9 @@ class _RateAppDialogState extends State<RateAppDialog> with TickerProviderStateM
         child: Text(
           context.l10n.sendRating,
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: Theme.of(context).colorScheme.onPrimary,
-                fontWeight: FontWeight.bold,
-              ),
+            color: Theme.of(context).colorScheme.onPrimary,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       );
     }
@@ -94,9 +94,9 @@ class _RateAppDialogState extends State<RateAppDialog> with TickerProviderStateM
             child: Text(
               context.l10n.leaveReview,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                    fontWeight: FontWeight.bold,
-                  ),
+                color: Theme.of(context).colorScheme.onPrimary,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
@@ -219,9 +219,9 @@ class _RateAppDialogState extends State<RateAppDialog> with TickerProviderStateM
       // Log the error
       unawaited(
         context.read<CrashReportingRepository>().reportError(
-              'RateAppDialog: Failed to open review dialog',
-              StackTrace.current,
-            ),
+          'RateAppDialog: Failed to open review dialog',
+          StackTrace.current,
+        ),
       );
 
       // Fallback to store listing
