@@ -5,5 +5,3 @@ template-arb-file: app_en.arb
 output-localization-file: app_localizations.dart
 nullable-getter: false
 untranslated-messages-file: build/untranslated_messages.txt
-suppress-warnings:
-  - missing_metadata_for_key

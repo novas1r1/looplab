@@ -67,7 +67,7 @@ class HomeTile extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
-              song.duration.toFormattedString(),
+              song.duration.toFormattedStringWithoutMilliseconds(),
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onPrimaryContainer,
                 fontWeight: FontWeight.w500,

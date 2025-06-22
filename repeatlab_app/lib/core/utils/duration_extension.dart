@@ -6,9 +6,21 @@ extension DurationExtension on Duration {
     final milliseconds = inMilliseconds.remainder(1000);
 
     if (hours > 0) {
+      return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}.${milliseconds.toString().padLeft(3, '0')}';
+    } else {
+      return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}.${milliseconds.toString().padLeft(3, '0')}';
+    }
+  }
+
+  String toFormattedStringWithoutMilliseconds() {
+    final hours = inHours;
+    final minutes = inMinutes.remainder(60);
+    final seconds = inSeconds.remainder(60);
+
+    if (hours > 0) {
       return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
     } else {
-      return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')},${milliseconds.toString().padLeft(3, '0')}';
+      return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
     }
   }
 
@@ -17,6 +29,6 @@ extension DurationExtension on Duration {
     final seconds = inSeconds.remainder(60);
     final milliseconds = inMilliseconds.remainder(1000);
 
-    return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')},${milliseconds.toString().padLeft(3, '0')}';
+    return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}.${milliseconds.toString().padLeft(3, '0')}';
   }
 }

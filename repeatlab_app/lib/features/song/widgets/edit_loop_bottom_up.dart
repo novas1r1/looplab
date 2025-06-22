@@ -323,7 +323,7 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
               ),
             ),
             const SizedBox(width: 8),
-            Text(',', style: Theme.of(context).textTheme.titleLarge),
+            Text('.', style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(width: 8),
             Expanded(
               child: TextField(
