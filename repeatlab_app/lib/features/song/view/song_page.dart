@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:repeatlab/core/ui/widgets/loading.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
@@ -15,6 +15,7 @@ import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
+import 'package:repeatlab/data/services/audio_player_service.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/paywall/premium_screen.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
@@ -39,9 +40,13 @@ class SongPage extends StatelessWidget {
         songRepository: context.read<SongRepository>(),
         localConfigRepository: context.read<LocalConfigRepository>(),
         crashReportingRepository: context.read<CrashReportingRepository>(),
+        audioPlayerService: AudioPlayerService(
+          // audioPlayer: audioplayers.AudioPlayer(),
+          justAudioPlayer: AudioPlayer(),
+        ),
         soloud: SoLoud.instance,
         song: song,
-      )..initSong(AudioPlayer()),
+      )..initSong(),
       child: _SongView(song: song),
     );
   }
@@ -323,9 +328,7 @@ class _SongViewState extends State<_SongView> {
                             index: index,
                             loop: state.song.loops[index],
                             isSelected: state.song.loops[index] == state.activeLoop,
-                            isPaused:
-                                state.playerState == null ||
-                                state.playerState == PlayerState.paused,
+                            isPaused: !(state.playerState?.playing ?? false),
                             onTap: (loop) => context.read<SongCubit>().selectLoop(loop),
                             onDelete: (loop) => context.read<SongCubit>().deleteLoop(loop),
                             onPlay: (loop) => context.read<SongCubit>().togglePlayLoop(loop),

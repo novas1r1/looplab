@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
@@ -29,10 +28,7 @@ class SongController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final playerState = context.watch<SongCubit>().state.playerState;
-    final isPaused =
-        playerState == PlayerState.paused ||
-        playerState == null ||
-        playerState == PlayerState.stopped;
+    final isPaused = !(playerState?.playing ?? false);
 
     return Column(
       mainAxisSize: MainAxisSize.min,

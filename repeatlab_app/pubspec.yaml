@@ -8,7 +8,8 @@ environment:
   sdk: ^3.8.1
 
 dependencies:
-  audio_service: ^0.18.18
+  # audio_service: ^0.18.18
+  audio_session: ^0.2.2
   audioplayers: ^6.4.0
 
   # audiotags: ^1.4.5
@@ -27,6 +28,8 @@ dependencies:
   flutter_svg: ^2.1.0
   in_app_review: ^2.0.10
   intl: ^0.20.2
+  just_audio: ^0.10.4
+  just_audio_background: ^0.0.1-beta.17
   lint: ^2.8.0
   lottie: ^3.3.1
   package_info_plus: ^8.3.0

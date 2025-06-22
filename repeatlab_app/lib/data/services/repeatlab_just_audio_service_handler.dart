@@ -1,75 +1,60 @@
-import 'dart:async';
+// In case we want to use audio_service in the future, we can use this file
+// but it needs to be finished
+// For now we use just_audio_background
+/* import 'dart:async';
 import 'dart:developer';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:audio_session/audio_session.dart';
-import 'package:audioplayers/audioplayers.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 
 /// AudioHandler implementation for background audio playback
-class RepeatlabAudioServiceHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
+class RepeatlabJustAudioServiceHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
   final AudioPlayer audioPlayer;
 
   Timer? _loopTimer;
   Loop? _activeLoop;
 
   StreamSubscription<PlayerState>? playerStateSubscription;
-  StreamSubscription<Duration>? positionSubscription;
-  StreamSubscription<Duration>? durationSubscription;
 
-  RepeatlabAudioServiceHandler({required this.audioPlayer}) {
+  StreamSubscription<Duration>? positionSubscription;
+  StreamSubscription<Duration?>? durationSubscription;
+
+  RepeatlabJustAudioServiceHandler({required this.audioPlayer}) {
     log('SoloudAudioServiceHandler constructor');
 
     _initAudioSession();
 
-    playerStateSubscription = audioPlayer.onPlayerStateChanged.listen((state) {
-      log('playerStateSubscription: $state');
+    playerStateSubscription = audioPlayer.playerStateStream.listen((state) {
+      log('playerStateSubscription: ${state.playing}');
+      log('playerStateSubscription: ${state.processingState}');
 
-      switch (state) {
-        case PlayerState.playing:
-          playbackState.add(
-            playbackState.value.copyWith(
-              playing: true,
-              processingState: AudioProcessingState.ready,
-            ),
-          );
-        case PlayerState.paused:
-          playbackState.add(
-            playbackState.value.copyWith(
-              playing: false,
-              processingState: AudioProcessingState.ready,
-            ),
-          );
-        case PlayerState.stopped:
-          playbackState.add(
-            playbackState.value.copyWith(
-              playing: false,
-              processingState: AudioProcessingState.idle,
-            ),
-          );
-        case PlayerState.completed:
-          playbackState.add(
-            playbackState.value.copyWith(
-              playing: false,
-              processingState: AudioProcessingState.completed,
-            ),
-          );
-        case PlayerState.disposed:
-          playbackState.add(
-            playbackState.value.copyWith(
-              playing: false,
-              processingState: AudioProcessingState.idle,
-            ),
-          );
-      }
+      final playing = state.playing;
+      final processingState = state.processingState;
+
+      final audioProcessingState = switch (processingState) {
+        ProcessingState.idle => AudioProcessingState.idle,
+        ProcessingState.loading => AudioProcessingState.loading,
+        ProcessingState.buffering => AudioProcessingState.buffering,
+        ProcessingState.ready => AudioProcessingState.ready,
+        ProcessingState.completed => AudioProcessingState.completed,
+      };
+
+      playbackState.add(
+        playbackState.value.copyWith(
+          playing: playing,
+          processingState: audioProcessingState,
+        ),
+      );
     });
 
-    positionSubscription = audioPlayer.onPositionChanged.listen((position) {
+    positionSubscription = audioPlayer.positionStream.listen((position) {
       playbackState.add(playbackState.value.copyWith(updatePosition: position));
     });
 
-    durationSubscription = audioPlayer.onDurationChanged.listen((duration) {
+    durationSubscription = audioPlayer.durationStream.listen((duration) {
       mediaItem.add(mediaItem.value?.copyWith(duration: duration));
     });
   }
@@ -134,7 +119,7 @@ class RepeatlabAudioServiceHandler extends BaseAudioHandler with QueueHandler, S
 
           // only if is playing
           if (audioPlayer.state == PlayerState.playing && position >= _activeLoop!.end!) {
-            audioPlayer.seek(_activeLoop!.start!);
+            audioPlayer.seek(_activeLoop!.start);
           }
         });
       });
@@ -208,3 +193,4 @@ class RepeatlabAudioServiceHandler extends BaseAudioHandler with QueueHandler, S
     await durationSubscription?.cancel();
   }
 }
+ */
