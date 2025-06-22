@@ -196,6 +196,18 @@ class SongCubit extends Cubit<SongState> {
       if (state.playerState?.playing ?? false) {
         await audioPlayerService.pause();
       } else {
+        // Check if we need to seek to loop start before playing
+        if (state.isLoopModeEnabled && state.activeLoop != null) {
+          final loop = state.activeLoop!;
+          if (loop.start != null && loop.end != null) {
+            final currentPosition = audioPlayerService.position;
+            if (currentPosition < loop.start! || currentPosition > loop.end!) {
+              log('Position outside loop boundaries, seeking to loop start before playing');
+              await audioPlayerService.seek(loop.start!);
+            }
+          }
+        }
+
         await audioPlayerService.play();
       }
     } catch (e, stackTrace) {
@@ -256,7 +268,6 @@ class SongCubit extends Cubit<SongState> {
       }
 
       // Seek to position
-
       _seekOperation = CancelableOperation.fromFuture(audioPlayerService.seek(newPosition));
       await _seekOperation?.valueOrCancellation();
 
@@ -298,7 +309,13 @@ class SongCubit extends Cubit<SongState> {
 
     log('setLoopStart to $currentPosition');
 
-    await updateLoop(activeLoop.copyWith(start: currentPosition));
+    final updatedLoop = activeLoop.copyWith(start: currentPosition);
+    await updateLoop(updatedLoop);
+
+    // Update the loop in the audio service if loop mode is enabled
+    if (state.isLoopModeEnabled) {
+      await audioPlayerService.updateActiveLoop(updatedLoop);
+    }
   }
 
   /// Sets the end of a loop
@@ -326,17 +343,20 @@ class SongCubit extends Cubit<SongState> {
 
     log('setLoopEnd: got current position $endPosition');
 
-    // TODO: check if this is needed
-    // Update the loop in the audio handler immediately
-    /* if (state.isLoopModeEnabled) {
-      audioHandler.customAction('enableLoop', {'loop': activeLoop.copyWith(end: endPosition)});
-    } */
+    final updatedLoop = activeLoop.copyWith(end: endPosition);
+    await updateLoop(updatedLoop);
 
-    await updateLoop(activeLoop.copyWith(end: endPosition));
+    // Update the loop in the audio service if loop mode is enabled
+    if (state.isLoopModeEnabled) {
+      await audioPlayerService.updateActiveLoop(updatedLoop);
+    }
   }
 
   void unselectLoop() {
     log('UNSELECT LOOP: ${state.activeLoop}');
+
+    // Disable loop in audio service
+    audioPlayerService.disableLoop();
 
     emit(
       state.copyWith(
@@ -363,9 +383,8 @@ class SongCubit extends Cubit<SongState> {
       await audioPlayerService.pause();
       await audioPlayerService.seek(loop.start!);
 
-      // TODO: check if this is needed
-      // Update the loop in the audio handler immediately
-      // await audioHandler.customAction('enableLoop', {'loop': loop});
+      // Enable loop mode in audio service
+      await audioPlayerService.enableLoop(loop);
 
       emit(
         state.copyWith(
@@ -388,17 +407,6 @@ class SongCubit extends Cubit<SongState> {
           isLoopModeEnabled: false,
         ),
       );
-
-      // Try to reset audio player
-      /* try {
-        await audioHandler.stop();
-        await audioHandler.playSong(state.song);
-        await audioHandler.pause();
-        await audioHandler.seek(loop.start!);
-      } catch (e2) {
-        // Ignore errors during cleanup
-        log('Failed to recover from seek error: $e2', name: 'SongCubit');
-      } */
     }
   }
 
@@ -419,22 +427,22 @@ class SongCubit extends Cubit<SongState> {
       await updateLoop(updatedLoop);
     }
 
-    // TODO: check if this is needed
-    // Use audio service for background playback with loop
-    // audioHandler.customAction('enableLoop', {'loop': updatedLoop});
+    // Enable loop mode in audio service
+    await audioPlayerService.enableLoop(updatedLoop);
 
     final isPlaying = state.playerState?.playing ?? false;
 
     if (!isPlaying) {
-      await audioPlayerService.play();
-
-      if (state.position == null) return;
-
-      // check if loop end is reached
-      // if reached, start over
-      if (updatedLoop.end != null && state.position! >= updatedLoop.end!) {
-        await audioPlayerService.seek(updatedLoop.start!);
+      // Check if we need to seek to loop start before playing
+      if (updatedLoop.start != null && updatedLoop.end != null) {
+        final currentPosition = audioPlayerService.position;
+        if (currentPosition < updatedLoop.start! || currentPosition > updatedLoop.end!) {
+          log('Position outside loop boundaries, seeking to loop start before playing');
+          await audioPlayerService.seek(updatedLoop.start!);
+        }
       }
+
+      await audioPlayerService.play();
     } else {
       await audioPlayerService.pause();
     }
@@ -520,6 +528,9 @@ class SongCubit extends Cubit<SongState> {
           isLoopModeEnabled: true,
         ),
       );
+
+      // Enable loop mode in audio service for the new loop
+      await audioPlayerService.enableLoop(loop);
     } catch (e, stackTrace) {
       unawaited(crashReportingRepository.reportError(e, stackTrace));
       emit(
@@ -549,6 +560,11 @@ class SongCubit extends Cubit<SongState> {
           isLoopModeEnabled: true,
         ),
       );
+
+      // Update the loop in the audio service if this is the active loop
+      if (state.isLoopModeEnabled && state.activeLoop?.id == updatedLoop.id) {
+        await audioPlayerService.updateActiveLoop(updatedLoop);
+      }
     } catch (e, stackTrace) {
       unawaited(crashReportingRepository.reportError(e, stackTrace));
       emit(
@@ -569,6 +585,8 @@ class SongCubit extends Cubit<SongState> {
       );
 
       if (loop == state.activeLoop) {
+        // Disable loop mode in audio service
+        await audioPlayerService.disableLoop();
         unselectLoop();
       }
 
@@ -619,11 +637,8 @@ class SongCubit extends Cubit<SongState> {
     );
 
     if (!state.isLoopModeEnabled) {
-      // stop the song
-      await pauseSong();
-      // TODO: check if this is needed
-      // Disable loop mode in audio handler
-      // await audioHandler.customAction('disableLoop');
+      // Disable loop mode in audio service
+      await audioPlayerService.disableLoop();
     }
   }
 
@@ -633,6 +648,7 @@ class SongCubit extends Cubit<SongState> {
     // only seek if the position is greater than the duration
     if (position != null && position > Duration(seconds: seconds)) {
       final newPosition = position - Duration(seconds: seconds);
+
       await audioPlayerService.seek(newPosition);
 
       emit(state.copyWith(status: SongStatus.updated, position: newPosition));
@@ -646,6 +662,7 @@ class SongCubit extends Cubit<SongState> {
     // only seek if the position is less than the duration
     if (position != null && position < state.song.duration - Duration(seconds: seconds)) {
       final newPosition = position + Duration(seconds: seconds);
+
       await audioPlayerService.seek(newPosition);
 
       emit(state.copyWith(status: SongStatus.updated, position: newPosition));

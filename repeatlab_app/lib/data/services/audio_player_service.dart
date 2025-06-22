@@ -14,6 +14,11 @@ class AudioPlayerService {
   StreamSubscription<Duration>? positionSubscription;
   StreamSubscription<Duration?>? durationSubscription;
 
+  // Loop state management
+  Loop? _activeLoop;
+  bool _isLoopModeEnabled = false;
+  StreamSubscription<Duration>? _loopPositionSubscription;
+
   AudioPlayerService({
     // required this.audioPlayer,
     required this.justAudioPlayer,
@@ -22,6 +27,10 @@ class AudioPlayerService {
   Duration get position => justAudioPlayer.position;
   Duration? get duration => justAudioPlayer.duration;
   PlayerState? get playerState => justAudioPlayer.playerState;
+
+  // Loop state getters
+  Loop? get activeLoop => _activeLoop;
+  bool get isLoopModeEnabled => _isLoopModeEnabled;
 
   Future<void> init(Song song) async {
     final session = await AudioSession.instance;
@@ -59,9 +68,67 @@ class AudioPlayerService {
     await justAudioPlayer.play();
   }
 
+  /// Plays a loop
+  /// The loop is played from the start to the end
+  /// Checks if the loop end is reached and if so, starts over
   Future<void> playLoop(Loop loop) async {
+    if (loop.start == null) return;
+
     await justAudioPlayer.seek(loop.start);
     await justAudioPlayer.play();
+  }
+
+  /// Enable loop mode with automatic restart
+  /// When the position reaches the loop end, it automatically seeks to the loop start
+  Future<void> enableLoop(Loop loop) async {
+    // Cancel any existing loop monitoring
+    await _loopPositionSubscription?.cancel();
+
+    _activeLoop = loop;
+    _isLoopModeEnabled = true;
+
+    // Only start monitoring if we have valid start and end points
+    if (loop.start != null && loop.end != null) {
+      _loopPositionSubscription = justAudioPlayer.positionStream.listen((position) {
+        _checkAndRestartLoop(position);
+      });
+    }
+  }
+
+  /// Disable loop mode
+  Future<void> disableLoop() async {
+    await _loopPositionSubscription?.cancel();
+    _activeLoop = null;
+    _isLoopModeEnabled = false;
+  }
+
+  /// Check if position has reached loop end and restart if needed
+  void _checkAndRestartLoop(Duration position) {
+    if (!_isLoopModeEnabled || _activeLoop == null) return;
+
+    final loop = _activeLoop!;
+    if (loop.start == null || loop.end == null) return;
+
+    // Check if we've reached or passed the loop end
+    if (position >= loop.end!) {
+      // Seek back to loop start
+      justAudioPlayer.seek(loop.start);
+    }
+  }
+
+  /// Update the active loop (useful when loop boundaries change)
+  Future<void> updateActiveLoop(Loop updatedLoop) async {
+    if (_activeLoop?.id == updatedLoop.id) {
+      _activeLoop = updatedLoop;
+
+      // Restart monitoring if needed
+      if (_isLoopModeEnabled && updatedLoop.start != null && updatedLoop.end != null) {
+        await _loopPositionSubscription?.cancel();
+        _loopPositionSubscription = justAudioPlayer.positionStream.listen((position) {
+          _checkAndRestartLoop(position);
+        });
+      }
+    }
   }
 
   Future<void> pause() async {
@@ -85,14 +152,17 @@ class AudioPlayerService {
   }
 
   Future<void> setLoop(bool loop) async {
-    // await justAudioPlayer.setLoop(loop);
-    // TODO: Implement loop
+    // This method is kept for compatibility but loop functionality is now handled by enableLoop/disableLoop
+    if (!loop) {
+      await disableLoop();
+    }
   }
 
   Future<void> dispose() async {
     await playerStateSubscription?.cancel();
     await positionSubscription?.cancel();
     await durationSubscription?.cancel();
+    await _loopPositionSubscription?.cancel();
 
     await justAudioPlayer.dispose();
   }
