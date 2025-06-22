@@ -1,10 +1,10 @@
 [
     {
         "language": "en-US",
-        "text": "- If only one loop exists, it will be selected automatically when the loop mode is enabled\n- Fixed small design issues and improved user experience\n- Improved stability and performance"
+        "text": "IMPROVEMENT: Changed the format of the duration display a standard format\nMISC: Improved stability and performance"
     },
     {
         "language": "en-DE",
-        "text": "- Wenn nur eine Loop existiert, wird sie automatisch ausgewählt, wenn der Loop-Modus aktiviert ist\n- Kleine Designprobleme behoben und Benutzererfahrung verbessert\n- Verbessertes Stabilitäts- und Leistungsverhalten"
+        "text": "IMPROVEMENT: Änderung der Anzeigeformat für Dauer in ein Standardformat\nMISC: Verbesserte Stabilität und Leistung"
     }
 ]
