@@ -76,18 +76,11 @@ class SongExporterStateMapper extends ClassMapperBase<SongExporterState> {
   final String id = 'SongExporterState';
 
   static SongExporterStatus _$status(SongExporterState v) => v.status;
-  static const Field<SongExporterState, SongExporterStatus> _f$status = Field(
-    'status',
-    _$status,
-    opt: true,
-    def: SongExporterStatus.initial,
-  );
+  static const Field<SongExporterState, SongExporterStatus> _f$status =
+      Field('status', _$status, opt: true, def: SongExporterStatus.initial);
   static String? _$errorMessage(SongExporterState v) => v.errorMessage;
-  static const Field<SongExporterState, String> _f$errorMessage = Field(
-    'errorMessage',
-    _$errorMessage,
-    opt: true,
-  );
+  static const Field<SongExporterState, String> _f$errorMessage =
+      Field('errorMessage', _$errorMessage, opt: true);
 
   @override
   final MappableFields<SongExporterState> fields = const {
@@ -96,7 +89,8 @@ class SongExporterStateMapper extends ClassMapperBase<SongExporterState> {
   };
 
   static SongExporterState _instantiate(DecodingData data) {
-    return SongExporterState(status: data.dec(_f$status), errorMessage: data.dec(_f$errorMessage));
+    return SongExporterState(
+        status: data.dec(_f$status), errorMessage: data.dec(_f$errorMessage));
   }
 
   @override
@@ -113,51 +107,51 @@ class SongExporterStateMapper extends ClassMapperBase<SongExporterState> {
 
 mixin SongExporterStateMappable {
   String toJson() {
-    return SongExporterStateMapper.ensureInitialized().encodeJson<SongExporterState>(
-      this as SongExporterState,
-    );
+    return SongExporterStateMapper.ensureInitialized()
+        .encodeJson<SongExporterState>(this as SongExporterState);
   }
 
   Map<String, dynamic> toMap() {
-    return SongExporterStateMapper.ensureInitialized().encodeMap<SongExporterState>(
-      this as SongExporterState,
-    );
+    return SongExporterStateMapper.ensureInitialized()
+        .encodeMap<SongExporterState>(this as SongExporterState);
   }
 
-  SongExporterStateCopyWith<SongExporterState, SongExporterState, SongExporterState> get copyWith =>
-      _SongExporterStateCopyWithImpl<SongExporterState, SongExporterState>(
-        this as SongExporterState,
-        $identity,
-        $identity,
-      );
+  SongExporterStateCopyWith<SongExporterState, SongExporterState,
+          SongExporterState>
+      get copyWith =>
+          _SongExporterStateCopyWithImpl<SongExporterState, SongExporterState>(
+              this as SongExporterState, $identity, $identity);
   @override
   String toString() {
-    return SongExporterStateMapper.ensureInitialized().stringifyValue(this as SongExporterState);
+    return SongExporterStateMapper.ensureInitialized()
+        .stringifyValue(this as SongExporterState);
   }
 
   @override
   bool operator ==(Object other) {
-    return SongExporterStateMapper.ensureInitialized().equalsValue(
-      this as SongExporterState,
-      other,
-    );
+    return SongExporterStateMapper.ensureInitialized()
+        .equalsValue(this as SongExporterState, other);
   }
 
   @override
   int get hashCode {
-    return SongExporterStateMapper.ensureInitialized().hashValue(this as SongExporterState);
+    return SongExporterStateMapper.ensureInitialized()
+        .hashValue(this as SongExporterState);
   }
 }
 
-extension SongExporterStateValueCopy<$R, $Out> on ObjectCopyWith<$R, SongExporterState, $Out> {
-  SongExporterStateCopyWith<$R, SongExporterState, $Out> get $asSongExporterState =>
-      $base.as((v, t, t2) => _SongExporterStateCopyWithImpl<$R, $Out>(v, t, t2));
+extension SongExporterStateValueCopy<$R, $Out>
+    on ObjectCopyWith<$R, SongExporterState, $Out> {
+  SongExporterStateCopyWith<$R, SongExporterState, $Out>
+      get $asSongExporterState => $base
+          .as((v, t, t2) => _SongExporterStateCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
-abstract class SongExporterStateCopyWith<$R, $In extends SongExporterState, $Out>
-    implements ClassCopyWith<$R, $In, $Out> {
+abstract class SongExporterStateCopyWith<$R, $In extends SongExporterState,
+    $Out> implements ClassCopyWith<$R, $In, $Out> {
   $R call({SongExporterStatus? status, String? errorMessage});
-  SongExporterStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
+  SongExporterStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
+      Then<$Out2, $R2> t);
 }
 
 class _SongExporterStateCopyWithImpl<$R, $Out>
@@ -169,19 +163,18 @@ class _SongExporterStateCopyWithImpl<$R, $Out>
   late final ClassMapperBase<SongExporterState> $mapper =
       SongExporterStateMapper.ensureInitialized();
   @override
-  $R call({SongExporterStatus? status, Object? errorMessage = $none}) => $apply(
-    FieldCopyWithData({
-      if (status != null) #status: status,
-      if (errorMessage != $none) #errorMessage: errorMessage,
-    }),
-  );
+  $R call({SongExporterStatus? status, Object? errorMessage = $none}) =>
+      $apply(FieldCopyWithData({
+        if (status != null) #status: status,
+        if (errorMessage != $none) #errorMessage: errorMessage
+      }));
   @override
   SongExporterState $make(CopyWithData data) => SongExporterState(
-    status: data.get(#status, or: $value.status),
-    errorMessage: data.get(#errorMessage, or: $value.errorMessage),
-  );
+      status: data.get(#status, or: $value.status),
+      errorMessage: data.get(#errorMessage, or: $value.errorMessage));
 
   @override
-  SongExporterStateCopyWith<$R2, SongExporterState, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
+  SongExporterStateCopyWith<$R2, SongExporterState, $Out2> $chain<$R2, $Out2>(
+          Then<$Out2, $R2> t) =>
       _SongExporterStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

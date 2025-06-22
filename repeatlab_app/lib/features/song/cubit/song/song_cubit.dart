@@ -8,7 +8,6 @@ import 'package:async/async.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_soloud/flutter_soloud.dart' hide AudioSource;
 import 'package:just_audio/just_audio.dart';
 import 'package:repeatlab/core/utils/cubit_extension.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
@@ -18,6 +17,7 @@ import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:repeatlab/data/services/audio_player_service.dart';
+import 'package:repeatlab/data/services/wave_data_visualizer_service.dart';
 
 // part 'song_cubit.mapper.dart';
 part 'song_cubit.mapper.dart';
@@ -26,18 +26,13 @@ part 'song_state.dart';
 class SongCubit extends Cubit<SongState> {
   final Song song;
 
-  final SoLoud soloud;
-
   final SongRepository songRepository;
   final LocalConfigRepository localConfigRepository;
   final CrashReportingRepository crashReportingRepository;
   final AudioPlayerService audioPlayerService;
+  final WaveDataVisualizerService waveDataVisualizerService;
 
   StreamSubscription<List<Song>>? _songSubscription;
-  Timer? _positionTimer;
-
-  // Add static cache map
-  static final Map<String, Float32List> _waveformCache = {};
 
   StreamSubscription<PlayerState>? _playerStateSubscription;
   StreamSubscription<Duration>? _positionSubscription;
@@ -47,13 +42,17 @@ class SongCubit extends Cubit<SongState> {
 
   CancelableOperation? _seekOperation;
 
+  // Throttle position emissions to ~30 FPS (every 33 ms)
+  static const Duration _kMinPositionUpdateInterval = Duration(milliseconds: 33);
+  DateTime _lastPositionEmit = DateTime.fromMillisecondsSinceEpoch(0);
+
   SongCubit({
     required this.song,
-    required this.soloud,
     required this.songRepository,
     required this.localConfigRepository,
     required this.crashReportingRepository,
     required this.audioPlayerService,
+    required this.waveDataVisualizerService,
   }) : super(SongState(song: song));
 
   @override
@@ -65,7 +64,6 @@ class SongCubit extends Cubit<SongState> {
     }
 
     await _songSubscription?.cancel();
-    _positionTimer?.cancel();
 
     return super.close();
   }
@@ -92,15 +90,19 @@ class SongCubit extends Cubit<SongState> {
         );
       });
 
-      /// audio player subscriptions for position
+      /// audio player subscriptions for position (throttled)
       _positionSubscription = audioPlayerService.positionSubscription;
       _positionSubscription?.onData((position) {
-        maybeEmit(
-          state.copyWith(
-            position: position,
-            status: SongStatus.updated,
-          ),
-        );
+        final now = DateTime.now();
+        if (now.difference(_lastPositionEmit) >= _kMinPositionUpdateInterval) {
+          _lastPositionEmit = now;
+          maybeEmit(
+            state.copyWith(
+              position: position,
+              status: SongStatus.updated,
+            ),
+          );
+        }
       });
 
       /// audio player subscriptions for duration
@@ -150,7 +152,7 @@ class SongCubit extends Cubit<SongState> {
         return;
       }
 
-      final waveformData = await getWaveformData(path);
+      final waveformData = await waveDataVisualizerService.getWaveformData(path);
 
       // check if tutorial is completed
       final isTutorialCompleted = localConfigRepository.hasCompletedTutorial;
@@ -224,7 +226,6 @@ class SongCubit extends Cubit<SongState> {
   Future<void> stopSong() async {
     log('STOP song at ${state.position!.toFormattedString()}');
 
-    _positionTimer?.cancel();
     _seekOperation?.cancel();
 
     await audioPlayerService.stop();
@@ -232,7 +233,6 @@ class SongCubit extends Cubit<SongState> {
 
   Future<void> pauseSong() async {
     log('PAUSE song at ${state.position?.toFormattedString()}');
-    _positionTimer?.cancel();
 
     await audioPlayerService.pause();
   }
@@ -450,8 +450,6 @@ class SongCubit extends Cubit<SongState> {
 
   void pauseLoop(Loop loop) {
     if (state.activeLoop == null) return;
-
-    _positionTimer?.cancel();
 
     audioPlayerService.pause();
   }
@@ -701,26 +699,5 @@ class SongCubit extends Cubit<SongState> {
         ),
       );
     }
-  }
-
-  Future<Float32List> getWaveformData(String path) async {
-    // Check cache first
-    Float32List? waveformData = _waveformCache[path];
-
-    if (waveformData == null) {
-      log('NO CACHE AVAILABLE FOR $path');
-      // Only read bytes and generate waveform if not cached
-      final file = File(path);
-
-      final bytes = await file.readAsBytes();
-      waveformData = await soloud.readSamplesFromMem(
-        bytes,
-        300 * 10,
-      );
-      // Store in cache
-      _waveformCache[path] = waveformData;
-    }
-
-    return waveformData;
   }
 }

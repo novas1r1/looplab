@@ -72,25 +72,14 @@ class ChangelogDialogStateMapper extends ClassMapperBase<ChangelogDialogState> {
   final String id = 'ChangelogDialogState';
 
   static ChangelogStatus _$status(ChangelogDialogState v) => v.status;
-  static const Field<ChangelogDialogState, ChangelogStatus> _f$status = Field(
-    'status',
-    _$status,
-    opt: true,
-    def: ChangelogStatus.loading,
-  );
+  static const Field<ChangelogDialogState, ChangelogStatus> _f$status =
+      Field('status', _$status, opt: true, def: ChangelogStatus.loading);
   static bool _$shouldShowDialog(ChangelogDialogState v) => v.shouldShowDialog;
-  static const Field<ChangelogDialogState, bool> _f$shouldShowDialog = Field(
-    'shouldShowDialog',
-    _$shouldShowDialog,
-    opt: true,
-    def: false,
-  );
+  static const Field<ChangelogDialogState, bool> _f$shouldShowDialog =
+      Field('shouldShowDialog', _$shouldShowDialog, opt: true, def: false);
   static String? _$errorMessage(ChangelogDialogState v) => v.errorMessage;
-  static const Field<ChangelogDialogState, String> _f$errorMessage = Field(
-    'errorMessage',
-    _$errorMessage,
-    opt: true,
-  );
+  static const Field<ChangelogDialogState, String> _f$errorMessage =
+      Field('errorMessage', _$errorMessage, opt: true);
 
   @override
   final MappableFields<ChangelogDialogState> fields = const {
@@ -101,10 +90,9 @@ class ChangelogDialogStateMapper extends ClassMapperBase<ChangelogDialogState> {
 
   static ChangelogDialogState _instantiate(DecodingData data) {
     return ChangelogDialogState(
-      status: data.dec(_f$status),
-      shouldShowDialog: data.dec(_f$shouldShowDialog),
-      errorMessage: data.dec(_f$errorMessage),
-    );
+        status: data.dec(_f$status),
+        shouldShowDialog: data.dec(_f$shouldShowDialog),
+        errorMessage: data.dec(_f$errorMessage));
   }
 
   @override
@@ -121,54 +109,53 @@ class ChangelogDialogStateMapper extends ClassMapperBase<ChangelogDialogState> {
 
 mixin ChangelogDialogStateMappable {
   String toJson() {
-    return ChangelogDialogStateMapper.ensureInitialized().encodeJson<ChangelogDialogState>(
-      this as ChangelogDialogState,
-    );
+    return ChangelogDialogStateMapper.ensureInitialized()
+        .encodeJson<ChangelogDialogState>(this as ChangelogDialogState);
   }
 
   Map<String, dynamic> toMap() {
-    return ChangelogDialogStateMapper.ensureInitialized().encodeMap<ChangelogDialogState>(
-      this as ChangelogDialogState,
-    );
+    return ChangelogDialogStateMapper.ensureInitialized()
+        .encodeMap<ChangelogDialogState>(this as ChangelogDialogState);
   }
 
-  ChangelogDialogStateCopyWith<ChangelogDialogState, ChangelogDialogState, ChangelogDialogState>
-  get copyWith => _ChangelogDialogStateCopyWithImpl<ChangelogDialogState, ChangelogDialogState>(
-    this as ChangelogDialogState,
-    $identity,
-    $identity,
-  );
+  ChangelogDialogStateCopyWith<ChangelogDialogState, ChangelogDialogState,
+      ChangelogDialogState> get copyWith => _ChangelogDialogStateCopyWithImpl<
+          ChangelogDialogState, ChangelogDialogState>(
+      this as ChangelogDialogState, $identity, $identity);
   @override
   String toString() {
-    return ChangelogDialogStateMapper.ensureInitialized().stringifyValue(
-      this as ChangelogDialogState,
-    );
+    return ChangelogDialogStateMapper.ensureInitialized()
+        .stringifyValue(this as ChangelogDialogState);
   }
 
   @override
   bool operator ==(Object other) {
-    return ChangelogDialogStateMapper.ensureInitialized().equalsValue(
-      this as ChangelogDialogState,
-      other,
-    );
+    return ChangelogDialogStateMapper.ensureInitialized()
+        .equalsValue(this as ChangelogDialogState, other);
   }
 
   @override
   int get hashCode {
-    return ChangelogDialogStateMapper.ensureInitialized().hashValue(this as ChangelogDialogState);
+    return ChangelogDialogStateMapper.ensureInitialized()
+        .hashValue(this as ChangelogDialogState);
   }
 }
 
 extension ChangelogDialogStateValueCopy<$R, $Out>
     on ObjectCopyWith<$R, ChangelogDialogState, $Out> {
-  ChangelogDialogStateCopyWith<$R, ChangelogDialogState, $Out> get $asChangelogDialogState =>
-      $base.as((v, t, t2) => _ChangelogDialogStateCopyWithImpl<$R, $Out>(v, t, t2));
+  ChangelogDialogStateCopyWith<$R, ChangelogDialogState, $Out>
+      get $asChangelogDialogState => $base.as(
+          (v, t, t2) => _ChangelogDialogStateCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
-abstract class ChangelogDialogStateCopyWith<$R, $In extends ChangelogDialogState, $Out>
-    implements ClassCopyWith<$R, $In, $Out> {
-  $R call({ChangelogStatus? status, bool? shouldShowDialog, String? errorMessage});
-  ChangelogDialogStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
+abstract class ChangelogDialogStateCopyWith<
+    $R,
+    $In extends ChangelogDialogState,
+    $Out> implements ClassCopyWith<$R, $In, $Out> {
+  $R call(
+      {ChangelogStatus? status, bool? shouldShowDialog, String? errorMessage});
+  ChangelogDialogStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
+      Then<$Out2, $R2> t);
 }
 
 class _ChangelogDialogStateCopyWithImpl<$R, $Out>
@@ -180,23 +167,24 @@ class _ChangelogDialogStateCopyWithImpl<$R, $Out>
   late final ClassMapperBase<ChangelogDialogState> $mapper =
       ChangelogDialogStateMapper.ensureInitialized();
   @override
-  $R call({ChangelogStatus? status, bool? shouldShowDialog, Object? errorMessage = $none}) =>
-      $apply(
-        FieldCopyWithData({
-          if (status != null) #status: status,
-          if (shouldShowDialog != null) #shouldShowDialog: shouldShowDialog,
-          if (errorMessage != $none) #errorMessage: errorMessage,
-        }),
-      );
+  $R call(
+          {ChangelogStatus? status,
+          bool? shouldShowDialog,
+          Object? errorMessage = $none}) =>
+      $apply(FieldCopyWithData({
+        if (status != null) #status: status,
+        if (shouldShowDialog != null) #shouldShowDialog: shouldShowDialog,
+        if (errorMessage != $none) #errorMessage: errorMessage
+      }));
   @override
   ChangelogDialogState $make(CopyWithData data) => ChangelogDialogState(
-    status: data.get(#status, or: $value.status),
-    shouldShowDialog: data.get(#shouldShowDialog, or: $value.shouldShowDialog),
-    errorMessage: data.get(#errorMessage, or: $value.errorMessage),
-  );
+      status: data.get(#status, or: $value.status),
+      shouldShowDialog:
+          data.get(#shouldShowDialog, or: $value.shouldShowDialog),
+      errorMessage: data.get(#errorMessage, or: $value.errorMessage));
 
   @override
-  ChangelogDialogStateCopyWith<$R2, ChangelogDialogState, $Out2> $chain<$R2, $Out2>(
-    Then<$Out2, $R2> t,
-  ) => _ChangelogDialogStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
+  ChangelogDialogStateCopyWith<$R2, ChangelogDialogState, $Out2>
+      $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
+          _ChangelogDialogStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

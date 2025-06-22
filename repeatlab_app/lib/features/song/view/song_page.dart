@@ -16,6 +16,7 @@ import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:repeatlab/data/services/audio_player_service.dart';
+import 'package:repeatlab/data/services/wave_data_visualizer_service.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/paywall/premium_screen.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
@@ -44,7 +45,7 @@ class SongPage extends StatelessWidget {
           // audioPlayer: audioplayers.AudioPlayer(),
           justAudioPlayer: AudioPlayer(),
         ),
-        soloud: SoLoud.instance,
+        waveDataVisualizerService: WaveDataVisualizerService(soloud: SoLoud.instance),
         song: song,
       )..initSong(),
       child: _SongView(song: song),

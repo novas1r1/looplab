@@ -21,9 +21,11 @@ class RepeatLabFeatureMapper extends ClassMapperBase<RepeatLabFeature> {
   final String id = 'RepeatLabFeature';
 
   static String _$title(RepeatLabFeature v) => v.title;
-  static const Field<RepeatLabFeature, String> _f$title = Field('title', _$title);
+  static const Field<RepeatLabFeature, String> _f$title =
+      Field('title', _$title);
   static bool _$isPremium(RepeatLabFeature v) => v.isPremium;
-  static const Field<RepeatLabFeature, bool> _f$isPremium = Field('isPremium', _$isPremium);
+  static const Field<RepeatLabFeature, bool> _f$isPremium =
+      Field('isPremium', _$isPremium);
 
   @override
   final MappableFields<RepeatLabFeature> fields = const {
@@ -32,7 +34,8 @@ class RepeatLabFeatureMapper extends ClassMapperBase<RepeatLabFeature> {
   };
 
   static RepeatLabFeature _instantiate(DecodingData data) {
-    return RepeatLabFeature(title: data.dec(_f$title), isPremium: data.dec(_f$isPremium));
+    return RepeatLabFeature(
+        title: data.dec(_f$title), isPremium: data.dec(_f$isPremium));
   }
 
   @override
@@ -49,70 +52,72 @@ class RepeatLabFeatureMapper extends ClassMapperBase<RepeatLabFeature> {
 
 mixin RepeatLabFeatureMappable {
   String toJson() {
-    return RepeatLabFeatureMapper.ensureInitialized().encodeJson<RepeatLabFeature>(
-      this as RepeatLabFeature,
-    );
+    return RepeatLabFeatureMapper.ensureInitialized()
+        .encodeJson<RepeatLabFeature>(this as RepeatLabFeature);
   }
 
   Map<String, dynamic> toMap() {
-    return RepeatLabFeatureMapper.ensureInitialized().encodeMap<RepeatLabFeature>(
-      this as RepeatLabFeature,
-    );
+    return RepeatLabFeatureMapper.ensureInitialized()
+        .encodeMap<RepeatLabFeature>(this as RepeatLabFeature);
   }
 
-  RepeatLabFeatureCopyWith<RepeatLabFeature, RepeatLabFeature, RepeatLabFeature> get copyWith =>
-      _RepeatLabFeatureCopyWithImpl<RepeatLabFeature, RepeatLabFeature>(
-        this as RepeatLabFeature,
-        $identity,
-        $identity,
-      );
+  RepeatLabFeatureCopyWith<RepeatLabFeature, RepeatLabFeature, RepeatLabFeature>
+      get copyWith =>
+          _RepeatLabFeatureCopyWithImpl<RepeatLabFeature, RepeatLabFeature>(
+              this as RepeatLabFeature, $identity, $identity);
   @override
   String toString() {
-    return RepeatLabFeatureMapper.ensureInitialized().stringifyValue(this as RepeatLabFeature);
+    return RepeatLabFeatureMapper.ensureInitialized()
+        .stringifyValue(this as RepeatLabFeature);
   }
 
   @override
   bool operator ==(Object other) {
-    return RepeatLabFeatureMapper.ensureInitialized().equalsValue(this as RepeatLabFeature, other);
+    return RepeatLabFeatureMapper.ensureInitialized()
+        .equalsValue(this as RepeatLabFeature, other);
   }
 
   @override
   int get hashCode {
-    return RepeatLabFeatureMapper.ensureInitialized().hashValue(this as RepeatLabFeature);
+    return RepeatLabFeatureMapper.ensureInitialized()
+        .hashValue(this as RepeatLabFeature);
   }
 }
 
-extension RepeatLabFeatureValueCopy<$R, $Out> on ObjectCopyWith<$R, RepeatLabFeature, $Out> {
-  RepeatLabFeatureCopyWith<$R, RepeatLabFeature, $Out> get $asRepeatLabFeature =>
-      $base.as((v, t, t2) => _RepeatLabFeatureCopyWithImpl<$R, $Out>(v, t, t2));
+extension RepeatLabFeatureValueCopy<$R, $Out>
+    on ObjectCopyWith<$R, RepeatLabFeature, $Out> {
+  RepeatLabFeatureCopyWith<$R, RepeatLabFeature, $Out>
+      get $asRepeatLabFeature => $base
+          .as((v, t, t2) => _RepeatLabFeatureCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
 abstract class RepeatLabFeatureCopyWith<$R, $In extends RepeatLabFeature, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   $R call({String? title, bool? isPremium});
-  RepeatLabFeatureCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
+  RepeatLabFeatureCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
+      Then<$Out2, $R2> t);
 }
 
-class _RepeatLabFeatureCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, RepeatLabFeature, $Out>
+class _RepeatLabFeatureCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, RepeatLabFeature, $Out>
     implements RepeatLabFeatureCopyWith<$R, RepeatLabFeature, $Out> {
   _RepeatLabFeatureCopyWithImpl(super.value, super.then, super.then2);
 
   @override
-  late final ClassMapperBase<RepeatLabFeature> $mapper = RepeatLabFeatureMapper.ensureInitialized();
+  late final ClassMapperBase<RepeatLabFeature> $mapper =
+      RepeatLabFeatureMapper.ensureInitialized();
   @override
-  $R call({String? title, bool? isPremium}) => $apply(
-    FieldCopyWithData({
-      if (title != null) #title: title,
-      if (isPremium != null) #isPremium: isPremium,
-    }),
-  );
+  $R call({String? title, bool? isPremium}) => $apply(FieldCopyWithData({
+        if (title != null) #title: title,
+        if (isPremium != null) #isPremium: isPremium
+      }));
   @override
   RepeatLabFeature $make(CopyWithData data) => RepeatLabFeature(
-    title: data.get(#title, or: $value.title),
-    isPremium: data.get(#isPremium, or: $value.isPremium),
-  );
+      title: data.get(#title, or: $value.title),
+      isPremium: data.get(#isPremium, or: $value.isPremium));
 
   @override
-  RepeatLabFeatureCopyWith<$R2, RepeatLabFeature, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
+  RepeatLabFeatureCopyWith<$R2, RepeatLabFeature, $Out2> $chain<$R2, $Out2>(
+          Then<$Out2, $R2> t) =>
       _RepeatLabFeatureCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

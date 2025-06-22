@@ -35,16 +35,15 @@ class WaveFormSoLoud extends StatefulWidget {
 }
 
 class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
-  late ScrollController _scrollController;
-  Timer? _seekDebounceTimer;
-  bool _isDragging = false;
-
-  double _zoomScale = 1.0;
-
   static const double minZoom = 0.25;
   static const double maxZoom = 5.0;
   static const double zoomStep = 0.25;
 
+  late ScrollController _scrollController;
+
+  bool _isDragging = false;
+
+  double _zoomScale = 1.0;
   bool _showZoomSlider = false;
   Timer? _zoomSliderTimer;
 
@@ -57,48 +56,10 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
 
   @override
   void dispose() {
-    _seekDebounceTimer?.cancel();
     _zoomSliderTimer?.cancel();
     _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     super.dispose();
-  }
-
-  void _handleDragStart(DragStartDetails details) {
-    widget.onStartDrag();
-    _isDragging = true;
-    _seekDebounceTimer?.cancel(); // Cancel any pending seek
-  }
-
-  void _handleDragUpdate(DragUpdateDetails details) {
-    if (!_isDragging) return;
-
-    final newScrollPosition = _scrollController.position.pixels - details.delta.dx;
-    final maxScroll = widget.data.length.toDouble() * _zoomScale;
-
-    _scrollController.jumpTo(newScrollPosition.clamp(0, maxScroll));
-
-    // Calculate and update position immediately instead of using debounce
-    final scrollPercentage = _scrollController.position.pixels / maxScroll;
-    final newPosition = Duration(
-      milliseconds: (scrollPercentage * widget.duration.inMilliseconds).round(),
-    );
-    widget.onPositionChanged(newPosition);
-  }
-
-  void _handleDragEnd(DragEndDetails details) {
-    if (!_isDragging) return;
-
-    _isDragging = false;
-    _seekDebounceTimer?.cancel();
-
-    final maxScroll = widget.data.length.toDouble() * _zoomScale;
-    final scrollPercentage = _scrollController.position.pixels / maxScroll;
-
-    final finalPosition = Duration(
-      milliseconds: (scrollPercentage * widget.duration.inMilliseconds).round(),
-    );
-    widget.onPositionChanged(finalPosition);
   }
 
   @override
@@ -108,84 +69,6 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
     }
 
     super.didUpdateWidget(oldWidget);
-  }
-
-  void _updateScrollPosition() {
-    final maxScroll = widget.data.length.toDouble() * _zoomScale;
-    final scrollPercentage = widget.currentPosition.inMilliseconds / widget.duration.inMilliseconds;
-
-    _scrollController.jumpTo(scrollPercentage * maxScroll);
-  }
-
-  void _zoomIn() {
-    AppAnalytics.trackEvent(AppAnalytics.clickZoomIn, data: {'zoom_scale': _zoomScale});
-    if (_zoomScale >= maxZoom) return;
-
-    // Calculate the center position before zooming
-    final centerPosition = _scrollController.position.pixels / _zoomScale;
-
-    setState(() {
-      _zoomScale = (_zoomScale + zoomStep).clamp(minZoom, maxZoom);
-    });
-
-    // Maintain the same center position after zooming
-    _scrollController.jumpTo(centerPosition * _zoomScale);
-  }
-
-  void _zoomOut() {
-    if (_zoomScale <= minZoom) return;
-
-    // Calculate the center position before zooming
-    final centerPosition = _scrollController.position.pixels / _zoomScale;
-
-    setState(() {
-      _zoomScale = (_zoomScale - zoomStep).clamp(minZoom, maxZoom);
-    });
-
-    // Maintain the same center position after zooming
-    _scrollController.jumpTo(centerPosition * _zoomScale);
-  }
-
-  void _showZoomControls() {
-    setState(() {
-      _showZoomSlider = true;
-    });
-
-    _resetZoomTimer();
-  }
-
-  void _resetZoomTimer() {
-    _zoomSliderTimer?.cancel();
-    _zoomSliderTimer = Timer(const Duration(seconds: 2), () {
-      setState(() {
-        _showZoomSlider = false;
-      });
-    });
-  }
-
-  void _updateZoom(double value) {
-    final centerPosition = _scrollController.position.pixels / _zoomScale;
-
-    setState(() {
-      _zoomScale = value;
-    });
-
-    // Maintain the same center position after zooming
-    _scrollController.jumpTo(centerPosition * _zoomScale);
-
-    _resetZoomTimer(); // Reset timer when user adjusts the slider
-  }
-
-  void _onScroll() {
-    if (!_isDragging) return;
-
-    final maxScroll = widget.data.length.toDouble() * _zoomScale;
-    final scrollPercentage = _scrollController.position.pixels / maxScroll;
-
-    final newPosition = Duration(
-      milliseconds: (scrollPercentage * widget.duration.inMilliseconds).round(),
-    );
-    widget.onPositionChanged(newPosition);
   }
 
   @override
@@ -199,30 +82,24 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
         children: [
           Positioned.fill(
             child: Listener(
-              onPointerDown: (details) {
-                _handleDragStart(
-                  DragStartDetails(
-                    globalPosition: details.position,
-                    localPosition: details.localPosition,
-                  ),
-                );
-              },
-              onPointerMove: (details) {
-                _handleDragUpdate(
-                  DragUpdateDetails(
-                    globalPosition: details.position,
-                    localPosition: details.localPosition,
-                    delta: details.delta,
-                  ),
-                );
-              },
-              onPointerUp: (details) {
-                _handleDragEnd(DragEndDetails());
-              },
+              onPointerDown: (details) => _handleDragStart(
+                DragStartDetails(
+                  globalPosition: details.position,
+                  localPosition: details.localPosition,
+                ),
+              ),
+              onPointerMove: (details) => _handleDragUpdate(
+                DragUpdateDetails(
+                  globalPosition: details.position,
+                  localPosition: details.localPosition,
+                  delta: details.delta,
+                ),
+              ),
+              onPointerUp: (details) => _handleDragEnd(DragEndDetails()),
               child: SingleChildScrollView(
                 controller: _scrollController,
                 scrollDirection: Axis.horizontal,
-                padding: EdgeInsets.symmetric(horizontal: (width / 2) - 16),
+                padding: const EdgeInsets.symmetric(horizontal: (width / 2) - 16),
                 physics: const NeverScrollableScrollPhysics(),
                 child: GestureDetector(
                   onHorizontalDragStart: _handleDragStart,
@@ -230,17 +107,20 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
                   onHorizontalDragEnd: _handleDragEnd,
                   child: SizedBox(
                     width: waveformWidth,
-                    child: CustomPaint(
-                      painter: WavePainter(
-                        data: widget.data,
-                        duration: widget.duration,
-                        currentPosition: widget.currentPosition,
-                        loops: widget.loops,
-                        colorPlayed: Theme.of(context).colorScheme.primaryFixedDim,
-                        colorUnplayed: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
-                        zoomScale: _zoomScale,
-                        startText: context.l10n.start,
-                        endText: context.l10n.end,
+                    child: RepaintBoundary(
+                      child: CustomPaint(
+                        painter: WavePainter(
+                          data: widget.data,
+                          duration: widget.duration,
+                          currentPosition: widget.currentPosition,
+                          loops: widget.loops,
+                          colorPlayed: Theme.of(context).colorScheme.primaryFixedDim,
+                          // colorUnplayed: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
+                          colorUnplayed: const Color(0xff00696e),
+                          zoomScale: _zoomScale,
+                          startText: context.l10n.start,
+                          endText: context.l10n.end,
+                        ),
                       ),
                     ),
                   ),
@@ -332,6 +212,41 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
     }
   }
 
+  void _handleDragStart(DragStartDetails details) {
+    widget.onStartDrag();
+    _isDragging = true;
+  }
+
+  void _handleDragUpdate(DragUpdateDetails details) {
+    if (!_isDragging) return;
+
+    final newScrollPosition = _scrollController.position.pixels - details.delta.dx;
+    final maxScroll = widget.data.length.toDouble() * _zoomScale;
+
+    _scrollController.jumpTo(newScrollPosition.clamp(0, maxScroll));
+
+    // Calculate and update position immediately instead of using debounce
+    final scrollPercentage = _scrollController.position.pixels / maxScroll;
+    final newPosition = Duration(
+      milliseconds: (scrollPercentage * widget.duration.inMilliseconds).round(),
+    );
+    widget.onPositionChanged(newPosition);
+  }
+
+  void _handleDragEnd(DragEndDetails details) {
+    if (!_isDragging) return;
+
+    _isDragging = false;
+
+    final maxScroll = widget.data.length.toDouble() * _zoomScale;
+    final scrollPercentage = _scrollController.position.pixels / maxScroll;
+
+    final finalPosition = Duration(
+      milliseconds: (scrollPercentage * widget.duration.inMilliseconds).round(),
+    );
+    widget.onPositionChanged(finalPosition);
+  }
+
   Future<void> _onZoomIn(BuildContext context) async {
     AppAnalytics.trackEvent(AppAnalytics.clickZoomIn, data: {'zoom_scale': _zoomScale});
 
@@ -347,5 +262,83 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
         ),
       );
     }
+  }
+
+  void _updateScrollPosition() {
+    final maxScroll = widget.data.length.toDouble() * _zoomScale;
+    final scrollPercentage = widget.currentPosition.inMilliseconds / widget.duration.inMilliseconds;
+
+    _scrollController.jumpTo(scrollPercentage * maxScroll);
+  }
+
+  void _zoomIn() {
+    AppAnalytics.trackEvent(AppAnalytics.clickZoomIn, data: {'zoom_scale': _zoomScale});
+    if (_zoomScale >= maxZoom) return;
+
+    // Calculate the center position before zooming
+    final centerPosition = _scrollController.position.pixels / _zoomScale;
+
+    setState(() {
+      _zoomScale = (_zoomScale + zoomStep).clamp(minZoom, maxZoom);
+    });
+
+    // Maintain the same center position after zooming
+    _scrollController.jumpTo(centerPosition * _zoomScale);
+  }
+
+  void _zoomOut() {
+    if (_zoomScale <= minZoom) return;
+
+    // Calculate the center position before zooming
+    final centerPosition = _scrollController.position.pixels / _zoomScale;
+
+    setState(() {
+      _zoomScale = (_zoomScale - zoomStep).clamp(minZoom, maxZoom);
+    });
+
+    // Maintain the same center position after zooming
+    _scrollController.jumpTo(centerPosition * _zoomScale);
+  }
+
+  void _showZoomControls() {
+    setState(() {
+      _showZoomSlider = true;
+    });
+
+    _resetZoomTimer();
+  }
+
+  void _resetZoomTimer() {
+    _zoomSliderTimer?.cancel();
+    _zoomSliderTimer = Timer(const Duration(seconds: 2), () {
+      setState(() {
+        _showZoomSlider = false;
+      });
+    });
+  }
+
+  void _updateZoom(double value) {
+    final centerPosition = _scrollController.position.pixels / _zoomScale;
+
+    setState(() {
+      _zoomScale = value;
+    });
+
+    // Maintain the same center position after zooming
+    _scrollController.jumpTo(centerPosition * _zoomScale);
+
+    _resetZoomTimer(); // Reset timer when user adjusts the slider
+  }
+
+  void _onScroll() {
+    if (!_isDragging) return;
+
+    final maxScroll = widget.data.length.toDouble() * _zoomScale;
+    final scrollPercentage = _scrollController.position.pixels / maxScroll;
+
+    final newPosition = Duration(
+      milliseconds: (scrollPercentage * widget.duration.inMilliseconds).round(),
+    );
+    widget.onPositionChanged(newPosition);
   }
 }

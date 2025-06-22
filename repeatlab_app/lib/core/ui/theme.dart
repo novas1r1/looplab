@@ -16,7 +16,7 @@ class MaterialTheme {
   static ColorScheme lightScheme() {
     return const ColorScheme(
       brightness: Brightness.light,
-      primary: Color(0xff00696e),
+      primary: Color.fromARGB(255, 0, 21, 22),
       surfaceTint: Color(0xff00696e),
       onPrimary: Color(0xffffffff),
       primaryContainer: Color(0xff27b9c2),
