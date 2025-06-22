@@ -99,7 +99,7 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
               child: SingleChildScrollView(
                 controller: _scrollController,
                 scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: (width / 2) - 16),
+                padding: EdgeInsets.symmetric(horizontal: (width / 2) - 16),
                 physics: const NeverScrollableScrollPhysics(),
                 child: GestureDetector(
                   onHorizontalDragStart: _handleDragStart,
