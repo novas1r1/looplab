@@ -468,4 +468,16 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get loopMode => 'Tryb Pętli';
+
+  @override
+  String get hours => 'Godziny';
+
+  @override
+  String get minutes => 'Minuty';
+
+  @override
+  String get seconds => 'Sekundy';
+
+  @override
+  String get milliseconds => 'Milisekundy';
 }

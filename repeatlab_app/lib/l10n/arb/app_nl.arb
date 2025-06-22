@@ -155,5 +155,9 @@
     "deleteAllDataSuccess": "Alle gegevens verwijderd",
     "deleteAllDataError": "Fout bij het verwijderen van alle gegevens",
     "errorOpeningStore": "Fout bij het openen van de app store listing. Probeer een review te versturen via Play of Apple Store direct. Bedankt!",
-    "loopMode": "Loop Modus"
-} 
+    "loopMode": "Loop Modus",
+    "hours": "Uren",
+    "minutes": "Minuten",
+    "seconds": "Seconden",
+    "milliseconds": "Milliseconden"
+}

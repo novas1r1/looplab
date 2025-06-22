@@ -155,5 +155,9 @@
     "deleteAllDataSuccess": "Todos los datos eliminados correctamente",
     "deleteAllDataError": "Error al eliminar todos los datos",
     "errorOpeningStore": "Error al abrir la lista de la app. Por favor, intenta enviar una reseña a través de Play o Apple Store directamente. ¡Gracias!",
-    "loopMode": "Modo Loop"
-} 
+    "loopMode": "Modo Loop",
+    "hours": "Horas",
+    "minutes": "Minutos",
+    "seconds": "Segundos",
+    "milliseconds": "Milisegundos"
+}

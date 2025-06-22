@@ -470,4 +470,16 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get loopMode => 'Döngü Modu';
+
+  @override
+  String get hours => 'Saat';
+
+  @override
+  String get minutes => 'Dakika';
+
+  @override
+  String get seconds => 'Saniye';
+
+  @override
+  String get milliseconds => 'Milisaniye';
 }

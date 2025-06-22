@@ -468,4 +468,16 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get loopMode => 'लूप मोड';
+
+  @override
+  String get hours => 'घंटे';
+
+  @override
+  String get minutes => 'मिनट';
+
+  @override
+  String get seconds => 'सेकंड';
+
+  @override
+  String get milliseconds => 'मिलीसेकंड';
 }

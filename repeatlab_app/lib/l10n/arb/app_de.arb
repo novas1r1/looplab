@@ -2,7 +2,6 @@
     "@@locale": "de",
     "appSubtitle": "Deine Musik-Loop-Station",
     "userSettings": "Benutzereinstellungen",
-    "cancelSubscription": "Abonnement kündigen",
     "buyRepeatLabPro": "RepeatLab Pro kaufen",
     "improveTheApp": "App verbessern",
     "feedback": "Feedback/Fehler",
@@ -53,7 +52,6 @@
     "loopName": "Loop-Name",
     "startTime": "Startzeit",
     "endTime": "Endzeit",
-    "delete": "Löschen",
     "save": "Speichern",
     "invalidFormat": "Ungültiges Format (mm:ss:ms)",
     "startCannotBeAfterEnd": "Start kann nicht nach Ende sein",
@@ -156,5 +154,9 @@
     "deleteAllDataSuccess": "Alle Daten erfolgreich gelöscht",
     "deleteAllDataError": "Fehler beim Löschen der Daten",
     "errorOpeningStore": "Fehler beim Öffnen des App Stores. Bitte versuche, eine Bewertung über Play oder Apple Store direkt zu senden. Vielen Dank!",
-    "loopMode": "Loop-Modus"
-} 
+    "loopMode": "Loop-Modus",
+    "hours": "Stunden",
+    "minutes": "Minuten",
+    "seconds": "Sekunden",
+    "milliseconds": "Millisekunden"
+}

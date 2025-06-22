@@ -7,6 +7,7 @@ import 'package:repeatlab/l10n/l10n.dart';
 class LoopTile extends StatefulWidget {
   final int index;
   final Loop loop;
+  final Duration songDuration;
   final bool isSelected;
   final bool isPaused;
 
@@ -20,6 +21,7 @@ class LoopTile extends StatefulWidget {
     super.key,
     required this.index,
     required this.loop,
+    required this.songDuration,
     required this.isSelected,
     required this.isPaused,
     required this.onTap,
@@ -128,6 +130,7 @@ class _LoopTileState extends State<LoopTile> {
       context: context,
       builder: (context) => EditLoopBottomUp(
         loop: widget.loop,
+        songDuration: widget.songDuration,
         onDelete: (loop) => widget.onDelete(widget.loop),
       ),
     );

@@ -715,7 +715,7 @@ class SongCubit extends Cubit<SongState> {
       final bytes = await file.readAsBytes();
       waveformData = await soloud.readSamplesFromMem(
         bytes,
-        200 * 10,
+        300 * 10,
       );
       // Store in cache
       _waveformCache[path] = waveformData;

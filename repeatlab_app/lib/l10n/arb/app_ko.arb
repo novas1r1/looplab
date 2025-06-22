@@ -157,5 +157,9 @@
     "deleteAllDataError": "모든 데이터 삭제에 실패했습니다",
     "errorOpeningStore": "앱 스토어 목록을 열 수 없습니다. Play 스토어 또는 Apple 스토어에서 직접 리뷰를 제출해 주세요. 감사합니다!",
     "cancel": "취소",
-    "loopMode": "루프 모드"
-} 
+    "loopMode": "루프 모드",
+    "hours": "시간",
+    "minutes": "분",
+    "seconds": "초",
+    "milliseconds": "밀리초"
+}

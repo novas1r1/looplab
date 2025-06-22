@@ -452,4 +452,16 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get loopMode => 'ループモード';
+
+  @override
+  String get hours => '時間';
+
+  @override
+  String get minutes => '分';
+
+  @override
+  String get seconds => '秒';
+
+  @override
+  String get milliseconds => 'ミリ秒';
 }

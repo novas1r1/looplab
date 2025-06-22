@@ -157,5 +157,9 @@
     "deleteAllDataError": "すべてのデータの削除に失敗しました",
     "errorOpeningStore": "アプリストアのリストを開けませんでした。PlayストアまたはAppleストアから直接レビューを送信してください。ありがとうございます！",
     "cancel": "キャンセル",
-    "loopMode": "ループモード"
-} 
+    "loopMode": "ループモード",
+    "hours": "時間",
+    "minutes": "分",
+    "seconds": "秒",
+    "milliseconds": "ミリ秒"
+}

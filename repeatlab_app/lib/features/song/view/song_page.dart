@@ -327,6 +327,7 @@ class _SongViewState extends State<_SongView> {
                           child: LoopTile(
                             index: index,
                             loop: state.song.loops[index],
+                            songDuration: state.song.duration,
                             isSelected: state.song.loops[index] == state.activeLoop,
                             isPaused: !(state.playerState?.playing ?? false),
                             onTap: (loop) => context.read<SongCubit>().selectLoop(loop),

@@ -464,4 +464,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get loopMode => 'وضع الحلقة';
+
+  @override
+  String get hours => 'ساعات';
+
+  @override
+  String get minutes => 'دقائق';
+
+  @override
+  String get seconds => 'ثوان';
+
+  @override
+  String get milliseconds => 'ملي ثانية';
 }

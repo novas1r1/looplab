@@ -8,7 +8,7 @@ extension DurationExtension on Duration {
     if (hours > 0) {
       return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
     } else {
-      return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')},${(milliseconds / 10).round().toString().padLeft(3, '0')}';
+      return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')},${milliseconds.toString().padLeft(3, '0')}';
     }
   }
 
@@ -17,6 +17,6 @@ extension DurationExtension on Duration {
     final seconds = inSeconds.remainder(60);
     final milliseconds = inMilliseconds.remainder(1000);
 
-    return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')},${(milliseconds / 10).round().toString().padLeft(3, '0')}';
+    return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')},${milliseconds.toString().padLeft(3, '0')}';
   }
 }

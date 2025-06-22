@@ -7,7 +7,6 @@ import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 
 class AudioPlayerService {
-  // final audioplayers.AudioPlayer audioPlayer;
   final AudioPlayer justAudioPlayer;
 
   StreamSubscription<PlayerState>? playerStateSubscription;
@@ -19,8 +18,12 @@ class AudioPlayerService {
   bool _isLoopModeEnabled = false;
   StreamSubscription<Duration>? _loopPositionSubscription;
 
+  // Constants
+  static const double _defaultSpeed = 1.0;
+  static const double _minSpeed = 0.25;
+  static const double _maxSpeed = 4.0;
+
   AudioPlayerService({
-    // required this.audioPlayer,
     required this.justAudioPlayer,
   });
 
@@ -48,7 +51,7 @@ class AudioPlayerService {
     );
     await justAudioPlayer.setAudioSource(audioSource);
 
-    await justAudioPlayer.setSpeed(1.0);
+    await justAudioPlayer.setSpeed(_defaultSpeed);
     // await justAudioPlayer.pause();
 
     playerStateSubscription = justAudioPlayer.playerStateStream.listen((playerState) {
@@ -103,7 +106,7 @@ class AudioPlayerService {
   }
 
   /// Check if position has reached loop end and restart if needed
-  void _checkAndRestartLoop(Duration position) {
+  Future<void> _checkAndRestartLoop(Duration position) async {
     if (!_isLoopModeEnabled || _activeLoop == null) return;
 
     final loop = _activeLoop!;
@@ -112,7 +115,7 @@ class AudioPlayerService {
     // Check if we've reached or passed the loop end
     if (position >= loop.end!) {
       // Seek back to loop start
-      justAudioPlayer.seek(loop.start);
+      await justAudioPlayer.seek(loop.start);
     }
   }
 
@@ -140,7 +143,15 @@ class AudioPlayerService {
   }
 
   Future<void> setSpeed(double speed) async {
-    await justAudioPlayer.setSpeed(speed);
+    var validatedSpeed = speed;
+
+    if (speed < _minSpeed) {
+      validatedSpeed = _minSpeed;
+    } else if (speed > _maxSpeed) {
+      validatedSpeed = _maxSpeed;
+    }
+
+    await justAudioPlayer.setSpeed(validatedSpeed);
   }
 
   Future<void> seek(Duration position) async {

@@ -471,4 +471,16 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get loopMode => 'Режим Лупа';
+
+  @override
+  String get hours => 'Часы';
+
+  @override
+  String get minutes => 'Минуты';
+
+  @override
+  String get seconds => 'Секунды';
+
+  @override
+  String get milliseconds => 'Миллисекунды';
 }

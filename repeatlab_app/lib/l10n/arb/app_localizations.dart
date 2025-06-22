@@ -132,7 +132,7 @@ abstract class AppLocalizations {
   /// **'Your Music Loop Station'**
   String get appSubtitle;
 
-  /// No description provided for @userSettings.
+  /// Title for user settings section
   ///
   /// In en, this message translates to:
   /// **'User Settings'**
@@ -953,6 +953,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Loop Mode'**
   String get loopMode;
+
+  /// No description provided for @hours.
+  ///
+  /// In en, this message translates to:
+  /// **'Hours'**
+  String get hours;
+
+  /// No description provided for @minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Minutes'**
+  String get minutes;
+
+  /// No description provided for @seconds.
+  ///
+  /// In en, this message translates to:
+  /// **'Seconds'**
+  String get seconds;
+
+  /// No description provided for @milliseconds.
+  ///
+  /// In en, this message translates to:
+  /// **'Milliseconds'**
+  String get milliseconds;
 }
 
 class _AppLocalizationsDelegate

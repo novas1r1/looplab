@@ -249,7 +249,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String purchaseYearly(String trialString) {
-    return 'Essayer gratuitement';
+    return 'Essayer gratuitement $trialString jours';
   }
 
   @override
@@ -477,4 +477,16 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get loopMode => 'Mode Boucle';
+
+  @override
+  String get hours => 'Heures';
+
+  @override
+  String get minutes => 'Minutes';
+
+  @override
+  String get seconds => 'Secondes';
+
+  @override
+  String get milliseconds => 'Millisecondes';
 }

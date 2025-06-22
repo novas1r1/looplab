@@ -2,7 +2,6 @@
     "@@locale": "ru",
     "appSubtitle": "Ваша Музыкальная Луп-Станция",
     "userSettings": "Настройки Пользователя",
-    "cancelSubscription": "Отменить Подписку",
     "buyRepeatLabPro": "Купить RepeatLab Pro",
     "improveTheApp": "Улучшить Приложение",
     "feedback": "Отзывы/Ошибки",
@@ -155,5 +154,9 @@
     "deleteAllDataSuccess": "Все данные удалены",
     "deleteAllDataError": "Ошибка при удалении данных",
     "errorOpeningStore": "Ошибка при открытии списка приложения. Пожалуйста, попробуйте отправить отзыв напрямую через Play или Apple Store. Спасибо!",
-    "loopMode": "Режим Лупа"
-} 
+    "loopMode": "Режим Лупа",
+    "hours": "Часы",
+    "minutes": "Минуты",
+    "seconds": "Секунды",
+    "milliseconds": "Миллисекунды"
+}

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:repeatlab/core/utils/duration_extension.dart';
+import 'package:flutter/services.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
 class EditLoopBottomUp extends StatefulWidget {
   final Loop loop;
+  final Duration songDuration;
   final void Function(Loop loop) onDelete;
 
   const EditLoopBottomUp({
     super.key,
     required this.loop,
+    required this.songDuration,
     required this.onDelete,
   });
 
@@ -19,29 +21,77 @@ class EditLoopBottomUp extends StatefulWidget {
 
 class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
   final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _startController = TextEditingController();
-  final TextEditingController _endController = TextEditingController();
+
+  // Start time controllers
+  final TextEditingController _startHoursController = TextEditingController();
+  final TextEditingController _startMinutesController = TextEditingController();
+  final TextEditingController _startSecondsController = TextEditingController();
+  final TextEditingController _startMillisecondsController = TextEditingController();
+
+  // End time controllers
+  final TextEditingController _endHoursController = TextEditingController();
+  final TextEditingController _endMinutesController = TextEditingController();
+  final TextEditingController _endSecondsController = TextEditingController();
+  final TextEditingController _endMillisecondsController = TextEditingController();
 
   String? _startError;
   String? _endError;
 
   late Loop _updatedLoop;
+  bool get _showHours => widget.songDuration.inMinutes > 60;
 
   @override
   void initState() {
     super.initState();
     _titleController.text = widget.loop.name;
-    _startController.text = widget.loop.start?.toFormattedStringMinutesSecondsMilliseconds() ?? '-';
-    _endController.text = widget.loop.end?.toFormattedStringMinutesSecondsMilliseconds() ?? '-';
-
+    _initializeTimeControllers();
     _updatedLoop = widget.loop;
+  }
+
+  void _initializeTimeControllers() {
+    // Initialize start time controllers
+    if (widget.loop.start != null) {
+      _startHoursController.text = widget.loop.start!.inHours.toString();
+      _startMinutesController.text = (widget.loop.start!.inMinutes % 60).toString().padLeft(2, '0');
+      _startSecondsController.text = (widget.loop.start!.inSeconds % 60).toString().padLeft(2, '0');
+      _startMillisecondsController.text = (widget.loop.start!.inMilliseconds % 1000)
+          .toString()
+          .padLeft(3, '0');
+    } else {
+      _startHoursController.text = '0';
+      _startMinutesController.text = '00';
+      _startSecondsController.text = '00';
+      _startMillisecondsController.text = '000';
+    }
+
+    // Initialize end time controllers
+    if (widget.loop.end != null) {
+      _endHoursController.text = widget.loop.end!.inHours.toString();
+      _endMinutesController.text = (widget.loop.end!.inMinutes % 60).toString().padLeft(2, '0');
+      _endSecondsController.text = (widget.loop.end!.inSeconds % 60).toString().padLeft(2, '0');
+      _endMillisecondsController.text = (widget.loop.end!.inMilliseconds % 1000).toString().padLeft(
+        3,
+        '0',
+      );
+    } else {
+      _endHoursController.text = '0';
+      _endMinutesController.text = '00';
+      _endSecondsController.text = '00';
+      _endMillisecondsController.text = '000';
+    }
   }
 
   @override
   void dispose() {
     _titleController.dispose();
-    _startController.dispose();
-    _endController.dispose();
+    _startHoursController.dispose();
+    _startMinutesController.dispose();
+    _startSecondsController.dispose();
+    _startMillisecondsController.dispose();
+    _endHoursController.dispose();
+    _endMinutesController.dispose();
+    _endSecondsController.dispose();
+    _endMillisecondsController.dispose();
     super.dispose();
   }
 
@@ -58,6 +108,7 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
             horizontal: 16.0,
           ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               Row(
@@ -133,42 +184,35 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
               ),
               const SizedBox(height: 16),
 
-              // Time controls
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _startController,
-                      decoration: InputDecoration(
-                        labelText: '${context.l10n.startTime} (mm:ss:ms)',
-                        errorText: _startError,
-                        border: const OutlineInputBorder(),
-                        /* suffixIcon: IconButton(
-                          icon: const Icon(Icons.start),
-                          onPressed: widget.onSetLoopStart,
-                        ), */
-                      ),
-                      onChanged: (value) => _validateAndUpdateTimes(context, value, null),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: TextField(
-                      controller: _endController,
-                      decoration: InputDecoration(
-                        labelText: '${context.l10n.endTime} (mm:ss:ms)',
-                        errorText: _endError,
-                        border: const OutlineInputBorder(),
-                        /* suffixIcon: IconButton(
-                          icon: const Icon(Icons.stop),
-                          onPressed: widget.onSetLoopEnd,
-                        ), */
-                      ),
-                      onChanged: (value) => _validateAndUpdateTimes(context, null, value),
-                    ),
-                  ),
-                ],
+              // Start time controls
+              Text(
+                context.l10n.startTime,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: 8),
+              _buildTimeInputRow(
+                hoursController: _startHoursController,
+                minutesController: _startMinutesController,
+                secondsController: _startSecondsController,
+                millisecondsController: _startMillisecondsController,
+                errorText: _startError,
+                onChanged: () => _validateAndUpdateTimes(context, true, false),
+              ),
+              const SizedBox(height: 16),
+
+              // End time controls
+              Text(
+                context.l10n.endTime,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: 8),
+              _buildTimeInputRow(
+                hoursController: _endHoursController,
+                minutesController: _endMinutesController,
+                secondsController: _endSecondsController,
+                millisecondsController: _endMillisecondsController,
+                errorText: _endError,
+                onChanged: () => _validateAndUpdateTimes(context, false, true),
               ),
               const SizedBox(height: 16),
 
@@ -212,20 +256,127 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
     );
   }
 
-  Duration? _parseDuration(String value) {
-    if (value.isEmpty) return null;
+  Widget _buildTimeInputRow({
+    required TextEditingController hoursController,
+    required TextEditingController minutesController,
+    required TextEditingController secondsController,
+    required TextEditingController millisecondsController,
+    String? errorText,
+    required VoidCallback onChanged,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            if (_showHours) ...[
+              Expanded(
+                child: TextField(
+                  controller: hoursController,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  decoration: InputDecoration(
+                    labelText: context.l10n.hours,
+                    border: const OutlineInputBorder(),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                  ),
+                  onChanged: (_) => onChanged(),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Text(':', style: Theme.of(context).textTheme.titleLarge),
+              const SizedBox(width: 8),
+            ],
+            Expanded(
+              child: TextField(
+                controller: minutesController,
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(2),
+                ],
+                decoration: InputDecoration(
+                  labelText: context.l10n.minutes,
+                  border: const OutlineInputBorder(),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                ),
+                onChanged: (_) => onChanged(),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Text(':', style: Theme.of(context).textTheme.titleLarge),
+            const SizedBox(width: 8),
+            Expanded(
+              child: TextField(
+                controller: secondsController,
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(2),
+                ],
+                decoration: InputDecoration(
+                  labelText: context.l10n.seconds,
+                  border: const OutlineInputBorder(),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                ),
+                onChanged: (_) => onChanged(),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Text(',', style: Theme.of(context).textTheme.titleLarge),
+            const SizedBox(width: 8),
+            Expanded(
+              child: TextField(
+                controller: millisecondsController,
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(3),
+                ],
+                decoration: InputDecoration(
+                  labelText: context.l10n.milliseconds,
+                  border: const OutlineInputBorder(),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                ),
+                onChanged: (_) => onChanged(),
+              ),
+            ),
+          ],
+        ),
+        if (errorText != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Text(
+              errorText,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.error,
+                fontSize: 12,
+              ),
+            ),
+          ),
+      ],
+    );
+  }
 
-    final parts = value.split(':');
-    if (parts.length != 3) return null;
-
+  Duration? _parseTimeInputs({
+    required TextEditingController hoursController,
+    required TextEditingController minutesController,
+    required TextEditingController secondsController,
+    required TextEditingController millisecondsController,
+  }) {
     try {
-      final minutes = int.parse(parts[0]);
-      final seconds = int.parse(parts[1]);
-      final milliseconds = int.parse(parts[2]);
+      final hours = int.tryParse(hoursController.text) ?? 0;
+      final minutes = int.tryParse(minutesController.text) ?? 0;
+      final seconds = int.tryParse(secondsController.text) ?? 0;
+      final milliseconds = int.tryParse(millisecondsController.text) ?? 0;
 
-      if (seconds >= 60) return null;
+      // Validate ranges
+      if (minutes >= 60 || seconds >= 60 || milliseconds >= 1000) {
+        return null;
+      }
 
       return Duration(
+        hours: hours,
         minutes: minutes,
         seconds: seconds,
         milliseconds: milliseconds,
@@ -235,22 +386,46 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
     }
   }
 
-  void _validateAndUpdateTimes(BuildContext context, String? startStr, String? endStr) {
+  void _validateAndUpdateTimes(
+    BuildContext context,
+    bool isStartTime,
+    bool isEndTime,
+  ) {
     setState(() {
       _startError = null;
       _endError = null;
 
-      final start = startStr != null ? _parseDuration(startStr) : widget.loop.start;
-      final end = endStr != null ? _parseDuration(endStr) : widget.loop.end;
+      Duration? start;
+      Duration? end;
 
-      if (startStr != null && start == null) {
-        _startError = context.l10n.invalidFormat;
-        return;
+      if (isStartTime) {
+        start = _parseTimeInputs(
+          hoursController: _startHoursController,
+          minutesController: _startMinutesController,
+          secondsController: _startSecondsController,
+          millisecondsController: _startMillisecondsController,
+        );
+        if (start == null) {
+          _startError = context.l10n.invalidFormat;
+          return;
+        }
+      } else {
+        start = widget.loop.start;
       }
 
-      if (endStr != null && end == null) {
-        _endError = context.l10n.invalidFormat;
-        return;
+      if (isEndTime) {
+        end = _parseTimeInputs(
+          hoursController: _endHoursController,
+          minutesController: _endMinutesController,
+          secondsController: _endSecondsController,
+          millisecondsController: _endMillisecondsController,
+        );
+        if (end == null) {
+          _endError = context.l10n.invalidFormat;
+          return;
+        }
+      } else {
+        end = widget.loop.end;
       }
 
       if (start != null && end != null) {
@@ -262,7 +437,7 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
       }
 
       // Update the loop if validation passes
-      if ((startStr != null && start != null) || (endStr != null && end != null)) {
+      if (isStartTime || isEndTime) {
         _updatedLoop = _updatedLoop.copyWith(
           start: start ?? widget.loop.start,
           end: end ?? widget.loop.end,

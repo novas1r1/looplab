@@ -469,4 +469,16 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get loopMode => 'Loop-Modus';
+
+  @override
+  String get hours => 'Stunden';
+
+  @override
+  String get minutes => 'Minuten';
+
+  @override
+  String get seconds => 'Sekunden';
+
+  @override
+  String get milliseconds => 'Millisekunden';
 }

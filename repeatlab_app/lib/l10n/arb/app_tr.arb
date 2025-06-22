@@ -157,5 +157,9 @@
     "deleteAllDataError": "Tüm verileri silme başarısız oldu",
     "errorOpeningStore": "Uygulama mağazası menüsü açılamadı. Lütfen Play veya Apple mağazası üzerinden doğrudan değerlendirme yapmayı deneyin. Teşekkür ederim!",
     "cancel": "İptal",
-    "loopMode": "Döngü Modu"
-} 
+    "loopMode": "Döngü Modu",
+    "hours": "Saat",
+    "minutes": "Dakika",
+    "seconds": "Saniye",
+    "milliseconds": "Milisaniye"
+}

@@ -5,6 +5,9 @@
         "description": "Text shown in the AppDrawer"
     },
     "userSettings": "User Settings",
+    "@userSettings": {
+        "description": "Title for user settings section"
+    },
     "cancelSubscription": "Cancel Subscription",
     "buyRepeatLabPro": "Buy RepeatLab Pro",
     "improveTheApp": "Improve the App",
@@ -50,7 +53,7 @@
     "yourFeedbackHelpsMe": "Your Feedback helps me to add the features ",
     "you": " you ",
     "want": "want",
-    "rateDialogDescription":"Hi! I'm the creator of this app. Loving the app? A quick 5-star review would mean the world to me 😊! It motivates me to add more cool features for you.\nThank you! ❤️",
+    "rateDialogDescription": "Hi! I'm the creator of this app. Loving the app? A quick 5-star review would mean the world to me 😊! It motivates me to add more cool features for you.\nThank you! ❤️",
     "notNow": "Not Now",
     "editLoop": "Edit Loop",
     "loopName": "Loop Name",
@@ -159,5 +162,9 @@
     "deleteAllDataSuccess": "All data deleted successfully",
     "deleteAllDataError": "Failed to delete all data",
     "errorOpeningStore": "Failed to open app store listing. Please try to submit a review via Play or Apple Store directly. Thank you!",
-    "loopMode": "Loop Mode"
+    "loopMode": "Loop Mode",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds",
+    "milliseconds": "Milliseconds"
 }

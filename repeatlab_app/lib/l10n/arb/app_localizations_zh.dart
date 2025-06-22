@@ -442,4 +442,16 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get loopMode => '循环模式';
+
+  @override
+  String get hours => '小时';
+
+  @override
+  String get minutes => '分钟';
+
+  @override
+  String get seconds => '秒';
+
+  @override
+  String get milliseconds => '毫秒';
 }

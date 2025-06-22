@@ -157,5 +157,9 @@
     "deleteAllDataError": "فشل في حذف جميع البيانات",
     "errorOpeningStore": "فشل في فتح قائمة متجر التطبيقات. يرجى محاولة تقديم تقييم عبر متجر Play أو Apple مباشرة. شكرًا لك!",
     "cancel": "إلغاء",
-    "loopMode": "وضع الحلقة"
-} 
+    "loopMode": "وضع الحلقة",
+    "hours": "ساعات",
+    "minutes": "دقائق",
+    "seconds": "ثوان",
+    "milliseconds": "ملي ثانية"
+}

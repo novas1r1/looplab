@@ -451,4 +451,16 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get loopMode => '루프 모드';
+
+  @override
+  String get hours => '시간';
+
+  @override
+  String get minutes => '분';
+
+  @override
+  String get seconds => '초';
+
+  @override
+  String get milliseconds => '밀리초';
 }

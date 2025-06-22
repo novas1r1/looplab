@@ -157,5 +157,9 @@
     "deleteAllDataError": "सभी डेटा हटाने में विफल",
     "errorOpeningStore": "ऐप स्टोर मेनू खोलने में विफल। कृपया Play या Apple स्टोर के माध्यम से सीधे रेटिंग देने का प्रयास करें। धन्यवाद!",
     "cancel": "रद्द करें",
-    "loopMode": "लूप मोड"
-} 
+    "loopMode": "लूप मोड",
+    "hours": "घंटे",
+    "minutes": "मिनट",
+    "seconds": "सेकंड",
+    "milliseconds": "मिलीसेकंड"
+}

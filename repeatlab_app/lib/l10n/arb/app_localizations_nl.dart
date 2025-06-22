@@ -470,4 +470,16 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get loopMode => 'Loop Modus';
+
+  @override
+  String get hours => 'Uren';
+
+  @override
+  String get minutes => 'Minuten';
+
+  @override
+  String get seconds => 'Seconden';
+
+  @override
+  String get milliseconds => 'Milliseconden';
 }

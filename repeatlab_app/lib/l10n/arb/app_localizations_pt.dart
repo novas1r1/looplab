@@ -472,4 +472,16 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get loopMode => 'Modo Loop';
+
+  @override
+  String get hours => 'Horas';
+
+  @override
+  String get minutes => 'Minutos';
+
+  @override
+  String get seconds => 'Segundos';
+
+  @override
+  String get milliseconds => 'Milissegundos';
 }
