@@ -42,6 +42,8 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
   late ScrollController _scrollController;
 
   bool _isDragging = false;
+  double? _screenWidth;
+  bool _widthInitialized = false;
 
   double _zoomScale = 1.0;
   bool _showZoomSlider = false;
@@ -52,6 +54,17 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
     super.initState();
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // Alternative approach: Get screen width once in didChangeDependencies
+    if (!_widthInitialized) {
+      _screenWidth = MediaQuery.sizeOf(context).width;
+      _widthInitialized = true;
+    }
   }
 
   @override
@@ -73,7 +86,7 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.sizeOf(context).width;
+    final width = _screenWidth ?? MediaQuery.sizeOf(context).width; // Use stored width or fallback
     final waveformWidth = widget.data.length.toDouble() * _zoomScale;
 
     return SizedBox(

@@ -1,8 +1,9 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:just_audio/just_audio.dart';
+// import 'package:just_audio/just_audio.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
@@ -52,9 +53,9 @@ class SongController extends StatelessWidget {
                     iconSize: 36,
                     onPressed: () => _onTapPlay(context),
                     icon: Icon(
-                      !(playerState?.playing ?? false)
-                          ? Icons.play_arrow_rounded
-                          : Icons.pause_rounded,
+                      playerState == PlayerState.playing
+                          ? Icons.pause_rounded
+                          : Icons.play_arrow_rounded,
                     ),
                   );
                 },

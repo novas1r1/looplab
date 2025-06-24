@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
-import 'package:just_audio/just_audio.dart';
+// import 'package:just_audio/just_audio.dart';
 import 'package:repeatlab/core/ui/widgets/loading.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
@@ -15,7 +16,7 @@ import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
-import 'package:repeatlab/data/services/just_audio_player_service.dart';
+import 'package:repeatlab/data/services/audioplayers_service.dart';
 import 'package:repeatlab/data/services/wave_data_visualizer_service.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/paywall/premium_screen.dart';
@@ -41,9 +42,11 @@ class SongPage extends StatelessWidget {
         songRepository: context.read<SongRepository>(),
         localConfigRepository: context.read<LocalConfigRepository>(),
         crashReportingRepository: context.read<CrashReportingRepository>(),
-        justAudioPlayerService: JustAudioPlayerService(
-          // audioPlayer: audioplayers.AudioPlayer(),
+        /* justAudioPlayerService: JustAudioPlayerService(
           justAudioPlayer: AudioPlayer(),
+        ), */
+        audioplayerService: AudioplayerService(
+          audioPlayer: AudioPlayer(),
         ),
         waveDataVisualizerService: WaveDataVisualizerService(soloud: SoLoud.instance),
         song: song,
@@ -222,11 +225,11 @@ class _SongViewState extends State<_SongView> {
                   child: Column(
                     children: [
                       BlocSelector<SongCubit, SongState, bool>(
-                        selector: (state) => state.playerState?.playing ?? false,
+                        selector: (state) => state.playerState == PlayerState.playing,
                         builder: (context, isPlaying) {
                           return StreamBuilder(
                             key: ValueKey(isPlaying),
-                            stream: context.read<SongCubit>().justAudioPlayerService.positionStream,
+                            stream: context.read<SongCubit>().audioplayerService.positionStream,
                             initialData: Duration.zero,
                             builder: (context, asyncSnapshot) {
                               final currentPosition = asyncSnapshot.data ?? Duration.zero;
@@ -501,7 +504,7 @@ class _SongViewState extends State<_SongView> {
       }
     } else {
       if (activeLoop.end != null) {
-        final currentPosition = context.read<SongCubit>().justAudioPlayerService.position;
+        final currentPosition = await context.read<SongCubit>().audioplayerService.position;
         if (currentPosition >= activeLoop.end!) {
           SnackbarHelper.showError(
             context,
@@ -525,7 +528,7 @@ class _SongViewState extends State<_SongView> {
       return;
     }
 
-    final currentPosition = context.read<SongCubit>().justAudioPlayerService.position;
+    final currentPosition = await context.read<SongCubit>().audioplayerService.position;
 
     // if active loop was set and current position is after start, set end
     if (activeLoop.start != null && currentPosition > activeLoop.start!) {

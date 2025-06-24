@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:audio_session/audio_session.dart';
-import 'package:just_audio_background/just_audio_background.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 
@@ -25,42 +25,36 @@ class AudioplayerService {
     required this.audioPlayer,
   });
 
-  Duration get position => audioPlayer.position;
-  Duration? get duration => audioPlayer.duration;
-  PlayerState? get playerState => audioPlayer.playerState;
+  Future<Duration> get position async => await audioPlayer.getCurrentPosition() ?? Duration.zero;
+  Future<Duration> get duration async => await audioPlayer.getDuration() ?? Duration.zero;
+  PlayerState? get playerState => audioPlayer.state;
 
   // Loop state getters
   Loop? get activeLoop => _activeLoop;
   bool get isLoopModeEnabled => _isLoopModeEnabled;
+
+  DeviceFileSource? audioSource;
 
   Future<void> init(Song song) async {
     final session = await AudioSession.instance;
     await session.configure(const AudioSessionConfiguration.music());
 
     final path = await song.path;
-    final audioSource = AudioSource.uri(
-      Uri.file(path),
-      tag: MediaItem(
-        id: song.id,
-        title: song.title,
-        artist: song.artist,
-        duration: song.duration,
-      ),
-    );
-    await justAudioPlayer.setAudioSource(audioSource);
+    audioSource = DeviceFileSource(path);
 
-    await justAudioPlayer.setSpeed(_defaultSpeed);
+    await audioPlayer.setSource(audioSource!);
+
+    await audioPlayer.setPlaybackRate(_defaultSpeed);
     // await justAudioPlayer.pause();
 
-    playerStateStream = justAudioPlayer.playerStateStream;
-    positionStream = justAudioPlayer.createPositionStream(
-      minPeriod: const Duration(milliseconds: 50),
-      maxPeriod: const Duration(milliseconds: 250),
-    );
+    playerStateStream = audioPlayer.onPlayerStateChanged;
+    positionStream = audioPlayer.onPositionChanged;
   }
 
   Future<void> play() async {
-    await justAudioPlayer.play();
+    if (audioSource == null) return;
+
+    await audioPlayer.play(audioSource!);
   }
 
   /// Plays a loop
@@ -69,8 +63,8 @@ class AudioplayerService {
   Future<void> playLoop(Loop loop) async {
     if (loop.start == null) return;
 
-    await justAudioPlayer.seek(loop.start);
-    await justAudioPlayer.play();
+    await audioPlayer.seek(loop.start!);
+    await audioPlayer.play(audioSource!);
   }
 
   /// Enable loop mode with automatic restart
@@ -84,7 +78,7 @@ class AudioplayerService {
 
     // Only start monitoring if we have valid start and end points
     if (loop.start != null && loop.end != null) {
-      _loopPositionSubscription = justAudioPlayer.positionStream.listen((position) {
+      _loopPositionSubscription = audioPlayer.onPositionChanged.listen((position) {
         _checkAndRestartLoop(position);
       });
     }
@@ -107,7 +101,7 @@ class AudioplayerService {
     // Check if we've reached or passed the loop end
     if (position >= loop.end!) {
       // Seek back to loop start
-      await justAudioPlayer.seek(loop.start);
+      await audioPlayer.seek(loop.start!);
     }
   }
 
@@ -119,7 +113,7 @@ class AudioplayerService {
       // Restart monitoring if needed
       if (_isLoopModeEnabled && updatedLoop.start != null && updatedLoop.end != null) {
         await _loopPositionSubscription?.cancel();
-        _loopPositionSubscription = justAudioPlayer.positionStream.listen((position) {
+        _loopPositionSubscription = audioPlayer.onPositionChanged.listen((position) {
           _checkAndRestartLoop(position);
         });
       }
@@ -127,11 +121,11 @@ class AudioplayerService {
   }
 
   Future<void> pause() async {
-    await justAudioPlayer.pause();
+    await audioPlayer.pause();
   }
 
   Future<void> stop() async {
-    await justAudioPlayer.stop();
+    await audioPlayer.stop();
   }
 
   Future<void> setSpeed(double speed) async {
@@ -143,15 +137,15 @@ class AudioplayerService {
       validatedSpeed = _maxSpeed;
     }
 
-    await justAudioPlayer.setSpeed(validatedSpeed);
+    await audioPlayer.setPlaybackRate(validatedSpeed);
   }
 
   Future<void> seek(Duration position) async {
-    await justAudioPlayer.seek(position);
+    await audioPlayer.seek(position);
   }
 
   Future<void> setVolume(double volume) async {
-    await justAudioPlayer.setVolume(volume);
+    await audioPlayer.setVolume(volume);
   }
 
   Future<void> setLoop(bool loop) async {
@@ -162,12 +156,11 @@ class AudioplayerService {
   }
 
   Future<void> dispose() async {
-    await justAudioPlayer.stop();
-    await justAudioPlayer.dispose();
+    await audioPlayer.stop();
+    await audioPlayer.dispose();
     await playerStateStream.drain();
     await positionStream.drain();
-    await _loopPositionSubscription?.cancel();
 
-    await justAudioPlayer.dispose();
+    await _loopPositionSubscription?.cancel();
   }
 }
