@@ -88,6 +88,16 @@ class _SongViewState extends State<_SongView> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SongCubit, SongState>(
+      // Only rebuild Scaffold when structural aspects change – ignore
+      // high-frequency position/player updates.
+      buildWhen: (previous, current) {
+        return previous.status != current.status ||
+            previous.song != current.song ||
+            previous.data != current.data ||
+            previous.activeLoop != current.activeLoop ||
+            previous.isLoopModeEnabled != current.isLoopModeEnabled ||
+            previous.error != current.error;
+      },
       listener: (context, state) {
         if (state.status == SongStatus.loadSuccess) {
           createTutorial(context);
@@ -193,21 +203,33 @@ class _SongViewState extends State<_SongView> {
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   children: [
-                    if (state.data != null)
-                      WaveFormSoLoud(
-                        key: tutorialKeyWaveform,
-                        data: state.data!,
-                        duration: state.song.duration,
-                        currentPosition: state.position ?? Duration.zero,
-                        onStartDrag: () {
-                          context.read<SongCubit>().pauseSong();
-                        },
-                        onPositionChanged: (position) {
-                          log('onPositionChanged: $position');
-                          context.read<SongCubit>().seekSong(position);
-                        },
-                        loops: state.song.loops,
-                      ),
+                    // Waveform – rebuild only for position or waveform changes.
+                    BlocBuilder<SongCubit, SongState>(
+                      buildWhen: (previous, current) {
+                        return previous.position != current.position ||
+                            previous.data != current.data ||
+                            previous.song.duration != current.song.duration ||
+                            previous.song.loops != current.song.loops;
+                      },
+                      builder: (context, wfState) {
+                        if (wfState.data == null) return const SizedBox.shrink();
+
+                        return WaveFormSoLoud(
+                          key: tutorialKeyWaveform,
+                          data: wfState.data!,
+                          duration: wfState.song.duration,
+                          currentPosition: wfState.position ?? Duration.zero,
+                          onStartDrag: () {
+                            context.read<SongCubit>().pauseSong();
+                          },
+                          onPositionChanged: (position) {
+                            log('onPositionChanged: $position');
+                            context.read<SongCubit>().seekSong(position);
+                          },
+                          loops: wfState.song.loops,
+                        );
+                      },
+                    ),
                     const SizedBox(height: 8),
                     LoopTimeline(
                       key: tutorialKeyLoopTimeline,
@@ -221,13 +243,25 @@ class _SongViewState extends State<_SongView> {
                       onSeek: (position) => context.read<SongCubit>().seekSong(position),
                     ),
                     const SizedBox(height: 12),
-                    SongController(
-                      key: tutorialKeySongController,
-                      currentPlayerPosition: state.position ?? Duration.zero,
-                      isLoopModeEnabled: state.isLoopModeEnabled,
-                      activeLoop: state.activeLoop,
-                      songDuration: state.song.duration,
-                      speed: state.speed,
+                    // Song controller – rebuild when position, player state or speed changes.
+                    BlocBuilder<SongCubit, SongState>(
+                      buildWhen: (previous, current) {
+                        return previous.position != current.position ||
+                            previous.playerState != current.playerState ||
+                            previous.speed != current.speed ||
+                            previous.isLoopModeEnabled != current.isLoopModeEnabled ||
+                            previous.activeLoop != current.activeLoop;
+                      },
+                      builder: (context, cState) {
+                        return SongController(
+                          key: tutorialKeySongController,
+                          currentPlayerPosition: cState.position ?? Duration.zero,
+                          isLoopModeEnabled: cState.isLoopModeEnabled,
+                          activeLoop: cState.activeLoop,
+                          songDuration: cState.song.duration,
+                          speed: cState.speed,
+                        );
+                      },
                     ),
                     const Divider(height: 32),
                     Row(

@@ -42,8 +42,8 @@ class SongCubit extends Cubit<SongState> {
 
   CancelableOperation? _seekOperation;
 
-  // Throttle position emissions to ~30 FPS (every 33 ms)
-  static const Duration _kMinPositionUpdateInterval = Duration(milliseconds: 33);
+  // Throttle position emissions to ~10 FPS (every 100 ms)
+  static const Duration _kMinPositionUpdateInterval = Duration(milliseconds: 100);
   DateTime _lastPositionEmit = DateTime.fromMillisecondsSinceEpoch(0);
 
   SongCubit({
@@ -82,6 +82,7 @@ class SongCubit extends Cubit<SongState> {
       // Initialize subscriptions before any other operations
       _playerStateSubscription = audioPlayerService.playerStateSubscription;
       _playerStateSubscription?.onData((playerState) {
+        log('playerState: $playerState', name: 'SongCubit');
         maybeEmit(
           state.copyWith(
             playerState: playerState,
@@ -93,8 +94,10 @@ class SongCubit extends Cubit<SongState> {
       /// audio player subscriptions for position (throttled)
       _positionSubscription = audioPlayerService.positionSubscription;
       _positionSubscription?.onData((position) {
+        log('position: $position', name: 'SongCubit');
         final now = DateTime.now();
         if (now.difference(_lastPositionEmit) >= _kMinPositionUpdateInterval) {
+          log('position emitted: $position', name: 'SongCubit');
           _lastPositionEmit = now;
           maybeEmit(
             state.copyWith(
@@ -108,6 +111,7 @@ class SongCubit extends Cubit<SongState> {
       /// audio player subscriptions for duration
       _durationSubscription = audioPlayerService.durationSubscription;
       _durationSubscription?.onData((duration) {
+        log('duration: $duration', name: 'SongCubit');
         maybeEmit(
           state.copyWith(
             duration: duration,

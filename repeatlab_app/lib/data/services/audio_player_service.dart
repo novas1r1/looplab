@@ -58,9 +58,14 @@ class AudioPlayerService {
       // TODO: Implement player state
     });
 
-    positionSubscription = justAudioPlayer.positionStream.listen((position) {
-      // TODO: Implement position
-    });
+    positionSubscription = justAudioPlayer
+        .createPositionStream(
+          minPeriod: const Duration(milliseconds: 100),
+          maxPeriod: const Duration(milliseconds: 100),
+        )
+        .listen((position) {
+          // Position updates will be forwarded to consumers (e.g. SongCubit)
+        });
 
     durationSubscription = justAudioPlayer.durationStream.listen((duration) {
       // TODO: Implement duration

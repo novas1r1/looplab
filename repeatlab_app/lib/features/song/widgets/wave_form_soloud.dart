@@ -268,7 +268,17 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
     final maxScroll = widget.data.length.toDouble() * _zoomScale;
     final scrollPercentage = widget.currentPosition.inMilliseconds / widget.duration.inMilliseconds;
 
-    _scrollController.jumpTo(scrollPercentage * maxScroll);
+    final target = scrollPercentage * maxScroll;
+
+    // Avoid calling jumpTo for sub-pixel changes – this eliminates a lot of
+    // unnecessary layout / paint work and reduces jank significantly.
+    if (_scrollController.hasClients && (target - _scrollController.position.pixels).abs() < 2.0) {
+      return;
+    }
+
+    if (_scrollController.hasClients) {
+      _scrollController.jumpTo(target);
+    }
   }
 
   void _zoomIn() {
