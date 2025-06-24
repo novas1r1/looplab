@@ -46,6 +46,8 @@ class SongCubit extends Cubit<SongState> {
 
   DateTime lastPositionEmission = DateTime.fromMillisecondsSinceEpoch(0);
 
+  Duration get currentPosition => audioPlayerService.position;
+
   SongCubit({
     required this.song,
     required this.songRepository,
