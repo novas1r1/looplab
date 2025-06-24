@@ -112,9 +112,6 @@ class SongStateMapper extends ClassMapperBase<SongState> {
   static String? _$error(SongState v) => v.error;
   static const Field<SongState, String> _f$error =
       Field('error', _$error, opt: true);
-  static Float32List? _$data(SongState v) => v.data;
-  static const Field<SongState, Float32List> _f$data =
-      Field('data', _$data, opt: true);
   static Loop? _$activeLoop(SongState v) => v.activeLoop;
   static const Field<SongState, Loop> _f$activeLoop =
       Field('activeLoop', _$activeLoop, opt: true);
@@ -128,9 +125,6 @@ class SongStateMapper extends ClassMapperBase<SongState> {
   static PlayerState? _$playerState(SongState v) => v.playerState;
   static const Field<SongState, PlayerState> _f$playerState =
       Field('playerState', _$playerState, opt: true);
-  static Duration? _$duration(SongState v) => v.duration;
-  static const Field<SongState, Duration> _f$duration =
-      Field('duration', _$duration, opt: true);
 
   @override
   final MappableFields<SongState> fields = const {
@@ -138,12 +132,10 @@ class SongStateMapper extends ClassMapperBase<SongState> {
     #status: _f$status,
     #song: _f$song,
     #error: _f$error,
-    #data: _f$data,
     #activeLoop: _f$activeLoop,
     #isLoopModeEnabled: _f$isLoopModeEnabled,
     #isTutorialCompleted: _f$isTutorialCompleted,
     #playerState: _f$playerState,
-    #duration: _f$duration,
   };
 
   static SongState _instantiate(DecodingData data) {
@@ -152,12 +144,10 @@ class SongStateMapper extends ClassMapperBase<SongState> {
         status: data.dec(_f$status),
         song: data.dec(_f$song),
         error: data.dec(_f$error),
-        data: data.dec(_f$data),
         activeLoop: data.dec(_f$activeLoop),
         isLoopModeEnabled: data.dec(_f$isLoopModeEnabled),
         isTutorialCompleted: data.dec(_f$isTutorialCompleted),
-        playerState: data.dec(_f$playerState),
-        duration: data.dec(_f$duration));
+        playerState: data.dec(_f$playerState));
   }
 
   @override
@@ -218,12 +208,10 @@ abstract class SongStateCopyWith<$R, $In extends SongState, $Out>
       SongStatus? status,
       Song? song,
       String? error,
-      Float32List? data,
       Loop? activeLoop,
       bool? isLoopModeEnabled,
       bool? isTutorialCompleted,
-      PlayerState? playerState,
-      Duration? duration});
+      PlayerState? playerState});
   SongStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -247,24 +235,20 @@ class _SongStateCopyWithImpl<$R, $Out>
           SongStatus? status,
           Song? song,
           Object? error = $none,
-          Object? data = $none,
           Object? activeLoop = $none,
           bool? isLoopModeEnabled,
           bool? isTutorialCompleted,
-          Object? playerState = $none,
-          Object? duration = $none}) =>
+          Object? playerState = $none}) =>
       $apply(FieldCopyWithData({
         if (speed != null) #speed: speed,
         if (status != null) #status: status,
         if (song != null) #song: song,
         if (error != $none) #error: error,
-        if (data != $none) #data: data,
         if (activeLoop != $none) #activeLoop: activeLoop,
         if (isLoopModeEnabled != null) #isLoopModeEnabled: isLoopModeEnabled,
         if (isTutorialCompleted != null)
           #isTutorialCompleted: isTutorialCompleted,
-        if (playerState != $none) #playerState: playerState,
-        if (duration != $none) #duration: duration
+        if (playerState != $none) #playerState: playerState
       }));
   @override
   SongState $make(CopyWithData data) => SongState(
@@ -272,14 +256,12 @@ class _SongStateCopyWithImpl<$R, $Out>
       status: data.get(#status, or: $value.status),
       song: data.get(#song, or: $value.song),
       error: data.get(#error, or: $value.error),
-      data: data.get(#data, or: $value.data),
       activeLoop: data.get(#activeLoop, or: $value.activeLoop),
       isLoopModeEnabled:
           data.get(#isLoopModeEnabled, or: $value.isLoopModeEnabled),
       isTutorialCompleted:
           data.get(#isTutorialCompleted, or: $value.isTutorialCompleted),
-      playerState: data.get(#playerState, or: $value.playerState),
-      duration: data.get(#duration, or: $value.duration));
+      playerState: data.get(#playerState, or: $value.playerState));
 
   @override
   SongStateCopyWith<$R2, SongState, $Out2> $chain<$R2, $Out2>(

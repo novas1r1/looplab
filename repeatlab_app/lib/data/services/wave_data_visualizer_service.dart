@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter_soloud/flutter_soloud.dart';
+import 'package:repeatlab/data/models/song.dart';
 
 class WaveDataVisualizerService {
   final SoLoud soloud;
@@ -12,7 +13,10 @@ class WaveDataVisualizerService {
 
   WaveDataVisualizerService({required this.soloud});
 
-  Future<Float32List> getWaveformData(String path, Duration duration) async {
+  Future<Float32List> getWaveformData(Song song) async {
+    final path = await song.path;
+    final duration = song.duration;
+
     // Check cache first
     Float32List? waveformData = _waveformCache[path];
 
@@ -35,7 +39,7 @@ class WaveDataVisualizerService {
       waveformData = await soloud.readSamplesFromMem(
         bytes,
         numSamples,
-        average: true, // Average samples to smooth out the waveform
+        // average: true, // Average samples to smooth out the waveform
       );
       // Store in cache
       _waveformCache[path] = waveformData;

@@ -5,13 +5,62 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/models/loop.dart';
+import 'package:repeatlab/data/models/song.dart';
+import 'package:repeatlab/data/services/wave_data_visualizer_service.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/paywall/premium_screen.dart';
+import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/features/song/widgets/wave_painter.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
+class WaveFormSoLoud extends StatelessWidget {
+  final WaveDataVisualizerService waveDataVisualizerService;
+
+  final Song song;
+  final void Function(Duration duration) onPositionChanged;
+  final VoidCallback onStartDrag;
+
+  const WaveFormSoLoud({
+    super.key,
+    required this.song,
+    required this.waveDataVisualizerService,
+    required this.onPositionChanged,
+    required this.onStartDrag,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: waveDataVisualizerService.getWaveformData(song),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return StreamBuilder(
+            stream: context.read<SongCubit>().positionStream,
+            initialData: Duration.zero,
+            builder: (context, streamSnapshot) {
+              if (streamSnapshot.hasData) {
+                return _WaveFormSoLoudView(
+                  data: snapshot.data!,
+                  duration: song.duration,
+                  currentPosition: streamSnapshot.data!,
+                  onPositionChanged: onPositionChanged,
+                  onStartDrag: onStartDrag,
+                  loops: song.loops,
+                );
+              }
+
+              return const SizedBox.shrink();
+            },
+          );
+        }
+        return const CircularProgressIndicator();
+      },
+    );
+  }
+}
+
 // https://github.com/alnitak/flutter_soloud/blob/feat_waveform/example/lib/wave_data/wave_data.dart
-class WaveFormSoLoud extends StatefulWidget {
+class _WaveFormSoLoudView extends StatefulWidget {
   final Float32List data;
   final Duration duration;
   final Duration currentPosition;
@@ -20,8 +69,7 @@ class WaveFormSoLoud extends StatefulWidget {
 
   final List<Loop> loops;
 
-  const WaveFormSoLoud({
-    super.key,
+  const _WaveFormSoLoudView({
     required this.data,
     required this.duration,
     required this.currentPosition,
@@ -31,10 +79,10 @@ class WaveFormSoLoud extends StatefulWidget {
   });
 
   @override
-  State<WaveFormSoLoud> createState() => _WaveFormSoLoudState();
+  State<_WaveFormSoLoudView> createState() => _WaveFormSoLoudViewState();
 }
 
-class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
+class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
   static const double minZoom = 0.25;
   static const double maxZoom = 5.0;
   static const double zoomStep = 0.25;
@@ -76,7 +124,7 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
   }
 
   @override
-  void didUpdateWidget(covariant WaveFormSoLoud oldWidget) {
+  void didUpdateWidget(covariant _WaveFormSoLoudView oldWidget) {
     if (widget.currentPosition != oldWidget.currentPosition && !_isDragging) {
       _updateScrollPosition();
     }

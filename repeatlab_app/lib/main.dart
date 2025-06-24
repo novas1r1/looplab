@@ -1,9 +1,7 @@
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
-import 'package:just_audio_background/just_audio_background.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -39,8 +37,6 @@ Future<void> main() async {
   await soloud.init();
   // SoLoud.instance.setVisualizationEnabled(true);
 
-  // final audioPlayer = AudioPlayer();
-
   final packageInfo = await PackageInfo.fromPlatform();
   final sharedPreferences = await SharedPreferences.getInstance();
 
@@ -51,13 +47,14 @@ Future<void> main() async {
     languageCode: 'en',
   );
 
-  await JustAudioBackground.init(
+  // needed if we use just_audio_background
+  /* await JustAudioBackground.init(
     androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
     androidNotificationChannelName: 'Audio playback',
     androidNotificationOngoing: true,
-  );
+  ); */
 
-  debugRepaintRainbowEnabled = true;
+  // debugRepaintRainbowEnabled = true;
 
   bootstrap(
     () => SentryWidget(
@@ -66,7 +63,6 @@ Future<void> main() async {
         soloud: soloud,
         packageInfo: packageInfo,
         sharedPreferences: sharedPreferences,
-        // audioPlayer: audioPlayer,
       ),
     ),
   );

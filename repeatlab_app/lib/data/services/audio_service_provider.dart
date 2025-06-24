@@ -1,4 +1,4 @@
-/* import 'package:audio_service/audio_service.dart';
+import 'package:audio_service/audio_service.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:repeatlab/data/services/repeatlab_audioplayers_service_handler.dart';
 
@@ -19,12 +19,12 @@ class AudioServiceProvider {
     _audioHandler = await AudioService.init<RepeatlabAudioplayersServiceHandler>(
       builder: () => RepeatlabAudioplayersServiceHandler(audioPlayer: audioPlayer),
       config: const AudioServiceConfig(
-        androidNotificationChannelId: 'com.repeatlab.audio',
+        androidNotificationChannelId: 'com.repeatlab.channel.audio',
         androidNotificationChannelName: 'RepeatLab Audio Playback',
+        androidNotificationIcon: 'mipmap/launcher_icon',
       ),
     );
 
     return _audioHandler!;
   }
 }
- */
