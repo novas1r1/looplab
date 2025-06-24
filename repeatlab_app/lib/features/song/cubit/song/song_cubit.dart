@@ -156,7 +156,10 @@ class SongCubit extends Cubit<SongState> {
         return;
       }
 
-      final waveformData = await waveDataVisualizerService.getWaveformData(path);
+      final waveformData = await waveDataVisualizerService.getWaveformData(
+        path,
+        audioPlayerService.duration ?? Duration.zero,
+      );
 
       // check if tutorial is completed
       final isTutorialCompleted = localConfigRepository.hasCompletedTutorial;
