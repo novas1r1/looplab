@@ -15,7 +15,7 @@ import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
-import 'package:repeatlab/data/services/audio_player_service.dart';
+import 'package:repeatlab/data/services/just_audio_player_service.dart';
 import 'package:repeatlab/data/services/wave_data_visualizer_service.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/paywall/premium_screen.dart';
@@ -41,7 +41,7 @@ class SongPage extends StatelessWidget {
         songRepository: context.read<SongRepository>(),
         localConfigRepository: context.read<LocalConfigRepository>(),
         crashReportingRepository: context.read<CrashReportingRepository>(),
-        audioPlayerService: AudioPlayerService(
+        justAudioPlayerService: JustAudioPlayerService(
           // audioPlayer: audioplayers.AudioPlayer(),
           justAudioPlayer: AudioPlayer(),
         ),
@@ -221,35 +221,42 @@ class _SongViewState extends State<_SongView> {
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
-                      BlocBuilder<SongCubit, SongState>(
-                        builder: (context, state) {
-                          if (state.data != null) {
-                            return StreamBuilder(
-                              key: ValueKey(state.playerState?.playing ?? false),
-                              stream: context.read<SongCubit>().audioPlayerService.positionStream,
-                              initialData: Duration.zero,
-                              builder: (context, asyncSnapshot) {
-                                final currentPosition = asyncSnapshot.data ?? Duration.zero;
+                      BlocSelector<SongCubit, SongState, bool>(
+                        selector: (state) => state.playerState?.playing ?? false,
+                        builder: (context, isPlaying) {
+                          return StreamBuilder(
+                            key: ValueKey(isPlaying),
+                            stream: context.read<SongCubit>().justAudioPlayerService.positionStream,
+                            initialData: Duration.zero,
+                            builder: (context, asyncSnapshot) {
+                              final currentPosition = asyncSnapshot.data ?? Duration.zero;
 
-                                log('currentPosition: $currentPosition');
-                                return WaveFormSoLoud(
-                                  key: tutorialKeyWaveform,
-                                  data: state.data!,
-                                  duration: state.song.duration,
-                                  currentPosition: context.read<SongCubit>().currentPosition,
-                                  onStartDrag: () {
-                                    context.read<SongCubit>().pauseSong();
-                                  },
-                                  onPositionChanged: (position) {
-                                    log('onPositionChanged: $position');
-                                    context.read<SongCubit>().seekSong(position);
-                                  },
-                                  loops: state.song.loops,
-                                );
-                              },
-                            );
-                          }
-                          return const SizedBox.shrink();
+                              log('currentPosition: $currentPosition');
+                              return BlocBuilder<SongCubit, SongState>(
+                                builder: (context, state) {
+                                  if (state.data != null) {
+                                    return RepaintBoundary(
+                                      child: WaveFormSoLoud(
+                                        key: tutorialKeyWaveform,
+                                        data: state.data!,
+                                        duration: state.song.duration,
+                                        currentPosition: currentPosition,
+                                        onStartDrag: () {
+                                          context.read<SongCubit>().pauseSong();
+                                        },
+                                        onPositionChanged: (position) {
+                                          log('onPositionChanged: $position');
+                                          context.read<SongCubit>().seekSong(position);
+                                        },
+                                        loops: state.song.loops,
+                                      ),
+                                    );
+                                  }
+                                  return const SizedBox.shrink();
+                                },
+                              );
+                            },
+                          );
                         },
                       ),
                       const SizedBox(height: 8),
@@ -494,7 +501,7 @@ class _SongViewState extends State<_SongView> {
       }
     } else {
       if (activeLoop.end != null) {
-        final currentPosition = context.read<SongCubit>().audioPlayerService.position;
+        final currentPosition = context.read<SongCubit>().justAudioPlayerService.position;
         if (currentPosition >= activeLoop.end!) {
           SnackbarHelper.showError(
             context,
@@ -518,7 +525,7 @@ class _SongViewState extends State<_SongView> {
       return;
     }
 
-    final currentPosition = context.read<SongCubit>().audioPlayerService.position;
+    final currentPosition = context.read<SongCubit>().justAudioPlayerService.position;
 
     // if active loop was set and current position is after start, set end
     if (activeLoop.start != null && currentPosition > activeLoop.start!) {

@@ -60,11 +60,9 @@ class _LoopTimelineState extends State<LoopTimeline> {
                     initialData: Duration.zero,
                     builder: (BuildContext context, AsyncSnapshot<Duration> snapshot) {
                       if (snapshot.hasData) {
-                        return
-                        // Current position indicator
-                        Positioned(
+                        return Positioned(
                           left:
-                              ((snapshot.data!.inMilliseconds ?? 0) /
+                              (snapshot.data!.inMilliseconds /
                                   context.read<SongCubit>().state.song.duration.inMilliseconds) *
                               _timelineWidth,
                           top: 0,

@@ -6,7 +6,7 @@ import 'package:just_audio_background/just_audio_background.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 
-class AudioPlayerService {
+class JustAudioPlayerService {
   final AudioPlayer justAudioPlayer;
 
   late Stream<PlayerState> playerStateStream;
@@ -22,7 +22,7 @@ class AudioPlayerService {
   static const double _minSpeed = 0.25;
   static const double _maxSpeed = 4.0;
 
-  AudioPlayerService({
+  JustAudioPlayerService({
     required this.justAudioPlayer,
   });
 
@@ -55,7 +55,7 @@ class AudioPlayerService {
 
     playerStateStream = justAudioPlayer.playerStateStream;
     positionStream = justAudioPlayer.createPositionStream(
-      minPeriod: const Duration(milliseconds: 250),
+      minPeriod: const Duration(milliseconds: 50),
       maxPeriod: const Duration(milliseconds: 250),
     );
   }
