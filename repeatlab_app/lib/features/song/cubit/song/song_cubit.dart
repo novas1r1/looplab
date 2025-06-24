@@ -15,7 +15,6 @@ import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:repeatlab/data/services/audio_service_provider.dart';
 import 'package:repeatlab/data/services/repeatlab_audioplayers_service_handler.dart';
-import 'package:repeatlab/data/services/wave_data_visualizer_service.dart';
 
 // part 'song_cubit.mapper.dart';
 part 'song_cubit.mapper.dart';
@@ -27,7 +26,6 @@ class SongCubit extends Cubit<SongState> {
   final SongRepository songRepository;
   final LocalConfigRepository localConfigRepository;
   final CrashReportingRepository crashReportingRepository;
-  final WaveDataVisualizerService waveDataVisualizerService;
 
   // audio player subscriptions
   late final RepeatlabAudioplayersServiceHandler audioHandler;
@@ -51,7 +49,6 @@ class SongCubit extends Cubit<SongState> {
     required this.songRepository,
     required this.localConfigRepository,
     required this.crashReportingRepository,
-    required this.waveDataVisualizerService,
   }) : super(SongState(song: song));
 
   @override
@@ -137,8 +134,8 @@ class SongCubit extends Cubit<SongState> {
       }
 
       // Initialize audio player with the file but keep it paused
-      await audioHandler.playSong(state.song);
       await audioHandler.setSpeed(1.0);
+      await audioHandler.playSong(state.song);
       await audioHandler.pause();
 
       // check if tutorial is completed
@@ -395,6 +392,8 @@ class SongCubit extends Cubit<SongState> {
         // if reached, start over
         if (updatedLoop.end != null && currentPosition >= updatedLoop.end!) {
           await audioHandler.seek(updatedLoop.start!);
+        } else if (updatedLoop.start != null && currentPosition < updatedLoop.start!) {
+          await audioHandler.seek(updatedLoop.start!);
         }
       } else {
         await audioHandler.pause();
@@ -624,7 +623,7 @@ class SongCubit extends Cubit<SongState> {
 
   Future<void> back(int seconds) async {
     try {
-      await audioHandler.back(seconds);
+      await audioHandler.back(seconds, state.activeLoop);
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
       emit(
@@ -639,7 +638,7 @@ class SongCubit extends Cubit<SongState> {
   Future<void> forward(int seconds) async {
     log('forward: $seconds');
     try {
-      await audioHandler.forward(seconds);
+      await audioHandler.forward(seconds, state.activeLoop);
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
       emit(

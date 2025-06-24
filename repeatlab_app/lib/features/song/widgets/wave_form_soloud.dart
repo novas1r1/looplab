@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
-import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/services/wave_data_visualizer_service.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
@@ -13,9 +13,7 @@ import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/features/song/widgets/wave_painter.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
-class WaveFormSoLoud extends StatelessWidget {
-  final WaveDataVisualizerService waveDataVisualizerService;
-
+class WaveFormSoLoud extends StatefulWidget {
   final Song song;
   final void Function(Duration duration) onPositionChanged;
   final VoidCallback onStartDrag;
@@ -23,17 +21,30 @@ class WaveFormSoLoud extends StatelessWidget {
   const WaveFormSoLoud({
     super.key,
     required this.song,
-    required this.waveDataVisualizerService,
     required this.onPositionChanged,
     required this.onStartDrag,
   });
 
   @override
+  State<WaveFormSoLoud> createState() => _WaveFormSoLoudState();
+}
+
+class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
+  late WaveDataVisualizerService waveDataVisualizerService;
+
+  @override
+  void initState() {
+    super.initState();
+    waveDataVisualizerService = WaveDataVisualizerService(soloud: SoLoud.instance);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: waveDataVisualizerService.getWaveformData(song),
+    return FutureBuilder<Float32List>(
+      future: waveDataVisualizerService.getWaveformData(widget.song),
+      initialData: Float32List(0),
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
           return StreamBuilder(
             stream: context.read<SongCubit>().positionStream,
             initialData: Duration.zero,
@@ -41,11 +52,10 @@ class WaveFormSoLoud extends StatelessWidget {
               if (streamSnapshot.hasData) {
                 return _WaveFormSoLoudView(
                   data: snapshot.data!,
-                  duration: song.duration,
+                  duration: widget.song.duration,
                   currentPosition: streamSnapshot.data!,
-                  onPositionChanged: onPositionChanged,
-                  onStartDrag: onStartDrag,
-                  loops: song.loops,
+                  onPositionChanged: widget.onPositionChanged,
+                  onStartDrag: widget.onStartDrag,
                 );
               }
 
@@ -67,15 +77,12 @@ class _WaveFormSoLoudView extends StatefulWidget {
   final void Function(Duration duration) onPositionChanged;
   final VoidCallback onStartDrag;
 
-  final List<Loop> loops;
-
   const _WaveFormSoLoudView({
     required this.data,
     required this.duration,
     required this.currentPosition,
     required this.onPositionChanged,
     required this.onStartDrag,
-    required this.loops,
   });
 
   @override
@@ -167,26 +174,31 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
                     onHorizontalDragStart: _handleDragStart,
                     onHorizontalDragUpdate: _handleDragUpdate,
                     onHorizontalDragEnd: _handleDragEnd,
-                    child: SizedBox(
-                      width: waveformWidth,
-                      child: RepaintBoundary(
-                        child: CustomPaint(
-                          // willChange: true,
-                          // isComplex: true,
-                          painter: WavePainter(
-                            data: widget.data,
-                            duration: widget.duration,
-                            currentPosition: widget.currentPosition,
-                            loops: widget.loops,
-                            colorPlayed: Theme.of(context).colorScheme.primaryFixedDim,
-                            // colorUnplayed: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
-                            colorUnplayed: const Color(0xff00696e),
-                            zoomScale: _zoomScale,
-                            startText: context.l10n.start,
-                            endText: context.l10n.end,
+                    child: BlocBuilder<SongCubit, SongState>(
+                      buildWhen: (previous, current) => previous.song.loops != current.song.loops,
+                      builder: (context, state) {
+                        return SizedBox(
+                          width: waveformWidth,
+                          child: RepaintBoundary(
+                            child: CustomPaint(
+                              // willChange: true,
+                              // isComplex: true,
+                              painter: WavePainter(
+                                data: widget.data,
+                                duration: widget.duration,
+                                currentPosition: widget.currentPosition,
+                                loops: state.song.loops,
+                                colorPlayed: Theme.of(context).colorScheme.primaryFixedDim,
+                                // colorUnplayed: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
+                                colorUnplayed: const Color(0xff00696e),
+                                zoomScale: _zoomScale,
+                                startText: context.l10n.start,
+                                endText: context.l10n.end,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     ),
                   ),
                 ],

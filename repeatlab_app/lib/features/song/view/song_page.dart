@@ -4,7 +4,6 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_soloud/flutter_soloud.dart';
 // import 'package:just_audio/just_audio.dart';
 import 'package:repeatlab/core/ui/widgets/loading.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
@@ -15,7 +14,6 @@ import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
-import 'package:repeatlab/data/services/wave_data_visualizer_service.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/paywall/premium_screen.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
@@ -40,11 +38,6 @@ class SongPage extends StatelessWidget {
         songRepository: context.read<SongRepository>(),
         localConfigRepository: context.read<LocalConfigRepository>(),
         crashReportingRepository: context.read<CrashReportingRepository>(),
-
-        /* justAudioPlayerService: JustAudioPlayerService(
-          justAudioPlayer: AudioPlayer(),
-        ), */
-        waveDataVisualizerService: WaveDataVisualizerService(soloud: SoLoud.instance),
         song: song,
       )..initSong(AudioPlayer()),
       child: _SongView(song: song),
@@ -222,9 +215,6 @@ class _SongViewState extends State<_SongView> {
                     children: [
                       WaveFormSoLoud(
                         song: widget.song,
-                        waveDataVisualizerService: WaveDataVisualizerService(
-                          soloud: SoLoud.instance,
-                        ),
                         onPositionChanged: (position) =>
                             context.read<SongCubit>().seekSong(position),
                         onStartDrag: () => context.read<SongCubit>().pauseSong(),
@@ -236,6 +226,7 @@ class _SongViewState extends State<_SongView> {
                         onPreviousLoop: () => context.read<SongCubit>().previousLoop(),
                         onNextLoop: () => context.read<SongCubit>().nextLoop(),
                         onSeek: (position) => context.read<SongCubit>().seekSong(position),
+                        duration: widget.song.duration,
                       ),
                       const SizedBox(height: 12),
                       SongController(

@@ -119,6 +119,20 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
   }
 
   Future<void> resume() async {
+    // check if is in loop mode
+    if (_activeLoop != null) {
+      // check if is in loop mode
+      if (_activeLoop!.start != null && _activeLoop!.end != null) {
+        final position = await audioPlayer.getCurrentPosition() ?? Duration.zero;
+        // check if is in loop mode
+        if (position >= _activeLoop!.end!) {
+          await audioPlayer.seek(_activeLoop!.start!);
+        } else if (position < _activeLoop!.start!) {
+          await audioPlayer.seek(_activeLoop!.start!);
+        }
+      }
+    }
+
     await audioPlayer.resume();
     playbackState.add(
       playbackState.value.copyWith(playing: true, processingState: AudioProcessingState.ready),
@@ -132,8 +146,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
     _activeLoop = loop;
 
     // Only start the loop timer if we have valid start and end points
+    // TODO: this doesnt work
     if (loop.start != null && loop.end != null) {
-      _loopTimer = Timer.periodic(const Duration(milliseconds: 16), (_) {
+      _loopTimer = Timer.periodic(const Duration(milliseconds: 50), (_) {
         // Check if loop is still active before proceeding
         if (_activeLoop == null) {
           _loopTimer?.cancel();
@@ -202,11 +217,11 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
 
     final currentPosition = await audioPlayer.getCurrentPosition();
     if (newPosition == currentPosition || newPosition > duration) {
-      log('SEEK song to $position skipped - position is out of range');
+      log('SEEK song to $newPosition skipped - position is out of range');
       return;
     }
 
-    log('SEEK song to $position');
+    log('SEEK song to $newPosition');
     // cancel any existing seek
     _seekOperation?.cancel();
 
@@ -221,7 +236,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
     _seekOperation = CancelableOperation.fromFuture(audioPlayer.seek(newPosition));
     await _seekOperation?.valueOrCancellation();
 
-    await audioPlayer.seek(position);
+    await audioPlayer.seek(newPosition);
   }
 
   @override
@@ -252,21 +267,36 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
     return;
   }
 
-  Future<void> forward(int seconds) async {
-    final position = await audioPlayer.getCurrentPosition();
+  // if loop is not null, check if position is within loop start and end,
+  // if not, seek to loop start
+  Future<void> forward(int seconds, Loop? loop) async {
+    final position = await audioPlayer.getCurrentPosition() ?? Duration.zero;
     final duration = await audioPlayer.getDuration() ?? Duration.zero;
 
-    if (position != null && position < duration - Duration(seconds: seconds)) {
+    if (position < duration - Duration(seconds: seconds)) {
       final newPosition = position + Duration(seconds: seconds);
-      await audioPlayer.seek(newPosition);
+
+      if (loop != null && newPosition > loop.end!) {
+        await audioPlayer.seek(loop.end!);
+      } else {
+        await audioPlayer.seek(newPosition);
+      }
     }
   }
 
-  Future<void> back(int seconds) async {
-    final position = await audioPlayer.getCurrentPosition();
-    if (position != null && position > Duration(seconds: seconds)) {
+  // if loop is not null, check if position is within loop start and end,
+  // if not, seek to loop start
+  Future<void> back(int seconds, Loop? loop) async {
+    final position = await audioPlayer.getCurrentPosition() ?? Duration.zero;
+
+    if (position > Duration(seconds: seconds)) {
       final newPosition = position - Duration(seconds: seconds);
-      await audioPlayer.seek(newPosition);
+
+      if (loop != null && newPosition < loop.start!) {
+        await audioPlayer.seek(loop.start!);
+      } else {
+        await audioPlayer.seek(newPosition);
+      }
     }
   }
 
