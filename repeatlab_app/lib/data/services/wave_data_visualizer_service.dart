@@ -52,7 +52,7 @@ class WaveDataVisualizerService {
   /// - Maximum: 5000 samples (for very long audio to maintain performance)
   int _calculateOptimalSampleCount(Duration duration) {
     // Target 10 samples per second (100ms per sample)
-    const targetSamplesPerSecond = 0.5;
+    const targetSamplesPerSecond = 1;
     final calculatedSamples = (duration.inMilliseconds / 100).round() * targetSamplesPerSecond;
 
     // Apply bounds for reasonable visualization
@@ -61,7 +61,7 @@ class WaveDataVisualizerService {
 
     log('duration: ${duration.inSeconds}, calculatedSamples: $calculatedSamples');
 
-    return calculatedSamples.clamp(minSamples, maxSamples).toInt();
+    return calculatedSamples.clamp(minSamples, maxSamples);
   }
 
   /// Implement different approach from docs

@@ -40,14 +40,6 @@ class SongController extends StatelessWidget {
                   },
                 ),
               ),
-              /* Expanded(
-                child: BlocSelector<SongCubit, SongState, Duration>(
-                  selector: (state) => state.position ?? Duration.zero,
-                  builder: (context, position) => RepaintBoundary(
-                    child: Text(position.toFormattedString()),
-                  ),
-                ),
-              ), */
               IconButton(
                 onPressed: () => context.read<SongCubit>().back(10),
                 icon: const Icon(Icons.replay_10_rounded),
@@ -72,7 +64,7 @@ class SongController extends StatelessWidget {
                 onPressed: () => context.read<SongCubit>().forward(10),
                 icon: const Icon(Icons.forward_10_rounded),
               ),
-              /* Expanded(
+              Expanded(
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: BlocSelector<SongCubit, SongState, Duration>(
@@ -80,12 +72,12 @@ class SongController extends StatelessWidget {
                     builder: (context, duration) => Text(duration.toFormattedString()),
                   ),
                 ),
-              ), */
+              ),
             ],
           ),
         ),
         const SizedBox(height: 8),
-        /* Container(
+        Container(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.secondaryContainer,
@@ -112,7 +104,7 @@ class SongController extends StatelessWidget {
               );
             },
           ),
-        ), */
+        ),
       ],
     );
   }

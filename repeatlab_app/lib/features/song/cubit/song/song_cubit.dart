@@ -59,11 +59,11 @@ class SongCubit extends Cubit<SongState> {
 
   @override
   Future<void> close() async {
-    await audioPlayerService.dispose();
-
     if (state.playerState?.playing ?? false) {
       await stopSong();
     }
+
+    await audioPlayerService.dispose();
 
     await _songSubscription?.cancel();
 

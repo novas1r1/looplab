@@ -163,6 +163,8 @@ class AudioPlayerService {
   }
 
   Future<void> dispose() async {
+    await justAudioPlayer.stop();
+    await justAudioPlayer.dispose();
     await playerStateStream.drain();
     await positionStream.drain();
     await _loopPositionSubscription?.cancel();

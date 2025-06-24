@@ -126,19 +126,19 @@ class _LoopTimelineState extends State<LoopTimeline> {
                       );
                     },
                   ),
-                  BlocSelector<SongCubit, SongState, List<Loop>>(
-                    selector: (state) => state.song.loops,
-                    builder: (context, state) {
-                      return IconButton(
-                        onPressed: state.length > 1 ? widget.onNextLoop : null,
-                        icon: const Icon(Icons.skip_next),
-                      );
-                    },
-                  ),
                 ],
               ),
             ),
           ),
+        ),
+        BlocSelector<SongCubit, SongState, List<Loop>>(
+          selector: (state) => state.song.loops,
+          builder: (context, state) {
+            return IconButton(
+              onPressed: state.length > 1 ? widget.onNextLoop : null,
+              icon: const Icon(Icons.skip_next),
+            );
+          },
         ),
       ],
     );

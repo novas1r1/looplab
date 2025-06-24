@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -65,6 +66,9 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
   @override
   void didUpdateWidget(covariant WaveFormSoLoud oldWidget) {
     if (widget.currentPosition != oldWidget.currentPosition && !_isDragging) {
+      log(
+        'didUpdateWidget: ${widget.currentPosition}, timestamp: ${DateTime.now().millisecondsSinceEpoch}',
+      );
       _updateScrollPosition();
     }
 
@@ -281,7 +285,11 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
     }
 
     if (_scrollController.hasClients) {
-      _scrollController.jumpTo(target);
+      _scrollController.animateTo(
+        target,
+        duration: const Duration(seconds: 250),
+        curve: Curves.easeInOut,
+      );
     }
   }
 
