@@ -96,35 +96,39 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
                 ),
               ),
               onPointerUp: (details) => _handleDragEnd(DragEndDetails()),
-              child: SingleChildScrollView(
+              child: ListView(
                 controller: _scrollController,
                 scrollDirection: Axis.horizontal,
                 padding: EdgeInsets.symmetric(horizontal: (width / 2) - 16),
                 physics: const NeverScrollableScrollPhysics(),
-                child: GestureDetector(
-                  onHorizontalDragStart: _handleDragStart,
-                  onHorizontalDragUpdate: _handleDragUpdate,
-                  onHorizontalDragEnd: _handleDragEnd,
-                  child: SizedBox(
-                    width: waveformWidth,
-                    child: RepaintBoundary(
-                      child: CustomPaint(
-                        painter: WavePainter(
-                          data: widget.data,
-                          duration: widget.duration,
-                          currentPosition: widget.currentPosition,
-                          loops: widget.loops,
-                          colorPlayed: Theme.of(context).colorScheme.primaryFixedDim,
-                          // colorUnplayed: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
-                          colorUnplayed: const Color(0xff00696e),
-                          zoomScale: _zoomScale,
-                          startText: context.l10n.start,
-                          endText: context.l10n.end,
+                children: [
+                  GestureDetector(
+                    onHorizontalDragStart: _handleDragStart,
+                    onHorizontalDragUpdate: _handleDragUpdate,
+                    onHorizontalDragEnd: _handleDragEnd,
+                    child: SizedBox(
+                      width: waveformWidth,
+                      child: RepaintBoundary(
+                        child: CustomPaint(
+                          willChange: true,
+                          isComplex: true,
+                          painter: WavePainter(
+                            data: widget.data,
+                            duration: widget.duration,
+                            currentPosition: widget.currentPosition,
+                            loops: widget.loops,
+                            colorPlayed: Theme.of(context).colorScheme.primaryFixedDim,
+                            // colorUnplayed: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
+                            colorUnplayed: const Color(0xff00696e),
+                            zoomScale: _zoomScale,
+                            startText: context.l10n.start,
+                            endText: context.l10n.end,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
             ),
           ),

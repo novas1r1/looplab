@@ -9,9 +9,8 @@ import 'package:repeatlab/data/models/song.dart';
 class AudioPlayerService {
   final AudioPlayer justAudioPlayer;
 
-  StreamSubscription<PlayerState>? playerStateSubscription;
-  StreamSubscription<Duration>? positionSubscription;
-  StreamSubscription<Duration?>? durationSubscription;
+  late Stream<PlayerState> playerStateStream;
+  late Stream<Duration> positionStream;
 
   // Loop state management
   Loop? _activeLoop;
@@ -54,22 +53,11 @@ class AudioPlayerService {
     await justAudioPlayer.setSpeed(_defaultSpeed);
     // await justAudioPlayer.pause();
 
-    playerStateSubscription = justAudioPlayer.playerStateStream.listen((playerState) {
-      // TODO: Implement player state
-    });
-
-    positionSubscription = justAudioPlayer
-        .createPositionStream(
-          minPeriod: const Duration(milliseconds: 100),
-          maxPeriod: const Duration(milliseconds: 100),
-        )
-        .listen((position) {
-          // Position updates will be forwarded to consumers (e.g. SongCubit)
-        });
-
-    durationSubscription = justAudioPlayer.durationStream.listen((duration) {
-      // TODO: Implement duration
-    });
+    playerStateStream = justAudioPlayer.playerStateStream;
+    positionStream = justAudioPlayer.createPositionStream(
+      minPeriod: const Duration(milliseconds: 250),
+      maxPeriod: const Duration(milliseconds: 250),
+    );
   }
 
   Future<void> play() async {
@@ -175,9 +163,8 @@ class AudioPlayerService {
   }
 
   Future<void> dispose() async {
-    await playerStateSubscription?.cancel();
-    await positionSubscription?.cancel();
-    await durationSubscription?.cancel();
+    await playerStateStream.drain();
+    await positionStream.drain();
     await _loopPositionSubscription?.cancel();
 
     await justAudioPlayer.dispose();

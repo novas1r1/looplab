@@ -1,16 +1,12 @@
 import 'dart:async';
-import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:repeatlab/core/ui/widgets/loading.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
-import 'package:repeatlab/core/utils/build_context_extension.dart';
+import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/core/utils/snackbar_helper.dart';
-import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
@@ -20,14 +16,9 @@ import 'package:repeatlab/data/services/wave_data_visualizer_service.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/paywall/premium_screen.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
-import 'package:repeatlab/features/song/view/song_controller.dart';
-import 'package:repeatlab/features/song/widgets/loop_tile.dart';
-import 'package:repeatlab/features/song/widgets/loop_timeline.dart';
 import 'package:repeatlab/features/song/widgets/tutorial_item.dart';
-import 'package:repeatlab/features/song/widgets/wave_form_soloud.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
-import 'package:wiredash/wiredash.dart';
 
 class SongPage extends StatelessWidget {
   final Song song;
@@ -87,17 +78,56 @@ class _SongViewState extends State<_SongView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<SongCubit, SongState>(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.song.title),
+      ),
+      body: Column(
+        children: [
+          BlocSelector<SongCubit, SongState, bool>(
+            selector: (state) {
+              return state.playerState?.playing ?? false;
+            },
+            builder: (context, isPlaying) {
+              if (isPlaying) {
+                return StreamBuilder<Duration>(
+                  key: ValueKey(isPlaying),
+                  stream: context.read<SongCubit>().positionStream,
+                  initialData: Duration.zero,
+                  builder: (BuildContext context, AsyncSnapshot<Duration> snapshot) {
+                    if (snapshot.hasData) {
+                      return Text(snapshot.data!.toFormattedString());
+                    }
+                    return const SizedBox.shrink();
+                  },
+                );
+              }
+              return const SizedBox.shrink();
+            },
+          ),
+          /* BlocSelector<SongCubit, SongState, Duration>(
+            selector: (state) => state.position ?? Duration.zero,
+            builder: (context, position) => RepaintBoundary(
+              child: Text(position.toFormattedString()),
+            ),
+          ), */
+          BlocSelector<SongCubit, SongState, PlayerState?>(
+            selector: (state) => state.playerState,
+            builder: (context, playerState) {
+              return IconButton(
+                iconSize: 36,
+                onPressed: () => context.read<SongCubit>().togglePlaySong(),
+                icon: Icon(
+                  !(playerState?.playing ?? false) ? Icons.play_arrow_rounded : Icons.pause_rounded,
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    ); /*BlocListener<SongCubit, SongState>(
       // Only rebuild Scaffold when structural aspects change – ignore
       // high-frequency position/player updates.
-      buildWhen: (previous, current) {
-        return previous.status != current.status ||
-            previous.song != current.song ||
-            previous.data != current.data ||
-            previous.activeLoop != current.activeLoop ||
-            previous.isLoopModeEnabled != current.isLoopModeEnabled ||
-            previous.error != current.error;
-      },
       listener: (context, state) {
         if (state.status == SongStatus.loadSuccess) {
           createTutorial(context);
@@ -129,260 +159,80 @@ class _SongViewState extends State<_SongView> {
           }
         }
       },
-      builder: (context, state) {
-        switch (state.status) {
-          case SongStatus.loading:
-            return const Scaffold(body: Center(child: Loading()));
-          case SongStatus.loadError:
-            return Scaffold(
-              appBar: AppBar(
-                title: Text(widget.song.title),
-              ),
-              body: Center(
-                child: Text(
-                  'Error loading song: ${state.error}',
-                  textAlign: TextAlign.center,
+      child: BlocSelector<SongCubit, SongState, SongStatus>(
+        selector: (state) => state.status,
+        builder: (context, status) {
+          switch (status) {
+            case SongStatus.loading:
+              return const Scaffold(body: Center(child: Loading()));
+            case SongStatus.loadError:
+              return Scaffold(
+                appBar: AppBar(
+                  title: Text(widget.song.title),
                 ),
-              ),
-            );
-          case SongStatus.loadSuccess:
-          case SongStatus.songDeleted:
-          case SongStatus.error:
-          case SongStatus.loopAdded:
-          case SongStatus.updated:
-          case SongStatus.loopDeleted:
-          case SongStatus.loopModeToggled:
-          case SongStatus.updating:
-            return Scaffold(
-              appBar: AppBar(
-                title: Text(widget.song.title),
-                actions: [
-                  IconButton(
-                    onPressed: () => showTutorial(),
-                    icon: const Icon(Icons.help_outline),
+                body: Center(
+                  child: Text(
+                    'Error loading song: ${context.read<SongCubit>().state.error}',
+                    textAlign: TextAlign.center,
                   ),
-                  // add pop up menu
-                  PopupMenuButton(
-                    icon: const Icon(Icons.more_vert),
-                    itemBuilder: (context) => [
-                      PopupMenuItem(
-                        child: Row(
-                          children: [
-                            const Icon(Icons.feedback),
-                            const SizedBox(width: 8),
-                            Text(context.l10n.reportBugAndFeedback),
-                          ],
-                        ),
-                        onTap: () {
-                          AppAnalytics.trackEvent(AppAnalytics.clickReportBug);
-                          Wiredash.of(context).show(inheritMaterialTheme: true);
-                        },
-                      ),
-                      PopupMenuItem(
-                        child: Row(
-                          children: [
-                            const Icon(Icons.delete),
-                            const SizedBox(width: 8),
-                            Text(context.l10n.deleteSong),
-                          ],
-                        ),
-                        onTap: () => _onTapDeleteSong(context),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              floatingActionButton: FloatingActionButton.extended(
-                onPressed: () => _onAddLoop(context),
-                icon: const Icon(Icons.add),
-                label: Text(context.l10n.addLoop),
-                key: tutorialKeyLoopAdd,
-                backgroundColor: Theme.of(context).colorScheme.primary,
-              ),
-              body: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    // Waveform – rebuild only for position or waveform changes.
-                    BlocBuilder<SongCubit, SongState>(
-                      buildWhen: (previous, current) {
-                        return previous.position != current.position ||
-                            previous.data != current.data ||
-                            previous.song.duration != current.song.duration ||
-                            previous.song.loops != current.song.loops;
-                      },
-                      builder: (context, wfState) {
-                        if (wfState.data == null) return const SizedBox.shrink();
-
-                        return WaveFormSoLoud(
-                          key: tutorialKeyWaveform,
-                          data: wfState.data!,
-                          duration: wfState.song.duration,
-                          currentPosition: wfState.position ?? Duration.zero,
-                          onStartDrag: () {
-                            context.read<SongCubit>().pauseSong();
+                ),
+              );
+            default:
+              return Scaffold(
+                appBar: AppBar(
+                  title: Text(widget.song.title),
+                  actions: [
+                    IconButton(
+                      onPressed: () => showTutorial(),
+                      icon: const Icon(Icons.help_outline),
+                    ),
+                    // add pop up menu
+                    PopupMenuButton(
+                      icon: const Icon(Icons.more_vert),
+                      itemBuilder: (context) => [
+                        PopupMenuItem(
+                          child: Row(
+                            children: [
+                              const Icon(Icons.feedback),
+                              const SizedBox(width: 8),
+                              Text(context.l10n.reportBugAndFeedback),
+                            ],
+                          ),
+                          onTap: () {
+                            AppAnalytics.trackEvent(AppAnalytics.clickReportBug);
+                            Wiredash.of(context).show(inheritMaterialTheme: true);
                           },
-                          onPositionChanged: (position) {
-                            log('onPositionChanged: $position');
-                            context.read<SongCubit>().seekSong(position);
-                          },
-                          loops: wfState.song.loops,
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                    LoopTimeline(
-                      key: tutorialKeyLoopTimeline,
-                      loops: state.song.loops,
-                      songDuration: state.song.duration,
-                      currentPosition: state.position ?? Duration.zero,
-                      onLoopTap: (loop) => context.read<SongCubit>().selectLoop(loop),
-                      onPreviousLoop: () => context.read<SongCubit>().previousLoop(),
-                      onNextLoop: () => context.read<SongCubit>().nextLoop(),
-                      hasMoreThan1Loop: state.song.loops.length > 1,
-                      onSeek: (position) => context.read<SongCubit>().seekSong(position),
-                    ),
-                    const SizedBox(height: 12),
-                    // Song controller – rebuild when position, player state or speed changes.
-                    BlocBuilder<SongCubit, SongState>(
-                      buildWhen: (previous, current) {
-                        return previous.position != current.position ||
-                            previous.playerState != current.playerState ||
-                            previous.speed != current.speed ||
-                            previous.isLoopModeEnabled != current.isLoopModeEnabled ||
-                            previous.activeLoop != current.activeLoop;
-                      },
-                      builder: (context, cState) {
-                        return SongController(
-                          key: tutorialKeySongController,
-                          currentPlayerPosition: cState.position ?? Duration.zero,
-                          isLoopModeEnabled: cState.isLoopModeEnabled,
-                          activeLoop: cState.activeLoop,
-                          songDuration: cState.song.duration,
-                          speed: cState.speed,
-                        );
-                      },
-                    ),
-                    const Divider(height: 32),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Loops',
-                          style: Theme.of(context).textTheme.headlineLarge,
                         ),
-                        Row(
-                          children: [
-                            Text(context.l10n.loopMode, style: context.bodySmall),
-                            CupertinoSwitch(
-                              key: tutorialKeyLoopActivate,
-                              thumbIcon: WidgetStateProperty.resolveWith<Icon?>((
-                                Set<WidgetState> states,
-                              ) {
-                                if (states.contains(WidgetState.disabled)) {
-                                  return const Icon(Icons.close);
-                                }
-                                return const Icon(Icons.loop_rounded);
-                              }),
-                              activeTrackColor: Theme.of(context).colorScheme.primaryContainer,
-                              value: state.isLoopModeEnabled,
-                              onChanged: (value) => _onToggleLoopMode(state, context),
-                            ),
-                          ],
+                        PopupMenuItem(
+                          child: Row(
+                            children: [
+                              const Icon(Icons.delete),
+                              const SizedBox(width: 8),
+                              Text(context.l10n.deleteSong),
+                            ],
+                          ),
+                          onTap: () => _onTapDeleteSong(context),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            key: tutorialKeyLoopStart,
-                            onPressed: () => _onSetLoopStart(context, state.activeLoop),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                              foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
-                              minimumSize: const Size(0, 36),
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            ),
-                            child: Text(
-                              context.l10n.setLoopStart,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: ElevatedButton(
-                            key: tutorialKeyLoopEnd,
-                            onPressed: (state.activeLoop != null)
-                                ? () => _onSetLoopEnd(context, state.activeLoop!)
-                                : null,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                              foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
-                              minimumSize: const Size(0, 36),
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            ),
-                            child: Text(
-                              context.l10n.setLoopEnd,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    Expanded(
-                      child: ReorderableListView.builder(
-                        onReorder: (oldIndex, newIndex) {
-                          if (oldIndex < newIndex) {
-                            newIndex -= 1;
-                          }
-                          final List<Loop> newLoops = List<Loop>.from(state.song.loops);
-                          final Loop item = newLoops.removeAt(oldIndex);
-                          newLoops.insert(newIndex, item);
-
-                          // Update order numbers
-                          for (var i = 0; i < newLoops.length; i++) {
-                            newLoops[i] = newLoops[i].copyWith(orderNumber: i);
-                          }
-
-                          context.read<SongCubit>().updateLoopOrder(newLoops);
-                        },
-                        scrollController: _loopListController,
-                        padding: const EdgeInsets.only(bottom: 92),
-                        itemBuilder: (context, index) => Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4),
-                          key: ValueKey(state.song.loops[index].id),
-                          child: LoopTile(
-                            index: index,
-                            loop: state.song.loops[index],
-                            songDuration: state.song.duration,
-                            isSelected: state.song.loops[index] == state.activeLoop,
-                            isPaused: !(state.playerState?.playing ?? false),
-                            onTap: (loop) => context.read<SongCubit>().selectLoop(loop),
-                            onDelete: (loop) => context.read<SongCubit>().deleteLoop(loop),
-                            onPlay: (loop) => context.read<SongCubit>().togglePlayLoop(loop),
-                            onPause: (loop) => context.read<SongCubit>().pauseLoop(loop),
-                            onUpdate: (loop) => context.read<SongCubit>().updateLoop(loop),
-                          ),
-                        ),
-                        itemCount: state.song.loops.length,
-                      ),
-                    ),
-                    // const SizedBox(height: 58),
                   ],
                 ),
-              ),
-            );
-        }
-      },
-    );
+                floatingActionButton: FloatingActionButton.extended(
+                  onPressed: () => _onAddLoop(context),
+                  icon: const Icon(Icons.add),
+                  label: Text(context.l10n.addLoop),
+                  key: tutorialKeyLoopAdd,
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                ),
+                body: const Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Column(),
+                ),
+              );
+          }
+        },
+      ),
+    );*/
   }
 
   Future<void> _onTapDeleteSong(BuildContext context) async {
@@ -436,9 +286,10 @@ class _SongViewState extends State<_SongView> {
     }
   }
 
-  Future<void> _onSetLoopStart(BuildContext context, Loop? activeLoop) async {
+  Future<void> _onSetLoopStart(BuildContext context) async {
     AppAnalytics.trackEvent(AppAnalytics.clickSetLoopStart);
-    final currentPosition = context.read<SongCubit>().state.position ?? Duration.zero;
+
+    final activeLoop = context.read<SongCubit>().state.activeLoop;
 
     if (activeLoop == null) {
       // check if user has premium
@@ -463,6 +314,7 @@ class _SongViewState extends State<_SongView> {
       }
     } else {
       if (activeLoop.end != null) {
+        final currentPosition = context.read<SongCubit>().audioPlayerService.position;
         if (currentPosition >= activeLoop.end!) {
           SnackbarHelper.showError(
             context,
@@ -476,10 +328,17 @@ class _SongViewState extends State<_SongView> {
     }
   }
 
-  Future<void> _onSetLoopEnd(BuildContext context, Loop activeLoop) async {
+  Future<void> _onSetLoopEnd(BuildContext context) async {
     AppAnalytics.trackEvent(AppAnalytics.clickSetLoopEnd);
 
-    final currentPosition = context.read<SongCubit>().state.position ?? Duration.zero;
+    final activeLoop = context.read<SongCubit>().state.activeLoop;
+
+    if (activeLoop == null) {
+      SnackbarHelper.showError(context, context.l10n.pleaseSelectLoop);
+      return;
+    }
+
+    final currentPosition = context.read<SongCubit>().audioPlayerService.position;
 
     // if active loop was set and current position is after start, set end
     if (activeLoop.start != null && currentPosition > activeLoop.start!) {
@@ -667,7 +526,9 @@ class _SongViewState extends State<_SongView> {
     }
   }
 
-  Future<void> _onToggleLoopMode(SongState state, BuildContext context) async {
+  Future<void> _onToggleLoopMode(BuildContext context) async {
+    final state = context.read<SongCubit>().state;
+
     if (state.activeLoop != null) {
       context.read<SongCubit>().toggleLoopMode();
     } else {

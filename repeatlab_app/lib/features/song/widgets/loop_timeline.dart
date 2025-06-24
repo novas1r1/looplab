@@ -1,28 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/data/models/loop.dart';
+import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 
 class LoopTimeline extends StatefulWidget {
-  final List<Loop> loops;
-  final Duration songDuration;
-  final Duration currentPosition;
-
   final void Function(Loop loop)? onLoopTap;
   final void Function() onPreviousLoop;
   final void Function() onNextLoop;
-
-  final bool hasMoreThan1Loop;
-
   final void Function(Duration position) onSeek;
 
   const LoopTimeline({
     super.key,
-    required this.loops,
-    required this.songDuration,
-    required this.currentPosition,
     this.onLoopTap,
     required this.onPreviousLoop,
     required this.onNextLoop,
-    required this.hasMoreThan1Loop,
     required this.onSeek,
   });
 
@@ -42,9 +33,14 @@ class _LoopTimelineState extends State<LoopTimeline> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        IconButton(
-          onPressed: widget.hasMoreThan1Loop ? widget.onPreviousLoop : null,
-          icon: const Icon(Icons.skip_previous),
+        BlocSelector<SongCubit, SongState, List<Loop>>(
+          selector: (state) => state.song.loops,
+          builder: (context, state) {
+            return IconButton(
+              onPressed: state.length > 1 ? widget.onPreviousLoop : null,
+              icon: const Icon(Icons.skip_previous),
+            );
+          },
         ),
         Expanded(
           child: GestureDetector(
@@ -59,67 +55,90 @@ class _LoopTimelineState extends State<LoopTimeline> {
               ),
               child: Stack(
                 children: [
-                  // Current position indicator
-                  Positioned(
-                    left:
-                        (widget.currentPosition.inMilliseconds /
-                            widget.songDuration.inMilliseconds) *
-                        _timelineWidth,
-                    top: 0,
-                    bottom: 0,
-                    child: Container(
-                      width: 2,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                  // Loop containers
-                  ...widget.loops.map((loop) {
-                    if (loop.start == null || loop.end == null) {
+                  StreamBuilder<Duration>(
+                    stream: context.read<SongCubit>().positionStream,
+                    initialData: Duration.zero,
+                    builder: (BuildContext context, AsyncSnapshot<Duration> snapshot) {
+                      if (snapshot.hasData) {
+                        return
+                        // Current position indicator
+                        Positioned(
+                          left:
+                              ((snapshot.data!.inMilliseconds ?? 0) /
+                                  context.read<SongCubit>().state.song.duration.inMilliseconds) *
+                              _timelineWidth,
+                          top: 0,
+                          bottom: 0,
+                          child: Container(
+                            width: 2,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        );
+                      }
                       return const SizedBox.shrink();
-                    }
+                    },
+                  ),
+                  BlocBuilder<SongCubit, SongState>(
+                    builder: (context, state) {
+                      return Stack(
+                        children: [
+                          // Loop containers
+                          ...state.song.loops.map((loop) {
+                            if (loop.start == null || loop.end == null) {
+                              return const SizedBox.shrink();
+                            }
 
-                    final startPosition =
-                        loop.start!.inMilliseconds / widget.songDuration.inMilliseconds;
-                    final endPosition =
-                        loop.end!.inMilliseconds / widget.songDuration.inMilliseconds;
+                            final startPosition =
+                                loop.start!.inMilliseconds / state.song.duration.inMilliseconds;
+                            final endPosition =
+                                loop.end!.inMilliseconds / state.song.duration.inMilliseconds;
 
-                    return Positioned(
-                      left: startPosition * _timelineWidth,
-                      width: (endPosition - startPosition) * _timelineWidth,
-                      top: 8,
-                      bottom: 8,
-                      child: GestureDetector(
-                        onTap: () => widget.onLoopTap?.call(loop),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: loop.color.color.withValues(alpha: 0.5),
-                            borderRadius: BorderRadius.circular(4),
-                            border: Border.all(
-                              color: loop.color.color,
-                              width: 2,
-                            ),
-                          ),
-                          child: Center(
-                            child: Text(
-                              loop.name,
-                              style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                            return Positioned(
+                              left: startPosition * _timelineWidth,
+                              width: (endPosition - startPosition) * _timelineWidth,
+                              top: 8,
+                              bottom: 8,
+                              child: GestureDetector(
+                                onTap: () => widget.onLoopTap?.call(loop),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: loop.color.color.withValues(alpha: 0.5),
+                                    borderRadius: BorderRadius.circular(4),
+                                    border: Border.all(
+                                      color: loop.color.color,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      loop.name,
+                                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ),
                               ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  }),
+                            );
+                          }),
+                        ],
+                      );
+                    },
+                  ),
+                  BlocSelector<SongCubit, SongState, List<Loop>>(
+                    selector: (state) => state.song.loops,
+                    builder: (context, state) {
+                      return IconButton(
+                        onPressed: state.length > 1 ? widget.onNextLoop : null,
+                        icon: const Icon(Icons.skip_next),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
           ),
-        ),
-        IconButton(
-          onPressed: widget.hasMoreThan1Loop ? widget.onNextLoop : null,
-          icon: const Icon(Icons.skip_next),
         ),
       ],
     );
@@ -129,9 +148,11 @@ class _LoopTimelineState extends State<LoopTimeline> {
     // Calculate position percentage (constrained between 0 and 1)
     final percentage = (localPosition.dx / _timelineWidth).clamp(0.0, 1.0);
 
+    final songDuration = context.read<SongCubit>().state.song.duration;
+
     // Convert to duration
     final newPosition = Duration(
-      milliseconds: (percentage * widget.songDuration.inMilliseconds).round(),
+      milliseconds: (percentage * songDuration.inMilliseconds).round(),
     );
 
     widget.onSeek(newPosition);

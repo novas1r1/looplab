@@ -128,9 +128,6 @@ class SongStateMapper extends ClassMapperBase<SongState> {
   static PlayerState? _$playerState(SongState v) => v.playerState;
   static const Field<SongState, PlayerState> _f$playerState =
       Field('playerState', _$playerState, opt: true);
-  static Duration? _$position(SongState v) => v.position;
-  static const Field<SongState, Duration> _f$position =
-      Field('position', _$position, opt: true);
   static Duration? _$duration(SongState v) => v.duration;
   static const Field<SongState, Duration> _f$duration =
       Field('duration', _$duration, opt: true);
@@ -146,7 +143,6 @@ class SongStateMapper extends ClassMapperBase<SongState> {
     #isLoopModeEnabled: _f$isLoopModeEnabled,
     #isTutorialCompleted: _f$isTutorialCompleted,
     #playerState: _f$playerState,
-    #position: _f$position,
     #duration: _f$duration,
   };
 
@@ -161,7 +157,6 @@ class SongStateMapper extends ClassMapperBase<SongState> {
         isLoopModeEnabled: data.dec(_f$isLoopModeEnabled),
         isTutorialCompleted: data.dec(_f$isTutorialCompleted),
         playerState: data.dec(_f$playerState),
-        position: data.dec(_f$position),
         duration: data.dec(_f$duration));
   }
 
@@ -228,7 +223,6 @@ abstract class SongStateCopyWith<$R, $In extends SongState, $Out>
       bool? isLoopModeEnabled,
       bool? isTutorialCompleted,
       PlayerState? playerState,
-      Duration? position,
       Duration? duration});
   SongStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
@@ -258,7 +252,6 @@ class _SongStateCopyWithImpl<$R, $Out>
           bool? isLoopModeEnabled,
           bool? isTutorialCompleted,
           Object? playerState = $none,
-          Object? position = $none,
           Object? duration = $none}) =>
       $apply(FieldCopyWithData({
         if (speed != null) #speed: speed,
@@ -271,7 +264,6 @@ class _SongStateCopyWithImpl<$R, $Out>
         if (isTutorialCompleted != null)
           #isTutorialCompleted: isTutorialCompleted,
         if (playerState != $none) #playerState: playerState,
-        if (position != $none) #position: position,
         if (duration != $none) #duration: duration
       }));
   @override
@@ -287,7 +279,6 @@ class _SongStateCopyWithImpl<$R, $Out>
       isTutorialCompleted:
           data.get(#isTutorialCompleted, or: $value.isTutorialCompleted),
       playerState: data.get(#playerState, or: $value.playerState),
-      position: data.get(#position, or: $value.position),
       duration: data.get(#duration, or: $value.duration));
 
   @override

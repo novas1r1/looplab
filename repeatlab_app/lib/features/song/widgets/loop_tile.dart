@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/data/models/loop.dart';
+import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/features/song/widgets/edit_loop_bottom_up.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
 class LoopTile extends StatefulWidget {
   final int index;
   final Loop loop;
-  final Duration songDuration;
+  // final Duration songDuration;
   final bool isSelected;
-  final bool isPaused;
+  // final bool isPaused;
 
   final Function(Loop) onTap;
   final Function(Loop) onDelete;
@@ -21,9 +23,9 @@ class LoopTile extends StatefulWidget {
     super.key,
     required this.index,
     required this.loop,
-    required this.songDuration,
+    // required this.songDuration,
     required this.isSelected,
-    required this.isPaused,
+    // required this.isPaused,
     required this.onTap,
     required this.onDelete,
     required this.onPlay,
@@ -126,11 +128,13 @@ class _LoopTileState extends State<LoopTile> {
   }
 
   Future<void> _onEditLoop() async {
+    final songDuration = context.read<SongCubit>().state.song.duration;
+
     final updatedLoop = await showModalBottomSheet<Loop?>(
       context: context,
       builder: (context) => EditLoopBottomUp(
         loop: widget.loop,
-        songDuration: widget.songDuration,
+        songDuration: songDuration,
         onDelete: (loop) => widget.onDelete(widget.loop),
       ),
     );

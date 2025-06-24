@@ -12,7 +12,7 @@ class SongState with SongStateMappable {
 
   /// AudioPlayer
   final PlayerState? playerState;
-  final Duration? position;
+  // final Duration? position;
   final Duration? duration;
 
   final String? error;
@@ -27,7 +27,7 @@ class SongState with SongStateMappable {
     this.isLoopModeEnabled = false,
     this.isTutorialCompleted = false,
     this.playerState,
-    this.position,
+    // this.position,
     this.duration,
   });
 }
