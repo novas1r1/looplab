@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 // import 'package:audiotags/audiotags.dart';
+import 'package:audio_metadata_reader/audio_metadata_reader.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
@@ -45,12 +46,12 @@ class SongRepository {
     // Get metadata from the file
     // final metadata = await AudioTags.read(file.path);
 
+    final metadata = readMetadata(file);
+
     final song = Song(
       id: const Uuid().v4(),
-      // title: metadata?.title ?? fileName,
-      title: fileName,
-      // artist: metadata?.trackArtist ?? 'Unknown Artist',
-      artist: 'Unknown Artist',
+      title: metadata.title ?? fileName,
+      artist: metadata.artist ?? 'Unknown Artist',
       fileName: fileName,
       duration: duration,
     );

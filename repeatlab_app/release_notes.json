@@ -1,10 +1,10 @@
 [
     {
         "language": "en-US",
-        "text": "IMPROVEMENT: Changed the format of the duration display a standard format\nMISC: Improved stability and performance"
+        "text": "FEATURE: Added support for reading metadata from audio files\nIMPROVEMENT: Changed the format of the duration display a standard format\nMISC: Improved stability and performance"
     },
     {
         "language": "en-DE",
-        "text": "IMPROVEMENT: Änderung der Anzeigeformat für Dauer in ein Standardformat\nMISC: Verbesserte Stabilität und Leistung"
+        "text": "FEATURE: Unterstützung für das Lesen von Metadaten aus Audio-Dateien\nIMPROVEMENT: Änderung der Anzeigeformat für Dauer in ein Standardformat\nMISC: Verbesserte Stabilität und Leistung"
     }
 ]

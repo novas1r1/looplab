@@ -8,13 +8,21 @@ environment:
   sdk: ^3.8.1
 
 dependencies:
+  audio_metadata_reader:
+    git:
+      url: https://github.com/novas1r1/audio_metadata_reader.git
+      ref: main
+
   # audio_service: ^0.18.18
   audio_service: ^0.18.18
   audio_session: ^0.2.2
   # audioplayers: ^6.4.0
   audioplayers: ^6.4.0
 
-  # audiotags: ^1.4.5
+  # audiotags:
+  #   git:
+  #     url: https://github.com/erikas-taroza/audiotags.git
+  #     ref: master
   bloc: ^9.0.0
   dart_mappable: ^4.5.0
   # ffmpeg_kit_flutter_new: ^1.6.1
