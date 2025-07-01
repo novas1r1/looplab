@@ -40,6 +40,8 @@ class SongCubit extends Cubit<SongState> {
   Stream<Duration>? durationStream;
   StreamSubscription<Duration>? _durationSubscription;
 
+  Stream<List<Loop>>? loopsStream;
+
   Duration? positionToSeek;
 
   Future<Duration> get position async => await audioHandler.position;
@@ -49,7 +51,9 @@ class SongCubit extends Cubit<SongState> {
     required this.songRepository,
     required this.localConfigRepository,
     required this.crashReportingRepository,
-  }) : super(SongState(song: song));
+  }) : super(SongState(song: song)) {
+    loopsStream = songRepository.loops;
+  }
 
   @override
   Future<void> close() async {
@@ -622,6 +626,7 @@ class SongCubit extends Cubit<SongState> {
   }
 
   Future<void> back(int seconds) async {
+    log('back: $seconds');
     try {
       await audioHandler.back(seconds, state.activeLoop);
     } catch (ex, stack) {

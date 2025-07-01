@@ -217,11 +217,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
 
     final currentPosition = await audioPlayer.getCurrentPosition();
     if (newPosition == currentPosition || newPosition > duration) {
-      log('SEEK song to $newPosition skipped - position is out of range');
       return;
     }
 
-    log('SEEK song to $newPosition');
     // cancel any existing seek
     _seekOperation?.cancel();
 
@@ -273,15 +271,23 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
     final position = await audioPlayer.getCurrentPosition() ?? Duration.zero;
     final duration = await audioPlayer.getDuration() ?? Duration.zero;
 
-    if (position < duration - Duration(seconds: seconds)) {
-      final newPosition = position + Duration(seconds: seconds);
+    // If we are already at or beyond the track length, nothing to do.
+    if (position >= duration) return;
 
-      if (loop != null && newPosition > loop.end!) {
-        await audioPlayer.seek(loop.end!);
-      } else {
-        await audioPlayer.seek(newPosition);
+    // Desired target after forwarding.
+    var target = position + Duration(seconds: seconds);
+
+    // Respect loop end if a loop is active.
+    if (loop != null && loop.end != null) {
+      if (target > loop.end!) {
+        target = loop.end!;
       }
+    } else if (target > duration) {
+      // Clamp to the end of the track.
+      target = duration;
     }
+
+    await audioPlayer.seek(target);
   }
 
   // if loop is not null, check if position is within loop start and end,
@@ -289,15 +295,20 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
   Future<void> back(int seconds, Loop? loop) async {
     final position = await audioPlayer.getCurrentPosition() ?? Duration.zero;
 
-    if (position > Duration(seconds: seconds)) {
-      final newPosition = position - Duration(seconds: seconds);
+    // Desired target after rewinding.
+    var target = position - Duration(seconds: seconds);
 
-      if (loop != null && newPosition < loop.start!) {
-        await audioPlayer.seek(loop.start!);
-      } else {
-        await audioPlayer.seek(newPosition);
-      }
+    // Clamp to zero (start of track).
+    if (target < Duration.zero) {
+      target = Duration.zero;
     }
+
+    // Respect loop start if a loop is active.
+    if (loop != null && loop.start != null && target < loop.start!) {
+      target = loop.start!;
+    }
+
+    await audioPlayer.seek(target);
   }
 
   // Close resources when the audio handler is no longer needed

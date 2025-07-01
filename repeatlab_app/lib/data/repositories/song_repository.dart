@@ -17,6 +17,7 @@ class SongRepository {
   final _store = StoreRef<String, Map<String, dynamic>>('songs');
 
   final _songController = StreamController<List<Song>>.broadcast();
+  final _loopsController = StreamController<List<Loop>>.broadcast();
 
   SongRepository({
     required this.db,
@@ -24,6 +25,7 @@ class SongRepository {
   });
 
   Stream<List<Song>> get songs => _songController.stream;
+  Stream<List<Loop>> get loops => _loopsController.stream;
 
   Future<List<Song>> getAllSongs() async {
     final records = await _store.find(db);
@@ -92,6 +94,8 @@ class SongRepository {
     );
     await getAllSongs();
 
+    _loopsController.add(updatedSong.loops);
+
     return updatedSong;
   }
 
@@ -112,6 +116,8 @@ class SongRepository {
     );
     await getAllSongs();
 
+    _loopsController.add(updatedSong.loops);
+
     return updatedSong;
   }
 
@@ -130,6 +136,8 @@ class SongRepository {
       finder: Finder(filter: Filter.equals('id', song.id)),
     );
     await getAllSongs();
+
+    _loopsController.add(updatedSong.loops);
 
     return updatedSong;
   }

@@ -68,8 +68,8 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
   }
 
   Future<void> checkStatus() async {
-    /* if (kDebugMode) {
-      emit(state.copyWith(status: PremiumSubscriptionStatus.subscribed));
+    /*     if (kDebugMode) {
+      emit(state.copyWith(status: PremiumSubscriptionStatus.premium));
 
       return;
     } */

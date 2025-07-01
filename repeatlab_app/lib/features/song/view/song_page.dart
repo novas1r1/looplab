@@ -215,9 +215,6 @@ class _SongViewState extends State<_SongView> {
                     children: [
                       WaveFormSoLoud(
                         song: widget.song,
-                        onPositionChanged: (position) =>
-                            context.read<SongCubit>().seekSong(position),
-                        onStartDrag: () => context.read<SongCubit>().pauseSong(),
                       ),
                       const SizedBox(height: 8),
                       LoopTimeline(

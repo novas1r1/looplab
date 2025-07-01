@@ -1,36 +1,28 @@
 /* import 'dart:async';
-import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
-import 'package:repeatlab/data/models/loop.dart';
+import 'package:repeatlab/data/models/song.dart';
+import 'package:repeatlab/data/services/wave_data_visualizer_service.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/paywall/premium_screen.dart';
+import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
+import 'package:repeatlab/features/song/widgets/wave_painter.dart';
+import 'package:repeatlab/l10n/l10n.dart';
 
-// https://github.com/alnitak/flutter_soloud/blob/feat_waveform/example/lib/wave_data/wave_data.dart
 class WaveFormSoLoud extends StatefulWidget {
-  final Float32List data;
-  final Duration duration;
-  final Duration currentPosition;
+  final Song song;
   final void Function(Duration duration) onPositionChanged;
   final VoidCallback onStartDrag;
 
-  final List<Loop> loops;
-  final String startText;
-  final String endText;
-
   const WaveFormSoLoud({
     super.key,
-    required this.data,
-    required this.duration,
-    required this.currentPosition,
+    required this.song,
     required this.onPositionChanged,
     required this.onStartDrag,
-    required this.loops,
-    required this.startText,
-    required this.endText,
   });
 
   @override
@@ -38,29 +30,95 @@ class WaveFormSoLoud extends StatefulWidget {
 }
 
 class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
+  late WaveDataVisualizerService waveDataVisualizerService;
+
+  @override
+  void initState() {
+    super.initState();
+    waveDataVisualizerService = WaveDataVisualizerService(soloud: SoLoud.instance);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<Float32List>(
+      future: waveDataVisualizerService.getWaveformData(widget.song),
+      initialData: Float32List(0),
+      builder: (context, snapshot) {
+        if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+          return StreamBuilder(
+            stream: context.read<SongCubit>().positionStream,
+            initialData: Duration.zero,
+            builder: (context, streamSnapshot) {
+              if (streamSnapshot.hasData) {
+                return _WaveFormSoLoudView(
+                  data: snapshot.data!,
+                  duration: widget.song.duration,
+                  currentPosition: streamSnapshot.data!,
+                  onPositionChanged: widget.onPositionChanged,
+                  onStartDrag: widget.onStartDrag,
+                );
+              }
+
+              return const SizedBox.shrink();
+            },
+          );
+        }
+        return const CircularProgressIndicator();
+      },
+    );
+  }
+}
+
+// https://github.com/alnitak/flutter_soloud/blob/feat_waveform/example/lib/wave_data/wave_data.dart
+class _WaveFormSoLoudView extends StatefulWidget {
+  final Float32List data;
+  final Duration duration;
+  final Duration currentPosition;
+  final void Function(Duration duration) onPositionChanged;
+  final VoidCallback onStartDrag;
+
+  const _WaveFormSoLoudView({
+    required this.data,
+    required this.duration,
+    required this.currentPosition,
+    required this.onPositionChanged,
+    required this.onStartDrag,
+  });
+
+  @override
+  State<_WaveFormSoLoudView> createState() => _WaveFormSoLoudViewState();
+}
+
+class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
   static const double minZoom = 0.25;
   static const double maxZoom = 5.0;
   static const double zoomStep = 0.25;
 
-  late ScrollController _scrollController;
+  final ScrollController _scrollController = ScrollController();
 
   bool _isDragging = false;
+  double? _screenWidth;
+  bool _widthInitialized = false;
 
   double _zoomScale = 1.0;
   bool _showZoomSlider = false;
   Timer? _zoomSliderTimer;
 
-  ui.Image? _waveformImage;
-  int? _lastDataHash;
-  double? _lastZoomScale;
-  Size? _lastSize;
-  bool _imageDirty = true;
-
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // Alternative approach: Get screen width once in didChangeDependencies
+    if (!_widthInitialized) {
+      _screenWidth = MediaQuery.sizeOf(context).width;
+      _widthInitialized = true;
+    }
   }
 
   @override
@@ -72,44 +130,21 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
   }
 
   @override
-  void didUpdateWidget(covariant WaveFormSoLoud oldWidget) {
+  void didUpdateWidget(covariant _WaveFormSoLoudView oldWidget) {
     if (widget.currentPosition != oldWidget.currentPosition && !_isDragging) {
       _updateScrollPosition();
     }
-    // Mark image dirty if data, zoom, or size changes
-    if (widget.data.hashCode != _lastDataHash || _zoomScale != _lastZoomScale) {
-      _imageDirty = true;
-    }
+
     super.didUpdateWidget(oldWidget);
   }
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.sizeOf(context).width;
+    final width = _screenWidth ?? MediaQuery.sizeOf(context).width; // Use stored width or fallback
     final waveformWidth = widget.data.length.toDouble() * _zoomScale;
-    const height = 132.0;
-
-    // Re-render waveform image if needed
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (_imageDirty ||
-          _waveformImage == null ||
-          _lastSize?.width != waveformWidth ||
-          _lastSize?.height != height) {
-        final img = await _renderWaveformImage(Size(waveformWidth, height));
-        if (mounted) {
-          setState(() {
-            _waveformImage = img;
-            _lastDataHash = widget.data.hashCode;
-            _lastZoomScale = _zoomScale;
-            _lastSize = Size(waveformWidth, height);
-            _imageDirty = false;
-          });
-        }
-      }
-    });
 
     return SizedBox(
-      height: height,
+      height: 132,
       child: Stack(
         children: [
           Positioned.fill(
@@ -138,50 +173,31 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
                     onHorizontalDragStart: _handleDragStart,
                     onHorizontalDragUpdate: _handleDragUpdate,
                     onHorizontalDragEnd: _handleDragEnd,
-                    child: SizedBox(
-                      width: waveformWidth,
-                      height: height,
-                      child: Stack(
-                        children: [
-                          if (_waveformImage != null)
-                            RawImage(
-                              image: _waveformImage,
-                              fit: BoxFit.fill,
-                            ),
-                          // Played overlay
-                          if (_waveformImage != null)
-                            ClipRect(
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                widthFactor: _playedFraction(),
-                                child: ColorFiltered(
-                                  colorFilter: ColorFilter.mode(
-                                    Theme.of(context).colorScheme.primaryFixedDim,
-                                    BlendMode.srcATop,
-                                  ),
-                                  child: RawImage(
-                                    image: _waveformImage,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          // Loop markers and labels overlay
-                          Positioned.fill(
-                            child: IgnorePointer(
-                              child: CustomPaint(
-                                painter: _LoopMarkerPainter(
-                                  loops: widget.loops,
-                                  duration: widget.duration,
-                                  zoomScale: _zoomScale,
-                                  startText: widget.startText,
-                                  endText: widget.endText,
-                                ),
+                    child: BlocBuilder<SongCubit, SongState>(
+                      buildWhen: (previous, current) => previous.song.loops != current.song.loops,
+                      builder: (context, state) {
+                        return SizedBox(
+                          width: waveformWidth,
+                          child: RepaintBoundary(
+                            child: CustomPaint(
+                              // willChange: true,
+                              // isComplex: true,
+                              painter: WavePainter(
+                                data: widget.data,
+                                duration: widget.duration,
+                                currentPosition: widget.currentPosition,
+                                loops: state.song.loops,
+                                colorPlayed: Theme.of(context).colorScheme.primaryFixedDim,
+                                // colorUnplayed: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
+                                colorUnplayed: const Color(0xff00696e),
+                                zoomScale: _zoomScale,
+                                startText: context.l10n.start,
+                                endText: context.l10n.end,
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        );
+                      },
                     ),
                   ),
                 ],
@@ -410,114 +426,6 @@ class _WaveFormSoLoudState extends State<WaveFormSoLoud> {
       milliseconds: (scrollPercentage * widget.duration.inMilliseconds).round(),
     );
     widget.onPositionChanged(newPosition);
-  }
-
-  double _playedFraction() {
-    final durationMs = widget.duration.inMilliseconds.toDouble();
-    final posMs = widget.currentPosition.inMilliseconds.toDouble();
-    if (durationMs == 0) return 0;
-    return (posMs / durationMs).clamp(0.0, 1.0);
-  }
-
-  Future<ui.Image> _renderWaveformImage(Size size) async {
-    final recorder = ui.PictureRecorder();
-    final canvas = Canvas(recorder);
-    final barSpacing = _zoomScale;
-    final paint = Paint()
-      ..color = const Color(0xff00696e)
-      ..strokeWidth = 1
-      ..style = PaintingStyle.stroke;
-
-    for (int i = 0; i < widget.data.length; i++) {
-      final barHeight = size.height * widget.data[i] * 2;
-      final x = i * barSpacing;
-      canvas.drawLine(
-        Offset(x, (size.height - barHeight) / 2),
-        Offset(x, (size.height + barHeight) / 2),
-        paint,
-      );
-    }
-
-    final picture = recorder.endRecording();
-    return await picture.toImage(size.width.ceil(), size.height.ceil());
-  }
-}
-
-class _LoopMarkerPainter extends CustomPainter {
-  final List<Loop> loops;
-  final Duration duration;
-  final double zoomScale;
-  final String startText;
-  final String endText;
-
-  _LoopMarkerPainter({
-    required this.loops,
-    required this.duration,
-    required this.zoomScale,
-    required this.startText,
-    required this.endText,
-  });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final durationMs = duration.inMilliseconds.toDouble();
-    double scaleX(double ms) => (ms / durationMs) * size.width;
-
-    for (final loop in loops) {
-      if (loop.start == null && loop.end == null) continue;
-
-      if (loop.start != null) {
-        final paintLoopStart = Paint()
-          ..color = loop.color.color
-          ..strokeWidth = 2;
-        final xStart = scaleX(loop.start!.inMilliseconds.toDouble());
-        canvas.drawLine(Offset(xStart, 0), Offset(xStart, size.height), paintLoopStart);
-        canvas.drawLine(Offset(xStart, 1), Offset(xStart + 10, 1), paintLoopStart);
-        canvas.drawLine(
-          Offset(xStart, size.height - 1),
-          Offset(xStart + 10, size.height - 1),
-          paintLoopStart,
-        );
-        final textPainter = TextPainter(
-          text: TextSpan(
-            text: '${loop.name} $startText',
-            style: TextStyle(color: loop.color.color, fontSize: 10),
-          ),
-          textDirection: TextDirection.ltr,
-        );
-        textPainter.layout();
-        textPainter.paint(canvas, Offset(xStart + 4, 4));
-      }
-      if (loop.end != null) {
-        final paintLoopEnd = Paint()
-          ..color = loop.color.color
-          ..strokeWidth = 2;
-        final xEnd = scaleX(loop.end!.inMilliseconds.toDouble());
-        canvas.drawLine(Offset(xEnd, 0), Offset(xEnd, size.height), paintLoopEnd);
-        canvas.drawLine(Offset(xEnd, 1), Offset(xEnd - 10, 1), paintLoopEnd);
-        canvas.drawLine(
-          Offset(xEnd, size.height - 1),
-          Offset(xEnd - 10, size.height - 1),
-          paintLoopEnd,
-        );
-        final textPainter = TextPainter(
-          text: TextSpan(
-            text: '${loop.name} $endText',
-            style: TextStyle(color: loop.color.color, fontSize: 10),
-          ),
-          textDirection: TextDirection.ltr,
-        );
-        textPainter.layout();
-        textPainter.paint(canvas, Offset(xEnd - textPainter.width - 4, size.height - 16));
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant _LoopMarkerPainter oldDelegate) {
-    return loops != oldDelegate.loops ||
-        duration != oldDelegate.duration ||
-        zoomScale != oldDelegate.zoomScale;
   }
 }
  */
