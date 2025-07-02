@@ -60,11 +60,10 @@ packages:
   audio_metadata_reader:
     dependency: "direct main"
     description:
-      path: "."
-      ref: main
-      resolved-ref: "8dc37d337d8a0c432fd5b8337b62cd943837bf6c"
-      url: "https://github.com/novas1r1/audio_metadata_reader.git"
-    source: git
+      name: audio_metadata_reader
+      sha256: b7cecf78178075c8f8281ae184ae81d137eb6e751f5d193334984eb732662ee0
+      url: "https://pub.dev"
+    source: hosted
     version: "1.4.2"
   audio_service:
     dependency: "direct main"

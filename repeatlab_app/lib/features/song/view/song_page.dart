@@ -214,6 +214,7 @@ class _SongViewState extends State<_SongView> {
                   child: Column(
                     children: [
                       WaveFormSoLoud(
+                        key: tutorialKeyWaveform,
                         song: widget.song,
                       ),
                       const SizedBox(height: 8),

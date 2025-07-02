@@ -183,13 +183,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get endTime => 'समाप्ति समय';
 
   @override
-  String get delete => 'हटाएं';
-
-  @override
   String get save => 'सहेजें';
 
   @override
-  String get invalidFormat => 'अमान्य प्रारूप (mm:ss:ms)';
+  String get invalidFormat => 'अमान्य प्रारूप (mm:ss.sss)';
 
   @override
   String get startCannotBeAfterEnd =>
@@ -291,6 +288,9 @@ class AppLocalizationsHi extends AppLocalizations {
       'क्या आप वाकई इस गीत और इससे जुड़े सभी लूपों को हटाना चाहते हैं? इस क्रिया को पूर्ववत नहीं किया जा सकता।';
 
   @override
+  String get delete => 'हटाएं';
+
+  @override
   String get cancel => 'रद्द करें';
 
   @override
@@ -367,10 +367,24 @@ class AppLocalizationsHi extends AppLocalizations {
   String get changelogTitle => 'परिवर्तन लॉग';
 
   @override
-  String get changelog113Title => 'कई बग फिक्स';
+  String get changelog1114Title => 'ऑडियो फाइलों के लिए मीडिया डेटा जोड़ा गया';
 
   @override
-  String get changelog113Description =>
+  String get changelog1114Description =>
+      'अब ऐप ऑडियो फाइलों के लिए मीडिया डेटा दिखाता है। इसमें शीर्षक और कलाकार शामिल हैं।';
+
+  @override
+  String get changelog1113Title => 'ऑडियो प्रारूप बदल दिया गया';
+
+  @override
+  String get changelog1113Description =>
+      'ऑडियो प्रारूम में मानक प्रारूप में बदल दिया गया और लूप अब अधिक सटीकता से संपादित किए जा सकते हैं।';
+
+  @override
+  String get changelog115Title => 'कई बग फिक्स';
+
+  @override
+  String get changelog115Description =>
       'यदि लूप समाप्ति सेट नहीं की गई थी, तो लूप गीत के अंत तक चलता और गीत का अंत लूप समाप्ति के रूप में माना जाता। अब ऐप बंद होने पर बैकग्राउंड ऑडियो सेवा बंद हो जाएगी।';
 
   @override

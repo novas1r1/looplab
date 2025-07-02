@@ -182,13 +182,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get endTime => 'End Time';
 
   @override
-  String get delete => 'Delete';
-
-  @override
   String get save => 'Save';
 
   @override
-  String get invalidFormat => 'Invalid format (mm:ss:ms)';
+  String get invalidFormat => 'Invalid format (mm:ss.sss)';
 
   @override
   String get startCannotBeAfterEnd => 'Start cannot be after end';
@@ -289,6 +286,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Are you sure you want to delete this song and all attached loops? This can\'t be undone.';
 
   @override
+  String get delete => 'Delete';
+
+  @override
   String get cancel => 'Cancel';
 
   @override
@@ -367,10 +367,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
-  String get changelog113Title => 'Fixed several bugs';
+  String get changelog1114Title => 'Added media data for audio files';
 
   @override
-  String get changelog113Description =>
+  String get changelog1114Description =>
+      'The app now shows the media data for audio files. This includes the title and artist for now.';
+
+  @override
+  String get changelog1113Title => 'Changed audio format';
+
+  @override
+  String get changelog1113Description =>
+      'The audio format was changed to a more standard format and loops can be edited more precisely now.';
+
+  @override
+  String get changelog115Title => 'Fixed several bugs';
+
+  @override
+  String get changelog115Description =>
       'If no loop end was set, the loop would play until the end of the song and consider the song end as the loop end. Audio background service will now stop when the app is closed.';
 
   @override

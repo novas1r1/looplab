@@ -182,13 +182,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String get endTime => 'Czas Zakończenia';
 
   @override
-  String get delete => 'Usuń';
-
-  @override
   String get save => 'Zapisz';
 
   @override
-  String get invalidFormat => 'Nieprawidłowy format (mm:ss:ms)';
+  String get invalidFormat => 'Nieprawidłowy format (mm:ss.sss)';
 
   @override
   String get startCannotBeAfterEnd => 'Początek nie może być po końcu';
@@ -290,6 +287,9 @@ class AppLocalizationsPl extends AppLocalizations {
       'Czy na pewno chcesz usunąć ten utwór i wszystkie powiązane pętle? Tej operacji nie można cofnąć.';
 
   @override
+  String get delete => 'Usuń';
+
+  @override
   String get cancel => 'Anuluj';
 
   @override
@@ -367,10 +367,24 @@ class AppLocalizationsPl extends AppLocalizations {
   String get changelogTitle => 'Zmiany';
 
   @override
-  String get changelog113Title => 'Poprawki błędów';
+  String get changelog1114Title => 'Dodano dane mediów dla plików audio';
 
   @override
-  String get changelog113Description =>
+  String get changelog1114Description =>
+      'Aplikacja teraz wyświetla dane mediów dla plików audio. To obejmuje tytuł i artystę w tej chwili.';
+
+  @override
+  String get changelog1113Title => 'Zmieniono format audio';
+
+  @override
+  String get changelog1113Description =>
+      'Format audio został zmieniony na bardziej standardowy i pętle można teraz edytować z większą precyzją.';
+
+  @override
+  String get changelog115Title => 'Poprawki błędów';
+
+  @override
+  String get changelog115Description =>
       'Jeśli nie było ustawione końcowe położenie pętli, pętla odtwarza się do końca utworu i uważa, że końcowe położenie utworu jest końcem pętli. Usługa audio w tle zostaje teraz zamknięta po zamknięciu aplikacji.';
 
   @override

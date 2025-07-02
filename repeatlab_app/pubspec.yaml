@@ -1,6 +1,6 @@
 name: repeatlab
 description: Audio loop studio
-version: 1.1.13+44
+version: 1.1.14+45
 publish_to: none
 
 environment:
@@ -8,10 +8,7 @@ environment:
   sdk: ^3.8.1
 
 dependencies:
-  audio_metadata_reader:
-    git:
-      url: https://github.com/novas1r1/audio_metadata_reader.git
-      ref: main
+  audio_metadata_reader: ^1.4.2
 
   # audio_service: ^0.18.18
   audio_service: ^0.18.18

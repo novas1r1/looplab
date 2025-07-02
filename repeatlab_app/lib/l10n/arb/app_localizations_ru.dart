@@ -182,9 +182,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get endTime => 'Время Окончания';
 
   @override
-  String get delete => 'Удалить';
-
-  @override
   String get save => 'Сохранить';
 
   @override
@@ -291,6 +288,9 @@ class AppLocalizationsRu extends AppLocalizations {
       'Вы уверены, что хотите удалить эту песню и все прикрепленные лупы? Это действие нельзя отменить.';
 
   @override
+  String get delete => 'Удалить';
+
+  @override
   String get cancel => 'Отмена';
 
   @override
@@ -370,10 +370,24 @@ class AppLocalizationsRu extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
-  String get changelog113Title => 'Исправления ошибок';
+  String get changelog1114Title => 'Добавлены медиаданные для аудиофайлов';
 
   @override
-  String get changelog113Description =>
+  String get changelog1114Description =>
+      'Теперь приложение показывает медиаданные для аудиофайлов. Включает в себя название и исполнителя.';
+
+  @override
+  String get changelog1113Title => 'Изменен формат аудио';
+
+  @override
+  String get changelog1113Description =>
+      'Формат аудио изменен на более стандартный и лупы теперь можно редактировать с большей точностью.';
+
+  @override
+  String get changelog115Title => 'Исправления ошибок';
+
+  @override
+  String get changelog115Description =>
       'Если не было установлено конечное положение лупа, луп будет воспроизводиться до конца песни и будет считаться концом песни как концом лупа. Сервис аудио в фоновом режиме теперь завершается при закрытии приложения.';
 
   @override

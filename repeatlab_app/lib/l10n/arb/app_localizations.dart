@@ -444,12 +444,6 @@ abstract class AppLocalizations {
   /// **'End Time'**
   String get endTime;
 
-  /// No description provided for @delete.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete'**
-  String get delete;
-
   /// No description provided for @save.
   ///
   /// In en, this message translates to:
@@ -459,7 +453,7 @@ abstract class AppLocalizations {
   /// No description provided for @invalidFormat.
   ///
   /// In en, this message translates to:
-  /// **'Invalid format (mm:ss:ms)'**
+  /// **'Invalid format (mm:ss.sss)'**
   String get invalidFormat;
 
   /// No description provided for @startCannotBeAfterEnd.
@@ -636,6 +630,12 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to delete this song and all attached loops? This can\'t be undone.'**
   String get deleteSongLoopsDescription;
 
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
   /// No description provided for @cancel.
   ///
   /// In en, this message translates to:
@@ -768,17 +768,41 @@ abstract class AppLocalizations {
   /// **'Changelog'**
   String get changelogTitle;
 
-  /// No description provided for @changelog113Title.
+  /// No description provided for @changelog1114Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Added media data for audio files'**
+  String get changelog1114Title;
+
+  /// No description provided for @changelog1114Description.
+  ///
+  /// In en, this message translates to:
+  /// **'The app now shows the media data for audio files. This includes the title and artist for now.'**
+  String get changelog1114Description;
+
+  /// No description provided for @changelog1113Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Changed audio format'**
+  String get changelog1113Title;
+
+  /// No description provided for @changelog1113Description.
+  ///
+  /// In en, this message translates to:
+  /// **'The audio format was changed to a more standard format and loops can be edited more precisely now.'**
+  String get changelog1113Description;
+
+  /// No description provided for @changelog115Title.
   ///
   /// In en, this message translates to:
   /// **'Fixed several bugs'**
-  String get changelog113Title;
+  String get changelog115Title;
 
-  /// No description provided for @changelog113Description.
+  /// No description provided for @changelog115Description.
   ///
   /// In en, this message translates to:
   /// **'If no loop end was set, the loop would play until the end of the song and consider the song end as the loop end. Audio background service will now stop when the app is closed.'**
-  String get changelog113Description;
+  String get changelog115Description;
 
   /// No description provided for @changelog110Title.
   ///

@@ -181,13 +181,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get endTime => 'وقت الانتهاء';
 
   @override
-  String get delete => 'حذف';
-
-  @override
   String get save => 'حفظ';
 
   @override
-  String get invalidFormat => 'تنسيق غير صالح (mm:ss:ms)';
+  String get invalidFormat => 'تنسيق غير صالح (mm:ss.sss)';
 
   @override
   String get startCannotBeAfterEnd =>
@@ -288,6 +285,9 @@ class AppLocalizationsAr extends AppLocalizations {
       'هل أنت متأكد أنك تريد حذف هذه الأغنية وجميع الحلقات المرتبطة بها؟ لا يمكن التراجع عن هذا الإجراء.';
 
   @override
+  String get delete => 'حذف';
+
+  @override
   String get cancel => 'إلغاء';
 
   @override
@@ -365,10 +365,24 @@ class AppLocalizationsAr extends AppLocalizations {
   String get changelogTitle => 'سجل التغييرات';
 
   @override
-  String get changelog113Title => 'إصلاح عدة أخطاء';
+  String get changelog1114Title => 'إضافة بيانات الوسائط لملفات الصوت';
 
   @override
-  String get changelog113Description =>
+  String get changelog1114Description =>
+      'التطبيق الآن يعرض بيانات الوسائط لملفات الصوت. يشمل هذا العنوان والفنان للآن.';
+
+  @override
+  String get changelog1113Title => 'تغيير تنسيق الصوت';
+
+  @override
+  String get changelog1113Description =>
+      'تم تغيير تنسيق الصوت إلى تنسيق أكثر استخدامًا ويمكن تحرير الحلقات بدقة أكثر الآن.';
+
+  @override
+  String get changelog115Title => 'إصلاح عدة أخطاء';
+
+  @override
+  String get changelog115Description =>
       'إذا لم يتم تعيين نهاية الحلقة، كانت الحلقة ستشغل حتى نهاية الأغنية وتعتبر نهاية الأغنية كنهاية الحلقة. ستتوقف خدمة الصوت في الخلفية الآن عند إغلاق التطبيق.';
 
   @override

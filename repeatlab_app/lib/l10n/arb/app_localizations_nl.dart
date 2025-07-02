@@ -182,13 +182,10 @@ class AppLocalizationsNl extends AppLocalizations {
   String get endTime => 'Eindtijd';
 
   @override
-  String get delete => 'Verwijderen';
-
-  @override
   String get save => 'Opslaan';
 
   @override
-  String get invalidFormat => 'Ongeldig formaat (mm:ss:ms)';
+  String get invalidFormat => 'Ongeldig formaat (mm:ss.sss)';
 
   @override
   String get startCannotBeAfterEnd => 'Start kan niet na einde zijn';
@@ -289,6 +286,9 @@ class AppLocalizationsNl extends AppLocalizations {
       'Weet je zeker dat je dit nummer en alle bijbehorende loops wilt verwijderen? Dit kan niet ongedaan worden gemaakt.';
 
   @override
+  String get delete => 'Verwijderen';
+
+  @override
   String get cancel => 'Annuleren';
 
   @override
@@ -368,10 +368,25 @@ class AppLocalizationsNl extends AppLocalizations {
   String get changelogTitle => 'Wijzigingen';
 
   @override
-  String get changelog113Title => 'Foutoplossingen';
+  String get changelog1114Title =>
+      'Media-gegevens toegevoegd voor audio-bestanden';
 
   @override
-  String get changelog113Description =>
+  String get changelog1114Description =>
+      'De app toont nu media-gegevens voor audio-bestanden. Dit omvat de titel en de artiest voor nu.';
+
+  @override
+  String get changelog1113Title => 'Audio-formaat gewijzigd';
+
+  @override
+  String get changelog1113Description =>
+      'Het audio-formaat is gewijzigd in een meer standaard formaat en loops kunnen nu nauwkeuriger bewerkt worden.';
+
+  @override
+  String get changelog115Title => 'Foutoplossingen';
+
+  @override
+  String get changelog115Description =>
       'Als geen eindpositie voor de loop was ingesteld, werd de loop tot het einde van het nummer afgespeeld en werd het nummer einde als loop einde beschouwd. De audio achtergrondservice wordt nu beëindigd wanneer de app wordt gesloten.';
 
   @override

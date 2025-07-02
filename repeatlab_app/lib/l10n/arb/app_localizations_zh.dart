@@ -179,13 +179,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get endTime => '结束时间';
 
   @override
-  String get delete => '删除';
-
-  @override
   String get save => '保存';
 
   @override
-  String get invalidFormat => '格式无效 (mm:ss:ms)';
+  String get invalidFormat => '格式无效 (mm:ss.sss)';
 
   @override
   String get startCannotBeAfterEnd => '开始时间不能在结束时间之后';
@@ -279,6 +276,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get deleteSongLoopsDescription => '您确定要删除此歌曲和所有附加的循环吗？此操作无法撤销。';
 
   @override
+  String get delete => '删除';
+
+  @override
   String get cancel => '取消';
 
   @override
@@ -348,10 +348,22 @@ class AppLocalizationsZh extends AppLocalizations {
   String get changelogTitle => '更新日志';
 
   @override
-  String get changelog113Title => '修复了多个错误';
+  String get changelog1114Title => '添加了音频文件的媒体数据';
 
   @override
-  String get changelog113Description =>
+  String get changelog1114Description => '现在应用程序显示音频文件的媒体数据。这包括标题和艺术家。';
+
+  @override
+  String get changelog1113Title => '更改了音频格式';
+
+  @override
+  String get changelog1113Description => '音频格式已更改为更标准的格式，现在可以更精确地编辑循环。';
+
+  @override
+  String get changelog115Title => '修复了多个错误';
+
+  @override
+  String get changelog115Description =>
       '如果未设置循环结束，循环将播放到歌曲结束并将歌曲结束视为循环结束。当应用关闭时，音频后台服务现在将停止。';
 
   @override

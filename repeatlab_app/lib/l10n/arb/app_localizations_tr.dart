@@ -182,13 +182,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get endTime => 'Bitiş Zamanı';
 
   @override
-  String get delete => 'Sil';
-
-  @override
   String get save => 'Kaydet';
 
   @override
-  String get invalidFormat => 'Geçersiz format (mm:ss:ms)';
+  String get invalidFormat => 'Geçersiz format (mm:ss.sss)';
 
   @override
   String get startCannotBeAfterEnd =>
@@ -292,6 +289,9 @@ class AppLocalizationsTr extends AppLocalizations {
       'Bu şarkıyı ve ilişkili tüm döngüleri silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.';
 
   @override
+  String get delete => 'Sil';
+
+  @override
   String get cancel => 'İptal';
 
   @override
@@ -369,10 +369,24 @@ class AppLocalizationsTr extends AppLocalizations {
   String get changelogTitle => 'Değişiklik Günlüğü';
 
   @override
-  String get changelog113Title => 'Birkaç hata düzeltmesi';
+  String get changelog1114Title => 'Ses dosyaları için medya verileri eklendi';
 
   @override
-  String get changelog113Description =>
+  String get changelog1114Description =>
+      'Şimdi uygulama ses dosyaları için medya verilerini gösteriyor. Şu anda başlık ve sanatçı dahil.';
+
+  @override
+  String get changelog1113Title => 'Ses formatı değiştirildi';
+
+  @override
+  String get changelog1113Description =>
+      'Ses formatı daha standart bir format olarak değiştirildi ve döngüler daha hassas şekilde düzenlenebilir.';
+
+  @override
+  String get changelog115Title => 'Birkaç hata düzeltmesi';
+
+  @override
+  String get changelog115Description =>
       'Döngü bitişi ayarlanmamışsa, döngü şarkının sonuna kadar çalacak ve şarkının sonu döngü bitişi olarak kabul edilecekti. Artık uygulama kapatıldığında arka plan ses servisi duracak.';
 
   @override

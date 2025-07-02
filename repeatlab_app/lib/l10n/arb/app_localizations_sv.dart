@@ -182,13 +182,10 @@ class AppLocalizationsSv extends AppLocalizations {
   String get endTime => 'Sluttid';
 
   @override
-  String get delete => 'Radera';
-
-  @override
   String get save => 'Spara';
 
   @override
-  String get invalidFormat => 'Ogiltigt format (mm:ss:ms)';
+  String get invalidFormat => 'Ogiltigt format (mm:ss.sss)';
 
   @override
   String get startCannotBeAfterEnd => 'Start kan inte vara efter slut';
@@ -244,7 +241,7 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String purchaseYearly(String trialString) {
-    return 'Prova Gratis';
+    return 'Prova Gratis $trialString dagar';
   }
 
   @override
@@ -287,6 +284,9 @@ class AppLocalizationsSv extends AppLocalizations {
   @override
   String get deleteSongLoopsDescription =>
       'Är du säker på att du vill radera denna låt och alla tillhörande loopar? Detta kan inte ångras.';
+
+  @override
+  String get delete => 'Radera';
 
   @override
   String get cancel => 'Avbryt';
@@ -367,10 +367,24 @@ class AppLocalizationsSv extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
-  String get changelog113Title => 'Felsökning';
+  String get changelog1114Title => 'Ljuddata för ljudfiler';
 
   @override
-  String get changelog113Description =>
+  String get changelog1114Description =>
+      'App visar nu ljuddata för ljudfiler. Det inkluderar titel och artist just nu.';
+
+  @override
+  String get changelog1113Title => 'Ljudformat ändrat';
+
+  @override
+  String get changelog1113Description =>
+      'Ljudformat ändrat till ett mer standardiserat format och loopar kan nu redigeras med högre precision.';
+
+  @override
+  String get changelog115Title => 'Felsökning';
+
+  @override
+  String get changelog115Description =>
       'Om inget slut för loopen var inställt, spelades loopen till slutet av låten och låtens slut användes som loopens slut. Ljudfilerna spelar nu också när appen går tillbaka eller telefonen går in standby-läge.';
 
   @override

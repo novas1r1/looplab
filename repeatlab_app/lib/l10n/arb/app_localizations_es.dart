@@ -182,13 +182,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get endTime => 'Tiempo Final';
 
   @override
-  String get delete => 'Eliminar';
-
-  @override
   String get save => 'Guardar';
 
   @override
-  String get invalidFormat => 'Formato inválido (mm:ss:ms)';
+  String get invalidFormat => 'Formato inválido (mm:ss.sss)';
 
   @override
   String get startCannotBeAfterEnd =>
@@ -292,6 +289,9 @@ class AppLocalizationsEs extends AppLocalizations {
       '¿Estás seguro de que quieres eliminar esta canción y todos los loops adjuntos? Esto no se puede deshacer.';
 
   @override
+  String get delete => 'Eliminar';
+
+  @override
   String get cancel => 'Cancelar';
 
   @override
@@ -371,10 +371,25 @@ class AppLocalizationsEs extends AppLocalizations {
   String get changelogTitle => 'Cambios';
 
   @override
-  String get changelog113Title => 'Corrección de errores';
+  String get changelog1114Title =>
+      'Añadida información de medios para archivos de audio';
 
   @override
-  String get changelog113Description =>
+  String get changelog1114Description =>
+      'La app ahora muestra la información de medios para archivos de audio. Esto incluye el título y el artista por ahora.';
+
+  @override
+  String get changelog1113Title => 'Formato de audio cambiado';
+
+  @override
+  String get changelog1113Description =>
+      'El formato de audio se cambió a un formato más estándar y los loops ahora se pueden editar con más precisión.';
+
+  @override
+  String get changelog115Title => 'Corrección de errores';
+
+  @override
+  String get changelog115Description =>
       'Si no se estableció un final de loop, el loop se reproducirá hasta el final de la canción y se considerará el final de la canción como el final del loop. El servicio de audio en segundo plano ahora se detendrá cuando se cierre la app.';
 
   @override

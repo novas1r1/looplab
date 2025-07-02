@@ -180,13 +180,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get endTime => '종료 시간';
 
   @override
-  String get delete => '삭제';
-
-  @override
   String get save => '저장';
 
   @override
-  String get invalidFormat => '잘못된 형식 (mm:ss:ms)';
+  String get invalidFormat => '잘못된 형식 (mm:ss.sss)';
 
   @override
   String get startCannotBeAfterEnd => '시작 시간은 종료 시간보다 이후일 수 없습니다';
@@ -282,6 +279,9 @@ class AppLocalizationsKo extends AppLocalizations {
       '이 곡과 관련된 모든 루프를 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.';
 
   @override
+  String get delete => '삭제';
+
+  @override
   String get cancel => '취소';
 
   @override
@@ -353,10 +353,24 @@ class AppLocalizationsKo extends AppLocalizations {
   String get changelogTitle => '변경 사항';
 
   @override
-  String get changelog113Title => '여러 버그 수정';
+  String get changelog1114Title => '오디오 파일의 미디어 데이터 추가';
 
   @override
-  String get changelog113Description =>
+  String get changelog1114Description =>
+      '이제 앱에서 오디오 파일의 미디어 데이터를 표시할 수 있습니다. 현재는 제목과 아티스트가 표시됩니다.';
+
+  @override
+  String get changelog1113Title => '오디오 형식 변경';
+
+  @override
+  String get changelog1113Description =>
+      '오디오 형식을 더 표준적인 형식으로 변경하고 루프를 더 정확하게 편집할 수 있습니다.';
+
+  @override
+  String get changelog115Title => '여러 버그 수정';
+
+  @override
+  String get changelog115Description =>
       '루프 종료가 설정되지 않은 경우, 루프는 곡의 끝까지 재생되고 곡의 끝을 루프 종료로 처리했습니다. 앱이 닫힐 때 오디오 백그라운드 서비스가 이제 중지됩니다.';
 
   @override

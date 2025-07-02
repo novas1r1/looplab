@@ -180,13 +180,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get endTime => '終了時間';
 
   @override
-  String get delete => '削除';
-
-  @override
   String get save => '保存';
 
   @override
-  String get invalidFormat => '無効な形式（mm:ss:ms）';
+  String get invalidFormat => '無効な形式（mm:ss.sss）';
 
   @override
   String get startCannotBeAfterEnd => '開始時間は終了時間より後にすることはできません';
@@ -283,6 +280,9 @@ class AppLocalizationsJa extends AppLocalizations {
       'この曲と関連するすべてのループを削除してもよろしいですか？この操作は元に戻せません。';
 
   @override
+  String get delete => '削除';
+
+  @override
   String get cancel => 'キャンセル';
 
   @override
@@ -354,10 +354,24 @@ class AppLocalizationsJa extends AppLocalizations {
   String get changelogTitle => '変更履歴';
 
   @override
-  String get changelog113Title => 'いくつかのバグを修正';
+  String get changelog1114Title => 'オーディオファイルのメディアデータを追加';
 
   @override
-  String get changelog113Description =>
+  String get changelog1114Description =>
+      'アプリでオーディオファイルのメディアデータを表示できるようになりました。現在はタイトルとアーティストが表示されます。';
+
+  @override
+  String get changelog1113Title => 'オーディオフォーマットを変更';
+
+  @override
+  String get changelog1113Description =>
+      'オーディオフォーマットをより標準的な形式に変更し、ループをより正確に編集できるようになりました。';
+
+  @override
+  String get changelog115Title => 'いくつかのバグを修正';
+
+  @override
+  String get changelog115Description =>
       'ループ終了が設定されていない場合、ループは曲の終わりまで再生され、曲の終わりをループ終了として扱っていました。アプリが閉じられたとき、オーディオバックグラウンドサービスは停止するようになりました。';
 
   @override

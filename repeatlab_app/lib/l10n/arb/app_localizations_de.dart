@@ -182,13 +182,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get endTime => 'Endzeit';
 
   @override
-  String get delete => 'Löschen';
-
-  @override
   String get save => 'Speichern';
 
   @override
-  String get invalidFormat => 'Ungültiges Format (mm:ss:ms)';
+  String get invalidFormat => 'Ungültiges Format (mm:ss.sss)';
 
   @override
   String get startCannotBeAfterEnd => 'Start kann nicht nach Ende sein';
@@ -198,7 +195,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get noActiveLoop =>
-      'Kein aktiver Loop.\nFüge einen neuen Loop hinzu oder wähle einen bestehenden aus.';
+      'Kein aktiver Loop.\nFüge eine neue Loop hinzu oder wähle eine bestehende aus.';
 
   @override
   String get startMustBeBeforeEnd => 'Startposition muss vor Endposition sein';
@@ -288,6 +285,9 @@ class AppLocalizationsDe extends AppLocalizations {
       'Bist du sicher, dass du diesen Song und alle angehängten Loops löschen möchtest? Dies kann nicht rückgängig gemacht werden.';
 
   @override
+  String get delete => 'Löschen';
+
+  @override
   String get cancel => 'Abbrechen';
 
   @override
@@ -368,10 +368,25 @@ class AppLocalizationsDe extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
-  String get changelog113Title => 'Fehlerbehebungen';
+  String get changelog1114Title =>
+      'Medieninformationen für Audio-Dateien hinzugefügt';
 
   @override
-  String get changelog113Description =>
+  String get changelog1114Description =>
+      'Die App zeigt nun die Medieninformationen (Titel und den Künstler) für Audio-Dateien.';
+
+  @override
+  String get changelog1113Title => 'Audio-Formatierung geändert';
+
+  @override
+  String get changelog1113Description =>
+      'Das Audio-Format wurde in ein Standardformat geändert und Loops können jetzt präziser bearbeitet werden.';
+
+  @override
+  String get changelog115Title => 'Fehlerbehebungen';
+
+  @override
+  String get changelog115Description =>
       'Wenn kein Loop-Ende festgelegt wird, wird die Loop bis zum Ende des Songs gespielt und das Song-Ende als Loop-Ende gesetzt. Der Audio-Hintergrundservice wird nun beendet, wenn die App geschlossen wird.';
 
   @override

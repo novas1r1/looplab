@@ -184,13 +184,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get endTime => 'Temps de Fin';
 
   @override
-  String get delete => 'Supprimer';
-
-  @override
   String get save => 'Enregistrer';
 
   @override
-  String get invalidFormat => 'Format invalide (mm:ss:ms)';
+  String get invalidFormat => 'Format invalide (mm:ss.sss)';
 
   @override
   String get startCannotBeAfterEnd => 'Le début ne peut pas être après la fin';
@@ -294,6 +291,9 @@ class AppLocalizationsFr extends AppLocalizations {
       'Êtes-vous sûr de vouloir supprimer cette chanson et toutes les boucles associées ? Cette action ne peut pas être annulée.';
 
   @override
+  String get delete => 'Supprimer';
+
+  @override
   String get cancel => 'Annuler';
 
   @override
@@ -374,10 +374,25 @@ class AppLocalizationsFr extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
-  String get changelog113Title => 'Correction de bugs';
+  String get changelog1114Title =>
+      'Ajout de données médias pour les fichiers audio';
 
   @override
-  String get changelog113Description =>
+  String get changelog1114Description =>
+      'L\'app affiche maintenant les données médias pour les fichiers audio. Cela inclut le titre et l\'artiste pour l\'instant.';
+
+  @override
+  String get changelog1113Title => 'Format audio modifié';
+
+  @override
+  String get changelog1113Description =>
+      'Le format audio a été modifié en un format plus standard et les boucles peuvent être modifiées avec plus de précision maintenant.';
+
+  @override
+  String get changelog115Title => 'Correction de bugs';
+
+  @override
+  String get changelog115Description =>
       'Si aucune fin de boucle n\'était définie, la boucle jouait jusqu\'à la fin de la chanson et considérait la fin de la chanson comme la fin de la boucle. Le service audio en arrière-plan s\'arrête maintenant lorsque l\'application est fermée.';
 
   @override
