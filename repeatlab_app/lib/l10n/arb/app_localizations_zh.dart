@@ -348,16 +348,30 @@ class AppLocalizationsZh extends AppLocalizations {
   String get changelogTitle => '更新日志';
 
   @override
-  String get changelog1114Title => '添加了音频文件的媒体数据';
+  String get changelog1201Title => '1/4 添加了音频文件的媒体数据';
 
   @override
-  String get changelog1114Description => '现在应用程序显示音频文件的媒体数据。这包括标题和艺术家。';
+  String get changelog1201Description => '现在应用程序显示音频文件的媒体数据。这包括标题和艺术家。';
 
   @override
-  String get changelog1113Title => '更改了音频格式';
+  String get changelog1202Title => '2/4 将 m4a 转换为 mp3';
 
   @override
-  String get changelog1113Description => '音频格式已更改为更标准的格式，现在可以更精确地编辑循环。';
+  String get changelog1202Description =>
+      '应用程序现在将 m4a 文件（当前不支持的应用程序的音频格式）转换为 mp3 文件。';
+
+  @override
+  String get changelog1203Title => '3/4 删除单首歌曲';
+
+  @override
+  String get changelog1203Description =>
+      '您现在可以通过将歌曲向左滑动并点击“删除歌曲”来删除歌曲。这将删除歌曲及其所有关联的循环。';
+
+  @override
+  String get changelog1204Title => '4/4 更改了音频格式';
+
+  @override
+  String get changelog1204Description => '音频格式已更改为更标准的格式，现在可以更精确地编辑循环。';
 
   @override
   String get changelog115Title => '修复了多个错误';
@@ -466,4 +480,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get milliseconds => '毫秒';
+
+  @override
+  String deleteSongConfirmation(String songTitle) {
+    return '您确定要删除 \"$songTitle\" 和所有关联的循环吗？';
+  }
+
+  @override
+  String get deleteSongConfirmationTitle => '删除歌曲';
 }

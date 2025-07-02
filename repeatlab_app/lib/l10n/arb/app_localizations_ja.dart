@@ -354,17 +354,31 @@ class AppLocalizationsJa extends AppLocalizations {
   String get changelogTitle => '変更履歴';
 
   @override
-  String get changelog1114Title => 'オーディオファイルのメディアデータを追加';
+  String get changelog1201Title => '1/4 オーディオファイルのメディアデータを追加';
 
   @override
-  String get changelog1114Description =>
-      'アプリでオーディオファイルのメディアデータを表示できるようになりました。現在はタイトルとアーティストが表示されます。';
+  String get changelog1201Description =>
+      'アプリはオーディオファイルのメディアデータを表示するようになりました。現在はタイトルとアーティストが表示されます。';
 
   @override
-  String get changelog1113Title => 'オーディオフォーマットを変更';
+  String get changelog1202Title => '2/4 m4aをmp3に変換';
 
   @override
-  String get changelog1113Description =>
+  String get changelog1202Description =>
+      'アプリは現在サポートされていないm4aファイルをmp3に変換するようになりました。';
+
+  @override
+  String get changelog1203Title => '3/4 単一の曲を削除';
+
+  @override
+  String get changelog1203Description =>
+      '曲を左にドラッグして「曲を削除」をタップすることで、曲と関連するすべてのループを削除できるようになりました。';
+
+  @override
+  String get changelog1204Title => '4/4 オーディオフォーマットを変更';
+
+  @override
+  String get changelog1204Description =>
       'オーディオフォーマットをより標準的な形式に変更し、ループをより正確に編集できるようになりました。';
 
   @override
@@ -478,4 +492,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get milliseconds => 'ミリ秒';
+
+  @override
+  String deleteSongConfirmation(String songTitle) {
+    return '「$songTitle」と関連するすべてのループを削除してもよろしいですか？';
+  }
+
+  @override
+  String get deleteSongConfirmationTitle => '曲を削除';
 }

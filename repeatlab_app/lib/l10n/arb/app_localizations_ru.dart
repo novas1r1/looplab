@@ -370,17 +370,31 @@ class AppLocalizationsRu extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
-  String get changelog1114Title => 'Добавлены медиаданные для аудиофайлов';
+  String get changelog1201Title => '1/4 Добавлены медиаданные для аудиофайлов';
 
   @override
-  String get changelog1114Description =>
+  String get changelog1201Description =>
       'Теперь приложение показывает медиаданные для аудиофайлов. Включает в себя название и исполнителя.';
 
   @override
-  String get changelog1113Title => 'Изменен формат аудио';
+  String get changelog1202Title => '2/4 Преобразование m4a в mp3';
 
   @override
-  String get changelog1113Description =>
+  String get changelog1202Description =>
+      'Теперь приложение может преобразовать файлы m4a (формат аудио, который в настоящее время не поддерживается приложением) в файлы mp3.';
+
+  @override
+  String get changelog1203Title => '3/4 Удаление отдельных песен';
+
+  @override
+  String get changelog1203Description =>
+      'Теперь вы можете удалить песню, перетащив ее влево и нажав на \"Удалить Песню\". Это приведет к удалению песни и всех связанных с ней лупов.';
+
+  @override
+  String get changelog1204Title => '4/4 Изменен формат аудио';
+
+  @override
+  String get changelog1204Description =>
       'Формат аудио изменен на более стандартный и лупы теперь можно редактировать с большей точностью.';
 
   @override
@@ -497,4 +511,12 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get milliseconds => 'Миллисекунды';
+
+  @override
+  String deleteSongConfirmation(String songTitle) {
+    return 'Вы уверены, что хотите удалить \"$songTitle\" и все прикрепленные лупы?';
+  }
+
+  @override
+  String get deleteSongConfirmationTitle => 'Удалить Песню';
 }

@@ -367,17 +367,31 @@ class AppLocalizationsPl extends AppLocalizations {
   String get changelogTitle => 'Zmiany';
 
   @override
-  String get changelog1114Title => 'Dodano dane mediów dla plików audio';
+  String get changelog1201Title => '1/4 Dodano dane mediów dla plików audio';
 
   @override
-  String get changelog1114Description =>
+  String get changelog1201Description =>
       'Aplikacja teraz wyświetla dane mediów dla plików audio. To obejmuje tytuł i artystę w tej chwili.';
 
   @override
-  String get changelog1113Title => 'Zmieniono format audio';
+  String get changelog1202Title => '2/4 Konwertuj m4a na mp3';
 
   @override
-  String get changelog1113Description =>
+  String get changelog1202Description =>
+      'Aplikacja teraz konwertuje pliki m4a (format audio, który obecnie nie jest obsługiwany przez aplikację) na pliki mp3.';
+
+  @override
+  String get changelog1203Title => '3/4 Usuń pojedyncze utwory';
+
+  @override
+  String get changelog1203Description =>
+      'Możesz teraz usunąć utwór przeciągając go w lewo i klikając \'Usuń Utwór\'. Spowoduje to usunięcie utworu i wszystkich powiązanych pętli.';
+
+  @override
+  String get changelog1204Title => '4/4 Zmieniono format audio';
+
+  @override
+  String get changelog1204Description =>
       'Format audio został zmieniony na bardziej standardowy i pętle można teraz edytować z większą precyzją.';
 
   @override
@@ -494,4 +508,12 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get milliseconds => 'Milisekundy';
+
+  @override
+  String deleteSongConfirmation(String songTitle) {
+    return 'Czy na pewno chcesz usunąć \"$songTitle\" i wszystkie powiązane pętle?';
+  }
+
+  @override
+  String get deleteSongConfirmationTitle => 'Usuń Utwór';
 }

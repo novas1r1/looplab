@@ -126,10 +126,14 @@
     "purchaseSuccess": "购买成功。感谢您支持开发者 ❤️！",
     "voteForFeatures": "功能投票",
     "changelogTitle": "更新日志",
-    "changelog1114Title": "添加了音频文件的媒体数据",
-    "changelog1114Description": "现在应用程序显示音频文件的媒体数据。这包括标题和艺术家。",
-    "changelog1113Title": "更改了音频格式",
-    "changelog1113Description": "音频格式已更改为更标准的格式，现在可以更精确地编辑循环。",
+    "changelog1201Title": "1/4 添加了音频文件的媒体数据",
+    "changelog1201Description": "现在应用程序显示音频文件的媒体数据。这包括标题和艺术家。",
+    "changelog1202Title": "2/4 将 m4a 转换为 mp3",
+    "changelog1202Description": "应用程序现在将 m4a 文件（当前不支持的应用程序的音频格式）转换为 mp3 文件。",
+    "changelog1203Title": "3/4 删除单首歌曲",
+    "changelog1203Description": "您现在可以通过将歌曲向左滑动并点击“删除歌曲”来删除歌曲。这将删除歌曲及其所有关联的循环。",
+    "changelog1204Title": "4/4 更改了音频格式",
+    "changelog1204Description": "音频格式已更改为更标准的格式，现在可以更精确地编辑循环。",
     "changelog115Title": "修复了多个错误",
     "changelog115Description": "如果未设置循环结束，循环将播放到歌曲结束并将歌曲结束视为循环结束。当应用关闭时，音频后台服务现在将停止。",
     "changelog110Title": "音频现在在后台和待机状态下播放",
@@ -165,5 +169,14 @@
     "hours": "小时",
     "minutes": "分钟",
     "seconds": "秒",
-    "milliseconds": "毫秒"
+    "milliseconds": "毫秒",
+    "deleteSongConfirmation": "您确定要删除 \"{songTitle}\" 和所有关联的循环吗？",
+    "@deleteSongConfirmation": {
+        "placeholders": {
+            "songTitle": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteSongConfirmationTitle": "删除歌曲"
 }

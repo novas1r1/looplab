@@ -367,17 +367,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
-  String get changelog1114Title => 'Added media data for audio files';
+  String get changelog1201Title => '1/4 Added media data for audio files';
 
   @override
-  String get changelog1114Description =>
+  String get changelog1201Description =>
       'The app now shows the media data for audio files. This includes the title and artist for now.';
 
   @override
-  String get changelog1113Title => 'Changed audio format';
+  String get changelog1202Title => '2/4 Convert m4a to mp3';
 
   @override
-  String get changelog1113Description =>
+  String get changelog1202Description =>
+      'The app now converts m4a files (which is currently not a supported format by the app) to mp3 files.';
+
+  @override
+  String get changelog1203Title => '3/4 Delete single songs';
+
+  @override
+  String get changelog1203Description =>
+      'You can now delete a song by sliding it to the left and tapping \'Delete Song\'. This will delete the song and all attached loops.';
+
+  @override
+  String get changelog1204Title => '4/4 Changed audio format';
+
+  @override
+  String get changelog1204Description =>
       'The audio format was changed to a more standard format and loops can be edited more precisely now.';
 
   @override
@@ -493,4 +507,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get milliseconds => 'Milliseconds';
+
+  @override
+  String deleteSongConfirmation(String songTitle) {
+    return 'Are you sure you want to delete \"$songTitle\" and all attached loops?';
+  }
+
+  @override
+  String get deleteSongConfirmationTitle => 'Delete Song';
 }

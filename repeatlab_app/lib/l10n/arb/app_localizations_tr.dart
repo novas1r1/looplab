@@ -369,17 +369,31 @@ class AppLocalizationsTr extends AppLocalizations {
   String get changelogTitle => 'Değişiklik Günlüğü';
 
   @override
-  String get changelog1114Title => 'Ses dosyaları için medya verileri eklendi';
+  String get changelog1201Title => '1/4 Şarkı bilgileri eklendi';
 
   @override
-  String get changelog1114Description =>
-      'Şimdi uygulama ses dosyaları için medya verilerini gösteriyor. Şu anda başlık ve sanatçı dahil.';
+  String get changelog1201Description =>
+      'Şarkı bilgileri eklendi. Şarkı adı ve sanatçı görüntülenecek.';
 
   @override
-  String get changelog1113Title => 'Ses formatı değiştirildi';
+  String get changelog1202Title => '2/4 m4a formatı değiştirildi';
 
   @override
-  String get changelog1113Description =>
+  String get changelog1202Description =>
+      'm4a formatı değiştirildi. Şarkı bilgileri eklendi. Şarkı adı ve sanatçı görüntülenecek.';
+
+  @override
+  String get changelog1203Title => '3/4 Şarkı silme özelliği eklendi';
+
+  @override
+  String get changelog1203Description =>
+      'Şarkı silme özelliği eklendi. Şarkı silme özelliği eklendi. Şarkı adı ve sanatçı görüntülenecek.';
+
+  @override
+  String get changelog1204Title => '4/4 Ses formatı değiştirildi';
+
+  @override
+  String get changelog1204Description =>
       'Ses formatı daha standart bir format olarak değiştirildi ve döngüler daha hassas şekilde düzenlenebilir.';
 
   @override
@@ -496,4 +510,12 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get milliseconds => 'Milisaniye';
+
+  @override
+  String deleteSongConfirmation(String songTitle) {
+    return '\"$songTitle\" ve tüm ilişkili döngüleri silmek istediğinizden emin misiniz?';
+  }
+
+  @override
+  String get deleteSongConfirmationTitle => 'Şarkıyı Sil';
 }

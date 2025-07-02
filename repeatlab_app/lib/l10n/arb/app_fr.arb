@@ -124,10 +124,14 @@
     "cancelSubscription": "Annuler l'Abonnement",
     "voteForFeatures": "Voter pour les Fonctionnalités",
     "changelogTitle": "Changelog",
-    "changelog1114Title": "Ajout de données médias pour les fichiers audio",
-    "changelog1114Description": "L'app affiche maintenant les données médias pour les fichiers audio. Cela inclut le titre et l'artiste pour l'instant.",
-    "changelog1113Title": "Format audio modifié",
-    "changelog1113Description": "Le format audio a été modifié en un format plus standard et les boucles peuvent être modifiées avec plus de précision maintenant.",
+    "changelog1201Title": "1/4 Ajout de données médias pour les fichiers audio",
+    "changelog1201Description": "L'app affiche maintenant les données médias pour les fichiers audio. Cela inclut le titre et l'artiste pour l'instant.",
+    "changelog1202Title": "2/4 Convertir m4a en mp3",
+    "changelog1202Description": "L'app convertit maintenant les fichiers m4a (un format audio qui n'est actuellement pas pris en charge par l'app) en fichiers mp3.",
+    "changelog1203Title": "3/4 Supprimer les chansons individuelles",
+    "changelog1203Description": "Vous pouvez maintenant supprimer une chanson en la glissant vers la gauche et en touchant 'Supprimer la Chanson'. Cela supprimera la chanson et toutes les boucles associées.",
+    "changelog1204Title": "4/4 Format audio modifié",
+    "changelog1204Description": "Le format audio a été modifié en un format plus standard et les boucles peuvent être modifiées avec plus de précision maintenant.",
     "changelog115Title": "Correction de bugs",
     "changelog115Description": "Si aucune fin de boucle n'était définie, la boucle jouait jusqu'à la fin de la chanson et considérait la fin de la chanson comme la fin de la boucle. Le service audio en arrière-plan s'arrête maintenant lorsque l'application est fermée.",
     "changelog110Title": "Audio joue également en arrière-plan et en mode veille",
@@ -162,5 +166,14 @@
     "hours": "Heures",
     "minutes": "Minutes",
     "seconds": "Secondes",
-    "milliseconds": "Millisecondes"
+    "milliseconds": "Millisecondes",
+    "deleteSongConfirmation": "Êtes-vous sûr de vouloir supprimer \"{songTitle}\" et toutes les boucles associées ?",
+    "@deleteSongConfirmation": {
+        "placeholders": {
+            "songTitle": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteSongConfirmationTitle": "Supprimer la Chanson"
 }

@@ -353,18 +353,31 @@ class AppLocalizationsKo extends AppLocalizations {
   String get changelogTitle => '변경 사항';
 
   @override
-  String get changelog1114Title => '오디오 파일의 미디어 데이터 추가';
+  String get changelog1201Title => '1/4 오디오 파일의 미디어 데이터 추가';
 
   @override
-  String get changelog1114Description =>
-      '이제 앱에서 오디오 파일의 미디어 데이터를 표시할 수 있습니다. 현재는 제목과 아티스트가 표시됩니다.';
+  String get changelog1201Description =>
+      '앱이 이제 오디오 파일의 미디어 데이터를 표시합니다. 현재 제목과 아티스트가 표시됩니다.';
 
   @override
-  String get changelog1113Title => '오디오 형식 변경';
+  String get changelog1202Title => '2/4 m4a를 mp3로 변환';
 
   @override
-  String get changelog1113Description =>
-      '오디오 형식을 더 표준적인 형식으로 변경하고 루프를 더 정확하게 편집할 수 있습니다.';
+  String get changelog1202Description => '앱이 이제 지원되지 않는 m4a 파일을 mp3로 변환합니다.';
+
+  @override
+  String get changelog1203Title => '3/4 단일 곡 삭제';
+
+  @override
+  String get changelog1203Description =>
+      '곡을 왼쪽으로 드래그하고 \'곡 삭제\'를 탭하여 곡과 관련된 모든 루프를 삭제할 수 있습니다.';
+
+  @override
+  String get changelog1204Title => '4/4 오디오 형식 변경';
+
+  @override
+  String get changelog1204Description =>
+      '오디오 형식을 더 표준적인 형식으로 변경하여 루프를 더 정확하게 편집할 수 있습니다.';
 
   @override
   String get changelog115Title => '여러 버그 수정';
@@ -477,4 +490,12 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get milliseconds => '밀리초';
+
+  @override
+  String deleteSongConfirmation(String songTitle) {
+    return '\"$songTitle\"과 관련된 모든 루프를 삭제하시겠습니까?';
+  }
+
+  @override
+  String get deleteSongConfirmationTitle => '곡 삭제';
 }

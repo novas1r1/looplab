@@ -124,10 +124,14 @@
     "cancelSubscription": "Cancelar Suscripción",
     "voteForFeatures": "Vota por Funciones",
     "changelogTitle": "Cambios",
-    "changelog1114Title": "Añadida información de medios para archivos de audio",
-    "changelog1114Description": "La app ahora muestra la información de medios para archivos de audio. Esto incluye el título y el artista por ahora.",
-    "changelog1113Title": "Formato de audio cambiado",
-    "changelog1113Description": "El formato de audio se cambió a un formato más estándar y los loops ahora se pueden editar con más precisión.",
+    "changelog1201Title": "1/4 Añadida información de medios para archivos de audio",
+    "changelog1201Description": "La app ahora muestra la información de medios para archivos de audio. Esto incluye el título y el artista por ahora.",
+    "changelog1202Title": "2/4 Convertir m4a a mp3",
+    "changelog1202Description": "La app ahora convierte archivos m4a (un formato de audio que actualmente no es compatible con la app) a archivos mp3.",
+    "changelog1203Title": "3/4 Eliminar canciones individuales",
+    "changelog1203Description": "Ahora puedes eliminar una canción arrastrándola hacia la izquierda y tocando 'Eliminar Canción'. Esto eliminará la canción y todos los loops adjuntos.",
+    "changelog1204Title": "4/4 Formato de audio cambiado",
+    "changelog1204Description": "El formato de audio se cambió a un formato más estándar y los loops ahora se pueden editar con más precisión.",
     "changelog115Title": "Corrección de errores",
     "changelog115Description": "Si no se estableció un final de loop, el loop se reproducirá hasta el final de la canción y se considerará el final de la canción como el final del loop. El servicio de audio en segundo plano ahora se detendrá cuando se cierre la app.",
     "changelog110Title": "Audio ahora se reproduce en segundo plano y en modo Standby",
@@ -162,5 +166,14 @@
     "hours": "Horas",
     "minutes": "Minutos",
     "seconds": "Segundos",
-    "milliseconds": "Milisegundos"
+    "milliseconds": "Milisegundos",
+    "deleteSongConfirmation": "¿Estás seguro de que quieres eliminar \"{songTitle}\" y todos los loops adjuntos?",
+    "@deleteSongConfirmation": {
+        "placeholders": {
+            "songTitle": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteSongConfirmationTitle": "Eliminar Canción"
 }

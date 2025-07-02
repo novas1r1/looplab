@@ -768,29 +768,53 @@ abstract class AppLocalizations {
   /// **'Changelog'**
   String get changelogTitle;
 
-  /// No description provided for @changelog1114Title.
+  /// No description provided for @changelog1201Title.
   ///
   /// In en, this message translates to:
-  /// **'Added media data for audio files'**
-  String get changelog1114Title;
+  /// **'1/4 Added media data for audio files'**
+  String get changelog1201Title;
 
-  /// No description provided for @changelog1114Description.
+  /// No description provided for @changelog1201Description.
   ///
   /// In en, this message translates to:
   /// **'The app now shows the media data for audio files. This includes the title and artist for now.'**
-  String get changelog1114Description;
+  String get changelog1201Description;
 
-  /// No description provided for @changelog1113Title.
+  /// No description provided for @changelog1202Title.
   ///
   /// In en, this message translates to:
-  /// **'Changed audio format'**
-  String get changelog1113Title;
+  /// **'2/4 Convert m4a to mp3'**
+  String get changelog1202Title;
 
-  /// No description provided for @changelog1113Description.
+  /// No description provided for @changelog1202Description.
+  ///
+  /// In en, this message translates to:
+  /// **'The app now converts m4a files (which is currently not a supported format by the app) to mp3 files.'**
+  String get changelog1202Description;
+
+  /// No description provided for @changelog1203Title.
+  ///
+  /// In en, this message translates to:
+  /// **'3/4 Delete single songs'**
+  String get changelog1203Title;
+
+  /// No description provided for @changelog1203Description.
+  ///
+  /// In en, this message translates to:
+  /// **'You can now delete a song by sliding it to the left and tapping \'Delete Song\'. This will delete the song and all attached loops.'**
+  String get changelog1203Description;
+
+  /// No description provided for @changelog1204Title.
+  ///
+  /// In en, this message translates to:
+  /// **'4/4 Changed audio format'**
+  String get changelog1204Title;
+
+  /// No description provided for @changelog1204Description.
   ///
   /// In en, this message translates to:
   /// **'The audio format was changed to a more standard format and loops can be edited more precisely now.'**
-  String get changelog1113Description;
+  String get changelog1204Description;
 
   /// No description provided for @changelog115Title.
   ///
@@ -1001,6 +1025,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Milliseconds'**
   String get milliseconds;
+
+  /// No description provided for @deleteSongConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete \"{songTitle}\" and all attached loops?'**
+  String deleteSongConfirmation(String songTitle);
+
+  /// No description provided for @deleteSongConfirmationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Song'**
+  String get deleteSongConfirmationTitle;
 }
 
 class _AppLocalizationsDelegate

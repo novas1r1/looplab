@@ -1,10 +1,10 @@
 [
     {
         "language": "en-US",
-        "text": "FEATURE: Added support for reading metadata from audio files\nIMPROVEMENT: Changed the format of the duration display a standard format\nMISC: Improved stability and performance"
+        "text": "FEATURE: m4a files are now automatically converted to mp3\nFEATURE: Single songs can now be deleted on the songs overview page\nFEATURE: Added support for reading metadata from audio files\nIMPROVEMENT: Changed the format of the duration display a standard format\nMISC: Improved stability and performance"
     },
     {
         "language": "en-DE",
-        "text": "FEATURE: Unterstützung für das Lesen von Metadaten aus Audio-Dateien\nIMPROVEMENT: Änderung der Anzeigeformat für Dauer in ein Standardformat\nMISC: Verbesserte Stabilität und Leistung"
+        "text": "FEATURE: m4a-Dateien werden nun automatisch in mp3 konvertiert\nFEATURE: Einzelne Lieder können nun auf der Liedersicht Seite gelöscht werden\nFEATURE: Unterstützung für das Lesen von Metadaten aus Audio-Dateien\nIMPROVEMENT: Änderung der Anzeigeformat für Dauer in ein Standardformat\nMISC: Verbesserte Stabilität und Leistung"
     }
 ]

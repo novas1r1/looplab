@@ -367,17 +367,32 @@ class AppLocalizationsHi extends AppLocalizations {
   String get changelogTitle => 'परिवर्तन लॉग';
 
   @override
-  String get changelog1114Title => 'ऑडियो फाइलों के लिए मीडिया डेटा जोड़ा गया';
+  String get changelog1201Title =>
+      '1/4 ऑडियो फाइलों के लिए मीडिया डेटा जोड़ा गया';
 
   @override
-  String get changelog1114Description =>
+  String get changelog1201Description =>
       'अब ऐप ऑडियो फाइलों के लिए मीडिया डेटा दिखाता है। इसमें शीर्षक और कलाकार शामिल हैं।';
 
   @override
-  String get changelog1113Title => 'ऑडियो प्रारूप बदल दिया गया';
+  String get changelog1202Title => '2/4 m4a को mp3 में कनवर्ट करें';
 
   @override
-  String get changelog1113Description =>
+  String get changelog1202Description =>
+      'अब ऐप ऑडियो फाइलों के लिए मीडिया डेटा दिखाता है। इसमें शीर्षक और कलाकार शामिल हैं।';
+
+  @override
+  String get changelog1203Title => '3/4 एकल गीत हटाएं';
+
+  @override
+  String get changelog1203Description =>
+      'अब आप एक गीत को बाएं से खींचकर और \'गीत हटाएं\' टैप करके हटा सकते हैं। इससे गीत और सभी जुड़े लूप हट जाएंगे।';
+
+  @override
+  String get changelog1204Title => '4/4 ऑडियो प्रारूम बदल दिया गया';
+
+  @override
+  String get changelog1204Description =>
       'ऑडियो प्रारूम में मानक प्रारूप में बदल दिया गया और लूप अब अधिक सटीकता से संपादित किए जा सकते हैं।';
 
   @override
@@ -494,4 +509,12 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get milliseconds => 'मिलीसेकंड';
+
+  @override
+  String deleteSongConfirmation(String songTitle) {
+    return 'क्या आप वाकई \"$songTitle\" और सभी जुड़े लूप हटाना चाहते हैं?';
+  }
+
+  @override
+  String get deleteSongConfirmationTitle => 'गीत हटाएं';
 }

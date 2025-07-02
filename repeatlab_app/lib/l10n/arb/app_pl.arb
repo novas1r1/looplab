@@ -124,10 +124,14 @@
     "cancelSubscription": "Anuluj Subskrypcję",
     "voteForFeatures": "Głosuj na Funkcje",
     "changelogTitle": "Zmiany",
-    "changelog1114Title": "Dodano dane mediów dla plików audio",
-    "changelog1114Description": "Aplikacja teraz wyświetla dane mediów dla plików audio. To obejmuje tytuł i artystę w tej chwili.",
-    "changelog1113Title": "Zmieniono format audio",
-    "changelog1113Description": "Format audio został zmieniony na bardziej standardowy i pętle można teraz edytować z większą precyzją.",
+    "changelog1201Title": "1/4 Dodano dane mediów dla plików audio",
+    "changelog1201Description": "Aplikacja teraz wyświetla dane mediów dla plików audio. To obejmuje tytuł i artystę w tej chwili.",
+    "changelog1202Title": "2/4 Konwertuj m4a na mp3",
+    "changelog1202Description": "Aplikacja teraz konwertuje pliki m4a (format audio, który obecnie nie jest obsługiwany przez aplikację) na pliki mp3.",
+    "changelog1203Title": "3/4 Usuń pojedyncze utwory",
+    "changelog1203Description": "Możesz teraz usunąć utwór przeciągając go w lewo i klikając 'Usuń Utwór'. Spowoduje to usunięcie utworu i wszystkich powiązanych pętli.",
+    "changelog1204Title": "4/4 Zmieniono format audio",
+    "changelog1204Description": "Format audio został zmieniony na bardziej standardowy i pętle można teraz edytować z większą precyzją.",
     "changelog115Title": "Poprawki błędów",
     "changelog115Description": "Jeśli nie było ustawione końcowe położenie pętli, pętla odtwarza się do końca utworu i uważa, że końcowe położenie utworu jest końcem pętli. Usługa audio w tle zostaje teraz zamknięta po zamknięciu aplikacji.",
     "changelog110Title": "Audio odtwarza również w tle i w trybie standby",
@@ -162,5 +166,14 @@
     "hours": "Godziny",
     "minutes": "Minuty",
     "seconds": "Sekundy",
-    "milliseconds": "Milisekundy"
+    "milliseconds": "Milisekundy",
+    "deleteSongConfirmation": "Czy na pewno chcesz usunąć \"{songTitle}\" i wszystkie powiązane pętle?",
+    "@deleteSongConfirmation": {
+        "placeholders": {
+            "songTitle": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteSongConfirmationTitle": "Usuń Utwór"
 }

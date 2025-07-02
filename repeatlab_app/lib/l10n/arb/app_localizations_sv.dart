@@ -367,18 +367,32 @@ class AppLocalizationsSv extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
-  String get changelog1114Title => 'Ljuddata för ljudfiler';
+  String get changelog1201Title => '1/4 Felsökning';
 
   @override
-  String get changelog1114Description =>
-      'App visar nu ljuddata för ljudfiler. Det inkluderar titel och artist just nu.';
+  String get changelog1201Description =>
+      'Om inget slut för loopen var inställt, spelades loopen till slutet av låten och låtens slut användes som loopens slut. Ljudfilerna spelar nu också när appen går tillbaka eller telefonen går in standby-läge.';
 
   @override
-  String get changelog1113Title => 'Ljudformat ändrat';
+  String get changelog1202Title => '2/4 Felsökning';
 
   @override
-  String get changelog1113Description =>
-      'Ljudformat ändrat till ett mer standardiserat format och loopar kan nu redigeras med högre precision.';
+  String get changelog1202Description =>
+      'Om inget slut för loopen var inställt, spelades loopen till slutet av låten och låtens slut användes som loopens slut. Ljudfilerna spelar nu också när appen går tillbaka eller telefonen går in standby-läge.';
+
+  @override
+  String get changelog1203Title => '3/4 Felsökning';
+
+  @override
+  String get changelog1203Description =>
+      'Om inget slut för loopen var inställt, spelades loopen till slutet av låten och låtens slut användes som loopens slut. Ljudfilerna spelar nu också när appen går tillbaka eller telefonen går in standby-läge.';
+
+  @override
+  String get changelog1204Title => '4/4 Felsökning';
+
+  @override
+  String get changelog1204Description =>
+      'Om inget slut för loopen var inställt, spelades loopen till slutet av låten och låtens slut användes som loopens slut. Ljudfilerna spelar nu också när appen går tillbaka eller telefonen går in standby-läge.';
 
   @override
   String get changelog115Title => 'Felsökning';
@@ -493,4 +507,12 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get milliseconds => 'Millisekunder';
+
+  @override
+  String deleteSongConfirmation(String songTitle) {
+    return 'Är du säker på att du vill radera \"$songTitle\" och alla tillhörande loopar?';
+  }
+
+  @override
+  String get deleteSongConfirmationTitle => 'Radera Låt';
 }

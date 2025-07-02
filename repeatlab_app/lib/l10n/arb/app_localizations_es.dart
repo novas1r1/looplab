@@ -371,18 +371,32 @@ class AppLocalizationsEs extends AppLocalizations {
   String get changelogTitle => 'Cambios';
 
   @override
-  String get changelog1114Title =>
-      'Añadida información de medios para archivos de audio';
+  String get changelog1201Title =>
+      '1/4 Añadida información de medios para archivos de audio';
 
   @override
-  String get changelog1114Description =>
+  String get changelog1201Description =>
       'La app ahora muestra la información de medios para archivos de audio. Esto incluye el título y el artista por ahora.';
 
   @override
-  String get changelog1113Title => 'Formato de audio cambiado';
+  String get changelog1202Title => '2/4 Convertir m4a a mp3';
 
   @override
-  String get changelog1113Description =>
+  String get changelog1202Description =>
+      'La app ahora convierte archivos m4a (un formato de audio que actualmente no es compatible con la app) a archivos mp3.';
+
+  @override
+  String get changelog1203Title => '3/4 Eliminar canciones individuales';
+
+  @override
+  String get changelog1203Description =>
+      'Ahora puedes eliminar una canción arrastrándola hacia la izquierda y tocando \'Eliminar Canción\'. Esto eliminará la canción y todos los loops adjuntos.';
+
+  @override
+  String get changelog1204Title => '4/4 Formato de audio cambiado';
+
+  @override
+  String get changelog1204Description =>
       'El formato de audio se cambió a un formato más estándar y los loops ahora se pueden editar con más precisión.';
 
   @override
@@ -500,4 +514,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get milliseconds => 'Milisegundos';
+
+  @override
+  String deleteSongConfirmation(String songTitle) {
+    return '¿Estás seguro de que quieres eliminar \"$songTitle\" y todos los loops adjuntos?';
+  }
+
+  @override
+  String get deleteSongConfirmationTitle => 'Eliminar Canción';
 }

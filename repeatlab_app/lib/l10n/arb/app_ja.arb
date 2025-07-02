@@ -126,10 +126,14 @@
     "purchaseSuccess": "購入が成功しました。開発者をサポートしていただきありがとうございます❤️！",
     "voteForFeatures": "機能に投票",
     "changelogTitle": "変更履歴",
-    "changelog1114Title": "オーディオファイルのメディアデータを追加",
-    "changelog1114Description": "アプリでオーディオファイルのメディアデータを表示できるようになりました。現在はタイトルとアーティストが表示されます。",
-    "changelog1113Title": "オーディオフォーマットを変更",
-    "changelog1113Description": "オーディオフォーマットをより標準的な形式に変更し、ループをより正確に編集できるようになりました。",
+    "changelog1201Title": "1/4 オーディオファイルのメディアデータを追加",
+    "changelog1201Description": "アプリはオーディオファイルのメディアデータを表示するようになりました。現在はタイトルとアーティストが表示されます。",
+    "changelog1202Title": "2/4 m4aをmp3に変換",
+    "changelog1202Description": "アプリは現在サポートされていないm4aファイルをmp3に変換するようになりました。",
+    "changelog1203Title": "3/4 単一の曲を削除",
+    "changelog1203Description": "曲を左にドラッグして「曲を削除」をタップすることで、曲と関連するすべてのループを削除できるようになりました。",
+    "changelog1204Title": "4/4 オーディオフォーマットを変更",
+    "changelog1204Description": "オーディオフォーマットをより標準的な形式に変更し、ループをより正確に編集できるようになりました。",
     "changelog115Title": "いくつかのバグを修正",
     "changelog115Description": "ループ終了が設定されていない場合、ループは曲の終わりまで再生され、曲の終わりをループ終了として扱っていました。アプリが閉じられたとき、オーディオバックグラウンドサービスは停止するようになりました。",
     "changelog110Title": "オーディオがバックグラウンドとスタンバイで再生",
@@ -165,5 +169,14 @@
     "hours": "時間",
     "minutes": "分",
     "seconds": "秒",
-    "milliseconds": "ミリ秒"
+    "milliseconds": "ミリ秒",
+    "deleteSongConfirmation": "「{songTitle}」と関連するすべてのループを削除してもよろしいですか？",
+    "@deleteSongConfirmation": {
+        "placeholders": {
+            "songTitle": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteSongConfirmationTitle": "曲を削除"
 }

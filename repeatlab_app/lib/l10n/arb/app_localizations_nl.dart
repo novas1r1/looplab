@@ -368,18 +368,32 @@ class AppLocalizationsNl extends AppLocalizations {
   String get changelogTitle => 'Wijzigingen';
 
   @override
-  String get changelog1114Title =>
-      'Media-gegevens toegevoegd voor audio-bestanden';
+  String get changelog1201Title =>
+      '1/4 Media-gegevens toegevoegd voor audio-bestanden';
 
   @override
-  String get changelog1114Description =>
+  String get changelog1201Description =>
       'De app toont nu media-gegevens voor audio-bestanden. Dit omvat de titel en de artiest voor nu.';
 
   @override
-  String get changelog1113Title => 'Audio-formaat gewijzigd';
+  String get changelog1202Title => '2/4 m4a naar mp3 converteren';
 
   @override
-  String get changelog1113Description =>
+  String get changelog1202Description =>
+      'De app converteert nu m4a bestanden (een audioformaat dat momenteel niet wordt ondersteund door de app) naar mp3 bestanden.';
+
+  @override
+  String get changelog1203Title => '3/4 Eenmalige nummers verwijderen';
+
+  @override
+  String get changelog1203Description =>
+      'Je kunt nu een nummer verwijderen door het naar links te slepen en \'Nummer Verwijderen\' te tikken. Dit zal het nummer en alle bijbehorende loops verwijderen.';
+
+  @override
+  String get changelog1204Title => '4/4 Audio-formaat gewijzigd';
+
+  @override
+  String get changelog1204Description =>
       'Het audio-formaat is gewijzigd in een meer standaard formaat en loops kunnen nu nauwkeuriger bewerkt worden.';
 
   @override
@@ -497,4 +511,12 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get milliseconds => 'Milliseconden';
+
+  @override
+  String deleteSongConfirmation(String songTitle) {
+    return 'Weet je zeker dat je \"$songTitle\" en alle bijbehorende loops wilt verwijderen?';
+  }
+
+  @override
+  String get deleteSongConfirmationTitle => 'Nummer Verwijderen';
 }

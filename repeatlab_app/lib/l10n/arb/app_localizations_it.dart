@@ -372,19 +372,33 @@ class AppLocalizationsIt extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
-  String get changelog1114Title =>
-      'Aggiunta informazioni sui media per i file audio';
+  String get changelog1201Title =>
+      '1/4 Aggiunta informazioni sui media per i file audio';
 
   @override
-  String get changelog1114Description =>
+  String get changelog1201Description =>
       'L\'app ora mostra le informazioni sui media per i file audio. Questo include il titolo e l\'artista per ora.';
 
   @override
-  String get changelog1113Title => 'Cambiato il formato audio';
+  String get changelog1202Title => '2/4 Conversione di m4a in mp3';
 
   @override
-  String get changelog1113Description =>
-      'Il formato audio è stato cambiato in un formato più standard e i loop possono ora essere modificati con maggiore precisione.';
+  String get changelog1202Description =>
+      'L\'app ora converte i file m4a (un formato audio che attualmente non è supportato dall\'app) in file mp3.';
+
+  @override
+  String get changelog1203Title => '3/4 Eliminazione delle canzoni singole';
+
+  @override
+  String get changelog1203Description =>
+      'Ora puoi eliminare una canzone trascinandola a sinistra e toccando \'Elimina Canzone\'. Questo eliminerà la canzone e tutti i loop associati.';
+
+  @override
+  String get changelog1204Title => '4/4 Cambiato il formato audio';
+
+  @override
+  String get changelog1204Description =>
+      'The audio format was changed to a more standard format and loops can be edited more precisely now.';
 
   @override
   String get changelog115Title => 'Correzione di bug';
@@ -500,4 +514,12 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get milliseconds => 'Millisecondi';
+
+  @override
+  String deleteSongConfirmation(String songTitle) {
+    return 'Sei sicuro di voler eliminare \"$songTitle\" e tutti i loop associati?';
+  }
+
+  @override
+  String get deleteSongConfirmationTitle => 'Elimina Canzone';
 }

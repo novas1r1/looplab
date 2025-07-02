@@ -130,10 +130,14 @@
     "purchaseSuccess": "Purchase successful. Thank you for supporting the developer ❤️!",
     "voteForFeatures": "Vote for Features",
     "changelogTitle": "Changelog",
-    "changelog1114Title": "Added media data for audio files",
-    "changelog1114Description": "The app now shows the media data for audio files. This includes the title and artist for now.",
-    "changelog1113Title": "Changed audio format",
-    "changelog1113Description": "The audio format was changed to a more standard format and loops can be edited more precisely now.",
+    "changelog1201Title": "1/4 Added media data for audio files",
+    "changelog1201Description": "The app now shows the media data for audio files. This includes the title and artist for now.",
+    "changelog1202Title": "2/4 Convert m4a to mp3",
+    "changelog1202Description": "The app now converts m4a files (which is currently not a supported format by the app) to mp3 files.",
+    "changelog1203Title": "3/4 Delete single songs",
+    "changelog1203Description": "You can now delete a song by sliding it to the left and tapping 'Delete Song'. This will delete the song and all attached loops.",
+    "changelog1204Title": "4/4 Changed audio format",
+    "changelog1204Description": "The audio format was changed to a more standard format and loops can be edited more precisely now.",
     "changelog115Title": "Fixed several bugs",
     "changelog115Description": "If no loop end was set, the loop would play until the end of the song and consider the song end as the loop end. Audio background service will now stop when the app is closed.",
     "changelog110Title": "Audio now plays in background and standby",
@@ -168,5 +172,14 @@
     "hours": "Hours",
     "minutes": "Minutes",
     "seconds": "Seconds",
-    "milliseconds": "Milliseconds"
+    "milliseconds": "Milliseconds",
+    "deleteSongConfirmation": "Are you sure you want to delete \"{songTitle}\" and all attached loops?",
+    "@deleteSongConfirmation": {
+        "placeholders": {
+            "songTitle": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteSongConfirmationTitle": "Delete Song"
 }

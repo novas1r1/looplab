@@ -124,10 +124,14 @@
     "cancelSubscription": "Abonnement Opzeggen",
     "voteForFeatures": "Functies Voorstellen",
     "changelogTitle": "Wijzigingen",
-    "changelog1114Title": "Media-gegevens toegevoegd voor audio-bestanden",
-    "changelog1114Description": "De app toont nu media-gegevens voor audio-bestanden. Dit omvat de titel en de artiest voor nu.",
-    "changelog1113Title": "Audio-formaat gewijzigd",
-    "changelog1113Description": "Het audio-formaat is gewijzigd in een meer standaard formaat en loops kunnen nu nauwkeuriger bewerkt worden.",
+    "changelog1201Title": "1/4 Media-gegevens toegevoegd voor audio-bestanden",
+    "changelog1201Description": "De app toont nu media-gegevens voor audio-bestanden. Dit omvat de titel en de artiest voor nu.",
+    "changelog1202Title": "2/4 m4a naar mp3 converteren",
+    "changelog1202Description": "De app converteert nu m4a bestanden (een audioformaat dat momenteel niet wordt ondersteund door de app) naar mp3 bestanden.",
+    "changelog1203Title": "3/4 Eenmalige nummers verwijderen",
+    "changelog1203Description": "Je kunt nu een nummer verwijderen door het naar links te slepen en 'Nummer Verwijderen' te tikken. Dit zal het nummer en alle bijbehorende loops verwijderen.",
+    "changelog1204Title": "4/4 Audio-formaat gewijzigd",
+    "changelog1204Description": "Het audio-formaat is gewijzigd in een meer standaard formaat en loops kunnen nu nauwkeuriger bewerkt worden.",
     "changelog115Title": "Foutoplossingen",
     "changelog115Description": "Als geen eindpositie voor de loop was ingesteld, werd de loop tot het einde van het nummer afgespeeld en werd het nummer einde als loop einde beschouwd. De audio achtergrondservice wordt nu beëindigd wanneer de app wordt gesloten.",
     "changelog110Title": "Audio speelt ook in de achtergrond en standby",
@@ -162,5 +166,14 @@
     "hours": "Uren",
     "minutes": "Minuten",
     "seconds": "Seconden",
-    "milliseconds": "Milliseconden"
+    "milliseconds": "Milliseconden",
+    "deleteSongConfirmation": "Weet je zeker dat je \"{songTitle}\" en alle bijbehorende loops wilt verwijderen?",
+    "@deleteSongConfirmation": {
+        "placeholders": {
+            "songTitle": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteSongConfirmationTitle": "Nummer Verwijderen"
 }

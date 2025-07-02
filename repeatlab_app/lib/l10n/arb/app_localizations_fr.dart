@@ -374,18 +374,32 @@ class AppLocalizationsFr extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
-  String get changelog1114Title =>
-      'Ajout de données médias pour les fichiers audio';
+  String get changelog1201Title =>
+      '1/4 Ajout de données médias pour les fichiers audio';
 
   @override
-  String get changelog1114Description =>
+  String get changelog1201Description =>
       'L\'app affiche maintenant les données médias pour les fichiers audio. Cela inclut le titre et l\'artiste pour l\'instant.';
 
   @override
-  String get changelog1113Title => 'Format audio modifié';
+  String get changelog1202Title => '2/4 Convertir m4a en mp3';
 
   @override
-  String get changelog1113Description =>
+  String get changelog1202Description =>
+      'L\'app convertit maintenant les fichiers m4a (un format audio qui n\'est actuellement pas pris en charge par l\'app) en fichiers mp3.';
+
+  @override
+  String get changelog1203Title => '3/4 Supprimer les chansons individuelles';
+
+  @override
+  String get changelog1203Description =>
+      'Vous pouvez maintenant supprimer une chanson en la glissant vers la gauche et en touchant \'Supprimer la Chanson\'. Cela supprimera la chanson et toutes les boucles associées.';
+
+  @override
+  String get changelog1204Title => '4/4 Format audio modifié';
+
+  @override
+  String get changelog1204Description =>
       'Le format audio a été modifié en un format plus standard et les boucles peuvent être modifiées avec plus de précision maintenant.';
 
   @override
@@ -504,4 +518,12 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get milliseconds => 'Millisecondes';
+
+  @override
+  String deleteSongConfirmation(String songTitle) {
+    return 'Êtes-vous sûr de vouloir supprimer \"$songTitle\" et toutes les boucles associées ?';
+  }
+
+  @override
+  String get deleteSongConfirmationTitle => 'Supprimer la Chanson';
 }

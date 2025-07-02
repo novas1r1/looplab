@@ -124,10 +124,14 @@
     "cancelSubscription": "Abonnement kündigen",
     "voteForFeatures": "Feature Voting",
     "changelogTitle": "Changelog",
-    "changelog1114Title": "Medieninformationen für Audio-Dateien hinzugefügt",
-    "changelog1114Description": "Die App zeigt nun die Medieninformationen (Titel und den Künstler) für Audio-Dateien.",
-    "changelog1113Title": "Audio-Formatierung geändert",
-    "changelog1113Description": "Das Audio-Format wurde in ein Standardformat geändert und Loops können jetzt präziser bearbeitet werden.",
+    "changelog1201Title": "1/4 Medieninformationen für Audio-Dateien hinzugefügt",
+    "changelog1201Description": "Die App zeigt nun die Medieninformationen (Titel und den Künstler) für Audio-Dateien.",
+    "changelog1202Title": "2/4 m4a zu mp3 konvertieren",
+    "changelog1202Description": "Die App konvertiert nun m4a Dateien (ein Audio-Format das derzeit nicht unterstützt wird) zu mp3 Dateien.",
+    "changelog1203Title": "3/4 Einzelne Songs löschen",
+    "changelog1203Description": "Du kannst jetzt einen Song durch Ziehen und bestätigen löschen. Dies löscht den Song und alle angehängten Loops.",
+    "changelog1204Title": "4/4 Audio-Formatierung geändert",
+    "changelog1204Description": "Das Audio-Format wurde in ein Standardformat geändert und Loops können jetzt präziser bearbeitet werden.",
     "changelog115Title": "Fehlerbehebungen",
     "changelog115Description": "Wenn kein Loop-Ende festgelegt wird, wird die Loop bis zum Ende des Songs gespielt und das Song-Ende als Loop-Ende gesetzt. Der Audio-Hintergrundservice wird nun beendet, wenn die App geschlossen wird.",
     "changelog110Title": "Audio spielt auch im Hintergrund und Standby",
@@ -162,5 +166,14 @@
     "hours": "Stunden",
     "minutes": "Minuten",
     "seconds": "Sekunden",
-    "milliseconds": "Millisekunden"
+    "milliseconds": "Millisekunden",
+    "deleteSongConfirmation": "Bist du sicher, dass du \"{songTitle}\" und alle angehängten Loops löschen möchtest?",
+    "@deleteSongConfirmation": {
+        "placeholders": {
+            "songTitle": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteSongConfirmationTitle": "Song löschen"
 }

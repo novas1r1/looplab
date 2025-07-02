@@ -124,10 +124,14 @@
     "cancelSubscription": "Cancelar Assinatura",
     "voteForFeatures": "Votar por Recursos",
     "changelogTitle": "Changelog",
-    "changelog1114Title": "Adicionado dados de mídia para arquivos de áudio",
-    "changelog1114Description": "A aplicação agora mostra dados de mídia para arquivos de áudio. Isso inclui o título e o artista no momento.",
-    "changelog1113Title": "Formato de áudio alterado",
-    "changelog1113Description": "O formato de áudio foi alterado para um formato mais padrão e os loops podem ser editados com mais precisão agora.",
+    "changelog1201Title": "1/4 Adicionado dados de mídia para arquivos de áudio",
+    "changelog1201Description": "A aplicação agora mostra dados de mídia para arquivos de áudio. Isso inclui o título e o artista no momento.",
+    "changelog1202Title": "2/4 Converter m4a para mp3",
+    "changelog1202Description": "A aplicação agora converte arquivos m4a (um formato de áudio que atualmente não é suportado pela aplicação) para arquivos mp3.",
+    "changelog1203Title": "3/4 Excluir músicas individuais",
+    "changelog1203Description": "Agora você pode excluir uma música arrastando-a para a esquerda e tocando em 'Excluir Música'. Isso excluirá a música e todos os loops associados.",
+    "changelog1204Title": "4/4 Formato de áudio alterado",
+    "changelog1204Description": "O formato de áudio foi alterado para um formato mais padrão e os loops podem ser editados com mais precisão agora.",
     "changelog115Title": "Correção de erros",
     "changelog115Description": "Se não havia uma posição final para o loop, o loop foi reproduzido até o final da música e a posição final da música foi considerada como a posição final do loop. O serviço de áudio em segundo plano agora é encerrado quando a aplicação é fechada.",
     "changelog110Title": "Audio agora se reproduz também em segundo plano e em modo standby",
@@ -162,5 +166,14 @@
     "hours": "Horas",
     "minutes": "Minutos",
     "seconds": "Segundos",
-    "milliseconds": "Milissegundos"
+    "milliseconds": "Milissegundos",
+    "deleteSongConfirmation": "Tem certeza de que deseja excluir \"{songTitle}\" e todos os loops anexados?",
+    "@deleteSongConfirmation": {
+        "placeholders": {
+            "songTitle": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteSongConfirmationTitle": "Excluir Música"
 }

@@ -365,18 +365,32 @@ class AppLocalizationsAr extends AppLocalizations {
   String get changelogTitle => 'سجل التغييرات';
 
   @override
-  String get changelog1114Title => 'إضافة بيانات الوسائط لملفات الصوت';
+  String get changelog1201Title => 'إضافة بيانات الوسائط لملفات الصوت';
 
   @override
-  String get changelog1114Description =>
+  String get changelog1201Description =>
       'التطبيق الآن يعرض بيانات الوسائط لملفات الصوت. يشمل هذا العنوان والفنان للآن.';
 
   @override
-  String get changelog1113Title => 'تغيير تنسيق الصوت';
+  String get changelog1202Title => 'تغيير تنسيق الصوت';
 
   @override
-  String get changelog1113Description =>
+  String get changelog1202Description =>
       'تم تغيير تنسيق الصوت إلى تنسيق أكثر استخدامًا ويمكن تحرير الحلقات بدقة أكثر الآن.';
+
+  @override
+  String get changelog1203Title => 'حذف الأغاني الفردية';
+
+  @override
+  String get changelog1203Description =>
+      'يمكنك الآن حذف أغنية بسحبها إلى اليسار والنقر على \'حذف الأغنية\'. سيتم حذف الأغنية وجميع الحلقات المرتبطة بها.';
+
+  @override
+  String get changelog1204Title => 'تحويل m4a إلى mp3';
+
+  @override
+  String get changelog1204Description =>
+      'التطبيق الآن يتحول ملفات m4a (تنسيق الصوت الذي لا يتم الآن دعمه بواسطة التطبيق) إلى ملفات mp3.';
 
   @override
   String get changelog115Title => 'إصلاح عدة أخطاء';
@@ -490,4 +504,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get milliseconds => 'ملي ثانية';
+
+  @override
+  String deleteSongConfirmation(String songTitle) {
+    return 'هل أنت متأكد أنك تريد حذف \"$songTitle\" وجميع الحلقات المرتبطة بها؟';
+  }
+
+  @override
+  String get deleteSongConfirmationTitle => 'حذف الأغنية';
 }

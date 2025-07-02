@@ -124,10 +124,13 @@
     "cancelSubscription": "Annulla Abbonamento",
     "voteForFeatures": "Vota per le Funzionalità",
     "changelogTitle": "Changelog",
-    "changelog1114Title": "Aggiunta informazioni sui media per i file audio",
-    "changelog1114Description": "L'app ora mostra le informazioni sui media per i file audio. Questo include il titolo e l'artista per ora.",
-    "changelog1113Title": "Cambiato il formato audio",
-    "changelog1113Description": "Il formato audio è stato cambiato in un formato più standard e i loop possono ora essere modificati con maggiore precisione.",
+    "changelog1201Title": "1/4 Aggiunta informazioni sui media per i file audio",
+    "changelog1201Description": "L'app ora mostra le informazioni sui media per i file audio. Questo include il titolo e l'artista per ora.",
+    "changelog1202Title": "2/4 Conversione di m4a in mp3",
+    "changelog1202Description": "L'app ora converte i file m4a (un formato audio che attualmente non è supportato dall'app) in file mp3.",
+    "changelog1203Title": "3/4 Eliminazione delle canzoni singole",
+    "changelog1203Description": "Ora puoi eliminare una canzone trascinandola a sinistra e toccando 'Elimina Canzone'. Questo eliminerà la canzone e tutti i loop associati.",
+    "changelog1204Title": "4/4 Cambiato il formato audio",
     "changelog115Title": "Correzione di bug",
     "changelog115Description": "Se non era stato impostato un fine del loop, il loop si riprodurrà fino alla fine della canzone e considererà la fine della canzone come fine del loop. Il servizio audio in background si interrompe ora quando l'app viene chiusa.",
     "changelog110Title": "Audio ora si riproduce anche in background e standby",
@@ -162,5 +165,14 @@
     "hours": "Ore",
     "minutes": "Minuti",
     "seconds": "Secondi",
-    "milliseconds": "Millisecondi"
+    "milliseconds": "Millisecondi",
+    "deleteSongConfirmation": "Sei sicuro di voler eliminare \"{songTitle}\" e tutti i loop associati?",
+    "@deleteSongConfirmation": {
+        "placeholders": {
+            "songTitle": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteSongConfirmationTitle": "Elimina Canzone"
 }

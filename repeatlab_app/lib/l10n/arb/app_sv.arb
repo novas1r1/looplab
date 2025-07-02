@@ -124,10 +124,14 @@
     "cancelSubscription": "Avbryt Prenumeration",
     "voteForFeatures": "Funktioner förfråga",
     "changelogTitle": "Changelog",
-    "changelog1114Title": "Ljuddata för ljudfiler",
-    "changelog1114Description": "App visar nu ljuddata för ljudfiler. Det inkluderar titel och artist just nu.",
-    "changelog1113Title": "Ljudformat ändrat",
-    "changelog1113Description": "Ljudformat ändrat till ett mer standardiserat format och loopar kan nu redigeras med högre precision.",
+    "changelog1201Title": "1/4 Felsökning",
+    "changelog1201Description": "Om inget slut för loopen var inställt, spelades loopen till slutet av låten och låtens slut användes som loopens slut. Ljudfilerna spelar nu också när appen går tillbaka eller telefonen går in standby-läge.",
+    "changelog1202Title": "2/4 Felsökning",
+    "changelog1202Description": "Om inget slut för loopen var inställt, spelades loopen till slutet av låten och låtens slut användes som loopens slut. Ljudfilerna spelar nu också när appen går tillbaka eller telefonen går in standby-läge.",
+    "changelog1203Title": "3/4 Felsökning",
+    "changelog1203Description": "Om inget slut för loopen var inställt, spelades loopen till slutet av låten och låtens slut användes som loopens slut. Ljudfilerna spelar nu också när appen går tillbaka eller telefonen går in standby-läge.",
+    "changelog1204Title": "4/4 Felsökning",
+    "changelog1204Description": "Om inget slut för loopen var inställt, spelades loopen till slutet av låten och låtens slut användes som loopens slut. Ljudfilerna spelar nu också när appen går tillbaka eller telefonen går in standby-läge.",
     "changelog115Title": "Felsökning",
     "changelog115Description": "Om inget slut för loopen var inställt, spelades loopen till slutet av låten och låtens slut användes som loopens slut. Ljudfilerna spelar nu också när appen går tillbaka eller telefonen går in standby-läge.",
     "changelog110Title": "Audio spelar också i bakgrunden och standby",
@@ -162,5 +166,14 @@
     "hours": "Timmar",
     "minutes": "Minuter",
     "seconds": "Sekunder",
-    "milliseconds": "Millisekunder"
+    "milliseconds": "Millisekunder",
+    "deleteSongConfirmation": "Är du säker på att du vill radera \"{songTitle}\" och alla tillhörande loopar?",
+    "@deleteSongConfirmation": {
+        "placeholders": {
+            "songTitle": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteSongConfirmationTitle": "Radera Låt"
 }

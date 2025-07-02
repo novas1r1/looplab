@@ -370,18 +370,32 @@ class AppLocalizationsPt extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
-  String get changelog1114Title =>
-      'Adicionado dados de mídia para arquivos de áudio';
+  String get changelog1201Title =>
+      '1/4 Adicionado dados de mídia para arquivos de áudio';
 
   @override
-  String get changelog1114Description =>
+  String get changelog1201Description =>
       'A aplicação agora mostra dados de mídia para arquivos de áudio. Isso inclui o título e o artista no momento.';
 
   @override
-  String get changelog1113Title => 'Formato de áudio alterado';
+  String get changelog1202Title => '2/4 Converter m4a para mp3';
 
   @override
-  String get changelog1113Description =>
+  String get changelog1202Description =>
+      'A aplicação agora converte arquivos m4a (um formato de áudio que atualmente não é suportado pela aplicação) para arquivos mp3.';
+
+  @override
+  String get changelog1203Title => '3/4 Excluir músicas individuais';
+
+  @override
+  String get changelog1203Description =>
+      'Agora você pode excluir uma música arrastando-a para a esquerda e tocando em \'Excluir Música\'. Isso excluirá a música e todos os loops associados.';
+
+  @override
+  String get changelog1204Title => '4/4 Formato de áudio alterado';
+
+  @override
+  String get changelog1204Description =>
       'O formato de áudio foi alterado para um formato mais padrão e os loops podem ser editados com mais precisão agora.';
 
   @override
@@ -499,4 +513,12 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get milliseconds => 'Milissegundos';
+
+  @override
+  String deleteSongConfirmation(String songTitle) {
+    return 'Tem certeza de que deseja excluir \"$songTitle\" e todos os loops anexados?';
+  }
+
+  @override
+  String get deleteSongConfirmationTitle => 'Excluir Música';
 }
