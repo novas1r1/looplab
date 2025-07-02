@@ -17,7 +17,6 @@ class SongRepository {
   final _store = StoreRef<String, Map<String, dynamic>>('songs');
 
   final _songController = StreamController<List<Song>>.broadcast();
-  final _loopsController = StreamController<List<Loop>>.broadcast();
 
   SongRepository({
     required this.db,
@@ -25,7 +24,6 @@ class SongRepository {
   });
 
   Stream<List<Song>> get songs => _songController.stream;
-  Stream<List<Loop>> get loops => _loopsController.stream;
 
   Future<List<Song>> getAllSongs() async {
     final records = await _store.find(db);
@@ -47,13 +45,19 @@ class SongRepository {
 
     // Get metadata from the file
     // final metadata = await AudioTags.read(file.path);
+    AudioMetadata? metadata;
 
-    final metadata = readMetadata(file);
+    try {
+      metadata = readMetadata(file);
+    } on NoMetadataParserException catch (ex) {
+      // https://github.com/ClementBeal/audio_metadata_reader/issues/50
+      log('No metadata available: $ex');
+    }
 
     final song = Song(
       id: const Uuid().v4(),
-      title: metadata.title ?? fileName,
-      artist: metadata.artist ?? 'Unknown Artist',
+      title: metadata?.title ?? fileName,
+      artist: metadata?.artist ?? 'Unknown Artist',
       fileName: fileName,
       duration: duration,
     );
@@ -94,8 +98,6 @@ class SongRepository {
     );
     await getAllSongs();
 
-    _loopsController.add(updatedSong.loops);
-
     return updatedSong;
   }
 
@@ -116,8 +118,6 @@ class SongRepository {
     );
     await getAllSongs();
 
-    _loopsController.add(updatedSong.loops);
-
     return updatedSong;
   }
 
@@ -136,8 +136,6 @@ class SongRepository {
       finder: Finder(filter: Filter.equals('id', song.id)),
     );
     await getAllSongs();
-
-    _loopsController.add(updatedSong.loops);
 
     return updatedSong;
   }

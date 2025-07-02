@@ -40,7 +40,8 @@ class SongCubit extends Cubit<SongState> {
   Stream<Duration>? durationStream;
   StreamSubscription<Duration>? _durationSubscription;
 
-  Stream<List<Loop>>? loopsStream;
+  StreamController<List<Loop>>? loopsStreamController;
+  StreamSubscription<List<Loop>>? _loopsSubscription;
 
   Duration? positionToSeek;
 
@@ -52,7 +53,12 @@ class SongCubit extends Cubit<SongState> {
     required this.localConfigRepository,
     required this.crashReportingRepository,
   }) : super(SongState(song: song)) {
-    loopsStream = songRepository.loops;
+    loopsStreamController = StreamController<List<Loop>>.broadcast();
+    // clear the stream
+    loopsStreamController?.stream.drain();
+    _loopsSubscription = loopsStreamController?.stream.listen((loops) {
+      emit(state.copyWith(song: state.song.copyWith(loops: loops)));
+    });
   }
 
   @override
@@ -62,9 +68,11 @@ class SongCubit extends Cubit<SongState> {
     }
 
     await _songSubscription?.cancel();
+    await _loopsSubscription?.cancel();
 
     // Clean up audio service if available
     await audioHandler.stop();
+    // dispose loop stream
 
     return super.close();
   }
@@ -144,6 +152,9 @@ class SongCubit extends Cubit<SongState> {
 
       // check if tutorial is completed
       final isTutorialCompleted = localConfigRepository.hasCompletedTutorial;
+
+      // we need to disable loop mode here because the audio handler is not initialized yet
+      await audioHandler.customAction('disableLoop');
 
       emit(
         state.copyWith(
@@ -496,6 +507,8 @@ class SongCubit extends Cubit<SongState> {
         loop: loop,
       );
 
+      loopsStreamController?.add([...state.song.loops, loop]);
+
       emit(
         state.copyWith(
           status: SongStatus.loopAdded,
@@ -525,6 +538,8 @@ class SongCubit extends Cubit<SongState> {
         song: state.song,
         loop: updatedLoop,
       );
+
+      loopsStreamController?.add(updatedSong.loops);
 
       emit(
         state.copyWith(
@@ -556,6 +571,8 @@ class SongCubit extends Cubit<SongState> {
         loop: loop,
       );
 
+      loopsStreamController?.add(updatedSong.loops);
+
       if (loop == state.activeLoop) {
         unselectLoop();
       }
@@ -583,6 +600,7 @@ class SongCubit extends Cubit<SongState> {
 
     try {
       await songRepository.deleteSong(state.song);
+      loopsStreamController?.close();
       emit(
         state.copyWith(
           status: SongStatus.songDeleted,
@@ -681,6 +699,8 @@ class SongCubit extends Cubit<SongState> {
     try {
       final updatedSong = state.song.copyWith(loops: newLoops);
       await songRepository.updateSong(updatedSong);
+
+      loopsStreamController?.add(updatedSong.loops);
 
       emit(
         state.copyWith(

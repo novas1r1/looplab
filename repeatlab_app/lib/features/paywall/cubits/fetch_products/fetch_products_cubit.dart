@@ -1,6 +1,8 @@
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchases_flutter/object_wrappers.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:repeatlab/core/utils/cubit_extension.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/purchases_repository.dart';
@@ -77,6 +79,26 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
           ),
         );
       }
+    } on PlatformException catch (e, stackTrace) {
+      final errorCode = PurchasesErrorHelper.getErrorCode(e);
+
+      if (errorCode == PurchasesErrorCode.purchaseCancelledError) {
+        emit(
+          state.copyWith(
+            status: FetchProductsStatus.success,
+            action: FetchProductsAction.none,
+          ),
+        );
+        return;
+      }
+
+      crashReportingRepository.reportError(e, stackTrace);
+      emit(
+        state.copyWith(
+          status: FetchProductsStatus.failure,
+          errorMessage: e.message ?? e.toString(),
+        ),
+      );
     } catch (ex, stackTrace) {
       crashReportingRepository.reportError(ex, stackTrace);
       emit(

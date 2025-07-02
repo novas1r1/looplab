@@ -65,20 +65,15 @@ class PurchasesRepository {
   Future<bool> purchase(Package package) async {
     log('--- REVENUECAT: purchase()');
 
-    try {
-      final purchaserInfo = await Purchases.purchasePackage(package);
+    final purchaserInfo = await Purchases.purchasePackage(package);
 
-      final proEntitlement = purchaserInfo.entitlements.all['Pro'];
+    final proEntitlement = purchaserInfo.entitlements.all['Pro'];
 
-      if (proEntitlement == null) {
-        throw Exception('REVENUECAT: Entitlement not found. $purchaserInfo');
-      }
-
-      return proEntitlement.isActive;
-    } catch (e) {
-      log('RevenueCat error: $e');
-      rethrow;
+    if (proEntitlement == null) {
+      throw Exception('REVENUECAT: Entitlement not found. $purchaserInfo');
     }
+
+    return proEntitlement.isActive;
   }
 
   Future<void> presentCodeRedemptionSheet() async {

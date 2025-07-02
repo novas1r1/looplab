@@ -79,47 +79,7 @@ class _SongViewState extends State<_SongView> {
 
   @override
   Widget build(BuildContext context) {
-    return /*Column(
-        children: [
-           BlocSelector<SongCubit, SongState, bool>(
-            selector: (state) {
-              return state.playerState?.playing ?? false;
-            },
-            builder: (context, isPlaying) {
-              if (isPlaying) {
-                return StreamBuilder<Duration>(
-                  key: ValueKey(isPlaying),
-                  stream: context.read<SongCubit>().positionStream,
-                  initialData: Duration.zero,
-                  builder: (BuildContext context, AsyncSnapshot<Duration> snapshot) {
-                    if (snapshot.hasData) {
-                      return Text(snapshot.data!.toFormattedString());
-                    }
-                    return const SizedBox.shrink();
-                  },
-                );
-              }
-              return const SizedBox.shrink();
-            },
-          ), 
-         
-          BlocSelector<SongCubit, SongState, PlayerState?>(
-            selector: (state) => state.playerState,
-            builder: (context, playerState) {
-              return IconButton(
-                iconSize: 36,
-                onPressed: () => context.read<SongCubit>().togglePlaySong(),
-                icon: Icon(
-                  !(playerState?.playing ?? false) ? Icons.play_arrow_rounded : Icons.pause_rounded,
-                ),
-              );
-            },
-          ),
-        ],
-      ),
-    );*/ BlocListener<SongCubit, SongState>(
-      // Only rebuild Scaffold when structural aspects change – ignore
-      // high-frequency position/player updates.
+    return BlocListener<SongCubit, SongState>(
       listener: (context, state) {
         if (state.status == SongStatus.loadSuccess) {
           createTutorial(context);
@@ -459,9 +419,10 @@ class _SongViewState extends State<_SongView> {
         );
       }
     } else {
-      if (activeLoop.end != null) {
+      final loopEnd = activeLoop.end;
+      if (loopEnd != null) {
         final currentPosition = await context.read<SongCubit>().position;
-        if (currentPosition >= activeLoop.end!) {
+        if (currentPosition >= loopEnd) {
           SnackbarHelper.showError(
             context,
             context.l10n.startPositionMustBeBeforeEndPosition,
@@ -486,11 +447,13 @@ class _SongViewState extends State<_SongView> {
 
     final currentPosition = await context.read<SongCubit>().position;
 
+    final loopStart = activeLoop.start;
+
     // if active loop was set and current position is after start, set end
-    if (activeLoop.start != null && currentPosition > activeLoop.start!) {
+    if (loopStart != null && currentPosition > loopStart) {
       context.read<SongCubit>().setLoopEnd();
       // if active loop was set and current position is before start, show error
-    } else if (activeLoop.start != null && currentPosition < activeLoop.start!) {
+    } else if (loopStart != null && currentPosition < loopStart) {
       SnackbarHelper.showError(
         context,
         context.l10n.endPositionMustBeAfterStartPosition,

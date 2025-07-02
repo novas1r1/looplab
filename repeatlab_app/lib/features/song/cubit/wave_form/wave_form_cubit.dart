@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
+import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 
 part 'wave_form_cubit.mapper.dart';
@@ -18,6 +19,7 @@ class WaveFormCubit extends Cubit<WaveFormState> {
   final SoLoud soloud;
 
   final SongCubit songCubit;
+  final CrashReportingRepository crashReportingRepository;
 
   // Add static cache map
   static final Map<String, Float32List> _waveformCache = {};
@@ -29,14 +31,22 @@ class WaveFormCubit extends Cubit<WaveFormState> {
     required this.soloud,
     required this.song,
     required this.songCubit,
+    required this.crashReportingRepository,
   }) : super(WaveFormState(duration: song.duration, loops: song.loops)) {
     _positionSubscription = songCubit.positionStream?.listen((position) {
       emit(state.copyWith(currentPosition: position));
     });
 
-    _loopsSubscription = songCubit.loopsStream?.listen((loops) {
+    _loopsSubscription = songCubit.loopsStreamController?.stream.listen((loops) {
       emit(state.copyWith(loops: loops));
     });
+  }
+
+  @override
+  Future<void> close() {
+    _positionSubscription?.cancel();
+    _loopsSubscription?.cancel();
+    return super.close();
   }
 
   Future<void> getWaveformData(Song song) async {
@@ -80,7 +90,8 @@ class WaveFormCubit extends Cubit<WaveFormState> {
           waveformData: waveformData,
         ),
       );
-    } on Exception catch (ex) {
+    } on Exception catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
       emit(
         state.copyWith(
           status: WaveFormStateStatus.error,
@@ -116,12 +127,5 @@ class WaveFormCubit extends Cubit<WaveFormState> {
     log('duration: ${duration.inSeconds}, calculatedSamples: $calculatedSamples');
 
     return calculatedSamples.clamp(minSamples, maxSamples).toInt();
-  }
-
-  @override
-  Future<void> close() {
-    _positionSubscription?.cancel();
-    _loopsSubscription?.cancel();
-    return super.close();
   }
 }

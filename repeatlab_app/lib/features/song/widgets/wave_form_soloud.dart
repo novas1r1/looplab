@@ -6,6 +6,7 @@ import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/models/song.dart';
+import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/paywall/premium_screen.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
@@ -30,6 +31,7 @@ class WaveFormSoLoud extends StatelessWidget {
         soloud: SoLoud.instance,
         songCubit: context.read<SongCubit>(),
         song: song,
+        crashReportingRepository: context.read<CrashReportingRepository>(),
       )..getWaveformData(song),
       child: _WaveFormSoLoudView(width: width),
     );
