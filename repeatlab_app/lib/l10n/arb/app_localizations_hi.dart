@@ -136,10 +136,20 @@ class AppLocalizationsHi extends AppLocalizations {
       'हम आपकी गोपनीयता का सम्मान करते हैं और आपके डेटा को सावधानी से संभालते हैं। कृपया आगे बढ़ने के लिए गोपनीयता नीति की समीक्षा करें और सहमत हों।';
 
   @override
-  String get onboardingPrivacyPolicy => 'मैं सहमत हूं';
+  String get onboardingIAccept => 'I accept the ';
 
   @override
   String get onboardingPrivacyPolicyLink => 'गोपनीयता नीति';
+
+  @override
+  String get onboardingTermsOfServiceLink => 'Terms of Service';
+
+  @override
+  String get and => ' and the ';
+
+  @override
+  String get onboardingIAcceptUsageStatistics =>
+      'I accept the usage of my data for analytics and crash reporting to improve the app.';
 
   @override
   String get onboardingGetStarted => 'शुरू करें';
@@ -517,4 +527,14 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get deleteSongConfirmationTitle => 'गीत हटाएं';
+
+  @override
+  String get settings => 'सेटिंग्स';
+
+  @override
+  String get analytics => 'विश्लेषण';
+
+  @override
+  String get analyticsDescription =>
+      'हम माइक्रोसॉफ्ट क्लैरिटी का उपयोग करके उपयोग डेटा एकत्र करते हैं और ऐप को सुधारते हैं। इस डेटा को तीसरे पक्षों के साथ साझा नहीं किया जाता है।';
 }

@@ -67,14 +67,14 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get legalBasisForProcessingDescription =>
-      'Мы обрабатываем ваши данные на следующих правовых основаниях:\n\n• Ваше согласие на отправку отзывов через Wiredash и анализ приложения.\n• Выполнение договора для обработки платежей и управления подписками через RevenueCat.\n• Наш законный интерес в обеспечении эффективной работы Приложения с использованием Sentry для отчетов о сбоях.';
+      'Мы обрабатываем ваши данные на следующих правовых основаниях:\n\n• Ваше согласие на отправку отзывов через Wiredash и анализ приложения.\n• Выполнение договора для обработки платежей и управления подписками через RevenueCat.\n• Наш законный интерес в обеспечении эффективной работы Приложения с использованием Sentry для отчетов о сбоях.\n• Наш законный интерес в улучшении пользовательского опыта с использованием Microsoft Clarity.';
 
   @override
   String get howWeUseYourInformation => 'Как Мы Используем Вашу Информацию';
 
   @override
   String get howWeUseYourInformationDescription =>
-      'Мы используем собранную информацию для следующих целей:\n\n• Для обработки покупок в приложении и управления подписками через RevenueCat.\n• Для сбора отзывов и улучшения Приложения с помощью Wiredash.\n• Для мониторинга и решения проблем с использованием журналов сбоев Sentry.\n• Для улучшения пользовательского опыта и расширения функций Приложения.';
+      'Мы используем собранную информацию для следующих целей:\n\n• Для обработки покупок в приложении и управления подписками через RevenueCat.\n• Для сбора отзывов и улучшения Приложения с помощью Wiredash.\n• Для мониторинга и решения проблем с использованием журналов сбоев Sentry.\n• Для улучшения пользовательского опыта и расширения функций Приложения.\n• Для анализа и улучшения пользовательского опыта с использованием Microsoft Clarity.';
 
   @override
   String get yourRights => 'Ваши Права';
@@ -88,7 +88,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get thirdPartyServicesDescription =>
-      'Мы используем сторонние сервисы для улучшения нашего Приложения:\n\n• Wiredash: Используется для сбора отзывов пользователей.\n• RevenueCat: Используется для обработки покупок в приложении и подписок.\n• Sentry: Используется для мониторинга ошибок и отчетов о сбоях.';
+      'Мы используем сторонние сервисы для улучшения нашего Приложения:\n\n• Wiredash: Используется для сбора отзывов пользователей.\n• RevenueCat: Используется для обработки покупок в приложении и подписок.\n• Sentry: Используется для мониторинга ошибок и отчетов о сбоях.\n• Microsoft Clarity: Используется для анализа и улучшения пользовательского опыта.';
 
   @override
   String get contactUs => 'Свяжитесь с Нами';
@@ -135,10 +135,20 @@ class AppLocalizationsRu extends AppLocalizations {
       'Мы ценим вашу конфиденциальность и бережно обращаемся с вашими данными. Пожалуйста, ознакомьтесь с нашей политикой конфиденциальности и примите её, чтобы продолжить.';
 
   @override
-  String get onboardingPrivacyPolicy => 'Я принимаю ';
+  String get onboardingIAccept => 'Я принимаю ';
 
   @override
-  String get onboardingPrivacyPolicyLink => 'Политику конфиденциальности';
+  String get onboardingPrivacyPolicyLink => 'Privacy Policy';
+
+  @override
+  String get onboardingTermsOfServiceLink => 'Политику конфиденциальности';
+
+  @override
+  String get and => 'и';
+
+  @override
+  String get onboardingIAcceptUsageStatistics =>
+      'я согласен использовать данные для анализа и отчетов об ошибках.';
 
   @override
   String get onboardingGetStarted => 'Начать';
@@ -519,4 +529,14 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get deleteSongConfirmationTitle => 'Удалить Песню';
+
+  @override
+  String get settings => 'Настройки';
+
+  @override
+  String get analytics => 'Аналитика';
+
+  @override
+  String get analyticsDescription =>
+      'Мы используем Microsoft Clarity для сбора данных об использовании и улучшения приложения. Эти данные не передаются третьим лицам.';
 }

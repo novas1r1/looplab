@@ -74,7 +74,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get howWeUseYourInformationDescription =>
-      '収集した情報は以下の目的で使用されます：\n\n• RevenueCatを通じたアプリ内購入の処理とサブスクリプションの管理。\n• Wiredashを使用したフィードバックの収集とアプリの改善。\n• Sentryクラッシュログを使用した問題の監視と修正。\n• ユーザー体験の向上とアプリ機能の強化。';
+      '収集した情報は以下の目的で使用されます：\n\n• RevenueCatを通じたアプリ内購入の処理とサブスクリプションの管理。\n• Wiredashを使用したフィードバックの収集とアプリの改善。\n• Sentryクラッシュログを使用した問題の監視と修正。\n• ユーザー体験の向上とアプリ機能の強化。\n• Microsoft Clarityを使用したユーザーエクスペリエンスの分析と改善。';
 
   @override
   String get yourRights => 'あなたの権利';
@@ -88,7 +88,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get thirdPartyServicesDescription =>
-      'アプリを強化するために以下のサードパーティサービスを使用しています：\n\n• Wiredash：ユーザーフィードバックの収集に使用。\n• RevenueCat：アプリ内購入とサブスクリプションの処理に使用。\n• Sentry：エラー監視とクラッシュレポートに使用。';
+      'アプリを強化するために以下のサードパーティサービスを使用しています：\n\n• Wiredash：ユーザーフィードバックの収集に使用。\n• RevenueCat：アプリ内購入とサブスクリプションの処理に使用。\n• Sentry：エラー監視とクラッシュレポートに使用。\n• Microsoft Clarity：ユーザーエクスペリエンスの分析と改善に使用。\n• Microsoft Clarityを使用したユーザーエクスペリエンスの分析と改善。';
 
   @override
   String get contactUs => 'お問い合わせ';
@@ -134,10 +134,20 @@ class AppLocalizationsJa extends AppLocalizations {
       'あなたのプライバシーを尊重し、データを慎重に扱います。プライバシーポリシーを確認し、続行するには同意してください。';
 
   @override
-  String get onboardingPrivacyPolicy => '同意します';
+  String get onboardingIAccept => '同意します';
 
   @override
-  String get onboardingPrivacyPolicyLink => 'プライバシーポリシー';
+  String get onboardingPrivacyPolicyLink => 'Privacy Policy';
+
+  @override
+  String get onboardingTermsOfServiceLink => 'プライバシーポリシー';
+
+  @override
+  String get and => 'と';
+
+  @override
+  String get onboardingIAcceptUsageStatistics =>
+      'データを使用してアプリの分析とクラッシュレポートを作成し、アプリを改善するために使用します。';
 
   @override
   String get onboardingGetStarted => '始める';
@@ -500,4 +510,14 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get deleteSongConfirmationTitle => '曲を削除';
+
+  @override
+  String get settings => '設定';
+
+  @override
+  String get analytics => '分析';
+
+  @override
+  String get analyticsDescription =>
+      'Microsoft Clarityを使用して使用データを収集し、アプリを改善します。これらのデータは第三者と共有されません。';
 }

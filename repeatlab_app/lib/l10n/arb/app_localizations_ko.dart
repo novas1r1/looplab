@@ -67,14 +67,14 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get legalBasisForProcessingDescription =>
-      '우리는 다음과 같은 법적 근거에 따라 귀하의 데이터를 처리합니다:\n\n• Wiredash를 통한 피드백 제출 및 앱 분석에 대한 동의\n• RevenueCat을 통한 결제 처리 및 구독 관리를 위한 계약 이행\n• Sentry를 사용한 충돌 보고를 통한 앱의 효과적인 운영을 위한 정당한 이익';
+      '우리는 다음과 같은 법적 근거에 따라 귀하의 데이터를 처리합니다:\n\n• Wiredash를 통한 피드백 제출 및 앱 분석에 대한 동의\n• RevenueCat을 통한 결제 처리 및 구독 관리를 위한 계약 이행\n• Sentry를 사용한 충돌 보고를 통한 앱의 효과적인 운영을 위한 정당한 이익\n• Microsoft Clarity를 사용한 사용자 경험 분석 및 개선을 위한 정당한 이익';
 
   @override
   String get howWeUseYourInformation => '정보 사용 방법';
 
   @override
   String get howWeUseYourInformationDescription =>
-      '수집한 정보는 다음과 같은 목적으로 사용됩니다:\n\n• RevenueCat을 통한 앱 내 구매 처리 및 구독 관리\n• Wiredash를 사용한 피드백 수집 및 앱 개선\n• Sentry 충돌 로그를 사용한 문제 모니터링 및 수정\n• 사용자 경험 개선 및 앱 기능 강화';
+      '수집한 정보는 다음과 같은 목적으로 사용됩니다:\n\n• RevenueCat을 통한 앱 내 구매 처리 및 구독 관리\n• Wiredash를 사용한 피드백 수집 및 앱 개선\n• Sentry 충돌 로그를 사용한 문제 모니터링 및 수정\n• 사용자 경험 개선 및 앱 기능 강화\n• Microsoft Clarity를 사용한 사용자 경험 분석 및 개선';
 
   @override
   String get yourRights => '귀하의 권리';
@@ -88,7 +88,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get thirdPartyServicesDescription =>
-      '앱을 향상시키기 위해 다음과 같은 제3자 서비스를 사용합니다:\n\n• Wiredash: 사용자 피드백 수집에 사용\n• RevenueCat: 앱 내 구매 및 구독 처리에 사용\n• Sentry: 오류 모니터링 및 충돌 보고에 사용';
+      '앱을 향상시키기 위해 다음과 같은 제3자 서비스를 사용합니다:\n\n• Wiredash: 사용자 피드백 수집에 사용\n• RevenueCat: 앱 내 구매 및 구독 처리에 사용\n• Sentry: 오류 모니터링 및 충돌 보고에 사용\n• Microsoft Clarity: 사용자 경험 분석 및 개선에 사용\n• Google Analytics: 앱 사용 통계 분석에 사용\n• Firebase Analytics: 앱 사용 통계 분석에 사용';
 
   @override
   String get contactUs => '문의하기';
@@ -134,10 +134,20 @@ class AppLocalizationsKo extends AppLocalizations {
       '귀하의 개인정보를 존중하고 데이터를 신중하게 처리합니다. 개인정보 처리방침을 검토하고 계속하려면 동의해 주세요.';
 
   @override
-  String get onboardingPrivacyPolicy => '동의합니다';
+  String get onboardingIAccept => '동의합니다';
 
   @override
-  String get onboardingPrivacyPolicyLink => '개인정보 처리방침';
+  String get onboardingPrivacyPolicyLink => 'Privacy Policy';
+
+  @override
+  String get onboardingTermsOfServiceLink => '개인정보 처리방침';
+
+  @override
+  String get and => '과';
+
+  @override
+  String get onboardingIAcceptUsageStatistics =>
+      '데이터를 사용하여 앱 분석 및 충돌 보고를 생성하여 앱을 개선하는 데 사용합니다.';
 
   @override
   String get onboardingGetStarted => '시작하기';
@@ -498,4 +508,14 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get deleteSongConfirmationTitle => '곡 삭제';
+
+  @override
+  String get settings => '설정';
+
+  @override
+  String get analytics => '분석';
+
+  @override
+  String get analyticsDescription =>
+      'Microsoft Clarity를 사용하여 사용 데이터를 수집하고 앱을 개선합니다. 이 데이터는 제3자와 공유되지 않습니다.';
 }

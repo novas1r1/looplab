@@ -17,13 +17,13 @@
     "dataController": "Personuppgiftsansvarig",
     "dataControllerDescription": "Den personuppgiftsansvarige för din information är:\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\n\nE-post: support@repeatlab.de",
     "legalBasisForProcessing": "Rättslig Grund för Behandling",
-    "legalBasisForProcessingDescription": "Vi behandlar din data baserat på följande rättsliga grunder:\n\n• Ditt samtycke för feedback-inlämningar via Wiredash och app-analys.\n• Fullgörande av avtal för behandling av betalningar och hantering av prenumerationer via RevenueCat.\n• Vårt berättigade intresse av att säkerställa att Appen fungerar effektivt genom användning av Sentry för kraschrapportering.",
+    "legalBasisForProcessingDescription": "Vi behandlar din data baserat på följande rättsliga grunder:\n\n• Ditt samtycke för feedback-inlämningar via Wiredash och app-analys.\n• Fullgörande av avtal för behandling av betalningar och hantering av prenumerationer via RevenueCat.\n• Vårt berättigade intresse av att säkerställa att Appen fungerar effektivt genom användning av Sentry för kraschrapportering.\n• Vårt berättigade intresse av att förbättra användarupplevelsen genom användning av Microsoft Clarity.",
     "howWeUseYourInformation": "Hur Vi Använder Din Information",
-    "howWeUseYourInformationDescription": "Vi använder den insamlade informationen för följande ändamål:\n\n• För att behandla köp i appen och hantera prenumerationer via RevenueCat.\n• För att samla in feedback och förbättra Appen med Wiredash.\n• För att övervaka och åtgärda problem med Sentry kraschloggning.\n• För att förbättra användarupplevelsen och förbättra Appens funktioner.",
+    "howWeUseYourInformationDescription": "Vi använder den insamlade informationen för följande ändamål:\n\n• För att behandla köp i appen och hantera prenumerationer via RevenueCat.\n• För att samla in feedback och förbättra Appen med Wiredash.\n• För att övervaka och åtgärda problem med Sentry kraschloggning.\n• För att förbättra användarupplevelsen och förbättra Appens funktioner.\n• För att förbättra användarupplevelsen genom användning av Microsoft Clarity.",
     "yourRights": "Dina Rättigheter",
     "yourRightsDescription": "Enligt GDPR har du följande rättigheter:\n\n• Rätten att få tillgång till den personliga information vi har om dig.\n• Rätten att begära rättelser av din personliga information.\n• Rätten att begära radering av din personliga information ('rätten att bli glömd').\n• Rätten till dataportabilitet.\n• Rätten att invända mot behandling baserad på våra berättigade intressen.\n• Rätten att återkalla samtycke när som helst.\n• Rätten att lämna in ett klagomål till en tillsynsmyndighet.",
     "thirdPartyServices": "Tredjepartstjänster",
-    "thirdPartyServicesDescription": "Vi använder tredjepartstjänster för att förbättra vår App:\n\n• Wiredash: Används för att samla in användarfeedback.\n• RevenueCat: Används för att behandla köp i appen och prenumerationer.\n• Sentry: Används för felövervakning och kraschrapportering.",
+    "thirdPartyServicesDescription": "Vi använder tredjepartstjänster för att förbättra vår App:\n\n• Wiredash: Används för att samla in användarfeedback.\n• RevenueCat: Används för att behandla köp i appen och prenumerationer.\n• Sentry: Används för felövervakning och kraschrapportering.\n• Microsoft Clarity: Används för att analysera och förbättra användarupplevelsen.",
     "contactUs": "Kontakta Oss",
     "contactUsDescription": "Om du har några frågor eller funderingar om denna Integritetspolicy, eller om du vill utöva dina rättigheter enligt GDPR, vänligen kontakta oss på support@repeatlab.de\n\nTack för att du använder vår App!",
     "crashLogs": "Kraschloggar",
@@ -37,8 +37,10 @@
     "onboardingDescription2": "Tryck helt enkelt för att markera början och slutet av ett avsnitt du vill öva på. Justera och finjustera med vår intuitiva vågformsvisning.",
     "onboardingTitle3": "Integritet Först",
     "onboardingDescription3": "Vi värdesätter din integritet och hanterar din data med omsorg. Vänligen granska vår integritetspolicy och acceptera för att fortsätta.",
-    "onboardingPrivacyPolicy": "Jag accepterar ",
-    "onboardingPrivacyPolicyLink": "Integritetspolicyn",
+    "onboardingIAccept": "Jag accepterar ",
+    "onboardingTermsOfServiceLink": "Integritetspolicyn",
+    "and": "och",
+    "onboardingIAcceptUsageStatistics": "jag accepterar att använda data för analys och felrapportering.",
     "onboardingGetStarted": "Kom Igång",
     "onboardingNext": "Nästa",
     "sendRating": "Skicka Betyg",
@@ -175,5 +177,8 @@
             }
         }
     },
-    "deleteSongConfirmationTitle": "Radera Låt"
+    "deleteSongConfirmationTitle": "Radera Låt",
+    "settings": "Inställningar",
+    "analytics": "Analytics",
+    "analyticsDescription": "Vi använder Microsoft Clarity för att samla in användarstatistik och förbättra appen. Dessa data delas inte med tredje part."
 }

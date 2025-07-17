@@ -18,21 +18,20 @@ import 'package:repeatlab/features/onboarding/view/onboarding_page.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/l10n/arb/app_localizations.dart';
 import 'package:sembast/sembast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wiredash/wiredash.dart';
 
 class App extends StatelessWidget {
   final Database db;
   final SoLoud soloud;
   final PackageInfo packageInfo;
-  final SharedPreferences sharedPreferences;
+  final LocalConfigRepository localConfigRepository;
   // final AudioPlayer audioPlayer;
 
   const App({
     required this.db,
     required this.soloud,
     required this.packageInfo,
-    required this.sharedPreferences,
+    required this.localConfigRepository,
     // required this.audioPlayer,
     super.key,
   });
@@ -48,7 +47,7 @@ class App extends StatelessWidget {
       db: db,
       soLoud: soloud,
       packageInfo: packageInfo,
-      sharedPreferences: sharedPreferences,
+      localConfigRepository: localConfigRepository,
       // audioPlayer: audioPlayer,
       child: MultiBlocProvider(
         providers: [

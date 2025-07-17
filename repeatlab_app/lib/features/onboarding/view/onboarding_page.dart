@@ -19,7 +19,10 @@ class OnboardingPage extends StatefulWidget {
 
 class _OnboardingPageState extends State<OnboardingPage> {
   final PageController _pageController = PageController();
+
   bool _privacyAccepted = false;
+  bool _analyticsAccepted = false;
+
   int _currentPage = 0;
 
   List<OnboardingSlide> _slides = [];
@@ -93,7 +96,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: context.l10n.onboardingPrivacyPolicy,
+                                  text: context.l10n.onboardingIAccept,
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                                 TextSpan(
@@ -103,6 +106,43 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                     decoration: TextDecoration.underline,
                                     color: Theme.of(context).colorScheme.primary,
                                   ),
+                                ),
+                                TextSpan(
+                                  text: context.l10n.and,
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                                TextSpan(
+                                  recognizer: TapGestureRecognizer()..onTap = _showPrivacyPolicy,
+                                  text: context.l10n.onboardingTermsOfServiceLink,
+                                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                    decoration: TextDecoration.underline,
+                                    color: Theme.of(context).colorScheme.primary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: _analyticsAccepted,
+                          onChanged: (value) {
+                            setState(() {
+                              _analyticsAccepted = value ?? false;
+                            });
+                          },
+                        ),
+                        Expanded(
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: context.l10n.onboardingIAcceptUsageStatistics,
+                                  style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                               ],
                             ),
@@ -149,6 +189,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     final localConfig = context.read<LocalConfigRepository>();
 
     await localConfig.setIntroShown(wasShown: true);
+    await localConfig.setAnalyticsEnabled(isEnabled: _analyticsAccepted);
 
     if (mounted) {
       // show paywall, after paywall is dismissed, navigate to home

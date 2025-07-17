@@ -67,14 +67,14 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get legalBasisForProcessingDescription =>
-      'We verwerken je gegevens op basis van de volgende juridische grondslagen:\n\n• Jouw toestemming voor het indienen van feedback via Wiredash en app-analyses.\n• Uitvoering van een overeenkomst voor het verwerken van betalingen en beheren van abonnementen via RevenueCat.\n• Ons gerechtvaardigd belang bij het verzekeren van de effectieve werking van de App door gebruik van Sentry voor crashrapportage.';
+      'We verwerken je gegevens op basis van de volgende juridische grondslagen:\n\n• Jouw toestemming voor het indienen van feedback via Wiredash en app-analyses.\n• Uitvoering van een overeenkomst voor het verwerken van betalingen en beheren van abonnementen via RevenueCat.\n• Ons gerechtvaardigd belang bij het verzekeren van de effectieve werking van de App door gebruik van Sentry voor crashrapportage.\n• Ons gerechtvaardigd belang bij het verbeteren van de App door gebruik van Microsoft Clarity.';
 
   @override
   String get howWeUseYourInformation => 'Hoe We Je Informatie Gebruiken';
 
   @override
   String get howWeUseYourInformationDescription =>
-      'We gebruiken de verzamelde informatie voor de volgende doeleinden:\n\n• Voor het verwerken van in-app aankopen en beheren van abonnementen via RevenueCat.\n• Voor het verzamelen van feedback en verbeteren van de App met Wiredash.\n• Voor het monitoren en oplossen van problemen met Sentry crashlogboeken.\n• Voor het verbeteren van de gebruikerservaring en uitbreiden van App-functies.';
+      'We gebruiken de verzamelde informatie voor de volgende doeleinden:\n\n• Voor het verwerken van in-app aankopen en beheren van abonnementen via RevenueCat.\n• Voor het verzamelen van feedback en verbeteren van de App met Wiredash.\n• Voor het monitoren en oplossen van problemen met Sentry crashlogboeken.\n• Voor het verbeteren van de gebruikerservaring en uitbreiden van App-functies.\n• Voor het verbeteren van de App door gebruik van Microsoft Clarity.';
 
   @override
   String get yourRights => 'Je Rechten';
@@ -88,7 +88,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get thirdPartyServicesDescription =>
-      'We gebruiken diensten van derden om onze App te verbeteren:\n\n• Wiredash: Gebruikt voor het verzamelen van gebruikersfeedback.\n• RevenueCat: Gebruikt voor het verwerken van in-app aankopen en abonnementen.\n• Sentry: Gebruikt voor foutmonitoring en crashrapportage.';
+      'We gebruiken diensten van derden om onze App te verbeteren:\n\n• Wiredash: Gebruikt voor het verzamelen van gebruikersfeedback.\n• RevenueCat: Gebruikt voor het verwerken van in-app aankopen en abonnementen.\n• Sentry: Gebruikt voor foutmonitoring en crashrapportage.\n• Microsoft Clarity: Gebruikt voor het analyseren en verbeteren van de gebruikerservaring.';
 
   @override
   String get contactUs => 'Contact';
@@ -135,10 +135,20 @@ class AppLocalizationsNl extends AppLocalizations {
       'We waarderen je privacy en gaan zorgvuldig om met je gegevens. Lees ons privacybeleid en accepteer om door te gaan.';
 
   @override
-  String get onboardingPrivacyPolicy => 'Ik accepteer het ';
+  String get onboardingIAccept => 'Ik accepteer het ';
 
   @override
-  String get onboardingPrivacyPolicyLink => 'Privacybeleid';
+  String get onboardingPrivacyPolicyLink => 'Privacy Policy';
+
+  @override
+  String get onboardingTermsOfServiceLink => 'Privacybeleid';
+
+  @override
+  String get and => 'en';
+
+  @override
+  String get onboardingIAcceptUsageStatistics =>
+      'ik accepteer het gebruik van mijn gegevens voor analyse en crashrapportage.';
 
   @override
   String get onboardingGetStarted => 'Aan de Slag';
@@ -519,4 +529,14 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get deleteSongConfirmationTitle => 'Nummer Verwijderen';
+
+  @override
+  String get settings => 'Instellingen';
+
+  @override
+  String get analytics => 'Analytics';
+
+  @override
+  String get analyticsDescription =>
+      'We gebruiken Microsoft Clarity om gebruiksgegevens te verzamelen en de app te verbeteren. Deze gegevens worden niet gedeeld met derden.';
 }

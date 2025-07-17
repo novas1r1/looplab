@@ -67,14 +67,14 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get legalBasisForProcessingDescription =>
-      '我们基于以下法律依据处理您的数据：\n\n• 您同意通过 Wiredash 提交反馈和应用分析。\n• 通过 RevenueCat 处理支付和管理订阅的合同履行。\n• 我们通过使用 Sentry 进行崩溃报告以确保应用有效运行的合法利益。';
+      '我们基于以下法律依据处理您的数据：\n\n• 您同意通过 Wiredash 提交反馈和应用分析。\n• 通过 RevenueCat 处理支付和管理订阅的合同履行。\n• 我们通过使用 Sentry 进行崩溃报告以确保应用有效运行的合法利益。\n• 我们通过使用 Microsoft Clarity 改善用户体验和增强应用功能。';
 
   @override
   String get howWeUseYourInformation => '我们如何使用您的信息';
 
   @override
   String get howWeUseYourInformationDescription =>
-      '我们收集的信息用于以下目的：\n\n• 通过 RevenueCat 处理应用内购买和管理订阅。\n• 使用 Wiredash 收集反馈和改进应用。\n• 使用 Sentry 崩溃日志监控和修复问题。\n• 改善用户体验和增强应用功能。';
+      '我们收集的信息用于以下目的：\n\n• 通过 RevenueCat 处理应用内购买和管理订阅。\n• 使用 Wiredash 收集反馈和改进应用。\n• 使用 Sentry 崩溃日志监控和修复问题。\n• 改善用户体验和增强应用功能。\n• 使用 Microsoft Clarity 改善用户体验和增强应用功能。';
 
   @override
   String get yourRights => '您的权利';
@@ -88,7 +88,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get thirdPartyServicesDescription =>
-      '我们使用第三方服务来增强我们的应用：\n\n• Wiredash：用于收集用户反馈。\n• RevenueCat：用于处理应用内购买和订阅。\n• Sentry：用于错误监控和崩溃报告。';
+      '我们使用第三方服务来增强我们的应用：\n\n• Wiredash：用于收集用户反馈。\n• RevenueCat：用于处理应用内购买和订阅。\n• Sentry：用于错误监控和崩溃报告。\n• Microsoft Clarity：用于分析和改善用户体验。';
 
   @override
   String get contactUs => '联系我们';
@@ -133,10 +133,19 @@ class AppLocalizationsZh extends AppLocalizations {
   String get onboardingDescription3 => '我们重视您的隐私并谨慎处理您的数据。请查看我们的隐私政策并接受以继续。';
 
   @override
-  String get onboardingPrivacyPolicy => '我接受';
+  String get onboardingIAccept => '我接受';
 
   @override
-  String get onboardingPrivacyPolicyLink => '隐私政策';
+  String get onboardingPrivacyPolicyLink => 'Privacy Policy';
+
+  @override
+  String get onboardingTermsOfServiceLink => '隐私政策';
+
+  @override
+  String get and => '和';
+
+  @override
+  String get onboardingIAcceptUsageStatistics => '我同意将数据用于分析和错误报告。';
 
   @override
   String get onboardingGetStarted => '开始使用';
@@ -488,4 +497,14 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get deleteSongConfirmationTitle => '删除歌曲';
+
+  @override
+  String get settings => '设置';
+
+  @override
+  String get analytics => '分析';
+
+  @override
+  String get analyticsDescription =>
+      '我们使用 Microsoft Clarity 收集使用数据并改进应用程序。这些数据不会与第三方共享。';
 }

@@ -207,13 +207,13 @@ abstract class AppLocalizations {
   /// No description provided for @informationWeCollectSummary.
   ///
   /// In en, this message translates to:
-  /// **'Your privacy is important to us. This Privacy Policy outlines how we collect, use, and protect your information when you use our mobile application (the \'App\'), which is available on iOS and Android platforms. This policy is compliant with the General Data Protection Regulation (GDPR).\n\nEffective Date: 23. January 2025'**
+  /// **'Your privacy is important to us. This Privacy Policy outlines how we collect, use, and protect your information when you use our mobile application (the \'App\'), which is available on iOS and Android platforms. This policy is compliant with the General Data Protection Regulation (GDPR).\n\nEffective Date: 17. July 2025'**
   String get informationWeCollectSummary;
 
   /// No description provided for @informationWeCollectDescription.
   ///
   /// In en, this message translates to:
-  /// **'• Personal Information: Information you provide to us, such as your email address when submitting feedback via Wiredash.\n• Payment Information: Data related to in-app purchases and subscriptions, processed by RevenueCat.\n• Crash Logs: Information about app errors and crashes, collected through Sentry.\n• Usage Data: Analytics data to help us improve your experience.'**
+  /// **'• Personal Information: Information you provide to us, such as your email address when submitting feedback via Wiredash.\n• Payment Information: Data related to in-app purchases and subscriptions, processed by RevenueCat.\n• Crash Logs: Information about app errors and crashes, collected through Sentry.\n• Usage Statistics: Usage data to help us improve the app.\n• Heatmaps & Session Recording: Analytics data to help us improve your experience through Microsoft Clarity.'**
   String get informationWeCollectDescription;
 
   /// No description provided for @dataController.
@@ -249,7 +249,7 @@ abstract class AppLocalizations {
   /// No description provided for @howWeUseYourInformationDescription.
   ///
   /// In en, this message translates to:
-  /// **'We use the information we collect for the following purposes:\n\n• To process in-app purchases and manage subscriptions through RevenueCat.\n• To gather feedback and improve the App using Wiredash.\n• To monitor and fix issues using Sentry crash logging.\n• To improve user experience and enhance App features.'**
+  /// **'We use the information we collect for the following purposes:\n\n• To process in-app purchases and manage subscriptions through RevenueCat.\n• To gather feedback and improve the App using Wiredash.\n• To monitor and fix issues using Sentry crash logging.\n• To improve user experience and enhance App features.\n• To improve the app through Microsoft Clarity.'**
   String get howWeUseYourInformationDescription;
 
   /// No description provided for @yourRights.
@@ -273,7 +273,7 @@ abstract class AppLocalizations {
   /// No description provided for @thirdPartyServicesDescription.
   ///
   /// In en, this message translates to:
-  /// **'We use third-party services to enhance our App:\n\n• Wiredash: Used to collect user feedback.\n• RevenueCat: Used to process in-app purchases and subscriptions.\n• Sentry: Used for error monitoring and crash reporting.'**
+  /// **'We use third-party services to enhance our App:\n\n• Wiredash: Used to collect user feedback.\n• RevenueCat: Used to process in-app purchases and subscriptions.\n• Sentry: Used for error monitoring and crash reporting.\n• Microsoft Clarity: Used for analytics and user experience improvement.'**
   String get thirdPartyServicesDescription;
 
   /// No description provided for @contactUs.
@@ -354,17 +354,35 @@ abstract class AppLocalizations {
   /// **'We value your privacy and handle your data with care. Please review our privacy policy and accept to continue.'**
   String get onboardingDescription3;
 
-  /// No description provided for @onboardingPrivacyPolicy.
+  /// No description provided for @onboardingIAccept.
   ///
   /// In en, this message translates to:
   /// **'I accept the '**
-  String get onboardingPrivacyPolicy;
+  String get onboardingIAccept;
 
   /// No description provided for @onboardingPrivacyPolicyLink.
   ///
   /// In en, this message translates to:
   /// **'Privacy Policy'**
   String get onboardingPrivacyPolicyLink;
+
+  /// No description provided for @onboardingTermsOfServiceLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Service'**
+  String get onboardingTermsOfServiceLink;
+
+  /// No description provided for @and.
+  ///
+  /// In en, this message translates to:
+  /// **' and the '**
+  String get and;
+
+  /// No description provided for @onboardingIAcceptUsageStatistics.
+  ///
+  /// In en, this message translates to:
+  /// **'I accept the usage of my data for analytics and crash reporting to improve the app.'**
+  String get onboardingIAcceptUsageStatistics;
 
   /// No description provided for @onboardingGetStarted.
   ///
@@ -1037,6 +1055,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete Song'**
   String get deleteSongConfirmationTitle;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @analytics.
+  ///
+  /// In en, this message translates to:
+  /// **'Analytics'**
+  String get analytics;
+
+  /// No description provided for @analyticsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'We use Microsoft Clarity to collect usage data and improve the app. This data is not shared with third parties.'**
+  String get analyticsDescription;
 }
 
 class _AppLocalizationsDelegate

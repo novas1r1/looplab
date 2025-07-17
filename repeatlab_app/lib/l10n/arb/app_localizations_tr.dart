@@ -67,14 +67,14 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get legalBasisForProcessingDescription =>
-      'Verilerinizi aşağıdaki yasal temeller üzerinde işliyoruz:\n\n• Wiredash ve uygulama analitiği aracılığıyla geri bildirim vermek için onayınız.\n• RevenueCat aracılığıyla ödeme ve abonelik yönetimi için sözleşmenin yerine getirilmesi.\n• Sentry ile çökme raporlaması aracılığıyla uygulamanın etkili çalışmasını sağlamak için meşru menfaatimiz.';
+      'Verilerinizi aşağıdaki yasal temeller üzerinde işliyoruz:\n\n• Wiredash ve uygulama analitiği aracılığıyla geri bildirim vermek için onayınız.\n• RevenueCat aracılığıyla ödeme ve abonelik yönetimi için sözleşmenin yerine getirilmesi.\n• Sentry ile çökme raporlaması aracılığıyla uygulamanın etkili çalışmasını sağlamak için meşru menfaatimiz.\n• Microsoft Clarity ile kullanıcı deneyimini iyileştirmek için meşru menfaatimiz.';
 
   @override
   String get howWeUseYourInformation => 'Bilgilerinizi Nasıl Kullanıyoruz';
 
   @override
   String get howWeUseYourInformationDescription =>
-      'Topladığımız bilgileri aşağıdaki amaçlar için kullanıyoruz:\n\n• RevenueCat aracılığıyla uygulama içi satın alma ve abonelikleri işlemek için.\n• Wiredash kullanarak geri bildirim toplamak ve uygulamayı iyileştirmek için.\n• Sentry\'den çökme kayıtlarını kullanarak sorunları izlemek ve çözmek için.\n• Kullanıcı deneyimini iyileştirmek ve uygulama özelliklerini geliştirmek için.';
+      'Topladığımız bilgileri aşağıdaki amaçlar için kullanıyoruz:\n\n• RevenueCat aracılığıyla uygulama içi satın alma ve abonelikleri işlemek için.\n• Wiredash kullanarak geri bildirim toplamak ve uygulamayı iyileştirmek için.\n• Sentry\'den çökme kayıtlarını kullanarak sorunları izlemek ve çözmek için.\n• Kullanıcı deneyimini iyileştirmek ve uygulama özelliklerini geliştirmek için.\n• Microsoft Clarity ile kullanıcı deneyimini iyileştirmek için.';
 
   @override
   String get yourRights => 'Haklarınız';
@@ -88,7 +88,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get thirdPartyServicesDescription =>
-      'Uygulamamızı geliştirmek için üçüncü taraf hizmetlerini kullanıyoruz:\n\n• Wiredash: Kullanıcı geri bildirimi toplamak için kullanılır.\n• RevenueCat: Uygulama içi satın alma ve abonelikleri işlemek için kullanılır.\n• Sentry: Hata izleme ve çökme raporlaması için kullanılır.';
+      'Uygulamamızı geliştirmek için üçüncü taraf hizmetlerini kullanıyoruz:\n\n• Wiredash: Kullanıcı geri bildirimi toplamak için kullanılır.\n• RevenueCat: Uygulama içi satın alma ve abonelikleri işlemek için kullanılır.\n• Sentry: Hata izleme ve çökme raporlaması için kullanılır.\n• Microsoft Clarity: Kullanıcı deneyimini iyileştirmek için kullanılır.';
 
   @override
   String get contactUs => 'Bize Ulaşın';
@@ -135,10 +135,20 @@ class AppLocalizationsTr extends AppLocalizations {
       'Gizliliğinize saygı duyuyor ve verilerinizi dikkatle işliyoruz. Lütfen devam etmek için gizlilik politikasını gözden geçirin ve onaylayın.';
 
   @override
-  String get onboardingPrivacyPolicy => 'Kabul Ediyorum';
+  String get onboardingIAccept => 'Kabul Ediyorum';
 
   @override
-  String get onboardingPrivacyPolicyLink => 'Gizlilik Politikası';
+  String get onboardingPrivacyPolicyLink => 'Privacy Policy';
+
+  @override
+  String get onboardingTermsOfServiceLink => 'Gizlilik Politikası';
+
+  @override
+  String get and => 've';
+
+  @override
+  String get onboardingIAcceptUsageStatistics =>
+      'verilerimizi analiz ve hata raporları için kullanmak için onaylıyorum.';
 
   @override
   String get onboardingGetStarted => 'Başla';
@@ -518,4 +528,14 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get deleteSongConfirmationTitle => 'Şarkıyı Sil';
+
+  @override
+  String get settings => 'Ayarlar';
+
+  @override
+  String get analytics => 'Analytics';
+
+  @override
+  String get analyticsDescription =>
+      'Microsoft Clarity kullanarak kullanım verilerini topluyor ve uygulamayı iyileştiriyoruz. Bu veriler üçüncü taraflarla paylaşılmaz.';
 }

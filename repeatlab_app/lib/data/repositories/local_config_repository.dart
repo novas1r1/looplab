@@ -1,3 +1,7 @@
+import 'dart:developer';
+
+import 'package:clarity_flutter/clarity_flutter.dart';
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalConfigRepository {
@@ -26,8 +30,6 @@ class LocalConfigRepository {
 
   bool get acceptedDataprotection => sharedPreferences.getBool(kAcceptedDataprotection) ?? false;
 
-  bool get acceptedCrashlogging => sharedPreferences.getBool(kCrashlyticsEnabled) ?? false;
-
   bool get acceptedAnalytics => sharedPreferences.getBool(kAnalyticsEnabled) ?? false;
 
   bool get hasRatedApp => sharedPreferences.getBool(kHasRatedApp) ?? false;
@@ -35,8 +37,17 @@ class LocalConfigRepository {
   Future<void> setCrashloggingEnabled({required bool isEnabled}) =>
       sharedPreferences.setBool(kCrashlyticsEnabled, isEnabled);
 
-  Future<void> setAnalyticsEnabled({required bool isEnabled}) =>
-      sharedPreferences.setBool(kAnalyticsEnabled, isEnabled);
+  Future<void> setAnalyticsEnabled({required bool isEnabled}) async {
+    await sharedPreferences.setBool(kAnalyticsEnabled, isEnabled);
+
+    if (isEnabled && !kDebugMode) {
+      log('Resuming Clarity');
+      Clarity.resume();
+    } else {
+      log('Pausing Clarity');
+      Clarity.pause();
+    }
+  }
 
   Future<void> setHasCompletedTutorial({required bool hasCompleted}) =>
       sharedPreferences.setBool(kHasCompletedTutorial, hasCompleted);

@@ -21,13 +21,13 @@
     "dataController": "데이터 관리자",
     "dataControllerDescription": "귀하의 정보를 담당하는 데이터 관리자는 다음과 같습니다:\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\n\n이메일: support@repeatlab.de",
     "legalBasisForProcessing": "처리의 법적 근거",
-    "legalBasisForProcessingDescription": "우리는 다음과 같은 법적 근거에 따라 귀하의 데이터를 처리합니다:\n\n• Wiredash를 통한 피드백 제출 및 앱 분석에 대한 동의\n• RevenueCat을 통한 결제 처리 및 구독 관리를 위한 계약 이행\n• Sentry를 사용한 충돌 보고를 통한 앱의 효과적인 운영을 위한 정당한 이익",
+    "legalBasisForProcessingDescription": "우리는 다음과 같은 법적 근거에 따라 귀하의 데이터를 처리합니다:\n\n• Wiredash를 통한 피드백 제출 및 앱 분석에 대한 동의\n• RevenueCat을 통한 결제 처리 및 구독 관리를 위한 계약 이행\n• Sentry를 사용한 충돌 보고를 통한 앱의 효과적인 운영을 위한 정당한 이익\n• Microsoft Clarity를 사용한 사용자 경험 분석 및 개선을 위한 정당한 이익",
     "howWeUseYourInformation": "정보 사용 방법",
-    "howWeUseYourInformationDescription": "수집한 정보는 다음과 같은 목적으로 사용됩니다:\n\n• RevenueCat을 통한 앱 내 구매 처리 및 구독 관리\n• Wiredash를 사용한 피드백 수집 및 앱 개선\n• Sentry 충돌 로그를 사용한 문제 모니터링 및 수정\n• 사용자 경험 개선 및 앱 기능 강화",
+    "howWeUseYourInformationDescription": "수집한 정보는 다음과 같은 목적으로 사용됩니다:\n\n• RevenueCat을 통한 앱 내 구매 처리 및 구독 관리\n• Wiredash를 사용한 피드백 수집 및 앱 개선\n• Sentry 충돌 로그를 사용한 문제 모니터링 및 수정\n• 사용자 경험 개선 및 앱 기능 강화\n• Microsoft Clarity를 사용한 사용자 경험 분석 및 개선",
     "yourRights": "귀하의 권리",
     "yourRightsDescription": "GDPR에 따라 귀하는 다음과 같은 권리를 가집니다:\n\n• 우리가 보유한 귀하의 개인정보에 접근할 권리\n• 귀하의 개인정보 수정을 요청할 권리\n• 귀하의 개인정보 삭제를 요청할 권리('잊혀질 권리')\n• 데이터 이동성 권리\n• 우리의 정당한 이익에 기반한 처리에 반대할 권리\n• 언제든지 동의를 철회할 권리\n• 감독 기관에 불만을 제기할 권리",
     "thirdPartyServices": "제3자 서비스",
-    "thirdPartyServicesDescription": "앱을 향상시키기 위해 다음과 같은 제3자 서비스를 사용합니다:\n\n• Wiredash: 사용자 피드백 수집에 사용\n• RevenueCat: 앱 내 구매 및 구독 처리에 사용\n• Sentry: 오류 모니터링 및 충돌 보고에 사용",
+    "thirdPartyServicesDescription": "앱을 향상시키기 위해 다음과 같은 제3자 서비스를 사용합니다:\n\n• Wiredash: 사용자 피드백 수집에 사용\n• RevenueCat: 앱 내 구매 및 구독 처리에 사용\n• Sentry: 오류 모니터링 및 충돌 보고에 사용\n• Microsoft Clarity: 사용자 경험 분석 및 개선에 사용\n• Google Analytics: 앱 사용 통계 분석에 사용\n• Firebase Analytics: 앱 사용 통계 분석에 사용",
     "contactUs": "문의하기",
     "contactUsDescription": "이 개인정보 처리방침에 대한 질문이나 우려사항이 있거나 GDPR에 따른 권리를 행사하고 싶으시다면 support@repeatlab.de로 연락해 주세요.\n\n앱을 사용해 주셔서 감사합니다!",
     "crashLogs": "충돌 로그",
@@ -41,8 +41,10 @@
     "onboardingDescription2": "연습하고 싶은 부분의 시작과 끝을 탭하여 표시하세요. 직관적인 파형 표시로 조정과 미세 조정이 가능합니다.",
     "onboardingTitle3": "개인정보 보호 우선",
     "onboardingDescription3": "귀하의 개인정보를 존중하고 데이터를 신중하게 처리합니다. 개인정보 처리방침을 검토하고 계속하려면 동의해 주세요.",
-    "onboardingPrivacyPolicy": "동의합니다",
-    "onboardingPrivacyPolicyLink": "개인정보 처리방침",
+    "onboardingIAccept": "동의합니다",
+    "onboardingTermsOfServiceLink": "개인정보 처리방침",
+    "and": "과",
+    "onboardingIAcceptUsageStatistics": "데이터를 사용하여 앱 분석 및 충돌 보고를 생성하여 앱을 개선하는 데 사용합니다.",
     "onboardingGetStarted": "시작하기",
     "onboardingNext": "다음",
     "sendRating": "평가 보내기",
@@ -178,5 +180,8 @@
             }
         }
     },
-    "deleteSongConfirmationTitle": "곡 삭제"
+    "deleteSongConfirmationTitle": "곡 삭제",
+    "settings": "설정",
+    "analytics": "분석",
+    "analyticsDescription": "Microsoft Clarity를 사용하여 사용 데이터를 수집하고 앱을 개선합니다. 이 데이터는 제3자와 공유되지 않습니다."
 }

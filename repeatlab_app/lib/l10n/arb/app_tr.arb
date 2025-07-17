@@ -21,13 +21,13 @@
     "dataController": "Veri Sorumlusu",
     "dataControllerDescription": "Bilgilerinizden sorumlu veri sorumlusu:\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\n\nE-posta: support@repeatlab.de",
     "legalBasisForProcessing": "İşlemenin Yasal Temeli",
-    "legalBasisForProcessingDescription": "Verilerinizi aşağıdaki yasal temeller üzerinde işliyoruz:\n\n• Wiredash ve uygulama analitiği aracılığıyla geri bildirim vermek için onayınız.\n• RevenueCat aracılığıyla ödeme ve abonelik yönetimi için sözleşmenin yerine getirilmesi.\n• Sentry ile çökme raporlaması aracılığıyla uygulamanın etkili çalışmasını sağlamak için meşru menfaatimiz.",
+    "legalBasisForProcessingDescription": "Verilerinizi aşağıdaki yasal temeller üzerinde işliyoruz:\n\n• Wiredash ve uygulama analitiği aracılığıyla geri bildirim vermek için onayınız.\n• RevenueCat aracılığıyla ödeme ve abonelik yönetimi için sözleşmenin yerine getirilmesi.\n• Sentry ile çökme raporlaması aracılığıyla uygulamanın etkili çalışmasını sağlamak için meşru menfaatimiz.\n• Microsoft Clarity ile kullanıcı deneyimini iyileştirmek için meşru menfaatimiz.",
     "howWeUseYourInformation": "Bilgilerinizi Nasıl Kullanıyoruz",
-    "howWeUseYourInformationDescription": "Topladığımız bilgileri aşağıdaki amaçlar için kullanıyoruz:\n\n• RevenueCat aracılığıyla uygulama içi satın alma ve abonelikleri işlemek için.\n• Wiredash kullanarak geri bildirim toplamak ve uygulamayı iyileştirmek için.\n• Sentry'den çökme kayıtlarını kullanarak sorunları izlemek ve çözmek için.\n• Kullanıcı deneyimini iyileştirmek ve uygulama özelliklerini geliştirmek için.",
+    "howWeUseYourInformationDescription": "Topladığımız bilgileri aşağıdaki amaçlar için kullanıyoruz:\n\n• RevenueCat aracılığıyla uygulama içi satın alma ve abonelikleri işlemek için.\n• Wiredash kullanarak geri bildirim toplamak ve uygulamayı iyileştirmek için.\n• Sentry'den çökme kayıtlarını kullanarak sorunları izlemek ve çözmek için.\n• Kullanıcı deneyimini iyileştirmek ve uygulama özelliklerini geliştirmek için.\n• Microsoft Clarity ile kullanıcı deneyimini iyileştirmek için.",
     "yourRights": "Haklarınız",
     "yourRightsDescription": "GDPR kapsamında aşağıdaki haklara sahipsiniz:\n\n• Hakkınızda sahip olduğumuz kişisel bilgilere erişim hakkı.\n• Kişisel bilgilerinizin düzeltilmesini talep etme hakkı.\n• Kişisel bilgilerinizin silinmesini talep etme hakkı ('Unutulma Hakkı').\n• Veri taşınabilirliği hakkı.\n• Meşru menfaatlerimize dayalı işlemeye itiraz etme hakkı.\n• Herhangi bir zamanda onayınızı geri çekme hakkı.\n• Düzenleyici bir otoriteye şikayet etme hakkı.",
     "thirdPartyServices": "Üçüncü Taraf Hizmetleri",
-    "thirdPartyServicesDescription": "Uygulamamızı geliştirmek için üçüncü taraf hizmetlerini kullanıyoruz:\n\n• Wiredash: Kullanıcı geri bildirimi toplamak için kullanılır.\n• RevenueCat: Uygulama içi satın alma ve abonelikleri işlemek için kullanılır.\n• Sentry: Hata izleme ve çökme raporlaması için kullanılır.",
+    "thirdPartyServicesDescription": "Uygulamamızı geliştirmek için üçüncü taraf hizmetlerini kullanıyoruz:\n\n• Wiredash: Kullanıcı geri bildirimi toplamak için kullanılır.\n• RevenueCat: Uygulama içi satın alma ve abonelikleri işlemek için kullanılır.\n• Sentry: Hata izleme ve çökme raporlaması için kullanılır.\n• Microsoft Clarity: Kullanıcı deneyimini iyileştirmek için kullanılır.",
     "contactUs": "Bize Ulaşın",
     "contactUsDescription": "Bu gizlilik politikası hakkında herhangi bir sorunuz veya endişeniz varsa veya GDPR kapsamındaki haklarınızı kullanmak istiyorsanız, lütfen support@repeatlab.de adresinden bizimle iletişime geçin\n\nUygulamamızı kullandığınız için teşekkür ederiz!",
     "crashLogs": "Çökme Kayıtları",
@@ -41,8 +41,10 @@
     "onboardingDescription2": "Pratik yapmak istediğiniz bölümün başlangıç ve bitişini işaretlemek için sadece tıklayın. Sezgisel dalga formu görünümü ile hassas ayarlamalar yapın.",
     "onboardingTitle3": "Önce Gizlilik",
     "onboardingDescription3": "Gizliliğinize saygı duyuyor ve verilerinizi dikkatle işliyoruz. Lütfen devam etmek için gizlilik politikasını gözden geçirin ve onaylayın.",
-    "onboardingPrivacyPolicy": "Kabul Ediyorum",
-    "onboardingPrivacyPolicyLink": "Gizlilik Politikası",
+    "onboardingIAccept": "Kabul Ediyorum",
+    "onboardingTermsOfServiceLink": "Gizlilik Politikası",
+    "and": "ve",
+    "onboardingIAcceptUsageStatistics": "verilerimizi analiz ve hata raporları için kullanmak için onaylıyorum.",
     "onboardingGetStarted": "Başla",
     "onboardingNext": "İleri",
     "sendRating": "Değerlendirme Gönder",
@@ -178,5 +180,8 @@
             }
         }
     },
-    "deleteSongConfirmationTitle": "Şarkıyı Sil"
+    "deleteSongConfirmationTitle": "Şarkıyı Sil",
+    "settings": "Ayarlar",
+    "analytics": "Analytics",
+    "analyticsDescription": "Microsoft Clarity kullanarak kullanım verilerini topluyor ve uygulamayı iyileştiriyoruz. Bu veriler üçüncü taraflarla paylaşılmaz."
 }

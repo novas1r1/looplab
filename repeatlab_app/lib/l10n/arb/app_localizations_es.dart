@@ -53,7 +53,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get informationWeCollectDescription =>
-      '• Información Personal: Información que nos proporcionas, como tu dirección de correo electrónico al enviar comentarios a través de Wiredash.\n• Información de Pago: Datos relacionados con compras dentro de la app y suscripciones, procesados por RevenueCat.\n• Registros de Fallos: Información sobre errores y fallos de la app, recopilada a través de Sentry.\n• Datos de Uso: Datos analíticos para ayudarnos a mejorar tu experiencia.';
+      '• Información Personal: Información que nos proporcionas, como tu dirección de correo electrónico al enviar comentarios a través de Wiredash.\n• Información de Pago: Datos relacionados con compras dentro de la app y suscripciones, procesados por RevenueCat.\n• Registros de Fallos: Información sobre errores y fallos de la app, recopilada a través de Sentry.\n• Datos de Uso: Datos analíticos para ayudarnos a mejorar tu experiencia.\n• Heatmaps & Session Recording: Datos analíticos para ayudarnos a mejorar tu experiencia a través de Microsoft Clarity.';
 
   @override
   String get dataController => 'Responsable del Tratamiento';
@@ -67,14 +67,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get legalBasisForProcessingDescription =>
-      'Procesamos tus datos en base a las siguientes bases legales:\n\n• Tu consentimiento para el envío de comentarios a través de Wiredash y análisis de la app.\n• Ejecución de un contrato para el procesamiento de pagos y gestión de suscripciones a través de RevenueCat.\n• Nuestro interés legítimo en asegurar que la App funcione eficazmente mediante el uso de Sentry para informes de fallos.';
+      'Procesamos tus datos en base a las siguientes bases legales:\n\n• Tu consentimiento para el envío de comentarios a través de Wiredash y análisis de la app.\n• Ejecución de un contrato para el procesamiento de pagos y gestión de suscripciones a través de RevenueCat.\n• Nuestro interés legítimo en asegurar que la App funcione eficazmente mediante el uso de Sentry para informes de fallos.\n• Nuestro interés legítimo en mejorar la App a través de Microsoft Clarity.';
 
   @override
   String get howWeUseYourInformation => 'Cómo Usamos tu Información';
 
   @override
   String get howWeUseYourInformationDescription =>
-      'Utilizamos la información que recopilamos para los siguientes propósitos:\n\n• Para procesar compras dentro de la app y gestionar suscripciones a través de RevenueCat.\n• Para recopilar comentarios y mejorar la App usando Wiredash.\n• Para monitorear y solucionar problemas usando el registro de fallos de Sentry.\n• Para mejorar la experiencia del usuario y mejorar las funciones de la App.';
+      'Utilizamos la información que recopilamos para los siguientes propósitos:\n\n• Para procesar compras dentro de la app y gestionar suscripciones a través de RevenueCat.\n• Para recopilar comentarios y mejorar la App usando Wiredash.\n• Para monitorear y solucionar problemas usando el registro de fallos de Sentry.\n• Para mejorar la experiencia del usuario y mejorar las funciones de la App.\n• Para mejorar la App a través de Microsoft Clarity.';
 
   @override
   String get yourRights => 'Tus Derechos';
@@ -88,7 +88,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get thirdPartyServicesDescription =>
-      'Utilizamos servicios de terceros para mejorar nuestra App:\n\n• Wiredash: Utilizado para recopilar comentarios de usuarios.\n• RevenueCat: Utilizado para procesar compras dentro de la app y suscripciones.\n• Sentry: Utilizado para monitoreo de errores e informes de fallos.';
+      'Utilizamos servicios de terceros para mejorar nuestra App:\n\n• Wiredash: Utilizado para recopilar comentarios de usuarios.\n• RevenueCat: Utilizado para procesar compras dentro de la app y suscripciones.\n• Sentry: Utilizado para monitoreo de errores e informes de fallos.\n• Microsoft Clarity: Utilizado para análisis y mejorar la experiencia del usuario.';
 
   @override
   String get contactUs => 'Contáctanos';
@@ -135,10 +135,20 @@ class AppLocalizationsEs extends AppLocalizations {
       'Valoramos tu privacidad y manejamos tus datos con cuidado. Por favor, revisa nuestra política de privacidad y acéptala para continuar.';
 
   @override
-  String get onboardingPrivacyPolicy => 'Acepto la ';
+  String get onboardingIAccept => 'Acepto';
 
   @override
   String get onboardingPrivacyPolicyLink => 'Política de Privacidad';
+
+  @override
+  String get onboardingTermsOfServiceLink => 'Términos y Condiciones';
+
+  @override
+  String get and => 'y';
+
+  @override
+  String get onboardingIAcceptUsageStatistics =>
+      'el uso de mis datos para análisis y reportes de fallos para mejorar la aplicación.';
 
   @override
   String get onboardingGetStarted => 'Comenzar';
@@ -522,4 +532,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get deleteSongConfirmationTitle => 'Eliminar Canción';
+
+  @override
+  String get settings => 'Ajustes';
+
+  @override
+  String get analytics => 'Analytics';
+
+  @override
+  String get analyticsDescription =>
+      'Usamos Microsoft Clarity para recopilar datos de uso y mejorar la app. Estos datos no se comparten con terceros.';
 }

@@ -67,14 +67,14 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get legalBasisForProcessingDescription =>
-      'نعالج بياناتك على أساس الأسس القانونية التالية:\n\n• موافقتك على تقديم الملاحظات عبر Wiredash وتحليلات التطبيق.\n• تنفيذ العقد لمعالجة المدفوعات وإدارة الاشتراكات من خلال RevenueCat.\n• مصلحتنا المشروعة في ضمان تشغيل التطبيق بشكل فعال باستخدام Sentry لتقارير الأعطال.';
+      'نعالج بياناتك على أساس الأسس القانونية التالية:\n\n• موافقتك على تقديم الملاحظات عبر Wiredash وتحليلات التطبيق.\n• تنفيذ العقد لمعالجة المدفوعات وإدارة الاشتراكات من خلال RevenueCat.\n• مصلحتنا المشروعة في ضمان تشغيل التطبيق بشكل فعال باستخدام Sentry لتقارير الأعطال.\n• مصلحتنا المشروعة في تحسين تجربة المستخدم وتعزيز ميزات التطبيق باستخدام Microsoft Clarity.';
 
   @override
   String get howWeUseYourInformation => 'كيفية استخدام معلوماتك';
 
   @override
   String get howWeUseYourInformationDescription =>
-      'نستخدم المعلومات التي نجمعها للأغراض التالية:\n\n• لمعالجة المشتريات داخل التطبيق وإدارة الاشتراكات من خلال RevenueCat.\n• لجمع الملاحظات وتحسين التطبيق باستخدام Wiredash.\n• لمراقبة وإصلاح المشكلات باستخدام سجلات الأعطال من Sentry.\n• لتحسين تجربة المستخدم وتعزيز ميزات التطبيق.';
+      'نستخدم المعلومات التي نجمعها للأغراض التالية:\n\n• لمعالجة المشتريات داخل التطبيق وإدارة الاشتراكات من خلال RevenueCat.\n• لجمع الملاحظات وتحسين التطبيق باستخدام Wiredash.\n• لمراقبة وإصلاح المشكلات باستخدام سجلات الأعطال من Sentry.\n• لتحسين تجربة المستخدم وتعزيز ميزات التطبيق باستخدام Microsoft Clarity.';
 
   @override
   String get yourRights => 'حقوقك';
@@ -135,10 +135,20 @@ class AppLocalizationsAr extends AppLocalizations {
       'نحن نقدر خصوصيتك ونعالج بياناتك بعناية. يرجى مراجعة سياسة الخصوصية والموافقة للمتابعة.';
 
   @override
-  String get onboardingPrivacyPolicy => 'أوافق على';
+  String get onboardingIAccept => 'أوافق على';
 
   @override
   String get onboardingPrivacyPolicyLink => 'سياسة الخصوصية';
+
+  @override
+  String get onboardingTermsOfServiceLink => 'الشروط والأحكام';
+
+  @override
+  String get and => 'و';
+
+  @override
+  String get onboardingIAcceptUsageStatistics =>
+      'استخدام بياناتي للتحليلات وتقارير الأعطال لتحسين التطبيق.';
 
   @override
   String get onboardingGetStarted => 'ابدأ';
@@ -512,4 +522,14 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get deleteSongConfirmationTitle => 'حذف الأغنية';
+
+  @override
+  String get settings => 'الإعدادات';
+
+  @override
+  String get analytics => 'التحليلات';
+
+  @override
+  String get analyticsDescription =>
+      'نحن نستخدم Microsoft Clarity لجمع بيانات الاستخدام وتحسين التطبيق. لا يتم مشاركة هذه البيانات مع الأطراف الثالثة.';
 }

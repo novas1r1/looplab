@@ -23,11 +23,11 @@
     "legalBasisForProcessing": "処理の法的根拠",
     "legalBasisForProcessingDescription": "私たちは以下の法的根拠に基づいてあなたのデータを処理します：\n\n• Wiredashを通じたフィードバック送信とアプリ分析への同意。\n• RevenueCatを通じた支払い処理とサブスクリプション管理のための契約の履行。\n• Sentryを使用したクラッシュレポートによるアプリの効果的な運用確保のための正当な利益。",
     "howWeUseYourInformation": "情報の使用方法",
-    "howWeUseYourInformationDescription": "収集した情報は以下の目的で使用されます：\n\n• RevenueCatを通じたアプリ内購入の処理とサブスクリプションの管理。\n• Wiredashを使用したフィードバックの収集とアプリの改善。\n• Sentryクラッシュログを使用した問題の監視と修正。\n• ユーザー体験の向上とアプリ機能の強化。",
+    "howWeUseYourInformationDescription": "収集した情報は以下の目的で使用されます：\n\n• RevenueCatを通じたアプリ内購入の処理とサブスクリプションの管理。\n• Wiredashを使用したフィードバックの収集とアプリの改善。\n• Sentryクラッシュログを使用した問題の監視と修正。\n• ユーザー体験の向上とアプリ機能の強化。\n• Microsoft Clarityを使用したユーザーエクスペリエンスの分析と改善。",
     "yourRights": "あなたの権利",
     "yourRightsDescription": "GDPRに基づき、あなたは以下の権利を持っています：\n\n• 私たちが保持するあなたの個人情報にアクセスする権利。\n• あなたの個人情報の訂正を要求する権利。\n• あなたの個人情報の削除を要求する権利（「忘れられる権利」）。\n• データポータビリティの権利。\n• 私たちの正当な利益に基づく処理に反対する権利。\n• いつでも同意を撤回する権利。\n• 監督当局に苦情を申し立てる権利。",
     "thirdPartyServices": "サードパーティサービス",
-    "thirdPartyServicesDescription": "アプリを強化するために以下のサードパーティサービスを使用しています：\n\n• Wiredash：ユーザーフィードバックの収集に使用。\n• RevenueCat：アプリ内購入とサブスクリプションの処理に使用。\n• Sentry：エラー監視とクラッシュレポートに使用。",
+    "thirdPartyServicesDescription": "アプリを強化するために以下のサードパーティサービスを使用しています：\n\n• Wiredash：ユーザーフィードバックの収集に使用。\n• RevenueCat：アプリ内購入とサブスクリプションの処理に使用。\n• Sentry：エラー監視とクラッシュレポートに使用。\n• Microsoft Clarity：ユーザーエクスペリエンスの分析と改善に使用。\n• Microsoft Clarityを使用したユーザーエクスペリエンスの分析と改善。",
     "contactUs": "お問い合わせ",
     "contactUsDescription": "このプライバシーポリシーについて質問や懸念がある場合、またはGDPRに基づく権利を行使したい場合は、support@repeatlab.deまでご連絡ください。\n\nアプリをご利用いただきありがとうございます！",
     "crashLogs": "クラッシュログ",
@@ -41,8 +41,10 @@
     "onboardingDescription2": "練習したい部分の開始と終了をタップするだけでマークできます。直感的な波形表示で調整と微調整が可能です。",
     "onboardingTitle3": "プライバシー優先",
     "onboardingDescription3": "あなたのプライバシーを尊重し、データを慎重に扱います。プライバシーポリシーを確認し、続行するには同意してください。",
-    "onboardingPrivacyPolicy": "同意します",
-    "onboardingPrivacyPolicyLink": "プライバシーポリシー",
+    "onboardingIAccept": "同意します",
+    "onboardingTermsOfServiceLink": "プライバシーポリシー",
+    "and": "と",
+    "onboardingIAcceptUsageStatistics": "データを使用してアプリの分析とクラッシュレポートを作成し、アプリを改善するために使用します。",
     "onboardingGetStarted": "始める",
     "onboardingNext": "次へ",
     "sendRating": "評価を送信",
@@ -178,5 +180,8 @@
             }
         }
     },
-    "deleteSongConfirmationTitle": "曲を削除"
+    "deleteSongConfirmationTitle": "曲を削除",
+    "settings": "設定",
+    "analytics": "分析",
+    "analyticsDescription": "Microsoft Clarityを使用して使用データを収集し、アプリを改善します。これらのデータは第三者と共有されません。"
 }

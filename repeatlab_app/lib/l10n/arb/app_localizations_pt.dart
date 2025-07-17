@@ -67,14 +67,14 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get legalBasisForProcessingDescription =>
-      'Processamos seus dados com base nas seguintes bases legais:\n\n• Seu consentimento para envio de feedback através do Wiredash e análise do app.\n• Execução de um contrato para processamento de pagamentos e gerenciamento de assinaturas através do RevenueCat.\n• Nosso interesse legítimo em garantir que o App funcione efetivamente usando o Sentry para relatórios de falhas.';
+      'Processamos seus dados com base nas seguintes bases legais:\n\n• Seu consentimento para envio de feedback através do Wiredash e análise do app.\n• Execução de um contrato para processamento de pagamentos e gerenciamento de assinaturas através do RevenueCat.\n• Nosso interesse legítimo em garantir que o App funcione efetivamente usando o Sentry para relatórios de falhas.\n• Nosso interesse legítimo em melhorar a experiência do usuário usando o Microsoft Clarity.';
 
   @override
   String get howWeUseYourInformation => 'Como Usamos Suas Informações';
 
   @override
   String get howWeUseYourInformationDescription =>
-      'Usamos as informações coletadas para os seguintes propósitos:\n\n• Para processar compras no app e gerenciar assinaturas através do RevenueCat.\n• Para coletar feedback e melhorar o App usando o Wiredash.\n• Para monitorar e resolver problemas usando os registros de falhas do Sentry.\n• Para melhorar a experiência do usuário e aprimorar os recursos do App.';
+      'Usamos as informações coletadas para os seguintes propósitos:\n\n• Para processar compras no app e gerenciar assinaturas através do RevenueCat.\n• Para coletar feedback e melhorar o App usando o Wiredash.\n• Para monitorar e resolver problemas usando os registros de falhas do Sentry.\n• Para melhorar a experiência do usuário e aprimorar os recursos do App.\n• Para analisar e melhorar a experiência do usuário usando o Microsoft Clarity.';
 
   @override
   String get yourRights => 'Seus Direitos';
@@ -88,7 +88,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get thirdPartyServicesDescription =>
-      'Usamos serviços de terceiros para melhorar nosso App:\n\n• Wiredash: Usado para coletar feedback dos usuários.\n• RevenueCat: Usado para processar compras no app e assinaturas.\n• Sentry: Usado para monitoramento de erros e relatórios de falhas.';
+      'Usamos serviços de terceiros para melhorar nosso App:\n\n• Wiredash: Usado para coletar feedback dos usuários.\n• RevenueCat: Usado para processar compras no app e assinaturas.\n• Sentry: Usado para monitoramento de erros e relatórios de falhas.\n• Microsoft Clarity: Usado para analisar e melhorar a experiência do usuário.';
 
   @override
   String get contactUs => 'Contate-nos';
@@ -135,10 +135,20 @@ class AppLocalizationsPt extends AppLocalizations {
       'Valorizamos sua privacidade e tratamos seus dados com cuidado. Por favor, revise nossa política de privacidade e aceite para continuar.';
 
   @override
-  String get onboardingPrivacyPolicy => 'Aceito a ';
+  String get onboardingIAccept => 'Aceito a ';
 
   @override
-  String get onboardingPrivacyPolicyLink => 'Política de Privacidade';
+  String get onboardingPrivacyPolicyLink => 'Privacy Policy';
+
+  @override
+  String get onboardingTermsOfServiceLink => 'Política de Privacidade';
+
+  @override
+  String get and => 'e';
+
+  @override
+  String get onboardingIAcceptUsageStatistics =>
+      'aceito usar dados para análise e relatórios de erros.';
 
   @override
   String get onboardingGetStarted => 'Começar';
@@ -521,4 +531,14 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get deleteSongConfirmationTitle => 'Excluir Música';
+
+  @override
+  String get settings => 'Configurações';
+
+  @override
+  String get analytics => 'Analytics';
+
+  @override
+  String get analyticsDescription =>
+      'Usamos Microsoft Clarity para coletar dados de uso e melhorar o app. Esses dados não são compartilhados com terceiros.';
 }

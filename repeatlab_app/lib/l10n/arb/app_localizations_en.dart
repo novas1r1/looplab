@@ -49,11 +49,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get informationWeCollectSummary =>
-      'Your privacy is important to us. This Privacy Policy outlines how we collect, use, and protect your information when you use our mobile application (the \'App\'), which is available on iOS and Android platforms. This policy is compliant with the General Data Protection Regulation (GDPR).\n\nEffective Date: 23. January 2025';
+      'Your privacy is important to us. This Privacy Policy outlines how we collect, use, and protect your information when you use our mobile application (the \'App\'), which is available on iOS and Android platforms. This policy is compliant with the General Data Protection Regulation (GDPR).\n\nEffective Date: 17. July 2025';
 
   @override
   String get informationWeCollectDescription =>
-      '• Personal Information: Information you provide to us, such as your email address when submitting feedback via Wiredash.\n• Payment Information: Data related to in-app purchases and subscriptions, processed by RevenueCat.\n• Crash Logs: Information about app errors and crashes, collected through Sentry.\n• Usage Data: Analytics data to help us improve your experience.';
+      '• Personal Information: Information you provide to us, such as your email address when submitting feedback via Wiredash.\n• Payment Information: Data related to in-app purchases and subscriptions, processed by RevenueCat.\n• Crash Logs: Information about app errors and crashes, collected through Sentry.\n• Usage Statistics: Usage data to help us improve the app.\n• Heatmaps & Session Recording: Analytics data to help us improve your experience through Microsoft Clarity.';
 
   @override
   String get dataController => 'Data Controller';
@@ -74,7 +74,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get howWeUseYourInformationDescription =>
-      'We use the information we collect for the following purposes:\n\n• To process in-app purchases and manage subscriptions through RevenueCat.\n• To gather feedback and improve the App using Wiredash.\n• To monitor and fix issues using Sentry crash logging.\n• To improve user experience and enhance App features.';
+      'We use the information we collect for the following purposes:\n\n• To process in-app purchases and manage subscriptions through RevenueCat.\n• To gather feedback and improve the App using Wiredash.\n• To monitor and fix issues using Sentry crash logging.\n• To improve user experience and enhance App features.\n• To improve the app through Microsoft Clarity.';
 
   @override
   String get yourRights => 'Your Rights';
@@ -88,7 +88,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get thirdPartyServicesDescription =>
-      'We use third-party services to enhance our App:\n\n• Wiredash: Used to collect user feedback.\n• RevenueCat: Used to process in-app purchases and subscriptions.\n• Sentry: Used for error monitoring and crash reporting.';
+      'We use third-party services to enhance our App:\n\n• Wiredash: Used to collect user feedback.\n• RevenueCat: Used to process in-app purchases and subscriptions.\n• Sentry: Used for error monitoring and crash reporting.\n• Microsoft Clarity: Used for analytics and user experience improvement.';
 
   @override
   String get contactUs => 'Contact Us';
@@ -135,10 +135,20 @@ class AppLocalizationsEn extends AppLocalizations {
       'We value your privacy and handle your data with care. Please review our privacy policy and accept to continue.';
 
   @override
-  String get onboardingPrivacyPolicy => 'I accept the ';
+  String get onboardingIAccept => 'I accept the ';
 
   @override
   String get onboardingPrivacyPolicyLink => 'Privacy Policy';
+
+  @override
+  String get onboardingTermsOfServiceLink => 'Terms of Service';
+
+  @override
+  String get and => ' and the ';
+
+  @override
+  String get onboardingIAcceptUsageStatistics =>
+      'I accept the usage of my data for analytics and crash reporting to improve the app.';
 
   @override
   String get onboardingGetStarted => 'Get Started';
@@ -515,4 +525,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deleteSongConfirmationTitle => 'Delete Song';
+
+  @override
+  String get settings => 'Settings';
+
+  @override
+  String get analytics => 'Analytics';
+
+  @override
+  String get analyticsDescription =>
+      'We use Microsoft Clarity to collect usage data and improve the app. This data is not shared with third parties.';
 }
