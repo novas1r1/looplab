@@ -38,6 +38,15 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
         case PlayerState.playing:
           playbackState.add(
             playbackState.value.copyWith(
+              controls: const [
+                MediaControl.pause,
+                MediaControl.stop,
+              ],
+              systemActions: const {
+                MediaAction.seek,
+                MediaAction.seekForward,
+                MediaAction.seekBackward,
+              },
               playing: true,
               processingState: AudioProcessingState.ready,
             ),
@@ -45,6 +54,14 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
         case PlayerState.paused:
           playbackState.add(
             playbackState.value.copyWith(
+              controls: const [
+                MediaControl.play,
+              ],
+              systemActions: const {
+                MediaAction.seek,
+                MediaAction.seekForward,
+                MediaAction.seekBackward,
+              },
               playing: false,
               processingState: AudioProcessingState.ready,
             ),
@@ -52,6 +69,14 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
         case PlayerState.stopped:
           playbackState.add(
             playbackState.value.copyWith(
+              controls: const [
+                MediaControl.play,
+              ],
+              systemActions: const {
+                MediaAction.seek,
+                MediaAction.seekForward,
+                MediaAction.seekBackward,
+              },
               playing: false,
               processingState: AudioProcessingState.idle,
             ),
@@ -59,6 +84,15 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
         case PlayerState.completed:
           playbackState.add(
             playbackState.value.copyWith(
+              controls: const [
+                MediaControl.play,
+                MediaControl.stop,
+              ],
+              systemActions: const {
+                MediaAction.seek,
+                MediaAction.seekForward,
+                MediaAction.seekBackward,
+              },
               playing: false,
               processingState: AudioProcessingState.completed,
             ),
@@ -66,6 +100,14 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
         case PlayerState.disposed:
           playbackState.add(
             playbackState.value.copyWith(
+              controls: const [
+                MediaControl.play,
+              ],
+              systemActions: const {
+                MediaAction.seek,
+                MediaAction.seekForward,
+                MediaAction.seekBackward,
+              },
               playing: false,
               processingState: AudioProcessingState.idle,
             ),
@@ -104,6 +146,15 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
       await audioPlayer.play(DeviceFileSource(path));
       playbackState.add(
         playbackState.value.copyWith(
+          controls: const [
+            MediaControl.pause,
+            MediaControl.stop,
+          ],
+          systemActions: const {
+            MediaAction.seek,
+            MediaAction.seekForward,
+            MediaAction.seekBackward,
+          },
           playing: true,
           processingState: AudioProcessingState.ready,
         ),
@@ -135,7 +186,19 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
 
     await audioPlayer.resume();
     playbackState.add(
-      playbackState.value.copyWith(playing: true, processingState: AudioProcessingState.ready),
+      playbackState.value.copyWith(
+        controls: const [
+          MediaControl.pause,
+          MediaControl.stop,
+        ],
+        systemActions: const {
+          MediaAction.seek,
+          MediaAction.seekForward,
+          MediaAction.seekBackward,
+        },
+        playing: true,
+        processingState: AudioProcessingState.ready,
+      ),
     );
   }
 
@@ -178,7 +241,19 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
   Future<void> play() async {
     await audioPlayer.resume();
     playbackState.add(
-      playbackState.value.copyWith(playing: true, processingState: AudioProcessingState.ready),
+      playbackState.value.copyWith(
+        controls: const [
+          MediaControl.pause,
+          MediaControl.stop,
+        ],
+        systemActions: const {
+          MediaAction.seek,
+          MediaAction.seekForward,
+          MediaAction.seekBackward,
+        },
+        playing: true,
+        processingState: AudioProcessingState.ready,
+      ),
     );
   }
 
@@ -188,7 +263,18 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
 
     await audioPlayer.pause();
     playbackState.add(
-      playbackState.value.copyWith(playing: false, processingState: AudioProcessingState.ready),
+      playbackState.value.copyWith(
+        controls: const [
+          MediaControl.play,
+        ],
+        systemActions: const {
+          MediaAction.seek,
+          MediaAction.seekForward,
+          MediaAction.seekBackward,
+        },
+        playing: false,
+        processingState: AudioProcessingState.ready,
+      ),
     );
   }
 
@@ -198,7 +284,18 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
 
     await audioPlayer.stop();
     playbackState.add(
-      playbackState.value.copyWith(playing: false, processingState: AudioProcessingState.completed),
+      playbackState.value.copyWith(
+        controls: const [
+          MediaControl.play,
+        ],
+        systemActions: const {
+          MediaAction.seek,
+          MediaAction.seekForward,
+          MediaAction.seekBackward,
+        },
+        playing: false,
+        processingState: AudioProcessingState.completed,
+      ),
     );
   }
 
