@@ -379,6 +379,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get changelogTitle => 'Değişiklik Günlüğü';
 
   @override
+  String get changelog130Title => 'BPM\'ye göre tempo değiştirme';
+
+  @override
+  String get changelog130Description =>
+      'Şimdi BPM\'ye göre şarkının tempo\'unu değiştirebilirsiniz. Bu, tempo\'yu daha hassas ayarlamanıza olanak tanır. Ayrıca, tempo\'yu artık bir düğme ile sıfırlayabilirsiniz.';
+
+  @override
   String get changelog1201Title => '1/4 Şarkı bilgileri eklendi';
 
   @override

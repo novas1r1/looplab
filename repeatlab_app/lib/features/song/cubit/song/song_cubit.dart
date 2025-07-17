@@ -719,4 +719,32 @@ class SongCubit extends Cubit<SongState> {
       );
     }
   }
+
+  /// Persist the original BPM for the current song. This does **not** change
+  /// the playback speed directly; it merely stores the value so that the UI
+  /// can convert BPM values into speed multipliers.
+  Future<void> updateBpm(int bpm) async {
+    try {
+      emit(state.copyWith(status: SongStatus.updating));
+
+      final updatedSong = state.song.copyWith(bpm: bpm);
+      await songRepository.updateSong(updatedSong);
+
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          song: updatedSong,
+          error: null,
+        ),
+      );
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to update bpm: $ex',
+        ),
+      );
+    }
+  }
 }

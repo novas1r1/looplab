@@ -128,6 +128,8 @@
     "cancelSubscription": "Cancelar Suscripción",
     "voteForFeatures": "Vota por Funciones",
     "changelogTitle": "Cambios",
+    "changelog130Title": "Cambiar el tempo basado en BPM",
+    "changelog130Description": "Ahora puedes cambiar el tempo de la canción basado en el BPM. Esto permite ajustes precisos del tempo. Además, el tempo ahora se puede restablecer con un botón.",
     "changelog1201Title": "1/4 Añadida información de medios para archivos de audio",
     "changelog1201Description": "La app ahora muestra la información de medios para archivos de audio. Esto incluye el título y el artista por ahora.",
     "changelog1202Title": "2/4 Convertir m4a a mp3",

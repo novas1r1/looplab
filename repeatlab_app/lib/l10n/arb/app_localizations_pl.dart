@@ -377,6 +377,13 @@ class AppLocalizationsPl extends AppLocalizations {
   String get changelogTitle => 'Zmiany';
 
   @override
+  String get changelog130Title => 'Zmiana tempa na podstawie BPM';
+
+  @override
+  String get changelog130Description =>
+      'Możesz teraz zmienić tempo utworu na podstawie BPM. To pozwala na precyzyjne dopasowanie tempa. Dodatkowo, tempo można teraz zresetować przyciskiem.';
+
+  @override
   String get changelog1201Title => '1/4 Dodano dane mediów dla plików audio';
 
   @override

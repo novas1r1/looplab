@@ -127,6 +127,8 @@
     "cancelSubscription": "Abonnement kündigen",
     "voteForFeatures": "Feature Voting",
     "changelogTitle": "Changelog",
+    "changelog130Title": "Tempo basierend auf BPM verändern",
+    "changelog130Description": "Du kannst jetzt das Tempo des Songs basierend auf den BPM verändern. Dies ermöglicht eine präzise Anpassung des Tempos. Außerdem kann das Tempo nun mit einem Button zurückgesetzt werden.",
     "changelog1201Title": "1/4 Medieninformationen für Audio-Dateien hinzugefügt",
     "changelog1201Description": "Die App zeigt nun die Medieninformationen (Titel und den Künstler) für Audio-Dateien.",
     "changelog1202Title": "2/4 m4a zu mp3 konvertieren",

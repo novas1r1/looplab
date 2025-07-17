@@ -126,6 +126,8 @@
     "cancelSubscription": "Abonnement Opzeggen",
     "voteForFeatures": "Functies Voorstellen",
     "changelogTitle": "Wijzigingen",
+    "changelog130Title": "Tempo gebaseerd op BPM wijzigen",
+    "changelog130Description": "Je kunt nu het tempo van het nummer wijzigen op basis van het BPM. Dit maakt het mogelijk om het tempo nauwkeurig aan te passen. Daarnaast kan het tempo nu worden teruggezet met een knop.",
     "changelog1201Title": "1/4 Media-gegevens toegevoegd voor audio-bestanden",
     "changelog1201Description": "De app toont nu media-gegevens voor audio-bestanden. Dit omvat de titel en de artiest voor nu.",
     "changelog1202Title": "2/4 m4a naar mp3 converteren",

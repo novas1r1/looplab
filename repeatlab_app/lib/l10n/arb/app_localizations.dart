@@ -786,6 +786,18 @@ abstract class AppLocalizations {
   /// **'Changelog'**
   String get changelogTitle;
 
+  /// No description provided for @changelog130Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Change tempo based on BPM'**
+  String get changelog130Title;
+
+  /// No description provided for @changelog130Description.
+  ///
+  /// In en, this message translates to:
+  /// **'You can now change the tempo of the song based on the BPM. This allows for precise tempo adjustments. Additionally, the tempo can now be reset with a button.'**
+  String get changelog130Description;
+
   /// No description provided for @changelog1201Title.
   ///
   /// In en, this message translates to:

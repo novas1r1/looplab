@@ -126,6 +126,8 @@
     "cancelSubscription": "Avbryt Prenumeration",
     "voteForFeatures": "Funktioner förfråga",
     "changelogTitle": "Changelog",
+    "changelog130Title": "Ändra tempo baserat på BPM",
+    "changelog130Description": "Nu kan du ändra låtens tempo baserat på BPM. Detta gör att du kan justera tempos med hög precision. Dessutom kan tempos nu återställas med en knapp.",
     "changelog1201Title": "1/4 Felsökning",
     "changelog1201Description": "Om inget slut för loopen var inställt, spelades loopen till slutet av låten och låtens slut användes som loopens slut. Ljudfilerna spelar nu också när appen går tillbaka eller telefonen går in standby-läge.",
     "changelog1202Title": "2/4 Felsökning",

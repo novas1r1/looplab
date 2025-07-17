@@ -380,6 +380,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
+  String get changelog130Title => 'Изменение темпа на основе BPM';
+
+  @override
+  String get changelog130Description =>
+      'Теперь вы можете изменить темп песни на основе BPM. Это позволяет точно настроить темп. Кроме того, теперь темп можно сбросить с помощью кнопки.';
+
+  @override
   String get changelog1201Title => '1/4 Добавлены медиаданные для аудиофайлов';
 
   @override

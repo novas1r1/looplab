@@ -364,6 +364,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get changelogTitle => '変更履歴';
 
   @override
+  String get changelog130Title => 'BPMに基づいてテンポを変更';
+
+  @override
+  String get changelog130Description =>
+      'BPMに基づいて曲のテンポを変更できるようになりました。これにより、より正確なテンポ調整が可能になりました。また、テンポをリセットするボタンも追加されました。';
+
+  @override
   String get changelog1201Title => '1/4 オーディオファイルのメディアデータを追加';
 
   @override

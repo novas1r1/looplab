@@ -377,6 +377,13 @@ class AppLocalizationsSv extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
+  String get changelog130Title => 'Ändra tempo baserat på BPM';
+
+  @override
+  String get changelog130Description =>
+      'Nu kan du ändra låtens tempo baserat på BPM. Detta gör att du kan justera tempos med hög precision. Dessutom kan tempos nu återställas med en knapp.';
+
+  @override
   String get changelog1201Title => '1/4 Felsökning';
 
   @override

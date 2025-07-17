@@ -1,14 +1,9 @@
-import 'dart:async';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:just_audio/just_audio.dart';
-import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
-import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
-import 'package:repeatlab/features/paywall/premium_screen.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
+import 'package:repeatlab/features/song/view/speed_control.dart';
 
 class SongController extends StatelessWidget {
   const SongController({
@@ -78,34 +73,7 @@ class SongController extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.secondaryContainer,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: BlocSelector<SongCubit, SongState, double>(
-            selector: (state) => state.speed,
-            builder: (context, speed) {
-              return Row(
-                children: [
-                  const Icon(Icons.speed),
-                  Expanded(
-                    child: Slider(
-                      value: speed,
-                      min: 0.5,
-                      max: 2.0,
-                      divisions: 15,
-                      label: '${speed.toStringAsFixed(1)}x',
-                      onChanged: (value) => _onUpdateSpeed(context, value),
-                    ),
-                  ),
-                  Text('${speed.toStringAsFixed(1)}x'),
-                ],
-              );
-            },
-          ),
-        ),
+        const SpeedControl(),
       ],
     );
   }
@@ -118,25 +86,6 @@ class SongController extends StatelessWidget {
       }
     } else {
       context.read<SongCubit>().togglePlaySong();
-    }
-  }
-
-  Future<void> _onUpdateSpeed(BuildContext context, double value) async {
-    AppAnalytics.trackEvent(AppAnalytics.clickUpdateSpeed, data: {'speed': value});
-
-    final hasPurchased = context.read<PremiumSubscriptionCubit>().hasPremium;
-
-    if (!context.mounted) return;
-
-    if (hasPurchased) {
-      context.read<SongCubit>().updateSpeed(value);
-    } else {
-      AppAnalytics.trackEvent(AppAnalytics.showPaywallSongSpeed);
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => const PremiumScreen(),
-        ),
-      );
     }
   }
 }

@@ -128,6 +128,8 @@
     "purchaseSuccess": "購入が成功しました。開発者をサポートしていただきありがとうございます❤️！",
     "voteForFeatures": "機能に投票",
     "changelogTitle": "変更履歴",
+    "changelog130Title": "BPMに基づいてテンポを変更",
+    "changelog130Description": "BPMに基づいて曲のテンポを変更できるようになりました。これにより、より正確なテンポ調整が可能になりました。また、テンポをリセットするボタンも追加されました。",
     "changelog1201Title": "1/4 オーディオファイルのメディアデータを追加",
     "changelog1201Description": "アプリはオーディオファイルのメディアデータを表示するようになりました。現在はタイトルとアーティストが表示されます。",
     "changelog1202Title": "2/4 m4aをmp3に変換",

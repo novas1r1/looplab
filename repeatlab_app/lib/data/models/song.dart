@@ -13,6 +13,11 @@ class Song with SongMappable {
   final String artist;
   final String fileName;
   final Duration duration;
+
+  /// Original tempo of the song in beats per minute (optional). If `null`, the
+  /// user has not provided it yet and the BPM-based speed control will prompt
+  /// for it.
+  final int? bpm;
   final List<Loop> loops;
   final LoopSort loopSort;
 
@@ -22,6 +27,7 @@ class Song with SongMappable {
     required this.artist,
     required this.fileName,
     required this.duration,
+    this.bpm,
     this.loops = const [],
     this.loopSort = LoopSort.none,
   });

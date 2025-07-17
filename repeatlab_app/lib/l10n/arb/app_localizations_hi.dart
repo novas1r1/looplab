@@ -377,6 +377,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get changelogTitle => 'परिवर्तन लॉग';
 
   @override
+  String get changelog130Title => 'BPM आधारित गति बदलें';
+
+  @override
+  String get changelog130Description =>
+      'अब आप गीत की गति को BPM आधारित रूप से बदल सकते हैं। यह गति को अधिक सटीकता से समायोजित करने की अनुमति देता है। इसके अलावा, गति को अब एक बटन का उपयोग करके रीसेट किया जा सकता है।';
+
+  @override
   String get changelog1201Title =>
       '1/4 ऑडियो फाइलों के लिए मीडिया डेटा जोड़ा गया';
 

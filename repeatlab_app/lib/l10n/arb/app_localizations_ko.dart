@@ -363,6 +363,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get changelogTitle => '변경 사항';
 
   @override
+  String get changelog130Title => 'BPM 기반 템포 변경';
+
+  @override
+  String get changelog130Description =>
+      '이제 BPM 기반으로 곡의 템포를 변경할 수 있습니다. 이를 통해 더 정확한 템포 조정이 가능합니다. 또한, 템포를 초기화하는 버튼도 추가되었습니다.';
+
+  @override
   String get changelog1201Title => '1/4 오디오 파일의 미디어 데이터 추가';
 
   @override

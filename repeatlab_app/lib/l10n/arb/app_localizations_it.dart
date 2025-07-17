@@ -382,6 +382,13 @@ class AppLocalizationsIt extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
+  String get changelog130Title => 'Cambia il tempo basato su BPM';
+
+  @override
+  String get changelog130Description =>
+      'Ora puoi cambiare il tempo della canzone in base al BPM. Questo ti permette di regolare il tempo con precisione. Inoltre, il tempo ora può essere reimpostato con un pulsante.';
+
+  @override
   String get changelog1201Title =>
       '1/4 Aggiunta informazioni sui media per i file audio';
 

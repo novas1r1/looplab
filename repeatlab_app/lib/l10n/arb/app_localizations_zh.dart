@@ -357,6 +357,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get changelogTitle => '更新日志';
 
   @override
+  String get changelog130Title => '基于 BPM 更改速度';
+
+  @override
+  String get changelog130Description =>
+      '现在您可以根据 BPM 更改歌曲的速度。这允许更精确地调整速度。此外，现在可以使用按钮重置速度。';
+
+  @override
   String get changelog1201Title => '1/4 添加了音频文件的媒体数据';
 
   @override

@@ -84,6 +84,8 @@ class SongMapper extends ClassMapperBase<Song> {
   static Duration _$duration(Song v) => v.duration;
   static const Field<Song, Duration> _f$duration =
       Field('duration', _$duration);
+  static int? _$bpm(Song v) => v.bpm;
+  static const Field<Song, int> _f$bpm = Field('bpm', _$bpm, opt: true);
   static List<Loop> _$loops(Song v) => v.loops;
   static const Field<Song, List<Loop>> _f$loops =
       Field('loops', _$loops, opt: true, def: const []);
@@ -98,6 +100,7 @@ class SongMapper extends ClassMapperBase<Song> {
     #artist: _f$artist,
     #fileName: _f$fileName,
     #duration: _f$duration,
+    #bpm: _f$bpm,
     #loops: _f$loops,
     #loopSort: _f$loopSort,
   };
@@ -109,6 +112,7 @@ class SongMapper extends ClassMapperBase<Song> {
         artist: data.dec(_f$artist),
         fileName: data.dec(_f$fileName),
         duration: data.dec(_f$duration),
+        bpm: data.dec(_f$bpm),
         loops: data.dec(_f$loops),
         loopSort: data.dec(_f$loopSort));
   }
@@ -166,6 +170,7 @@ abstract class SongCopyWith<$R, $In extends Song, $Out>
       String? artist,
       String? fileName,
       Duration? duration,
+      int? bpm,
       List<Loop>? loops,
       LoopSort? loopSort});
   SongCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
@@ -188,6 +193,7 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
           String? artist,
           String? fileName,
           Duration? duration,
+          Object? bpm = $none,
           List<Loop>? loops,
           LoopSort? loopSort}) =>
       $apply(FieldCopyWithData({
@@ -196,6 +202,7 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
         if (artist != null) #artist: artist,
         if (fileName != null) #fileName: fileName,
         if (duration != null) #duration: duration,
+        if (bpm != $none) #bpm: bpm,
         if (loops != null) #loops: loops,
         if (loopSort != null) #loopSort: loopSort
       }));
@@ -206,6 +213,7 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
       artist: data.get(#artist, or: $value.artist),
       fileName: data.get(#fileName, or: $value.fileName),
       duration: data.get(#duration, or: $value.duration),
+      bpm: data.get(#bpm, or: $value.bpm),
       loops: data.get(#loops, or: $value.loops),
       loopSort: data.get(#loopSort, or: $value.loopSort));
 

@@ -128,6 +128,8 @@
     "purchaseSuccess": "购买成功。感谢您支持开发者 ❤️！",
     "voteForFeatures": "功能投票",
     "changelogTitle": "更新日志",
+    "changelog130Title": "基于 BPM 更改速度",
+    "changelog130Description": "现在您可以根据 BPM 更改歌曲的速度。这允许更精确地调整速度。此外，现在可以使用按钮重置速度。",
     "changelog1201Title": "1/4 添加了音频文件的媒体数据",
     "changelog1201Description": "现在应用程序显示音频文件的媒体数据。这包括标题和艺术家。",
     "changelog1202Title": "2/4 将 m4a 转换为 mp3",

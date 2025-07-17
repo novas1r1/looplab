@@ -36,6 +36,19 @@ class _ChangelogDialogState extends State<ChangelogDialog> with TickerProviderSt
   Widget build(BuildContext context) {
     final versions = [
       ChangelogVersion(
+        version: '1.3.0',
+        releaseDate: DateTime(2025, 07, 17),
+        updates: [
+          ChangelogElement(
+            title: context.l10n.changelog130Title,
+            description: context.l10n.changelog130Description,
+            imagePaths: const [
+              'assets/images/update_bpm.jpg',
+            ],
+          ),
+        ],
+      ),
+      ChangelogVersion(
         version: '1.2.0',
         releaseDate: DateTime(2025, 07, 02),
         updates: [

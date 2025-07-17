@@ -375,6 +375,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get changelogTitle => 'سجل التغييرات';
 
   @override
+  String get changelog130Title => 'تغيير السرعة الأساسية حسب BPM';
+
+  @override
+  String get changelog130Description =>
+      'يمكنك الآن تغيير سرعة الأغنية بناءً على BPM. يتيح هذا تعديلات دقيقة للسرعة. علاوة على ذلك، يمكن تعيين السرعة إلى 1.0x باستخدام زر الإعادة تعيين.';
+
+  @override
   String get changelog1201Title => 'إضافة بيانات الوسائط لملفات الصوت';
 
   @override

@@ -126,6 +126,8 @@
     "cancelSubscription": "Annulla Abbonamento",
     "voteForFeatures": "Vota per le Funzionalità",
     "changelogTitle": "Changelog",
+    "changelog130Title": "Cambia il tempo basato su BPM",
+    "changelog130Description": "Ora puoi cambiare il tempo della canzone in base al BPM. Questo ti permette di regolare il tempo con precisione. Inoltre, il tempo ora può essere reimpostato con un pulsante.",
     "changelog1201Title": "1/4 Aggiunta informazioni sui media per i file audio",
     "changelog1201Description": "L'app ora mostra le informazioni sui media per i file audio. Questo include il titolo e l'artista per ora.",
     "changelog1202Title": "2/4 Conversione di m4a in mp3",
