@@ -43,6 +43,7 @@
     "onboardingDescription3": "我们重视您的隐私并谨慎处理您的数据。请查看我们的隐私政策并接受以继续。",
     "onboardingIAccept": "我接受",
     "onboardingTermsOfServiceLink": "隐私政策",
+    "onboardingTermsOfService": "隐私政策",
     "and": "和",
     "onboardingIAcceptUsageStatistics": "我同意将数据用于分析和错误报告。",
     "onboardingGetStarted": "开始使用",
@@ -185,5 +186,9 @@
     "deleteSongConfirmationTitle": "删除歌曲",
     "settings": "设置",
     "analytics": "分析",
-    "analyticsDescription": "我们使用 Microsoft Clarity 收集使用数据并改进应用程序。这些数据不会与第三方共享。"
+    "analyticsDescription": "我们使用 Microsoft Clarity 收集使用数据并改进应用程序。这些数据不会与第三方共享。",
+    "enterSongBpm": "输入歌曲 BPM",
+    "enterSongBpmHint": "例如 120",
+    "resetTempo": "重置速度",
+    "onboardingPrivacyPolicyLink": "隐私政策"
 }

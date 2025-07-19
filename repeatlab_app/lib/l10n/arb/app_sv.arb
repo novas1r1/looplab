@@ -182,5 +182,8 @@
     "deleteSongConfirmationTitle": "Radera Låt",
     "settings": "Inställningar",
     "analytics": "Analytics",
-    "analyticsDescription": "Vi använder Microsoft Clarity för att samla in användarstatistik och förbättra appen. Dessa data delas inte med tredje part."
+    "analyticsDescription": "Vi använder Microsoft Clarity för att samla in användarstatistik och förbättra appen. Dessa data delas inte med tredje part.",
+    "enterSongBpm": "Ange låtens BPM",
+    "enterSongBpmHint": "exempelvis 120",
+    "resetTempo": "Återställ tempo"
 }

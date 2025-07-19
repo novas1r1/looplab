@@ -136,7 +136,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get onboardingIAccept => '我接受';
 
   @override
-  String get onboardingPrivacyPolicyLink => 'Privacy Policy';
+  String get onboardingPrivacyPolicyLink => '隐私政策';
 
   @override
   String get onboardingTermsOfServiceLink => '隐私政策';
@@ -514,4 +514,10 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String get analyticsDescription =>
       '我们使用 Microsoft Clarity 收集使用数据并改进应用程序。这些数据不会与第三方共享。';
+
+  @override
+  String get enterSongBpm => '输入歌曲 BPM';
+
+  @override
+  String get enterSongBpmHint => '例如 120';
 }

@@ -112,7 +112,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                                 TextSpan(
-                                  recognizer: TapGestureRecognizer()..onTap = _showPrivacyPolicy,
+                                  recognizer: TapGestureRecognizer()..onTap = _showTermsOfService,
                                   text: context.l10n.onboardingTermsOfServiceLink,
                                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                     decoration: TextDecoration.underline,
@@ -225,6 +225,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   void _showPrivacyPolicy() {
     Navigator.of(context).pushNamed('/privacy');
+  }
+
+  void _showTermsOfService() {
+    Navigator.of(context).pushNamed('/terms');
   }
 
   Widget _buildSlide(OnboardingSlide slide) {

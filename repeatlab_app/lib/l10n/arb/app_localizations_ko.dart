@@ -525,4 +525,10 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get analyticsDescription =>
       'Microsoft Clarity를 사용하여 사용 데이터를 수집하고 앱을 개선합니다. 이 데이터는 제3자와 공유되지 않습니다.';
+
+  @override
+  String get enterSongBpm => '곡의 BPM 입력';
+
+  @override
+  String get enterSongBpmHint => '예: 120';
 }

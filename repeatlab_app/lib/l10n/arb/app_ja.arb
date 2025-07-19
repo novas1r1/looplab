@@ -185,5 +185,8 @@
     "deleteSongConfirmationTitle": "曲を削除",
     "settings": "設定",
     "analytics": "分析",
-    "analyticsDescription": "Microsoft Clarityを使用して使用データを収集し、アプリを改善します。これらのデータは第三者と共有されません。"
+    "analyticsDescription": "Microsoft Clarityを使用して使用データを収集し、アプリを改善します。これらのデータは第三者と共有されません。",
+    "enterSongBpm": "曲のBPMを入力",
+    "enterSongBpmHint": "例：120",
+    "resetTempo": "テンポをリセット"
 }

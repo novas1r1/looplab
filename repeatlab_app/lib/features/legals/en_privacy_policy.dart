@@ -1,0 +1,129 @@
+const privacyPolicy = '''
+<p>Last updated: 19 July 2025</p>
+
+<h2>Information We Collect</h2>
+<p>Your privacy is important to us. This Privacy Policy outlines how we collect, use, and protect your information when you use our mobile application (the 'App'), which is available on iOS and Android platforms. This policy is compliant with the General Data Protection Regulation (GDPR).</p>
+
+<p><strong>Effective Date:</strong> 17. July 2025</p>
+
+<p>We collect the following types of information:</p>
+<ul>
+<li><strong>Personal Information:</strong> Information you provide to us, such as your email address when submitting feedback via Wiredash.</li>
+<li><strong>Payment Information:</strong> Data related to in-app purchases and subscriptions, processed by RevenueCat.</li>
+<li><strong>Crash Logs:</strong> Information about app errors and crashes, collected through Sentry.</li>
+<li><strong>Usage Statistics:</strong> Usage data to help us improve the app.</li>
+<li><strong>Heatmaps & Session Recording:</strong> Analytics data to help us improve your experience through Microsoft Clarity.</li>
+<li><strong>Feature Voting Data:</strong> Information you provide when voting for features or submitting feature proposals through UserOrient, including app version, build number, and subscription status.</li>
+<li><strong>App Usage Analytics:</strong> Detailed analytics about how you interact with the app, including screen views, button clicks, and feature usage patterns.</li>
+<li><strong>Device Information:</strong> Technical information about your device, operating system, and app version for debugging and optimization purposes.</li>
+<li><strong>Local Storage Data:</strong> Songs, loops, and user preferences stored locally on your device.</li>
+</ul>
+
+<h2>Data Controller</h2>
+<p>The data controller responsible for your information is:</p>
+<p>Verena Zaiser<br>
+Reichenbachstr. 17<br>
+70372 Stuttgart<br>
+<br>
+Email: support@repeatlab.de</p>
+
+<h2>Legal Basis for Processing</h2>
+<p>We process your data based on the following legal bases:</p>
+<ul>
+<li>Your consent for feedback submissions via Wiredash and app analytics.</li>
+<li>Performance of a contract for processing payments and managing subscriptions through RevenueCat.</li>
+<li>Our legitimate interest in ensuring the App operates effectively by using Sentry for crash reporting.</li>
+<li>Your consent for feature voting and user experience improvement through UserOrient.</li>
+<li>Your consent for detailed analytics collection through Microsoft Clarity.</li>
+</ul>
+
+<h2>How We Use Your Information</h2>
+<p>We use the information we collect for the following purposes:</p>
+<ul>
+<li>To process in-app purchases and manage subscriptions through RevenueCat.</li>
+<li>To gather feedback and improve the App using Wiredash.</li>
+<li>To monitor and fix issues using Sentry crash logging.</li>
+<li>To improve user experience and enhance App features.</li>
+<li>To improve the app through Microsoft Clarity analytics.</li>
+<li>To collect and process feature requests and votes through UserOrient.</li>
+<li>To provide personalized app experiences and recommendations.</li>
+<li>To ensure app stability and performance across different devices and platforms.</li>
+</ul>
+
+<h2>Data Retention</h2>
+<p>We retain your data for the following periods:</p>
+<ul>
+<li><strong>Analytics Data:</strong> Retained for up to 2 years for app improvement purposes.</li>
+<li><strong>Crash Logs:</strong> Retained for up to 1 year for debugging and stability improvements.</li>
+<li><strong>Feature Voting Data:</strong> Retained for up to 3 years to track feature development and user preferences.</li>
+<li><strong>Payment Information:</strong> Retained as required by RevenueCat and applicable financial regulations.</li>
+<li><strong>Local App Data:</strong> Stored on your device until you delete it or uninstall the app.</li>
+</ul>
+<p>You can request deletion of your data at any time by contacting us at support@repeatlab.de or using the "Delete All Data" feature in the app settings.</p>
+
+<h2>Your Rights</h2>
+<p>Under the GDPR, you have the following rights:</p>
+<ul>
+<li>The right to access the personal information we hold about you.</li>
+<li>The right to request corrections to your personal information.</li>
+<li>The right to request deletion of your personal information ('right to be forgotten').</li>
+<li>The right to data portability.</li>
+<li>The right to object to processing based on our legitimate interests.</li>
+<li>The right to withdraw consent at any time.</li>
+<li>The right to lodge a complaint with a supervisory authority.</li>
+<li>The right to restrict processing of your data.</li>
+<li>The right to be informed about data processing activities.</li>
+</ul>
+
+<h2>Consent Management</h2>
+<p>You can manage your consent preferences at any time:</p>
+<ul>
+<li><strong>Analytics Consent:</strong> You can enable or disable analytics collection in the app settings. When disabled, Microsoft Clarity analytics will be paused.</li>
+<li><strong>Crash Reporting:</strong> Crash reporting through Sentry operates based on our legitimate interest in app stability, but you can contact us to request its limitation.</li>
+<li><strong>Feature Voting:</strong> Participation in feature voting through UserOrient is optional and requires your consent.</li>
+<li><strong>Feedback Collection:</strong> Submitting feedback through Wiredash is voluntary and requires your consent.</li>
+</ul>
+
+<h2>Third-Party Services</h2>
+<p>We use third-party services to enhance our App:</p>
+<ul>
+<li><strong>Wiredash:</strong> Used to collect user feedback and bug reports. Data is processed according to Wiredash's privacy policy.</li>
+<li><strong>RevenueCat:</strong> Used to process in-app purchases and subscriptions. Payment data is processed according to RevenueCat's privacy policy.</li>
+<li><strong>Sentry:</strong> Used for error monitoring and crash reporting. Technical data is processed according to Sentry's privacy policy.</li>
+<li><strong>Microsoft Clarity:</strong> Used for analytics and user experience improvement. Usage data is processed according to Microsoft's privacy policy.</li>
+<li><strong>UserOrient:</strong> Used for feature voting and user feedback collection. Feature voting data is processed according to UserOrient's privacy policy.</li>
+</ul>
+<p>Each third-party service has its own privacy policy, and we recommend reviewing them for detailed information about how they process your data.</p>
+
+<h2>Data Security</h2>
+<p>We implement appropriate technical and organizational measures to protect your personal data against unauthorized access, alteration, disclosure, or destruction. These measures include:</p>
+<ul>
+<li>Encryption of data in transit and at rest</li>
+<li>Regular security assessments and updates</li>
+<li>Access controls and authentication measures</li>
+<li>Secure data storage practices</li>
+</ul>
+
+<h2>International Data Transfers</h2>
+<p>Your data may be transferred to and processed in countries outside the European Economic Area (EEA). We ensure that such transfers comply with GDPR requirements through appropriate safeguards, such as:</p>
+<ul>
+<li>Adequacy decisions by the European Commission</li>
+<li>Standard contractual clauses</li>
+<li>Other appropriate safeguards as required by GDPR</li>
+</ul>
+
+<h2>Children's Privacy</h2>
+<p>Our App is not intended for children under the age of 13. We do not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child has provided us with personal information, please contact us immediately.</p>
+
+<h2>Changes to This Privacy Policy</h2>
+<p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy in the App and updating the "Last updated" date. We encourage you to review this Privacy Policy periodically.</p>
+
+<h2>Contact Us</h2>
+<p>If you have any questions or concerns about this Privacy Policy, or if you wish to exercise your rights under GDPR, please contact us at support@repeatlab.de</p>
+
+<p>For data protection inquiries, you can also contact the relevant supervisory authority in your country.</p>
+
+<p>Thank you for using our App!</p>
+
+<p style="text-align:center; margin-top:3rem;">© 2025 RepeatLab. All rights reserved.</p>
+''';

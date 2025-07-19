@@ -7,6 +7,7 @@ import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/paywall/premium_screen.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
+import 'package:repeatlab/l10n/l10n.dart';
 
 enum _TempoMode { multiplier, bpm }
 
@@ -108,18 +109,18 @@ class _SpeedControlState extends State<SpeedControl> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Enter Song BPM'),
+          title: Text(context.l10n.enterSongBpm),
           content: TextField(
             controller: controller,
             autofocus: true,
             keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            decoration: const InputDecoration(hintText: 'e.g. 120'),
+            decoration: InputDecoration(hintText: context.l10n.enterSongBpmHint),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
+              child: Text(context.l10n.cancel),
             ),
             TextButton(
               onPressed: () {
@@ -128,7 +129,7 @@ class _SpeedControlState extends State<SpeedControl> {
                   Navigator.pop<int>(context, value);
                 }
               },
-              child: const Text('Save'),
+              child: Text(context.l10n.save),
             ),
           ],
         );

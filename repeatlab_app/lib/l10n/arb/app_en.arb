@@ -189,5 +189,7 @@
     "deleteSongConfirmationTitle": "Delete Song",
     "settings": "Settings",
     "analytics": "Analytics",
-    "analyticsDescription": "We use Microsoft Clarity to collect usage data and improve the app. This data is not shared with third parties."
+    "analyticsDescription": "We use Microsoft Clarity to collect usage data and improve the app. This data is not shared with third parties.",
+    "enterSongBpm": "Enter Song BPM",
+    "enterSongBpmHint": "e.g. 120"
 }

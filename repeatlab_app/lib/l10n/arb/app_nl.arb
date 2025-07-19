@@ -182,5 +182,8 @@
     "deleteSongConfirmationTitle": "Nummer Verwijderen",
     "settings": "Instellingen",
     "analytics": "Analytics",
-    "analyticsDescription": "We gebruiken Microsoft Clarity om gebruiksgegevens te verzamelen en de app te verbeteren. Deze gegevens worden niet gedeeld met derden."
+    "analyticsDescription": "We gebruiken Microsoft Clarity om gebruiksgegevens te verzamelen en de app te verbeteren. Deze gegevens worden niet gedeeld met derden.",
+    "enterSongBpm": "BPM van het nummer invoeren",
+    "enterSongBpmHint": "bijvoorbeeld 120",
+    "resetTempo": "Tempo resetten"
 }

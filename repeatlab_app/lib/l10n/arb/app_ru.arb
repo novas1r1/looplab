@@ -182,5 +182,8 @@
     "deleteSongConfirmationTitle": "Удалить Песню",
     "settings": "Настройки",
     "analytics": "Аналитика",
-    "analyticsDescription": "Мы используем Microsoft Clarity для сбора данных об использовании и улучшения приложения. Эти данные не передаются третьим лицам."
+    "analyticsDescription": "Мы используем Microsoft Clarity для сбора данных об использовании и улучшения приложения. Эти данные не передаются третьим лицам.",
+    "enterSongBpm": "Введите BPM песни",
+    "enterSongBpmHint": "например, 120",
+    "resetTempo": "Сбросить темп"
 }

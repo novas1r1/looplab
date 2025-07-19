@@ -1085,6 +1085,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'We use Microsoft Clarity to collect usage data and improve the app. This data is not shared with third parties.'**
   String get analyticsDescription;
+
+  /// No description provided for @enterSongBpm.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Song BPM'**
+  String get enterSongBpm;
+
+  /// No description provided for @enterSongBpmHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. 120'**
+  String get enterSongBpmHint;
 }
 
 class _AppLocalizationsDelegate

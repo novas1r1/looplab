@@ -187,5 +187,8 @@
     "deleteSongConfirmationTitle": "حذف الأغنية",
     "settings": "الإعدادات",
     "analytics": "التحليلات",
-    "analyticsDescription": "نحن نستخدم Microsoft Clarity لجمع بيانات الاستخدام وتحسين التطبيق. لا يتم مشاركة هذه البيانات مع الأطراف الثالثة."
+    "analyticsDescription": "نحن نستخدم Microsoft Clarity لجمع بيانات الاستخدام وتحسين التطبيق. لا يتم مشاركة هذه البيانات مع الأطراف الثالثة.",
+    "enterSongBpm": "أدخل BPM الأغنية",
+    "enterSongBpmHint": "مثل 120",
+    "resetTempo": "إعادة تعيين الإيقاع"
 }

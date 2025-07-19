@@ -182,5 +182,8 @@
     "deleteSongConfirmationTitle": "Usuń Utwór",
     "settings": "Ustawienia",
     "analytics": "Analiza",
-    "analyticsDescription": "Używamy Microsoft Clarity do zbierania danych użytkowania i poprawiania aplikacji. Te dane nie są udostępniane innym stronom."
+    "analyticsDescription": "Używamy Microsoft Clarity do zbierania danych użytkowania i poprawiania aplikacji. Te dane nie są udostępniane innym stronom.",
+    "enterSongBpm": "Wprowadź BPM utworu",
+    "enterSongBpmHint": "np. 120",
+    "resetTempo": "Zresetuj tempo"
 }

@@ -182,5 +182,8 @@
     "deleteSongConfirmationTitle": "Excluir Música",
     "settings": "Configurações",
     "analytics": "Analytics",
-    "analyticsDescription": "Usamos Microsoft Clarity para coletar dados de uso e melhorar o app. Esses dados não são compartilhados com terceiros."
+    "analyticsDescription": "Usamos Microsoft Clarity para coletar dados de uso e melhorar o app. Esses dados não são compartilhados com terceiros.",
+    "enterSongBpm": "Insira o BPM da música",
+    "enterSongBpmHint": "ex. 120",
+    "resetTempo": "Redefinir o tempo"
 }

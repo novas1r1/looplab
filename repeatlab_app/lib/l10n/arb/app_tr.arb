@@ -185,5 +185,8 @@
     "deleteSongConfirmationTitle": "Şarkıyı Sil",
     "settings": "Ayarlar",
     "analytics": "Analytics",
-    "analyticsDescription": "Microsoft Clarity kullanarak kullanım verilerini topluyor ve uygulamayı iyileştiriyoruz. Bu veriler üçüncü taraflarla paylaşılmaz."
+    "analyticsDescription": "Microsoft Clarity kullanarak kullanım verilerini topluyor ve uygulamayı iyileştiriyoruz. Bu veriler üçüncü taraflarla paylaşılmaz.",
+    "enterSongBpm": "Şarkı BPM'sini girin",
+    "enterSongBpmHint": "örn. 120",
+    "resetTempo": "Tempo'yu sıfırla"
 }

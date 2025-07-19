@@ -542,4 +542,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get analyticsDescription =>
       'We use Microsoft Clarity to collect usage data and improve the app. This data is not shared with third parties.';
+
+  @override
+  String get enterSongBpm => 'Enter Song BPM';
+
+  @override
+  String get enterSongBpmHint => 'e.g. 120';
 }

@@ -183,5 +183,8 @@
     "deleteSongConfirmationTitle": "Supprimer la Chanson",
     "settings": "Paramètres",
     "analytics": "Analytics",
-    "analyticsDescription": "Nous utilisons Microsoft Clarity pour collecter des données d'utilisation et améliorer l'app. Ces données ne sont pas partagées avec des tiers."
+    "analyticsDescription": "Nous utilisons Microsoft Clarity pour collecter des données d'utilisation et améliorer l'app. Ces données ne sont pas partagées avec des tiers.",
+    "enterSongBpm": "Entrer le BPM de la chanson",
+    "enterSongBpmHint": "par exemple, 120",
+    "resetTempo": "Réinitialiser le tempo"
 }

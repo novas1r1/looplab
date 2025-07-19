@@ -544,4 +544,10 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get analyticsDescription =>
       'हम माइक्रोसॉफ्ट क्लैरिटी का उपयोग करके उपयोग डेटा एकत्र करते हैं और ऐप को सुधारते हैं। इस डेटा को तीसरे पक्षों के साथ साझा नहीं किया जाता है।';
+
+  @override
+  String get enterSongBpm => 'गीत का BPM दर दर्ज करें';
+
+  @override
+  String get enterSongBpmHint => 'उदाहरण के लिए, 120';
 }
