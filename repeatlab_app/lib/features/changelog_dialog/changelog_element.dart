@@ -51,7 +51,7 @@ class ChangelogElement extends StatelessWidget {
               const SizedBox.shrink(),
             const SizedBox(height: 16),
             Divider(
-              color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+              color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.5),
               thickness: 1,
             ),
             const SizedBox(height: 16),
