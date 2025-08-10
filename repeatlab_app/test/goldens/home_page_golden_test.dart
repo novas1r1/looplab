@@ -14,7 +14,7 @@ void main() {
     goldenTest(
       'renders correctly',
       fileName: 'home_page',
-      pumpWidget: (tester, widget) async => tester.pumpApp(
+      pumpWidget: (tester, widget)  => tester.pumpApp(
         widget,
       ),
       builder: () => GoldenTestDeviceScenario(

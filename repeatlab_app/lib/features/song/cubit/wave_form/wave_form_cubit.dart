@@ -101,13 +101,9 @@ class WaveFormCubit extends Cubit<WaveFormState> {
     }
   }
 
-  Future<void> changePosition(Duration position) async {
-    songCubit.seekSong(position);
-  }
+  Future<void> changePosition(Duration position) => songCubit.seekSong(position);
 
-  Future<void> pauseSong() async {
-    songCubit.pauseSong();
-  }
+  Future<void> pauseSong() => songCubit.pauseSong();
 
   /// Calculate optimal number of samples for waveform visualization
   ///

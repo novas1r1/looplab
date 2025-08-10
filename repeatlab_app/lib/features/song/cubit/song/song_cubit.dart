@@ -244,8 +244,9 @@ class SongCubit extends Cubit<SongState> {
   Future<void> seekSong(Duration position) async {
     try {
       await audioHandler.seek(position);
-    } catch (ex, stack) {
-      unawaited(crashReportingRepository.reportError(ex, stack));
+    } catch (ex) {
+      // disabled crash reporting because its happening too often
+      // unawaited(crashReportingRepository.reportError(ex, stack));
       emit(
         state.copyWith(
           status: SongStatus.error,
@@ -361,6 +362,15 @@ class SongCubit extends Cubit<SongState> {
           error: null,
         ),
       );
+    } on TimeoutException catch (ex) {
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to select loop because start position could not be seeked: $ex',
+          activeLoop: null,
+          isLoopModeEnabled: false,
+        ),
+      );
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
 
@@ -413,6 +423,13 @@ class SongCubit extends Cubit<SongState> {
       } else {
         await audioHandler.pause();
       }
+    } on TimeoutException catch (ex) {
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to toggle play loop: $ex',
+        ),
+      );
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
       emit(

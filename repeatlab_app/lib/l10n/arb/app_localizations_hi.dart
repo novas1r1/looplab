@@ -136,20 +136,20 @@ class AppLocalizationsHi extends AppLocalizations {
       'हम आपकी गोपनीयता का सम्मान करते हैं और आपके डेटा को सावधानी से संभालते हैं। कृपया आगे बढ़ने के लिए गोपनीयता नीति की समीक्षा करें और सहमत हों।';
 
   @override
-  String get onboardingIAccept => 'I accept the ';
+  String get onboardingIAccept => 'मैं स्वीकार करता हूं';
 
   @override
   String get onboardingPrivacyPolicyLink => 'गोपनीयता नीति';
 
   @override
-  String get onboardingTermsOfServiceLink => 'Terms of Service';
+  String get onboardingTermsOfServiceLink => 'नियम और शर्तें';
 
   @override
-  String get and => ' and the ';
+  String get and => 'और';
 
   @override
   String get onboardingIAcceptUsageStatistics =>
-      'I accept the usage of my data for analytics and crash reporting to improve the app.';
+      'मैं उपयोग आँकड़ों को साझा करने के लिए स्वीकार करता हूं';
 
   @override
   String get onboardingGetStarted => 'शुरू करें';
