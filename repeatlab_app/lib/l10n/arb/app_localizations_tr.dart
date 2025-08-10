@@ -138,7 +138,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get onboardingIAccept => 'Kabul Ediyorum';
 
   @override
-  String get onboardingPrivacyPolicyLink => 'Privacy Policy';
+  String get onboardingPrivacyPolicyLink => 'Gizlilik Politikası';
 
   @override
   String get onboardingTermsOfServiceLink => 'Gizlilik Politikası';
@@ -548,6 +548,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get enterSongBpm => 'Şarkı BPM\'sini girin';
+
+  @override
+  String get enterSongBpmDescription =>
+      'Şarkının orijinal BPM\'sini girin ve tempo\'yu değiştirin. Bu, farklı bir tempo ile şarkıyı çalarken yararlıdır. BPM şarkıya atanır ve kaydedilir.';
 
   @override
   String get enterSongBpmHint => 'örn. 120';

@@ -184,6 +184,8 @@
     "analytics": "Analytics",
     "analyticsDescription": "We gebruiken Microsoft Clarity om gebruiksgegevens te verzamelen en de app te verbeteren. Deze gegevens worden niet gedeeld met derden.",
     "enterSongBpm": "BPM van het nummer invoeren",
+    "enterSongBpmDescription": "Voer het originele BPM van het nummer in om het tempo te wijzigen. Dit is handig wanneer je een nummer oefent met een ander tempo. Het BPM wordt aan het nummer gekoppeld en opgeslagen.",
     "enterSongBpmHint": "bijvoorbeeld 120",
-    "resetTempo": "Tempo resetten"
+    "resetTempo": "Tempo resetten",
+    "onboardingPrivacyPolicyLink": "Privacybeleid"
 }

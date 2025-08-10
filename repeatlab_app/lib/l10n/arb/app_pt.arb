@@ -184,6 +184,8 @@
     "analytics": "Analytics",
     "analyticsDescription": "Usamos Microsoft Clarity para coletar dados de uso e melhorar o app. Esses dados não são compartilhados com terceiros.",
     "enterSongBpm": "Insira o BPM da música",
+    "enterSongBpmDescription": "Insira o BPM original da música para alterar o tempo. Isso é útil quando você está praticando uma música com um tempo diferente. O BPM será atribuído à música e salvo.",
     "enterSongBpmHint": "ex. 120",
-    "resetTempo": "Redefinir o tempo"
+    "resetTempo": "Redefinir o tempo",
+    "onboardingPrivacyPolicyLink": "Política de Privacidade"
 }

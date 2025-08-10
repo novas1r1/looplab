@@ -1092,6 +1092,12 @@ abstract class AppLocalizations {
   /// **'Enter Song BPM'**
   String get enterSongBpm;
 
+  /// No description provided for @enterSongBpmDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the original BPM of the song to change the tempo. This is useful when practicing a song with a different tempo. The BPM will be assigned to the song and saved.'**
+  String get enterSongBpmDescription;
+
   /// No description provided for @enterSongBpmHint.
   ///
   /// In en, this message translates to:

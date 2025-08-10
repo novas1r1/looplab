@@ -554,5 +554,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get enterSongBpm => 'Introducir BPM de la canción';
 
   @override
+  String get enterSongBpmDescription =>
+      'Introduce el BPM original de la canción para cambiar el tempo. Esto es útil cuando practicas una canción con un tempo diferente. El BPM se asignará a la canción y se guardará.';
+
+  @override
   String get enterSongBpmHint => 'por ejemplo, 120';
 }

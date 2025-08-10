@@ -60,6 +60,17 @@ class _SpeedControlState extends State<SpeedControl> {
             ],
           ),
           const SizedBox(width: 12),
+          if (_mode == _TempoMode.bpm)
+            Row(
+              children: [
+                Text(sliderLabel),
+                const SizedBox(width: 4),
+                GestureDetector(
+                  onTap: () => _onTapLabel(context, originalBpm),
+                  child: const Icon(Icons.edit, size: 16),
+                ),
+              ],
+            ),
           Expanded(
             child: Slider(
               value: sliderValue.clamp(sliderMin, sliderMax),
@@ -70,19 +81,14 @@ class _SpeedControlState extends State<SpeedControl> {
               onChanged: (val) => _onUpdate(context, val, originalBpm),
             ),
           ),
-          InkWell(
-            onTap: () => _onTapLabel(context, originalBpm),
-            child: Text(
-              sliderLabel,
-              style: _mode == _TempoMode.bpm
-                  ? const TextStyle(decoration: TextDecoration.underline)
-                  : null,
-            ),
-          ),
-          IconButton(
-            onPressed: () => _onReset(context),
-            icon: const Icon(Icons.refresh),
-          ),
+          Text(sliderLabel),
+          if (_mode == _TempoMode.multiplier)
+            IconButton(
+              onPressed: () => _onReset(context),
+              icon: const Icon(Icons.refresh),
+            )
+          else
+            const SizedBox(width: 16),
         ],
       ),
     );
@@ -110,12 +116,19 @@ class _SpeedControlState extends State<SpeedControl> {
       builder: (context) {
         return AlertDialog(
           title: Text(context.l10n.enterSongBpm),
-          content: TextField(
-            controller: controller,
-            autofocus: true,
-            keyboardType: TextInputType.number,
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            decoration: InputDecoration(hintText: context.l10n.enterSongBpmHint),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(context.l10n.enterSongBpmHint),
+              const SizedBox(height: 16),
+              TextField(
+                controller: controller,
+                autofocus: true,
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                decoration: InputDecoration(hintText: context.l10n.enterSongBpmHint),
+              ),
+            ],
           ),
           actions: [
             TextButton(

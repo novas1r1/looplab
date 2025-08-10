@@ -137,7 +137,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get onboardingIAccept => '同意します';
 
   @override
-  String get onboardingPrivacyPolicyLink => 'Privacy Policy';
+  String get onboardingPrivacyPolicyLink => 'プライバシーポリシー';
 
   @override
   String get onboardingTermsOfServiceLink => 'プライバシーポリシー';
@@ -530,6 +530,10 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get enterSongBpm => '曲のBPMを入力';
+
+  @override
+  String get enterSongBpmDescription =>
+      '曲の元のBPMを入力してテンポを変更します。これは、異なるテンポで曲を練習する場合に便利です。BPMは曲に割り当てられ、保存されます。';
 
   @override
   String get enterSongBpmHint => '例：120';

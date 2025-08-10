@@ -135,6 +135,7 @@
     "changelog1203Title": "3/4 Eliminazione delle canzoni singole",
     "changelog1203Description": "Ora puoi eliminare una canzone trascinandola a sinistra e toccando 'Elimina Canzone'. Questo eliminerà la canzone e tutti i loop associati.",
     "changelog1204Title": "4/4 Cambiato il formato audio",
+    "changelog1204Description": "L'app ora converte i file audio in formato mp3. Questo è utile per i file audio che non sono supportati dall'app.",
     "changelog115Title": "Correzione di bug",
     "changelog115Description": "Se non era stato impostato un fine del loop, il loop si riprodurrà fino alla fine della canzone e considererà la fine della canzone come fine del loop. Il servizio audio in background si interrompe ora quando l'app viene chiusa.",
     "changelog110Title": "Audio ora si riproduce anche in background e standby",
@@ -183,6 +184,8 @@
     "analytics": "Analytics",
     "analyticsDescription": "Utilizziamo Microsoft Clarity per raccogliere dati di utilizzo e migliorare l'app. Questi dati non vengono condivisi con terze parti.",
     "enterSongBpm": "Inserisci BPM della canzone",
+    "enterSongBpmDescription": "Inserisci il BPM originale della canzone per cambiare il tempo. Questo è utile quando pratichi una canzone con un tempo diverso. Il BPM verrà assegnato alla canzone e salvato.",
     "enterSongBpmHint": "es. 120",
-    "resetTempo": "Reimposta il tempo"
+    "resetTempo": "Reimposta il tempo",
+    "onboardingPrivacyPolicyLink": "Informativa sulla Privacy"
 }

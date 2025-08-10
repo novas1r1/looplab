@@ -519,5 +519,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get enterSongBpm => '输入歌曲 BPM';
 
   @override
+  String get enterSongBpmDescription =>
+      '输入歌曲的原始 BPM 以更改速度。这在练习不同速度的歌曲时很有用。BPM 将分配给歌曲并保存。';
+
+  @override
   String get enterSongBpmHint => '例如 120';
 }

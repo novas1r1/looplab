@@ -184,6 +184,8 @@
     "analytics": "Analiza",
     "analyticsDescription": "Używamy Microsoft Clarity do zbierania danych użytkowania i poprawiania aplikacji. Te dane nie są udostępniane innym stronom.",
     "enterSongBpm": "Wprowadź BPM utworu",
+    "enterSongBpmDescription": "Wprowadź oryginalny BPM utworu, aby zmienić tempo. To przydatne, gdy ćwiczysz utwór z innym tempem. BPM zostanie przypisany do utworu i zapisany.",
     "enterSongBpmHint": "np. 120",
-    "resetTempo": "Zresetuj tempo"
+    "resetTempo": "Zresetuj tempo",
+    "onboardingPrivacyPolicyLink": "Polityka Prywatności"
 }

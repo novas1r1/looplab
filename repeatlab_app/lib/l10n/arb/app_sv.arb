@@ -184,6 +184,8 @@
     "analytics": "Analytics",
     "analyticsDescription": "Vi använder Microsoft Clarity för att samla in användarstatistik och förbättra appen. Dessa data delas inte med tredje part.",
     "enterSongBpm": "Ange låtens BPM",
+    "enterSongBpmDescription": "Ange det ursprungliga BPM för låten för att ändra tempo. Detta är användbart när du tränar en låt med ett annat tempo. BPM kommer att tilldelas låten och sparas.",
     "enterSongBpmHint": "exempelvis 120",
-    "resetTempo": "Återställ tempo"
+    "resetTempo": "Återställ tempo",
+    "onboardingPrivacyPolicyLink": "Integritetspolicy"
 }

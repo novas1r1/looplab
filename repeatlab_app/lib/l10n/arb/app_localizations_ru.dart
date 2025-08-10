@@ -138,7 +138,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get onboardingIAccept => 'Я принимаю ';
 
   @override
-  String get onboardingPrivacyPolicyLink => 'Privacy Policy';
+  String get onboardingPrivacyPolicyLink => 'Политика конфиденциальности';
 
   @override
   String get onboardingTermsOfServiceLink => 'Политику конфиденциальности';
@@ -549,6 +549,10 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get enterSongBpm => 'Введите BPM песни';
+
+  @override
+  String get enterSongBpmDescription =>
+      'Введите оригинальный BPM песни, чтобы изменить темп. Это полезно, когда вы тренируетесь с другой скоростью. BPM будет присвоен песне и сохранен.';
 
   @override
   String get enterSongBpmHint => 'например, 120';

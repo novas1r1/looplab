@@ -138,7 +138,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get onboardingIAccept => 'Accetto l\'';
 
   @override
-  String get onboardingPrivacyPolicyLink => 'Privacy Policy';
+  String get onboardingPrivacyPolicyLink => 'Informativa sulla Privacy';
 
   @override
   String get onboardingTermsOfServiceLink => 'Informativa sulla Privacy';
@@ -415,7 +415,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get changelog1204Description =>
-      'The audio format was changed to a more standard format and loops can be edited more precisely now.';
+      'L\'app ora converte i file audio in formato mp3. Questo è utile per i file audio che non sono supportati dall\'app.';
 
   @override
   String get changelog115Title => 'Correzione di bug';
@@ -552,6 +552,10 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get enterSongBpm => 'Inserisci BPM della canzone';
+
+  @override
+  String get enterSongBpmDescription =>
+      'Inserisci il BPM originale della canzone per cambiare il tempo. Questo è utile quando pratichi una canzone con un tempo diverso. Il BPM verrà assegnato alla canzone e salvato.';
 
   @override
   String get enterSongBpmHint => 'es. 120';

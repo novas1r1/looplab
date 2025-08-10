@@ -549,5 +549,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get enterSongBpm => 'गीत का BPM दर दर्ज करें';
 
   @override
+  String get enterSongBpmDescription =>
+      'गीत का मूल BPM दर्ज करके गति बदलें। यह अलग गति के साथ गीत अभ्यास करने में सहायक है। BPM गीत से संबंधित होगा और सहेजा जाएगा।';
+
+  @override
   String get enterSongBpmHint => 'उदाहरण के लिए, 120';
 }

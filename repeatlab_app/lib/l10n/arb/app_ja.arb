@@ -187,6 +187,8 @@
     "analytics": "分析",
     "analyticsDescription": "Microsoft Clarityを使用して使用データを収集し、アプリを改善します。これらのデータは第三者と共有されません。",
     "enterSongBpm": "曲のBPMを入力",
+    "enterSongBpmDescription": "曲の元のBPMを入力してテンポを変更します。これは、異なるテンポで曲を練習する場合に便利です。BPMは曲に割り当てられ、保存されます。",
     "enterSongBpmHint": "例：120",
-    "resetTempo": "テンポをリセット"
+    "resetTempo": "テンポをリセット",
+    "onboardingPrivacyPolicyLink": "プライバシーポリシー"
 }

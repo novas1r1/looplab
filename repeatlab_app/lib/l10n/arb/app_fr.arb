@@ -185,6 +185,7 @@
     "analytics": "Analytics",
     "analyticsDescription": "Nous utilisons Microsoft Clarity pour collecter des données d'utilisation et améliorer l'app. Ces données ne sont pas partagées avec des tiers.",
     "enterSongBpm": "Entrer le BPM de la chanson",
+    "enterSongBpmDescription": "Entrez le BPM original de la chanson pour changer le tempo. Cela est utile lorsque vous pratiquez une chanson avec un tempo différent. Le BPM sera assigné à la chanson et enregistré.",
     "enterSongBpmHint": "par exemple, 120",
     "resetTempo": "Réinitialiser le tempo"
 }

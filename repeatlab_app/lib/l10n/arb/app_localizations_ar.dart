@@ -544,5 +544,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get enterSongBpm => 'أدخل BPM الأغنية';
 
   @override
+  String get enterSongBpmDescription => 'أدخل BPM الأغنية';
+
+  @override
   String get enterSongBpmHint => 'مثل 120';
 }

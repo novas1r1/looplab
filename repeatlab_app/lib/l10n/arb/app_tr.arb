@@ -187,6 +187,8 @@
     "analytics": "Analytics",
     "analyticsDescription": "Microsoft Clarity kullanarak kullanım verilerini topluyor ve uygulamayı iyileştiriyoruz. Bu veriler üçüncü taraflarla paylaşılmaz.",
     "enterSongBpm": "Şarkı BPM'sini girin",
+    "enterSongBpmDescription": "Şarkının orijinal BPM'sini girin ve tempo'yu değiştirin. Bu, farklı bir tempo ile şarkıyı çalarken yararlıdır. BPM şarkıya atanır ve kaydedilir.",
     "enterSongBpmHint": "örn. 120",
-    "resetTempo": "Tempo'yu sıfırla"
+    "resetTempo": "Tempo'yu sıfırla",
+    "onboardingPrivacyPolicyLink": "Gizlilik Politikası"
 }
