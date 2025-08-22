@@ -70,7 +70,7 @@
     "endMustBeAfterStart": "Bitiş konumu başlangıç konumundan sonra olmalıdır",
     "premiumHeadline": "Tempo kontrolü, yakınlaştırma ve sınırsız döngülerle favori şarkılarınızda profesyoneller gibi ustalaşın!",
     "premiumFeatureUnlimitedLoops": "Sınırsız döngüler",
-    "premiumFeatureChangeMusicSpeed": "Müzik hızını değiştir",
+    "premiumFeatureChangeMusicSpeed": "Müzik hızını BPM veya %'ye göre değiştir",
     "premiumFeatureZoomInOut": "Dalga formunu yakınlaştır/uzaklaştır",
     "premiumFeatureSupportDeveloper": "Bağımsız geliştiriciyi destekle",
     "freeFeatureUnlimitedSongs": "Sınırsız şarkı + şarkı başına bir döngü",

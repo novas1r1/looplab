@@ -229,7 +229,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get premiumFeatureUnlimitedLoops => 'Неограниченное Количество Лупов';
 
   @override
-  String get premiumFeatureChangeMusicSpeed => 'Изменение Скорости Музыки';
+  String get premiumFeatureChangeMusicSpeed =>
+      'Изменение Скорости Музыки на основе BPM';
 
   @override
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';

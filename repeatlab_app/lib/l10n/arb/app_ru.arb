@@ -66,7 +66,7 @@
     "endMustBeAfterStart": "Конечная позиция должна быть после начальной",
     "premiumHeadline": "Освойте Ваши Любимые Песни как Про с Контролем Скорости, Zoom и Неограниченными Лупами!",
     "premiumFeatureUnlimitedLoops": "Неограниченное Количество Лупов",
-    "premiumFeatureChangeMusicSpeed": "Изменение Скорости Музыки",
+    "premiumFeatureChangeMusicSpeed": "Изменение Скорости Музыки на основе BPM",
     "premiumFeatureZoomInOut": "Waveform Zoom-In/Out",
     "premiumFeatureSupportDeveloper": "Поддержка Независимого Разработчика",
     "freeFeatureUnlimitedSongs": "Неограниченное Количество Песен + Один Луп на Песню",

@@ -531,7 +531,7 @@ abstract class AppLocalizations {
   /// No description provided for @premiumFeatureChangeMusicSpeed.
   ///
   /// In en, this message translates to:
-  /// **'Change Music Speed'**
+  /// **'Change Music Speed based on BPM or %'**
   String get premiumFeatureChangeMusicSpeed;
 
   /// No description provided for @premiumFeatureZoomInOut.

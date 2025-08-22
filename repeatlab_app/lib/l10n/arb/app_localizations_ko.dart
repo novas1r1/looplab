@@ -223,7 +223,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get premiumFeatureUnlimitedLoops => '무제한 루프';
 
   @override
-  String get premiumFeatureChangeMusicSpeed => '음악 속도 변경';
+  String get premiumFeatureChangeMusicSpeed => 'BPM 또는 % 기반 음악 속도 변경';
 
   @override
   String get premiumFeatureZoomInOut => '파형 확대/축소';

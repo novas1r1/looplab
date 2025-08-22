@@ -73,7 +73,7 @@
     "endMustBeAfterStart": "End position must be after start position",
     "premiumHeadline": "Master Your Favorite Songs like a Pro with Tempo Control, Zoom & Unlimited Loops!",
     "premiumFeatureUnlimitedLoops": "Unlimited Loops",
-    "premiumFeatureChangeMusicSpeed": "Change Music Speed",
+    "premiumFeatureChangeMusicSpeed": "Change Music Speed based on BPM or %",
     "premiumFeatureZoomInOut": "Waveform Zoom-In/Out",
     "premiumFeatureSupportDeveloper": "Support the independent Developer",
     "freeFeatureUnlimitedSongs": "Unlimited Songs + One Loop per Song",

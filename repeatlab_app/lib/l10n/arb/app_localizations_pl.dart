@@ -229,7 +229,8 @@ class AppLocalizationsPl extends AppLocalizations {
   String get premiumFeatureUnlimitedLoops => 'Nieograniczona Liczba Pętli';
 
   @override
-  String get premiumFeatureChangeMusicSpeed => 'Zmień Prędkość Muzyki';
+  String get premiumFeatureChangeMusicSpeed =>
+      'Zmień Prędkość Muzyki na podstawie BPM lub %';
 
   @override
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';

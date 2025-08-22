@@ -231,7 +231,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get premiumFeatureChangeMusicSpeed =>
-      'Modifica la Velocità della Musica';
+      'Modifica la Velocità della Musica basato su BPM o %';
 
   @override
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';

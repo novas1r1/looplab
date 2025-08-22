@@ -72,7 +72,7 @@
     "endMustBeAfterStart": "يجب أن يكون موضع الانتهاء بعد موضع البدء",
     "premiumHeadline": "أتقن أغانيك المفضلة مثل المحترفين مع التحكم في الإيقاع والتكبير وحلقات غير محدودة!",
     "premiumFeatureUnlimitedLoops": "حلقات غير محدودة",
-    "premiumFeatureChangeMusicSpeed": "تغيير سرعة الموسيقى",
+    "premiumFeatureChangeMusicSpeed": "تغيير سرعة الموسيقى بناءً على BPM أو %",
     "premiumFeatureZoomInOut": "تكبير/تصغير الموجة",
     "premiumFeatureSupportDeveloper": "دعم المطور المستقل",
     "freeFeatureUnlimitedSongs": "أغاني غير محدودة + حلقة واحدة لكل أغنية",

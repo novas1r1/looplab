@@ -221,7 +221,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get premiumFeatureUnlimitedLoops => '无限循环';
 
   @override
-  String get premiumFeatureChangeMusicSpeed => '改变音乐速度';
+  String get premiumFeatureChangeMusicSpeed => '根据 BPM 或 % 改变音乐速度';
 
   @override
   String get premiumFeatureZoomInOut => '波形缩放';

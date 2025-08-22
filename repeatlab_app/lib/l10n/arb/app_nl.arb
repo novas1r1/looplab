@@ -66,7 +66,7 @@
     "endMustBeAfterStart": "Eindpositie moet na startpositie zijn",
     "premiumHeadline": "Beheers Je Favoriete Nummers als een Pro met Tempo Controle, Zoom & Onbeperkte Loops!",
     "premiumFeatureUnlimitedLoops": "Onbeperkte Loops",
-    "premiumFeatureChangeMusicSpeed": "Verander de Muzieksnelheid",
+    "premiumFeatureChangeMusicSpeed": "Verander de Muzieksnelheid basado BPM of %",
     "premiumFeatureZoomInOut": "Waveform Zoom-In/Out",
     "premiumFeatureSupportDeveloper": "Steun de Onafhankelijke Ontwikkelaar",
     "freeFeatureUnlimitedSongs": "Onbeperkte Nummers + Een Loop per Nummer",

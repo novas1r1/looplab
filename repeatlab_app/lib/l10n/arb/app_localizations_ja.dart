@@ -224,7 +224,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get premiumFeatureUnlimitedLoops => '無制限のループ';
 
   @override
-  String get premiumFeatureChangeMusicSpeed => '音楽の速度を変更';
+  String get premiumFeatureChangeMusicSpeed => 'BPMまたは%に基づいて音楽の速度を変更';
 
   @override
   String get premiumFeatureZoomInOut => '波形のズームイン/アウト';

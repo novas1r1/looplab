@@ -66,7 +66,7 @@
     "endMustBeAfterStart": "Slutposition måste vara efter startposition",
     "premiumHeadline": "Bemästra Dina Favoritlåtar som en Pro med Tempo Kontroll, Zoom och Obegränsade Loopar!",
     "premiumFeatureUnlimitedLoops": "Obegränsade Loopar",
-    "premiumFeatureChangeMusicSpeed": "Ändra Musikhastighet",
+    "premiumFeatureChangeMusicSpeed": "Ändra Musikhastighet baserat på BPM eller %",
     "premiumFeatureZoomInOut": "Waveform Zoom-In/Out",
     "premiumFeatureSupportDeveloper": "Stöd den Oberoende Utvecklaren",
     "freeFeatureUnlimitedSongs": "Obegränsade Låtar + En Loop per Låt",

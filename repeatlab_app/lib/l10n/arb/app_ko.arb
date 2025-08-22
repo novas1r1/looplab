@@ -70,7 +70,7 @@
     "endMustBeAfterStart": "종료 위치는 시작 위치보다 이후여야 합니다",
     "premiumHeadline": "템포 제어, 확대/축소 및 무제한 루프로 프로처럼 좋아하는 곡을 마스터하세요!",
     "premiumFeatureUnlimitedLoops": "무제한 루프",
-    "premiumFeatureChangeMusicSpeed": "음악 속도 변경",
+    "premiumFeatureChangeMusicSpeed": "BPM 또는 % 기반 음악 속도 변경",
     "premiumFeatureZoomInOut": "파형 확대/축소",
     "premiumFeatureSupportDeveloper": "독립 개발자 지원",
     "freeFeatureUnlimitedSongs": "무제한 곡 + 곡당 하나의 루프",

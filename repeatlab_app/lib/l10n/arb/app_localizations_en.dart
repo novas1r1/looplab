@@ -228,7 +228,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get premiumFeatureUnlimitedLoops => 'Unlimited Loops';
 
   @override
-  String get premiumFeatureChangeMusicSpeed => 'Change Music Speed';
+  String get premiumFeatureChangeMusicSpeed =>
+      'Change Music Speed based on BPM or %';
 
   @override
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';

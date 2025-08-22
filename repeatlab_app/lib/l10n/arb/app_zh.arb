@@ -71,7 +71,7 @@
     "endMustBeAfterStart": "结束位置必须在开始位置之后",
     "premiumHeadline": "通过速度控制、缩放和无限循环，像专业人士一样掌握您喜爱的歌曲！",
     "premiumFeatureUnlimitedLoops": "无限循环",
-    "premiumFeatureChangeMusicSpeed": "改变音乐速度",
+    "premiumFeatureChangeMusicSpeed": "根据 BPM 或 % 改变音乐速度",
     "premiumFeatureZoomInOut": "波形缩放",
     "premiumFeatureSupportDeveloper": "支持独立开发者",
     "freeFeatureUnlimitedSongs": "无限歌曲 + 每首歌一个循环",

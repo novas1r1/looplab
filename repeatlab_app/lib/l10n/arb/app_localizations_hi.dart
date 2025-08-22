@@ -232,7 +232,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get premiumFeatureUnlimitedLoops => 'असीमित लूप';
 
   @override
-  String get premiumFeatureChangeMusicSpeed => 'संगीत की गति बदलें';
+  String get premiumFeatureChangeMusicSpeed => 'BPM या % आधारित गति बदलें';
 
   @override
   String get premiumFeatureZoomInOut => 'वेवफॉर्म ज़ूम इन/आउट';

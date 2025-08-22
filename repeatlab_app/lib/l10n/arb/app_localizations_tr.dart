@@ -231,7 +231,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get premiumFeatureUnlimitedLoops => 'Sınırsız döngüler';
 
   @override
-  String get premiumFeatureChangeMusicSpeed => 'Müzik hızını değiştir';
+  String get premiumFeatureChangeMusicSpeed =>
+      'Müzik hızını BPM veya %\'ye göre değiştir';
 
   @override
   String get premiumFeatureZoomInOut => 'Dalga formunu yakınlaştır/uzaklaştır';

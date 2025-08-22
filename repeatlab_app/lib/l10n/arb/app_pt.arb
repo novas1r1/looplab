@@ -66,7 +66,7 @@
     "endMustBeAfterStart": "A posição final deve ser depois da posição inicial",
     "premiumHeadline": "Domine Suas Músicas Favoritas como um Pro com Controle de Tempo, Zoom e Loops Ilimitados",
     "premiumFeatureUnlimitedLoops": "Loops Ilimitados",
-    "premiumFeatureChangeMusicSpeed": "Altere a Velocidade da Música",
+    "premiumFeatureChangeMusicSpeed": "Altere a Velocidade da Música baseado no BPM ou %",
     "premiumFeatureZoomInOut": "Waveform Zoom-In/Out",
     "premiumFeatureSupportDeveloper": "Apoie o Desenvolvedor Independente",
     "freeFeatureUnlimitedSongs": "Músicas Ilimitadas + Um Loop por Música",

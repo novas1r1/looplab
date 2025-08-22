@@ -68,7 +68,7 @@
     "endMustBeAfterStart": "समाप्ति स्थिति प्रारंभ स्थिति के बाद होनी चाहिए",
     "premiumHeadline": "टेम्पो नियंत्रण, ज़ूम और असीमित लूप के साथ अपने पसंदीदा गीतों में पेशेवरों की तरह महारत हासिल करें!",
     "premiumFeatureUnlimitedLoops": "असीमित लूप",
-    "premiumFeatureChangeMusicSpeed": "संगीत की गति बदलें",
+    "premiumFeatureChangeMusicSpeed": "BPM या % आधारित गति बदलें",
     "premiumFeatureZoomInOut": "वेवफॉर्म ज़ूम इन/आउट",
     "premiumFeatureSupportDeveloper": "स्वतंत्र डेवलपर का समर्थन करें",
     "freeFeatureUnlimitedSongs": "असीमित गीत + प्रति गीत एक लूप",

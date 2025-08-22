@@ -228,7 +228,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get premiumFeatureUnlimitedLoops => 'حلقات غير محدودة';
 
   @override
-  String get premiumFeatureChangeMusicSpeed => 'تغيير سرعة الموسيقى';
+  String get premiumFeatureChangeMusicSpeed =>
+      'تغيير سرعة الموسيقى بناءً على BPM أو %';
 
   @override
   String get premiumFeatureZoomInOut => 'تكبير/تصغير الموجة';

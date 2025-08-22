@@ -25,9 +25,10 @@ dependencies:
   dart_mappable: ^4.5.0
   # ffmpeg_kit_flutter_new: ^1.6.1
   ffmpeg_kit_flutter_new:
-    git:
-      url: https://github.com/sk3llo/ffmpeg_kit_flutter.git
-      ref: android-local-aar
+    ^3.2.0
+    # git:
+    #   url: https://github.com/sk3llo/ffmpeg_kit_flutter.git
+    #   ref: android-local-aar
   file_picker: ^10.3.2
   flutter:
     sdk: flutter
