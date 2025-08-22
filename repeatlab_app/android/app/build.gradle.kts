@@ -55,6 +55,10 @@ android {
 
     buildTypes {
         release {
+            // this needs to be false for the app to work with ffmpeg 
+            // https://github.com/sk3llo/ffmpeg_kit_flutter/issues/25
+            isMinifyEnabled = false
+            isShrinkResources = false
             signingConfig = signingConfigs.getByName("release")
         }
         debug {
