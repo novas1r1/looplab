@@ -169,96 +169,73 @@ class _SongViewState extends State<_SongView> {
                     ),
                   ],
                 ),
-                body: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      WaveFormSoLoud(
-                        key: tutorialKeyWaveform,
-                        song: widget.song,
-                      ),
-                      const SizedBox(height: 8),
-                      LoopTimeline(
-                        key: tutorialKeyLoopTimeline,
-                        onLoopTap: (loop) => context.read<SongCubit>().selectLoop(loop),
-                        onPreviousLoop: () => context.read<SongCubit>().previousLoop(),
-                        onNextLoop: () => context.read<SongCubit>().nextLoop(),
-                        onSeek: (position) => context.read<SongCubit>().seekSong(position),
-                        duration: widget.song.duration,
-                      ),
-                      const SizedBox(height: 12),
-                      SongController(
-                        key: tutorialKeySongController,
-                      ),
-                      const Divider(height: 32),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Loops',
-                            style: Theme.of(context).textTheme.headlineLarge,
+                resizeToAvoidBottomInset: true,
+                body: CustomScrollView(
+                  slivers: [
+                    SliverPadding(
+                      padding: const EdgeInsets.all(16),
+                      sliver: SliverList(
+                        delegate: SliverChildListDelegate([
+                          WaveFormSoLoud(
+                            key: tutorialKeyWaveform,
+                            song: widget.song,
                           ),
+                          const SizedBox(height: 8),
+                          LoopTimeline(
+                            key: tutorialKeyLoopTimeline,
+                            onLoopTap: (loop) => context.read<SongCubit>().selectLoop(loop),
+                            onPreviousLoop: () => context.read<SongCubit>().previousLoop(),
+                            onNextLoop: () => context.read<SongCubit>().nextLoop(),
+                            onSeek: (position) => context.read<SongCubit>().seekSong(position),
+                            duration: widget.song.duration,
+                          ),
+                          const SizedBox(height: 12),
+                          SongController(
+                            key: tutorialKeySongController,
+                          ),
+                          const Divider(height: 32),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(context.l10n.loopMode, style: context.bodySmall),
-                              BlocSelector<SongCubit, SongState, bool>(
-                                selector: (state) => state.isLoopModeEnabled,
-                                builder: (context, isLoopModeEnabled) {
-                                  return CupertinoSwitch(
-                                    key: tutorialKeyLoopActivate,
-                                    thumbIcon: WidgetStateProperty.resolveWith<Icon?>((
-                                      Set<WidgetState> states,
-                                    ) {
-                                      if (states.contains(WidgetState.disabled)) {
-                                        return const Icon(Icons.close);
-                                      }
-                                      return const Icon(Icons.loop_rounded);
-                                    }),
-                                    activeTrackColor: Theme.of(
-                                      context,
-                                    ).colorScheme.primaryContainer,
-                                    value: isLoopModeEnabled,
-                                    onChanged: (value) => _onToggleLoopMode(context),
-                                  );
-                                },
+                              Text(
+                                'Loops',
+                                style: Theme.of(context).textTheme.headlineLarge,
+                              ),
+                              Row(
+                                children: [
+                                  Text(context.l10n.loopMode, style: context.bodySmall),
+                                  BlocSelector<SongCubit, SongState, bool>(
+                                    selector: (state) => state.isLoopModeEnabled,
+                                    builder: (context, isLoopModeEnabled) {
+                                      return CupertinoSwitch(
+                                        key: tutorialKeyLoopActivate,
+                                        thumbIcon: WidgetStateProperty.resolveWith<Icon?>((
+                                          Set<WidgetState> states,
+                                        ) {
+                                          if (states.contains(WidgetState.disabled)) {
+                                            return const Icon(Icons.close);
+                                          }
+                                          return const Icon(Icons.loop_rounded);
+                                        }),
+                                        activeTrackColor: Theme.of(
+                                          context,
+                                        ).colorScheme.primaryContainer,
+                                        value: isLoopModeEnabled,
+                                        onChanged: (value) => _onToggleLoopMode(context),
+                                      );
+                                    },
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: ElevatedButton(
-                              key: tutorialKeyLoopStart,
-                              onPressed: () => _onSetLoopStart(context),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                                foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
-                                padding: const EdgeInsets.symmetric(horizontal: 8),
-                                minimumSize: const Size(0, 36),
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              ),
-                              child: Text(
-                                context.l10n.setLoopStart,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: BlocSelector<SongCubit, SongState, Loop?>(
-                              selector: (state) {
-                                return state.activeLoop;
-                              },
-                              builder: (context, activeLoop) {
-                                return ElevatedButton(
-                                  key: tutorialKeyLoopEnd,
-                                  onPressed: (activeLoop != null)
-                                      ? () => _onSetLoopEnd(context)
-                                      : null,
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                  key: tutorialKeyLoopStart,
+                                  onPressed: () => _onSetLoopStart(context),
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                                     foregroundColor: Theme.of(
@@ -269,63 +246,109 @@ class _SongViewState extends State<_SongView> {
                                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                   ),
                                   child: Text(
-                                    context.l10n.setLoopEnd,
+                                    context.l10n.setLoopStart,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      Expanded(
-                        child: BlocSelector<SongCubit, SongState, List<Loop>>(
-                          selector: (state) => state.song.loops,
-                          builder: (context, loops) {
-                            return ReorderableListView.builder(
-                              onReorder: (oldIndex, newIndex) {
-                                if (oldIndex < newIndex) {
-                                  newIndex -= 1;
-                                }
-
-                                final List<Loop> newLoops = List<Loop>.from(loops);
-                                final Loop item = newLoops.removeAt(oldIndex);
-                                newLoops.insert(newIndex, item);
-
-                                // Update order numbers
-                                for (var i = 0; i < newLoops.length; i++) {
-                                  newLoops[i] = newLoops[i].copyWith(orderNumber: i);
-                                }
-
-                                context.read<SongCubit>().updateLoopOrder(newLoops);
-                              },
-                              scrollController: _loopListController,
-                              padding: const EdgeInsets.only(bottom: 92),
-                              itemBuilder: (context, index) => Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 4),
-                                key: ValueKey(loops[index].id),
-                                child: LoopTile(
-                                  index: index,
-                                  loop: loops[index],
-                                  isSelected:
-                                      loops[index] == context.read<SongCubit>().state.activeLoop,
-                                  onTap: (loop) => context.read<SongCubit>().selectLoop(loop),
-                                  onDelete: (loop) => context.read<SongCubit>().deleteLoop(loop),
-                                  onPlay: (loop) => context.read<SongCubit>().togglePlayLoop(loop),
-                                  onPause: (loop) => context.read<SongCubit>().pauseLoop(),
-                                  onUpdate: (loop) => context.read<SongCubit>().updateLoop(loop),
                                 ),
                               ),
-                              itemCount: loops.length,
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: BlocSelector<SongCubit, SongState, Loop?>(
+                                  selector: (state) {
+                                    return state.activeLoop;
+                                  },
+                                  builder: (context, activeLoop) {
+                                    return ElevatedButton(
+                                      key: tutorialKeyLoopEnd,
+                                      onPressed: (activeLoop != null)
+                                          ? () => _onSetLoopEnd(context)
+                                          : null,
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Theme.of(
+                                          context,
+                                        ).colorScheme.primaryContainer,
+                                        foregroundColor: Theme.of(
+                                          context,
+                                        ).colorScheme.onPrimaryContainer,
+                                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                                        minimumSize: const Size(0, 36),
+                                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                      ),
+                                      child: Text(
+                                        context.l10n.setLoopEnd,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                        ]),
+                      ),
+                    ),
+                    SliverPadding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      sliver: SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            return BlocSelector<SongCubit, SongState, List<Loop>>(
+                              selector: (state) => state.song.loops,
+                              builder: (context, loops) {
+                                return SizedBox(
+                                  height: MediaQuery.of(context).size.height * 0.4,
+                                  child: ReorderableListView.builder(
+                                    onReorder: (oldIndex, newIndex) {
+                                      if (oldIndex < newIndex) {
+                                        newIndex -= 1;
+                                      }
+
+                                      final List<Loop> newLoops = List<Loop>.from(loops);
+                                      final Loop item = newLoops.removeAt(oldIndex);
+                                      newLoops.insert(newIndex, item);
+
+                                      // Update order numbers
+                                      for (var i = 0; i < newLoops.length; i++) {
+                                        newLoops[i] = newLoops[i].copyWith(orderNumber: i);
+                                      }
+
+                                      context.read<SongCubit>().updateLoopOrder(newLoops);
+                                    },
+                                    scrollController: _loopListController,
+                                    padding: const EdgeInsets.only(bottom: 92),
+                                    itemBuilder: (context, index) => Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 4),
+                                      key: ValueKey(loops[index].id),
+                                      child: LoopTile(
+                                        index: index,
+                                        loop: loops[index],
+                                        isSelected:
+                                            loops[index] ==
+                                            context.read<SongCubit>().state.activeLoop,
+                                        onTap: (loop) => context.read<SongCubit>().selectLoop(loop),
+                                        onDelete: (loop) =>
+                                            context.read<SongCubit>().deleteLoop(loop),
+                                        onPlay: (loop) =>
+                                            context.read<SongCubit>().togglePlayLoop(loop),
+                                        onPause: (loop) => context.read<SongCubit>().pauseLoop(),
+                                        onUpdate: (loop) =>
+                                            context.read<SongCubit>().updateLoop(loop),
+                                      ),
+                                    ),
+                                    itemCount: loops.length,
+                                  ),
+                                );
+                              },
                             );
                           },
+                          childCount: 1,
                         ),
                       ),
-                      // const SizedBox(height: 58),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
                 floatingActionButton: FloatingActionButton.extended(
                   onPressed: () => _onAddLoop(context),

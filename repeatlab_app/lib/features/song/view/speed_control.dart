@@ -1,16 +1,296 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:repeatlab/core/utils/app_analytics.dart';
-import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
-import 'package:repeatlab/features/paywall/premium_screen.dart';
-import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
-import 'package:repeatlab/l10n/l10n.dart';
+import 'package:repeatlab/core/utils/build_context_extension.dart';
 
 enum _TempoMode { multiplier, bpm }
 
+final class SpeedControl extends StatefulWidget {
+  const SpeedControl({super.key});
+
+  @override
+  State<SpeedControl> createState() => _SpeedControlState();
+}
+
+class _SpeedControlState extends State<SpeedControl> {
+  final _originalBpmController = TextEditingController();
+
+  _TempoMode _mode = _TempoMode.multiplier;
+  double _speedMultiplier = 1.0;
+
+  int? _currentBpm;
+  int? _originalBpm;
+
+  // max 0.5 from original bpm
+  int? _minBpm;
+
+  // max 2.0 from original bpm
+  int? _maxBpm;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.secondaryContainer,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 0, 16),
+                child: Text(
+                  'Speed Control',
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: Theme.of(context).colorScheme.secondaryFixed,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 16, 16, 16),
+                child: SizedBox(
+                  height: 36,
+                  child: ToggleButtons(
+                    borderRadius: BorderRadius.circular(10),
+                    selectedColor: Theme.of(context).colorScheme.onPrimaryContainer,
+                    color: Theme.of(context).colorScheme.secondary,
+                    fillColor: Theme.of(context).colorScheme.primaryContainer,
+
+                    isSelected: [_mode == _TempoMode.multiplier, _mode == _TempoMode.bpm],
+                    onPressed: (index) {
+                      setState(() {
+                        _mode = index == 0 ? _TempoMode.multiplier : _TempoMode.bpm;
+                      });
+                    },
+                    children: const [
+                      Text(
+                        '×',
+                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                      ),
+                      Text(
+                        'BPM',
+                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 8, 0, 16),
+                child: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _speedMultiplier = 1.0;
+                      _currentBpm = _originalBpm;
+                    });
+                  },
+                  icon: Icon(
+                    Icons.refresh_rounded,
+                    color: Theme.of(context).colorScheme.secondaryFixed,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          if (_mode == _TempoMode.multiplier)
+            _buildMultiplierMode(context)
+          else
+            _buildBpmMode(context),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMultiplierMode(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16).copyWith(top: 0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // min speed
+          Text('0.5×', style: context.labelLarge),
+          // slider
+          Expanded(
+            child: Slider(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              value: _speedMultiplier,
+              min: 0.5,
+              max: 2.0,
+              divisions: 15,
+              onChanged: (double value) {
+                setState(() {
+                  _speedMultiplier = value;
+                });
+              },
+            ),
+          ),
+          // max speed
+          Text('2.0×', style: context.labelLarge),
+          const SizedBox(width: 16),
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primaryContainer,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Text(
+              '${_speedMultiplier.toStringAsFixed(1)}×',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBpmMode(BuildContext context) {
+    // if original bpm is not set, show a button to set it
+    if (_originalBpm == null) {
+      return Padding(
+        padding: const EdgeInsets.all(16).copyWith(top: 0),
+        child: Column(
+          spacing: 8,
+          children: [
+            Text(
+              'No BPM detected, please set the original BPM of the audio file.',
+              style: context.labelLarge,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _originalBpmController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      hintText: 'Enter BPM',
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    // set the original bpm
+                    // TODO(Verena): save to database
+                    setState(() {
+                      _originalBpm = int.tryParse(_originalBpmController.text);
+
+                      if (_originalBpm != null) {
+                        _minBpm = (_originalBpm! * 0.5).round();
+                        _maxBpm = (_originalBpm! * 2.0).round();
+                        _currentBpm = _originalBpm;
+                      }
+                    });
+                  },
+                  child: const Text('Set BPM'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    // show a dialog to set the original bpm
+                  },
+                  child: const Text('Tap BPM'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.all(16).copyWith(top: 0),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.secondary,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'ORIGINAL BPM',
+                      style: context.titleSmall.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      ),
+                    ),
+                    Text(
+                      _originalBpm?.toString() ?? '-',
+                      style: context.headlineMedium.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'CURRENT BPM',
+                      style: context.titleSmall.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      ),
+                    ),
+                    Text(
+                      _currentBpm?.toString() ?? '-',
+                      style: context.headlineMedium.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          if (_minBpm != null && _maxBpm != null && _currentBpm != null)
+            Row(
+              children: [
+                // min bpm
+                Text(_minBpm?.toString() ?? '-', style: context.labelLarge),
+                // slider
+                Expanded(
+                  child: Slider(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+
+                    value: _currentBpm?.toDouble() ?? 0,
+                    min: _minBpm?.toDouble() ?? 0,
+                    max: _maxBpm?.toDouble() ?? 0,
+                    divisions: (_maxBpm ?? 0) - (_minBpm ?? 0),
+                    onChanged: (double value) {
+                      setState(() {
+                        _currentBpm = value.round();
+                      });
+                    },
+                  ),
+                ),
+                // max bpm
+                Text(_maxBpm?.toString() ?? '-', style: context.labelLarge),
+              ],
+            ),
+        ],
+      ),
+    );
+  }
+}
+/* 
 class SpeedControl extends StatefulWidget {
   const SpeedControl({super.key});
 
@@ -721,3 +1001,4 @@ class _SpeedControlState extends State<SpeedControl> with SingleTickerProviderSt
     context.read<SongCubit>().updateSpeed(1.0);
   }
 }
+ */
