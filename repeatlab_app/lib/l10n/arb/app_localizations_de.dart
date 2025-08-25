@@ -205,7 +205,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get noActiveLoop =>
-      'Kein aktiver Loop.\nFüge eine neue Loop hinzu oder wähle eine bestehende aus.';
+      'Keine aktive Loop.\nFüge eine neue Loop hinzu oder wähle eine bestehende aus.';
 
   @override
   String get startMustBeBeforeEnd => 'Startposition muss vor Endposition sein';
@@ -228,7 +228,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get premiumFeatureChangeMusicSpeed =>
-      'Tempo ändern basierend auf BPM oder %';
+      'Audio-Tempo-Kontrolle (BPM/Multiplier)';
 
   @override
   String get premiumFeatureZoomInOut => 'Waveform-Zoom In/Out';
@@ -349,14 +349,14 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get tutorialActivateLoop =>
-      'Aktiviere den Loop-Modus für den ausgewählten Loop';
+      'Aktiviere den Loop-Modus für die ausgewählte Loop';
 
   @override
   String get tutorialActivateLoopDescription =>
-      'Wenn du den Loop spielen möchtest, musst du den Loop-Modus aktivieren. Wenn er deaktiviert ist, wird der gesamte Song gespielt.';
+      'Wenn du die Loop spielen möchtest, musst du den Loop-Modus aktivieren. Wenn er deaktiviert ist, wird der gesamte Song gespielt.';
 
   @override
-  String get tutorialAddLoop => 'Füge einen neuen Loop hinzu';
+  String get tutorialAddLoop => 'Füge eine neue Loop hinzu';
 
   @override
   String get tutorialAddLoopDescription =>
@@ -477,7 +477,10 @@ class AppLocalizationsDe extends AppLocalizations {
       '= Ein Paar Drumsticks für die Entwicklerin (einmalig)';
 
   @override
-  String get deleteAllData => 'Alle Daten löschen';
+  String get localData => 'Lokale Daten';
+
+  @override
+  String get deleteAllLocalData => 'Delete All Local Data';
 
   @override
   String get deleteAllDataTitle => 'Alle Daten, Songs und Loops löschen';
@@ -556,4 +559,46 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get enterSongBpmHint => 'z.B. 120';
+
+  @override
+  String get tapBpm => 'BPM tappen';
+
+  @override
+  String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
+      'Tippe den Button im Rhythmus mit deiner Musik, um die BPM zu bestimmen.';
+
+  @override
+  String get detectedBpm => 'Erkannte BPM';
+
+  @override
+  String get tapAtLeast2TimesToDetectBpm =>
+      'Tippe mindestens 2 Mal, um die BPM zu bestimmen';
+
+  @override
+  String get tap => 'TAP';
+
+  @override
+  String get taps => 'Taps';
+
+  @override
+  String get useBpm => 'BPM verwenden';
+
+  @override
+  String get reset => 'Reset';
+
+  @override
+  String get speedControl => 'Tempo-Kontrolle';
+
+  @override
+  String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
+      'Hier kannst du die Original-BPM der Audio-Datei setzen.';
+
+  @override
+  String get setBpm => 'BPM setzen';
+
+  @override
+  String get originalBpm => 'ORIGINAL BPM';
+
+  @override
+  String get currentBpm => 'AKTUELLE BPM';
 }

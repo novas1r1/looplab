@@ -230,7 +230,7 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get premiumFeatureChangeMusicSpeed =>
-      'Ändra Musikhastighet baserat på BPM eller %';
+      'Tempo Kontroll (BPM/Multiplicator)';
 
   @override
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';
@@ -474,7 +474,10 @@ class AppLocalizationsSv extends AppLocalizations {
       '= En Par Drumsticks för Utvecklaren (en gång)';
 
   @override
-  String get deleteAllData => 'Radera Alla Data';
+  String get localData => 'Lokala Data';
+
+  @override
+  String get deleteAllLocalData => 'Radera Alla Lokala Data';
 
   @override
   String get deleteAllDataTitle => 'Radera Alla Data, Låtar och Loopar';
@@ -553,4 +556,46 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get enterSongBpmHint => 'exempelvis 120';
+
+  @override
+  String get tapBpm => 'Tapp BPM';
+
+  @override
+  String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
+      'Tapp knappen nedan i takt med din musik för att upptäcka BPM.';
+
+  @override
+  String get detectedBpm => 'Upptäckt BPM';
+
+  @override
+  String get tapAtLeast2TimesToDetectBpm =>
+      'Tapp minst 2 gånger för att upptäcka BPM';
+
+  @override
+  String get tap => 'TAP';
+
+  @override
+  String get taps => 'TAP';
+
+  @override
+  String get useBpm => 'Använd BPM';
+
+  @override
+  String get reset => 'Återställ';
+
+  @override
+  String get speedControl => 'Hastighetskontroll';
+
+  @override
+  String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
+      'Här kan du ställa in den ursprungliga BPM för ljudfilen.';
+
+  @override
+  String get setBpm => 'Ställ in BPM';
+
+  @override
+  String get originalBpm => 'Ursprunglig BPM';
+
+  @override
+  String get currentBpm => 'Nuvarande BPM';
 }

@@ -691,14 +691,53 @@ class SongCubit extends Cubit<SongState> {
   }
 
   // Add new method
-  Future<void> updateSpeed(double newSpeed) async {
+  Future<void> updateSpeed({
+    double? multiplier,
+    int? bpm,
+  }) async {
+    assert(multiplier != null || bpm != null, 'Either multiplier or bpm must be provided');
+
     try {
-      await audioHandler.setSpeed(newSpeed);
+      double? speed;
+
+      if (multiplier != null) {
+        speed = multiplier;
+      } else if (bpm != null) {
+        // check if song bpm was set
+        if (state.song.bpm == null) {
+          emit(
+            state.copyWith(
+              status: SongStatus.error,
+              error: 'Failed to update speed: BPM is not set',
+            ),
+          );
+          return;
+        }
+
+        speed = bpm / state.song.bpm!;
+      }
+
+      if (speed == null) {
+        emit(
+          state.copyWith(
+            status: SongStatus.error,
+            error: 'Failed to update speed: BPM is not set',
+          ),
+        );
+        return;
+      }
+
+      // update the song
+      final updatedSong = state.song.copyWith(currentBpm: bpm);
+      await songRepository.updateSong(updatedSong);
+
+      await audioHandler.setSpeed(speed);
 
       emit(
         state.copyWith(
           status: SongStatus.updated,
-          speed: newSpeed,
+          speed: speed,
+          song: updatedSong,
         ),
       );
     } catch (ex, stack) {
@@ -740,7 +779,7 @@ class SongCubit extends Cubit<SongState> {
   /// Persist the original BPM for the current song. This does **not** change
   /// the playback speed directly; it merely stores the value so that the UI
   /// can convert BPM values into speed multipliers.
-  Future<void> updateBpm(int bpm) async {
+  Future<void> updateOriginalBpm(int bpm) async {
     try {
       emit(state.copyWith(status: SongStatus.updating));
 

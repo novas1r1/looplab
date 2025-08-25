@@ -230,7 +230,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get premiumFeatureChangeMusicSpeed =>
-      'Изменение Скорости Музыки на основе BPM';
+      'Управление Скоростью (BPM/Множитель)';
 
   @override
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';
@@ -478,7 +478,10 @@ class AppLocalizationsRu extends AppLocalizations {
       '= Один Набор Барабанных палочек для Разработчика (один раз)';
 
   @override
-  String get deleteAllData => 'Удалить Все Данные';
+  String get localData => 'Данные Локальные';
+
+  @override
+  String get deleteAllLocalData => 'Удалить Все Локальные Данные';
 
   @override
   String get deleteAllDataTitle => 'Удалить Все Данные, Песни и Лупы';
@@ -557,4 +560,46 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get enterSongBpmHint => 'например, 120';
+
+  @override
+  String get tapBpm => 'Нажмите BPM';
+
+  @override
+  String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
+      'Нажмите кнопку ниже в ритме с вашей музыкой, чтобы определить BPM.';
+
+  @override
+  String get detectedBpm => 'Определенный BPM';
+
+  @override
+  String get tapAtLeast2TimesToDetectBpm =>
+      'Нажмите как минимум 2 раза, чтобы определить BPM';
+
+  @override
+  String get tap => 'Нажмите';
+
+  @override
+  String get taps => 'Нажмите';
+
+  @override
+  String get useBpm => 'Использовать BPM';
+
+  @override
+  String get reset => 'Сбросить';
+
+  @override
+  String get speedControl => 'Управление скоростью';
+
+  @override
+  String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
+      'Здесь вы можете установить оригинальный BPM аудиофайла.';
+
+  @override
+  String get setBpm => 'Установить BPM';
+
+  @override
+  String get originalBpm => 'Оригинальный BPM';
+
+  @override
+  String get currentBpm => 'Текущий BPM';
 }

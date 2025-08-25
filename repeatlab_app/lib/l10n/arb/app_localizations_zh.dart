@@ -221,7 +221,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get premiumFeatureUnlimitedLoops => '无限循环';
 
   @override
-  String get premiumFeatureChangeMusicSpeed => '根据 BPM 或 % 改变音乐速度';
+  String get premiumFeatureChangeMusicSpeed => '速度控制 (BPM/倍数)';
 
   @override
   String get premiumFeatureZoomInOut => '波形缩放';
@@ -446,7 +446,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get onePairOfDrumSticks => '= 开发者的一对鼓棒（一次性）';
 
   @override
-  String get deleteAllData => '删除所有数据';
+  String get localData => '本地数据';
+
+  @override
+  String get deleteAllLocalData => '删除所有本地数据';
 
   @override
   String get deleteAllDataTitle => '删除所有数据、歌曲和循环';
@@ -524,4 +527,44 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get enterSongBpmHint => '例如 120';
+
+  @override
+  String get tapBpm => '点击 BPM';
+
+  @override
+  String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
+      '点击下面的按钮，在节奏中与您的音乐一起检测 BPM。';
+
+  @override
+  String get detectedBpm => '检测到的 BPM';
+
+  @override
+  String get tapAtLeast2TimesToDetectBpm => '点击至少 2 次以检测 BPM';
+
+  @override
+  String get tap => '点击';
+
+  @override
+  String get taps => '点击';
+
+  @override
+  String get useBpm => '使用 BPM';
+
+  @override
+  String get reset => '重置';
+
+  @override
+  String get speedControl => '速度控制';
+
+  @override
+  String get hereYouCanSetTheOriginalBpmOfTheAudioFile => '您可以在此设置音频文件的原始 BPM。';
+
+  @override
+  String get setBpm => '设置 BPM';
+
+  @override
+  String get originalBpm => '原始 BPM';
+
+  @override
+  String get currentBpm => '当前 BPM';
 }

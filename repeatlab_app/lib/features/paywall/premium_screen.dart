@@ -158,15 +158,15 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                       ),
                       TableRow(
                         children: [
-                          Text('', style: context.bodyLargeBold),
-                          Text('', style: context.bodyLargeBold),
-                          Text('', style: context.bodyLargeBold),
-                          Text('', style: context.bodyLargeBold),
+                          Text('', style: context.bodyLargeLightBold),
+                          Text('', style: context.bodyLargeLightBold),
+                          Text('', style: context.bodyLargeLightBold),
+                          Text('', style: context.bodyLargeLightBold),
                         ],
                       ),
                       TableRow(
                         children: [
-                          Text('🎵', style: context.bodyLargeBold),
+                          Text('🎵', style: context.bodyLargeLightBold),
                           Text(context.l10n.freeFeatureUnlimitedSongs),
                           const Icon(Icons.check, color: Colors.green),
                           const Icon(Icons.check, color: Colors.green),
@@ -174,7 +174,7 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                       ),
                       TableRow(
                         children: [
-                          Text('🚫', style: context.bodyLargeBold),
+                          Text('🚫', style: context.bodyLargeLightBold),
                           Text(context.l10n.freeFeatureNoAds),
                           const Icon(Icons.check, color: Colors.green),
                           const Icon(Icons.check, color: Colors.green),
@@ -182,15 +182,15 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                       ),
                       TableRow(
                         children: [
-                          Text('', style: context.bodyLargeBold),
-                          Text('', style: context.bodyLargeBold),
-                          Text('', style: context.bodyLargeBold),
-                          Text('', style: context.bodyLargeBold),
+                          Text('', style: context.bodyLargeLightBold),
+                          Text('', style: context.bodyLargeLightBold),
+                          Text('', style: context.bodyLargeLightBold),
+                          Text('', style: context.bodyLargeLightBold),
                         ],
                       ),
                       TableRow(
                         children: [
-                          Text('🔁', style: context.bodyLargeBold),
+                          Text('🔁', style: context.bodyLargeLightBold),
                           Text(context.l10n.premiumFeatureUnlimitedLoops),
                           const Icon(Icons.close, color: Colors.red),
                           const Icon(Icons.check, color: Colors.green),
@@ -198,7 +198,7 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                       ),
                       TableRow(
                         children: [
-                          Text('🚀', style: context.bodyLargeBold),
+                          Text('🚀', style: context.bodyLargeLightBold),
                           Text(context.l10n.premiumFeatureChangeMusicSpeed),
                           const Icon(Icons.close, color: Colors.red),
                           const Icon(Icons.check, color: Colors.green),
@@ -206,7 +206,7 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                       ),
                       TableRow(
                         children: [
-                          Text('🔍', style: context.bodyLargeBold),
+                          Text('🔍', style: context.bodyLargeLightBold),
                           Text(context.l10n.premiumFeatureZoomInOut),
                           const Icon(Icons.close, color: Colors.red),
                           const Icon(Icons.check, color: Colors.green),
@@ -214,7 +214,7 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                       ),
                       /*  TableRow(
                         children: [
-                          Text('💖', style: context.bodyLargeBold),
+                          Text('💖', style: context.bodyLargeLightBold),
                           Text(context.l10n.premiumFeatureSupportDeveloper),
                           const Icon(Icons.close, color: Colors.red),
                           const Icon(Icons.check, color: Colors.green),
@@ -280,9 +280,18 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                         : null,
                     child: !hasSubscription && !hasLifetimePurchase
                         ? _selectedPlan == PlanPeriod.yearly
-                              ? Text(context.l10n.purchaseYearly(isApple ? '3' : '5'))
-                              : Text(context.l10n.purchaseLifetime)
-                        : Text(context.l10n.purchasedAlready),
+                              ? Text(
+                                  context.l10n.purchaseYearly(isApple ? '3' : '5'),
+                                  style: context.bodyLargeLightBold,
+                                )
+                              : Text(
+                                  context.l10n.purchaseLifetime,
+                                  style: context.bodyLargeLightBold,
+                                )
+                        : Text(
+                            context.l10n.purchasedAlready,
+                            style: context.bodyLargeLightBold,
+                          ),
                   ),
                   const SizedBox(height: 8),
                   TextButton(
@@ -382,7 +391,7 @@ class PackageWidget extends StatelessWidget {
           children: [
             Text(
               'RepeatLab Pro ${period.name}',
-              style: context.bodyLargeBold.copyWith(color: Theme.of(context).colorScheme.primary),
+              style: context.bodyLargeLightBold,
             ),
             if (period == PlanPeriod.yearly)
               Text(
@@ -465,7 +474,10 @@ class PackageWidget extends StatelessWidget {
                       Navigator.of(context).pop();
                     } */
                 },
-                child: Text(context.l10n.cancelSubscription),
+                child: Text(
+                  context.l10n.cancelSubscription,
+                  style: context.bodyLargeDarkBold,
+                ),
               ),
             ],
           ],

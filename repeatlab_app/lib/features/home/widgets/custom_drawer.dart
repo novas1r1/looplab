@@ -59,7 +59,12 @@ class CustomDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.newspaper),
-            title: Text(context.l10n.whatsNew),
+            title: Text(
+              context.l10n.whatsNew,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+            ),
             onTap: () async {
               AppAnalytics.trackEvent(AppAnalytics.viewChangelogDialog);
 
@@ -83,6 +88,7 @@ class CustomDrawer extends StatelessWidget {
               context.l10n.userSettings,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w300,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
           ),

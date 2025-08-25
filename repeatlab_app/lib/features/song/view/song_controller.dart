@@ -73,7 +73,16 @@ class SongController extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        const SpeedControl(),
+        SpeedControl(
+          onSpeedMultiplierChanged: (value) =>
+              context.read<SongCubit>().updateSpeed(multiplier: value),
+          onOriginalBpmChanged: (value) => context.read<SongCubit>().updateOriginalBpm(value),
+          onCurrentBpmChanged: (value) => context.read<SongCubit>().updateSpeed(bpm: value),
+          onTempoModeChanged: (value) {
+            // TODO check if needed
+          },
+          song: context.read<SongCubit>().state.song,
+        ),
       ],
     );
   }

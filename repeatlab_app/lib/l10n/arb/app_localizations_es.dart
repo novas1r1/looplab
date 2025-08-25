@@ -231,7 +231,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get premiumFeatureChangeMusicSpeed =>
-      'Cambiar la Velocidad de la Música basado en BPM o %';
+      'Control de Velocidad de Audio (BPM/Multiplier)';
 
   @override
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';
@@ -479,7 +479,10 @@ class AppLocalizationsEs extends AppLocalizations {
       '= Un Par de Baterías para el Desarrollador (una vez)';
 
   @override
-  String get deleteAllData => 'Eliminar Todos los Datos';
+  String get localData => 'Datos Locales';
+
+  @override
+  String get deleteAllLocalData => 'Eliminar Todos los Datos';
 
   @override
   String get deleteAllDataTitle =>
@@ -559,4 +562,46 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get enterSongBpmHint => 'por ejemplo, 120';
+
+  @override
+  String get tapBpm => 'Tapar BPM';
+
+  @override
+  String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
+      'Toca el botón abajo en ritmo con tu música para detectar el BPM.';
+
+  @override
+  String get detectedBpm => 'BPM detectado';
+
+  @override
+  String get tapAtLeast2TimesToDetectBpm =>
+      'Toca al menos 2 veces para detectar el BPM';
+
+  @override
+  String get tap => 'TAP';
+
+  @override
+  String get taps => 'Taps';
+
+  @override
+  String get useBpm => 'Usar BPM';
+
+  @override
+  String get reset => 'Restablecer';
+
+  @override
+  String get speedControl => 'Control de Velocidad';
+
+  @override
+  String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
+      'Aquí puedes establecer el BPM original del archivo de audio.';
+
+  @override
+  String get setBpm => 'Establecer BPM';
+
+  @override
+  String get originalBpm => 'BPM ORIGINAL';
+
+  @override
+  String get currentBpm => 'BPM ACTUAL';
 }

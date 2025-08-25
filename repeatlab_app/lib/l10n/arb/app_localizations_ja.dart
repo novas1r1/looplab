@@ -224,7 +224,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get premiumFeatureUnlimitedLoops => '無制限のループ';
 
   @override
-  String get premiumFeatureChangeMusicSpeed => 'BPMまたは%に基づいて音楽の速度を変更';
+  String get premiumFeatureChangeMusicSpeed => 'テンポコントロール（BPM/マルチプライヤー）';
 
   @override
   String get premiumFeatureZoomInOut => '波形のズームイン/アウト';
@@ -458,7 +458,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get onePairOfDrumSticks => '= 開発者のドラムスティック1組分（一度限り）';
 
   @override
-  String get deleteAllData => 'すべてのデータを削除';
+  String get localData => 'ローカルデータ';
+
+  @override
+  String get deleteAllLocalData => 'すべてのローカルデータを削除';
 
   @override
   String get deleteAllDataTitle => 'すべてのデータ、曲、ループを削除';
@@ -537,4 +540,45 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get enterSongBpmHint => '例：120';
+
+  @override
+  String get tapBpm => 'BPMをタップ';
+
+  @override
+  String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
+      'ボタンを音楽と同じテンポでタップしてBPMを検出します。';
+
+  @override
+  String get detectedBpm => '検出されたBPM';
+
+  @override
+  String get tapAtLeast2TimesToDetectBpm => 'BPMを検出するには少なくとも2回タップしてください';
+
+  @override
+  String get tap => 'タップ';
+
+  @override
+  String get taps => 'タップ';
+
+  @override
+  String get useBpm => 'BPMを使用';
+
+  @override
+  String get reset => 'リセット';
+
+  @override
+  String get speedControl => '速度コントロール';
+
+  @override
+  String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
+      'ここでオーディオファイルの元のBPMを設定できます。';
+
+  @override
+  String get setBpm => 'BPMを設定';
+
+  @override
+  String get originalBpm => '元のBPM';
+
+  @override
+  String get currentBpm => '現在のBPM';
 }

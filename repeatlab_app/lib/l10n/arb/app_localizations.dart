@@ -531,7 +531,7 @@ abstract class AppLocalizations {
   /// No description provided for @premiumFeatureChangeMusicSpeed.
   ///
   /// In en, this message translates to:
-  /// **'Change Music Speed based on BPM or %'**
+  /// **'Audio Speed Control (BPM/Multiplier)'**
   String get premiumFeatureChangeMusicSpeed;
 
   /// No description provided for @premiumFeatureZoomInOut.
@@ -954,11 +954,17 @@ abstract class AppLocalizations {
   /// **'= One Pair of Drum Sticks for the Developer (one-time)'**
   String get onePairOfDrumSticks;
 
-  /// No description provided for @deleteAllData.
+  /// No description provided for @localData.
   ///
   /// In en, this message translates to:
-  /// **'Delete All Data'**
-  String get deleteAllData;
+  /// **'Local Data'**
+  String get localData;
+
+  /// No description provided for @deleteAllLocalData.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete All Local Data'**
+  String get deleteAllLocalData;
 
   /// No description provided for @deleteAllDataTitle.
   ///
@@ -1103,6 +1109,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'e.g. 120'**
   String get enterSongBpmHint;
+
+  /// No description provided for @tapBpm.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap BPM'**
+  String get tapBpm;
+
+  /// No description provided for @tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the button below in rhythm with your music to detect the BPM.'**
+  String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm;
+
+  /// No description provided for @detectedBpm.
+  ///
+  /// In en, this message translates to:
+  /// **'Detected BPM'**
+  String get detectedBpm;
+
+  /// No description provided for @tapAtLeast2TimesToDetectBpm.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap at least 2 times to detect BPM'**
+  String get tapAtLeast2TimesToDetectBpm;
+
+  /// No description provided for @tap.
+  ///
+  /// In en, this message translates to:
+  /// **'TAP'**
+  String get tap;
+
+  /// No description provided for @taps.
+  ///
+  /// In en, this message translates to:
+  /// **'Taps'**
+  String get taps;
+
+  /// No description provided for @useBpm.
+  ///
+  /// In en, this message translates to:
+  /// **'Use BPM'**
+  String get useBpm;
+
+  /// No description provided for @reset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get reset;
+
+  /// No description provided for @speedControl.
+  ///
+  /// In en, this message translates to:
+  /// **'Speed Control'**
+  String get speedControl;
+
+  /// No description provided for @hereYouCanSetTheOriginalBpmOfTheAudioFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Here you can set the original BPM of the audio file.'**
+  String get hereYouCanSetTheOriginalBpmOfTheAudioFile;
+
+  /// No description provided for @setBpm.
+  ///
+  /// In en, this message translates to:
+  /// **'Set BPM'**
+  String get setBpm;
+
+  /// No description provided for @originalBpm.
+  ///
+  /// In en, this message translates to:
+  /// **'ORIGINAL BPM'**
+  String get originalBpm;
+
+  /// No description provided for @currentBpm.
+  ///
+  /// In en, this message translates to:
+  /// **'CURRENT BPM'**
+  String get currentBpm;
 }
 
 class _AppLocalizationsDelegate

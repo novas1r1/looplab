@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format off
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, unnecessary_cast, override_on_non_overriding_member
 // ignore_for_file: strict_raw_type, inference_failure_on_untyped_parameter
@@ -77,14 +78,25 @@ class AllSongsStateMapper extends ClassMapperBase<AllSongsState> {
   final String id = 'AllSongsState';
 
   static AllSongsStatus _$status(AllSongsState v) => v.status;
-  static const Field<AllSongsState, AllSongsStatus> _f$status =
-      Field('status', _$status, opt: true, def: AllSongsStatus.initial);
+  static const Field<AllSongsState, AllSongsStatus> _f$status = Field(
+    'status',
+    _$status,
+    opt: true,
+    def: AllSongsStatus.initial,
+  );
   static List<Song> _$songs(AllSongsState v) => v.songs;
-  static const Field<AllSongsState, List<Song>> _f$songs =
-      Field('songs', _$songs, opt: true, def: const []);
+  static const Field<AllSongsState, List<Song>> _f$songs = Field(
+    'songs',
+    _$songs,
+    opt: true,
+    def: const [],
+  );
   static String? _$errorMessage(AllSongsState v) => v.errorMessage;
-  static const Field<AllSongsState, String> _f$errorMessage =
-      Field('errorMessage', _$errorMessage, opt: true);
+  static const Field<AllSongsState, String> _f$errorMessage = Field(
+    'errorMessage',
+    _$errorMessage,
+    opt: true,
+  );
 
   @override
   final MappableFields<AllSongsState> fields = const {
@@ -95,9 +107,10 @@ class AllSongsStateMapper extends ClassMapperBase<AllSongsState> {
 
   static AllSongsState _instantiate(DecodingData data) {
     return AllSongsState(
-        status: data.dec(_f$status),
-        songs: data.dec(_f$songs),
-        errorMessage: data.dec(_f$errorMessage));
+      status: data.dec(_f$status),
+      songs: data.dec(_f$songs),
+      errorMessage: data.dec(_f$errorMessage),
+    );
   }
 
   @override
@@ -114,34 +127,43 @@ class AllSongsStateMapper extends ClassMapperBase<AllSongsState> {
 
 mixin AllSongsStateMappable {
   String toJson() {
-    return AllSongsStateMapper.ensureInitialized()
-        .encodeJson<AllSongsState>(this as AllSongsState);
+    return AllSongsStateMapper.ensureInitialized().encodeJson<AllSongsState>(
+      this as AllSongsState,
+    );
   }
 
   Map<String, dynamic> toMap() {
-    return AllSongsStateMapper.ensureInitialized()
-        .encodeMap<AllSongsState>(this as AllSongsState);
+    return AllSongsStateMapper.ensureInitialized().encodeMap<AllSongsState>(
+      this as AllSongsState,
+    );
   }
 
   AllSongsStateCopyWith<AllSongsState, AllSongsState, AllSongsState>
-      get copyWith => _AllSongsStateCopyWithImpl<AllSongsState, AllSongsState>(
-          this as AllSongsState, $identity, $identity);
+  get copyWith => _AllSongsStateCopyWithImpl<AllSongsState, AllSongsState>(
+    this as AllSongsState,
+    $identity,
+    $identity,
+  );
   @override
   String toString() {
-    return AllSongsStateMapper.ensureInitialized()
-        .stringifyValue(this as AllSongsState);
+    return AllSongsStateMapper.ensureInitialized().stringifyValue(
+      this as AllSongsState,
+    );
   }
 
   @override
   bool operator ==(Object other) {
-    return AllSongsStateMapper.ensureInitialized()
-        .equalsValue(this as AllSongsState, other);
+    return AllSongsStateMapper.ensureInitialized().equalsValue(
+      this as AllSongsState,
+      other,
+    );
   }
 
   @override
   int get hashCode {
-    return AllSongsStateMapper.ensureInitialized()
-        .hashValue(this as AllSongsState);
+    return AllSongsStateMapper.ensureInitialized().hashValue(
+      this as AllSongsState,
+    );
   }
 }
 
@@ -169,25 +191,32 @@ class _AllSongsStateCopyWithImpl<$R, $Out>
   @override
   ListCopyWith<$R, Song, SongCopyWith<$R, Song, Song>> get songs =>
       ListCopyWith(
-          $value.songs, (v, t) => v.copyWith.$chain(t), (v) => call(songs: v));
+        $value.songs,
+        (v, t) => v.copyWith.$chain(t),
+        (v) => call(songs: v),
+      );
   @override
-  $R call(
-          {AllSongsStatus? status,
-          List<Song>? songs,
-          Object? errorMessage = $none}) =>
-      $apply(FieldCopyWithData({
-        if (status != null) #status: status,
-        if (songs != null) #songs: songs,
-        if (errorMessage != $none) #errorMessage: errorMessage
-      }));
+  $R call({
+    AllSongsStatus? status,
+    List<Song>? songs,
+    Object? errorMessage = $none,
+  }) => $apply(
+    FieldCopyWithData({
+      if (status != null) #status: status,
+      if (songs != null) #songs: songs,
+      if (errorMessage != $none) #errorMessage: errorMessage,
+    }),
+  );
   @override
   AllSongsState $make(CopyWithData data) => AllSongsState(
-      status: data.get(#status, or: $value.status),
-      songs: data.get(#songs, or: $value.songs),
-      errorMessage: data.get(#errorMessage, or: $value.errorMessage));
+    status: data.get(#status, or: $value.status),
+    songs: data.get(#songs, or: $value.songs),
+    errorMessage: data.get(#errorMessage, or: $value.errorMessage),
+  );
 
   @override
   AllSongsStateCopyWith<$R2, AllSongsState, $Out2> $chain<$R2, $Out2>(
-          Then<$Out2, $R2> t) =>
-      _AllSongsStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
+    Then<$Out2, $R2> t,
+  ) => _AllSongsStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
+

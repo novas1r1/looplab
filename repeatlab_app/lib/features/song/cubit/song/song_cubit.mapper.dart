@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format off
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, unnecessary_cast, override_on_non_overriding_member
 // ignore_for_file: strict_raw_type, inference_failure_on_untyped_parameter
@@ -102,29 +103,53 @@ class SongStateMapper extends ClassMapperBase<SongState> {
   final String id = 'SongState';
 
   static double _$speed(SongState v) => v.speed;
-  static const Field<SongState, double> _f$speed =
-      Field('speed', _$speed, opt: true, def: 1.0);
+  static const Field<SongState, double> _f$speed = Field(
+    'speed',
+    _$speed,
+    opt: true,
+    def: 1.0,
+  );
   static SongStatus _$status(SongState v) => v.status;
-  static const Field<SongState, SongStatus> _f$status =
-      Field('status', _$status, opt: true, def: SongStatus.loading);
+  static const Field<SongState, SongStatus> _f$status = Field(
+    'status',
+    _$status,
+    opt: true,
+    def: SongStatus.loading,
+  );
   static Song _$song(SongState v) => v.song;
   static const Field<SongState, Song> _f$song = Field('song', _$song);
   static String? _$error(SongState v) => v.error;
-  static const Field<SongState, String> _f$error =
-      Field('error', _$error, opt: true);
+  static const Field<SongState, String> _f$error = Field(
+    'error',
+    _$error,
+    opt: true,
+  );
   static Loop? _$activeLoop(SongState v) => v.activeLoop;
-  static const Field<SongState, Loop> _f$activeLoop =
-      Field('activeLoop', _$activeLoop, opt: true);
+  static const Field<SongState, Loop> _f$activeLoop = Field(
+    'activeLoop',
+    _$activeLoop,
+    opt: true,
+  );
   static bool _$isLoopModeEnabled(SongState v) => v.isLoopModeEnabled;
-  static const Field<SongState, bool> _f$isLoopModeEnabled =
-      Field('isLoopModeEnabled', _$isLoopModeEnabled, opt: true, def: false);
+  static const Field<SongState, bool> _f$isLoopModeEnabled = Field(
+    'isLoopModeEnabled',
+    _$isLoopModeEnabled,
+    opt: true,
+    def: false,
+  );
   static bool _$isTutorialCompleted(SongState v) => v.isTutorialCompleted;
   static const Field<SongState, bool> _f$isTutorialCompleted = Field(
-      'isTutorialCompleted', _$isTutorialCompleted,
-      opt: true, def: false);
+    'isTutorialCompleted',
+    _$isTutorialCompleted,
+    opt: true,
+    def: false,
+  );
   static PlayerState? _$playerState(SongState v) => v.playerState;
-  static const Field<SongState, PlayerState> _f$playerState =
-      Field('playerState', _$playerState, opt: true);
+  static const Field<SongState, PlayerState> _f$playerState = Field(
+    'playerState',
+    _$playerState,
+    opt: true,
+  );
 
   @override
   final MappableFields<SongState> fields = const {
@@ -140,14 +165,15 @@ class SongStateMapper extends ClassMapperBase<SongState> {
 
   static SongState _instantiate(DecodingData data) {
     return SongState(
-        speed: data.dec(_f$speed),
-        status: data.dec(_f$status),
-        song: data.dec(_f$song),
-        error: data.dec(_f$error),
-        activeLoop: data.dec(_f$activeLoop),
-        isLoopModeEnabled: data.dec(_f$isLoopModeEnabled),
-        isTutorialCompleted: data.dec(_f$isTutorialCompleted),
-        playerState: data.dec(_f$playerState));
+      speed: data.dec(_f$speed),
+      status: data.dec(_f$status),
+      song: data.dec(_f$song),
+      error: data.dec(_f$error),
+      activeLoop: data.dec(_f$activeLoop),
+      isLoopModeEnabled: data.dec(_f$isLoopModeEnabled),
+      isTutorialCompleted: data.dec(_f$isTutorialCompleted),
+      playerState: data.dec(_f$playerState),
+    );
   }
 
   @override
@@ -164,28 +190,36 @@ class SongStateMapper extends ClassMapperBase<SongState> {
 
 mixin SongStateMappable {
   String toJson() {
-    return SongStateMapper.ensureInitialized()
-        .encodeJson<SongState>(this as SongState);
+    return SongStateMapper.ensureInitialized().encodeJson<SongState>(
+      this as SongState,
+    );
   }
 
   Map<String, dynamic> toMap() {
-    return SongStateMapper.ensureInitialized()
-        .encodeMap<SongState>(this as SongState);
+    return SongStateMapper.ensureInitialized().encodeMap<SongState>(
+      this as SongState,
+    );
   }
 
   SongStateCopyWith<SongState, SongState, SongState> get copyWith =>
       _SongStateCopyWithImpl<SongState, SongState>(
-          this as SongState, $identity, $identity);
+        this as SongState,
+        $identity,
+        $identity,
+      );
   @override
   String toString() {
-    return SongStateMapper.ensureInitialized()
-        .stringifyValue(this as SongState);
+    return SongStateMapper.ensureInitialized().stringifyValue(
+      this as SongState,
+    );
   }
 
   @override
   bool operator ==(Object other) {
-    return SongStateMapper.ensureInitialized()
-        .equalsValue(this as SongState, other);
+    return SongStateMapper.ensureInitialized().equalsValue(
+      this as SongState,
+      other,
+    );
   }
 
   @override
@@ -203,15 +237,16 @@ abstract class SongStateCopyWith<$R, $In extends SongState, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   SongCopyWith<$R, Song, Song> get song;
   LoopCopyWith<$R, Loop, Loop>? get activeLoop;
-  $R call(
-      {double? speed,
-      SongStatus? status,
-      Song? song,
-      String? error,
-      Loop? activeLoop,
-      bool? isLoopModeEnabled,
-      bool? isTutorialCompleted,
-      PlayerState? playerState});
+  $R call({
+    double? speed,
+    SongStatus? status,
+    Song? song,
+    String? error,
+    Loop? activeLoop,
+    bool? isLoopModeEnabled,
+    bool? isTutorialCompleted,
+    PlayerState? playerState,
+  });
   SongStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -230,41 +265,49 @@ class _SongStateCopyWithImpl<$R, $Out>
   LoopCopyWith<$R, Loop, Loop>? get activeLoop =>
       $value.activeLoop?.copyWith.$chain((v) => call(activeLoop: v));
   @override
-  $R call(
-          {double? speed,
-          SongStatus? status,
-          Song? song,
-          Object? error = $none,
-          Object? activeLoop = $none,
-          bool? isLoopModeEnabled,
-          bool? isTutorialCompleted,
-          Object? playerState = $none}) =>
-      $apply(FieldCopyWithData({
-        if (speed != null) #speed: speed,
-        if (status != null) #status: status,
-        if (song != null) #song: song,
-        if (error != $none) #error: error,
-        if (activeLoop != $none) #activeLoop: activeLoop,
-        if (isLoopModeEnabled != null) #isLoopModeEnabled: isLoopModeEnabled,
-        if (isTutorialCompleted != null)
-          #isTutorialCompleted: isTutorialCompleted,
-        if (playerState != $none) #playerState: playerState
-      }));
+  $R call({
+    double? speed,
+    SongStatus? status,
+    Song? song,
+    Object? error = $none,
+    Object? activeLoop = $none,
+    bool? isLoopModeEnabled,
+    bool? isTutorialCompleted,
+    Object? playerState = $none,
+  }) => $apply(
+    FieldCopyWithData({
+      if (speed != null) #speed: speed,
+      if (status != null) #status: status,
+      if (song != null) #song: song,
+      if (error != $none) #error: error,
+      if (activeLoop != $none) #activeLoop: activeLoop,
+      if (isLoopModeEnabled != null) #isLoopModeEnabled: isLoopModeEnabled,
+      if (isTutorialCompleted != null)
+        #isTutorialCompleted: isTutorialCompleted,
+      if (playerState != $none) #playerState: playerState,
+    }),
+  );
   @override
   SongState $make(CopyWithData data) => SongState(
-      speed: data.get(#speed, or: $value.speed),
-      status: data.get(#status, or: $value.status),
-      song: data.get(#song, or: $value.song),
-      error: data.get(#error, or: $value.error),
-      activeLoop: data.get(#activeLoop, or: $value.activeLoop),
-      isLoopModeEnabled:
-          data.get(#isLoopModeEnabled, or: $value.isLoopModeEnabled),
-      isTutorialCompleted:
-          data.get(#isTutorialCompleted, or: $value.isTutorialCompleted),
-      playerState: data.get(#playerState, or: $value.playerState));
+    speed: data.get(#speed, or: $value.speed),
+    status: data.get(#status, or: $value.status),
+    song: data.get(#song, or: $value.song),
+    error: data.get(#error, or: $value.error),
+    activeLoop: data.get(#activeLoop, or: $value.activeLoop),
+    isLoopModeEnabled: data.get(
+      #isLoopModeEnabled,
+      or: $value.isLoopModeEnabled,
+    ),
+    isTutorialCompleted: data.get(
+      #isTutorialCompleted,
+      or: $value.isTutorialCompleted,
+    ),
+    playerState: data.get(#playerState, or: $value.playerState),
+  );
 
   @override
   SongStateCopyWith<$R2, SongState, $Out2> $chain<$R2, $Out2>(
-          Then<$Out2, $R2> t) =>
-      _SongStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
+    Then<$Out2, $R2> t,
+  ) => _SongStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
+

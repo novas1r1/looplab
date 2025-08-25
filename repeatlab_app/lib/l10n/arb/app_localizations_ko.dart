@@ -223,7 +223,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get premiumFeatureUnlimitedLoops => '무제한 루프';
 
   @override
-  String get premiumFeatureChangeMusicSpeed => 'BPM 또는 % 기반 음악 속도 변경';
+  String get premiumFeatureChangeMusicSpeed => '속도 제어 (BPM/배율)';
 
   @override
   String get premiumFeatureZoomInOut => '파형 확대/축소';
@@ -456,7 +456,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get onePairOfDrumSticks => '= 개발자의 드럼 스틱 한 쌍 (일회성)';
 
   @override
-  String get deleteAllData => '모든 데이터 삭제';
+  String get localData => '로컬 데이터';
+
+  @override
+  String get deleteAllLocalData => '모든 로컬 데이터 삭제';
 
   @override
   String get deleteAllDataTitle => '모든 데이터, 곡 및 루프 삭제';
@@ -535,4 +538,45 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get enterSongBpmHint => '예: 120';
+
+  @override
+  String get tapBpm => 'BPM 탭';
+
+  @override
+  String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
+      '버튼을 음악과 동일한 템포로 탭하여 BPM을 감지합니다.';
+
+  @override
+  String get detectedBpm => '감지된 BPM';
+
+  @override
+  String get tapAtLeast2TimesToDetectBpm => 'BPM을 감지하려면 최소 2번 탭해야 합니다';
+
+  @override
+  String get tap => '탭';
+
+  @override
+  String get taps => '탭';
+
+  @override
+  String get useBpm => 'BPM 사용';
+
+  @override
+  String get reset => '초기화';
+
+  @override
+  String get speedControl => '속도 제어';
+
+  @override
+  String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
+      '오디오 파일의 원래 BPM을 설정할 수 있습니다.';
+
+  @override
+  String get setBpm => 'BPM 설정';
+
+  @override
+  String get originalBpm => '원래 BPM';
+
+  @override
+  String get currentBpm => '현재 BPM';
 }

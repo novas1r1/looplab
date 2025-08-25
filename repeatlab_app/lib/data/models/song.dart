@@ -18,6 +18,7 @@ class Song with SongMappable {
   /// user has not provided it yet and the BPM-based speed control will prompt
   /// for it.
   final int? bpm;
+  final int? currentBpm;
   final List<Loop> loops;
   final LoopSort loopSort;
 
@@ -28,6 +29,7 @@ class Song with SongMappable {
     required this.fileName,
     required this.duration,
     this.bpm,
+    this.currentBpm,
     this.loops = const [],
     this.loopSort = LoopSort.none,
   });

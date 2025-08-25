@@ -229,7 +229,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get premiumFeatureChangeMusicSpeed =>
-      'تغيير سرعة الموسيقى بناءً على BPM أو %';
+      'تحكم في سرعة الصوت (BPM/Multiplier)';
 
   @override
   String get premiumFeatureZoomInOut => 'تكبير/تصغير الموجة';
@@ -471,7 +471,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get onePairOfDrumSticks => '= زوج من عصي الطبول للمطور (مرة واحدة)';
 
   @override
-  String get deleteAllData => 'حذف جميع البيانات';
+  String get localData => 'البيانات المحلية';
+
+  @override
+  String get deleteAllLocalData => 'حذف جميع البيانات';
 
   @override
   String get deleteAllDataTitle => 'حذف جميع البيانات والأغاني والحلقات';
@@ -549,4 +552,45 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get enterSongBpmHint => 'مثل 120';
+
+  @override
+  String get tapBpm => 'إيقاع الضغط';
+
+  @override
+  String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
+      'ضغط الزر أدناه في الإيقاع مع موسيقاك لتحديد BPM.';
+
+  @override
+  String get detectedBpm => 'BPM المكتشف';
+
+  @override
+  String get tapAtLeast2TimesToDetectBpm => 'ضغط على الأقل 2 مرة لتحديد BPM';
+
+  @override
+  String get tap => 'ضغط';
+
+  @override
+  String get taps => 'ضغطات';
+
+  @override
+  String get useBpm => 'استخدم BPM';
+
+  @override
+  String get reset => 'إعادة تعيين';
+
+  @override
+  String get speedControl => 'تحكم بالسرعة';
+
+  @override
+  String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
+      'يمكنك هنا تعيين BPM الأصلي لملف الصوت.';
+
+  @override
+  String get setBpm => 'تعيين BPM';
+
+  @override
+  String get originalBpm => 'BPM الأصلي';
+
+  @override
+  String get currentBpm => 'BPM الحالي';
 }

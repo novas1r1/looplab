@@ -353,9 +353,11 @@ class _SongViewState extends State<_SongView> {
                 floatingActionButton: FloatingActionButton.extended(
                   onPressed: () => _onAddLoop(context),
                   icon: const Icon(Icons.add),
-                  label: Text(context.l10n.addLoop),
+                  label: Text(
+                    context.l10n.addLoop,
+                    style: context.bodyLargeDarkBold,
+                  ),
                   key: tutorialKeyLoopAdd,
-                  backgroundColor: Theme.of(context).colorScheme.primary,
                 ),
               );
           }

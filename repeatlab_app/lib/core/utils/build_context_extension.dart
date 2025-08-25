@@ -21,8 +21,13 @@ extension AppTextStyles on BuildContext {
   TextStyle get labelMedium => Theme.of(this).textTheme.labelMedium!;
   TextStyle get labelSmall => Theme.of(this).textTheme.labelSmall!;
 
-  TextStyle get bodyLargeBold => Theme.of(this).textTheme.bodyLarge!.copyWith(
+  TextStyle get bodyLargeLightBold => Theme.of(this).textTheme.bodyLarge!.copyWith(
     fontWeight: FontWeight.bold,
+  );
+
+  TextStyle get bodyLargeDarkBold => Theme.of(this).textTheme.bodyLarge!.copyWith(
+    fontWeight: FontWeight.bold,
+    color: Theme.of(this).colorScheme.onPrimary,
   );
 
   TextStyle get bodyMediumBold => Theme.of(this).textTheme.bodyMedium!.copyWith(

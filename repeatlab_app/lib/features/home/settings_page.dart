@@ -30,11 +30,12 @@ class _SettingsPageState extends State<SettingsPage> {
         title: Text(context.l10n.settings),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CheckboxListTile(
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 4,
+              spacing: 8,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(context.l10n.analytics, style: context.titleLarge),
@@ -51,9 +52,14 @@ class _SettingsPageState extends State<SettingsPage> {
               );
             },
           ),
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(context.l10n.localData, style: context.titleLarge),
+          ),
           ListTile(
             leading: const Icon(Icons.delete_forever),
-            title: Text(context.l10n.deleteAllData),
+            title: Text(context.l10n.deleteAllLocalData),
             onTap: () => _onDeleteAllData(context),
           ),
         ],

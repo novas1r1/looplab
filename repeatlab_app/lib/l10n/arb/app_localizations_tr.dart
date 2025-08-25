@@ -231,8 +231,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get premiumFeatureUnlimitedLoops => 'Sınırsız döngüler';
 
   @override
-  String get premiumFeatureChangeMusicSpeed =>
-      'Müzik hızını BPM veya %\'ye göre değiştir';
+  String get premiumFeatureChangeMusicSpeed => 'Hız Kontrolü (BPM/Çarpan)';
 
   @override
   String get premiumFeatureZoomInOut => 'Dalga formunu yakınlaştır/uzaklaştır';
@@ -477,7 +476,10 @@ class AppLocalizationsTr extends AppLocalizations {
       '= Geliştirici için bir çift davul çubuğu (bir kez)';
 
   @override
-  String get deleteAllData => 'Tüm verileri sil';
+  String get localData => 'Yerel Veriler';
+
+  @override
+  String get deleteAllLocalData => 'Tüm yerel verileri sil';
 
   @override
   String get deleteAllDataTitle => 'Tüm verileri, şarkıları ve döngüleri sil';
@@ -556,4 +558,46 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get enterSongBpmHint => 'örn. 120';
+
+  @override
+  String get tapBpm => 'BPM\'yi tıkla';
+
+  @override
+  String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
+      'BPM\'yi tespit etmek için aşağıdaki düğmeyi müzikle aynı ritmde tıklayın.';
+
+  @override
+  String get detectedBpm => 'Tespit Edilen BPM';
+
+  @override
+  String get tapAtLeast2TimesToDetectBpm =>
+      'BPM\'yi tespit etmek için en az 2 kez tıklayın';
+
+  @override
+  String get tap => 'TAP';
+
+  @override
+  String get taps => 'TAP';
+
+  @override
+  String get useBpm => 'BPM\'yi kullan';
+
+  @override
+  String get reset => 'Sıfırla';
+
+  @override
+  String get speedControl => 'Hız Kontrolü';
+
+  @override
+  String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
+      'Burada ses dosyasının orijinal BPM\'sini ayarlayabilirsiniz.';
+
+  @override
+  String get setBpm => 'BPM\'yi ayarla';
+
+  @override
+  String get originalBpm => 'Orijinal BPM';
+
+  @override
+  String get currentBpm => 'Mevcut BPM';
 }
