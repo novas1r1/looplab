@@ -9,14 +9,13 @@ import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/purchases_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:sembast/sembast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class RepositoryWrapper extends StatelessWidget {
   final Widget child;
   final Database db;
   final SoLoud soLoud;
   final PackageInfo packageInfo;
-  final SharedPreferences sharedPreferences;
+  final LocalConfigRepository localConfigRepository;
   // final AudioPlayer audioPlayer;
 
   const RepositoryWrapper({
@@ -24,7 +23,7 @@ class RepositoryWrapper extends StatelessWidget {
     required this.child,
     required this.soLoud,
     required this.packageInfo,
-    required this.sharedPreferences,
+    required this.localConfigRepository,
     // required this.audioPlayer,
     super.key,
   });
@@ -47,20 +46,14 @@ class RepositoryWrapper extends StatelessWidget {
         RepositoryProvider(
           create: (context) => packageInfo,
         ),
-        RepositoryProvider(
-          create: (context) => sharedPreferences,
-        ),
+
         RepositoryProvider(
           create: (context) => const CrashReportingRepository(),
         ),
         RepositoryProvider(
           create: (context) => const PurchasesRepository(),
         ),
-        RepositoryProvider(
-          create: (context) => LocalConfigRepository(
-            sharedPreferences: sharedPreferences,
-          ),
-        ),
+        RepositoryProvider.value(value: localConfigRepository),
         // RepositoryProvider(
         //   create: (context) => audioPlayer,
         // ),

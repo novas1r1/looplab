@@ -53,7 +53,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get informationWeCollectDescription =>
-      '• Informazioni Personali: Informazioni che ci fornisci, come il tuo indirizzo email quando invii feedback tramite Wiredash.\n• Informazioni di Pagamento: Dati relativi agli acquisti in-app e agli abbonamenti, elaborati da RevenueCat.\n• Log di Crash: Informazioni su errori e crash dell\'app, raccolte attraverso Sentry.\n• Dati di Utilizzo: Dati analitici per aiutarci a migliorare la tua esperienza.';
+      '• Informazioni Personali: Informazioni che ci fornisci, come il tuo indirizzo email quando invii feedback tramite Wiredash.\n• Informazioni di Pagamento: Dati relativi agli acquisti in-app e agli abbonamenti, elaborati da RevenueCat.\n• Log di Crash: Informazioni su errori e crash dell\'app, raccolte attraverso Sentry.\n• Dati di Utilizzo: Dati analitici per aiutarci a migliorare la tua esperienza.\n• Heatmaps & Session Recording: Dati analitici per aiutarci a migliorare la tua esperienza tramite Microsoft Clarity.';
 
   @override
   String get dataController => 'Titolare del Trattamento';
@@ -67,14 +67,14 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get legalBasisForProcessingDescription =>
-      'Trattiamo i tuoi dati sulla base delle seguenti basi giuridiche:\n\n• Il tuo consenso per l\'invio di feedback tramite Wiredash e l\'analisi dell\'app.\n• L\'esecuzione di un contratto per l\'elaborazione dei pagamenti e la gestione degli abbonamenti tramite RevenueCat.\n• Il nostro legittimo interesse ad assicurare che l\'App funzioni efficacemente utilizzando Sentry per i report di crash.';
+      'Trattiamo i tuoi dati sulla base delle seguenti basi giuridiche:\n\n• Il tuo consenso per l\'invio di feedback tramite Wiredash e l\'analisi dell\'app.\n• L\'esecuzione di un contratto per l\'elaborazione dei pagamenti e la gestione degli abbonamenti tramite RevenueCat.\n• Il nostro legittimo interesse ad assicurare che l\'App funzioni efficacemente utilizzando Sentry per i report di crash.\n• Il nostro legittimo interesse ad migliorare l\'App tramite Microsoft Clarity.';
 
   @override
   String get howWeUseYourInformation => 'Come Utilizziamo le Tue Informazioni';
 
   @override
   String get howWeUseYourInformationDescription =>
-      'Utilizziamo le informazioni raccolte per i seguenti scopi:\n\n• Per elaborare gli acquisti in-app e gestire gli abbonamenti tramite RevenueCat.\n• Per raccogliere feedback e migliorare l\'App utilizzando Wiredash.\n• Per monitorare e risolvere problemi utilizzando i log di crash di Sentry.\n• Per migliorare l\'esperienza utente e arricchire le funzionalità dell\'App.';
+      'Utilizziamo le informazioni raccolte per i seguenti scopi:\n\n• Per elaborare gli acquisti in-app e gestire gli abbonamenti tramite RevenueCat.\n• Per raccogliere feedback e migliorare l\'App utilizzando Wiredash.\n• Per monitorare e risolvere problemi utilizzando i log di crash di Sentry.\n• Per migliorare l\'esperienza utente e arricchire le funzionalità dell\'App.\n• Per migliorare l\'App tramite Microsoft Clarity.';
 
   @override
   String get yourRights => 'I Tuoi Diritti';
@@ -88,7 +88,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get thirdPartyServicesDescription =>
-      'Utilizziamo servizi di terze parti per migliorare la nostra App:\n\n• Wiredash: Utilizzato per raccogliere feedback degli utenti.\n• RevenueCat: Utilizzato per elaborare acquisti in-app e abbonamenti.\n• Sentry: Utilizzato per il monitoraggio degli errori e i report di crash.';
+      'Utilizziamo servizi di terze parti per migliorare la nostra App:\n\n• Wiredash: Utilizzato per raccogliere feedback degli utenti.\n• RevenueCat: Utilizzato per elaborare acquisti in-app e abbonamenti.\n• Sentry: Utilizzato per il monitoraggio degli errori e i report di crash.\n• Microsoft Clarity: Utilizzato per l\'analisi e la miglioramento dell\'esperienza utente.';
 
   @override
   String get contactUs => 'Contattaci';
@@ -135,10 +135,20 @@ class AppLocalizationsIt extends AppLocalizations {
       'Diamo valore alla tua privacy e trattiamo i tuoi dati con cura. Per favore, leggi la nostra informativa sulla privacy e accettala per continuare.';
 
   @override
-  String get onboardingPrivacyPolicy => 'Accetto l\'';
+  String get onboardingIAccept => 'Accetto l\'';
 
   @override
   String get onboardingPrivacyPolicyLink => 'Informativa sulla Privacy';
+
+  @override
+  String get onboardingTermsOfServiceLink => 'Informativa sulla Privacy';
+
+  @override
+  String get and => 'e';
+
+  @override
+  String get onboardingIAcceptUsageStatistics =>
+      'il mio utilizzo dei dati per l\'analisi e i report di crash per migliorare l\'app.';
 
   @override
   String get onboardingGetStarted => 'Inizia';
@@ -182,13 +192,10 @@ class AppLocalizationsIt extends AppLocalizations {
   String get endTime => 'Tempo di Fine';
 
   @override
-  String get delete => 'Elimina';
-
-  @override
   String get save => 'Salva';
 
   @override
-  String get invalidFormat => 'Formato non valido (mm:ss:ms)';
+  String get invalidFormat => 'Formato non valido (mm:ss.sss)';
 
   @override
   String get startCannotBeAfterEnd => 'L\'inizio non può essere dopo la fine';
@@ -224,7 +231,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get premiumFeatureChangeMusicSpeed =>
-      'Modifica la Velocità della Musica';
+      'Controllo della Velocità (BPM/Moltiplicatore)';
 
   @override
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';
@@ -291,6 +298,9 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get deleteSongLoopsDescription =>
       'Sei sicuro di voler eliminare questa canzone e tutti i loop associati? Questa azione non può essere annullata.';
+
+  @override
+  String get delete => 'Elimina';
 
   @override
   String get cancel => 'Annulla';
@@ -372,10 +382,46 @@ class AppLocalizationsIt extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
-  String get changelog113Title => 'Correzione di bug';
+  String get changelog130Title => 'Cambia il tempo basato su BPM';
 
   @override
-  String get changelog113Description =>
+  String get changelog130Description =>
+      'Ora puoi cambiare il tempo della canzone in base al BPM. Questo ti permette di regolare il tempo con precisione. Inoltre, il tempo ora può essere reimpostato con un pulsante.';
+
+  @override
+  String get changelog1201Title =>
+      '1/4 Aggiunta informazioni sui media per i file audio';
+
+  @override
+  String get changelog1201Description =>
+      'L\'app ora mostra le informazioni sui media per i file audio. Questo include il titolo e l\'artista per ora.';
+
+  @override
+  String get changelog1202Title => '2/4 Conversione di m4a in mp3';
+
+  @override
+  String get changelog1202Description =>
+      'L\'app ora converte i file m4a (un formato audio che attualmente non è supportato dall\'app) in file mp3.';
+
+  @override
+  String get changelog1203Title => '3/4 Eliminazione delle canzoni singole';
+
+  @override
+  String get changelog1203Description =>
+      'Ora puoi eliminare una canzone trascinandola a sinistra e toccando \'Elimina Canzone\'. Questo eliminerà la canzone e tutti i loop associati.';
+
+  @override
+  String get changelog1204Title => '4/4 Cambiato il formato audio';
+
+  @override
+  String get changelog1204Description =>
+      'L\'app ora converte i file audio in formato mp3. Questo è utile per i file audio che non sono supportati dall\'app.';
+
+  @override
+  String get changelog115Title => 'Correzione di bug';
+
+  @override
+  String get changelog115Description =>
       'Se non era stato impostato un fine del loop, il loop si riprodurrà fino alla fine della canzone e considererà la fine della canzone come fine del loop. Il servizio audio in background si interrompe ora quando l\'app viene chiusa.';
 
   @override
@@ -434,7 +480,10 @@ class AppLocalizationsIt extends AppLocalizations {
       '= Un Set di Tamburi per il Developer (una volta)';
 
   @override
-  String get deleteAllData => 'Elimina Tutti i Dati';
+  String get localData => 'Dati Locali';
+
+  @override
+  String get deleteAllLocalData => 'Elimina Tutti i Dati Locali';
 
   @override
   String get deleteAllDataTitle => 'Elimina Tutti i Dati, Canzoni e Loop';
@@ -473,4 +522,86 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get loopMode => 'Modalità Loop';
+
+  @override
+  String get hours => 'Ore';
+
+  @override
+  String get minutes => 'Minuti';
+
+  @override
+  String get seconds => 'Secondi';
+
+  @override
+  String get milliseconds => 'Millisecondi';
+
+  @override
+  String deleteSongConfirmation(String songTitle) {
+    return 'Sei sicuro di voler eliminare \"$songTitle\" e tutti i loop associati?';
+  }
+
+  @override
+  String get deleteSongConfirmationTitle => 'Elimina Canzone';
+
+  @override
+  String get settings => 'Impostazioni';
+
+  @override
+  String get analytics => 'Analytics';
+
+  @override
+  String get analyticsDescription =>
+      'Utilizziamo Microsoft Clarity per raccogliere dati di utilizzo e migliorare l\'app. Questi dati non vengono condivisi con terze parti.';
+
+  @override
+  String get enterSongBpm => 'Inserisci BPM della canzone';
+
+  @override
+  String get enterSongBpmDescription =>
+      'Inserisci il BPM originale della canzone per cambiare il tempo. Questo è utile quando pratichi una canzone con un tempo diverso. Il BPM verrà assegnato alla canzone e salvato.';
+
+  @override
+  String get enterSongBpmHint => 'es. 120';
+
+  @override
+  String get tapBpm => 'Tocca BPM';
+
+  @override
+  String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
+      'Tocca il pulsante qui sotto in ritmo con la tua musica per rilevare il BPM.';
+
+  @override
+  String get detectedBpm => 'BPM rilevato';
+
+  @override
+  String get tapAtLeast2TimesToDetectBpm =>
+      'Tocca almeno 2 volte per rilevare il BPM';
+
+  @override
+  String get tap => 'TAP';
+
+  @override
+  String get taps => 'TAP';
+
+  @override
+  String get useBpm => 'Usa BPM';
+
+  @override
+  String get reset => 'Reimposta';
+
+  @override
+  String get speedControl => 'Controllo della Velocità';
+
+  @override
+  String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
+      'Qui puoi impostare il BPM originale del file audio.';
+
+  @override
+  String get setBpm => 'Imposta BPM';
+
+  @override
+  String get originalBpm => 'BPM ORIGINALE';
+
+  @override
+  String get currentBpm => 'BPM ATTUALE';
 }

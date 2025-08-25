@@ -67,14 +67,14 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get legalBasisForProcessingDescription =>
-      'Мы обрабатываем ваши данные на следующих правовых основаниях:\n\n• Ваше согласие на отправку отзывов через Wiredash и анализ приложения.\n• Выполнение договора для обработки платежей и управления подписками через RevenueCat.\n• Наш законный интерес в обеспечении эффективной работы Приложения с использованием Sentry для отчетов о сбоях.';
+      'Мы обрабатываем ваши данные на следующих правовых основаниях:\n\n• Ваше согласие на отправку отзывов через Wiredash и анализ приложения.\n• Выполнение договора для обработки платежей и управления подписками через RevenueCat.\n• Наш законный интерес в обеспечении эффективной работы Приложения с использованием Sentry для отчетов о сбоях.\n• Наш законный интерес в улучшении пользовательского опыта с использованием Microsoft Clarity.';
 
   @override
   String get howWeUseYourInformation => 'Как Мы Используем Вашу Информацию';
 
   @override
   String get howWeUseYourInformationDescription =>
-      'Мы используем собранную информацию для следующих целей:\n\n• Для обработки покупок в приложении и управления подписками через RevenueCat.\n• Для сбора отзывов и улучшения Приложения с помощью Wiredash.\n• Для мониторинга и решения проблем с использованием журналов сбоев Sentry.\n• Для улучшения пользовательского опыта и расширения функций Приложения.';
+      'Мы используем собранную информацию для следующих целей:\n\n• Для обработки покупок в приложении и управления подписками через RevenueCat.\n• Для сбора отзывов и улучшения Приложения с помощью Wiredash.\n• Для мониторинга и решения проблем с использованием журналов сбоев Sentry.\n• Для улучшения пользовательского опыта и расширения функций Приложения.\n• Для анализа и улучшения пользовательского опыта с использованием Microsoft Clarity.';
 
   @override
   String get yourRights => 'Ваши Права';
@@ -88,7 +88,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get thirdPartyServicesDescription =>
-      'Мы используем сторонние сервисы для улучшения нашего Приложения:\n\n• Wiredash: Используется для сбора отзывов пользователей.\n• RevenueCat: Используется для обработки покупок в приложении и подписок.\n• Sentry: Используется для мониторинга ошибок и отчетов о сбоях.';
+      'Мы используем сторонние сервисы для улучшения нашего Приложения:\n\n• Wiredash: Используется для сбора отзывов пользователей.\n• RevenueCat: Используется для обработки покупок в приложении и подписок.\n• Sentry: Используется для мониторинга ошибок и отчетов о сбоях.\n• Microsoft Clarity: Используется для анализа и улучшения пользовательского опыта.';
 
   @override
   String get contactUs => 'Свяжитесь с Нами';
@@ -135,10 +135,20 @@ class AppLocalizationsRu extends AppLocalizations {
       'Мы ценим вашу конфиденциальность и бережно обращаемся с вашими данными. Пожалуйста, ознакомьтесь с нашей политикой конфиденциальности и примите её, чтобы продолжить.';
 
   @override
-  String get onboardingPrivacyPolicy => 'Я принимаю ';
+  String get onboardingIAccept => 'Я принимаю ';
 
   @override
-  String get onboardingPrivacyPolicyLink => 'Политику конфиденциальности';
+  String get onboardingPrivacyPolicyLink => 'Политика конфиденциальности';
+
+  @override
+  String get onboardingTermsOfServiceLink => 'Политику конфиденциальности';
+
+  @override
+  String get and => 'и';
+
+  @override
+  String get onboardingIAcceptUsageStatistics =>
+      'я согласен использовать данные для анализа и отчетов об ошибках.';
 
   @override
   String get onboardingGetStarted => 'Начать';
@@ -182,9 +192,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get endTime => 'Время Окончания';
 
   @override
-  String get delete => 'Удалить';
-
-  @override
   String get save => 'Сохранить';
 
   @override
@@ -222,7 +229,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get premiumFeatureUnlimitedLoops => 'Неограниченное Количество Лупов';
 
   @override
-  String get premiumFeatureChangeMusicSpeed => 'Изменение Скорости Музыки';
+  String get premiumFeatureChangeMusicSpeed =>
+      'Управление Скоростью (BPM/Множитель)';
 
   @override
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';
@@ -289,6 +297,9 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get deleteSongLoopsDescription =>
       'Вы уверены, что хотите удалить эту песню и все прикрепленные лупы? Это действие нельзя отменить.';
+
+  @override
+  String get delete => 'Удалить';
 
   @override
   String get cancel => 'Отмена';
@@ -370,10 +381,45 @@ class AppLocalizationsRu extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
-  String get changelog113Title => 'Исправления ошибок';
+  String get changelog130Title => 'Изменение темпа на основе BPM';
 
   @override
-  String get changelog113Description =>
+  String get changelog130Description =>
+      'Теперь вы можете изменить темп песни на основе BPM. Это позволяет точно настроить темп. Кроме того, теперь темп можно сбросить с помощью кнопки.';
+
+  @override
+  String get changelog1201Title => '1/4 Добавлены медиаданные для аудиофайлов';
+
+  @override
+  String get changelog1201Description =>
+      'Теперь приложение показывает медиаданные для аудиофайлов. Включает в себя название и исполнителя.';
+
+  @override
+  String get changelog1202Title => '2/4 Преобразование m4a в mp3';
+
+  @override
+  String get changelog1202Description =>
+      'Теперь приложение может преобразовать файлы m4a (формат аудио, который в настоящее время не поддерживается приложением) в файлы mp3.';
+
+  @override
+  String get changelog1203Title => '3/4 Удаление отдельных песен';
+
+  @override
+  String get changelog1203Description =>
+      'Теперь вы можете удалить песню, перетащив ее влево и нажав на \"Удалить Песню\". Это приведет к удалению песни и всех связанных с ней лупов.';
+
+  @override
+  String get changelog1204Title => '4/4 Изменен формат аудио';
+
+  @override
+  String get changelog1204Description =>
+      'Формат аудио изменен на более стандартный и лупы теперь можно редактировать с большей точностью.';
+
+  @override
+  String get changelog115Title => 'Исправления ошибок';
+
+  @override
+  String get changelog115Description =>
       'Если не было установлено конечное положение лупа, луп будет воспроизводиться до конца песни и будет считаться концом песни как концом лупа. Сервис аудио в фоновом режиме теперь завершается при закрытии приложения.';
 
   @override
@@ -432,7 +478,10 @@ class AppLocalizationsRu extends AppLocalizations {
       '= Один Набор Барабанных палочек для Разработчика (один раз)';
 
   @override
-  String get deleteAllData => 'Удалить Все Данные';
+  String get localData => 'Данные Локальные';
+
+  @override
+  String get deleteAllLocalData => 'Удалить Все Локальные Данные';
 
   @override
   String get deleteAllDataTitle => 'Удалить Все Данные, Песни и Лупы';
@@ -471,4 +520,86 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get loopMode => 'Режим Лупа';
+
+  @override
+  String get hours => 'Часы';
+
+  @override
+  String get minutes => 'Минуты';
+
+  @override
+  String get seconds => 'Секунды';
+
+  @override
+  String get milliseconds => 'Миллисекунды';
+
+  @override
+  String deleteSongConfirmation(String songTitle) {
+    return 'Вы уверены, что хотите удалить \"$songTitle\" и все прикрепленные лупы?';
+  }
+
+  @override
+  String get deleteSongConfirmationTitle => 'Удалить Песню';
+
+  @override
+  String get settings => 'Настройки';
+
+  @override
+  String get analytics => 'Аналитика';
+
+  @override
+  String get analyticsDescription =>
+      'Мы используем Microsoft Clarity для сбора данных об использовании и улучшения приложения. Эти данные не передаются третьим лицам.';
+
+  @override
+  String get enterSongBpm => 'Введите BPM песни';
+
+  @override
+  String get enterSongBpmDescription =>
+      'Введите оригинальный BPM песни, чтобы изменить темп. Это полезно, когда вы тренируетесь с другой скоростью. BPM будет присвоен песне и сохранен.';
+
+  @override
+  String get enterSongBpmHint => 'например, 120';
+
+  @override
+  String get tapBpm => 'Нажмите BPM';
+
+  @override
+  String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
+      'Нажмите кнопку ниже в ритме с вашей музыкой, чтобы определить BPM.';
+
+  @override
+  String get detectedBpm => 'Определенный BPM';
+
+  @override
+  String get tapAtLeast2TimesToDetectBpm =>
+      'Нажмите как минимум 2 раза, чтобы определить BPM';
+
+  @override
+  String get tap => 'Нажмите';
+
+  @override
+  String get taps => 'Нажмите';
+
+  @override
+  String get useBpm => 'Использовать BPM';
+
+  @override
+  String get reset => 'Сбросить';
+
+  @override
+  String get speedControl => 'Управление скоростью';
+
+  @override
+  String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
+      'Здесь вы можете установить оригинальный BPM аудиофайла.';
+
+  @override
+  String get setBpm => 'Установить BPM';
+
+  @override
+  String get originalBpm => 'Оригинальный BPM';
+
+  @override
+  String get currentBpm => 'Текущий BPM';
 }

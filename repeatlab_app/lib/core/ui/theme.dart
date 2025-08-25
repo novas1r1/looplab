@@ -16,7 +16,7 @@ class MaterialTheme {
   static ColorScheme lightScheme() {
     return const ColorScheme(
       brightness: Brightness.light,
-      primary: Color(0xff00696e),
+      primary: Color.fromARGB(255, 0, 21, 22),
       surfaceTint: Color(0xff00696e),
       onPrimary: Color(0xffffffff),
       primaryContainer: Color(0xff27b9c2),
@@ -74,6 +74,31 @@ class MaterialTheme {
     ),
     scaffoldBackgroundColor: colorScheme.surface,
     canvasColor: colorScheme.surface,
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: colorScheme.primary,
+        foregroundColor: colorScheme.onPrimary,
+        textStyle: textTheme.bodyLarge?.copyWith(
+          color: colorScheme.onPrimary,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: colorScheme.primary,
+      foregroundColor: colorScheme.onPrimary,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: colorScheme.primary,
+        textStyle: textTheme.bodyLarge?.copyWith(
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    ),
   );
 
   List<ExtendedColor> get extendedColors => [];

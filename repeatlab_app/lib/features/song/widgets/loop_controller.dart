@@ -1,3 +1,4 @@
+// import 'package:audioplayers/audioplayers.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -81,47 +82,61 @@ class LoopController extends StatelessWidget {
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        if (activeLoop?.end != null &&
-                            context.read<SongCubit>().state.position! < activeLoop!.end!) {
-                          context.read<SongCubit>().setLoopStart();
-                        } else if (activeLoop?.end != null) {
-                          SnackbarHelper.showError(
-                            context,
-                            context.l10n.startMustBeBeforeEnd,
-                          );
-                        } else {
-                          // No end position set yet, so it's safe to set start
-                          context.read<SongCubit>().setLoopStart();
-                        }
-                      },
-                      child: Text(context.l10n.setLoopStart),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        if (activeLoop?.start != null &&
-                            context.read<SongCubit>().state.position! > activeLoop!.start!) {
-                          context.read<SongCubit>().setLoopEnd();
-                        } else if (activeLoop?.start != null) {
-                          SnackbarHelper.showError(
-                            context,
-                            context.l10n.endMustBeAfterStart,
-                          );
-                        } else {
-                          // No start position set yet, so it's safe to set end
-                          context.read<SongCubit>().setLoopEnd();
-                        }
-                      },
-                      child: Text(context.l10n.setLoopEnd),
-                    ),
-                  ],
+                StreamBuilder(
+                  stream: context.read<SongCubit>().positionStream,
+                  builder: (context, asyncSnapshot) {
+                    final currentPosition = asyncSnapshot.data;
+
+                    if (currentPosition == null) return const SizedBox.shrink();
+
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton(
+                          onPressed: () => _onSetLoopStart(context, currentPosition),
+                          child: Text(context.l10n.setLoopStart),
+                        ),
+                        TextButton(
+                          onPressed: () => _onSetLoopEnd(context, currentPosition),
+                          child: Text(context.l10n.setLoopEnd),
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ],
             ),
     );
+  }
+
+  void _onSetLoopStart(BuildContext context, Duration currentPosition) {
+    if (activeLoop?.end != null && currentPosition < activeLoop!.end!) {
+      context.read<SongCubit>().setLoopStart();
+    } else if (activeLoop?.end != null) {
+      SnackbarHelper.showError(
+        context,
+        context.l10n.startMustBeBeforeEnd,
+      );
+    } else {
+      // No end position set yet, so it's safe to set start
+      context.read<SongCubit>().setLoopStart();
+    }
+  }
+
+  void _onSetLoopEnd(
+    BuildContext context,
+    Duration currentPosition,
+  ) {
+    if (activeLoop?.start != null && currentPosition > activeLoop!.start!) {
+      context.read<SongCubit>().setLoopEnd();
+    } else if (activeLoop?.start != null) {
+      SnackbarHelper.showError(
+        context,
+        context.l10n.endMustBeAfterStart,
+      );
+    } else {
+      // No start position set yet, so it's safe to set end
+      context.read<SongCubit>().setLoopEnd();
+    }
   }
 }

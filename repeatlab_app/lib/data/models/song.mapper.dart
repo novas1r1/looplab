@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format off
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, unnecessary_cast, override_on_non_overriding_member
 // ignore_for_file: strict_raw_type, inference_failure_on_untyped_parameter
@@ -82,15 +83,37 @@ class SongMapper extends ClassMapperBase<Song> {
   static String _$fileName(Song v) => v.fileName;
   static const Field<Song, String> _f$fileName = Field('fileName', _$fileName);
   static Duration _$duration(Song v) => v.duration;
-  static const Field<Song, Duration> _f$duration = Field('duration', _$duration);
+  static const Field<Song, Duration> _f$duration = Field(
+    'duration',
+    _$duration,
+  );
+  static int? _$bpm(Song v) => v.bpm;
+  static const Field<Song, int> _f$bpm = Field('bpm', _$bpm, opt: true);
+  static int? _$currentBpm(Song v) => v.currentBpm;
+  static const Field<Song, int> _f$currentBpm = Field(
+    'currentBpm',
+    _$currentBpm,
+    opt: true,
+  );
   static List<Loop> _$loops(Song v) => v.loops;
-  static const Field<Song, List<Loop>> _f$loops = Field('loops', _$loops, opt: true, def: const []);
+  static const Field<Song, List<Loop>> _f$loops = Field(
+    'loops',
+    _$loops,
+    opt: true,
+    def: const [],
+  );
   static LoopSort _$loopSort(Song v) => v.loopSort;
   static const Field<Song, LoopSort> _f$loopSort = Field(
     'loopSort',
     _$loopSort,
     opt: true,
     def: LoopSort.none,
+  );
+  static Future<String> _$path(Song v) => v.path;
+  static const Field<Song, Future<String>> _f$path = Field(
+    'path',
+    _$path,
+    mode: FieldMode.member,
   );
 
   @override
@@ -100,8 +123,11 @@ class SongMapper extends ClassMapperBase<Song> {
     #artist: _f$artist,
     #fileName: _f$fileName,
     #duration: _f$duration,
+    #bpm: _f$bpm,
+    #currentBpm: _f$currentBpm,
     #loops: _f$loops,
     #loopSort: _f$loopSort,
+    #path: _f$path,
   };
 
   static Song _instantiate(DecodingData data) {
@@ -111,6 +137,8 @@ class SongMapper extends ClassMapperBase<Song> {
       artist: data.dec(_f$artist),
       fileName: data.dec(_f$fileName),
       duration: data.dec(_f$duration),
+      bpm: data.dec(_f$bpm),
+      currentBpm: data.dec(_f$currentBpm),
       loops: data.dec(_f$loops),
       loopSort: data.dec(_f$loopSort),
     );
@@ -160,7 +188,8 @@ extension SongValueCopy<$R, $Out> on ObjectCopyWith<$R, Song, $Out> {
       $base.as((v, t, t2) => _SongCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
-abstract class SongCopyWith<$R, $In extends Song, $Out> implements ClassCopyWith<$R, $In, $Out> {
+abstract class SongCopyWith<$R, $In extends Song, $Out>
+    implements ClassCopyWith<$R, $In, $Out> {
   ListCopyWith<$R, Loop, LoopCopyWith<$R, Loop, Loop>> get loops;
   $R call({
     String? id,
@@ -168,6 +197,8 @@ abstract class SongCopyWith<$R, $In extends Song, $Out> implements ClassCopyWith
     String? artist,
     String? fileName,
     Duration? duration,
+    int? bpm,
+    int? currentBpm,
     List<Loop>? loops,
     LoopSort? loopSort,
   });
@@ -182,7 +213,11 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
   late final ClassMapperBase<Song> $mapper = SongMapper.ensureInitialized();
   @override
   ListCopyWith<$R, Loop, LoopCopyWith<$R, Loop, Loop>> get loops =>
-      ListCopyWith($value.loops, (v, t) => v.copyWith.$chain(t), (v) => call(loops: v));
+      ListCopyWith(
+        $value.loops,
+        (v, t) => v.copyWith.$chain(t),
+        (v) => call(loops: v),
+      );
   @override
   $R call({
     String? id,
@@ -190,6 +225,8 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
     String? artist,
     String? fileName,
     Duration? duration,
+    Object? bpm = $none,
+    Object? currentBpm = $none,
     List<Loop>? loops,
     LoopSort? loopSort,
   }) => $apply(
@@ -199,6 +236,8 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
       if (artist != null) #artist: artist,
       if (fileName != null) #fileName: fileName,
       if (duration != null) #duration: duration,
+      if (bpm != $none) #bpm: bpm,
+      if (currentBpm != $none) #currentBpm: currentBpm,
       if (loops != null) #loops: loops,
       if (loopSort != null) #loopSort: loopSort,
     }),
@@ -210,6 +249,8 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
     artist: data.get(#artist, or: $value.artist),
     fileName: data.get(#fileName, or: $value.fileName),
     duration: data.get(#duration, or: $value.duration),
+    bpm: data.get(#bpm, or: $value.bpm),
+    currentBpm: data.get(#currentBpm, or: $value.currentBpm),
     loops: data.get(#loops, or: $value.loops),
     loopSort: data.get(#loopSort, or: $value.loopSort),
   );
@@ -218,3 +259,4 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
   SongCopyWith<$R2, Song, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
       _SongCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
+

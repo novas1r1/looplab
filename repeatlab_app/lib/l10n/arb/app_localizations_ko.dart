@@ -67,14 +67,14 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get legalBasisForProcessingDescription =>
-      '우리는 다음과 같은 법적 근거에 따라 귀하의 데이터를 처리합니다:\n\n• Wiredash를 통한 피드백 제출 및 앱 분석에 대한 동의\n• RevenueCat을 통한 결제 처리 및 구독 관리를 위한 계약 이행\n• Sentry를 사용한 충돌 보고를 통한 앱의 효과적인 운영을 위한 정당한 이익';
+      '우리는 다음과 같은 법적 근거에 따라 귀하의 데이터를 처리합니다:\n\n• Wiredash를 통한 피드백 제출 및 앱 분석에 대한 동의\n• RevenueCat을 통한 결제 처리 및 구독 관리를 위한 계약 이행\n• Sentry를 사용한 충돌 보고를 통한 앱의 효과적인 운영을 위한 정당한 이익\n• Microsoft Clarity를 사용한 사용자 경험 분석 및 개선을 위한 정당한 이익';
 
   @override
   String get howWeUseYourInformation => '정보 사용 방법';
 
   @override
   String get howWeUseYourInformationDescription =>
-      '수집한 정보는 다음과 같은 목적으로 사용됩니다:\n\n• RevenueCat을 통한 앱 내 구매 처리 및 구독 관리\n• Wiredash를 사용한 피드백 수집 및 앱 개선\n• Sentry 충돌 로그를 사용한 문제 모니터링 및 수정\n• 사용자 경험 개선 및 앱 기능 강화';
+      '수집한 정보는 다음과 같은 목적으로 사용됩니다:\n\n• RevenueCat을 통한 앱 내 구매 처리 및 구독 관리\n• Wiredash를 사용한 피드백 수집 및 앱 개선\n• Sentry 충돌 로그를 사용한 문제 모니터링 및 수정\n• 사용자 경험 개선 및 앱 기능 강화\n• Microsoft Clarity를 사용한 사용자 경험 분석 및 개선';
 
   @override
   String get yourRights => '귀하의 권리';
@@ -88,7 +88,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get thirdPartyServicesDescription =>
-      '앱을 향상시키기 위해 다음과 같은 제3자 서비스를 사용합니다:\n\n• Wiredash: 사용자 피드백 수집에 사용\n• RevenueCat: 앱 내 구매 및 구독 처리에 사용\n• Sentry: 오류 모니터링 및 충돌 보고에 사용';
+      '앱을 향상시키기 위해 다음과 같은 제3자 서비스를 사용합니다:\n\n• Wiredash: 사용자 피드백 수집에 사용\n• RevenueCat: 앱 내 구매 및 구독 처리에 사용\n• Sentry: 오류 모니터링 및 충돌 보고에 사용\n• Microsoft Clarity: 사용자 경험 분석 및 개선에 사용\n• Google Analytics: 앱 사용 통계 분석에 사용\n• Firebase Analytics: 앱 사용 통계 분석에 사용';
 
   @override
   String get contactUs => '문의하기';
@@ -134,10 +134,20 @@ class AppLocalizationsKo extends AppLocalizations {
       '귀하의 개인정보를 존중하고 데이터를 신중하게 처리합니다. 개인정보 처리방침을 검토하고 계속하려면 동의해 주세요.';
 
   @override
-  String get onboardingPrivacyPolicy => '동의합니다';
+  String get onboardingIAccept => '동의합니다';
 
   @override
   String get onboardingPrivacyPolicyLink => '개인정보 처리방침';
+
+  @override
+  String get onboardingTermsOfServiceLink => '개인정보 처리방침';
+
+  @override
+  String get and => '과';
+
+  @override
+  String get onboardingIAcceptUsageStatistics =>
+      '데이터를 사용하여 앱 분석 및 충돌 보고를 생성하여 앱을 개선하는 데 사용합니다.';
 
   @override
   String get onboardingGetStarted => '시작하기';
@@ -180,13 +190,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get endTime => '종료 시간';
 
   @override
-  String get delete => '삭제';
-
-  @override
   String get save => '저장';
 
   @override
-  String get invalidFormat => '잘못된 형식 (mm:ss:ms)';
+  String get invalidFormat => '잘못된 형식 (mm:ss.sss)';
 
   @override
   String get startCannotBeAfterEnd => '시작 시간은 종료 시간보다 이후일 수 없습니다';
@@ -216,7 +223,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get premiumFeatureUnlimitedLoops => '무제한 루프';
 
   @override
-  String get premiumFeatureChangeMusicSpeed => '음악 속도 변경';
+  String get premiumFeatureChangeMusicSpeed => '속도 제어 (BPM/배율)';
 
   @override
   String get premiumFeatureZoomInOut => '파형 확대/축소';
@@ -280,6 +287,9 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get deleteSongLoopsDescription =>
       '이 곡과 관련된 모든 루프를 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.';
+
+  @override
+  String get delete => '삭제';
 
   @override
   String get cancel => '취소';
@@ -353,10 +363,44 @@ class AppLocalizationsKo extends AppLocalizations {
   String get changelogTitle => '변경 사항';
 
   @override
-  String get changelog113Title => '여러 버그 수정';
+  String get changelog130Title => 'BPM 기반 템포 변경';
 
   @override
-  String get changelog113Description =>
+  String get changelog130Description =>
+      '이제 BPM 기반으로 곡의 템포를 변경할 수 있습니다. 이를 통해 더 정확한 템포 조정이 가능합니다. 또한, 템포를 초기화하는 버튼도 추가되었습니다.';
+
+  @override
+  String get changelog1201Title => '1/4 오디오 파일의 미디어 데이터 추가';
+
+  @override
+  String get changelog1201Description =>
+      '앱이 이제 오디오 파일의 미디어 데이터를 표시합니다. 현재 제목과 아티스트가 표시됩니다.';
+
+  @override
+  String get changelog1202Title => '2/4 m4a를 mp3로 변환';
+
+  @override
+  String get changelog1202Description => '앱이 이제 지원되지 않는 m4a 파일을 mp3로 변환합니다.';
+
+  @override
+  String get changelog1203Title => '3/4 단일 곡 삭제';
+
+  @override
+  String get changelog1203Description =>
+      '곡을 왼쪽으로 드래그하고 \'곡 삭제\'를 탭하여 곡과 관련된 모든 루프를 삭제할 수 있습니다.';
+
+  @override
+  String get changelog1204Title => '4/4 오디오 형식 변경';
+
+  @override
+  String get changelog1204Description =>
+      '오디오 형식을 더 표준적인 형식으로 변경하여 루프를 더 정확하게 편집할 수 있습니다.';
+
+  @override
+  String get changelog115Title => '여러 버그 수정';
+
+  @override
+  String get changelog115Description =>
       '루프 종료가 설정되지 않은 경우, 루프는 곡의 끝까지 재생되고 곡의 끝을 루프 종료로 처리했습니다. 앱이 닫힐 때 오디오 백그라운드 서비스가 이제 중지됩니다.';
 
   @override
@@ -412,7 +456,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get onePairOfDrumSticks => '= 개발자의 드럼 스틱 한 쌍 (일회성)';
 
   @override
-  String get deleteAllData => '모든 데이터 삭제';
+  String get localData => '로컬 데이터';
+
+  @override
+  String get deleteAllLocalData => '모든 로컬 데이터 삭제';
 
   @override
   String get deleteAllDataTitle => '모든 데이터, 곡 및 루프 삭제';
@@ -451,4 +498,85 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get loopMode => '루프 모드';
+
+  @override
+  String get hours => '시간';
+
+  @override
+  String get minutes => '분';
+
+  @override
+  String get seconds => '초';
+
+  @override
+  String get milliseconds => '밀리초';
+
+  @override
+  String deleteSongConfirmation(String songTitle) {
+    return '\"$songTitle\"과 관련된 모든 루프를 삭제하시겠습니까?';
+  }
+
+  @override
+  String get deleteSongConfirmationTitle => '곡 삭제';
+
+  @override
+  String get settings => '설정';
+
+  @override
+  String get analytics => '분석';
+
+  @override
+  String get analyticsDescription =>
+      'Microsoft Clarity를 사용하여 사용 데이터를 수집하고 앱을 개선합니다. 이 데이터는 제3자와 공유되지 않습니다.';
+
+  @override
+  String get enterSongBpm => '곡의 BPM 입력';
+
+  @override
+  String get enterSongBpmDescription =>
+      '곡의 원래 BPM을 입력하여 템포를 변경합니다. 이는 다른 템포로 곡을 연습할 때 유용합니다. BPM은 곡에 할당되고 저장됩니다.';
+
+  @override
+  String get enterSongBpmHint => '예: 120';
+
+  @override
+  String get tapBpm => 'BPM 탭';
+
+  @override
+  String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
+      '버튼을 음악과 동일한 템포로 탭하여 BPM을 감지합니다.';
+
+  @override
+  String get detectedBpm => '감지된 BPM';
+
+  @override
+  String get tapAtLeast2TimesToDetectBpm => 'BPM을 감지하려면 최소 2번 탭해야 합니다';
+
+  @override
+  String get tap => '탭';
+
+  @override
+  String get taps => '탭';
+
+  @override
+  String get useBpm => 'BPM 사용';
+
+  @override
+  String get reset => '초기화';
+
+  @override
+  String get speedControl => '속도 제어';
+
+  @override
+  String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
+      '오디오 파일의 원래 BPM을 설정할 수 있습니다.';
+
+  @override
+  String get setBpm => 'BPM 설정';
+
+  @override
+  String get originalBpm => '원래 BPM';
+
+  @override
+  String get currentBpm => '현재 BPM';
 }

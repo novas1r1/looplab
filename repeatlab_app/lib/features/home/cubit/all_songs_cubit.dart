@@ -89,6 +89,21 @@ class AllSongsCubit extends Cubit<AllSongsState> {
     }
   }
 
+  Future<void> deleteSong(Song song) async {
+    try {
+      await songRepository.deleteSong(song);
+      // The songs stream will automatically update via the subscription
+    } catch (ex, stack) {
+      crashReportingRepository.reportError(ex, stack);
+      emit(
+        state.copyWith(
+          status: AllSongsStatus.error,
+          errorMessage: ex.toString(),
+        ),
+      );
+    }
+  }
+
   @override
   Future<void> close() {
     _songSubscription?.cancel();

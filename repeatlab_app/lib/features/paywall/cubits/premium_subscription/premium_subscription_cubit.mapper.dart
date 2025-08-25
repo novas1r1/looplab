@@ -1,18 +1,22 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format off
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, unnecessary_cast, override_on_non_overriding_member
 // ignore_for_file: strict_raw_type, inference_failure_on_untyped_parameter
 
 part of 'premium_subscription_cubit.dart';
 
-class PremiumSubscriptionStateMapper extends ClassMapperBase<PremiumSubscriptionState> {
+class PremiumSubscriptionStateMapper
+    extends ClassMapperBase<PremiumSubscriptionState> {
   PremiumSubscriptionStateMapper._();
 
   static PremiumSubscriptionStateMapper? _instance;
   static PremiumSubscriptionStateMapper ensureInitialized() {
     if (_instance == null) {
-      MapperContainer.globals.use(_instance = PremiumSubscriptionStateMapper._());
+      MapperContainer.globals.use(
+        _instance = PremiumSubscriptionStateMapper._(),
+      );
     }
     return _instance!;
   }
@@ -20,27 +24,32 @@ class PremiumSubscriptionStateMapper extends ClassMapperBase<PremiumSubscription
   @override
   final String id = 'PremiumSubscriptionState';
 
-  static PremiumSubscriptionStatus _$status(PremiumSubscriptionState v) => v.status;
-  static const Field<PremiumSubscriptionState, PremiumSubscriptionStatus> _f$status = Field(
+  static PremiumSubscriptionStatus _$status(PremiumSubscriptionState v) =>
+      v.status;
+  static const Field<PremiumSubscriptionState, PremiumSubscriptionStatus>
+  _f$status = Field(
     'status',
     _$status,
     opt: true,
     def: PremiumSubscriptionStatus.initial,
   );
-  static bool _$hasSubscription(PremiumSubscriptionState v) => v.hasSubscription;
+  static bool _$hasSubscription(PremiumSubscriptionState v) =>
+      v.hasSubscription;
   static const Field<PremiumSubscriptionState, bool> _f$hasSubscription = Field(
     'hasSubscription',
     _$hasSubscription,
     opt: true,
     def: false,
   );
-  static bool _$hasLifetimePurchase(PremiumSubscriptionState v) => v.hasLifetimePurchase;
-  static const Field<PremiumSubscriptionState, bool> _f$hasLifetimePurchase = Field(
-    'hasLifetimePurchase',
-    _$hasLifetimePurchase,
-    opt: true,
-    def: false,
-  );
+  static bool _$hasLifetimePurchase(PremiumSubscriptionState v) =>
+      v.hasLifetimePurchase;
+  static const Field<PremiumSubscriptionState, bool> _f$hasLifetimePurchase =
+      Field(
+        'hasLifetimePurchase',
+        _$hasLifetimePurchase,
+        opt: true,
+        def: false,
+      );
   static String? _$errorMessage(PremiumSubscriptionState v) => v.errorMessage;
   static const Field<PremiumSubscriptionState, String> _f$errorMessage = Field(
     'errorMessage',
@@ -79,15 +88,13 @@ class PremiumSubscriptionStateMapper extends ClassMapperBase<PremiumSubscription
 
 mixin PremiumSubscriptionStateMappable {
   String toJson() {
-    return PremiumSubscriptionStateMapper.ensureInitialized().encodeJson<PremiumSubscriptionState>(
-      this as PremiumSubscriptionState,
-    );
+    return PremiumSubscriptionStateMapper.ensureInitialized()
+        .encodeJson<PremiumSubscriptionState>(this as PremiumSubscriptionState);
   }
 
   Map<String, dynamic> toMap() {
-    return PremiumSubscriptionStateMapper.ensureInitialized().encodeMap<PremiumSubscriptionState>(
-      this as PremiumSubscriptionState,
-    );
+    return PremiumSubscriptionStateMapper.ensureInitialized()
+        .encodeMap<PremiumSubscriptionState>(this as PremiumSubscriptionState);
   }
 
   PremiumSubscriptionStateCopyWith<
@@ -96,11 +103,10 @@ mixin PremiumSubscriptionStateMappable {
     PremiumSubscriptionState
   >
   get copyWith =>
-      _PremiumSubscriptionStateCopyWithImpl<PremiumSubscriptionState, PremiumSubscriptionState>(
-        this as PremiumSubscriptionState,
-        $identity,
-        $identity,
-      );
+      _PremiumSubscriptionStateCopyWithImpl<
+        PremiumSubscriptionState,
+        PremiumSubscriptionState
+      >(this as PremiumSubscriptionState, $identity, $identity);
   @override
   String toString() {
     return PremiumSubscriptionStateMapper.ensureInitialized().stringifyValue(
@@ -127,11 +133,16 @@ mixin PremiumSubscriptionStateMappable {
 extension PremiumSubscriptionStateValueCopy<$R, $Out>
     on ObjectCopyWith<$R, PremiumSubscriptionState, $Out> {
   PremiumSubscriptionStateCopyWith<$R, PremiumSubscriptionState, $Out>
-  get $asPremiumSubscriptionState =>
-      $base.as((v, t, t2) => _PremiumSubscriptionStateCopyWithImpl<$R, $Out>(v, t, t2));
+  get $asPremiumSubscriptionState => $base.as(
+    (v, t, t2) => _PremiumSubscriptionStateCopyWithImpl<$R, $Out>(v, t, t2),
+  );
 }
 
-abstract class PremiumSubscriptionStateCopyWith<$R, $In extends PremiumSubscriptionState, $Out>
+abstract class PremiumSubscriptionStateCopyWith<
+  $R,
+  $In extends PremiumSubscriptionState,
+  $Out
+>
     implements ClassCopyWith<$R, $In, $Out> {
   $R call({
     PremiumSubscriptionStatus? status,
@@ -139,12 +150,15 @@ abstract class PremiumSubscriptionStateCopyWith<$R, $In extends PremiumSubscript
     bool? hasLifetimePurchase,
     String? errorMessage,
   });
-  PremiumSubscriptionStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
+  PremiumSubscriptionStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
+    Then<$Out2, $R2> t,
+  );
 }
 
 class _PremiumSubscriptionStateCopyWithImpl<$R, $Out>
     extends ClassCopyWithBase<$R, PremiumSubscriptionState, $Out>
-    implements PremiumSubscriptionStateCopyWith<$R, PremiumSubscriptionState, $Out> {
+    implements
+        PremiumSubscriptionStateCopyWith<$R, PremiumSubscriptionState, $Out> {
   _PremiumSubscriptionStateCopyWithImpl(super.value, super.then, super.then2);
 
   @override
@@ -160,7 +174,8 @@ class _PremiumSubscriptionStateCopyWithImpl<$R, $Out>
     FieldCopyWithData({
       if (status != null) #status: status,
       if (hasSubscription != null) #hasSubscription: hasSubscription,
-      if (hasLifetimePurchase != null) #hasLifetimePurchase: hasLifetimePurchase,
+      if (hasLifetimePurchase != null)
+        #hasLifetimePurchase: hasLifetimePurchase,
       if (errorMessage != $none) #errorMessage: errorMessage,
     }),
   );
@@ -168,12 +183,16 @@ class _PremiumSubscriptionStateCopyWithImpl<$R, $Out>
   PremiumSubscriptionState $make(CopyWithData data) => PremiumSubscriptionState(
     status: data.get(#status, or: $value.status),
     hasSubscription: data.get(#hasSubscription, or: $value.hasSubscription),
-    hasLifetimePurchase: data.get(#hasLifetimePurchase, or: $value.hasLifetimePurchase),
+    hasLifetimePurchase: data.get(
+      #hasLifetimePurchase,
+      or: $value.hasLifetimePurchase,
+    ),
     errorMessage: data.get(#errorMessage, or: $value.errorMessage),
   );
 
   @override
-  PremiumSubscriptionStateCopyWith<$R2, PremiumSubscriptionState, $Out2> $chain<$R2, $Out2>(
-    Then<$Out2, $R2> t,
-  ) => _PremiumSubscriptionStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
+  PremiumSubscriptionStateCopyWith<$R2, PremiumSubscriptionState, $Out2>
+  $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
+      _PremiumSubscriptionStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
+

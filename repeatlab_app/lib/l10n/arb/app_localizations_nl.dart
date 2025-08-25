@@ -67,14 +67,14 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get legalBasisForProcessingDescription =>
-      'We verwerken je gegevens op basis van de volgende juridische grondslagen:\n\n• Jouw toestemming voor het indienen van feedback via Wiredash en app-analyses.\n• Uitvoering van een overeenkomst voor het verwerken van betalingen en beheren van abonnementen via RevenueCat.\n• Ons gerechtvaardigd belang bij het verzekeren van de effectieve werking van de App door gebruik van Sentry voor crashrapportage.';
+      'We verwerken je gegevens op basis van de volgende juridische grondslagen:\n\n• Jouw toestemming voor het indienen van feedback via Wiredash en app-analyses.\n• Uitvoering van een overeenkomst voor het verwerken van betalingen en beheren van abonnementen via RevenueCat.\n• Ons gerechtvaardigd belang bij het verzekeren van de effectieve werking van de App door gebruik van Sentry voor crashrapportage.\n• Ons gerechtvaardigd belang bij het verbeteren van de App door gebruik van Microsoft Clarity.';
 
   @override
   String get howWeUseYourInformation => 'Hoe We Je Informatie Gebruiken';
 
   @override
   String get howWeUseYourInformationDescription =>
-      'We gebruiken de verzamelde informatie voor de volgende doeleinden:\n\n• Voor het verwerken van in-app aankopen en beheren van abonnementen via RevenueCat.\n• Voor het verzamelen van feedback en verbeteren van de App met Wiredash.\n• Voor het monitoren en oplossen van problemen met Sentry crashlogboeken.\n• Voor het verbeteren van de gebruikerservaring en uitbreiden van App-functies.';
+      'We gebruiken de verzamelde informatie voor de volgende doeleinden:\n\n• Voor het verwerken van in-app aankopen en beheren van abonnementen via RevenueCat.\n• Voor het verzamelen van feedback en verbeteren van de App met Wiredash.\n• Voor het monitoren en oplossen van problemen met Sentry crashlogboeken.\n• Voor het verbeteren van de gebruikerservaring en uitbreiden van App-functies.\n• Voor het verbeteren van de App door gebruik van Microsoft Clarity.';
 
   @override
   String get yourRights => 'Je Rechten';
@@ -88,7 +88,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get thirdPartyServicesDescription =>
-      'We gebruiken diensten van derden om onze App te verbeteren:\n\n• Wiredash: Gebruikt voor het verzamelen van gebruikersfeedback.\n• RevenueCat: Gebruikt voor het verwerken van in-app aankopen en abonnementen.\n• Sentry: Gebruikt voor foutmonitoring en crashrapportage.';
+      'We gebruiken diensten van derden om onze App te verbeteren:\n\n• Wiredash: Gebruikt voor het verzamelen van gebruikersfeedback.\n• RevenueCat: Gebruikt voor het verwerken van in-app aankopen en abonnementen.\n• Sentry: Gebruikt voor foutmonitoring en crashrapportage.\n• Microsoft Clarity: Gebruikt voor het analyseren en verbeteren van de gebruikerservaring.';
 
   @override
   String get contactUs => 'Contact';
@@ -135,10 +135,20 @@ class AppLocalizationsNl extends AppLocalizations {
       'We waarderen je privacy en gaan zorgvuldig om met je gegevens. Lees ons privacybeleid en accepteer om door te gaan.';
 
   @override
-  String get onboardingPrivacyPolicy => 'Ik accepteer het ';
+  String get onboardingIAccept => 'Ik accepteer het ';
 
   @override
   String get onboardingPrivacyPolicyLink => 'Privacybeleid';
+
+  @override
+  String get onboardingTermsOfServiceLink => 'Privacybeleid';
+
+  @override
+  String get and => 'en';
+
+  @override
+  String get onboardingIAcceptUsageStatistics =>
+      'ik accepteer het gebruik van mijn gegevens voor analyse en crashrapportage.';
 
   @override
   String get onboardingGetStarted => 'Aan de Slag';
@@ -182,13 +192,10 @@ class AppLocalizationsNl extends AppLocalizations {
   String get endTime => 'Eindtijd';
 
   @override
-  String get delete => 'Verwijderen';
-
-  @override
   String get save => 'Opslaan';
 
   @override
-  String get invalidFormat => 'Ongeldig formaat (mm:ss:ms)';
+  String get invalidFormat => 'Ongeldig formaat (mm:ss.sss)';
 
   @override
   String get startCannotBeAfterEnd => 'Start kan niet na einde zijn';
@@ -220,7 +227,8 @@ class AppLocalizationsNl extends AppLocalizations {
   String get premiumFeatureUnlimitedLoops => 'Onbeperkte Loops';
 
   @override
-  String get premiumFeatureChangeMusicSpeed => 'Verander de Muzieksnelheid';
+  String get premiumFeatureChangeMusicSpeed =>
+      'Tempo Controle (BPM/Multiplicateur)';
 
   @override
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';
@@ -287,6 +295,9 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get deleteSongLoopsDescription =>
       'Weet je zeker dat je dit nummer en alle bijbehorende loops wilt verwijderen? Dit kan niet ongedaan worden gemaakt.';
+
+  @override
+  String get delete => 'Verwijderen';
 
   @override
   String get cancel => 'Annuleren';
@@ -368,10 +379,46 @@ class AppLocalizationsNl extends AppLocalizations {
   String get changelogTitle => 'Wijzigingen';
 
   @override
-  String get changelog113Title => 'Foutoplossingen';
+  String get changelog130Title => 'Tempo gebaseerd op BPM wijzigen';
 
   @override
-  String get changelog113Description =>
+  String get changelog130Description =>
+      'Je kunt nu het tempo van het nummer wijzigen op basis van het BPM. Dit maakt het mogelijk om het tempo nauwkeurig aan te passen. Daarnaast kan het tempo nu worden teruggezet met een knop.';
+
+  @override
+  String get changelog1201Title =>
+      '1/4 Media-gegevens toegevoegd voor audio-bestanden';
+
+  @override
+  String get changelog1201Description =>
+      'De app toont nu media-gegevens voor audio-bestanden. Dit omvat de titel en de artiest voor nu.';
+
+  @override
+  String get changelog1202Title => '2/4 m4a naar mp3 converteren';
+
+  @override
+  String get changelog1202Description =>
+      'De app converteert nu m4a bestanden (een audioformaat dat momenteel niet wordt ondersteund door de app) naar mp3 bestanden.';
+
+  @override
+  String get changelog1203Title => '3/4 Eenmalige nummers verwijderen';
+
+  @override
+  String get changelog1203Description =>
+      'Je kunt nu een nummer verwijderen door het naar links te slepen en \'Nummer Verwijderen\' te tikken. Dit zal het nummer en alle bijbehorende loops verwijderen.';
+
+  @override
+  String get changelog1204Title => '4/4 Audio-formaat gewijzigd';
+
+  @override
+  String get changelog1204Description =>
+      'Het audio-formaat is gewijzigd in een meer standaard formaat en loops kunnen nu nauwkeuriger bewerkt worden.';
+
+  @override
+  String get changelog115Title => 'Foutoplossingen';
+
+  @override
+  String get changelog115Description =>
       'Als geen eindpositie voor de loop was ingesteld, werd de loop tot het einde van het nummer afgespeeld en werd het nummer einde als loop einde beschouwd. De audio achtergrondservice wordt nu beëindigd wanneer de app wordt gesloten.';
 
   @override
@@ -430,7 +477,10 @@ class AppLocalizationsNl extends AppLocalizations {
       '= Een Set van Drumsticks voor de Ontwikkelaar (eenmalig)';
 
   @override
-  String get deleteAllData => 'Alle Gegevens Verwijderen';
+  String get localData => 'Lokale Gegevens';
+
+  @override
+  String get deleteAllLocalData => 'Alle Lokale Gegevens Verwijderen';
 
   @override
   String get deleteAllDataTitle =>
@@ -470,4 +520,86 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get loopMode => 'Loop Modus';
+
+  @override
+  String get hours => 'Uren';
+
+  @override
+  String get minutes => 'Minuten';
+
+  @override
+  String get seconds => 'Seconden';
+
+  @override
+  String get milliseconds => 'Milliseconden';
+
+  @override
+  String deleteSongConfirmation(String songTitle) {
+    return 'Weet je zeker dat je \"$songTitle\" en alle bijbehorende loops wilt verwijderen?';
+  }
+
+  @override
+  String get deleteSongConfirmationTitle => 'Nummer Verwijderen';
+
+  @override
+  String get settings => 'Instellingen';
+
+  @override
+  String get analytics => 'Analytics';
+
+  @override
+  String get analyticsDescription =>
+      'We gebruiken Microsoft Clarity om gebruiksgegevens te verzamelen en de app te verbeteren. Deze gegevens worden niet gedeeld met derden.';
+
+  @override
+  String get enterSongBpm => 'BPM van het nummer invoeren';
+
+  @override
+  String get enterSongBpmDescription =>
+      'Voer het originele BPM van het nummer in om het tempo te wijzigen. Dit is handig wanneer je een nummer oefent met een ander tempo. Het BPM wordt aan het nummer gekoppeld en opgeslagen.';
+
+  @override
+  String get enterSongBpmHint => 'bijvoorbeeld 120';
+
+  @override
+  String get tapBpm => 'BPM tappen';
+
+  @override
+  String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
+      'Tik de knop hieronder in ritme met je muziek om de BPM te detecteren.';
+
+  @override
+  String get detectedBpm => 'Gedetecteerde BPM';
+
+  @override
+  String get tapAtLeast2TimesToDetectBpm =>
+      'Tik minstens 2 keer om de BPM te detecteren';
+
+  @override
+  String get tap => 'TAP';
+
+  @override
+  String get taps => 'Taps';
+
+  @override
+  String get useBpm => 'BPM gebruiken';
+
+  @override
+  String get reset => 'Reset';
+
+  @override
+  String get speedControl => 'Snelheidscontrole';
+
+  @override
+  String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
+      'Hier kun je de originele BPM van het audio-bestand instellen.';
+
+  @override
+  String get setBpm => 'BPM instellen';
+
+  @override
+  String get originalBpm => 'Originele BPM';
+
+  @override
+  String get currentBpm => 'Huidige BPM';
 }

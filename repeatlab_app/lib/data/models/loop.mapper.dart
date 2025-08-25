@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format off
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, unnecessary_cast, override_on_non_overriding_member
 // ignore_for_file: strict_raw_type, inference_failure_on_untyped_parameter
@@ -95,7 +96,11 @@ class LoopMapper extends ClassMapperBase<Loop> {
     def: 0,
   );
   static Duration? _$start(Loop v) => v.start;
-  static const Field<Loop, Duration> _f$start = Field('start', _$start, opt: true);
+  static const Field<Loop, Duration> _f$start = Field(
+    'start',
+    _$start,
+    opt: true,
+  );
   static Duration? _$end(Loop v) => v.end;
   static const Field<Loop, Duration> _f$end = Field('end', _$end, opt: true);
 
@@ -166,7 +171,8 @@ extension LoopValueCopy<$R, $Out> on ObjectCopyWith<$R, Loop, $Out> {
       $base.as((v, t, t2) => _LoopCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
-abstract class LoopCopyWith<$R, $In extends Loop, $Out> implements ClassCopyWith<$R, $In, $Out> {
+abstract class LoopCopyWith<$R, $In extends Loop, $Out>
+    implements ClassCopyWith<$R, $In, $Out> {
   $R call({
     int? id,
     String? name,
@@ -220,3 +226,4 @@ class _LoopCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Loop, $Out>
   LoopCopyWith<$R2, Loop, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
       _LoopCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
+

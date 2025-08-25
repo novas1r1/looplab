@@ -74,7 +74,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get howWeUseYourInformationDescription =>
-      '収集した情報は以下の目的で使用されます：\n\n• RevenueCatを通じたアプリ内購入の処理とサブスクリプションの管理。\n• Wiredashを使用したフィードバックの収集とアプリの改善。\n• Sentryクラッシュログを使用した問題の監視と修正。\n• ユーザー体験の向上とアプリ機能の強化。';
+      '収集した情報は以下の目的で使用されます：\n\n• RevenueCatを通じたアプリ内購入の処理とサブスクリプションの管理。\n• Wiredashを使用したフィードバックの収集とアプリの改善。\n• Sentryクラッシュログを使用した問題の監視と修正。\n• ユーザー体験の向上とアプリ機能の強化。\n• Microsoft Clarityを使用したユーザーエクスペリエンスの分析と改善。';
 
   @override
   String get yourRights => 'あなたの権利';
@@ -88,7 +88,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get thirdPartyServicesDescription =>
-      'アプリを強化するために以下のサードパーティサービスを使用しています：\n\n• Wiredash：ユーザーフィードバックの収集に使用。\n• RevenueCat：アプリ内購入とサブスクリプションの処理に使用。\n• Sentry：エラー監視とクラッシュレポートに使用。';
+      'アプリを強化するために以下のサードパーティサービスを使用しています：\n\n• Wiredash：ユーザーフィードバックの収集に使用。\n• RevenueCat：アプリ内購入とサブスクリプションの処理に使用。\n• Sentry：エラー監視とクラッシュレポートに使用。\n• Microsoft Clarity：ユーザーエクスペリエンスの分析と改善に使用。\n• Microsoft Clarityを使用したユーザーエクスペリエンスの分析と改善。';
 
   @override
   String get contactUs => 'お問い合わせ';
@@ -134,10 +134,20 @@ class AppLocalizationsJa extends AppLocalizations {
       'あなたのプライバシーを尊重し、データを慎重に扱います。プライバシーポリシーを確認し、続行するには同意してください。';
 
   @override
-  String get onboardingPrivacyPolicy => '同意します';
+  String get onboardingIAccept => '同意します';
 
   @override
   String get onboardingPrivacyPolicyLink => 'プライバシーポリシー';
+
+  @override
+  String get onboardingTermsOfServiceLink => 'プライバシーポリシー';
+
+  @override
+  String get and => 'と';
+
+  @override
+  String get onboardingIAcceptUsageStatistics =>
+      'データを使用してアプリの分析とクラッシュレポートを作成し、アプリを改善するために使用します。';
 
   @override
   String get onboardingGetStarted => '始める';
@@ -180,13 +190,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get endTime => '終了時間';
 
   @override
-  String get delete => '削除';
-
-  @override
   String get save => '保存';
 
   @override
-  String get invalidFormat => '無効な形式（mm:ss:ms）';
+  String get invalidFormat => '無効な形式（mm:ss.sss）';
 
   @override
   String get startCannotBeAfterEnd => '開始時間は終了時間より後にすることはできません';
@@ -217,7 +224,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get premiumFeatureUnlimitedLoops => '無制限のループ';
 
   @override
-  String get premiumFeatureChangeMusicSpeed => '音楽の速度を変更';
+  String get premiumFeatureChangeMusicSpeed => 'テンポコントロール（BPM/マルチプライヤー）';
 
   @override
   String get premiumFeatureZoomInOut => '波形のズームイン/アウト';
@@ -281,6 +288,9 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get deleteSongLoopsDescription =>
       'この曲と関連するすべてのループを削除してもよろしいですか？この操作は元に戻せません。';
+
+  @override
+  String get delete => '削除';
 
   @override
   String get cancel => 'キャンセル';
@@ -354,10 +364,45 @@ class AppLocalizationsJa extends AppLocalizations {
   String get changelogTitle => '変更履歴';
 
   @override
-  String get changelog113Title => 'いくつかのバグを修正';
+  String get changelog130Title => 'BPMに基づいてテンポを変更';
 
   @override
-  String get changelog113Description =>
+  String get changelog130Description =>
+      'BPMに基づいて曲のテンポを変更できるようになりました。これにより、より正確なテンポ調整が可能になりました。また、テンポをリセットするボタンも追加されました。';
+
+  @override
+  String get changelog1201Title => '1/4 オーディオファイルのメディアデータを追加';
+
+  @override
+  String get changelog1201Description =>
+      'アプリはオーディオファイルのメディアデータを表示するようになりました。現在はタイトルとアーティストが表示されます。';
+
+  @override
+  String get changelog1202Title => '2/4 m4aをmp3に変換';
+
+  @override
+  String get changelog1202Description =>
+      'アプリは現在サポートされていないm4aファイルをmp3に変換するようになりました。';
+
+  @override
+  String get changelog1203Title => '3/4 単一の曲を削除';
+
+  @override
+  String get changelog1203Description =>
+      '曲を左にドラッグして「曲を削除」をタップすることで、曲と関連するすべてのループを削除できるようになりました。';
+
+  @override
+  String get changelog1204Title => '4/4 オーディオフォーマットを変更';
+
+  @override
+  String get changelog1204Description =>
+      'オーディオフォーマットをより標準的な形式に変更し、ループをより正確に編集できるようになりました。';
+
+  @override
+  String get changelog115Title => 'いくつかのバグを修正';
+
+  @override
+  String get changelog115Description =>
       'ループ終了が設定されていない場合、ループは曲の終わりまで再生され、曲の終わりをループ終了として扱っていました。アプリが閉じられたとき、オーディオバックグラウンドサービスは停止するようになりました。';
 
   @override
@@ -413,7 +458,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get onePairOfDrumSticks => '= 開発者のドラムスティック1組分（一度限り）';
 
   @override
-  String get deleteAllData => 'すべてのデータを削除';
+  String get localData => 'ローカルデータ';
+
+  @override
+  String get deleteAllLocalData => 'すべてのローカルデータを削除';
 
   @override
   String get deleteAllDataTitle => 'すべてのデータ、曲、ループを削除';
@@ -452,4 +500,85 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get loopMode => 'ループモード';
+
+  @override
+  String get hours => '時間';
+
+  @override
+  String get minutes => '分';
+
+  @override
+  String get seconds => '秒';
+
+  @override
+  String get milliseconds => 'ミリ秒';
+
+  @override
+  String deleteSongConfirmation(String songTitle) {
+    return '「$songTitle」と関連するすべてのループを削除してもよろしいですか？';
+  }
+
+  @override
+  String get deleteSongConfirmationTitle => '曲を削除';
+
+  @override
+  String get settings => '設定';
+
+  @override
+  String get analytics => '分析';
+
+  @override
+  String get analyticsDescription =>
+      'Microsoft Clarityを使用して使用データを収集し、アプリを改善します。これらのデータは第三者と共有されません。';
+
+  @override
+  String get enterSongBpm => '曲のBPMを入力';
+
+  @override
+  String get enterSongBpmDescription =>
+      '曲の元のBPMを入力してテンポを変更します。これは、異なるテンポで曲を練習する場合に便利です。BPMは曲に割り当てられ、保存されます。';
+
+  @override
+  String get enterSongBpmHint => '例：120';
+
+  @override
+  String get tapBpm => 'BPMをタップ';
+
+  @override
+  String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
+      'ボタンを音楽と同じテンポでタップしてBPMを検出します。';
+
+  @override
+  String get detectedBpm => '検出されたBPM';
+
+  @override
+  String get tapAtLeast2TimesToDetectBpm => 'BPMを検出するには少なくとも2回タップしてください';
+
+  @override
+  String get tap => 'タップ';
+
+  @override
+  String get taps => 'タップ';
+
+  @override
+  String get useBpm => 'BPMを使用';
+
+  @override
+  String get reset => 'リセット';
+
+  @override
+  String get speedControl => '速度コントロール';
+
+  @override
+  String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
+      'ここでオーディオファイルの元のBPMを設定できます。';
+
+  @override
+  String get setBpm => 'BPMを設定';
+
+  @override
+  String get originalBpm => '元のBPM';
+
+  @override
+  String get currentBpm => '現在のBPM';
 }

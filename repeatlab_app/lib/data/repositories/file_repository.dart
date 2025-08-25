@@ -17,7 +17,7 @@ class FileRepository {
 
       result = await filePicker.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['mp3', 'm4a', 'aac', 'wav', 'flac', 'mpg'],
+        allowedExtensions: ['mp3', 'm4a', 'aac', 'wav', 'flac', 'mpg', 'ogg'],
       );
       // this only shows files in mediathek
       // result = await filePicker.pickFiles(

@@ -67,14 +67,14 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get legalBasisForProcessingDescription =>
-      'نعالج بياناتك على أساس الأسس القانونية التالية:\n\n• موافقتك على تقديم الملاحظات عبر Wiredash وتحليلات التطبيق.\n• تنفيذ العقد لمعالجة المدفوعات وإدارة الاشتراكات من خلال RevenueCat.\n• مصلحتنا المشروعة في ضمان تشغيل التطبيق بشكل فعال باستخدام Sentry لتقارير الأعطال.';
+      'نعالج بياناتك على أساس الأسس القانونية التالية:\n\n• موافقتك على تقديم الملاحظات عبر Wiredash وتحليلات التطبيق.\n• تنفيذ العقد لمعالجة المدفوعات وإدارة الاشتراكات من خلال RevenueCat.\n• مصلحتنا المشروعة في ضمان تشغيل التطبيق بشكل فعال باستخدام Sentry لتقارير الأعطال.\n• مصلحتنا المشروعة في تحسين تجربة المستخدم وتعزيز ميزات التطبيق باستخدام Microsoft Clarity.';
 
   @override
   String get howWeUseYourInformation => 'كيفية استخدام معلوماتك';
 
   @override
   String get howWeUseYourInformationDescription =>
-      'نستخدم المعلومات التي نجمعها للأغراض التالية:\n\n• لمعالجة المشتريات داخل التطبيق وإدارة الاشتراكات من خلال RevenueCat.\n• لجمع الملاحظات وتحسين التطبيق باستخدام Wiredash.\n• لمراقبة وإصلاح المشكلات باستخدام سجلات الأعطال من Sentry.\n• لتحسين تجربة المستخدم وتعزيز ميزات التطبيق.';
+      'نستخدم المعلومات التي نجمعها للأغراض التالية:\n\n• لمعالجة المشتريات داخل التطبيق وإدارة الاشتراكات من خلال RevenueCat.\n• لجمع الملاحظات وتحسين التطبيق باستخدام Wiredash.\n• لمراقبة وإصلاح المشكلات باستخدام سجلات الأعطال من Sentry.\n• لتحسين تجربة المستخدم وتعزيز ميزات التطبيق باستخدام Microsoft Clarity.';
 
   @override
   String get yourRights => 'حقوقك';
@@ -135,10 +135,20 @@ class AppLocalizationsAr extends AppLocalizations {
       'نحن نقدر خصوصيتك ونعالج بياناتك بعناية. يرجى مراجعة سياسة الخصوصية والموافقة للمتابعة.';
 
   @override
-  String get onboardingPrivacyPolicy => 'أوافق على';
+  String get onboardingIAccept => 'أوافق على';
 
   @override
   String get onboardingPrivacyPolicyLink => 'سياسة الخصوصية';
+
+  @override
+  String get onboardingTermsOfServiceLink => 'الشروط والأحكام';
+
+  @override
+  String get and => 'و';
+
+  @override
+  String get onboardingIAcceptUsageStatistics =>
+      'استخدام بياناتي للتحليلات وتقارير الأعطال لتحسين التطبيق.';
 
   @override
   String get onboardingGetStarted => 'ابدأ';
@@ -181,13 +191,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get endTime => 'وقت الانتهاء';
 
   @override
-  String get delete => 'حذف';
-
-  @override
   String get save => 'حفظ';
 
   @override
-  String get invalidFormat => 'تنسيق غير صالح (mm:ss:ms)';
+  String get invalidFormat => 'تنسيق غير صالح (mm:ss.sss)';
 
   @override
   String get startCannotBeAfterEnd =>
@@ -221,7 +228,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get premiumFeatureUnlimitedLoops => 'حلقات غير محدودة';
 
   @override
-  String get premiumFeatureChangeMusicSpeed => 'تغيير سرعة الموسيقى';
+  String get premiumFeatureChangeMusicSpeed =>
+      'تحكم في سرعة الصوت (BPM/Multiplier)';
 
   @override
   String get premiumFeatureZoomInOut => 'تكبير/تصغير الموجة';
@@ -286,6 +294,9 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get deleteSongLoopsDescription =>
       'هل أنت متأكد أنك تريد حذف هذه الأغنية وجميع الحلقات المرتبطة بها؟ لا يمكن التراجع عن هذا الإجراء.';
+
+  @override
+  String get delete => 'حذف';
 
   @override
   String get cancel => 'إلغاء';
@@ -365,10 +376,45 @@ class AppLocalizationsAr extends AppLocalizations {
   String get changelogTitle => 'سجل التغييرات';
 
   @override
-  String get changelog113Title => 'إصلاح عدة أخطاء';
+  String get changelog130Title => 'تغيير السرعة الأساسية حسب BPM';
 
   @override
-  String get changelog113Description =>
+  String get changelog130Description =>
+      'يمكنك الآن تغيير سرعة الأغنية بناءً على BPM. يتيح هذا تعديلات دقيقة للسرعة. علاوة على ذلك، يمكن تعيين السرعة إلى 1.0x باستخدام زر الإعادة تعيين.';
+
+  @override
+  String get changelog1201Title => 'إضافة بيانات الوسائط لملفات الصوت';
+
+  @override
+  String get changelog1201Description =>
+      'التطبيق الآن يعرض بيانات الوسائط لملفات الصوت. يشمل هذا العنوان والفنان للآن.';
+
+  @override
+  String get changelog1202Title => 'تغيير تنسيق الصوت';
+
+  @override
+  String get changelog1202Description =>
+      'تم تغيير تنسيق الصوت إلى تنسيق أكثر استخدامًا ويمكن تحرير الحلقات بدقة أكثر الآن.';
+
+  @override
+  String get changelog1203Title => 'حذف الأغاني الفردية';
+
+  @override
+  String get changelog1203Description =>
+      'يمكنك الآن حذف أغنية بسحبها إلى اليسار والنقر على \'حذف الأغنية\'. سيتم حذف الأغنية وجميع الحلقات المرتبطة بها.';
+
+  @override
+  String get changelog1204Title => 'تحويل m4a إلى mp3';
+
+  @override
+  String get changelog1204Description =>
+      'التطبيق الآن يتحول ملفات m4a (تنسيق الصوت الذي لا يتم الآن دعمه بواسطة التطبيق) إلى ملفات mp3.';
+
+  @override
+  String get changelog115Title => 'إصلاح عدة أخطاء';
+
+  @override
+  String get changelog115Description =>
       'إذا لم يتم تعيين نهاية الحلقة، كانت الحلقة ستشغل حتى نهاية الأغنية وتعتبر نهاية الأغنية كنهاية الحلقة. ستتوقف خدمة الصوت في الخلفية الآن عند إغلاق التطبيق.';
 
   @override
@@ -425,7 +471,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get onePairOfDrumSticks => '= زوج من عصي الطبول للمطور (مرة واحدة)';
 
   @override
-  String get deleteAllData => 'حذف جميع البيانات';
+  String get localData => 'البيانات المحلية';
+
+  @override
+  String get deleteAllLocalData => 'حذف جميع البيانات';
 
   @override
   String get deleteAllDataTitle => 'حذف جميع البيانات والأغاني والحلقات';
@@ -464,4 +513,84 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get loopMode => 'وضع الحلقة';
+
+  @override
+  String get hours => 'ساعات';
+
+  @override
+  String get minutes => 'دقائق';
+
+  @override
+  String get seconds => 'ثوان';
+
+  @override
+  String get milliseconds => 'ملي ثانية';
+
+  @override
+  String deleteSongConfirmation(String songTitle) {
+    return 'هل أنت متأكد أنك تريد حذف \"$songTitle\" وجميع الحلقات المرتبطة بها؟';
+  }
+
+  @override
+  String get deleteSongConfirmationTitle => 'حذف الأغنية';
+
+  @override
+  String get settings => 'الإعدادات';
+
+  @override
+  String get analytics => 'التحليلات';
+
+  @override
+  String get analyticsDescription =>
+      'نحن نستخدم Microsoft Clarity لجمع بيانات الاستخدام وتحسين التطبيق. لا يتم مشاركة هذه البيانات مع الأطراف الثالثة.';
+
+  @override
+  String get enterSongBpm => 'أدخل BPM الأغنية';
+
+  @override
+  String get enterSongBpmDescription => 'أدخل BPM الأغنية';
+
+  @override
+  String get enterSongBpmHint => 'مثل 120';
+
+  @override
+  String get tapBpm => 'إيقاع الضغط';
+
+  @override
+  String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
+      'ضغط الزر أدناه في الإيقاع مع موسيقاك لتحديد BPM.';
+
+  @override
+  String get detectedBpm => 'BPM المكتشف';
+
+  @override
+  String get tapAtLeast2TimesToDetectBpm => 'ضغط على الأقل 2 مرة لتحديد BPM';
+
+  @override
+  String get tap => 'ضغط';
+
+  @override
+  String get taps => 'ضغطات';
+
+  @override
+  String get useBpm => 'استخدم BPM';
+
+  @override
+  String get reset => 'إعادة تعيين';
+
+  @override
+  String get speedControl => 'تحكم بالسرعة';
+
+  @override
+  String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
+      'يمكنك هنا تعيين BPM الأصلي لملف الصوت.';
+
+  @override
+  String get setBpm => 'تعيين BPM';
+
+  @override
+  String get originalBpm => 'BPM الأصلي';
+
+  @override
+  String get currentBpm => 'BPM الحالي';
 }

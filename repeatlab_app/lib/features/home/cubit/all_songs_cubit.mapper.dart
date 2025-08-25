@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format off
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, unnecessary_cast, override_on_non_overriding_member
 // ignore_for_file: strict_raw_type, inference_failure_on_untyped_parameter
@@ -126,36 +127,48 @@ class AllSongsStateMapper extends ClassMapperBase<AllSongsState> {
 
 mixin AllSongsStateMappable {
   String toJson() {
-    return AllSongsStateMapper.ensureInitialized().encodeJson<AllSongsState>(this as AllSongsState);
+    return AllSongsStateMapper.ensureInitialized().encodeJson<AllSongsState>(
+      this as AllSongsState,
+    );
   }
 
   Map<String, dynamic> toMap() {
-    return AllSongsStateMapper.ensureInitialized().encodeMap<AllSongsState>(this as AllSongsState);
+    return AllSongsStateMapper.ensureInitialized().encodeMap<AllSongsState>(
+      this as AllSongsState,
+    );
   }
 
-  AllSongsStateCopyWith<AllSongsState, AllSongsState, AllSongsState> get copyWith =>
-      _AllSongsStateCopyWithImpl<AllSongsState, AllSongsState>(
-        this as AllSongsState,
-        $identity,
-        $identity,
-      );
+  AllSongsStateCopyWith<AllSongsState, AllSongsState, AllSongsState>
+  get copyWith => _AllSongsStateCopyWithImpl<AllSongsState, AllSongsState>(
+    this as AllSongsState,
+    $identity,
+    $identity,
+  );
   @override
   String toString() {
-    return AllSongsStateMapper.ensureInitialized().stringifyValue(this as AllSongsState);
+    return AllSongsStateMapper.ensureInitialized().stringifyValue(
+      this as AllSongsState,
+    );
   }
 
   @override
   bool operator ==(Object other) {
-    return AllSongsStateMapper.ensureInitialized().equalsValue(this as AllSongsState, other);
+    return AllSongsStateMapper.ensureInitialized().equalsValue(
+      this as AllSongsState,
+      other,
+    );
   }
 
   @override
   int get hashCode {
-    return AllSongsStateMapper.ensureInitialized().hashValue(this as AllSongsState);
+    return AllSongsStateMapper.ensureInitialized().hashValue(
+      this as AllSongsState,
+    );
   }
 }
 
-extension AllSongsStateValueCopy<$R, $Out> on ObjectCopyWith<$R, AllSongsState, $Out> {
+extension AllSongsStateValueCopy<$R, $Out>
+    on ObjectCopyWith<$R, AllSongsState, $Out> {
   AllSongsStateCopyWith<$R, AllSongsState, $Out> get $asAllSongsState =>
       $base.as((v, t, t2) => _AllSongsStateCopyWithImpl<$R, $Out>(v, t, t2));
 }
@@ -167,17 +180,27 @@ abstract class AllSongsStateCopyWith<$R, $In extends AllSongsState, $Out>
   AllSongsStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
-class _AllSongsStateCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, AllSongsState, $Out>
+class _AllSongsStateCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, AllSongsState, $Out>
     implements AllSongsStateCopyWith<$R, AllSongsState, $Out> {
   _AllSongsStateCopyWithImpl(super.value, super.then, super.then2);
 
   @override
-  late final ClassMapperBase<AllSongsState> $mapper = AllSongsStateMapper.ensureInitialized();
+  late final ClassMapperBase<AllSongsState> $mapper =
+      AllSongsStateMapper.ensureInitialized();
   @override
   ListCopyWith<$R, Song, SongCopyWith<$R, Song, Song>> get songs =>
-      ListCopyWith($value.songs, (v, t) => v.copyWith.$chain(t), (v) => call(songs: v));
+      ListCopyWith(
+        $value.songs,
+        (v, t) => v.copyWith.$chain(t),
+        (v) => call(songs: v),
+      );
   @override
-  $R call({AllSongsStatus? status, List<Song>? songs, Object? errorMessage = $none}) => $apply(
+  $R call({
+    AllSongsStatus? status,
+    List<Song>? songs,
+    Object? errorMessage = $none,
+  }) => $apply(
     FieldCopyWithData({
       if (status != null) #status: status,
       if (songs != null) #songs: songs,
@@ -192,6 +215,8 @@ class _AllSongsStateCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, AllSong
   );
 
   @override
-  AllSongsStateCopyWith<$R2, AllSongsState, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
-      _AllSongsStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
+  AllSongsStateCopyWith<$R2, AllSongsState, $Out2> $chain<$R2, $Out2>(
+    Then<$Out2, $R2> t,
+  ) => _AllSongsStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
+

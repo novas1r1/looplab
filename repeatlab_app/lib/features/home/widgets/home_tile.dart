@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/data/models/song.dart';
+import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
 import 'package:repeatlab/features/song/view/song_page.dart';
+import 'package:repeatlab/l10n/l10n.dart';
 
 class HomeTile extends StatelessWidget {
   final Song song;
@@ -14,63 +19,80 @@ class HomeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Theme.of(context).colorScheme.inversePrimary.withValues(alpha: 0.7),
-      elevation: 2,
-      child: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/waveform.png'),
-            fit: BoxFit.cover,
-            opacity: 0.2,
+    return Slidable(
+      endActionPane: ActionPane(
+        extentRatio: 0.3,
+        motion: const ScrollMotion(),
+        children: [
+          SlidableAction(
+            onPressed: (_) => _onDeleteSong(context),
+            backgroundColor: Colors.transparent,
+            foregroundColor: AppColors.danger.shade200,
+            icon: Icons.delete,
+            label: context.l10n.delete,
+            padding: const EdgeInsets.all(8),
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
           ),
-        ),
-        child: ListTile(
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 16,
-          ),
-          leading: Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
-              shape: BoxShape.circle,
+        ],
+      ),
+      child: Card(
+        color: Theme.of(context).colorScheme.inversePrimary.withValues(alpha: 0.7),
+        elevation: 2,
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/waveform.png'),
+              fit: BoxFit.cover,
+              opacity: 0.2,
             ),
-            child: Text(
-              '${song.loops.length}',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onPrimary,
-                fontWeight: FontWeight.bold,
+          ),
+          child: ListTile(
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 16,
+            ),
+            leading: Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+                shape: BoxShape.circle,
+              ),
+              child: Text(
+                '${song.loops.length}',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-          onTap: () => _onTapSong(context, song),
-          title: Text(
-            song.title,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          subtitle: Text(
-            song.artist,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          trailing: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 6,
-            ),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primaryContainer,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Text(
-              song.duration.toFormattedString(),
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
+            onTap: () => _onTapSong(context, song),
+            title: Text(
+              song.title,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w500,
+              ),
+            ),
+            subtitle: Text(
+              song.artist,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            trailing: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 6,
+              ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primaryContainer,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                song.duration.toFormattedStringWithoutMilliseconds(),
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
           ),
@@ -85,6 +107,37 @@ class HomeTile extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => SongPage(song: song)),
+    );
+  }
+
+  void _onDeleteSong(BuildContext context) {
+    AppAnalytics.trackEvent(AppAnalytics.clickDeleteSong);
+
+    // Show confirmation dialog before deleting
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(context.l10n.deleteSong),
+          content: Text(context.l10n.deleteSongConfirmation(song.title)),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(context.l10n.cancel),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                context.read<AllSongsCubit>().deleteSong(song);
+              },
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.red,
+              ),
+              child: Text(context.l10n.delete),
+            ),
+          ],
+        );
+      },
     );
   }
 }

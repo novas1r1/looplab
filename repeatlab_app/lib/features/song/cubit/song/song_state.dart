@@ -6,14 +6,12 @@ class SongState with SongStateMappable {
   final SongStatus status;
   final Song song;
   final Loop? activeLoop;
-  final Float32List? data;
   final bool isLoopModeEnabled;
   final bool isTutorialCompleted;
 
   /// AudioPlayer
   final PlayerState? playerState;
-  final Duration? position;
-  final Duration? duration;
+  // final Duration? duration;
 
   final String? error;
 
@@ -22,13 +20,11 @@ class SongState with SongStateMappable {
     this.status = SongStatus.loading,
     required this.song,
     this.error,
-    this.data,
     this.activeLoop,
     this.isLoopModeEnabled = false,
     this.isTutorialCompleted = false,
     this.playerState,
-    this.position,
-    this.duration,
+    // this.duration,
   });
 }
 

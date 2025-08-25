@@ -76,5 +76,10 @@
 		<false/>
 		<key>NSMicrophoneUsageDescription</key>
 		<string>The microphone is used to record audio for the app.</string>
+		<key>NSAppTransportSecurity</key>
+		<dict>
+			<key>NSAllowsArbitraryLoads</key>
+			<true/>
+		</dict>
 	</dict>
 </plist>

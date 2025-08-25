@@ -4,21 +4,17 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:async/async.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:repeatlab/core/utils/cubit_extension.dart';
-import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:repeatlab/data/services/audio_service_provider.dart';
-import 'package:repeatlab/data/services/repeatlab_audio_service_handler.dart';
+import 'package:repeatlab/data/services/repeatlab_audioplayers_service_handler.dart';
 
 // part 'song_cubit.mapper.dart';
 part 'song_cubit.mapper.dart';
@@ -27,34 +23,43 @@ part 'song_state.dart';
 class SongCubit extends Cubit<SongState> {
   final Song song;
 
-  final SoLoud soloud;
-
   final SongRepository songRepository;
   final LocalConfigRepository localConfigRepository;
   final CrashReportingRepository crashReportingRepository;
 
-  late final RepeatlabAudioServiceHandler audioHandler;
+  // audio player subscriptions
+  late final RepeatlabAudioplayersServiceHandler audioHandler;
   StreamSubscription<List<Song>>? _songSubscription;
-  Timer? _positionTimer;
 
-  // Add static cache map
-  static final Map<String, Float32List> _waveformCache = {};
-
+  Stream<PlayerState>? playerStateStream;
   StreamSubscription<PlayerState>? _playerStateSubscription;
+
+  Stream<Duration>? positionStream;
   StreamSubscription<Duration>? _positionSubscription;
+
+  Stream<Duration>? durationStream;
   StreamSubscription<Duration>? _durationSubscription;
+
+  StreamController<List<Loop>>? loopsStreamController;
+  StreamSubscription<List<Loop>>? _loopsSubscription;
 
   Duration? positionToSeek;
 
-  CancelableOperation? _seekOperation;
+  Future<Duration> get position async => await audioHandler.position;
 
   SongCubit({
     required this.song,
-    required this.soloud,
     required this.songRepository,
     required this.localConfigRepository,
     required this.crashReportingRepository,
-  }) : super(SongState(song: song));
+  }) : super(SongState(song: song)) {
+    loopsStreamController = StreamController<List<Loop>>.broadcast();
+    // clear the stream
+    loopsStreamController?.stream.drain();
+    _loopsSubscription = loopsStreamController?.stream.listen((loops) {
+      emit(state.copyWith(song: state.song.copyWith(loops: loops)));
+    });
+  }
 
   @override
   Future<void> close() async {
@@ -63,10 +68,11 @@ class SongCubit extends Cubit<SongState> {
     }
 
     await _songSubscription?.cancel();
-    _positionTimer?.cancel();
+    await _loopsSubscription?.cancel();
 
     // Clean up audio service if available
     await audioHandler.stop();
+    // dispose loop stream
 
     return super.close();
   }
@@ -84,8 +90,8 @@ class SongCubit extends Cubit<SongState> {
       audioHandler = await AudioServiceProvider.init(audioPlayer);
 
       // Initialize subscriptions before any other operations
-      _playerStateSubscription = audioHandler.playerStateSubscription;
-      _playerStateSubscription?.onData((playerState) {
+      playerStateStream = audioHandler.playerStateStream;
+      _playerStateSubscription = playerStateStream?.listen((playerState) {
         if (playerState == PlayerState.completed) {
           stopSong();
         }
@@ -94,31 +100,14 @@ class SongCubit extends Cubit<SongState> {
           state.copyWith(
             status: SongStatus.updated,
             playerState: playerState,
+            error: null,
           ),
         );
       });
 
       /// audio player subscriptions for position
-      _positionSubscription = audioHandler.positionSubscription;
-      _positionSubscription?.onData((position) {
-        maybeEmit(
-          state.copyWith(
-            position: position,
-            status: SongStatus.updated,
-          ),
-        );
-      });
-
-      /// audio player subscriptions for duration
-      _durationSubscription = audioHandler.durationSubscription;
-      _durationSubscription?.onData((duration) {
-        maybeEmit(
-          state.copyWith(
-            duration: duration,
-            status: SongStatus.updated,
-          ),
-        );
-      });
+      positionStream = audioHandler.positionStream;
+      _positionSubscription = positionStream?.listen((position) {});
 
       // song data subscription
       _songSubscription = songRepository.songs.listen((songs) {
@@ -156,38 +145,33 @@ class SongCubit extends Cubit<SongState> {
         return;
       }
 
-      final waveformData = await _getWaveformData(path);
-
       // Initialize audio player with the file but keep it paused
-      await audioHandler.playSong(state.song);
       await audioHandler.setSpeed(1.0);
+      await audioHandler.playSong(state.song);
       await audioHandler.pause();
 
       // check if tutorial is completed
       final isTutorialCompleted = localConfigRepository.hasCompletedTutorial;
 
-      // Get initial position and duration
-      final initialPosition = await audioPlayer.getCurrentPosition();
-      final initialDuration = await audioPlayer.getDuration();
+      // we need to disable loop mode here because the audio handler is not initialized yet
+      await audioHandler.customAction('disableLoop');
 
       emit(
         state.copyWith(
-          data: waveformData,
           status: SongStatus.loadSuccess,
           song: state.song,
           isTutorialCompleted: isTutorialCompleted,
           playerState: PlayerState.paused,
-          position: initialPosition,
-          duration: initialDuration,
+          error: null,
         ),
       );
-    } catch (e, stackTrace) {
-      unawaited(crashReportingRepository.reportError(e, stackTrace));
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
 
       emit(
         state.copyWith(
           status: SongStatus.error,
-          error: 'Failed to initialize song: $e',
+          error: 'Failed to initialize song: $ex',
         ),
       );
     }
@@ -218,85 +202,55 @@ class SongCubit extends Cubit<SongState> {
           // Initialize the audio handler if it's null
           await audioHandler.playSong(state.song);
       }
-    } catch (e, stackTrace) {
-      unawaited(crashReportingRepository.reportError(e, stackTrace));
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
       emit(
         state.copyWith(
           status: SongStatus.error,
-          error: 'Failed to play audio file. The file format might not be supported: $e',
+          error: 'Failed to play audio file. The file format might not be supported: $ex',
         ),
       );
     }
   }
 
   Future<void> stopSong() async {
-    log('STOP song at ${state.position!.toFormattedString()}');
-
-    _positionTimer?.cancel();
-    _seekOperation?.cancel();
-
-    await audioHandler.stop();
-  }
-
-  Future<void> pauseSong() async {
-    log('PAUSE song at ${state.position?.toFormattedString()}');
-    _positionTimer?.cancel();
-
-    await audioHandler.pause();
-  }
-
-  Future<void> seekSong(Duration position) async {
-    if (positionToSeek == position) return;
-
-    positionToSeek = position;
-    var newPosition = position;
-
-    // Only seek if the position change is significant
-    /* if (state.position != null &&
-        (newPosition - state.position!).abs() <= const Duration(milliseconds: 100)) {
-      log('SEEK song to $position skipped - change too small (<100ms)');
-      return;
-    } */
-
-    if (newPosition == state.position || newPosition > state.song.duration) {
-      log('SEEK song to $position skipped - position is out of range');
-      return;
-    }
-
-    log('SEEK song to $position');
-    // cancel any existing seek
-    _seekOperation?.cancel();
-
     try {
-      // Ensure position is within valid range
-      if (newPosition < Duration.zero) {
-        newPosition = Duration.zero;
-      } else if (newPosition > state.song.duration) {
-        newPosition = state.song.duration;
-      }
-
-      // Seek to position
-
-      _seekOperation = CancelableOperation.fromFuture(audioHandler.seek(newPosition));
-      await _seekOperation?.valueOrCancellation();
-
-      // Update state immediately after successful seek
-      emit(
-        state.copyWith(
-          status: SongStatus.updated,
-          position: newPosition,
-        ),
-      );
-    } on TimeoutException catch (e) {
-      log('seek timeout: $e');
-      return;
-    } catch (e, stackTrace) {
-      unawaited(crashReportingRepository.reportError(e, stackTrace));
-      log('seek error: $e');
+      await audioHandler.stop();
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
       emit(
         state.copyWith(
           status: SongStatus.error,
-          position: positionToSeek,
+          error: 'Failed to stop song: $ex',
+        ),
+      );
+    }
+  }
+
+  Future<void> pauseSong() async {
+    try {
+      await audioHandler.pause();
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to pause song: $ex',
+        ),
+      );
+    }
+  }
+
+  Future<void> seekSong(Duration position) async {
+    try {
+      await audioHandler.seek(position);
+    } catch (ex) {
+      // disabled crash reporting because its happening too often
+      // unawaited(crashReportingRepository.reportError(ex, stack));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to seek song: $ex',
         ),
       );
     }
@@ -308,14 +262,13 @@ class SongCubit extends Cubit<SongState> {
   /// the loop will be updated and the audio player will continue playing and
   /// as soon as the end is reached, the loop will start over from the new start
   Future<void> setLoopStart() async {
-    log('setLoopStart to ${state.position}');
+    // log('setLoopStart to ${state.position}');
 
     final activeLoop = state.activeLoop;
     if (activeLoop == null) return;
 
     // Get current position directly from audio player
-    final currentPosition = await audioHandler.audioPlayer.getCurrentPosition();
-    if (currentPosition == null) return;
+    final currentPosition = await position;
 
     log('setLoopStart to $currentPosition');
 
@@ -331,55 +284,70 @@ class SongCubit extends Cubit<SongState> {
     log('setLoopEnd: ${state.activeLoop}');
 
     final activeLoop = state.activeLoop;
-    final position = state.position;
-
     if (activeLoop == null) return;
 
-    if (position == null) throw Exception('Position is null');
+    try {
+      // Get current position directly from audio player
+      var endPosition = await position;
 
-    // Get current position directly from audio player
-    var endPosition = position;
+      // Ensure end position is not greater than song duration
+      if (endPosition > state.song.duration) {
+        endPosition = state.song.duration;
+      }
 
-    // Ensure end position is not greater than song duration
-    if (endPosition > state.song.duration) {
-      endPosition = state.song.duration;
+      log('setLoopEnd: got current position $endPosition');
+
+      // Update the loop in the audio handler immediately
+      if (state.isLoopModeEnabled) {
+        audioHandler.customAction(
+          'enableLoop',
+          {
+            'loop': activeLoop.copyWith(end: endPosition),
+          },
+        );
+      }
+
+      await updateLoop(activeLoop.copyWith(end: endPosition));
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to set loop end: $ex',
+        ),
+      );
     }
-
-    log('setLoopEnd: got current position $endPosition');
-
-    // Update the loop in the audio handler immediately
-    if (state.isLoopModeEnabled) {
-      audioHandler.customAction('enableLoop', {'loop': activeLoop.copyWith(end: endPosition)});
-    }
-
-    await updateLoop(activeLoop.copyWith(end: endPosition));
   }
 
-  void unselectLoop() {
+  Future<void> unselectLoop() async {
     log('UNSELECT LOOP: ${state.activeLoop}');
+    try {
+      await audioHandler.customAction('disableLoop');
 
-    emit(
-      state.copyWith(
-        status: SongStatus.loopModeToggled,
-        activeLoop: null,
-        isLoopModeEnabled: false,
-      ),
-    );
+      emit(
+        state.copyWith(
+          status: SongStatus.loopModeToggled,
+          activeLoop: null,
+          isLoopModeEnabled: false,
+          error: null,
+        ),
+      );
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to unselect loop: $ex',
+        ),
+      );
+    }
   }
 
   Future<void> selectLoop(Loop loop) async {
     log('SELECT LOOP: $loop');
-    emit(
-      state.copyWith(
-        status: SongStatus.updated,
-      ),
-    );
-
     if (loop.start == null) return;
 
     try {
-      // Add timeout to audio operations
-      // _seekOperation?.cancel();
       await audioHandler.pause();
       await audioHandler.seek(loop.start!);
 
@@ -392,11 +360,19 @@ class SongCubit extends Cubit<SongState> {
           activeLoop: loop,
           isLoopModeEnabled: true,
           error: null,
-          position: loop.start,
         ),
       );
-    } catch (e, stackTrace) {
-      unawaited(crashReportingRepository.reportError(e, stackTrace));
+    } on TimeoutException catch (ex) {
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to select loop because start position could not be seeked: $ex',
+          activeLoop: null,
+          isLoopModeEnabled: false,
+        ),
+      );
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
 
       // Reset state on error
       emit(
@@ -407,29 +383,10 @@ class SongCubit extends Cubit<SongState> {
           isLoopModeEnabled: false,
         ),
       );
-
-      // Try to reset audio player
-      /* try {
-        await audioHandler.stop();
-        await audioHandler.playSong(state.song);
-        await audioHandler.pause();
-        await audioHandler.seek(loop.start!);
-      } catch (e2) {
-        // Ignore errors during cleanup
-        log('Failed to recover from seek error: $e2', name: 'SongCubit');
-      } */
     }
   }
 
   Future<void> togglePlayLoop(Loop loop) async {
-    emit(
-      state.copyWith(
-        status: SongStatus.updated,
-        activeLoop: loop,
-        isLoopModeEnabled: true,
-      ),
-    );
-
     Loop updatedLoop = loop;
 
     // if loop has no end set but is playing, set end to the duration of the song
@@ -438,30 +395,66 @@ class SongCubit extends Cubit<SongState> {
       await updateLoop(updatedLoop);
     }
 
-    // Use audio service for background playback with loop
-    audioHandler.customAction('enableLoop', {'loop': updatedLoop});
+    emit(
+      state.copyWith(
+        status: SongStatus.updated,
+        activeLoop: updatedLoop,
+        isLoopModeEnabled: true,
+        error: null,
+      ),
+    );
 
-    if (state.playerState != PlayerState.playing) {
-      await audioHandler.play();
+    try {
+      // Use audio service for background playback with loop
+      audioHandler.customAction('enableLoop', {'loop': updatedLoop});
 
-      if (state.position == null) return;
+      if (state.playerState != PlayerState.playing) {
+        await audioHandler.play();
 
-      // check if loop end is reached
-      // if reached, start over
-      if (updatedLoop.end != null && state.position! >= updatedLoop.end!) {
-        await audioHandler.seek(updatedLoop.start!);
+        final currentPosition = await position;
+
+        // check if loop end is reached
+        // if reached, start over
+        if (updatedLoop.end != null && currentPosition >= updatedLoop.end!) {
+          await audioHandler.seek(updatedLoop.start!);
+        } else if (updatedLoop.start != null && currentPosition < updatedLoop.start!) {
+          await audioHandler.seek(updatedLoop.start!);
+        }
+      } else {
+        await audioHandler.pause();
       }
-    } else {
-      await audioHandler.pause();
+    } on TimeoutException catch (ex) {
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to toggle play loop: $ex',
+        ),
+      );
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to toggle play loop: $ex',
+        ),
+      );
     }
   }
 
-  void pauseLoop(Loop loop) {
+  Future<void> pauseLoop() async {
     if (state.activeLoop == null) return;
 
-    _positionTimer?.cancel();
-
-    audioHandler.pause();
+    try {
+      await audioHandler.pause();
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to pause loop: $ex',
+        ),
+      );
+    }
   }
 
   void nextLoop() {
@@ -511,7 +504,7 @@ class SongCubit extends Cubit<SongState> {
   Future<void> addLoop() async {
     log('ADDING LOOP: ${state.activeLoop}', name: 'SongCubit');
 
-    final startPosition = state.position;
+    final startPosition = await position;
 
     try {
       // create a new loop
@@ -526,7 +519,12 @@ class SongCubit extends Cubit<SongState> {
         start: startPosition,
       );
 
-      final updatedSong = await songRepository.addLoopToSong(song: state.song, loop: loop);
+      final updatedSong = await songRepository.addLoopToSong(
+        song: state.song,
+        loop: loop,
+      );
+
+      loopsStreamController?.add([...state.song.loops, loop]);
 
       emit(
         state.copyWith(
@@ -534,14 +532,15 @@ class SongCubit extends Cubit<SongState> {
           song: updatedSong,
           activeLoop: loop,
           isLoopModeEnabled: true,
+          error: null,
         ),
       );
-    } catch (e, stackTrace) {
-      unawaited(crashReportingRepository.reportError(e, stackTrace));
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
       emit(
         state.copyWith(
           status: SongStatus.error,
-          error: 'Failed to add loop: $e',
+          error: 'Failed to add loop: $ex',
         ),
       );
     }
@@ -557,20 +556,23 @@ class SongCubit extends Cubit<SongState> {
         loop: updatedLoop,
       );
 
+      loopsStreamController?.add(updatedSong.loops);
+
       emit(
         state.copyWith(
           status: SongStatus.updated,
           song: updatedSong,
           activeLoop: updatedLoop,
           isLoopModeEnabled: true,
+          error: null,
         ),
       );
-    } catch (e, stackTrace) {
-      unawaited(crashReportingRepository.reportError(e, stackTrace));
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
       emit(
         state.copyWith(
           status: SongStatus.error,
-          error: 'Failed to update loop: $e',
+          error: 'Failed to update loop: $ex',
         ),
       );
     }
@@ -578,11 +580,15 @@ class SongCubit extends Cubit<SongState> {
 
   Future<void> deleteLoop(Loop loop) async {
     log('deleteLoop: $loop');
+    emit(state.copyWith(status: SongStatus.updating));
+
     try {
       final updatedSong = await songRepository.deleteLoopForSong(
         song: state.song,
         loop: loop,
       );
+
+      loopsStreamController?.add(updatedSong.loops);
 
       if (loop == state.activeLoop) {
         unselectLoop();
@@ -592,34 +598,39 @@ class SongCubit extends Cubit<SongState> {
         state.copyWith(
           song: updatedSong,
           status: SongStatus.loopDeleted,
+          error: null,
         ),
       );
-    } catch (e, stackTrace) {
-      unawaited(crashReportingRepository.reportError(e, stackTrace));
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
       emit(
         state.copyWith(
           status: SongStatus.error,
-          error: 'Failed to delete loop: $e',
+          error: 'Failed to delete loop: $ex',
         ),
       );
     }
   }
 
   Future<void> deleteSong() async {
+    emit(state.copyWith(status: SongStatus.updating));
+
     try {
       await songRepository.deleteSong(state.song);
+      loopsStreamController?.close();
       emit(
         state.copyWith(
           status: SongStatus.songDeleted,
           song: null,
+          error: null,
         ),
       );
-    } catch (e, stackTrace) {
-      unawaited(crashReportingRepository.reportError(e, stackTrace));
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
       emit(
         state.copyWith(
           status: SongStatus.error,
-          error: 'Failed to delete song: $e',
+          error: 'Failed to delete song: $ex',
         ),
       );
     }
@@ -634,49 +645,110 @@ class SongCubit extends Cubit<SongState> {
       ),
     );
 
-    if (!state.isLoopModeEnabled) {
-      // stop the song
-      await pauseSong();
-      // Disable loop mode in audio handler
-      await audioHandler.customAction('disableLoop');
+    try {
+      if (!state.isLoopModeEnabled) {
+        // stop the song
+        await pauseSong();
+        // Disable loop mode in audio handler
+        await audioHandler.customAction('disableLoop');
+      }
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      emit(
+        state.copyWith(status: SongStatus.error, error: 'Failed to toggle loop mode: $ex'),
+      );
     }
   }
 
   Future<void> back(int seconds) async {
-    final position = state.position;
-
-    // only seek if the position is greater than the duration
-    if (position != null && position > Duration(seconds: seconds)) {
-      final newPosition = position - Duration(seconds: seconds);
-      await audioHandler.seek(newPosition);
-
-      emit(state.copyWith(status: SongStatus.updated, position: newPosition));
+    log('back: $seconds');
+    try {
+      await audioHandler.back(seconds, state.activeLoop);
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to back: $ex',
+        ),
+      );
     }
   }
 
   Future<void> forward(int seconds) async {
     log('forward: $seconds');
-    final position = state.position;
-
-    // only seek if the position is less than the duration
-    if (position != null && position < state.song.duration - Duration(seconds: seconds)) {
-      final newPosition = position + Duration(seconds: seconds);
-      await audioHandler.seek(newPosition);
-
-      emit(state.copyWith(status: SongStatus.updated, position: newPosition));
+    try {
+      await audioHandler.forward(seconds, state.activeLoop);
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to forward: $ex',
+        ),
+      );
     }
   }
 
   // Add new method
-  Future<void> updateSpeed(double newSpeed) async {
-    await audioHandler.setSpeed(newSpeed);
+  Future<void> updateSpeed({
+    double? multiplier,
+    int? bpm,
+  }) async {
+    assert(multiplier != null || bpm != null, 'Either multiplier or bpm must be provided');
 
-    emit(
-      state.copyWith(
-        status: SongStatus.updated,
-        speed: newSpeed,
-      ),
-    );
+    try {
+      double? speed;
+
+      if (multiplier != null) {
+        speed = multiplier;
+      } else if (bpm != null) {
+        // check if song bpm was set
+        if (state.song.bpm == null) {
+          emit(
+            state.copyWith(
+              status: SongStatus.error,
+              error: 'Failed to update speed: BPM is not set',
+            ),
+          );
+          return;
+        }
+
+        speed = bpm / state.song.bpm!;
+      }
+
+      if (speed == null) {
+        emit(
+          state.copyWith(
+            status: SongStatus.error,
+            error: 'Failed to update speed: BPM is not set',
+          ),
+        );
+        return;
+      }
+
+      // update the song
+      final updatedSong = state.song.copyWith(currentBpm: bpm);
+      await songRepository.updateSong(updatedSong);
+
+      await audioHandler.setSpeed(speed);
+
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          speed: speed,
+          song: updatedSong,
+        ),
+      );
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to update speed: $ex',
+        ),
+      );
+    }
   }
 
   Future<void> updateLoopOrder(List<Loop> newLoops) async {
@@ -684,41 +756,51 @@ class SongCubit extends Cubit<SongState> {
       final updatedSong = state.song.copyWith(loops: newLoops);
       await songRepository.updateSong(updatedSong);
 
+      loopsStreamController?.add(updatedSong.loops);
+
       emit(
         state.copyWith(
           status: SongStatus.updated,
           song: updatedSong,
+          error: null,
         ),
       );
-    } catch (e, stackTrace) {
-      unawaited(crashReportingRepository.reportError(e, stackTrace));
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
       emit(
         state.copyWith(
           status: SongStatus.error,
-          error: 'Failed to update loop order: $e',
+          error: 'Failed to update loop order: $ex',
         ),
       );
     }
   }
 
-  Future<Float32List> _getWaveformData(String path) async {
-    // Check cache first
-    Float32List? waveformData = _waveformCache[path];
+  /// Persist the original BPM for the current song. This does **not** change
+  /// the playback speed directly; it merely stores the value so that the UI
+  /// can convert BPM values into speed multipliers.
+  Future<void> updateOriginalBpm(int bpm) async {
+    try {
+      emit(state.copyWith(status: SongStatus.updating));
 
-    if (waveformData == null) {
-      log('NO CACHE AVAILABLE FOR $path');
-      // Only read bytes and generate waveform if not cached
-      final file = File(path);
+      final updatedSong = state.song.copyWith(bpm: bpm);
+      await songRepository.updateSong(updatedSong);
 
-      final bytes = await file.readAsBytes();
-      waveformData = await soloud.readSamplesFromMem(
-        bytes,
-        200 * 10,
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          song: updatedSong,
+          error: null,
+        ),
       );
-      // Store in cache
-      _waveformCache[path] = waveformData;
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to update bpm: $ex',
+        ),
+      );
     }
-
-    return waveformData;
   }
 }

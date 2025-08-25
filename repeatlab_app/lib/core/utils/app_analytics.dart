@@ -45,6 +45,9 @@ abstract final class AppAnalytics {
   static const clickPrivacy = 'click_privacy';
   static const clickDeleteAllData = 'click_delete_all_data';
   static const clickRateAppDrawer = 'click_rate_app_drawer';
+  static const clickUseTappedBpm = 'click_use_tapped_bpm';
+  static const clickTempoModeMultiplier = 'click_tempo_mode_multiplier';
+  static const clickTempoModeBpm = 'click_tempo_mode_bpm';
 
   static const showPaywallSongLoops = 'show_paywall_song_loops';
   static const showPaywallSongSpeed = 'show_paywall_song_speed';

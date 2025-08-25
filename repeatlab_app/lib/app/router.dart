@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:repeatlab/features/home/dataprotection_page.dart';
 import 'package:repeatlab/features/home/home_page.dart';
+import 'package:repeatlab/features/home/terms_of_service_page.dart';
 import 'package:repeatlab/features/onboarding/view/onboarding_page.dart';
 
 abstract class AppRouter {
@@ -9,6 +10,7 @@ abstract class AppRouter {
   static const String home = '/';
   static const String onboarding = '/onboarding';
   static const String privacy = '/privacy';
+  static const String terms = '/terms';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -18,6 +20,8 @@ abstract class AppRouter {
         return MaterialPageRoute(builder: (_) => const OnboardingPage());
       case privacy:
         return MaterialPageRoute(builder: (_) => const DataprotectionPage());
+      case terms:
+        return MaterialPageRoute(builder: (_) => const TermsOfServicePage());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

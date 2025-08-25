@@ -67,14 +67,14 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get legalBasisForProcessingDescription =>
-      'Vi behandlar din data baserat på följande rättsliga grunder:\n\n• Ditt samtycke för feedback-inlämningar via Wiredash och app-analys.\n• Fullgörande av avtal för behandling av betalningar och hantering av prenumerationer via RevenueCat.\n• Vårt berättigade intresse av att säkerställa att Appen fungerar effektivt genom användning av Sentry för kraschrapportering.';
+      'Vi behandlar din data baserat på följande rättsliga grunder:\n\n• Ditt samtycke för feedback-inlämningar via Wiredash och app-analys.\n• Fullgörande av avtal för behandling av betalningar och hantering av prenumerationer via RevenueCat.\n• Vårt berättigade intresse av att säkerställa att Appen fungerar effektivt genom användning av Sentry för kraschrapportering.\n• Vårt berättigade intresse av att förbättra användarupplevelsen genom användning av Microsoft Clarity.';
 
   @override
   String get howWeUseYourInformation => 'Hur Vi Använder Din Information';
 
   @override
   String get howWeUseYourInformationDescription =>
-      'Vi använder den insamlade informationen för följande ändamål:\n\n• För att behandla köp i appen och hantera prenumerationer via RevenueCat.\n• För att samla in feedback och förbättra Appen med Wiredash.\n• För att övervaka och åtgärda problem med Sentry kraschloggning.\n• För att förbättra användarupplevelsen och förbättra Appens funktioner.';
+      'Vi använder den insamlade informationen för följande ändamål:\n\n• För att behandla köp i appen och hantera prenumerationer via RevenueCat.\n• För att samla in feedback och förbättra Appen med Wiredash.\n• För att övervaka och åtgärda problem med Sentry kraschloggning.\n• För att förbättra användarupplevelsen och förbättra Appens funktioner.\n• För att förbättra användarupplevelsen genom användning av Microsoft Clarity.';
 
   @override
   String get yourRights => 'Dina Rättigheter';
@@ -88,7 +88,7 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get thirdPartyServicesDescription =>
-      'Vi använder tredjepartstjänster för att förbättra vår App:\n\n• Wiredash: Används för att samla in användarfeedback.\n• RevenueCat: Används för att behandla köp i appen och prenumerationer.\n• Sentry: Används för felövervakning och kraschrapportering.';
+      'Vi använder tredjepartstjänster för att förbättra vår App:\n\n• Wiredash: Används för att samla in användarfeedback.\n• RevenueCat: Används för att behandla köp i appen och prenumerationer.\n• Sentry: Används för felövervakning och kraschrapportering.\n• Microsoft Clarity: Används för att analysera och förbättra användarupplevelsen.';
 
   @override
   String get contactUs => 'Kontakta Oss';
@@ -135,10 +135,20 @@ class AppLocalizationsSv extends AppLocalizations {
       'Vi värdesätter din integritet och hanterar din data med omsorg. Vänligen granska vår integritetspolicy och acceptera för att fortsätta.';
 
   @override
-  String get onboardingPrivacyPolicy => 'Jag accepterar ';
+  String get onboardingIAccept => 'Jag accepterar ';
 
   @override
-  String get onboardingPrivacyPolicyLink => 'Integritetspolicyn';
+  String get onboardingPrivacyPolicyLink => 'Integritetspolicy';
+
+  @override
+  String get onboardingTermsOfServiceLink => 'Integritetspolicyn';
+
+  @override
+  String get and => 'och';
+
+  @override
+  String get onboardingIAcceptUsageStatistics =>
+      'jag accepterar att använda data för analys och felrapportering.';
 
   @override
   String get onboardingGetStarted => 'Kom Igång';
@@ -182,13 +192,10 @@ class AppLocalizationsSv extends AppLocalizations {
   String get endTime => 'Sluttid';
 
   @override
-  String get delete => 'Radera';
-
-  @override
   String get save => 'Spara';
 
   @override
-  String get invalidFormat => 'Ogiltigt format (mm:ss:ms)';
+  String get invalidFormat => 'Ogiltigt format (mm:ss.sss)';
 
   @override
   String get startCannotBeAfterEnd => 'Start kan inte vara efter slut';
@@ -222,7 +229,8 @@ class AppLocalizationsSv extends AppLocalizations {
   String get premiumFeatureUnlimitedLoops => 'Obegränsade Loopar';
 
   @override
-  String get premiumFeatureChangeMusicSpeed => 'Ändra Musikhastighet';
+  String get premiumFeatureChangeMusicSpeed =>
+      'Tempo Kontroll (BPM/Multiplicator)';
 
   @override
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';
@@ -244,7 +252,7 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String purchaseYearly(String trialString) {
-    return 'Prova Gratis';
+    return 'Prova Gratis $trialString dagar';
   }
 
   @override
@@ -287,6 +295,9 @@ class AppLocalizationsSv extends AppLocalizations {
   @override
   String get deleteSongLoopsDescription =>
       'Är du säker på att du vill radera denna låt och alla tillhörande loopar? Detta kan inte ångras.';
+
+  @override
+  String get delete => 'Radera';
 
   @override
   String get cancel => 'Avbryt';
@@ -367,10 +378,45 @@ class AppLocalizationsSv extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
-  String get changelog113Title => 'Felsökning';
+  String get changelog130Title => 'Ändra tempo baserat på BPM';
 
   @override
-  String get changelog113Description =>
+  String get changelog130Description =>
+      'Nu kan du ändra låtens tempo baserat på BPM. Detta gör att du kan justera tempos med hög precision. Dessutom kan tempos nu återställas med en knapp.';
+
+  @override
+  String get changelog1201Title => '1/4 Felsökning';
+
+  @override
+  String get changelog1201Description =>
+      'Om inget slut för loopen var inställt, spelades loopen till slutet av låten och låtens slut användes som loopens slut. Ljudfilerna spelar nu också när appen går tillbaka eller telefonen går in standby-läge.';
+
+  @override
+  String get changelog1202Title => '2/4 Felsökning';
+
+  @override
+  String get changelog1202Description =>
+      'Om inget slut för loopen var inställt, spelades loopen till slutet av låten och låtens slut användes som loopens slut. Ljudfilerna spelar nu också när appen går tillbaka eller telefonen går in standby-läge.';
+
+  @override
+  String get changelog1203Title => '3/4 Felsökning';
+
+  @override
+  String get changelog1203Description =>
+      'Om inget slut för loopen var inställt, spelades loopen till slutet av låten och låtens slut användes som loopens slut. Ljudfilerna spelar nu också när appen går tillbaka eller telefonen går in standby-läge.';
+
+  @override
+  String get changelog1204Title => '4/4 Felsökning';
+
+  @override
+  String get changelog1204Description =>
+      'Om inget slut för loopen var inställt, spelades loopen till slutet av låten och låtens slut användes som loopens slut. Ljudfilerna spelar nu också när appen går tillbaka eller telefonen går in standby-läge.';
+
+  @override
+  String get changelog115Title => 'Felsökning';
+
+  @override
+  String get changelog115Description =>
       'Om inget slut för loopen var inställt, spelades loopen till slutet av låten och låtens slut användes som loopens slut. Ljudfilerna spelar nu också när appen går tillbaka eller telefonen går in standby-läge.';
 
   @override
@@ -428,7 +474,10 @@ class AppLocalizationsSv extends AppLocalizations {
       '= En Par Drumsticks för Utvecklaren (en gång)';
 
   @override
-  String get deleteAllData => 'Radera Alla Data';
+  String get localData => 'Lokala Data';
+
+  @override
+  String get deleteAllLocalData => 'Radera Alla Lokala Data';
 
   @override
   String get deleteAllDataTitle => 'Radera Alla Data, Låtar och Loopar';
@@ -467,4 +516,86 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get loopMode => 'Loopläge';
+
+  @override
+  String get hours => 'Timmar';
+
+  @override
+  String get minutes => 'Minuter';
+
+  @override
+  String get seconds => 'Sekunder';
+
+  @override
+  String get milliseconds => 'Millisekunder';
+
+  @override
+  String deleteSongConfirmation(String songTitle) {
+    return 'Är du säker på att du vill radera \"$songTitle\" och alla tillhörande loopar?';
+  }
+
+  @override
+  String get deleteSongConfirmationTitle => 'Radera Låt';
+
+  @override
+  String get settings => 'Inställningar';
+
+  @override
+  String get analytics => 'Analytics';
+
+  @override
+  String get analyticsDescription =>
+      'Vi använder Microsoft Clarity för att samla in användarstatistik och förbättra appen. Dessa data delas inte med tredje part.';
+
+  @override
+  String get enterSongBpm => 'Ange låtens BPM';
+
+  @override
+  String get enterSongBpmDescription =>
+      'Ange det ursprungliga BPM för låten för att ändra tempo. Detta är användbart när du tränar en låt med ett annat tempo. BPM kommer att tilldelas låten och sparas.';
+
+  @override
+  String get enterSongBpmHint => 'exempelvis 120';
+
+  @override
+  String get tapBpm => 'Tapp BPM';
+
+  @override
+  String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
+      'Tapp knappen nedan i takt med din musik för att upptäcka BPM.';
+
+  @override
+  String get detectedBpm => 'Upptäckt BPM';
+
+  @override
+  String get tapAtLeast2TimesToDetectBpm =>
+      'Tapp minst 2 gånger för att upptäcka BPM';
+
+  @override
+  String get tap => 'TAP';
+
+  @override
+  String get taps => 'TAP';
+
+  @override
+  String get useBpm => 'Använd BPM';
+
+  @override
+  String get reset => 'Återställ';
+
+  @override
+  String get speedControl => 'Hastighetskontroll';
+
+  @override
+  String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
+      'Här kan du ställa in den ursprungliga BPM för ljudfilen.';
+
+  @override
+  String get setBpm => 'Ställ in BPM';
+
+  @override
+  String get originalBpm => 'Ursprunglig BPM';
+
+  @override
+  String get currentBpm => 'Nuvarande BPM';
 }

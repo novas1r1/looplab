@@ -67,14 +67,14 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get legalBasisForProcessingDescription =>
-      '我们基于以下法律依据处理您的数据：\n\n• 您同意通过 Wiredash 提交反馈和应用分析。\n• 通过 RevenueCat 处理支付和管理订阅的合同履行。\n• 我们通过使用 Sentry 进行崩溃报告以确保应用有效运行的合法利益。';
+      '我们基于以下法律依据处理您的数据：\n\n• 您同意通过 Wiredash 提交反馈和应用分析。\n• 通过 RevenueCat 处理支付和管理订阅的合同履行。\n• 我们通过使用 Sentry 进行崩溃报告以确保应用有效运行的合法利益。\n• 我们通过使用 Microsoft Clarity 改善用户体验和增强应用功能。';
 
   @override
   String get howWeUseYourInformation => '我们如何使用您的信息';
 
   @override
   String get howWeUseYourInformationDescription =>
-      '我们收集的信息用于以下目的：\n\n• 通过 RevenueCat 处理应用内购买和管理订阅。\n• 使用 Wiredash 收集反馈和改进应用。\n• 使用 Sentry 崩溃日志监控和修复问题。\n• 改善用户体验和增强应用功能。';
+      '我们收集的信息用于以下目的：\n\n• 通过 RevenueCat 处理应用内购买和管理订阅。\n• 使用 Wiredash 收集反馈和改进应用。\n• 使用 Sentry 崩溃日志监控和修复问题。\n• 改善用户体验和增强应用功能。\n• 使用 Microsoft Clarity 改善用户体验和增强应用功能。';
 
   @override
   String get yourRights => '您的权利';
@@ -88,7 +88,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get thirdPartyServicesDescription =>
-      '我们使用第三方服务来增强我们的应用：\n\n• Wiredash：用于收集用户反馈。\n• RevenueCat：用于处理应用内购买和订阅。\n• Sentry：用于错误监控和崩溃报告。';
+      '我们使用第三方服务来增强我们的应用：\n\n• Wiredash：用于收集用户反馈。\n• RevenueCat：用于处理应用内购买和订阅。\n• Sentry：用于错误监控和崩溃报告。\n• Microsoft Clarity：用于分析和改善用户体验。';
 
   @override
   String get contactUs => '联系我们';
@@ -133,10 +133,19 @@ class AppLocalizationsZh extends AppLocalizations {
   String get onboardingDescription3 => '我们重视您的隐私并谨慎处理您的数据。请查看我们的隐私政策并接受以继续。';
 
   @override
-  String get onboardingPrivacyPolicy => '我接受';
+  String get onboardingIAccept => '我接受';
 
   @override
   String get onboardingPrivacyPolicyLink => '隐私政策';
+
+  @override
+  String get onboardingTermsOfServiceLink => '隐私政策';
+
+  @override
+  String get and => '和';
+
+  @override
+  String get onboardingIAcceptUsageStatistics => '我同意将数据用于分析和错误报告。';
 
   @override
   String get onboardingGetStarted => '开始使用';
@@ -179,13 +188,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get endTime => '结束时间';
 
   @override
-  String get delete => '删除';
-
-  @override
   String get save => '保存';
 
   @override
-  String get invalidFormat => '格式无效 (mm:ss:ms)';
+  String get invalidFormat => '格式无效 (mm:ss.sss)';
 
   @override
   String get startCannotBeAfterEnd => '开始时间不能在结束时间之后';
@@ -215,7 +221,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get premiumFeatureUnlimitedLoops => '无限循环';
 
   @override
-  String get premiumFeatureChangeMusicSpeed => '改变音乐速度';
+  String get premiumFeatureChangeMusicSpeed => '速度控制 (BPM/倍数)';
 
   @override
   String get premiumFeatureZoomInOut => '波形缩放';
@@ -277,6 +283,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get deleteSongLoopsDescription => '您确定要删除此歌曲和所有附加的循环吗？此操作无法撤销。';
+
+  @override
+  String get delete => '删除';
 
   @override
   String get cancel => '取消';
@@ -348,10 +357,43 @@ class AppLocalizationsZh extends AppLocalizations {
   String get changelogTitle => '更新日志';
 
   @override
-  String get changelog113Title => '修复了多个错误';
+  String get changelog130Title => '基于 BPM 更改速度';
 
   @override
-  String get changelog113Description =>
+  String get changelog130Description =>
+      '现在您可以根据 BPM 更改歌曲的速度。这允许更精确地调整速度。此外，现在可以使用按钮重置速度。';
+
+  @override
+  String get changelog1201Title => '1/4 添加了音频文件的媒体数据';
+
+  @override
+  String get changelog1201Description => '现在应用程序显示音频文件的媒体数据。这包括标题和艺术家。';
+
+  @override
+  String get changelog1202Title => '2/4 将 m4a 转换为 mp3';
+
+  @override
+  String get changelog1202Description =>
+      '应用程序现在将 m4a 文件（当前不支持的应用程序的音频格式）转换为 mp3 文件。';
+
+  @override
+  String get changelog1203Title => '3/4 删除单首歌曲';
+
+  @override
+  String get changelog1203Description =>
+      '您现在可以通过将歌曲向左滑动并点击“删除歌曲”来删除歌曲。这将删除歌曲及其所有关联的循环。';
+
+  @override
+  String get changelog1204Title => '4/4 更改了音频格式';
+
+  @override
+  String get changelog1204Description => '音频格式已更改为更标准的格式，现在可以更精确地编辑循环。';
+
+  @override
+  String get changelog115Title => '修复了多个错误';
+
+  @override
+  String get changelog115Description =>
       '如果未设置循环结束，循环将播放到歌曲结束并将歌曲结束视为循环结束。当应用关闭时，音频后台服务现在将停止。';
 
   @override
@@ -404,7 +446,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get onePairOfDrumSticks => '= 开发者的一对鼓棒（一次性）';
 
   @override
-  String get deleteAllData => '删除所有数据';
+  String get localData => '本地数据';
+
+  @override
+  String get deleteAllLocalData => '删除所有本地数据';
 
   @override
   String get deleteAllDataTitle => '删除所有数据、歌曲和循环';
@@ -442,4 +487,84 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get loopMode => '循环模式';
+
+  @override
+  String get hours => '小时';
+
+  @override
+  String get minutes => '分钟';
+
+  @override
+  String get seconds => '秒';
+
+  @override
+  String get milliseconds => '毫秒';
+
+  @override
+  String deleteSongConfirmation(String songTitle) {
+    return '您确定要删除 \"$songTitle\" 和所有关联的循环吗？';
+  }
+
+  @override
+  String get deleteSongConfirmationTitle => '删除歌曲';
+
+  @override
+  String get settings => '设置';
+
+  @override
+  String get analytics => '分析';
+
+  @override
+  String get analyticsDescription =>
+      '我们使用 Microsoft Clarity 收集使用数据并改进应用程序。这些数据不会与第三方共享。';
+
+  @override
+  String get enterSongBpm => '输入歌曲 BPM';
+
+  @override
+  String get enterSongBpmDescription =>
+      '输入歌曲的原始 BPM 以更改速度。这在练习不同速度的歌曲时很有用。BPM 将分配给歌曲并保存。';
+
+  @override
+  String get enterSongBpmHint => '例如 120';
+
+  @override
+  String get tapBpm => '点击 BPM';
+
+  @override
+  String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
+      '点击下面的按钮，在节奏中与您的音乐一起检测 BPM。';
+
+  @override
+  String get detectedBpm => '检测到的 BPM';
+
+  @override
+  String get tapAtLeast2TimesToDetectBpm => '点击至少 2 次以检测 BPM';
+
+  @override
+  String get tap => '点击';
+
+  @override
+  String get taps => '点击';
+
+  @override
+  String get useBpm => '使用 BPM';
+
+  @override
+  String get reset => '重置';
+
+  @override
+  String get speedControl => '速度控制';
+
+  @override
+  String get hereYouCanSetTheOriginalBpmOfTheAudioFile => '您可以在此设置音频文件的原始 BPM。';
+
+  @override
+  String get setBpm => '设置 BPM';
+
+  @override
+  String get originalBpm => '原始 BPM';
+
+  @override
+  String get currentBpm => '当前 BPM';
 }

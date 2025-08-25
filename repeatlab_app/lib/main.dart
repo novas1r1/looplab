@@ -1,13 +1,19 @@
+import 'dart:developer';
+
+import 'package:clarity_flutter/clarity_flutter.dart';
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:repeatlab/app/app.dart';
-import 'package:repeatlab/bootstrap.dart';
+import 'package:repeatlab/app_bloc_observer.dart';
 import 'package:repeatlab/data/models/song.dart';
+import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:sembast/sembast_io.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +22,41 @@ import 'package:userorient_flutter/userorient_flutter.dart';
 Future<void> main() async {
   SentryWidgetsFlutterBinding.ensureInitialized();
 
+  // Initialize Sentry before anything else to catch early crashes
+  await SentryFlutter.init(
+    (options) {
+      options.dsn =
+          'https://2ca5460258f78d3ad8694f64123da2e1@o4508596905050112.ingest.de.sentry.io/4508596929167440';
+      options.tracesSampleRate = 1.0;
+      options.profilesSampleRate = 1.0;
+      options.sendDefaultPii = false;
+      options.attachScreenshot = true;
+      options.environment = kDebugMode ? 'dev' : 'prod';
+
+      // Enable native crash reporting
+      options.enableAutoSessionTracking = true;
+      options.attachStacktrace = true;
+
+      // Set debug mode for better error reporting in debug builds
+      options.debug = kDebugMode;
+    },
+  );
+
+  // Wrap the entire app initialization in a try-catch to catch any startup errors
+  try {
+    await _initializeApp();
+  } catch (error, stackTrace) {
+    // Report any startup errors to Sentry
+    await Sentry.captureException(
+      error,
+      stackTrace: stackTrace,
+      hint: Hint.withMap({'location': 'app_initialization'}),
+    );
+    rethrow;
+  }
+}
+
+Future<void> _initializeApp() async {
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -23,39 +64,143 @@ Future<void> main() async {
     ),
   );
 
-  final dir = await getApplicationDocumentsDirectory();
-  // make sure it exists
-  await dir.create(recursive: true);
-  // build the database path
-  final dbPath = join(dir.path, 'repeatlab.db');
-  // open the database
-  final db = await databaseFactoryIo.openDatabase(dbPath);
+  // Initialize database with error handling
+  Database? db;
+  try {
+    final dir = await getApplicationDocumentsDirectory();
+    // make sure it exists
+    await dir.create(recursive: true);
+    // build the database path
+    final dbPath = join(dir.path, 'repeatlab.db');
+    // open the database
+    db = await databaseFactoryIo.openDatabase(dbPath);
+  } catch (error, stackTrace) {
+    await Sentry.captureException(
+      error,
+      stackTrace: stackTrace,
+      hint: Hint.withMap({'location': 'database_initialization'}),
+    );
+    rethrow;
+  }
 
   MapperContainer.globals.use(const DurationMapper());
 
-  final soloud = SoLoud.instance;
-  await soloud.init(sampleRate: 48000);
+  // Initialize SoLoud with error handling
+  SoLoud? soloud;
+  try {
+    soloud = SoLoud.instance;
+    await soloud.init();
+    // SoLoud.instance.setVisualizationEnabled(true);
+  } catch (error, stackTrace) {
+    await Sentry.captureException(
+      error,
+      stackTrace: stackTrace,
+      hint: Hint.withMap({'location': 'soloud_initialization'}),
+    );
+    rethrow;
+  }
 
-  // final audioPlayer = AudioPlayer();
+  // Initialize other services with error handling
+  PackageInfo? packageInfo;
+  SharedPreferences? sharedPreferences;
+  LocalConfigRepository? localConfigRepository;
 
-  final packageInfo = await PackageInfo.fromPlatform();
-  final sharedPreferences = await SharedPreferences.getInstance();
+  try {
+    packageInfo = await PackageInfo.fromPlatform();
+    sharedPreferences = await SharedPreferences.getInstance();
+    localConfigRepository = LocalConfigRepository(
+      sharedPreferences: sharedPreferences,
+    );
+  } catch (error, stackTrace) {
+    await Sentry.captureException(
+      error,
+      stackTrace: stackTrace,
+      hint: Hint.withMap({'location': 'package_info_shared_preferences'}),
+    );
+    rethrow;
+  }
 
   // get current device language
   // final deviceLanguage = Platform.localeName.split('_')[0];
-  UserOrient.configure(
-    apiKey: '691f5ff6-2fa2-444f-b440-734f7cb12c1d',
-    languageCode: 'en',
+  try {
+    UserOrient.configure(
+      apiKey: '691f5ff6-2fa2-444f-b440-734f7cb12c1d',
+      languageCode: 'en',
+    );
+  } catch (error, stackTrace) {
+    await Sentry.captureException(
+      error,
+      stackTrace: stackTrace,
+      hint: Hint.withMap({'location': 'userorient_configure'}),
+    );
+    // Don't rethrow for UserOrient as it's not critical
+  }
+
+  final config = ClarityConfig(
+    projectId: "s94ipqi1r5",
+    logLevel: LogLevel.None,
   );
 
-  bootstrap(
-    () => SentryWidget(
-      child: App(
-        db: db,
-        soloud: soloud,
-        packageInfo: packageInfo,
-        sharedPreferences: sharedPreferences,
-        // audioPlayer: audioPlayer,
+  final isAnalyticsEnabled = localConfigRepository.acceptedAnalytics;
+
+  if (isAnalyticsEnabled && !kDebugMode) {
+    Clarity.resume();
+  } else {
+    Clarity.pause();
+  }
+
+  // needed if we use just_audio_background
+  /* await JustAudioBackground.init(
+    androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
+    androidNotificationChannelName: 'Audio playback',
+    androidNotificationOngoing: true,
+  ); */
+
+  // debugRepaintRainbowEnabled = true;
+
+  // Enhanced error handling for Flutter framework errors
+  FlutterError.onError = (details) {
+    log(details.exceptionAsString(), stackTrace: details.stack);
+
+    // Report to Sentry
+    Sentry.captureException(
+      details.exception,
+      stackTrace: details.stack,
+      hint: Hint.withMap({
+        'location': 'flutter_error',
+        'library': details.library ?? 'unknown',
+        'context': details.context?.toString() ?? 'unknown',
+      }),
+    );
+  };
+
+  // Handle unhandled asynchronous errors
+  PlatformDispatcher.instance.onError = (error, stack) {
+    log('Unhandled platform error: $error', stackTrace: stack);
+
+    // Report to Sentry
+    Sentry.captureException(
+      error,
+      stackTrace: stack,
+      hint: Hint.withMap({'location': 'platform_dispatcher_error'}),
+    );
+
+    return true; // Prevent the error from being re-thrown
+  };
+
+  Bloc.observer = const AppBlocObserver();
+
+  // Run the app wrapped in SentryWidget
+  runApp(
+    SentryWidget(
+      child: ClarityWidget(
+        app: App(
+          db: db,
+          soloud: soloud,
+          packageInfo: packageInfo,
+          localConfigRepository: localConfigRepository,
+        ),
+        clarityConfig: config,
       ),
     ),
   );

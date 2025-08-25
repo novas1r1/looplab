@@ -132,7 +132,7 @@ abstract class AppLocalizations {
   /// **'Your Music Loop Station'**
   String get appSubtitle;
 
-  /// No description provided for @userSettings.
+  /// Title for user settings section
   ///
   /// In en, this message translates to:
   /// **'User Settings'**
@@ -207,13 +207,13 @@ abstract class AppLocalizations {
   /// No description provided for @informationWeCollectSummary.
   ///
   /// In en, this message translates to:
-  /// **'Your privacy is important to us. This Privacy Policy outlines how we collect, use, and protect your information when you use our mobile application (the \'App\'), which is available on iOS and Android platforms. This policy is compliant with the General Data Protection Regulation (GDPR).\n\nEffective Date: 23. January 2025'**
+  /// **'Your privacy is important to us. This Privacy Policy outlines how we collect, use, and protect your information when you use our mobile application (the \'App\'), which is available on iOS and Android platforms. This policy is compliant with the General Data Protection Regulation (GDPR).\n\nEffective Date: 17. July 2025'**
   String get informationWeCollectSummary;
 
   /// No description provided for @informationWeCollectDescription.
   ///
   /// In en, this message translates to:
-  /// **'• Personal Information: Information you provide to us, such as your email address when submitting feedback via Wiredash.\n• Payment Information: Data related to in-app purchases and subscriptions, processed by RevenueCat.\n• Crash Logs: Information about app errors and crashes, collected through Sentry.\n• Usage Data: Analytics data to help us improve your experience.'**
+  /// **'• Personal Information: Information you provide to us, such as your email address when submitting feedback via Wiredash.\n• Payment Information: Data related to in-app purchases and subscriptions, processed by RevenueCat.\n• Crash Logs: Information about app errors and crashes, collected through Sentry.\n• Usage Statistics: Usage data to help us improve the app.\n• Heatmaps & Session Recording: Analytics data to help us improve your experience through Microsoft Clarity.'**
   String get informationWeCollectDescription;
 
   /// No description provided for @dataController.
@@ -249,7 +249,7 @@ abstract class AppLocalizations {
   /// No description provided for @howWeUseYourInformationDescription.
   ///
   /// In en, this message translates to:
-  /// **'We use the information we collect for the following purposes:\n\n• To process in-app purchases and manage subscriptions through RevenueCat.\n• To gather feedback and improve the App using Wiredash.\n• To monitor and fix issues using Sentry crash logging.\n• To improve user experience and enhance App features.'**
+  /// **'We use the information we collect for the following purposes:\n\n• To process in-app purchases and manage subscriptions through RevenueCat.\n• To gather feedback and improve the App using Wiredash.\n• To monitor and fix issues using Sentry crash logging.\n• To improve user experience and enhance App features.\n• To improve the app through Microsoft Clarity.'**
   String get howWeUseYourInformationDescription;
 
   /// No description provided for @yourRights.
@@ -273,7 +273,7 @@ abstract class AppLocalizations {
   /// No description provided for @thirdPartyServicesDescription.
   ///
   /// In en, this message translates to:
-  /// **'We use third-party services to enhance our App:\n\n• Wiredash: Used to collect user feedback.\n• RevenueCat: Used to process in-app purchases and subscriptions.\n• Sentry: Used for error monitoring and crash reporting.'**
+  /// **'We use third-party services to enhance our App:\n\n• Wiredash: Used to collect user feedback.\n• RevenueCat: Used to process in-app purchases and subscriptions.\n• Sentry: Used for error monitoring and crash reporting.\n• Microsoft Clarity: Used for analytics and user experience improvement.'**
   String get thirdPartyServicesDescription;
 
   /// No description provided for @contactUs.
@@ -354,17 +354,35 @@ abstract class AppLocalizations {
   /// **'We value your privacy and handle your data with care. Please review our privacy policy and accept to continue.'**
   String get onboardingDescription3;
 
-  /// No description provided for @onboardingPrivacyPolicy.
+  /// No description provided for @onboardingIAccept.
   ///
   /// In en, this message translates to:
   /// **'I accept the '**
-  String get onboardingPrivacyPolicy;
+  String get onboardingIAccept;
 
   /// No description provided for @onboardingPrivacyPolicyLink.
   ///
   /// In en, this message translates to:
   /// **'Privacy Policy'**
   String get onboardingPrivacyPolicyLink;
+
+  /// No description provided for @onboardingTermsOfServiceLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Service'**
+  String get onboardingTermsOfServiceLink;
+
+  /// No description provided for @and.
+  ///
+  /// In en, this message translates to:
+  /// **' and the '**
+  String get and;
+
+  /// No description provided for @onboardingIAcceptUsageStatistics.
+  ///
+  /// In en, this message translates to:
+  /// **'I accept the usage of my data for analytics and crash reporting to improve the app.'**
+  String get onboardingIAcceptUsageStatistics;
 
   /// No description provided for @onboardingGetStarted.
   ///
@@ -444,12 +462,6 @@ abstract class AppLocalizations {
   /// **'End Time'**
   String get endTime;
 
-  /// No description provided for @delete.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete'**
-  String get delete;
-
   /// No description provided for @save.
   ///
   /// In en, this message translates to:
@@ -459,7 +471,7 @@ abstract class AppLocalizations {
   /// No description provided for @invalidFormat.
   ///
   /// In en, this message translates to:
-  /// **'Invalid format (mm:ss:ms)'**
+  /// **'Invalid format (mm:ss.sss)'**
   String get invalidFormat;
 
   /// No description provided for @startCannotBeAfterEnd.
@@ -519,7 +531,7 @@ abstract class AppLocalizations {
   /// No description provided for @premiumFeatureChangeMusicSpeed.
   ///
   /// In en, this message translates to:
-  /// **'Change Music Speed'**
+  /// **'Audio Speed Control (BPM/Multiplier)'**
   String get premiumFeatureChangeMusicSpeed;
 
   /// No description provided for @premiumFeatureZoomInOut.
@@ -635,6 +647,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to delete this song and all attached loops? This can\'t be undone.'**
   String get deleteSongLoopsDescription;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
 
   /// No description provided for @cancel.
   ///
@@ -768,17 +786,77 @@ abstract class AppLocalizations {
   /// **'Changelog'**
   String get changelogTitle;
 
-  /// No description provided for @changelog113Title.
+  /// No description provided for @changelog130Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Change tempo based on BPM'**
+  String get changelog130Title;
+
+  /// No description provided for @changelog130Description.
+  ///
+  /// In en, this message translates to:
+  /// **'You can now change the tempo of the song based on the BPM. This allows for precise tempo adjustments. Additionally, the tempo can now be reset with a button.'**
+  String get changelog130Description;
+
+  /// No description provided for @changelog1201Title.
+  ///
+  /// In en, this message translates to:
+  /// **'1/4 Added media data for audio files'**
+  String get changelog1201Title;
+
+  /// No description provided for @changelog1201Description.
+  ///
+  /// In en, this message translates to:
+  /// **'The app now shows the media data for audio files. This includes the title and artist for now.'**
+  String get changelog1201Description;
+
+  /// No description provided for @changelog1202Title.
+  ///
+  /// In en, this message translates to:
+  /// **'2/4 Convert m4a to mp3'**
+  String get changelog1202Title;
+
+  /// No description provided for @changelog1202Description.
+  ///
+  /// In en, this message translates to:
+  /// **'The app now converts m4a files (which is currently not a supported format by the app) to mp3 files.'**
+  String get changelog1202Description;
+
+  /// No description provided for @changelog1203Title.
+  ///
+  /// In en, this message translates to:
+  /// **'3/4 Delete single songs'**
+  String get changelog1203Title;
+
+  /// No description provided for @changelog1203Description.
+  ///
+  /// In en, this message translates to:
+  /// **'You can now delete a song by sliding it to the left and tapping \'Delete Song\'. This will delete the song and all attached loops.'**
+  String get changelog1203Description;
+
+  /// No description provided for @changelog1204Title.
+  ///
+  /// In en, this message translates to:
+  /// **'4/4 Changed audio format'**
+  String get changelog1204Title;
+
+  /// No description provided for @changelog1204Description.
+  ///
+  /// In en, this message translates to:
+  /// **'The audio format was changed to a more standard format and loops can be edited more precisely now.'**
+  String get changelog1204Description;
+
+  /// No description provided for @changelog115Title.
   ///
   /// In en, this message translates to:
   /// **'Fixed several bugs'**
-  String get changelog113Title;
+  String get changelog115Title;
 
-  /// No description provided for @changelog113Description.
+  /// No description provided for @changelog115Description.
   ///
   /// In en, this message translates to:
   /// **'If no loop end was set, the loop would play until the end of the song and consider the song end as the loop end. Audio background service will now stop when the app is closed.'**
-  String get changelog113Description;
+  String get changelog115Description;
 
   /// No description provided for @changelog110Title.
   ///
@@ -876,11 +954,17 @@ abstract class AppLocalizations {
   /// **'= One Pair of Drum Sticks for the Developer (one-time)'**
   String get onePairOfDrumSticks;
 
-  /// No description provided for @deleteAllData.
+  /// No description provided for @localData.
   ///
   /// In en, this message translates to:
-  /// **'Delete All Data'**
-  String get deleteAllData;
+  /// **'Local Data'**
+  String get localData;
+
+  /// No description provided for @deleteAllLocalData.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete All Local Data'**
+  String get deleteAllLocalData;
 
   /// No description provided for @deleteAllDataTitle.
   ///
@@ -953,6 +1037,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Loop Mode'**
   String get loopMode;
+
+  /// No description provided for @hours.
+  ///
+  /// In en, this message translates to:
+  /// **'Hours'**
+  String get hours;
+
+  /// No description provided for @minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Minutes'**
+  String get minutes;
+
+  /// No description provided for @seconds.
+  ///
+  /// In en, this message translates to:
+  /// **'Seconds'**
+  String get seconds;
+
+  /// No description provided for @milliseconds.
+  ///
+  /// In en, this message translates to:
+  /// **'Milliseconds'**
+  String get milliseconds;
+
+  /// No description provided for @deleteSongConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete \"{songTitle}\" and all attached loops?'**
+  String deleteSongConfirmation(String songTitle);
+
+  /// No description provided for @deleteSongConfirmationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Song'**
+  String get deleteSongConfirmationTitle;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @analytics.
+  ///
+  /// In en, this message translates to:
+  /// **'Analytics'**
+  String get analytics;
+
+  /// No description provided for @analyticsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'We use Microsoft Clarity to collect usage data and improve the app. This data is not shared with third parties.'**
+  String get analyticsDescription;
+
+  /// No description provided for @enterSongBpm.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Song BPM'**
+  String get enterSongBpm;
+
+  /// No description provided for @enterSongBpmDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the original BPM of the song to change the tempo. This is useful when practicing a song with a different tempo. The BPM will be assigned to the song and saved.'**
+  String get enterSongBpmDescription;
+
+  /// No description provided for @enterSongBpmHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. 120'**
+  String get enterSongBpmHint;
+
+  /// No description provided for @tapBpm.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap BPM'**
+  String get tapBpm;
+
+  /// No description provided for @tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the button below in rhythm with your music to detect the BPM.'**
+  String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm;
+
+  /// No description provided for @detectedBpm.
+  ///
+  /// In en, this message translates to:
+  /// **'Detected BPM'**
+  String get detectedBpm;
+
+  /// No description provided for @tapAtLeast2TimesToDetectBpm.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap at least 2 times to detect BPM'**
+  String get tapAtLeast2TimesToDetectBpm;
+
+  /// No description provided for @tap.
+  ///
+  /// In en, this message translates to:
+  /// **'TAP'**
+  String get tap;
+
+  /// No description provided for @taps.
+  ///
+  /// In en, this message translates to:
+  /// **'Taps'**
+  String get taps;
+
+  /// No description provided for @useBpm.
+  ///
+  /// In en, this message translates to:
+  /// **'Use BPM'**
+  String get useBpm;
+
+  /// No description provided for @reset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get reset;
+
+  /// No description provided for @speedControl.
+  ///
+  /// In en, this message translates to:
+  /// **'Speed Control'**
+  String get speedControl;
+
+  /// No description provided for @hereYouCanSetTheOriginalBpmOfTheAudioFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Here you can set the original BPM of the audio file.'**
+  String get hereYouCanSetTheOriginalBpmOfTheAudioFile;
+
+  /// No description provided for @setBpm.
+  ///
+  /// In en, this message translates to:
+  /// **'Set BPM'**
+  String get setBpm;
+
+  /// No description provided for @originalBpm.
+  ///
+  /// In en, this message translates to:
+  /// **'ORIGINAL BPM'**
+  String get originalBpm;
+
+  /// No description provided for @currentBpm.
+  ///
+  /// In en, this message translates to:
+  /// **'CURRENT BPM'**
+  String get currentBpm;
 }
 
 class _AppLocalizationsDelegate

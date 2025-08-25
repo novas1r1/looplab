@@ -136,10 +136,20 @@ class AppLocalizationsHi extends AppLocalizations {
       'हम आपकी गोपनीयता का सम्मान करते हैं और आपके डेटा को सावधानी से संभालते हैं। कृपया आगे बढ़ने के लिए गोपनीयता नीति की समीक्षा करें और सहमत हों।';
 
   @override
-  String get onboardingPrivacyPolicy => 'मैं सहमत हूं';
+  String get onboardingIAccept => 'मैं स्वीकार करता हूं';
 
   @override
   String get onboardingPrivacyPolicyLink => 'गोपनीयता नीति';
+
+  @override
+  String get onboardingTermsOfServiceLink => 'नियम और शर्तें';
+
+  @override
+  String get and => 'और';
+
+  @override
+  String get onboardingIAcceptUsageStatistics =>
+      'मैं उपयोग आँकड़ों को साझा करने के लिए स्वीकार करता हूं';
 
   @override
   String get onboardingGetStarted => 'शुरू करें';
@@ -183,13 +193,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get endTime => 'समाप्ति समय';
 
   @override
-  String get delete => 'हटाएं';
-
-  @override
   String get save => 'सहेजें';
 
   @override
-  String get invalidFormat => 'अमान्य प्रारूप (mm:ss:ms)';
+  String get invalidFormat => 'अमान्य प्रारूप (mm:ss.sss)';
 
   @override
   String get startCannotBeAfterEnd =>
@@ -225,7 +232,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get premiumFeatureUnlimitedLoops => 'असीमित लूप';
 
   @override
-  String get premiumFeatureChangeMusicSpeed => 'संगीत की गति बदलें';
+  String get premiumFeatureChangeMusicSpeed => 'गति नियंत्रण (BPM/गुणक)';
 
   @override
   String get premiumFeatureZoomInOut => 'वेवफॉर्म ज़ूम इन/आउट';
@@ -289,6 +296,9 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get deleteSongLoopsDescription =>
       'क्या आप वाकई इस गीत और इससे जुड़े सभी लूपों को हटाना चाहते हैं? इस क्रिया को पूर्ववत नहीं किया जा सकता।';
+
+  @override
+  String get delete => 'हटाएं';
 
   @override
   String get cancel => 'रद्द करें';
@@ -367,10 +377,46 @@ class AppLocalizationsHi extends AppLocalizations {
   String get changelogTitle => 'परिवर्तन लॉग';
 
   @override
-  String get changelog113Title => 'कई बग फिक्स';
+  String get changelog130Title => 'BPM आधारित गति बदलें';
 
   @override
-  String get changelog113Description =>
+  String get changelog130Description =>
+      'अब आप गीत की गति को BPM आधारित रूप से बदल सकते हैं। यह गति को अधिक सटीकता से समायोजित करने की अनुमति देता है। इसके अलावा, गति को अब एक बटन का उपयोग करके रीसेट किया जा सकता है।';
+
+  @override
+  String get changelog1201Title =>
+      '1/4 ऑडियो फाइलों के लिए मीडिया डेटा जोड़ा गया';
+
+  @override
+  String get changelog1201Description =>
+      'अब ऐप ऑडियो फाइलों के लिए मीडिया डेटा दिखाता है। इसमें शीर्षक और कलाकार शामिल हैं।';
+
+  @override
+  String get changelog1202Title => '2/4 m4a को mp3 में कनवर्ट करें';
+
+  @override
+  String get changelog1202Description =>
+      'अब ऐप ऑडियो फाइलों के लिए मीडिया डेटा दिखाता है। इसमें शीर्षक और कलाकार शामिल हैं।';
+
+  @override
+  String get changelog1203Title => '3/4 एकल गीत हटाएं';
+
+  @override
+  String get changelog1203Description =>
+      'अब आप एक गीत को बाएं से खींचकर और \'गीत हटाएं\' टैप करके हटा सकते हैं। इससे गीत और सभी जुड़े लूप हट जाएंगे।';
+
+  @override
+  String get changelog1204Title => '4/4 ऑडियो प्रारूम बदल दिया गया';
+
+  @override
+  String get changelog1204Description =>
+      'ऑडियो प्रारूम में मानक प्रारूप में बदल दिया गया और लूप अब अधिक सटीकता से संपादित किए जा सकते हैं।';
+
+  @override
+  String get changelog115Title => 'कई बग फिक्स';
+
+  @override
+  String get changelog115Description =>
       'यदि लूप समाप्ति सेट नहीं की गई थी, तो लूप गीत के अंत तक चलता और गीत का अंत लूप समाप्ति के रूप में माना जाता। अब ऐप बंद होने पर बैकग्राउंड ऑडियो सेवा बंद हो जाएगी।';
 
   @override
@@ -429,7 +475,10 @@ class AppLocalizationsHi extends AppLocalizations {
       '= डेवलपर के लिए एक जोड़ी ड्रम स्टिक्स (एक बार)';
 
   @override
-  String get deleteAllData => 'सभी डेटा हटाएं';
+  String get localData => 'स्थानीय डेटा';
+
+  @override
+  String get deleteAllLocalData => 'सभी स्थानीय डेटा हटाएं';
 
   @override
   String get deleteAllDataTitle => 'सभी डेटा, गीत और लूप हटाएं';
@@ -468,4 +517,86 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get loopMode => 'लूप मोड';
+
+  @override
+  String get hours => 'घंटे';
+
+  @override
+  String get minutes => 'मिनट';
+
+  @override
+  String get seconds => 'सेकंड';
+
+  @override
+  String get milliseconds => 'मिलीसेकंड';
+
+  @override
+  String deleteSongConfirmation(String songTitle) {
+    return 'क्या आप वाकई \"$songTitle\" और सभी जुड़े लूप हटाना चाहते हैं?';
+  }
+
+  @override
+  String get deleteSongConfirmationTitle => 'गीत हटाएं';
+
+  @override
+  String get settings => 'सेटिंग्स';
+
+  @override
+  String get analytics => 'विश्लेषण';
+
+  @override
+  String get analyticsDescription =>
+      'हम माइक्रोसॉफ्ट क्लैरिटी का उपयोग करके उपयोग डेटा एकत्र करते हैं और ऐप को सुधारते हैं। इस डेटा को तीसरे पक्षों के साथ साझा नहीं किया जाता है।';
+
+  @override
+  String get enterSongBpm => 'गीत का BPM दर दर्ज करें';
+
+  @override
+  String get enterSongBpmDescription =>
+      'गीत का मूल BPM दर्ज करके गति बदलें। यह अलग गति के साथ गीत अभ्यास करने में सहायक है। BPM गीत से संबंधित होगा और सहेजा जाएगा।';
+
+  @override
+  String get enterSongBpmHint => 'उदाहरण के लिए, 120';
+
+  @override
+  String get tapBpm => 'BPM टैप करें';
+
+  @override
+  String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
+      'अपनी संगीत के साथ इस बटन को आगामी में टैप करके BPM का पता लगाएं।';
+
+  @override
+  String get detectedBpm => 'दर्ज किए गए BPM';
+
+  @override
+  String get tapAtLeast2TimesToDetectBpm =>
+      'BPM का पता लगाने के लिए कम से कम 2 बार टैप करें';
+
+  @override
+  String get tap => 'टैप';
+
+  @override
+  String get taps => 'टैप';
+
+  @override
+  String get useBpm => 'BPM का उपयोग करें';
+
+  @override
+  String get reset => 'रीसेट';
+
+  @override
+  String get speedControl => 'स्पीड कंट्रोल';
+
+  @override
+  String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
+      'आप यहां ऑडियो फ़ाइल का मूल BPM सेट कर सकते हैं।';
+
+  @override
+  String get setBpm => 'BPM सेट करें';
+
+  @override
+  String get originalBpm => 'मूल BPM';
+
+  @override
+  String get currentBpm => 'वर्तमान BPM';
 }

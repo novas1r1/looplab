@@ -5,13 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:repeatlab/core/app_constants.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
-import 'package:repeatlab/core/utils/dialog_helper.dart';
-import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/purchases_repository.dart';
 import 'package:repeatlab/features/changelog_dialog/changelog_dialog.dart';
-import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
 import 'package:repeatlab/features/home/dataprotection_page.dart';
 import 'package:repeatlab/features/home/legal_notices_page.dart';
+import 'package:repeatlab/features/home/settings_page.dart';
+import 'package:repeatlab/features/home/terms_of_service_page.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/paywall/premium_screen.dart';
 import 'package:repeatlab/l10n/l10n.dart';
@@ -60,7 +59,12 @@ class CustomDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.newspaper),
-            title: Text(context.l10n.whatsNew),
+            title: Text(
+              context.l10n.whatsNew,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+            ),
             onTap: () async {
               AppAnalytics.trackEvent(AppAnalytics.viewChangelogDialog);
 
@@ -84,6 +88,7 @@ class CustomDrawer extends StatelessWidget {
               context.l10n.userSettings,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w300,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
           ),
@@ -116,10 +121,11 @@ class CustomDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.delete_forever),
-            title: Text(context.l10n.deleteAllData),
-            onTap: () => _onDeleteAllData(context),
+            leading: const Icon(Icons.settings),
+            title: Text(context.l10n.settings),
+            onTap: () => _onSettings(context),
           ),
+
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
@@ -160,6 +166,19 @@ class CustomDrawer extends StatelessWidget {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => const DataprotectionPage(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.security),
+            title: Text(context.l10n.terms),
+            onTap: () {
+              Navigator.pop(context);
+
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const TermsOfServicePage(),
                 ),
               );
             },
@@ -237,45 +256,6 @@ class CustomDrawer extends StatelessWidget {
     } */
   }
 
-  Future<void> _onDeleteAllData(BuildContext context) async {
-    AppAnalytics.trackEvent(AppAnalytics.clickDeleteAllData);
-
-    // show confirmation dialog
-    final result = await DialogHelper.displayDeleteDialog(
-      context,
-      title: context.l10n.deleteAllDataTitle,
-      message: context.l10n.deleteAllDataMessage,
-    );
-
-    if (result == null || !result || !context.mounted) return;
-
-    bool success = false;
-
-    success = await context.read<AllSongsCubit>().clearDb();
-
-    // clear local config
-    if (context.mounted) {
-      success = await context.read<LocalConfigRepository>().clear();
-    }
-
-    Navigator.pop(context);
-
-    if (success) {
-      // show success dialog
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(context.l10n.deleteAllDataSuccess),
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(context.l10n.deleteAllDataError),
-        ),
-      );
-    }
-  }
-
   void _onVoteForFeatures(BuildContext context) {
     final appVersion = context.read<PackageInfo>().version;
     final buildNumber = context.read<PackageInfo>().buildNumber;
@@ -291,5 +271,13 @@ class CustomDrawer extends StatelessWidget {
       },
     );
     UserOrient.openBoard(context);
+  }
+
+  void _onSettings(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const SettingsPage(),
+      ),
+    );
   }
 }

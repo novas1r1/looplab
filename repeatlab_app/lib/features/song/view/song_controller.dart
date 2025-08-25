@@ -1,39 +1,17 @@
-import 'dart:async';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
-import 'package:repeatlab/data/models/loop.dart';
-import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
-import 'package:repeatlab/features/paywall/premium_screen.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
+import 'package:repeatlab/features/song/view/speed_control.dart';
 
 class SongController extends StatelessWidget {
-  final Duration currentPlayerPosition;
-  final Duration songDuration;
-  final bool isLoopModeEnabled;
-  final Loop? activeLoop;
-  final double speed;
-
   const SongController({
-    required this.currentPlayerPosition,
-    required this.isLoopModeEnabled,
-    required this.activeLoop,
-    required this.songDuration,
-    required this.speed,
     required super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    final playerState = context.watch<SongCubit>().state.playerState;
-    final isPaused =
-        playerState == PlayerState.paused ||
-        playerState == null ||
-        playerState == PlayerState.stopped;
-
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -47,8 +25,15 @@ class SongController extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: Text(
-                  currentPlayerPosition.toFormattedString(),
+                child: StreamBuilder<Duration>(
+                  stream: context.read<SongCubit>().positionStream,
+                  initialData: Duration.zero,
+                  builder: (BuildContext context, AsyncSnapshot<Duration> snapshot) {
+                    if (snapshot.hasData) {
+                      return Text(snapshot.data!.toFormattedString());
+                    }
+                    return const SizedBox.shrink();
+                  },
                 ),
               ),
               IconButton(
@@ -56,12 +41,19 @@ class SongController extends StatelessWidget {
                 icon: const Icon(Icons.replay_10_rounded),
               ),
               const SizedBox(width: 8),
-              IconButton(
-                iconSize: 36,
-                onPressed: () => _onTapPlay(context),
-                icon: Icon(
-                  isPaused ? Icons.play_arrow_rounded : Icons.pause_rounded,
-                ),
+              BlocSelector<SongCubit, SongState, PlayerState?>(
+                selector: (state) => state.playerState,
+                builder: (context, playerState) {
+                  return IconButton(
+                    iconSize: 36,
+                    onPressed: () => _onTapPlay(context),
+                    icon: Icon(
+                      playerState == PlayerState.playing
+                          ? Icons.pause_rounded
+                          : Icons.play_arrow_rounded,
+                    ),
+                  );
+                },
               ),
               const SizedBox(width: 8),
               IconButton(
@@ -71,8 +63,9 @@ class SongController extends StatelessWidget {
               Expanded(
                 child: Align(
                   alignment: Alignment.centerRight,
-                  child: Text(
-                    songDuration.toFormattedString(),
+                  child: BlocSelector<SongCubit, SongState, Duration>(
+                    selector: (state) => state.song.duration,
+                    builder: (context, duration) => Text(duration.toFormattedString()),
                   ),
                 ),
               ),
@@ -80,57 +73,28 @@ class SongController extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.secondaryContainer,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Row(
-            children: [
-              const Icon(Icons.speed),
-              Expanded(
-                child: Slider(
-                  value: speed,
-                  min: 0.5,
-                  max: 2.0,
-                  divisions: 15,
-                  label: '${speed.toStringAsFixed(1)}x',
-                  onChanged: (value) => _onUpdateSpeed(context, value),
-                ),
-              ),
-              Text('${speed.toStringAsFixed(1)}x'),
-            ],
-          ),
+        SpeedControl(
+          onSpeedMultiplierChanged: (value) =>
+              context.read<SongCubit>().updateSpeed(multiplier: value),
+          onOriginalBpmChanged: (value) => context.read<SongCubit>().updateOriginalBpm(value),
+          onCurrentBpmChanged: (value) => context.read<SongCubit>().updateSpeed(bpm: value),
+          onTempoModeChanged: (value) {
+            // TODO check if needed
+          },
+          song: context.read<SongCubit>().state.song,
         ),
       ],
     );
   }
 
   void _onTapPlay(BuildContext context) {
-    if (isLoopModeEnabled) {
-      context.read<SongCubit>().togglePlayLoop(activeLoop!);
+    if (context.read<SongCubit>().state.isLoopModeEnabled) {
+      final activeLoop = context.read<SongCubit>().state.activeLoop;
+      if (activeLoop != null) {
+        context.read<SongCubit>().togglePlayLoop(activeLoop);
+      }
     } else {
       context.read<SongCubit>().togglePlaySong();
-    }
-  }
-
-  Future<void> _onUpdateSpeed(BuildContext context, double value) async {
-    AppAnalytics.trackEvent(AppAnalytics.clickUpdateSpeed, data: {'speed': value});
-
-    final hasPurchased = context.read<PremiumSubscriptionCubit>().hasPremium;
-
-    if (!context.mounted) return;
-
-    if (hasPurchased) {
-      context.read<SongCubit>().updateSpeed(value);
-    } else {
-      AppAnalytics.trackEvent(AppAnalytics.showPaywallSongSpeed);
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => const PremiumScreen(),
-        ),
-      );
     }
   }
 }

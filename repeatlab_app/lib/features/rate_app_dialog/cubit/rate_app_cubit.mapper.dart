@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format off
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, unnecessary_cast, override_on_non_overriding_member
 // ignore_for_file: strict_raw_type, inference_failure_on_untyped_parameter
@@ -113,11 +114,15 @@ class RateAppStateMapper extends ClassMapperBase<RateAppState> {
 
 mixin RateAppStateMappable {
   String toJson() {
-    return RateAppStateMapper.ensureInitialized().encodeJson<RateAppState>(this as RateAppState);
+    return RateAppStateMapper.ensureInitialized().encodeJson<RateAppState>(
+      this as RateAppState,
+    );
   }
 
   Map<String, dynamic> toMap() {
-    return RateAppStateMapper.ensureInitialized().encodeMap<RateAppState>(this as RateAppState);
+    return RateAppStateMapper.ensureInitialized().encodeMap<RateAppState>(
+      this as RateAppState,
+    );
   }
 
   RateAppStateCopyWith<RateAppState, RateAppState, RateAppState> get copyWith =>
@@ -128,21 +133,29 @@ mixin RateAppStateMappable {
       );
   @override
   String toString() {
-    return RateAppStateMapper.ensureInitialized().stringifyValue(this as RateAppState);
+    return RateAppStateMapper.ensureInitialized().stringifyValue(
+      this as RateAppState,
+    );
   }
 
   @override
   bool operator ==(Object other) {
-    return RateAppStateMapper.ensureInitialized().equalsValue(this as RateAppState, other);
+    return RateAppStateMapper.ensureInitialized().equalsValue(
+      this as RateAppState,
+      other,
+    );
   }
 
   @override
   int get hashCode {
-    return RateAppStateMapper.ensureInitialized().hashValue(this as RateAppState);
+    return RateAppStateMapper.ensureInitialized().hashValue(
+      this as RateAppState,
+    );
   }
 }
 
-extension RateAppStateValueCopy<$R, $Out> on ObjectCopyWith<$R, RateAppState, $Out> {
+extension RateAppStateValueCopy<$R, $Out>
+    on ObjectCopyWith<$R, RateAppState, $Out> {
   RateAppStateCopyWith<$R, RateAppState, $Out> get $asRateAppState =>
       $base.as((v, t, t2) => _RateAppStateCopyWithImpl<$R, $Out>(v, t, t2));
 }
@@ -153,12 +166,14 @@ abstract class RateAppStateCopyWith<$R, $In extends RateAppState, $Out>
   RateAppStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
-class _RateAppStateCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, RateAppState, $Out>
+class _RateAppStateCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, RateAppState, $Out>
     implements RateAppStateCopyWith<$R, RateAppState, $Out> {
   _RateAppStateCopyWithImpl(super.value, super.then, super.then2);
 
   @override
-  late final ClassMapperBase<RateAppState> $mapper = RateAppStateMapper.ensureInitialized();
+  late final ClassMapperBase<RateAppState> $mapper =
+      RateAppStateMapper.ensureInitialized();
   @override
   $R call({RateAppStatus? status, bool? shouldShowDialog}) => $apply(
     FieldCopyWithData({
@@ -173,6 +188,8 @@ class _RateAppStateCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, RateAppS
   );
 
   @override
-  RateAppStateCopyWith<$R2, RateAppState, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
-      _RateAppStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
+  RateAppStateCopyWith<$R2, RateAppState, $Out2> $chain<$R2, $Out2>(
+    Then<$Out2, $R2> t,
+  ) => _RateAppStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
+

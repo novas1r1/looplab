@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/widgets/loading.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
+import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/core/utils/dialog_helper.dart';
 import 'package:repeatlab/core/utils/snackbar_helper.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
@@ -130,7 +131,10 @@ class _HomePageState extends State<HomePage> {
           heroTag: 'addSong',
           onPressed: () => _onAddSong(context, songCount),
           icon: const Icon(Icons.add),
-          label: Text(context.l10n.addSong),
+          label: Text(
+            context.l10n.addSong,
+            style: context.bodyLargeDarkBold,
+          ),
         ),
       ),
     );

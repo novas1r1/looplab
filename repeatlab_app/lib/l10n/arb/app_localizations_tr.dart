@@ -67,14 +67,14 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get legalBasisForProcessingDescription =>
-      'Verilerinizi aşağıdaki yasal temeller üzerinde işliyoruz:\n\n• Wiredash ve uygulama analitiği aracılığıyla geri bildirim vermek için onayınız.\n• RevenueCat aracılığıyla ödeme ve abonelik yönetimi için sözleşmenin yerine getirilmesi.\n• Sentry ile çökme raporlaması aracılığıyla uygulamanın etkili çalışmasını sağlamak için meşru menfaatimiz.';
+      'Verilerinizi aşağıdaki yasal temeller üzerinde işliyoruz:\n\n• Wiredash ve uygulama analitiği aracılığıyla geri bildirim vermek için onayınız.\n• RevenueCat aracılığıyla ödeme ve abonelik yönetimi için sözleşmenin yerine getirilmesi.\n• Sentry ile çökme raporlaması aracılığıyla uygulamanın etkili çalışmasını sağlamak için meşru menfaatimiz.\n• Microsoft Clarity ile kullanıcı deneyimini iyileştirmek için meşru menfaatimiz.';
 
   @override
   String get howWeUseYourInformation => 'Bilgilerinizi Nasıl Kullanıyoruz';
 
   @override
   String get howWeUseYourInformationDescription =>
-      'Topladığımız bilgileri aşağıdaki amaçlar için kullanıyoruz:\n\n• RevenueCat aracılığıyla uygulama içi satın alma ve abonelikleri işlemek için.\n• Wiredash kullanarak geri bildirim toplamak ve uygulamayı iyileştirmek için.\n• Sentry\'den çökme kayıtlarını kullanarak sorunları izlemek ve çözmek için.\n• Kullanıcı deneyimini iyileştirmek ve uygulama özelliklerini geliştirmek için.';
+      'Topladığımız bilgileri aşağıdaki amaçlar için kullanıyoruz:\n\n• RevenueCat aracılığıyla uygulama içi satın alma ve abonelikleri işlemek için.\n• Wiredash kullanarak geri bildirim toplamak ve uygulamayı iyileştirmek için.\n• Sentry\'den çökme kayıtlarını kullanarak sorunları izlemek ve çözmek için.\n• Kullanıcı deneyimini iyileştirmek ve uygulama özelliklerini geliştirmek için.\n• Microsoft Clarity ile kullanıcı deneyimini iyileştirmek için.';
 
   @override
   String get yourRights => 'Haklarınız';
@@ -88,7 +88,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get thirdPartyServicesDescription =>
-      'Uygulamamızı geliştirmek için üçüncü taraf hizmetlerini kullanıyoruz:\n\n• Wiredash: Kullanıcı geri bildirimi toplamak için kullanılır.\n• RevenueCat: Uygulama içi satın alma ve abonelikleri işlemek için kullanılır.\n• Sentry: Hata izleme ve çökme raporlaması için kullanılır.';
+      'Uygulamamızı geliştirmek için üçüncü taraf hizmetlerini kullanıyoruz:\n\n• Wiredash: Kullanıcı geri bildirimi toplamak için kullanılır.\n• RevenueCat: Uygulama içi satın alma ve abonelikleri işlemek için kullanılır.\n• Sentry: Hata izleme ve çökme raporlaması için kullanılır.\n• Microsoft Clarity: Kullanıcı deneyimini iyileştirmek için kullanılır.';
 
   @override
   String get contactUs => 'Bize Ulaşın';
@@ -135,10 +135,20 @@ class AppLocalizationsTr extends AppLocalizations {
       'Gizliliğinize saygı duyuyor ve verilerinizi dikkatle işliyoruz. Lütfen devam etmek için gizlilik politikasını gözden geçirin ve onaylayın.';
 
   @override
-  String get onboardingPrivacyPolicy => 'Kabul Ediyorum';
+  String get onboardingIAccept => 'Kabul Ediyorum';
 
   @override
   String get onboardingPrivacyPolicyLink => 'Gizlilik Politikası';
+
+  @override
+  String get onboardingTermsOfServiceLink => 'Gizlilik Politikası';
+
+  @override
+  String get and => 've';
+
+  @override
+  String get onboardingIAcceptUsageStatistics =>
+      'verilerimizi analiz ve hata raporları için kullanmak için onaylıyorum.';
 
   @override
   String get onboardingGetStarted => 'Başla';
@@ -182,13 +192,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get endTime => 'Bitiş Zamanı';
 
   @override
-  String get delete => 'Sil';
-
-  @override
   String get save => 'Kaydet';
 
   @override
-  String get invalidFormat => 'Geçersiz format (mm:ss:ms)';
+  String get invalidFormat => 'Geçersiz format (mm:ss.sss)';
 
   @override
   String get startCannotBeAfterEnd =>
@@ -224,7 +231,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get premiumFeatureUnlimitedLoops => 'Sınırsız döngüler';
 
   @override
-  String get premiumFeatureChangeMusicSpeed => 'Müzik hızını değiştir';
+  String get premiumFeatureChangeMusicSpeed => 'Hız Kontrolü (BPM/Çarpan)';
 
   @override
   String get premiumFeatureZoomInOut => 'Dalga formunu yakınlaştır/uzaklaştır';
@@ -290,6 +297,9 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get deleteSongLoopsDescription =>
       'Bu şarkıyı ve ilişkili tüm döngüleri silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.';
+
+  @override
+  String get delete => 'Sil';
 
   @override
   String get cancel => 'İptal';
@@ -369,10 +379,45 @@ class AppLocalizationsTr extends AppLocalizations {
   String get changelogTitle => 'Değişiklik Günlüğü';
 
   @override
-  String get changelog113Title => 'Birkaç hata düzeltmesi';
+  String get changelog130Title => 'BPM\'ye göre tempo değiştirme';
 
   @override
-  String get changelog113Description =>
+  String get changelog130Description =>
+      'Şimdi BPM\'ye göre şarkının tempo\'unu değiştirebilirsiniz. Bu, tempo\'yu daha hassas ayarlamanıza olanak tanır. Ayrıca, tempo\'yu artık bir düğme ile sıfırlayabilirsiniz.';
+
+  @override
+  String get changelog1201Title => '1/4 Şarkı bilgileri eklendi';
+
+  @override
+  String get changelog1201Description =>
+      'Şarkı bilgileri eklendi. Şarkı adı ve sanatçı görüntülenecek.';
+
+  @override
+  String get changelog1202Title => '2/4 m4a formatı değiştirildi';
+
+  @override
+  String get changelog1202Description =>
+      'm4a formatı değiştirildi. Şarkı bilgileri eklendi. Şarkı adı ve sanatçı görüntülenecek.';
+
+  @override
+  String get changelog1203Title => '3/4 Şarkı silme özelliği eklendi';
+
+  @override
+  String get changelog1203Description =>
+      'Şarkı silme özelliği eklendi. Şarkı silme özelliği eklendi. Şarkı adı ve sanatçı görüntülenecek.';
+
+  @override
+  String get changelog1204Title => '4/4 Ses formatı değiştirildi';
+
+  @override
+  String get changelog1204Description =>
+      'Ses formatı daha standart bir format olarak değiştirildi ve döngüler daha hassas şekilde düzenlenebilir.';
+
+  @override
+  String get changelog115Title => 'Birkaç hata düzeltmesi';
+
+  @override
+  String get changelog115Description =>
       'Döngü bitişi ayarlanmamışsa, döngü şarkının sonuna kadar çalacak ve şarkının sonu döngü bitişi olarak kabul edilecekti. Artık uygulama kapatıldığında arka plan ses servisi duracak.';
 
   @override
@@ -431,7 +476,10 @@ class AppLocalizationsTr extends AppLocalizations {
       '= Geliştirici için bir çift davul çubuğu (bir kez)';
 
   @override
-  String get deleteAllData => 'Tüm verileri sil';
+  String get localData => 'Yerel Veriler';
+
+  @override
+  String get deleteAllLocalData => 'Tüm yerel verileri sil';
 
   @override
   String get deleteAllDataTitle => 'Tüm verileri, şarkıları ve döngüleri sil';
@@ -470,4 +518,86 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get loopMode => 'Döngü Modu';
+
+  @override
+  String get hours => 'Saat';
+
+  @override
+  String get minutes => 'Dakika';
+
+  @override
+  String get seconds => 'Saniye';
+
+  @override
+  String get milliseconds => 'Milisaniye';
+
+  @override
+  String deleteSongConfirmation(String songTitle) {
+    return '\"$songTitle\" ve tüm ilişkili döngüleri silmek istediğinizden emin misiniz?';
+  }
+
+  @override
+  String get deleteSongConfirmationTitle => 'Şarkıyı Sil';
+
+  @override
+  String get settings => 'Ayarlar';
+
+  @override
+  String get analytics => 'Analytics';
+
+  @override
+  String get analyticsDescription =>
+      'Microsoft Clarity kullanarak kullanım verilerini topluyor ve uygulamayı iyileştiriyoruz. Bu veriler üçüncü taraflarla paylaşılmaz.';
+
+  @override
+  String get enterSongBpm => 'Şarkı BPM\'sini girin';
+
+  @override
+  String get enterSongBpmDescription =>
+      'Şarkının orijinal BPM\'sini girin ve tempo\'yu değiştirin. Bu, farklı bir tempo ile şarkıyı çalarken yararlıdır. BPM şarkıya atanır ve kaydedilir.';
+
+  @override
+  String get enterSongBpmHint => 'örn. 120';
+
+  @override
+  String get tapBpm => 'BPM\'yi tıkla';
+
+  @override
+  String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
+      'BPM\'yi tespit etmek için aşağıdaki düğmeyi müzikle aynı ritmde tıklayın.';
+
+  @override
+  String get detectedBpm => 'Tespit Edilen BPM';
+
+  @override
+  String get tapAtLeast2TimesToDetectBpm =>
+      'BPM\'yi tespit etmek için en az 2 kez tıklayın';
+
+  @override
+  String get tap => 'TAP';
+
+  @override
+  String get taps => 'TAP';
+
+  @override
+  String get useBpm => 'BPM\'yi kullan';
+
+  @override
+  String get reset => 'Sıfırla';
+
+  @override
+  String get speedControl => 'Hız Kontrolü';
+
+  @override
+  String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
+      'Burada ses dosyasının orijinal BPM\'sini ayarlayabilirsiniz.';
+
+  @override
+  String get setBpm => 'BPM\'yi ayarla';
+
+  @override
+  String get originalBpm => 'Orijinal BPM';
+
+  @override
+  String get currentBpm => 'Mevcut BPM';
 }
