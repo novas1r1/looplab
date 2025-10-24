@@ -4,7 +4,7 @@ version: 1.3.7+55
 publish_to: none
 
 environment:
-  flutter: 3.32.8
+  flutter: 3.35.4
   sdk: ^3.8.1
 
 dependencies:
@@ -14,7 +14,7 @@ dependencies:
   audio_service: ^0.18.18
   audio_session: ^0.2.2
   # audioplayers: ^6.4.0
-  audioplayers: ^6.5.0
+  audioplayers: ^6.5.1
 
   # audiotags:
   #   git:

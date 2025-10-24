@@ -330,8 +330,6 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
     // Seek to position
     _seekOperation = CancelableOperation.fromFuture(audioPlayer.seek(newPosition));
     await _seekOperation?.valueOrCancellation();
-
-    await audioPlayer.seek(newPosition);
   }
 
   @override

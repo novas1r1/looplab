@@ -1,0 +1,34 @@
+# Android signing files
+android/key.properties
+android/*.jks
+android/*.keystore
+
+# Environment files
+.env
+.env.*
+*.env
+
+# Secrets and configuration
+google-services.json
+GoogleService-Info.plist
+
+# Build outputs
+build/
+.dart_tool/
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+flutter_*.log
+
+# Temporary files
+*.tmp
+*.temp
