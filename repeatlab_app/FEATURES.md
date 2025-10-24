@@ -5,7 +5,7 @@
 ## 🎵 Core Audio Features
 
 ### Audio File Support
-- **Supported Formats**: MP3, WAV, M4A, OGG, FLAC
+- **Supported Formats**: MP3, WAV, M4A, OGG, FLAC (audio_player) vs. MP3, WAV, OGG, and FLAC (flutter_soloud)
 - **Automatic Conversion**: M4A files are automatically converted to MP3 for compatibility
 - **Metadata Reading**: Displays audio file metadata including title and artist information
 - **Unlimited Songs**: Add as many audio files as you want to your library
