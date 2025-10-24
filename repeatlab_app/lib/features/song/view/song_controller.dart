@@ -1,7 +1,7 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
+import 'package:repeatlab/data/models/soloud_player_state.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/features/song/view/speed_control.dart';
 
@@ -41,14 +41,14 @@ class SongController extends StatelessWidget {
                 icon: const Icon(Icons.replay_10_rounded),
               ),
               const SizedBox(width: 8),
-              BlocSelector<SongCubit, SongState, PlayerState?>(
+              BlocSelector<SongCubit, SongState, SoLoudPlayerState?>(
                 selector: (state) => state.playerState,
                 builder: (context, playerState) {
                   return IconButton(
                     iconSize: 36,
                     onPressed: () => _onTapPlay(context),
                     icon: Icon(
-                      playerState == PlayerState.playing
+                      playerState == SoLoudPlayerState.playing
                           ? Icons.pause_rounded
                           : Icons.play_arrow_rounded,
                     ),

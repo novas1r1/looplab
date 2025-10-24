@@ -144,8 +144,8 @@ class SongStateMapper extends ClassMapperBase<SongState> {
     opt: true,
     def: false,
   );
-  static PlayerState? _$playerState(SongState v) => v.playerState;
-  static const Field<SongState, PlayerState> _f$playerState = Field(
+  static SoLoudPlayerState? _$playerState(SongState v) => v.playerState;
+  static const Field<SongState, SoLoudPlayerState> _f$playerState = Field(
     'playerState',
     _$playerState,
     opt: true,
@@ -245,7 +245,7 @@ abstract class SongStateCopyWith<$R, $In extends SongState, $Out>
     Loop? activeLoop,
     bool? isLoopModeEnabled,
     bool? isTutorialCompleted,
-    PlayerState? playerState,
+    SoLoudPlayerState? playerState,
   });
   SongStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }

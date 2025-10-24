@@ -14,7 +14,7 @@ dependencies:
   audio_service: ^0.18.18
   audio_session: ^0.2.2
   # audioplayers: ^6.4.0
-  audioplayers: ^6.5.1
+  # audioplayers: ^6.5.1
 
   # audiotags:
   #   git:

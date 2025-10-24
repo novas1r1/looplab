@@ -3,19 +3,18 @@
 import 'dart:async';
 import 'dart:developer' as dev;
 import 'dart:io';
-import 'dart:math';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:repeatlab/core/utils/cubit_extension.dart';
 import 'package:repeatlab/data/models/loop.dart';
+import 'package:repeatlab/data/models/soloud_player_state.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
-import 'package:repeatlab/data/services/audio_service_provider.dart';
-import 'package:repeatlab/data/services/repeatlab_audioplayers_service_handler.dart';
+import 'package:repeatlab/data/services/soloud_audio_service_handler.dart';
 
 // part 'song_cubit.mapper.dart';
 part 'song_cubit.mapper.dart';
@@ -28,12 +27,12 @@ class SongCubit extends Cubit<SongState> {
   final LocalConfigRepository localConfigRepository;
   final CrashReportingRepository crashReportingRepository;
 
-  // audio player subscriptions
-  late final RepeatlabAudioplayersServiceHandler audioHandler;
+  // audio service handler
+  late final SoLoudAudioServiceHandler audioHandler;
   StreamSubscription<List<Song>>? _songSubscription;
 
-  Stream<PlayerState>? playerStateStream;
-  StreamSubscription<PlayerState>? _playerStateSubscription;
+  Stream<bool>? playerStateStream;
+  StreamSubscription<bool>? _playerStateSubscription;
 
   Stream<Duration>? positionStream;
   StreamSubscription<Duration>? _positionSubscription;
@@ -64,7 +63,7 @@ class SongCubit extends Cubit<SongState> {
 
   @override
   Future<void> close() async {
-    if (state.playerState == PlayerState.playing) {
+    if (state.playerState == SoLoudPlayerState.playing) {
       await stopSong();
     }
 
@@ -78,7 +77,7 @@ class SongCubit extends Cubit<SongState> {
     return super.close();
   }
 
-  Future<void> initSong(AudioPlayer audioPlayer) async {
+  Future<void> initSong(SoLoud soloud) async {
     emit(state.copyWith(status: SongStatus.loading));
 
     try {
@@ -87,13 +86,16 @@ class SongCubit extends Cubit<SongState> {
       await _positionSubscription?.cancel();
       await _durationSubscription?.cancel();
 
-      // Initialize audio handler first
-      audioHandler = await AudioServiceProvider.init(audioPlayer);
+      // Initialize SoLoud audio handler
+      audioHandler = SoLoudAudioServiceHandler(soloud: soloud);
 
       // Initialize subscriptions before any other operations
       playerStateStream = audioHandler.playerStateStream;
-      _playerStateSubscription = playerStateStream?.listen((playerState) {
-        if (playerState == PlayerState.completed) {
+      _playerStateSubscription = playerStateStream?.listen((isPlaying) {
+        final playerState = isPlaying ? SoLoudPlayerState.playing : SoLoudPlayerState.paused;
+
+        if (!isPlaying && state.playerState == SoLoudPlayerState.playing) {
+          // Playback ended
           stopSong();
         }
 
@@ -162,7 +164,7 @@ class SongCubit extends Cubit<SongState> {
           status: SongStatus.loadSuccess,
           song: state.song,
           isTutorialCompleted: isTutorialCompleted,
-          playerState: PlayerState.paused,
+          playerState: SoLoudPlayerState.paused,
           error: null,
         ),
       );
@@ -190,13 +192,13 @@ class SongCubit extends Cubit<SongState> {
     try {
       // If audio handler is available, use it for background playback
       switch (state.playerState) {
-        case PlayerState.paused:
+        case SoLoudPlayerState.paused:
           await audioHandler.resume();
-        case PlayerState.playing:
+        case SoLoudPlayerState.playing:
           await audioHandler.pause();
-        case PlayerState.stopped:
-        case PlayerState.completed:
-        case PlayerState.disposed:
+        case SoLoudPlayerState.stopped:
+        case SoLoudPlayerState.completed:
+        case SoLoudPlayerState.disposed:
           // Reinitialize the audio handler if it's in a bad state
           await audioHandler.playSong(state.song);
         case null:
@@ -409,7 +411,7 @@ class SongCubit extends Cubit<SongState> {
       // Use audio service for background playback with loop
       audioHandler.customAction('enableLoop', {'loop': updatedLoop});
 
-      if (state.playerState != PlayerState.playing) {
+      if (state.playerState != SoLoudPlayerState.playing) {
         await audioHandler.play();
 
         final currentPosition = await position;
@@ -807,11 +809,8 @@ class SongCubit extends Cubit<SongState> {
 
   Future<void> updatePitch(int semitones) async {
     try {
-      // Convert semitones to pitch multiplier
-      // Each semitone is approximately 1.059463 multiplier
-      final pitchMultiplier = pow(2.0, semitones / 12.0);
-
-      await audioHandler.customAction('setPitch', {'pitch': pitchMultiplier});
+      // Use the new SoLoud service for pitch shifting
+      await audioHandler.customAction('setPitchSemitones', {'semitones': semitones});
 
       emit(
         state.copyWith(

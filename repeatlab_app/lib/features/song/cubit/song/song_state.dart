@@ -9,8 +9,8 @@ class SongState with SongStateMappable {
   final bool isLoopModeEnabled;
   final bool isTutorialCompleted;
 
-  /// AudioPlayer
-  final PlayerState? playerState;
+  /// SoLoud Player State
+  final SoLoudPlayerState? playerState;
   // final Duration? duration;
 
   final String? error;
