@@ -374,6 +374,177 @@ Scenario: Reorder loops by drag and drop
 
 ---
 
+## 🎼 Pitch Control (Free Feature)
+
+### Feature: Pitch Control Access
+```gherkin
+Scenario: All users can access pitch control
+  Given I am on the song editing screen (free or premium user)
+  When I navigate to the pitch control section
+  Then I should see the pitch adjustment slider
+  And I should be able to adjust pitch settings
+  And no premium paywall should appear
+
+Scenario: Navigate between tempo and pitch tabs
+  Given I am on the song editing screen
+  When I see the tempo/pitch control section
+  Then I should see tabs for "Tempo" and "Pitch"
+  When I tap the "Pitch" tab
+  Then I should see the pitch control interface
+  When I tap the "Tempo" tab
+  Then I should see the tempo control interface
+```
+
+### Feature: Pitch Adjustment Functionality
+```gherkin
+Scenario: Adjust pitch using semitones
+  Given I am on the song editing screen with pitch tab selected
+  When I adjust the pitch slider to +3 semitones
+  Then the song should play 3 semitones higher than original
+  And the pitch indicator should show "+3"
+  And the audio should maintain its original speed
+
+Scenario: Test pitch range limits
+  Given I am on the pitch control tab
+  When I set the pitch to minimum (-12 semitones)
+  Then the song should play one octave lower
+  And the pitch indicator should show "-12"
+  When I set the pitch to maximum (+12 semitones)
+  Then the song should play one octave higher
+  And the pitch indicator should show "+12"
+
+Scenario: Reset pitch to original
+  Given I have adjusted the pitch to any non-zero value
+  When I tap the reset button or set pitch to 0
+  Then the song should return to original pitch
+  And the pitch indicator should show "0"
+  And the audio should sound exactly like the original
+
+Scenario: Real-time pitch adjustment during playback
+  Given the song is currently playing
+  When I adjust the pitch slider
+  Then the pitch change should be applied immediately
+  And playback should continue without interruption
+  And the new pitch should be audible instantly
+
+Scenario: Pitch adjustment with paused audio
+  Given the song is paused
+  When I adjust the pitch slider
+  Then the pitch setting should be saved
+  When I resume playback
+  Then the song should play with the adjusted pitch
+```
+
+### Feature: Pitch and Speed Independence
+```gherkin
+Scenario: Pitch change independent of speed (Free user)
+  Given I am a free user with pitch control access
+  When I adjust the pitch to +5 semitones
+  Then the pitch should change without affecting speed
+  And the song should play at original tempo but higher pitch
+
+Scenario: Pitch change independent of speed (Premium user)
+  Given I am a premium user
+  When I set speed to 0.8x and pitch to +2 semitones
+  Then the song should play slower than original (0.8x speed)
+  And the song should play 2 semitones higher than original
+  And both adjustments should work independently
+
+Scenario: Reset one control without affecting the other
+  Given I have both speed and pitch adjusted
+  When I reset the pitch to 0
+  Then only the pitch should return to original
+  And the speed adjustment should remain unchanged
+  When I reset the speed to 1.0x
+  Then only the speed should return to original
+  And the pitch adjustment should remain unchanged
+```
+
+### Feature: Pitch Control UI/UX
+```gherkin
+Scenario: Compact pitch control interface
+  Given I am on the song editing screen
+  When I view the tempo/pitch control section
+  Then it should use minimal screen space
+  And the interface should be intuitive
+  And both tempo and pitch tabs should be easily accessible
+
+Scenario: Visual pitch feedback
+  Given I am adjusting the pitch
+  When I move the pitch slider
+  Then I should see the current semitone value displayed
+  And the display should update in real-time
+  And positive values should be clearly distinguished from negative
+
+Scenario: Pitch slider precision
+  Given I am using the pitch slider
+  When I make small adjustments
+  Then I should be able to set precise semitone values
+  And the slider should respond to fine movements
+  And the value should snap to whole semitones
+
+Scenario: Pitch control accessibility
+  Given I am using the pitch control
+  When I interact with the slider
+  Then it should be accessible via touch gestures
+  And the current value should be clearly visible
+  And the control should work on different screen sizes
+```
+
+### Feature: Musical Transposition Use Cases
+```gherkin
+Scenario: Transpose song to match vocal range
+  Given I have a song that's too high for my vocal range
+  When I adjust the pitch to -4 semitones
+  Then the song should play in a lower key
+  And I should be able to sing along comfortably
+  And the chord progressions should remain musically correct
+
+Scenario: Transpose song to match instrument tuning
+  Given I have a guitar tuned down a half step
+  When I adjust the song pitch to -1 semitone
+  Then the song should match my guitar tuning
+  And I should be able to play along accurately
+
+Scenario: Practice transposition skills
+  Given I want to practice a song in different keys
+  When I adjust the pitch to various semitone values
+  Then each adjustment should create a musically valid transposition
+  And I should be able to practice the same song in multiple keys
+
+Scenario: Combine pitch with looping for practice
+  Given I have created a loop for a difficult section
+  When I adjust the pitch to a comfortable key
+  And I play the loop repeatedly
+  Then the loop should maintain the pitch adjustment
+  And I should be able to practice the section in the new key
+```
+
+### Feature: Pitch Control Error Handling
+```gherkin
+Scenario: Handle extreme pitch adjustments gracefully
+  Given I adjust the pitch to extreme values (-12 or +12)
+  When the audio plays
+  Then the sound quality should remain acceptable
+  And the app should not crash or produce audio artifacts
+  And the pitch should be accurately applied
+
+Scenario: Pitch control with different audio formats
+  Given I have songs in different formats (MP3, WAV, OGG, FLAC)
+  When I apply pitch adjustments to each format
+  Then pitch control should work consistently across all formats
+  And audio quality should be maintained for all file types
+
+Scenario: Memory usage with pitch processing
+  Given I have pitch adjustment applied
+  When I play long audio files or multiple songs
+  Then memory usage should remain reasonable
+  And the app should not slow down or crash
+  And pitch processing should remain smooth
+```
+
+---
+
 ## ⚡ Speed Control (Premium Feature)
 
 ### Feature: Speed Control Access

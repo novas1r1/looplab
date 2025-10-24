@@ -45,6 +45,20 @@
 - **Speed Reset**: Quickly return to original tempo
 - **Visual Speed Indicator**: See current playback speed at all times
 
+## 🎼 Pitch Control (Free)
+
+### Pitch Adjustment
+- **Semitone Range**: Transpose audio from -12 to +12 semitones (one octave down/up)
+- **Independent Control**: Pitch changes work independently from speed adjustments
+- **Real-time Processing**: Adjust pitch while audio is playing
+- **Musical Transposition**: Perfect for practicing songs in different keys
+
+### Pitch Control Features
+- **Semitone Precision**: Accurate musical interval adjustments
+- **Visual Pitch Indicator**: See current pitch adjustment in semitones
+- **Pitch Reset**: Quickly return to original pitch (0 semitones)
+- **Compact UI**: Space-efficient tabbed interface with tempo controls
+
 ## 📊 Waveform Visualization
 
 ### Waveform Display
@@ -105,6 +119,7 @@
 ### Free Features
 - **Unlimited Songs**: No limit on audio file imports
 - **One Loop per Song**: Basic looping functionality
+- **Pitch Control**: Full pitch adjustment capabilities (-12 to +12 semitones)
 - **No Advertisements**: Clean, ad-free experience
 - **Core Playback**: All essential audio playback features
 
@@ -161,9 +176,10 @@
 
 1. **Import Audio**: Add your favorite songs in supported formats
 2. **Create Loops**: Mark sections you want to practice
-3. **Adjust Speed**: Fine-tune tempo for comfortable practice (Premium)
-4. **Practice**: Use loops to master difficult passages
-5. **Progress**: Track your improvement over time
+3. **Adjust Pitch**: Transpose songs to comfortable keys (Free)
+4. **Adjust Speed**: Fine-tune tempo for comfortable practice (Premium)
+5. **Practice**: Use loops to master difficult passages
+6. **Progress**: Track your improvement over time
 
 ## Premium Upgrade
 

@@ -348,6 +348,13 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
         await pause();
 
         disableLoopMode();
+      case 'setPitch':
+        if (extras != null && extras['pitch'] != null) {
+          final pitch = extras['pitch'] as double;
+          // Note: audioplayers doesn't directly support pitch shifting
+          // This is a placeholder - actual implementation would need a different approach
+          log('Pitch change requested: $pitch (not implemented in audioplayers)');
+        }
       default:
         super.customAction(name, extras);
     }

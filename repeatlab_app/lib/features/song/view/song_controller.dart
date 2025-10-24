@@ -81,6 +81,7 @@ class SongController extends StatelessWidget {
           onTempoModeChanged: (value) {
             // TODO check if needed
           },
+          onPitchChanged: (value) => context.read<SongCubit>().updatePitch(value),
           song: context.read<SongCubit>().state.song,
         ),
       ],
