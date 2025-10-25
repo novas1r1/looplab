@@ -170,7 +170,7 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
                                 child: RepaintBoundary(
                                   child: ValueListenableBuilder<Duration>(
                                     valueListenable: positionNotifier,
-                                    builder: (_, position, __) {
+                                    builder: (_, position, _) {
                                       if (!_isDragging) {
                                         _updateScrollPositionFor(
                                           position,

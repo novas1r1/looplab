@@ -480,7 +480,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get localData => 'Lokale Daten';
 
   @override
-  String get deleteAllLocalData => 'Delete All Local Data';
+  String get deleteAllLocalData => 'Alle lokalen Daten löschen';
 
   @override
   String get deleteAllDataTitle => 'Alle Daten, Songs und Loops löschen';

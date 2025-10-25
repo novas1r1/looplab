@@ -146,6 +146,7 @@ class RepeatlabAudioplayersServiceHandler extends RepeatlabAudioHandler {
   }
 
   /// Play a song from a file path
+  @override
   Future<void> playSong(Song song) async {
     final path = await song.path;
 
@@ -190,6 +191,7 @@ class RepeatlabAudioplayersServiceHandler extends RepeatlabAudioHandler {
     }
   }
 
+  @override
   Future<void> resume() async {
     // check if is in loop mode
     if (_activeLoop != null) {
@@ -242,7 +244,7 @@ class RepeatlabAudioplayersServiceHandler extends RepeatlabAudioHandler {
     }
 
     final positionUpdates = positionStream ?? audioPlayer.onPositionChanged;
-    _loopPositionSubscription = positionUpdates?.listen(
+    _loopPositionSubscription = positionUpdates.listen(
       _handleLoopPositionUpdate,
     );
 

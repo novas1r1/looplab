@@ -2,13 +2,11 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:audio_service/audio_service.dart';
-import 'package:audioplayers/audioplayers.dart' show PlayerState;
-import 'package:audio_service/audio_service.dart';
 import 'package:audio_session/audio_session.dart';
+import 'package:audioplayers/audioplayers.dart' show PlayerState;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart' as ja;
-import 'package:meta/meta.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/services/repeatlab_audio_handler.dart';
@@ -32,7 +30,7 @@ class RepeatlabJustAudioServiceHandler extends RepeatlabAudioHandler {
   Stream<PlayerState>? _playerStateBroadcast;
   Stream<Duration>? _positionBroadcast;
 
-  ja.AudioSource? _currentSource;
+  Uri? _currentUri;
   double _playbackSpeed = 1.0;
   double _pitch = 1.0;
   bool _loopSeekInProgress = false;
@@ -105,7 +103,12 @@ class RepeatlabJustAudioServiceHandler extends RepeatlabAudioHandler {
   }
 
   void _listenToPositionChanges() {
-    _positionBroadcast = audioPlayer.positionStream.asBroadcastStream();
+    _positionBroadcast = audioPlayer
+        .createPositionStream(
+          minPeriod: const Duration(milliseconds: 50),
+          maxPeriod: const Duration(milliseconds: 50),
+        )
+        .asBroadcastStream();
     _positionSubscription = _positionBroadcast?.listen((position) {
       playbackState.add(playbackState.value.copyWith(updatePosition: position));
     });
@@ -133,12 +136,12 @@ class RepeatlabJustAudioServiceHandler extends RepeatlabAudioHandler {
     );
     mediaItem.add(item);
 
-    final source = ja.AudioSource.uri(Uri.file(path));
-    _currentSource = source;
+    final uri = Uri.file(path);
+    _currentUri = uri;
 
     try {
       await _guardPluginCall(() => audioPlayer.setLoopMode(ja.LoopMode.off));
-      await _guardPluginCall(() => audioPlayer.setAudioSource(source));
+      await _guardPluginCall(() => audioPlayer.setAudioSource(ja.AudioSource.uri(uri)));
       await _guardPluginCall(() => audioPlayer.setSpeed(_playbackSpeed));
       if (supportsPitch) {
         await _guardPluginCall(() => audioPlayer.setPitch(_pitch));
@@ -184,9 +187,8 @@ class RepeatlabJustAudioServiceHandler extends RepeatlabAudioHandler {
     final end = loop.end;
     if (start == null || end == null) return;
 
-    _loopPositionSubscription = audioPlayer.positionStream.listen(
-      _handleLoopPositionUpdate,
-    );
+    final loopStream = _positionBroadcast ?? audioPlayer.positionStream;
+    _loopPositionSubscription = loopStream.listen(_handleLoopPositionUpdate);
     await _ensureWithinLoopBounds();
   }
 
@@ -211,6 +213,7 @@ class RepeatlabJustAudioServiceHandler extends RepeatlabAudioHandler {
   @override
   Future<void> stop() async {
     await _guardPluginCall(() => audioPlayer.stop());
+    _currentUri = null;
   }
 
   @override
@@ -326,13 +329,13 @@ class RepeatlabJustAudioServiceHandler extends RepeatlabAudioHandler {
   }
 
   Future<void> _reloadSourceIfNeeded() async {
-    final source = _currentSource;
-    if (source == null) return;
+    final uri = _currentUri;
+    if (uri == null) return;
 
     final processingState = audioPlayer.processingState;
     if (processingState == ja.ProcessingState.completed ||
         processingState == ja.ProcessingState.idle) {
-      await _guardPluginCall(() => audioPlayer.setAudioSource(source));
+      await _guardPluginCall(() => audioPlayer.setAudioSource(ja.AudioSource.uri(uri)));
       await _guardPluginCall(() => audioPlayer.setSpeed(_playbackSpeed));
       if (supportsPitch) {
         await _guardPluginCall(() => audioPlayer.setPitch(_pitch));
@@ -346,6 +349,7 @@ class RepeatlabJustAudioServiceHandler extends RepeatlabAudioHandler {
     await _positionSubscription?.cancel();
     await _durationSubscription?.cancel();
     await _guardPluginCall(() => audioPlayer.dispose());
+    _currentUri = null;
   }
 
   @override
@@ -355,8 +359,8 @@ class RepeatlabJustAudioServiceHandler extends RepeatlabAudioHandler {
   }
 
   @visibleForTesting
-  void debugSetCurrentSource(ja.AudioSource source) {
-    _currentSource = source;
+  void debugSetCurrentSource(Uri uri) {
+    _currentUri = uri;
   }
 
   PlayerState _mapPlayerState(ja.PlayerState state) {

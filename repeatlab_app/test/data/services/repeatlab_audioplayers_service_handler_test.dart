@@ -17,7 +17,7 @@ void main() {
   late StreamController<Duration> positionController;
 
   setUpAll(() {
-    registerFallbackValue(const Duration());
+    registerFallbackValue(Duration.zero);
     registerFallbackValue(DeviceFileSource('fake.mp3'));
     registerFallbackValue(ReleaseMode.stop);
   });
@@ -66,7 +66,9 @@ void main() {
     );
 
     when(() => audioPlayer.getDuration()).thenAnswer((_) async => null);
-    when(() => audioPlayer.getCurrentPosition()).thenAnswer((_) async => const Duration(seconds: 1));
+    when(
+      () => audioPlayer.getCurrentPosition(),
+    ).thenAnswer((_) async => const Duration(seconds: 1));
 
     final recorded = <Duration>[];
     when(() => audioPlayer.seek(any<Duration>())).thenAnswer((invocation) async {

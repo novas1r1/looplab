@@ -192,7 +192,7 @@ class SongCubit extends Cubit<SongState> {
           error: null,
         ),
       );
-    } on UnsupportedError catch (ex) {
+    } /* on UnsupportedError catch (ex) {
       dev.log(
         'just_audio unsupported, falling back to audioplayers',
         error: ex,
@@ -214,7 +214,7 @@ class SongCubit extends Cubit<SongState> {
           error: ex.message ?? 'just_audio is not available on this platform.',
         ),
       );
-    } catch (ex, stack) {
+    } */ catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
 
       emit(

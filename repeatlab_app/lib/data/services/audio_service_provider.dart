@@ -17,6 +17,8 @@ class AudioServiceProvider {
   static RepeatlabAudioHandler? _audioHandler;
   static AudioBackend? _activeBackend;
 
+  const AudioServiceProvider._();
+
   /// Initialize the audio service, preferring the supplied backend but falling back to
   /// the legacy audioplayers implementation when necessary.
   static Future<RepeatlabAudioHandler> init({

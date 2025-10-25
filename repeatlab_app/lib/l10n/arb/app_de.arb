@@ -205,6 +205,7 @@
   "tapBpmDialogDescription": "Tippe den Button im Rhythmus mit deiner Musik, um die BPM zu bestimmen.",
   "tapBpmDialogButton": "BPM tappen",
   "reset": "Reset",
+  "deleteAllLocalData": "Alle lokalen Daten löschen",
   "audioEngineRestartNotice": "Audio-Engine wurde auf {engine} umgestellt. Bitte starte die App neu, um die Änderungen zu übernehmen.",
   "@audioEngineRestartNotice": {
     "description": "Snackbar message shown after switching audio playback engine on Android",
