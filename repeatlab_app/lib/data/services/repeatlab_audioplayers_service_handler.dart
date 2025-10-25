@@ -13,7 +13,6 @@ import 'package:repeatlab/data/models/song.dart';
 class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
   final AudioPlayer audioPlayer;
 
-  Timer? _loopTimer;
   Loop? _activeLoop;
 
   Stream<PlayerState>? playerStateStream;
@@ -21,6 +20,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
 
   Stream<Duration>? positionStream;
   StreamSubscription<Duration>? _positionSubscription;
+  StreamSubscription<Duration>? _loopPositionSubscription;
 
   Future<Duration> get position async => await audioPlayer.getCurrentPosition() ?? Duration.zero;
 
@@ -28,6 +28,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
   Future<void>? _seekQueue;
   Source? _currentSource;
   double _playbackSpeed = 1.0;
+  bool _loopSeekInProgress = false;
 
   RepeatlabAudioplayersServiceHandler({required this.audioPlayer}) {
     log('SoloudAudioServiceHandler constructor');
@@ -218,38 +219,30 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
   }
 
   /// Enable loop mode with the specified loop
-  void enableLoopMode(Loop loop) {
-    // Cancel any existing timer first
-    _loopTimer?.cancel();
+  Future<void> enableLoopMode(Loop loop) async {
+    await _loopPositionSubscription?.cancel();
+    _loopPositionSubscription = null;
     _activeLoop = loop;
 
-    // Only start the loop timer if we have valid start and end points
-    // TODO: this doesnt work
-    if (loop.start != null && loop.end != null) {
-      _loopTimer = Timer.periodic(const Duration(milliseconds: 50), (_) {
-        // Check if loop is still active before proceeding
-        if (_activeLoop == null) {
-          _loopTimer?.cancel();
-          return;
-        }
+    final start = loop.start;
+    final end = loop.end;
 
-        audioPlayer.getCurrentPosition().then((position) {
-          // Check again if loop is still active before using it
-          if (_activeLoop == null || position == null) return;
-
-          // only if is playing
-          if (audioPlayer.state == PlayerState.playing && position >= _activeLoop!.end!) {
-            audioPlayer.seek(_activeLoop!.start!);
-          }
-        });
-      });
+    if (start == null || end == null) {
+      return;
     }
+
+    final positionUpdates = positionStream ?? audioPlayer.onPositionChanged;
+    _loopPositionSubscription = positionUpdates?.listen(_handleLoopPositionUpdate);
+
+    await _ensureWithinLoopBounds(loop);
   }
 
   /// Disable loop mode
-  void disableLoopMode() {
-    _loopTimer?.cancel();
+  Future<void> disableLoopMode() async {
+    await _loopPositionSubscription?.cancel();
+    _loopPositionSubscription = null;
     _activeLoop = null;
+    _loopSeekInProgress = false;
   }
 
   @override
@@ -335,12 +328,14 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
         if (extras != null && extras['loop'] != null) {
           final loop = extras['loop'] as Loop;
 
-          enableLoopMode(loop);
+          await enableLoopMode(loop);
         }
+        return;
       case 'disableLoop':
         await pause();
 
-        disableLoopMode();
+        await disableLoopMode();
+        return;
       case 'setPitch':
         if (extras != null && extras['pitch'] != null) {
           final pitch = extras['pitch'] as double;
@@ -348,8 +343,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
           // This is a placeholder - actual implementation would need a different approach
           log('Pitch change requested: $pitch (not implemented in audioplayers)');
         }
+        return;
       default:
-        super.customAction(name, extras);
+        return super.customAction(name, extras);
     }
   }
 
@@ -408,7 +404,6 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
 
   // Close resources when the audio handler is no longer needed
   Future<void> close() async {
-    _loopTimer?.cancel();
     _pendingSeekTarget = null;
     await _awaitActiveSeek();
 
@@ -416,6 +411,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
 
     await _playerStateSubscription?.cancel();
     await _positionSubscription?.cancel();
+    await _loopPositionSubscription?.cancel();
     _currentSource = null;
   }
 
@@ -477,5 +473,37 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
   @visibleForTesting
   void debugSetCurrentSource(Source source) {
     _currentSource = source;
+  }
+
+  void _handleLoopPositionUpdate(Duration position) {
+    final loop = _activeLoop;
+    if (loop == null) return;
+
+    final start = loop.start;
+    final end = loop.end;
+    if (start == null || end == null) return;
+
+    if (position >= end) {
+      if (_loopSeekInProgress) {
+        return;
+      }
+
+      _loopSeekInProgress = true;
+      seek(start).whenComplete(() {
+        _loopSeekInProgress = false;
+      });
+    }
+  }
+
+  Future<void> _ensureWithinLoopBounds(Loop loop) async {
+    final start = loop.start;
+    final end = loop.end;
+    if (start == null || end == null) return;
+
+    final currentPosition = await audioPlayer.getCurrentPosition() ?? Duration.zero;
+
+    if (currentPosition >= end || currentPosition < start) {
+      await seek(start);
+    }
   }
 }

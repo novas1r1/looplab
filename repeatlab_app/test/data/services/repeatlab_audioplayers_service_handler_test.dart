@@ -4,6 +4,7 @@ import 'package:audio_service/audio_service.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/services/repeatlab_audioplayers_service_handler.dart';
 
 class _MockAudioPlayer extends Mock implements AudioPlayer {}
@@ -135,5 +136,37 @@ void main() {
     verify(() => audioPlayer.setSource(any<Source>())).called(1);
     verify(() => audioPlayer.setPlaybackRate(any())).called(1);
     verify(() => audioPlayer.seek(const Duration(seconds: 3))).called(1);
+  });
+
+  test('loop mode restarts playback when position passes loop end', () async {
+    final handler = RepeatlabAudioplayersServiceHandler(audioPlayer: audioPlayer);
+    addTearDown(handler.close);
+
+    when(() => audioPlayer.state).thenReturn(PlayerState.playing);
+
+    final seekCalls = <Duration>[];
+    when(() => audioPlayer.seek(any<Duration>())).thenAnswer((invocation) async {
+      seekCalls.add(invocation.positionalArguments.first as Duration);
+    });
+
+    const loop = Loop(
+      id: 1,
+      name: 'Loop 1',
+      songId: 'song-1',
+      color: LoopColor.green,
+      start: Duration(seconds: 2),
+      end: Duration(seconds: 4),
+    );
+
+    await handler.enableLoopMode(loop);
+
+    // Allow initial bounds enforcement to run before asserting streaming behaviour.
+    await Future<void>.delayed(Duration.zero);
+    seekCalls.clear();
+
+    positionController.add(const Duration(seconds: 5));
+    await Future<void>.delayed(Duration.zero);
+
+    expect(seekCalls, [const Duration(seconds: 2)]);
   });
 }
