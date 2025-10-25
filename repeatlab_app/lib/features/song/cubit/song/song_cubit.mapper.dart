@@ -144,6 +144,13 @@ class SongStateMapper extends ClassMapperBase<SongState> {
     opt: true,
     def: false,
   );
+  static bool _$isPitchSupported(SongState v) => v.isPitchSupported;
+  static const Field<SongState, bool> _f$isPitchSupported = Field(
+    'isPitchSupported',
+    _$isPitchSupported,
+    opt: true,
+    def: false,
+  );
   static PlayerState? _$playerState(SongState v) => v.playerState;
   static const Field<SongState, PlayerState> _f$playerState = Field(
     'playerState',
@@ -160,6 +167,7 @@ class SongStateMapper extends ClassMapperBase<SongState> {
     #activeLoop: _f$activeLoop,
     #isLoopModeEnabled: _f$isLoopModeEnabled,
     #isTutorialCompleted: _f$isTutorialCompleted,
+    #isPitchSupported: _f$isPitchSupported,
     #playerState: _f$playerState,
   };
 
@@ -172,6 +180,7 @@ class SongStateMapper extends ClassMapperBase<SongState> {
       activeLoop: data.dec(_f$activeLoop),
       isLoopModeEnabled: data.dec(_f$isLoopModeEnabled),
       isTutorialCompleted: data.dec(_f$isTutorialCompleted),
+      isPitchSupported: data.dec(_f$isPitchSupported),
       playerState: data.dec(_f$playerState),
     );
   }
@@ -245,6 +254,7 @@ abstract class SongStateCopyWith<$R, $In extends SongState, $Out>
     Loop? activeLoop,
     bool? isLoopModeEnabled,
     bool? isTutorialCompleted,
+    bool? isPitchSupported,
     PlayerState? playerState,
   });
   SongStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
@@ -273,6 +283,7 @@ class _SongStateCopyWithImpl<$R, $Out>
     Object? activeLoop = $none,
     bool? isLoopModeEnabled,
     bool? isTutorialCompleted,
+    bool? isPitchSupported,
     Object? playerState = $none,
   }) => $apply(
     FieldCopyWithData({
@@ -284,6 +295,7 @@ class _SongStateCopyWithImpl<$R, $Out>
       if (isLoopModeEnabled != null) #isLoopModeEnabled: isLoopModeEnabled,
       if (isTutorialCompleted != null)
         #isTutorialCompleted: isTutorialCompleted,
+      if (isPitchSupported != null) #isPitchSupported: isPitchSupported,
       if (playerState != $none) #playerState: playerState,
     }),
   );
@@ -301,6 +313,10 @@ class _SongStateCopyWithImpl<$R, $Out>
     isTutorialCompleted: data.get(
       #isTutorialCompleted,
       or: $value.isTutorialCompleted,
+    ),
+    isPitchSupported: data.get(
+      #isPitchSupported,
+      or: $value.isPitchSupported,
     ),
     playerState: data.get(#playerState, or: $value.playerState),
   );

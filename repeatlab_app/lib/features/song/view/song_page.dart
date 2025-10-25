@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,7 +38,7 @@ class SongPage extends StatelessWidget {
         localConfigRepository: context.read<LocalConfigRepository>(),
         crashReportingRepository: context.read<CrashReportingRepository>(),
         song: song,
-      )..initSong(AudioPlayer()),
+      )..initSong(),
       child: _SongView(song: song),
     );
   }

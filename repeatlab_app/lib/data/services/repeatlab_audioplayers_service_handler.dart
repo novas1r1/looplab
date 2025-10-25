@@ -8,21 +8,27 @@ import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
+import 'package:repeatlab/data/services/repeatlab_audio_handler.dart';
 
 /// AudioHandler implementation for background audio playback
-class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
+class RepeatlabAudioplayersServiceHandler extends RepeatlabAudioHandler {
   final AudioPlayer audioPlayer;
 
   Loop? _activeLoop;
 
-  Stream<PlayerState>? playerStateStream;
+  Stream<PlayerState>? _playerStateStream;
   StreamSubscription<PlayerState>? _playerStateSubscription;
 
-  Stream<Duration>? positionStream;
+  Stream<Duration>? _positionStream;
   StreamSubscription<Duration>? _positionSubscription;
   StreamSubscription<Duration>? _loopPositionSubscription;
 
+  @override
   Future<Duration> get position async => await audioPlayer.getCurrentPosition() ?? Duration.zero;
+  @override
+  Stream<PlayerState>? get playerStateStream => _playerStateStream;
+  @override
+  Stream<Duration>? get positionStream => _positionStream;
 
   Duration? _pendingSeekTarget;
   Future<void>? _seekQueue;
@@ -35,8 +41,8 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
 
     _initAudioSession();
 
-    playerStateStream = audioPlayer.onPlayerStateChanged;
-    _playerStateSubscription = playerStateStream?.listen((state) {
+    _playerStateStream = audioPlayer.onPlayerStateChanged;
+    _playerStateSubscription = _playerStateStream?.listen((state) {
       log('playerStateSubscription: $state');
 
       switch (state) {
@@ -120,8 +126,8 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
       }
     });
 
-    positionStream = audioPlayer.onPositionChanged;
-    _positionSubscription = positionStream?.listen((position) {
+    _positionStream = audioPlayer.onPositionChanged;
+    _positionSubscription = _positionStream?.listen((position) {
       playbackState.add(playbackState.value.copyWith(updatePosition: position));
     });
   }
@@ -158,20 +164,19 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
       _currentSource = source;
 
       await audioPlayer.setReleaseMode(ReleaseMode.stop);
-      await audioPlayer.play(source);
+      await audioPlayer.setSource(source);
       await audioPlayer.setPlaybackRate(_playbackSpeed);
       playbackState.add(
         playbackState.value.copyWith(
           controls: const [
-            MediaControl.pause,
-            MediaControl.stop,
+            MediaControl.play,
           ],
           systemActions: const {
             MediaAction.seek,
             MediaAction.seekForward,
             MediaAction.seekBackward,
           },
-          playing: true,
+          playing: false,
           processingState: AudioProcessingState.ready,
         ),
       );
@@ -200,7 +205,11 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
       }
     }
 
-    await audioPlayer.resume();
+    if (_currentSource != null && audioPlayer.state == PlayerState.stopped) {
+      await audioPlayer.play(_currentSource!);
+    } else {
+      await audioPlayer.resume();
+    }
     playbackState.add(
       playbackState.value.copyWith(
         controls: const [
@@ -219,6 +228,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
   }
 
   /// Enable loop mode with the specified loop
+  @override
   Future<void> enableLoopMode(Loop loop) async {
     await _loopPositionSubscription?.cancel();
     _loopPositionSubscription = null;
@@ -238,6 +248,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
   }
 
   /// Disable loop mode
+  @override
   Future<void> disableLoopMode() async {
     await _loopPositionSubscription?.cancel();
     _loopPositionSubscription = null;
@@ -358,6 +369,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
 
   // if loop is not null, check if position is within loop start and end,
   // if not, seek to loop start
+  @override
   Future<void> forward(int seconds, Loop? loop) async {
     final position = await audioPlayer.getCurrentPosition() ?? Duration.zero;
     final duration = await audioPlayer.getDuration() ?? Duration.zero;
@@ -383,6 +395,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
 
   // if loop is not null, check if position is within loop start and end,
   // if not, seek to loop start
+  @override
   Future<void> back(int seconds, Loop? loop) async {
     final position = await audioPlayer.getCurrentPosition() ?? Duration.zero;
 
@@ -506,4 +519,17 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
       await seek(start);
     }
   }
+
+  @override
+  Future<void> setPitch(double pitch) {
+    return Future.error(
+      UnsupportedError('Pitch shifting is not supported by the audioplayers backend.'),
+    );
+  }
+
+  @override
+  bool get supportsPitch => false;
+
+  @override
+  bool get usesJustAudio => false;
 }

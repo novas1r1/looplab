@@ -7,6 +7,7 @@ import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/paywall/premium_screen.dart';
+import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
 // TODO: update tutorial
@@ -75,6 +76,7 @@ class _SpeedControlState extends State<SpeedControl> {
   @override
   Widget build(BuildContext context) {
     final hasPremium = context.watch<PremiumSubscriptionCubit>().hasPremium;
+    final isPitchSupported = context.select((SongCubit cubit) => cubit.state.isPitchSupported);
 
     return Container(
       decoration: BoxDecoration(
@@ -112,7 +114,13 @@ class _SpeedControlState extends State<SpeedControl> {
                       _controlMode == ControlMode.tempo,
                       _controlMode == ControlMode.pitch,
                     ],
-                    onPressed: (index) => _onChangeControlMode(index),
+                    onPressed: (index) {
+                      if (index == 1 && !isPitchSupported) {
+                        _showPitchUnsupportedMessage(context);
+                        return;
+                      }
+                      _onChangeControlMode(index);
+                    },
                     children: const [
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 12),
@@ -135,9 +143,15 @@ class _SpeedControlState extends State<SpeedControl> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 8, 0, 16),
                 child: IconButton(
-                  onPressed: () => (_controlMode == ControlMode.tempo)
-                      ? _onResetSpeedForMode(_mode)
-                      : _onResetPitch(),
+                  onPressed: () {
+                    if (_controlMode == ControlMode.tempo) {
+                      _onResetSpeedForMode(_mode);
+                    } else if (isPitchSupported) {
+                      _onResetPitch();
+                    } else {
+                      _showPitchUnsupportedMessage(context);
+                    }
+                  },
                   icon: Icon(
                     Icons.refresh_rounded,
                     color: Theme.of(context).colorScheme.secondaryFixed,
@@ -178,7 +192,11 @@ class _SpeedControlState extends State<SpeedControl> {
             if (_mode == TempoMode.multiplier) _buildMultiplierMode(context, hasPremium),
             if (_mode == TempoMode.bpm) _buildBpmMode(context, hasPremium),
           ],
-          if (_controlMode == ControlMode.pitch) _buildPitchMode(context),
+          if (_controlMode == ControlMode.pitch)
+            if (isPitchSupported)
+              _buildPitchMode(context)
+            else
+              _buildPitchUnsupportedNotice(context),
         ],
       ),
     );
@@ -698,5 +716,24 @@ class _SpeedControlState extends State<SpeedControl> {
       _pitchSemitones = 0;
     });
     widget.onPitchChanged(0);
+  }
+
+  Widget _buildPitchUnsupportedNotice(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(top: 8),
+      child: Text(
+        'Pitch shifting is not available on this device.',
+        style: Theme.of(context).textTheme.bodyMedium,
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  void _showPitchUnsupportedMessage(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Pitch shifting is not available on this device.'),
+      ),
+    );
   }
 }

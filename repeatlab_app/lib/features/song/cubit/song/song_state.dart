@@ -8,6 +8,7 @@ class SongState with SongStateMappable {
   final Loop? activeLoop;
   final bool isLoopModeEnabled;
   final bool isTutorialCompleted;
+  final bool isPitchSupported;
 
   /// AudioPlayer
   final PlayerState? playerState;
@@ -23,6 +24,7 @@ class SongState with SongStateMappable {
     this.activeLoop,
     this.isLoopModeEnabled = false,
     this.isTutorialCompleted = false,
+    this.isPitchSupported = false,
     this.playerState,
     // this.duration,
   });

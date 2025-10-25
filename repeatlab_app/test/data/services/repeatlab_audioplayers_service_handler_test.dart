@@ -48,6 +48,11 @@ void main() {
     await positionController.close();
   });
 
+  test('supportsPitch returns false for audioplayers backend', () {
+    final handler = RepeatlabAudioplayersServiceHandler(audioPlayer: audioPlayer);
+    expect(handler.supportsPitch, isFalse);
+  });
+
   test('seek clamps to media item duration when platform duration unavailable', () async {
     final handler = RepeatlabAudioplayersServiceHandler(audioPlayer: audioPlayer);
     addTearDown(handler.close);

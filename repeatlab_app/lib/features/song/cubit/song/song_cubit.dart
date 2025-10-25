@@ -15,7 +15,7 @@ import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:repeatlab/data/services/audio_service_provider.dart';
-import 'package:repeatlab/data/services/repeatlab_audioplayers_service_handler.dart';
+import 'package:repeatlab/data/services/repeatlab_audio_handler.dart';
 
 // part 'song_cubit.mapper.dart';
 part 'song_cubit.mapper.dart';
@@ -28,8 +28,10 @@ class SongCubit extends Cubit<SongState> {
   final LocalConfigRepository localConfigRepository;
   final CrashReportingRepository crashReportingRepository;
 
+  final AudioBackend preferredBackend;
+
   // audio player subscriptions
-  late final RepeatlabAudioplayersServiceHandler audioHandler;
+  late final RepeatlabAudioHandler audioHandler;
   StreamSubscription<List<Song>>? _songSubscription;
 
   Stream<PlayerState>? playerStateStream;
@@ -45,21 +47,35 @@ class SongCubit extends Cubit<SongState> {
   StreamSubscription<List<Loop>>? _loopsSubscription;
 
   Duration? positionToSeek;
+  bool _hasInitializedHandler = false;
 
-  Future<Duration> get position async => await audioHandler.position;
+  Future<Duration> get position async {
+    if (!_hasInitializedHandler) return Duration.zero;
+    return audioHandler.position;
+  }
 
   SongCubit({
     required this.song,
     required this.songRepository,
     required this.localConfigRepository,
     required this.crashReportingRepository,
-  }) : super(SongState(song: song)) {
+    AudioBackend? preferredBackend,
+  }) : preferredBackend = preferredBackend ?? _defaultBackendForPlatform(),
+       super(SongState(song: song)) {
     loopsStreamController = StreamController<List<Loop>>.broadcast();
     // clear the stream
     loopsStreamController?.stream.drain();
     _loopsSubscription = loopsStreamController?.stream.listen((loops) {
       emit(state.copyWith(song: state.song.copyWith(loops: loops)));
     });
+  }
+
+  static AudioBackend _defaultBackendForPlatform() {
+    if (Platform.isAndroid) {
+      return AudioBackend.justAudio;
+    }
+
+    return AudioBackend.audioplayers;
   }
 
   @override
@@ -72,14 +88,18 @@ class SongCubit extends Cubit<SongState> {
     await _loopsSubscription?.cancel();
 
     // Clean up audio service if available
-    await audioHandler.stop();
+    if (_hasInitializedHandler) {
+      await audioHandler.stop();
+    }
     // dispose loop stream
 
     return super.close();
   }
 
-  Future<void> initSong(AudioPlayer audioPlayer) async {
+  Future<void> initSong({AudioBackend? backendOverride}) async {
     emit(state.copyWith(status: SongStatus.loading));
+
+    final backendToUse = backendOverride ?? preferredBackend;
 
     try {
       // Cancel any existing subscriptions before reinitializing
@@ -88,7 +108,12 @@ class SongCubit extends Cubit<SongState> {
       await _durationSubscription?.cancel();
 
       // Initialize audio handler first
-      audioHandler = await AudioServiceProvider.init(audioPlayer);
+      audioHandler = await AudioServiceProvider.init(preferred: backendToUse);
+      _hasInitializedHandler = true;
+      dev.log(
+        'Audio backend in use: '
+        '${audioHandler.usesJustAudio ? 'just_audio' : 'audioplayers'}',
+      );
 
       // Initialize subscriptions before any other operations
       playerStateStream = audioHandler.playerStateStream;
@@ -155,7 +180,7 @@ class SongCubit extends Cubit<SongState> {
       final isTutorialCompleted = localConfigRepository.hasCompletedTutorial;
 
       // we need to disable loop mode here because the audio handler is not initialized yet
-      await audioHandler.customAction('disableLoop');
+      await audioHandler.disableLoopMode();
 
       emit(
         state.copyWith(
@@ -163,7 +188,25 @@ class SongCubit extends Cubit<SongState> {
           song: state.song,
           isTutorialCompleted: isTutorialCompleted,
           playerState: PlayerState.paused,
+          isPitchSupported: audioHandler.supportsPitch,
           error: null,
+        ),
+      );
+    } on UnsupportedError catch (ex) {
+      dev.log('just_audio unsupported, falling back to audioplayers', error: ex);
+      if (backendToUse == AudioBackend.justAudio) {
+        try {
+          await audioHandler.stop();
+        } catch (_) {}
+        _hasInitializedHandler = false;
+        await initSong(backendOverride: AudioBackend.audioplayers);
+        return;
+      }
+
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: ex.message ?? 'just_audio is not available on this platform.',
         ),
       );
     } catch (ex, stack) {
@@ -300,12 +343,7 @@ class SongCubit extends Cubit<SongState> {
 
       // Update the loop in the audio handler immediately
       if (state.isLoopModeEnabled) {
-        audioHandler.customAction(
-          'enableLoop',
-          {
-            'loop': activeLoop.copyWith(end: endPosition),
-          },
-        );
+        await audioHandler.enableLoopMode(activeLoop.copyWith(end: endPosition));
       }
 
       await updateLoop(activeLoop.copyWith(end: endPosition));
@@ -323,7 +361,7 @@ class SongCubit extends Cubit<SongState> {
   Future<void> unselectLoop() async {
     dev.log('UNSELECT LOOP: ${state.activeLoop}');
     try {
-      await audioHandler.customAction('disableLoop');
+      await audioHandler.disableLoopMode();
 
       emit(
         state.copyWith(
@@ -353,7 +391,7 @@ class SongCubit extends Cubit<SongState> {
       await audioHandler.seek(loop.start!);
 
       // Update the loop in the audio handler immediately
-      await audioHandler.customAction('enableLoop', {'loop': loop});
+      await audioHandler.enableLoopMode(loop);
 
       emit(
         state.copyWith(
@@ -407,7 +445,7 @@ class SongCubit extends Cubit<SongState> {
 
     try {
       // Use audio service for background playback with loop
-      audioHandler.customAction('enableLoop', {'loop': updatedLoop});
+      await audioHandler.enableLoopMode(updatedLoop);
 
       if (state.playerState != PlayerState.playing) {
         await audioHandler.play();
@@ -651,7 +689,7 @@ class SongCubit extends Cubit<SongState> {
         // stop the song
         await pauseSong();
         // Disable loop mode in audio handler
-        await audioHandler.customAction('disableLoop');
+        await audioHandler.disableLoopMode();
       }
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
@@ -809,9 +847,19 @@ class SongCubit extends Cubit<SongState> {
     try {
       // Convert semitones to pitch multiplier
       // Each semitone is approximately 1.059463 multiplier
-      final pitchMultiplier = pow(2.0, semitones / 12.0);
+      final pitchMultiplier = pow(2.0, semitones / 12.0).toDouble();
 
-      await audioHandler.customAction('setPitch', {'pitch': pitchMultiplier});
+      if (!audioHandler.supportsPitch) {
+        emit(
+          state.copyWith(
+            status: SongStatus.error,
+            error: 'Pitch shifting is not supported on this device.',
+          ),
+        );
+        return;
+      }
+
+      await audioHandler.setPitch(pitchMultiplier);
 
       emit(
         state.copyWith(
