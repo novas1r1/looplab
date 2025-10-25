@@ -21,6 +21,8 @@ class WaveFormCubit extends Cubit<WaveFormState> {
   final SongCubit songCubit;
   final CrashReportingRepository crashReportingRepository;
 
+  final ValueNotifier<Duration> playbackPositionNotifier = ValueNotifier(Duration.zero);
+
   // Add static cache map
   static final Map<String, Float32List> _waveformCache = {};
 
@@ -34,6 +36,7 @@ class WaveFormCubit extends Cubit<WaveFormState> {
     required this.crashReportingRepository,
   }) : super(WaveFormState(duration: song.duration, loops: song.loops)) {
     _positionSubscription = songCubit.positionStream?.listen((position) {
+      playbackPositionNotifier.value = position;
       emit(state.copyWith(currentPosition: position));
     });
 
@@ -46,6 +49,7 @@ class WaveFormCubit extends Cubit<WaveFormState> {
   Future<void> close() {
     _positionSubscription?.cancel();
     _loopsSubscription?.cancel();
+    playbackPositionNotifier.dispose();
     return super.close();
   }
 
