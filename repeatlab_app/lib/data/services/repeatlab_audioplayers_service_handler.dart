@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:async/async.dart';
 import 'package:audio_service/audio_service.dart';
 import 'package:audio_session/audio_session.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/services.dart';
+import 'package:meta/meta.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 
@@ -23,7 +24,10 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
 
   Future<Duration> get position async => await audioPlayer.getCurrentPosition() ?? Duration.zero;
 
-  CancelableOperation? _seekOperation;
+  Duration? _pendingSeekTarget;
+  Future<void>? _seekQueue;
+  Source? _currentSource;
+  double _playbackSpeed = 1.0;
 
   RepeatlabAudioplayersServiceHandler({required this.audioPlayer}) {
     log('SoloudAudioServiceHandler constructor');
@@ -122,10 +126,16 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
   }
 
   Future<void> _initAudioSession() async {
-    final session = await AudioSession.instance;
-    await session.configure(const AudioSessionConfiguration.music());
+    try {
+      final session = await AudioSession.instance;
+      await session.configure(const AudioSessionConfiguration.music());
 
-    log('AudioSession initialized: ${session.isConfigured}');
+      log('AudioSession initialized: ${session.isConfigured}');
+    } on MissingPluginException catch (error, stackTrace) {
+      log('AudioSession unavailable: $error', stackTrace: stackTrace);
+    } on PlatformException catch (error, stackTrace) {
+      log('AudioSession configuration failed: $error', stackTrace: stackTrace);
+    }
   }
 
   /// Play a song from a file path
@@ -143,7 +153,12 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
     mediaItem.add(item);
 
     try {
-      await audioPlayer.play(DeviceFileSource(path));
+      final source = DeviceFileSource(path);
+      _currentSource = source;
+
+      await audioPlayer.setReleaseMode(ReleaseMode.stop);
+      await audioPlayer.play(source);
+      await audioPlayer.setPlaybackRate(_playbackSpeed);
       playbackState.add(
         playbackState.value.copyWith(
           controls: const [
@@ -259,7 +274,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
 
   @override
   Future<void> pause() async {
-    _seekOperation?.cancel();
+    await _awaitActiveSeek();
 
     await audioPlayer.pause();
     playbackState.add(
@@ -280,7 +295,8 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
 
   @override
   Future<void> stop() async {
-    _seekOperation?.cancel();
+    _pendingSeekTarget = null;
+    await _awaitActiveSeek();
 
     await audioPlayer.stop();
     playbackState.add(
@@ -300,40 +316,17 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
   }
 
   @override
-  Future<void> seek(Duration position) async {
-    var newPosition = position;
-
-    // Only seek if the position change is significant
-    /* if (state.position != null &&
-        (newPosition - state.position!).abs() <= const Duration(milliseconds: 100)) {
-      log('SEEK song to $position skipped - change too small (<100ms)');
-      return;
-    } */
-
-    final duration = await audioPlayer.getDuration() ?? Duration.zero;
-
-    final currentPosition = await audioPlayer.getCurrentPosition();
-    if (newPosition == currentPosition || newPosition > duration) {
-      return;
-    }
-
-    // cancel any existing seek
-    _seekOperation?.cancel();
-
-    // Ensure position is within valid range
-    if (newPosition < Duration.zero) {
-      newPosition = Duration.zero;
-    } else if (newPosition > duration) {
-      newPosition = duration;
-    }
-
-    // Seek to position
-    _seekOperation = CancelableOperation.fromFuture(audioPlayer.seek(newPosition));
-    await _seekOperation?.valueOrCancellation();
+  Future<void> seek(Duration position) {
+    _pendingSeekTarget = position;
+    _seekQueue ??= _processSeekQueue();
+    return _seekQueue!;
   }
 
   @override
-  Future<void> setSpeed(double speed) => audioPlayer.setPlaybackRate(speed);
+  Future<void> setSpeed(double speed) {
+    _playbackSpeed = speed;
+    return audioPlayer.setPlaybackRate(speed);
+  }
 
   @override
   Future<void> customAction(String name, [Map<String, dynamic>? extras]) async {
@@ -416,11 +409,73 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
   // Close resources when the audio handler is no longer needed
   Future<void> close() async {
     _loopTimer?.cancel();
-    _seekOperation?.cancel();
+    _pendingSeekTarget = null;
+    await _awaitActiveSeek();
 
     await audioPlayer.dispose();
 
     await _playerStateSubscription?.cancel();
     await _positionSubscription?.cancel();
+    _currentSource = null;
+  }
+
+  Future<void> _awaitActiveSeek() async {
+    final activeSeek = _seekQueue;
+    if (activeSeek == null) return;
+
+    try {
+      await activeSeek;
+    } catch (_) {
+      // Errors are surfaced to the original seek caller; suppress here.
+    }
+  }
+
+  Future<void> _processSeekQueue() async {
+    try {
+      while (_pendingSeekTarget != null) {
+        final target = _pendingSeekTarget!;
+        _pendingSeekTarget = null;
+        await _performSeek(target);
+      }
+    } finally {
+      _seekQueue = null;
+    }
+  }
+
+  Future<void> _performSeek(Duration requestedPosition) async {
+    await _reloadSourceIfNeeded();
+
+    final trackDuration = await audioPlayer.getDuration() ?? mediaItem.value?.duration;
+    final currentPosition = await audioPlayer.getCurrentPosition() ?? Duration.zero;
+
+    var clampedPosition = requestedPosition;
+    if (clampedPosition < Duration.zero) {
+      clampedPosition = Duration.zero;
+    }
+
+    if (trackDuration != null && trackDuration > Duration.zero && clampedPosition > trackDuration) {
+      clampedPosition = trackDuration;
+    }
+
+    if ((clampedPosition - currentPosition).abs() < const Duration(milliseconds: 20)) {
+      return;
+    }
+
+    await audioPlayer.seek(clampedPosition);
+  }
+
+  Future<void> _reloadSourceIfNeeded() async {
+    if (_currentSource == null) return;
+
+    final playerState = audioPlayer.state;
+    if (playerState == PlayerState.completed || playerState == PlayerState.stopped || playerState == PlayerState.disposed) {
+      await audioPlayer.setSource(_currentSource!);
+      await audioPlayer.setPlaybackRate(_playbackSpeed);
+    }
+  }
+
+  @visibleForTesting
+  void debugSetCurrentSource(Source source) {
+    _currentSource = source;
   }
 }
