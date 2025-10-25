@@ -1,8 +1,7 @@
-import 'package:audio_service/audio_service.dart';
 import 'dart:developer';
 
-import 'package:audioplayers/audioplayers.dart' as ap;
 import 'package:audio_service/audio_service.dart';
+import 'package:audioplayers/audioplayers.dart' as ap;
 import 'package:just_audio/just_audio.dart' as ja;
 import 'package:repeatlab/data/services/repeatlab_audio_handler.dart';
 import 'package:repeatlab/data/services/repeatlab_audioplayers_service_handler.dart';
@@ -28,6 +27,8 @@ class AudioServiceProvider {
     // Tear down any previous handler when switching backends.
     if (_audioHandler != null && _activeBackend != preferred) {
       try {
+        await AudioService.stop();
+        await AudioService.runningStream.firstWhere((running) => !running, orElse: () => false);
         await _audioHandler?.stop();
         final handler = _audioHandler;
         if (handler is RepeatlabAudioplayersServiceHandler) {

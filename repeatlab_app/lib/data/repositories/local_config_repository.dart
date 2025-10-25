@@ -1,7 +1,9 @@
 import 'dart:developer';
+import 'dart:io' show Platform;
 
 import 'package:clarity_flutter/clarity_flutter.dart';
 import 'package:flutter/foundation.dart';
+import 'package:repeatlab/data/services/audio_service_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalConfigRepository {
@@ -16,6 +18,7 @@ class LocalConfigRepository {
   static const kHasRatedApp = 'has_rated_app';
   static const kHasRatedAppTime = 'has_rated_app_time';
   static const kHasCompletedTutorial = 'has_completed_tutorial';
+  static const kAudioBackendPreference = 'audio_backend_preference';
 
   final SharedPreferences sharedPreferences;
 
@@ -25,6 +28,22 @@ class LocalConfigRepository {
 
   Future<void> setIntroShown({required bool wasShown}) =>
       sharedPreferences.setBool(kIntroShown, wasShown);
+
+  AudioBackend get preferredAudioBackend {
+    final stored = sharedPreferences.getString(kAudioBackendPreference);
+    if (stored != null) {
+      final match = AudioBackend.values.firstWhere(
+        (backend) => backend.name == stored,
+        orElse: () => Platform.isAndroid ? AudioBackend.justAudio : AudioBackend.audioplayers,
+      );
+      return match;
+    }
+
+    return Platform.isAndroid ? AudioBackend.justAudio : AudioBackend.audioplayers;
+  }
+
+  Future<void> setPreferredAudioBackend(AudioBackend backend) =>
+      sharedPreferences.setString(kAudioBackendPreference, backend.name);
 
   bool get hasCompletedTutorial => sharedPreferences.getBool(kHasCompletedTutorial) ?? false;
 

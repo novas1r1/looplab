@@ -38,6 +38,7 @@ class SongPage extends StatelessWidget {
         localConfigRepository: context.read<LocalConfigRepository>(),
         crashReportingRepository: context.read<CrashReportingRepository>(),
         song: song,
+        preferredBackend: context.read<LocalConfigRepository>().preferredAudioBackend,
       )..initSong(),
       child: _SongView(song: song),
     );

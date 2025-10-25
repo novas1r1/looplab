@@ -581,6 +581,11 @@ class _SpeedControlState extends State<SpeedControl> {
                             },
                           );
 
+                          widget.onOriginalBpmChanged(_calculatedBpm!);
+                          setState(() {
+                            _currentBpm = _calculatedBpm;
+                          });
+
                           Navigator.of(context).pop();
                         }
                       : null,

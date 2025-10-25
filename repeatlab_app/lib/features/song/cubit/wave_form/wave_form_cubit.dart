@@ -29,6 +29,9 @@ class WaveFormCubit extends Cubit<WaveFormState> {
   StreamSubscription<List<Loop>>? _loopsSubscription;
   StreamSubscription<Duration>? _positionSubscription;
 
+  Duration? _lastNotifiedPosition;
+  static const Duration _minPositionDelta = Duration(milliseconds: 16);
+
   WaveFormCubit({
     required this.soloud,
     required this.song,
@@ -36,6 +39,12 @@ class WaveFormCubit extends Cubit<WaveFormState> {
     required this.crashReportingRepository,
   }) : super(WaveFormState(duration: song.duration, loops: song.loops)) {
     _positionSubscription = songCubit.positionStream?.listen((position) {
+      final lastPosition = _lastNotifiedPosition;
+      if (lastPosition != null && (position - lastPosition).abs() < _minPositionDelta) {
+        return;
+      }
+
+      _lastNotifiedPosition = position;
       playbackPositionNotifier.value = position;
       emit(state.copyWith(currentPosition: position));
     });

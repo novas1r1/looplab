@@ -1,9 +1,11 @@
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/core/utils/dialog_helper.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
+import 'package:repeatlab/data/services/audio_service_provider.dart';
 import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
@@ -16,11 +18,15 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   bool analyticsEnabled = false;
+  AudioBackend _audioBackend = AudioBackend.justAudio;
 
   @override
   void initState() {
     super.initState();
     analyticsEnabled = context.read<LocalConfigRepository>().acceptedAnalytics;
+    if (Platform.isAndroid) {
+      _audioBackend = context.read<LocalConfigRepository>().preferredAudioBackend;
+    }
   }
 
   @override
@@ -52,6 +58,50 @@ class _SettingsPageState extends State<SettingsPage> {
               );
             },
           ),
+          if (Platform.isAndroid) ...[
+            const SizedBox(height: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text('Audio playback engine', style: context.titleLarge),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: ToggleButtons(
+                borderRadius: BorderRadius.circular(10),
+                isSelected: [
+                  _audioBackend == AudioBackend.justAudio,
+                  _audioBackend == AudioBackend.audioplayers,
+                ],
+                onPressed: (index) async {
+                  final selected = index == 0 ? AudioBackend.justAudio : AudioBackend.audioplayers;
+                  if (_audioBackend == selected) return;
+                  setState(() {
+                    _audioBackend = selected;
+                  });
+                  await context
+                      .read<LocalConfigRepository>()
+                      .setPreferredAudioBackend(selected);
+                  final engineLabel = selected == AudioBackend.justAudio ? 'Just Audio' : 'Audioplayers';
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(context.l10n.audioEngineRestartNotice(engineLabel)),
+                    ),
+                  );
+                },
+                children: const [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    child: Text('just_audio'),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    child: Text('audioplayers'),
+                  ),
+                ],
+              ),
+            ),
+          ],
+
           const SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),

@@ -28,7 +28,7 @@ class SongCubit extends Cubit<SongState> {
   final LocalConfigRepository localConfigRepository;
   final CrashReportingRepository crashReportingRepository;
 
-  final AudioBackend preferredBackend;
+  late AudioBackend preferredBackend;
 
   // audio player subscriptions
   late final RepeatlabAudioHandler audioHandler;
@@ -199,6 +199,8 @@ class SongCubit extends Cubit<SongState> {
           await audioHandler.stop();
         } catch (_) {}
         _hasInitializedHandler = false;
+        preferredBackend = AudioBackend.audioplayers;
+        await localConfigRepository.setPreferredAudioBackend(preferredBackend);
         await initSong(backendOverride: AudioBackend.audioplayers);
         return;
       }
