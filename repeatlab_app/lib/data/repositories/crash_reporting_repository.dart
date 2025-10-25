@@ -48,7 +48,10 @@ class CrashReportingRepository {
     }
   }
 
-  Future<void> logWarning(String message, {Map<String, dynamic>? context}) async {
+  Future<void> logWarning(
+    String message, {
+    Map<String, dynamic>? context,
+  }) async {
     if (Sentry.isEnabled) {
       try {
         await Sentry.captureMessage(

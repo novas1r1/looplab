@@ -602,4 +602,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get currentBpm => 'Текущий BPM';
+
+  @override
+  String audioEngineRestartNotice(String engine) {
+    return 'Audio engine switched to $engine. Please restart the app to apply changes.';
+  }
 }

@@ -51,7 +51,9 @@ class CustomDrawer extends StatelessWidget {
                 Text(
                   context.l10n.appSubtitle,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: Theme.of(context).colorScheme.onPrimary.withValues(alpha: 0.8),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onPrimary.withValues(alpha: 0.8),
                   ),
                 ),
               ],
@@ -216,7 +218,9 @@ class CustomDrawer extends StatelessWidget {
             child: Text(
               '${context.l10n.version} $appVersion ($buildNumber)',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.6),
               ),
             ),
           ),

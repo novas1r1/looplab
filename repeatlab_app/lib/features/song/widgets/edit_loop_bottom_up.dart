@@ -243,7 +243,9 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                       label: Text(context.l10n.save),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,
-                        foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                        foregroundColor: Theme.of(
+                          context,
+                        ).colorScheme.onPrimary,
                       ),
                     ),
                   ),
@@ -278,7 +280,10 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                   decoration: InputDecoration(
                     labelText: context.l10n.hours,
                     border: const OutlineInputBorder(),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 12,
+                    ),
                   ),
                   onChanged: (_) => onChanged(),
                 ),
@@ -298,7 +303,10 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                 decoration: InputDecoration(
                   labelText: context.l10n.minutes,
                   border: const OutlineInputBorder(),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 12,
+                  ),
                 ),
                 onChanged: (_) => onChanged(),
               ),
@@ -317,7 +325,10 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                 decoration: InputDecoration(
                   labelText: context.l10n.seconds,
                   border: const OutlineInputBorder(),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 12,
+                  ),
                 ),
                 onChanged: (_) => onChanged(),
               ),
@@ -336,7 +347,10 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                 decoration: InputDecoration(
                   labelText: context.l10n.milliseconds,
                   border: const OutlineInputBorder(),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 12,
+                  ),
                 ),
                 onChanged: (_) => onChanged(),
               ),

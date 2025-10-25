@@ -96,7 +96,9 @@ class _HomePageState extends State<HomePage> {
                         Icon(
                           Icons.music_note,
                           size: 64,
-                          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.5),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.primary.withValues(alpha: 0.5),
                         ),
                         const SizedBox(height: 16),
                         Text(
@@ -107,7 +109,9 @@ class _HomePageState extends State<HomePage> {
                         Text(
                           context.l10n.tapToAddSong,
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withValues(alpha: 0.6),
                           ),
                         ),
                       ],

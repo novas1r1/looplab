@@ -152,7 +152,9 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
                       child: ListView(
                         controller: _scrollController,
                         scrollDirection: Axis.horizontal,
-                        padding: EdgeInsets.symmetric(horizontal: (widget.width / 2) - 16),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: (widget.width / 2) - 16,
+                        ),
                         physics: const NeverScrollableScrollPhysics(),
                         children: [
                           if (state.waveformData != null)
@@ -170,7 +172,10 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
                                     valueListenable: positionNotifier,
                                     builder: (_, position, __) {
                                       if (!_isDragging) {
-                                        _updateScrollPositionFor(position, state);
+                                        _updateScrollPositionFor(
+                                          position,
+                                          state,
+                                        );
                                       }
 
                                       return CustomPaint(
@@ -179,8 +184,12 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
                                           duration: state.duration,
                                           currentPosition: position,
                                           loops: state.loops,
-                                          colorPlayed: Theme.of(context).colorScheme.primaryFixedDim,
-                                          colorUnplayed: const Color(0xff00696e),
+                                          colorPlayed: Theme.of(
+                                            context,
+                                          ).colorScheme.primaryFixedDim,
+                                          colorUnplayed: const Color(
+                                            0xff00696e,
+                                          ),
                                           zoomScale: _zoomScale,
                                           startText: context.l10n.start,
                                           endText: context.l10n.end,
@@ -230,7 +239,9 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
                         child: SliderTheme(
                           data: SliderTheme.of(context).copyWith(
                             trackHeight: 2,
-                            thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
+                            thumbShape: const RoundSliderThumbShape(
+                              enabledThumbRadius: 6,
+                            ),
                             overlayShape: SliderComponentShape.noOverlay,
                             trackShape: const RectangularSliderTrackShape(),
                           ),
@@ -265,7 +276,10 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
   }
 
   Future<void> _onZoomOut(BuildContext context) async {
-    AppAnalytics.trackEvent(AppAnalytics.clickZoomOut, data: {'zoom_scale': _zoomScale});
+    AppAnalytics.trackEvent(
+      AppAnalytics.clickZoomOut,
+      data: {'zoom_scale': _zoomScale},
+    );
 
     final hasPurchased = context.read<PremiumSubscriptionCubit>().hasPremium;
     // check if user has premium subscription
@@ -330,7 +344,10 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
   }
 
   Future<void> _onZoomIn(BuildContext context) async {
-    AppAnalytics.trackEvent(AppAnalytics.clickZoomIn, data: {'zoom_scale': _zoomScale});
+    AppAnalytics.trackEvent(
+      AppAnalytics.clickZoomIn,
+      data: {'zoom_scale': _zoomScale},
+    );
 
     final premiumSubscriptionCubit = context.read<PremiumSubscriptionCubit>();
     if (premiumSubscriptionCubit.hasPremium) {
@@ -376,10 +393,15 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
   void _zoomIn() {
     if (_zoomScale >= maxZoom) return;
 
-    AppAnalytics.trackEvent(AppAnalytics.clickZoomIn, data: {'zoom_scale': _zoomScale});
+    AppAnalytics.trackEvent(
+      AppAnalytics.clickZoomIn,
+      data: {'zoom_scale': _zoomScale},
+    );
 
     // Calculate the center position before zooming
-    final centerPosition = _scrollController.hasClients ? _scrollController.position.pixels / _zoomScale : 0.0;
+    final centerPosition = _scrollController.hasClients
+        ? _scrollController.position.pixels / _zoomScale
+        : 0.0;
 
     setState(() {
       _zoomScale = (_zoomScale + zoomStep).clamp(minZoom, maxZoom);
@@ -394,10 +416,15 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
   void _zoomOut() {
     if (_zoomScale <= minZoom) return;
 
-    AppAnalytics.trackEvent(AppAnalytics.clickZoomOut, data: {'zoom_scale': _zoomScale});
+    AppAnalytics.trackEvent(
+      AppAnalytics.clickZoomOut,
+      data: {'zoom_scale': _zoomScale},
+    );
 
     // Calculate the center position before zooming
-    final centerPosition = _scrollController.hasClients ? _scrollController.position.pixels / _zoomScale : 0.0;
+    final centerPosition = _scrollController.hasClients
+        ? _scrollController.position.pixels / _zoomScale
+        : 0.0;
 
     setState(() {
       _zoomScale = (_zoomScale - zoomStep).clamp(minZoom, maxZoom);
@@ -427,7 +454,9 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
   }
 
   void _updateZoom(double value) {
-    final centerPosition = _scrollController.hasClients ? _scrollController.position.pixels / _zoomScale : 0.0;
+    final centerPosition = _scrollController.hasClients
+        ? _scrollController.position.pixels / _zoomScale
+        : 0.0;
 
     setState(() {
       _zoomScale = value;

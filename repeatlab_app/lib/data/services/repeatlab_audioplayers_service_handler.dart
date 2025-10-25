@@ -242,7 +242,9 @@ class RepeatlabAudioplayersServiceHandler extends RepeatlabAudioHandler {
     }
 
     final positionUpdates = positionStream ?? audioPlayer.onPositionChanged;
-    _loopPositionSubscription = positionUpdates?.listen(_handleLoopPositionUpdate);
+    _loopPositionSubscription = positionUpdates?.listen(
+      _handleLoopPositionUpdate,
+    );
 
     await _ensureWithinLoopBounds(loop);
   }
@@ -352,7 +354,9 @@ class RepeatlabAudioplayersServiceHandler extends RepeatlabAudioHandler {
           final pitch = extras['pitch'] as double;
           // Note: audioplayers doesn't directly support pitch shifting
           // This is a placeholder - actual implementation would need a different approach
-          log('Pitch change requested: $pitch (not implemented in audioplayers)');
+          log(
+            'Pitch change requested: $pitch (not implemented in audioplayers)',
+          );
         }
         return;
       default:
@@ -477,7 +481,9 @@ class RepeatlabAudioplayersServiceHandler extends RepeatlabAudioHandler {
     if (_currentSource == null) return;
 
     final playerState = audioPlayer.state;
-    if (playerState == PlayerState.completed || playerState == PlayerState.stopped || playerState == PlayerState.disposed) {
+    if (playerState == PlayerState.completed ||
+        playerState == PlayerState.stopped ||
+        playerState == PlayerState.disposed) {
       await audioPlayer.setSource(_currentSource!);
       await audioPlayer.setPlaybackRate(_playbackSpeed);
     }
@@ -523,7 +529,9 @@ class RepeatlabAudioplayersServiceHandler extends RepeatlabAudioHandler {
   @override
   Future<void> setPitch(double pitch) {
     return Future.error(
-      UnsupportedError('Pitch shifting is not supported by the audioplayers backend.'),
+      UnsupportedError(
+        'Pitch shifting is not supported by the audioplayers backend.',
+      ),
     );
   }
 

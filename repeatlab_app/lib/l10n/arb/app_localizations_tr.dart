@@ -600,4 +600,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get currentBpm => 'Mevcut BPM';
+
+  @override
+  String audioEngineRestartNotice(String engine) {
+    return 'Ses motoru $engine olarak değiştirildi. Değişiklikleri uygulamak için lütfen uygulamayı yeniden başlatın.';
+  }
 }

@@ -193,7 +193,10 @@ class SongCubit extends Cubit<SongState> {
         ),
       );
     } on UnsupportedError catch (ex) {
-      dev.log('just_audio unsupported, falling back to audioplayers', error: ex);
+      dev.log(
+        'just_audio unsupported, falling back to audioplayers',
+        error: ex,
+      );
       if (backendToUse == AudioBackend.justAudio) {
         try {
           await audioHandler.stop();
@@ -345,7 +348,9 @@ class SongCubit extends Cubit<SongState> {
 
       // Update the loop in the audio handler immediately
       if (state.isLoopModeEnabled) {
-        await audioHandler.enableLoopMode(activeLoop.copyWith(end: endPosition));
+        await audioHandler.enableLoopMode(
+          activeLoop.copyWith(end: endPosition),
+        );
       }
 
       await updateLoop(activeLoop.copyWith(end: endPosition));
@@ -504,7 +509,9 @@ class SongCubit extends Cubit<SongState> {
 
     // if not null get the next loop
     if (currentLoop != null) {
-      final currentLoopIndex = state.song.loops.indexWhere((loop) => loop.id == currentLoop.id);
+      final currentLoopIndex = state.song.loops.indexWhere(
+        (loop) => loop.id == currentLoop.id,
+      );
       final nextLoopIndex = currentLoopIndex + 1;
       // check if last loop
       if (nextLoopIndex >= state.song.loops.length) {
@@ -528,7 +535,9 @@ class SongCubit extends Cubit<SongState> {
 
     // if not null get the previous loop
     if (currentLoop != null) {
-      final currentLoopIndex = state.song.loops.indexWhere((loop) => loop.id == currentLoop.id);
+      final currentLoopIndex = state.song.loops.indexWhere(
+        (loop) => loop.id == currentLoop.id,
+      );
       final previousLoopIndex = currentLoopIndex - 1;
       // check if first loop
       if (previousLoopIndex < 0) {
@@ -696,7 +705,10 @@ class SongCubit extends Cubit<SongState> {
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
       emit(
-        state.copyWith(status: SongStatus.error, error: 'Failed to toggle loop mode: $ex'),
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to toggle loop mode: $ex',
+        ),
       );
     }
   }
@@ -736,7 +748,10 @@ class SongCubit extends Cubit<SongState> {
     double? multiplier,
     int? bpm,
   }) async {
-    assert(multiplier != null || bpm != null, 'Either multiplier or bpm must be provided');
+    assert(
+      multiplier != null || bpm != null,
+      'Either multiplier or bpm must be provided',
+    );
 
     try {
       double? speed;

@@ -151,8 +151,12 @@ class _SongViewState extends State<_SongView> {
                             ],
                           ),
                           onTap: () {
-                            AppAnalytics.trackEvent(AppAnalytics.clickReportBug);
-                            Wiredash.of(context).show(inheritMaterialTheme: true);
+                            AppAnalytics.trackEvent(
+                              AppAnalytics.clickReportBug,
+                            );
+                            Wiredash.of(
+                              context,
+                            ).show(inheritMaterialTheme: true);
                           },
                         ),
                         PopupMenuItem(
@@ -199,11 +203,16 @@ class _SongViewState extends State<_SongView> {
                             children: [
                               Text(
                                 'Loops',
-                                style: Theme.of(context).textTheme.headlineLarge,
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.headlineLarge,
                               ),
                               Row(
                                 children: [
-                                  Text(context.l10n.loopMode, style: context.bodySmall),
+                                  Text(
+                                    context.l10n.loopMode,
+                                    style: context.bodySmall,
+                                  ),
                                   BlocSelector<SongCubit, SongState, bool>(
                                     selector: (state) => state.isLoopModeEnabled,
                                     builder: (context, isLoopModeEnabled) {
@@ -212,10 +221,14 @@ class _SongViewState extends State<_SongView> {
                                         thumbIcon: WidgetStateProperty.resolveWith<Icon?>((
                                           Set<WidgetState> states,
                                         ) {
-                                          if (states.contains(WidgetState.disabled)) {
+                                          if (states.contains(
+                                            WidgetState.disabled,
+                                          )) {
                                             return const Icon(Icons.close);
                                           }
-                                          return const Icon(Icons.loop_rounded);
+                                          return const Icon(
+                                            Icons.loop_rounded,
+                                          );
                                         }),
                                         activeTrackColor: Theme.of(
                                           context,
@@ -237,11 +250,15 @@ class _SongViewState extends State<_SongView> {
                                   key: tutorialKeyLoopStart,
                                   onPressed: () => _onSetLoopStart(context),
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                                    backgroundColor: Theme.of(
+                                      context,
+                                    ).colorScheme.primaryContainer,
                                     foregroundColor: Theme.of(
                                       context,
                                     ).colorScheme.onPrimaryContainer,
-                                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                    ),
                                     minimumSize: const Size(0, 36),
                                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                   ),
@@ -271,7 +288,9 @@ class _SongViewState extends State<_SongView> {
                                         foregroundColor: Theme.of(
                                           context,
                                         ).colorScheme.onPrimaryContainer,
-                                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 8,
+                                        ),
                                         minimumSize: const Size(0, 36),
                                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                       ),
@@ -307,20 +326,28 @@ class _SongViewState extends State<_SongView> {
                                       }
 
                                       final List<Loop> newLoops = List<Loop>.from(loops);
-                                      final Loop item = newLoops.removeAt(oldIndex);
+                                      final Loop item = newLoops.removeAt(
+                                        oldIndex,
+                                      );
                                       newLoops.insert(newIndex, item);
 
                                       // Update order numbers
                                       for (var i = 0; i < newLoops.length; i++) {
-                                        newLoops[i] = newLoops[i].copyWith(orderNumber: i);
+                                        newLoops[i] = newLoops[i].copyWith(
+                                          orderNumber: i,
+                                        );
                                       }
 
-                                      context.read<SongCubit>().updateLoopOrder(newLoops);
+                                      context.read<SongCubit>().updateLoopOrder(
+                                        newLoops,
+                                      );
                                     },
                                     scrollController: _loopListController,
                                     padding: const EdgeInsets.only(bottom: 92),
                                     itemBuilder: (context, index) => Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 4),
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 4,
+                                      ),
                                       key: ValueKey(loops[index].id),
                                       child: LoopTile(
                                         index: index,
@@ -377,7 +404,9 @@ class _SongViewState extends State<_SongView> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
           side: BorderSide(
-            color: Theme.of(context).colorScheme.outlineVariant.withValues(alpha: 0.8),
+            color: Theme.of(
+              context,
+            ).colorScheme.outlineVariant.withValues(alpha: 0.8),
             width: 1.5,
           ),
         ),

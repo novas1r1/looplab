@@ -601,4 +601,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get currentBpm => 'AKTUELLE BPM';
+
+  @override
+  String audioEngineRestartNotice(String engine) {
+    return 'Audio-Engine wurde auf $engine umgestellt. Bitte starte die App neu, um die Änderungen zu übernehmen.';
+  }
 }

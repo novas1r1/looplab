@@ -1187,6 +1187,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'CURRENT BPM'**
   String get currentBpm;
+
+  /// Snackbar message shown after switching audio playback engine on Android
+  ///
+  /// In en, this message translates to:
+  /// **'Audio engine switched to {engine}. Please restart the app to apply changes.'**
+  String audioEngineRestartNotice(String engine);
 }
 
 class _AppLocalizationsDelegate

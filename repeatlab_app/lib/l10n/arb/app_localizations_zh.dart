@@ -567,4 +567,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get currentBpm => '当前 BPM';
+
+  @override
+  String audioEngineRestartNotice(String engine) {
+    return '音频引擎已切换到 $engine。请重新启动应用以应用更改。';
+  }
 }

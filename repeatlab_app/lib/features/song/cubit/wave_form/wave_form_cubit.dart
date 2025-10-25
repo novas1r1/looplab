@@ -21,7 +21,9 @@ class WaveFormCubit extends Cubit<WaveFormState> {
   final SongCubit songCubit;
   final CrashReportingRepository crashReportingRepository;
 
-  final ValueNotifier<Duration> playbackPositionNotifier = ValueNotifier(Duration.zero);
+  final ValueNotifier<Duration> playbackPositionNotifier = ValueNotifier(
+    Duration.zero,
+  );
 
   // Add static cache map
   static final Map<String, Float32List> _waveformCache = {};
@@ -49,7 +51,9 @@ class WaveFormCubit extends Cubit<WaveFormState> {
       emit(state.copyWith(currentPosition: position));
     });
 
-    _loopsSubscription = songCubit.loopsStreamController?.stream.listen((loops) {
+    _loopsSubscription = songCubit.loopsStreamController?.stream.listen((
+      loops,
+    ) {
       emit(state.copyWith(loops: loops));
     });
   }
@@ -84,7 +88,9 @@ class WaveFormCubit extends Cubit<WaveFormState> {
         // between detail and performance
         final effectiveDuration = duration.inMilliseconds > 0
             ? duration
-            : const Duration(minutes: 3); // Default to 3 minutes if duration is zero
+            : const Duration(
+                minutes: 3,
+              ); // Default to 3 minutes if duration is zero
 
         final numSamples = _calculateOptimalSampleCount(effectiveDuration);
 
@@ -133,7 +139,9 @@ class WaveFormCubit extends Cubit<WaveFormState> {
     const minSamples = 100; // Minimum samples for very short audio
     const maxSamples = 5000; // Maximum samples to maintain performance
 
-    log('duration: ${duration.inSeconds}, calculatedSamples: $calculatedSamples');
+    log(
+      'duration: ${duration.inSeconds}, calculatedSamples: $calculatedSamples',
+    );
 
     return calculatedSamples.clamp(minSamples, maxSamples).toInt();
   }

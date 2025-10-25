@@ -78,7 +78,9 @@ class AudioplayerService {
 
     // Only start monitoring if we have valid start and end points
     if (loop.start != null && loop.end != null) {
-      _loopPositionSubscription = audioPlayer.onPositionChanged.listen((position) {
+      _loopPositionSubscription = audioPlayer.onPositionChanged.listen((
+        position,
+      ) {
         _checkAndRestartLoop(position);
       });
     }
@@ -113,7 +115,9 @@ class AudioplayerService {
       // Restart monitoring if needed
       if (_isLoopModeEnabled && updatedLoop.start != null && updatedLoop.end != null) {
         await _loopPositionSubscription?.cancel();
-        _loopPositionSubscription = audioPlayer.onPositionChanged.listen((position) {
+        _loopPositionSubscription = audioPlayer.onPositionChanged.listen((
+          position,
+        ) {
           _checkAndRestartLoop(position);
         });
       }

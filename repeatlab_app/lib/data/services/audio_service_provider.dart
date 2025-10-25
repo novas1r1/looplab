@@ -19,7 +19,9 @@ class AudioServiceProvider {
 
   /// Initialize the audio service, preferring the supplied backend but falling back to
   /// the legacy audioplayers implementation when necessary.
-  static Future<RepeatlabAudioHandler> init({AudioBackend preferred = AudioBackend.audioplayers}) async {
+  static Future<RepeatlabAudioHandler> init({
+    AudioBackend preferred = AudioBackend.audioplayers,
+  }) async {
     if (_audioHandler != null && _activeBackend == preferred) {
       return _audioHandler!;
     }
@@ -28,7 +30,10 @@ class AudioServiceProvider {
     if (_audioHandler != null && _activeBackend != preferred) {
       try {
         await AudioService.stop();
-        await AudioService.runningStream.firstWhere((running) => !running, orElse: () => false);
+        await AudioService.runningStream.firstWhere(
+          (running) => !running,
+          orElse: () => false,
+        );
         await _audioHandler?.stop();
         final handler = _audioHandler;
         if (handler is RepeatlabAudioplayersServiceHandler) {
@@ -37,7 +42,11 @@ class AudioServiceProvider {
           await handler.close();
         }
       } catch (error, stackTrace) {
-        log('Error while disposing previous audio handler', error: error, stackTrace: stackTrace);
+        log(
+          'Error while disposing previous audio handler',
+          error: error,
+          stackTrace: stackTrace,
+        );
       } finally {
         _audioHandler = null;
         _activeBackend = null;
@@ -47,7 +56,9 @@ class AudioServiceProvider {
     if (preferred == AudioBackend.justAudio) {
       try {
         final handler = await AudioService.init<RepeatlabJustAudioServiceHandler>(
-          builder: () => RepeatlabJustAudioServiceHandler(audioPlayer: ja.AudioPlayer()),
+          builder: () => RepeatlabJustAudioServiceHandler(
+            audioPlayer: ja.AudioPlayer(),
+          ),
           config: const AudioServiceConfig(
             androidNotificationChannelId: 'com.repeatlab.channel.audio',
             androidNotificationChannelName: 'RepeatLab Audio Playback',
@@ -58,13 +69,18 @@ class AudioServiceProvider {
         _activeBackend = AudioBackend.justAudio;
         return handler;
       } catch (error, stackTrace) {
-        log('Failed to initialize just_audio backend, falling back to audioplayers',
-            error: error, stackTrace: stackTrace);
+        log(
+          'Failed to initialize just_audio backend, falling back to audioplayers',
+          error: error,
+          stackTrace: stackTrace,
+        );
       }
     }
 
     final fallbackHandler = await AudioService.init<RepeatlabAudioplayersServiceHandler>(
-      builder: () => RepeatlabAudioplayersServiceHandler(audioPlayer: ap.AudioPlayer()),
+      builder: () => RepeatlabAudioplayersServiceHandler(
+        audioPlayer: ap.AudioPlayer(),
+      ),
       config: const AudioServiceConfig(
         androidNotificationChannelId: 'com.repeatlab.channel.audio',
         androidNotificationChannelName: 'RepeatLab Audio Playback',

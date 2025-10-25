@@ -110,7 +110,10 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
 
       if (proEntitlement?.isActive == true) {
         // Check if it's a lifetime purchase by looking at the product identifier
-        if (proEntitlement?.productIdentifier.contains('repeatlab_full_extended') == true) {
+        if (proEntitlement?.productIdentifier.contains(
+              'repeatlab_full_extended',
+            ) ==
+            true) {
           emit(
             state.copyWith(
               status: PremiumSubscriptionStatus.premium,

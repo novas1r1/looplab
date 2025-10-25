@@ -58,7 +58,9 @@ class LoopController extends StatelessWidget {
                     IconButton(
                       iconSize: 36,
                       onPressed: activeLoop?.start != null && activeLoop?.end != null
-                          ? () => context.read<SongCubit>().togglePlayLoop(activeLoop!)
+                          ? () => context.read<SongCubit>().togglePlayLoop(
+                              activeLoop!,
+                            )
                           : null,
                       icon: Icon(
                         isPaused ? Icons.play_arrow_rounded : Icons.pause_rounded,

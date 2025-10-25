@@ -11,9 +11,13 @@ class PurchasesRepository {
 
     PurchasesConfiguration? configuration;
     if (Platform.isAndroid) {
-      configuration = PurchasesConfiguration('goog_NhdNoPthClDEMfKSoFnpljqybdX');
+      configuration = PurchasesConfiguration(
+        'goog_NhdNoPthClDEMfKSoFnpljqybdX',
+      );
     } else if (Platform.isIOS) {
-      configuration = PurchasesConfiguration('appl_sUAEypMdINdSIzcVlkUWvVZPjlN');
+      configuration = PurchasesConfiguration(
+        'appl_sUAEypMdINdSIzcVlkUWvVZPjlN',
+      );
     }
 
     if (configuration != null) {

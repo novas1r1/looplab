@@ -30,7 +30,9 @@ class _TermsOfServicePageState extends State<TermsOfServicePage> {
 
             if (snapshot.hasError) {
               return Center(
-                child: Text('Error loading terms of service: ${snapshot.error}'),
+                child: Text(
+                  'Error loading terms of service: ${snapshot.error}',
+                ),
               );
             }
 

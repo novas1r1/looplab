@@ -76,7 +76,9 @@ class _SpeedControlState extends State<SpeedControl> {
   @override
   Widget build(BuildContext context) {
     final hasPremium = context.watch<PremiumSubscriptionCubit>().hasPremium;
-    final isPitchSupported = context.select((SongCubit cubit) => cubit.state.isPitchSupported);
+    final isPitchSupported = context.select(
+      (SongCubit cubit) => cubit.state.isPitchSupported,
+    );
 
     return Container(
       decoration: BoxDecoration(
@@ -106,7 +108,9 @@ class _SpeedControlState extends State<SpeedControl> {
                   height: 36,
                   child: ToggleButtons(
                     borderRadius: BorderRadius.circular(10),
-                    selectedColor: Theme.of(context).colorScheme.onPrimaryContainer,
+                    selectedColor: Theme.of(
+                      context,
+                    ).colorScheme.onPrimaryContainer,
                     color: Theme.of(context).colorScheme.secondary,
                     fillColor: Theme.of(context).colorScheme.primaryContainer,
                     disabledColor: Theme.of(context).colorScheme.secondary,
@@ -126,14 +130,20 @@ class _SpeedControlState extends State<SpeedControl> {
                         padding: EdgeInsets.symmetric(horizontal: 12),
                         child: Text(
                           'Tempo',
-                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                          ),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 12),
                         child: Text(
                           'Pitch',
-                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                          ),
                         ),
                       ),
                     ],
@@ -170,20 +180,31 @@ class _SpeedControlState extends State<SpeedControl> {
                   height: 36,
                   child: ToggleButtons(
                     borderRadius: BorderRadius.circular(10),
-                    selectedColor: Theme.of(context).colorScheme.onPrimaryContainer,
+                    selectedColor: Theme.of(
+                      context,
+                    ).colorScheme.onPrimaryContainer,
                     color: Theme.of(context).colorScheme.secondary,
                     fillColor: Theme.of(context).colorScheme.primaryContainer,
                     disabledColor: Theme.of(context).colorScheme.secondary,
-                    isSelected: [_mode == TempoMode.multiplier, _mode == TempoMode.bpm],
+                    isSelected: [
+                      _mode == TempoMode.multiplier,
+                      _mode == TempoMode.bpm,
+                    ],
                     onPressed: (index) => _onChangeTempoMode(index),
                     children: const [
                       Text(
                         '×',
-                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
                       ),
                       Text(
                         'BPM',
-                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
                       ),
                     ],
                   ),
@@ -324,13 +345,17 @@ class _SpeedControlState extends State<SpeedControl> {
                       Text(
                         context.l10n.originalBpm,
                         style: context.titleSmall.copyWith(
-                          color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onPrimaryContainer,
                         ),
                       ),
                       Text(
                         _originalBpm?.toString() ?? '-',
                         style: context.headlineMedium.copyWith(
-                          color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onPrimaryContainer,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -485,7 +510,9 @@ class _SpeedControlState extends State<SpeedControl> {
                           Text(
                             context.l10n.detectedBpm,
                             style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.onPrimaryContainer,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onPrimaryContainer,
                             ),
                           ),
                           const SizedBox(height: 4),
@@ -493,7 +520,9 @@ class _SpeedControlState extends State<SpeedControl> {
                             '$_calculatedBpm',
                             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                               fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.onPrimaryContainer,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onPrimaryContainer,
                             ),
                           ),
                         ],
@@ -525,7 +554,9 @@ class _SpeedControlState extends State<SpeedControl> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,
-                        foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                        foregroundColor: Theme.of(
+                          context,
+                        ).colorScheme.onPrimary,
                         shape: const CircleBorder(),
                         elevation: 4,
                       ),
@@ -538,7 +569,9 @@ class _SpeedControlState extends State<SpeedControl> {
                             context.l10n.tap,
                             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.onPrimary,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onPrimary,
                             ),
                           ),
                         ],

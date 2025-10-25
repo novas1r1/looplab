@@ -87,12 +87,18 @@ class SongRepository {
   Future<File?> convertM4aToMp3(File file) async {
     // Only proceed if the source file has an .m4a extension. Otherwise, skip.
     if (!file.path.toLowerCase().endsWith('.m4a')) {
-      log('Provided file is not an .m4a file – skipping conversion.', name: 'ConvertM4aToMp3');
+      log(
+        'Provided file is not an .m4a file – skipping conversion.',
+        name: 'ConvertM4aToMp3',
+      );
       return null;
     }
 
     // Build the output path by simply replacing the extension with .mp3
-    final outputPath = file.path.replaceAll(RegExp(r'\.m4a', caseSensitive: false), '.mp3');
+    final outputPath = file.path.replaceAll(
+      RegExp(r'\.m4a', caseSensitive: false),
+      '.mp3',
+    );
 
     // FFmpeg command to convert the audio. "-y" overwrites existing files,
     // "-vn" drops any (unlikely) video track, and we encode the audio stream
@@ -101,7 +107,10 @@ class SongRepository {
     // Note: libmp3lame is bundled with ffmpeg_kit_flutter_new (GPL build).
     final ffmpegCommand = '-y -i "${file.path}" -vn -codec:a libmp3lame -qscale:a 2 "$outputPath"';
 
-    log('Starting m4a→mp3 conversion using FFmpeg: $ffmpegCommand', name: 'ConvertM4aToMp3');
+    log(
+      'Starting m4a→mp3 conversion using FFmpeg: $ffmpegCommand',
+      name: 'ConvertM4aToMp3',
+    );
 
     // Execute conversion.
     final session = await FFmpegKit.execute(ffmpegCommand);
@@ -114,7 +123,10 @@ class SongRepository {
       await file.delete();
       return File(outputPath);
     } else if (ReturnCode.isCancel(returnCode)) {
-      log('FFmpeg conversion was cancelled by the user.', name: 'ConvertM4aToMp3');
+      log(
+        'FFmpeg conversion was cancelled by the user.',
+        name: 'ConvertM4aToMp3',
+      );
     } else {
       // Something went wrong – gather diagnostics.
       final failStackTrace = await session.getFailStackTrace();

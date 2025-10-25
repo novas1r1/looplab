@@ -75,7 +75,9 @@ class RepeatlabJustAudioServiceHandler extends RepeatlabAudioHandler {
   void _listenToPlayerState() {
     _playerStateBroadcast = audioPlayer.playerStateStream.map(_mapPlayerState).asBroadcastStream();
 
-    _playerStateSubscription = audioPlayer.playerStateStream.listen((playerState) {
+    _playerStateSubscription = audioPlayer.playerStateStream.listen((
+      playerState,
+    ) {
       final playing = playerState.playing;
       final processingState = switch (playerState.processingState) {
         ja.ProcessingState.idle => AudioProcessingState.idle,
@@ -154,9 +156,14 @@ class RepeatlabJustAudioServiceHandler extends RepeatlabAudioHandler {
         ),
       );
     } catch (error, stackTrace) {
-      log('Failed to play song with just_audio: $error', stackTrace: stackTrace);
+      log(
+        'Failed to play song with just_audio: $error',
+        stackTrace: stackTrace,
+      );
       playbackState.add(
-        playbackState.value.copyWith(processingState: AudioProcessingState.error),
+        playbackState.value.copyWith(
+          processingState: AudioProcessingState.error,
+        ),
       );
       rethrow;
     }
@@ -177,7 +184,9 @@ class RepeatlabJustAudioServiceHandler extends RepeatlabAudioHandler {
     final end = loop.end;
     if (start == null || end == null) return;
 
-    _loopPositionSubscription = audioPlayer.positionStream.listen(_handleLoopPositionUpdate);
+    _loopPositionSubscription = audioPlayer.positionStream.listen(
+      _handleLoopPositionUpdate,
+    );
     await _ensureWithinLoopBounds();
   }
 
@@ -219,7 +228,9 @@ class RepeatlabJustAudioServiceHandler extends RepeatlabAudioHandler {
   @override
   Future<void> setPitch(double pitch) async {
     if (!supportsPitch) {
-      throw UnsupportedError('Pitch shifting is not supported on this platform.');
+      throw UnsupportedError(
+        'Pitch shifting is not supported on this platform.',
+      );
     }
 
     _pitch = pitch;
@@ -310,8 +321,8 @@ class RepeatlabJustAudioServiceHandler extends RepeatlabAudioHandler {
 
     final current = audioPlayer.position;
     if (current >= end || current < start) {
-    await seek(start);
-  }
+      await seek(start);
+    }
   }
 
   Future<void> _reloadSourceIfNeeded() async {
@@ -319,7 +330,8 @@ class RepeatlabJustAudioServiceHandler extends RepeatlabAudioHandler {
     if (source == null) return;
 
     final processingState = audioPlayer.processingState;
-    if (processingState == ja.ProcessingState.completed || processingState == ja.ProcessingState.idle) {
+    if (processingState == ja.ProcessingState.completed ||
+        processingState == ja.ProcessingState.idle) {
       await _guardPluginCall(() => audioPlayer.setAudioSource(source));
       await _guardPluginCall(() => audioPlayer.setSpeed(_playbackSpeed));
       if (supportsPitch) {
@@ -362,14 +374,19 @@ class RepeatlabJustAudioServiceHandler extends RepeatlabAudioHandler {
     }
   }
 
-  Future<T> _guardPluginCall<T>(Future<T> Function() action, {bool fallbackOnMissingPlugin = true}) async {
+  Future<T> _guardPluginCall<T>(
+    Future<T> Function() action, {
+    bool fallbackOnMissingPlugin = true,
+  }) async {
     try {
       return await action();
     } on MissingPluginException catch (error, stackTrace) {
       _pluginAvailable = false;
       log('just_audio plugin call failed: $error', stackTrace: stackTrace);
       if (fallbackOnMissingPlugin) {
-        throw UnsupportedError('just_audio plugin is not available on this platform.');
+        throw UnsupportedError(
+          'just_audio plugin is not available on this platform.',
+        );
       }
       rethrow;
     }

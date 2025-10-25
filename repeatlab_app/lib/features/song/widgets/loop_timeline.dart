@@ -51,7 +51,9 @@ class _LoopTimelineState extends State<LoopTimeline> {
                   key: _timelineKey,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.surfaceContainerHighest,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Stack(
@@ -59,22 +61,29 @@ class _LoopTimelineState extends State<LoopTimeline> {
                       StreamBuilder<Duration>(
                         stream: context.read<SongCubit>().positionStream,
                         initialData: Duration.zero,
-                        builder: (BuildContext context, AsyncSnapshot<Duration> snapshot) {
-                          if (snapshot.hasData) {
-                            return Positioned(
-                              left:
-                                  (snapshot.data!.inMilliseconds / widget.duration.inMilliseconds) *
-                                  _timelineWidth,
-                              top: 0,
-                              bottom: 0,
-                              child: Container(
-                                width: 2,
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                            );
-                          }
-                          return const SizedBox.shrink();
-                        },
+                        builder:
+                            (
+                              BuildContext context,
+                              AsyncSnapshot<Duration> snapshot,
+                            ) {
+                              if (snapshot.hasData) {
+                                return Positioned(
+                                  left:
+                                      (snapshot.data!.inMilliseconds /
+                                          widget.duration.inMilliseconds) *
+                                      _timelineWidth,
+                                  top: 0,
+                                  bottom: 0,
+                                  child: Container(
+                                    width: 2,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
+                                  ),
+                                );
+                              }
+                              return const SizedBox.shrink();
+                            },
                       ),
 
                       // Loop containers
@@ -98,7 +107,9 @@ class _LoopTimelineState extends State<LoopTimeline> {
                               onTap: () => widget.onLoopTap?.call(loop),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: loop.color.color.withValues(alpha: 0.5),
+                                  color: loop.color.color.withValues(
+                                    alpha: 0.5,
+                                  ),
                                   borderRadius: BorderRadius.circular(4),
                                   border: Border.all(
                                     color: loop.color.color,
@@ -109,7 +120,9 @@ class _LoopTimelineState extends State<LoopTimeline> {
                                   child: Text(
                                     loop.name,
                                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurfaceVariant,
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                   ),

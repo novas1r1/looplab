@@ -109,7 +109,11 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                   right: 16,
                   child: IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.close, color: Colors.white, size: 32),
+                    icon: const Icon(
+                      Icons.close,
+                      color: Colors.white,
+                      size: 32,
+                    ),
                   ),
                 ),
               ],
@@ -281,7 +285,9 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                     child: !hasSubscription && !hasLifetimePurchase
                         ? _selectedPlan == PlanPeriod.yearly
                               ? Text(
-                                  context.l10n.purchaseYearly(isApple ? '3' : '5'),
+                                  context.l10n.purchaseYearly(
+                                    isApple ? '3' : '5',
+                                  ),
                                   style: context.bodyLargeLightBold,
                                 )
                               : Text(
@@ -323,7 +329,9 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                           onPressed: () {
                             // open terms and conditions
                             AppAnalytics.trackEvent(AppAnalytics.clickTerms);
-                            launchUrl(Uri.parse(AppConstants.urlTermsAndConditions));
+                            launchUrl(
+                              Uri.parse(AppConstants.urlTermsAndConditions),
+                            );
                           },
                           child: FittedBox(child: Text(context.l10n.terms)),
                         ),
@@ -413,7 +421,10 @@ class PackageWidget extends StatelessWidget {
                     children: [
                       if (period == PlanPeriod.yearly)
                         Text(
-                          context.l10n.yearlyDescription(priceString, isApple ? '3' : '5'),
+                          context.l10n.yearlyDescription(
+                            priceString,
+                            isApple ? '3' : '5',
+                          ),
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       if (period == PlanPeriod.lifetime)

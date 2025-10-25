@@ -104,7 +104,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                   text: context.l10n.onboardingPrivacyPolicyLink,
                                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                     decoration: TextDecoration.underline,
-                                    color: Theme.of(context).colorScheme.primary,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
                                   ),
                                 ),
                                 TextSpan(
@@ -116,7 +118,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                   text: context.l10n.onboardingTermsOfServiceLink,
                                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                     decoration: TextDecoration.underline,
-                                    color: Theme.of(context).colorScheme.primary,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
                                   ),
                                 ),
                               ],
@@ -218,7 +222,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
       if (mounted) {
         Navigator.of(
           context,
-        ).pushReplacement(AppRouter.generateRoute(const RouteSettings(name: '/')));
+        ).pushReplacement(
+          AppRouter.generateRoute(const RouteSettings(name: '/')),
+        );
       }
     }
   }
