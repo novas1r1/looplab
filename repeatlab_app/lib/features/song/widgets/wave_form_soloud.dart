@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer' as developer;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -168,7 +169,7 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
                                 child: RepaintBoundary(
                                   child: ValueListenableBuilder<Duration>(
                                     valueListenable: positionNotifier,
-                                    builder: (_, position, __) {
+                                    builder: (_, position, _) {
                                       if (!_isDragging) {
                                         _updateScrollPositionFor(position, state);
                                       }
@@ -179,7 +180,9 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
                                           duration: state.duration,
                                           currentPosition: position,
                                           loops: state.loops,
-                                          colorPlayed: Theme.of(context).colorScheme.primaryFixedDim,
+                                          colorPlayed: Theme.of(
+                                            context,
+                                          ).colorScheme.primaryFixedDim,
                                           colorUnplayed: const Color(0xff00696e),
                                           zoomScale: _zoomScale,
                                           startText: context.l10n.start,
@@ -370,7 +373,15 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
       return;
     }
 
-    _scrollController.jumpTo(target.clamp(0.0, maxScroll));
+    developer.log('target: $target', name: 'WaveFormSoLoud');
+    developer.log('maxScroll: $maxScroll', name: 'WaveFormSoLoud');
+    developer.log('position: $position', name: 'WaveFormSoLoud');
+
+    try {
+      _scrollController.jumpTo(target.clamp(0.0, maxScroll));
+    } catch (e) {
+      developer.log('Error jumping to position: $e', name: 'WaveFormSoLoud');
+    }
   }
 
   void _zoomIn() {
@@ -379,7 +390,9 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
     AppAnalytics.trackEvent(AppAnalytics.clickZoomIn, data: {'zoom_scale': _zoomScale});
 
     // Calculate the center position before zooming
-    final centerPosition = _scrollController.hasClients ? _scrollController.position.pixels / _zoomScale : 0.0;
+    final centerPosition = _scrollController.hasClients
+        ? _scrollController.position.pixels / _zoomScale
+        : 0.0;
 
     setState(() {
       _zoomScale = (_zoomScale + zoomStep).clamp(minZoom, maxZoom);
@@ -397,7 +410,9 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
     AppAnalytics.trackEvent(AppAnalytics.clickZoomOut, data: {'zoom_scale': _zoomScale});
 
     // Calculate the center position before zooming
-    final centerPosition = _scrollController.hasClients ? _scrollController.position.pixels / _zoomScale : 0.0;
+    final centerPosition = _scrollController.hasClients
+        ? _scrollController.position.pixels / _zoomScale
+        : 0.0;
 
     setState(() {
       _zoomScale = (_zoomScale - zoomStep).clamp(minZoom, maxZoom);
@@ -427,7 +442,9 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
   }
 
   void _updateZoom(double value) {
-    final centerPosition = _scrollController.hasClients ? _scrollController.position.pixels / _zoomScale : 0.0;
+    final centerPosition = _scrollController.hasClients
+        ? _scrollController.position.pixels / _zoomScale
+        : 0.0;
 
     setState(() {
       _zoomScale = value;

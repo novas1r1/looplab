@@ -67,114 +67,127 @@ class _ExportLoopBottomUpState extends State<ExportLoopBottomUp> {
       },
       child: FractionallySizedBox(
         heightFactor: 1.0,
-        child: Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-          ),
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16.0,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(context.l10n.loopExportDialogDescription),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    context.l10n.loopExportDialogTitle,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: const Icon(
+                      Icons.close,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Text(context.l10n.loopExportDialogDescription),
+              const SizedBox(height: 12),
+              Text(
+                context.l10n.loopExportFormatLabel,
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+              RadioGroup<AudioExportFormat>(
+                groupValue: _lastExportFormat,
+                onChanged: (value) {
+                  if (value != null) {
+                    setState(() => _lastExportFormat = value);
+                  }
+                },
+                child: Column(
+                  children: [
+                    RadioListTile(
+                      contentPadding: EdgeInsets.zero,
+                      value: AudioExportFormat.wav,
+
+                      title: Text(
+                        context.l10n.loopExportFormatWav,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ),
+                    RadioListTile(
+                      contentPadding: EdgeInsets.zero,
+                      value: AudioExportFormat.mp3,
+                      title: Text(
+                        context.l10n.loopExportFormatMp3,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                context.l10n.loopExportSampleRateLabel,
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+              DropdownButton<int>(
+                value: _lastSampleRateHz,
+                isExpanded: true,
+                items: _sampleRateOptions
+                    .map(
+                      (rate) => DropdownMenuItem<int>(
+                        value: rate,
+                        child: Text(_formatSampleRate(rate)),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (value) {
+                  if (value != null) {
+                    setState(() => _lastSampleRateHz = value);
+                  }
+                },
+              ),
+              if (_lastExportFormat == AudioExportFormat.mp3) ...[
                 const SizedBox(height: 12),
                 Text(
-                  context.l10n.loopExportFormatLabel,
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-                RadioListTile<AudioExportFormat>(
-                  value: AudioExportFormat.mp3,
-                  groupValue: _lastExportFormat,
-                  contentPadding: EdgeInsets.zero,
-                  title: Text(context.l10n.loopExportFormatMp3),
-                  onChanged: (value) {
-                    if (value != null) {
-                      setState(() => _lastExportFormat = value);
-                    }
-                  },
-                ),
-                RadioListTile<AudioExportFormat>(
-                  value: AudioExportFormat.wav,
-                  groupValue: _lastExportFormat,
-                  contentPadding: EdgeInsets.zero,
-                  title: Text(context.l10n.loopExportFormatWav),
-                  onChanged: (value) {
-                    if (value != null) {
-                      setState(() => _lastExportFormat = value);
-                    }
-                  },
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  context.l10n.loopExportSampleRateLabel,
+                  context.l10n.loopExportBitrateLabel,
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
                 DropdownButton<int>(
-                  value: _lastSampleRateHz,
+                  value: _lastMp3BitrateKbps,
                   isExpanded: true,
-                  items: _sampleRateOptions
+                  items: _mp3BitrateOptions
                       .map(
                         (rate) => DropdownMenuItem<int>(
                           value: rate,
-                          child: Text(_formatSampleRate(rate)),
+                          child: Text('$rate kbps'),
                         ),
                       )
                       .toList(),
                   onChanged: (value) {
                     if (value != null) {
-                      setState(() => _lastSampleRateHz = value);
+                      setState(() => _lastMp3BitrateKbps = value);
                     }
                   },
                 ),
-                if (_lastExportFormat == AudioExportFormat.mp3) ...[
-                  const SizedBox(height: 12),
-                  Text(
-                    context.l10n.loopExportBitrateLabel,
-                    style: Theme.of(context).textTheme.titleSmall,
+              ],
+              const SizedBox(height: 24),
+              Row(
+                spacing: 16,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: Text(context.l10n.cancel),
                   ),
-                  DropdownButton<int>(
-                    value: _lastMp3BitrateKbps,
-                    isExpanded: true,
-                    items: _mp3BitrateOptions
-                        .map(
-                          (rate) => DropdownMenuItem<int>(
-                            value: rate,
-                            child: Text('$rate kbps'),
-                          ),
-                        )
-                        .toList(),
-                    onChanged: (value) {
-                      if (value != null) {
-                        setState(() => _lastMp3BitrateKbps = value);
-                      }
-                    },
-                  ),
-                ],
-                Row(
-                  children: [
-                    TextButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      child: Text(context.l10n.cancel),
-                    ),
-                    ElevatedButton(
-                      onPressed: () => Navigator.of(context).pop(
-                        _LoopExportOptions(
-                          format: _lastExportFormat,
-                          sampleRateHz: _lastSampleRateHz,
-                          bitrateKbps: _lastExportFormat == AudioExportFormat.mp3
-                              ? _lastMp3BitrateKbps
-                              : null,
-                        ),
-                      ),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () => _onExportLoop(),
                       child: Text(context.l10n.loopExportConfirm),
                     ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
@@ -192,14 +205,6 @@ class _ExportLoopBottomUpState extends State<ExportLoopBottomUp> {
       SnackbarHelper.showError(context, context.l10n.loopExportValidationError);
       return;
     }
-
-    final selectedFormat = _lastExportFormat;
-    final selectedSampleRate = _sampleRateOptions.contains(_lastSampleRateHz)
-        ? _lastSampleRateHz
-        : _sampleRateOptions.first;
-    final selectedBitrate = _mp3BitrateOptions.contains(_lastMp3BitrateKbps)
-        ? _lastMp3BitrateKbps
-        : _mp3BitrateOptions[1];
 
     final loopStart = widget.loop.start ?? Duration.zero;
     final loopEnd = widget.loop.end ?? widget.song.duration;
@@ -223,6 +228,8 @@ class _ExportLoopBottomUpState extends State<ExportLoopBottomUp> {
       songTitle: widget.song.title,
       loopName: widget.loop.name,
       format: _lastExportFormat,
+      sampleRateHz: _lastSampleRateHz,
+      bitrateKbps: _lastExportFormat == AudioExportFormat.mp3 ? _lastMp3BitrateKbps : null,
     );
 
     String outputPath;
@@ -293,13 +300,15 @@ class _ExportLoopBottomUpState extends State<ExportLoopBottomUp> {
     required String songTitle,
     required String loopName,
     required AudioExportFormat format,
+    required int sampleRateHz,
+    required int? bitrateKbps,
   }) {
     final sanitizedSong = _sanitizeFileName(songTitle);
     final sanitizedLoop = _sanitizeFileName(
       loopName.isNotEmpty ? loopName : context.l10n.loopExportFallbackName,
     );
 
-    return '$sanitizedSong-$sanitizedLoop.${format.fileExtension}';
+    return '$sanitizedSong-$sanitizedLoop-${sampleRateHz}Hz-${bitrateKbps}kbps.${format.fileExtension}';
   }
 
   String _sanitizeFileName(String input) {
