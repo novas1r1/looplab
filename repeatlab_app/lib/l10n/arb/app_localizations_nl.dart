@@ -379,6 +379,20 @@ class AppLocalizationsNl extends AppLocalizations {
   String get changelogTitle => 'Wijzigingen';
 
   @override
+  String get changelog140Title => '1/2 Loops Exporteren';
+
+  @override
+  String get changelog140Description =>
+      'Je kunt nu loops exporteren met verschillende formaten en kwaliteiten.';
+
+  @override
+  String get changelog1402Title => '2/2 Bug Fixes & Design Optimizations';
+
+  @override
+  String get changelog1402Description =>
+      'Several Bugs were fixed and design optimized.';
+
+  @override
   String get changelog130Title => 'Tempo gebaseerd op BPM wijzigen';
 
   @override

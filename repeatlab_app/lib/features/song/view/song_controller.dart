@@ -36,29 +36,45 @@ class SongController extends StatelessWidget {
                   },
                 ),
               ),
-              IconButton(
-                onPressed: () => context.read<SongCubit>().back(10),
-                icon: const Icon(Icons.replay_10_rounded),
+              SizedBox(
+                height: 32,
+                child: Center(
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    onPressed: () => context.read<SongCubit>().back(10),
+                    icon: const Icon(Icons.replay_10_rounded, size: 24),
+                  ),
+                ),
               ),
               const SizedBox(width: 8),
               BlocSelector<SongCubit, SongState, PlayerState?>(
                 selector: (state) => state.playerState,
                 builder: (context, playerState) {
-                  return IconButton(
-                    iconSize: 36,
-                    onPressed: () => _onTapPlay(context),
-                    icon: Icon(
-                      playerState == PlayerState.playing
-                          ? Icons.pause_rounded
-                          : Icons.play_arrow_rounded,
+                  return SizedBox(
+                    height: 32,
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                      onPressed: () => _onTapPlay(context),
+                      icon: Icon(
+                        playerState == PlayerState.playing
+                            ? Icons.pause_rounded
+                            : Icons.play_arrow_rounded,
+                      ),
                     ),
                   );
                 },
               ),
               const SizedBox(width: 8),
-              IconButton(
-                onPressed: () => context.read<SongCubit>().forward(10),
-                icon: const Icon(Icons.forward_10_rounded),
+              SizedBox(
+                height: 32,
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  onPressed: () => context.read<SongCubit>().forward(10),
+                  icon: const Icon(Icons.forward_10_rounded, size: 24),
+                ),
               ),
               Expanded(
                 child: Align(

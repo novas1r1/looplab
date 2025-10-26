@@ -357,6 +357,18 @@ class AppLocalizationsZh extends AppLocalizations {
   String get changelogTitle => '更新日志';
 
   @override
+  String get changelog140Title => '1/2 导出循环';
+
+  @override
+  String get changelog140Description => '现在您可以导出循环，并选择不同的格式和质量。';
+
+  @override
+  String get changelog1402Title => '2/2 错误修复和设计优化';
+
+  @override
+  String get changelog1402Description => '修复了多个错误，并优化了设计。';
+
+  @override
   String get changelog130Title => '基于 BPM 更改速度';
 
   @override

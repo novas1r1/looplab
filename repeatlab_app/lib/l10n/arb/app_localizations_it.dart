@@ -382,6 +382,20 @@ class AppLocalizationsIt extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
+  String get changelog140Title => '1/2 Export Loops';
+
+  @override
+  String get changelog140Description =>
+      'Ora puoi esportare loop con differenti formati e qualità.';
+
+  @override
+  String get changelog1402Title => '2/2 Bug Fixes & Design Optimizations';
+
+  @override
+  String get changelog1402Description =>
+      'Sono stati risolti diversi bug e il design è stato ottimizzato.';
+
+  @override
   String get changelog130Title => 'Cambia il tempo basato su BPM';
 
   @override

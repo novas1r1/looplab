@@ -103,7 +103,7 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
           children: [
             Stack(
               children: [
-                Image.asset('assets/images/header_2.png'),
+                Image.asset('assets/images/header_2.jpg'),
                 Positioned(
                   top: 16,
                   right: 16,

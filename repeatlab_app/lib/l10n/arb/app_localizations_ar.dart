@@ -376,6 +376,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get changelogTitle => 'سجل التغييرات';
 
   @override
+  String get changelog140Title => 'تصدير الحلقات';
+
+  @override
+  String get changelog140Description =>
+      'يمكنك الآن تصدير الحلقات بتنسيقات مختلفة وجودات.';
+
+  @override
+  String get changelog1402Title => 'إصلاح أخطاء وتحسين التصميم';
+
+  @override
+  String get changelog1402Description => 'تم إصلاح عدة أخطاء وتحسين التصميم.';
+
+  @override
   String get changelog130Title => 'تغيير السرعة الأساسية حسب BPM';
 
   @override

@@ -378,6 +378,20 @@ class AppLocalizationsSv extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
+  String get changelog140Title => '1/2 Exportera Loopar';
+
+  @override
+  String get changelog140Description =>
+      'Nu kan du exportera loopar med olika format och kvalitet.';
+
+  @override
+  String get changelog1402Title => '2/2 Bug Fixes & Design Optimizations';
+
+  @override
+  String get changelog1402Description =>
+      'Flera buggar har åtgärdats och designen har optimerats.';
+
+  @override
   String get changelog130Title => 'Ändra tempo baserat på BPM';
 
   @override

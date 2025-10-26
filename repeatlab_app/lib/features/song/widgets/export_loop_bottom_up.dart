@@ -85,127 +85,124 @@ class _ExportLoopBottomUpState extends State<ExportLoopBottomUp> {
             break;
         }
       },
-      child: FractionallySizedBox(
-        heightFactor: 1.0,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  context.l10n.loopExportDialogTitle,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(Icons.close),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Text(context.l10n.loopExportDialogDescription),
+            const SizedBox(height: 12),
+            Text(
+              context.l10n.loopExportFormatLabel,
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+            RadioGroup<AudioExportFormat>(
+              groupValue: _selectedFormat,
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() => _selectedFormat = value);
+                }
+              },
+              child: Column(
                 children: [
-                  Text(
-                    context.l10n.loopExportDialogTitle,
-                    style: Theme.of(context).textTheme.titleLarge,
+                  RadioListTile<AudioExportFormat>(
+                    contentPadding: EdgeInsets.zero,
+                    value: AudioExportFormat.wav,
+                    title: Text(
+                      context.l10n.loopExportFormatWav,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
                   ),
-                  IconButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.close),
+                  RadioListTile<AudioExportFormat>(
+                    contentPadding: EdgeInsets.zero,
+                    value: AudioExportFormat.mp3,
+                    title: Text(
+                      context.l10n.loopExportFormatMp3,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
-              Text(context.l10n.loopExportDialogDescription),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              context.l10n.loopExportSampleRateLabel,
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+            DropdownButton<int>(
+              value: _selectedSampleRate,
+              isExpanded: true,
+              items: _sampleRateOptions
+                  .map(
+                    (rate) => DropdownMenuItem<int>(
+                      value: rate,
+                      child: Text(_formatSampleRate(rate)),
+                    ),
+                  )
+                  .toList(),
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() => _selectedSampleRate = value);
+                }
+              },
+            ),
+            if (_selectedFormat == AudioExportFormat.mp3) ...[
               const SizedBox(height: 12),
               Text(
-                context.l10n.loopExportFormatLabel,
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-              RadioGroup<AudioExportFormat>(
-                groupValue: _selectedFormat,
-                onChanged: (value) {
-                  if (value != null) {
-                    setState(() => _selectedFormat = value);
-                  }
-                },
-                child: Column(
-                  children: [
-                    RadioListTile<AudioExportFormat>(
-                      contentPadding: EdgeInsets.zero,
-                      value: AudioExportFormat.wav,
-                      title: Text(
-                        context.l10n.loopExportFormatWav,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                    ),
-                    RadioListTile<AudioExportFormat>(
-                      contentPadding: EdgeInsets.zero,
-                      value: AudioExportFormat.mp3,
-                      title: Text(
-                        context.l10n.loopExportFormatMp3,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                context.l10n.loopExportSampleRateLabel,
+                context.l10n.loopExportBitrateLabel,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
               DropdownButton<int>(
-                value: _selectedSampleRate,
+                value: _selectedMp3Bitrate,
                 isExpanded: true,
-                items: _sampleRateOptions
+                items: _mp3BitrateOptions
                     .map(
                       (rate) => DropdownMenuItem<int>(
                         value: rate,
-                        child: Text(_formatSampleRate(rate)),
+                        child: Text('$rate kbps'),
                       ),
                     )
                     .toList(),
                 onChanged: (value) {
                   if (value != null) {
-                    setState(() => _selectedSampleRate = value);
+                    setState(() => _selectedMp3Bitrate = value);
                   }
                 },
               ),
-              if (_selectedFormat == AudioExportFormat.mp3) ...[
-                const SizedBox(height: 12),
-                Text(
-                  context.l10n.loopExportBitrateLabel,
-                  style: Theme.of(context).textTheme.titleSmall,
+            ],
+            const SizedBox(height: 24),
+            Row(
+              spacing: 16,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(context.l10n.cancel),
                 ),
-                DropdownButton<int>(
-                  value: _selectedMp3Bitrate,
-                  isExpanded: true,
-                  items: _mp3BitrateOptions
-                      .map(
-                        (rate) => DropdownMenuItem<int>(
-                          value: rate,
-                          child: Text('$rate kbps'),
-                        ),
-                      )
-                      .toList(),
-                  onChanged: (value) {
-                    if (value != null) {
-                      setState(() => _selectedMp3Bitrate = value);
-                    }
-                  },
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: _onExportLoop,
+                    child: Text(context.l10n.loopExportConfirm),
+                  ),
                 ),
               ],
-              const SizedBox(height: 24),
-              Row(
-                spacing: 16,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: Text(context.l10n.cancel),
-                  ),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: _onExportLoop,
-                      child: Text(context.l10n.loopExportConfirm),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

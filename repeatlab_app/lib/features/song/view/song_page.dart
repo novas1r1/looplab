@@ -207,21 +207,17 @@ class _SongViewState extends State<_SongView> {
                           const SizedBox(height: 8),
                           LoopTimeline(
                             key: tutorialKeyLoopTimeline,
-                            onLoopTap: (loop) =>
-                                context.read<SongCubit>().selectLoop(loop),
-                            onPreviousLoop: () =>
-                                context.read<SongCubit>().previousLoop(),
-                            onNextLoop: () =>
-                                context.read<SongCubit>().nextLoop(),
-                            onSeek: (position) =>
-                                context.read<SongCubit>().seekSong(position),
+                            onLoopTap: (loop) => context.read<SongCubit>().selectLoop(loop),
+                            onPreviousLoop: () => context.read<SongCubit>().previousLoop(),
+                            onNextLoop: () => context.read<SongCubit>().nextLoop(),
+                            onSeek: (position) => context.read<SongCubit>().seekSong(position),
                             duration: widget.song.duration,
                           ),
                           const SizedBox(height: 12),
                           SongController(
                             key: tutorialKeySongController,
                           ),
-                          const Divider(height: 32),
+                          const Divider(height: 24),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -229,7 +225,7 @@ class _SongViewState extends State<_SongView> {
                                 'Loops',
                                 style: Theme.of(
                                   context,
-                                ).textTheme.headlineLarge,
+                                ).textTheme.headlineSmall,
                               ),
                               Row(
                                 children: [
@@ -238,32 +234,27 @@ class _SongViewState extends State<_SongView> {
                                     style: context.bodySmall,
                                   ),
                                   BlocSelector<SongCubit, SongState, bool>(
-                                    selector: (state) =>
-                                        state.isLoopModeEnabled,
+                                    selector: (state) => state.isLoopModeEnabled,
                                     builder: (context, isLoopModeEnabled) {
                                       return CupertinoSwitch(
                                         key: tutorialKeyLoopActivate,
-                                        thumbIcon:
-                                            WidgetStateProperty.resolveWith<
-                                              Icon?
-                                            >((
-                                              Set<WidgetState> states,
-                                            ) {
-                                              if (states.contains(
-                                                WidgetState.disabled,
-                                              )) {
-                                                return const Icon(Icons.close);
-                                              }
-                                              return const Icon(
-                                                Icons.loop_rounded,
-                                              );
-                                            }),
+                                        thumbIcon: WidgetStateProperty.resolveWith<Icon?>((
+                                          Set<WidgetState> states,
+                                        ) {
+                                          if (states.contains(
+                                            WidgetState.disabled,
+                                          )) {
+                                            return const Icon(Icons.close);
+                                          }
+                                          return const Icon(
+                                            Icons.loop_rounded,
+                                          );
+                                        }),
                                         activeTrackColor: Theme.of(
                                           context,
                                         ).colorScheme.primaryContainer,
                                         value: isLoopModeEnabled,
-                                        onChanged: (value) =>
-                                            _onToggleLoopMode(context),
+                                        onChanged: (value) => _onToggleLoopMode(context),
                                       );
                                     },
                                   ),
@@ -289,8 +280,7 @@ class _SongViewState extends State<_SongView> {
                                       horizontal: 8,
                                     ),
                                     minimumSize: const Size(0, 36),
-                                    tapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
+                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                   ),
                                   child: Text(
                                     context.l10n.setLoopStart,
@@ -301,43 +291,40 @@ class _SongViewState extends State<_SongView> {
                               ),
                               const SizedBox(width: 8),
                               Expanded(
-                                child:
-                                    BlocSelector<SongCubit, SongState, Loop?>(
-                                      selector: (state) {
-                                        return state.activeLoop;
-                                      },
-                                      builder: (context, activeLoop) {
-                                        return ElevatedButton(
-                                          key: tutorialKeyLoopEnd,
-                                          onPressed: (activeLoop != null)
-                                              ? () => _onSetLoopEnd(context)
-                                              : null,
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: Theme.of(
-                                              context,
-                                            ).colorScheme.primaryContainer,
-                                            foregroundColor: Theme.of(
-                                              context,
-                                            ).colorScheme.onPrimaryContainer,
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 8,
-                                            ),
-                                            minimumSize: const Size(0, 36),
-                                            tapTargetSize: MaterialTapTargetSize
-                                                .shrinkWrap,
-                                          ),
-                                          child: Text(
-                                            context.l10n.setLoopEnd,
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
-                                          ),
-                                        );
-                                      },
-                                    ),
+                                child: BlocSelector<SongCubit, SongState, Loop?>(
+                                  selector: (state) {
+                                    return state.activeLoop;
+                                  },
+                                  builder: (context, activeLoop) {
+                                    return ElevatedButton(
+                                      key: tutorialKeyLoopEnd,
+                                      onPressed: (activeLoop != null)
+                                          ? () => _onSetLoopEnd(context)
+                                          : null,
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Theme.of(
+                                          context,
+                                        ).colorScheme.primaryContainer,
+                                        foregroundColor: Theme.of(
+                                          context,
+                                        ).colorScheme.onPrimaryContainer,
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 8,
+                                        ),
+                                        minimumSize: const Size(0, 36),
+                                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                      ),
+                                      child: Text(
+                                        context.l10n.setLoopEnd,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 16),
                         ]),
                       ),
                     ),
@@ -346,35 +333,25 @@ class _SongViewState extends State<_SongView> {
                       sliver: SliverList(
                         delegate: SliverChildBuilderDelegate(
                           (context, index) {
-                            return BlocSelector<
-                              SongCubit,
-                              SongState,
-                              List<Loop>
-                            >(
+                            return BlocSelector<SongCubit, SongState, List<Loop>>(
                               selector: (state) => state.song.loops,
                               builder: (context, loops) {
                                 return SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.4,
+                                  height: MediaQuery.of(context).size.height * 0.4,
                                   child: ReorderableListView.builder(
                                     onReorder: (oldIndex, newIndex) {
                                       if (oldIndex < newIndex) {
                                         newIndex -= 1;
                                       }
 
-                                      final List<Loop> newLoops =
-                                          List<Loop>.from(loops);
+                                      final List<Loop> newLoops = List<Loop>.from(loops);
                                       final Loop item = newLoops.removeAt(
                                         oldIndex,
                                       );
                                       newLoops.insert(newIndex, item);
 
                                       // Update order numbers
-                                      for (
-                                        var i = 0;
-                                        i < newLoops.length;
-                                        i++
-                                      ) {
+                                      for (var i = 0; i < newLoops.length; i++) {
                                         newLoops[i] = newLoops[i].copyWith(
                                           orderNumber: i,
                                         );
@@ -396,25 +373,15 @@ class _SongViewState extends State<_SongView> {
                                         loop: loops[index],
                                         isSelected:
                                             loops[index] ==
-                                            context
-                                                .read<SongCubit>()
-                                                .state
-                                                .activeLoop,
-                                        onTap: (loop) => context
-                                            .read<SongCubit>()
-                                            .selectLoop(loop),
-                                        onDelete: (loop) => context
-                                            .read<SongCubit>()
-                                            .deleteLoop(loop),
-                                        onPlay: (loop) => context
-                                            .read<SongCubit>()
-                                            .togglePlayLoop(loop),
-                                        onPause: (loop) => context
-                                            .read<SongCubit>()
-                                            .pauseLoop(),
-                                        onUpdate: (loop) => context
-                                            .read<SongCubit>()
-                                            .updateLoop(loop),
+                                            context.read<SongCubit>().state.activeLoop,
+                                        onTap: (loop) => context.read<SongCubit>().selectLoop(loop),
+                                        onDelete: (loop) =>
+                                            context.read<SongCubit>().deleteLoop(loop),
+                                        onPlay: (loop) =>
+                                            context.read<SongCubit>().togglePlayLoop(loop),
+                                        onPause: (loop) => context.read<SongCubit>().pauseLoop(),
+                                        onUpdate: (loop) =>
+                                            context.read<SongCubit>().updateLoop(loop),
                                       ),
                                     ),
                                     itemCount: loops.length,
@@ -437,6 +404,7 @@ class _SongViewState extends State<_SongView> {
                     style: context.bodyLargeDarkBold,
                   ),
                   key: tutorialKeyLoopAdd,
+                  extendedPadding: const EdgeInsets.symmetric(horizontal: 8),
                 ),
               );
           }
@@ -649,6 +617,7 @@ class _SongViewState extends State<_SongView> {
         radius: 8,
         contents: [
           TargetContent(
+            align: ContentAlign.top,
             builder: (context, controller) => TutorialItem(
               title: context.l10n.tutorialSetLoopStart,
               content: context.l10n.tutorialSetLoopStartDescription,
@@ -666,6 +635,7 @@ class _SongViewState extends State<_SongView> {
         radius: 8,
         contents: [
           TargetContent(
+            align: ContentAlign.top,
             builder: (context, controller) => TutorialItem(
               title: context.l10n.tutorialSetLoopEnd,
               content: context.l10n.tutorialSetLoopEndDescription,
@@ -683,6 +653,7 @@ class _SongViewState extends State<_SongView> {
         radius: 8,
         contents: [
           TargetContent(
+            align: ContentAlign.top,
             builder: (context, controller) => TutorialItem(
               title: context.l10n.tutorialActivateLoop,
               content: context.l10n.tutorialActivateLoopDescription,
@@ -729,8 +700,7 @@ class _SongViewState extends State<_SongView> {
 
     if (!context.mounted) return;
 
-    if (premiumSubscriptionCubit.hasPremium ||
-        context.read<SongCubit>().state.song.loops.isEmpty) {
+    if (premiumSubscriptionCubit.hasPremium || context.read<SongCubit>().state.song.loops.isEmpty) {
       context.read<SongCubit>().addLoop();
     } else {
       AppAnalytics.trackEvent(AppAnalytics.showPaywallSongLoops);

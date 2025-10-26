@@ -364,6 +364,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get changelogTitle => '変更履歴';
 
   @override
+  String get changelog140Title => '1/2 ループをエクスポート';
+
+  @override
+  String get changelog140Description => 'ループを異なる形式と品質でエクスポートできるようになりました。';
+
+  @override
+  String get changelog1402Title => '2/2 バグ修正とデザイン最適化';
+
+  @override
+  String get changelog1402Description => 'いくつかのバグが修正され、デザインが最適化されました。';
+
+  @override
   String get changelog130Title => 'BPMに基づいてテンポを変更';
 
   @override

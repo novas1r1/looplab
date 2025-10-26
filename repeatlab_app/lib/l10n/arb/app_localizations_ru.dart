@@ -381,6 +381,21 @@ class AppLocalizationsRu extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
+  String get changelog140Title => '1/2 Экспорт Лупов';
+
+  @override
+  String get changelog140Description =>
+      'Теперь вы можете экспортировать лупы в разных форматах и качестве.';
+
+  @override
+  String get changelog1402Title =>
+      '2/2 Исправления Ошибок и Оптимизация Дизайна';
+
+  @override
+  String get changelog1402Description =>
+      'Исправлены несколько ошибок и оптимизирован дизайн.';
+
+  @override
   String get changelog130Title => 'Изменение темпа на основе BPM';
 
   @override

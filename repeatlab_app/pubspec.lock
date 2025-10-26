@@ -13,10 +13,10 @@ packages:
     dependency: "direct dev"
     description:
       name: alchemist
-      sha256: "4c5f5146b7539eb9a53211d81489f09f08fc3821f754a370f493477a9ef9e390"
+      sha256: "73e6ea7108897b51af27cf2e27f1a7281d0c7a296c31025ae0c367f09c7236c6"
       url: "https://pub.dev"
     source: hosted
-    version: "0.12.1"
+    version: "0.13.0"
   analyzer:
     dependency: transitive
     description:
@@ -157,10 +157,10 @@ packages:
     dependency: "direct main"
     description:
       name: bloc
-      sha256: "52c10575f4445c61dd9e0cafcc6356fdd827c4c64dd7945ef3c4105f6b6ac189"
+      sha256: a2cebb899f91d36eeeaa55c7b20b5915db5a9df1b8fd4a3c9c825e22e474537d
       url: "https://pub.dev"
     source: hosted
-    version: "9.0.0"
+    version: "9.1.0"
   bloc_test:
     dependency: "direct dev"
     description:
@@ -241,14 +241,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "8.11.1"
-  change_app_package_name:
-    dependency: "direct dev"
-    description:
-      name: change_app_package_name
-      sha256: "8e43b754fe960426904d77ed4c62fa8c9834deaf6e293ae40963fa447482c4c5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.5.0"
   characters:
     dependency: transitive
     description:
@@ -277,10 +269,10 @@ packages:
     dependency: "direct main"
     description:
       name: clarity_flutter
-      sha256: dcee089be82be74443b2a77c0cbd5051ff5e5996ea1cd713cdd1e46ff67f365c
+      sha256: "612453f529aea79c91f7fd7f3e85389afcf61f98f58249143fc32ba32ce4bfb3"
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.2"
+    version: "1.4.3"
   cli_config:
     dependency: transitive
     description:
@@ -437,10 +429,10 @@ packages:
     dependency: "direct main"
     description:
       name: ffmpeg_kit_flutter_new
-      sha256: a6f881b2a41c8900733afef1806e069f58ab48e395174552e98157eb10d8adc0
+      sha256: d127635f27e93a7f21f0a14ce0a1a148e80919c402dac4a2118d73bfb17ce841
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.0"
+    version: "4.1.0"
   ffmpeg_kit_flutter_platform_interface:
     dependency: transitive
     description:
@@ -461,10 +453,10 @@ packages:
     dependency: "direct main"
     description:
       name: file_picker
-      sha256: e7e16c9d15c36330b94ca0e2ad8cb61f93cd5282d0158c09805aed13b5452f22
+      sha256: f2d9f173c2c14635cc0e9b14c143c49ef30b4934e8d1d274d6206fcb0086a06f
       url: "https://pub.dev"
     source: hosted
-    version: "10.3.2"
+    version: "10.3.3"
   fixnum:
     dependency: transitive
     description:
@@ -519,18 +511,18 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_slidable
-      sha256: e6bd17290cf0d011f9ed66c74d4159b8fe3b3050afedac0f11fab1ba8687e710
+      sha256: ea369262929d3cc6ebf9d8a00c196127966f117fe433a5e5cb47fb08008ca203
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.1"
+    version: "4.0.3"
   flutter_soloud:
     dependency: "direct main"
     description:
       name: flutter_soloud
-      sha256: "615a49836d747cc10455f0b0e6674493cd85d129a8c45b9cd976041010277e24"
+      sha256: bc130dc6ee85864458f1ba3fe515caa106e3974a823cef1a436e20a97ecd43d7
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.7"
+    version: "3.3.9"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -817,10 +809,10 @@ packages:
     dependency: "direct main"
     description:
       name: package_info_plus
-      sha256: "16eee997588c60225bda0488b6dcfac69280a6b7a3cf02c741895dd370a02968"
+      sha256: f69da0d3189a4b4ceaeb1a3defb0f329b3b352517f52bed4290f83d4f06bc08d
       url: "https://pub.dev"
     source: hosted
-    version: "8.3.1"
+    version: "9.0.0"
   package_info_plus_platform_interface:
     dependency: transitive
     description:
@@ -933,6 +925,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.3"
+  protobuf:
+    dependency: transitive
+    description:
+      name: protobuf
+      sha256: de9c9eb2c33f8e933a42932fe1dc504800ca45ebc3d673e6ed7f39754ee4053e
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.0"
   provider:
     dependency: transitive
     description:
@@ -961,10 +961,10 @@ packages:
     dependency: "direct main"
     description:
       name: purchases_flutter
-      sha256: "1342fc6d3114307bd565619b791288311fd8ff3726060f47ec079aaeed5400bd"
+      sha256: "8d34712aa3201f675eeccaacf45c0b7b025575fc9d0378b2619bb61246e76064"
       url: "https://pub.dev"
     source: hosted
-    version: "8.10.6"
+    version: "8.11.0"
   rxdart:
     dependency: transitive
     description:
@@ -1342,10 +1342,10 @@ packages:
     dependency: "direct main"
     description:
       name: userorient_flutter
-      sha256: "5f3a9ac83d7f4e055ed5291646fa2f8f2d9958ee4d0214a1ef74e45080c76584"
+      sha256: "54ab92ec8b3bf7169f02021ce5c11989b8e71ef0fc7661c0d767b434cc10ab0d"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0"
+    version: "1.4.4"
   uuid:
     dependency: "direct main"
     description:
@@ -1454,10 +1454,10 @@ packages:
     dependency: "direct main"
     description:
       name: wiredash
-      sha256: c66c12e56147b26c810cf0288e81b2917ea7a3423fb1411f6dd5e001565189de
+      sha256: cf2b8db3a3833fb0c68759a4c2843edd1ad92559877755a3d78e6ac9b379e1cf
       url: "https://pub.dev"
     source: hosted
-    version: "2.5.0"
+    version: "2.6.0"
   xdg_directories:
     dependency: transitive
     description:

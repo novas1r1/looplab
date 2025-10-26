@@ -377,6 +377,21 @@ class AppLocalizationsPl extends AppLocalizations {
   String get changelogTitle => 'Zmiany';
 
   @override
+  String get changelog140Title => '1/2 Eksportuj Pętle';
+
+  @override
+  String get changelog140Description =>
+      'Możesz teraz eksportować pętle w różnych formatach i jakościach.';
+
+  @override
+  String get changelog1402Title =>
+      '2/2 Poprawki Błędów i Optymalizacje Designu';
+
+  @override
+  String get changelog1402Description =>
+      'Poprawiono kilka błędów i zoptymalizowano design.';
+
+  @override
   String get changelog130Title => 'Zmiana tempa na podstawie BPM';
 
   @override

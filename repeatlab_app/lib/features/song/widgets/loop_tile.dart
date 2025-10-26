@@ -61,7 +61,7 @@ class _LoopTileState extends State<LoopTile> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const SizedBox(width: 16),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Row(
                     children: [
@@ -80,6 +80,7 @@ class _LoopTileState extends State<LoopTile> {
                 ),
                 SizedBox(
                   width: 32,
+                  height: 32,
                   child: IconButton(
                     constraints: const BoxConstraints(),
                     padding: EdgeInsets.zero,
@@ -89,6 +90,7 @@ class _LoopTileState extends State<LoopTile> {
                 ),
                 SizedBox(
                   width: 32,
+                  height: 32,
                   child: IconButton(
                     constraints: const BoxConstraints(),
                     padding: EdgeInsets.zero,
@@ -99,7 +101,7 @@ class _LoopTileState extends State<LoopTile> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -119,7 +121,7 @@ class _LoopTileState extends State<LoopTile> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

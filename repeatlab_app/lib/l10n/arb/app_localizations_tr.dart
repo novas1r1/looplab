@@ -379,6 +379,21 @@ class AppLocalizationsTr extends AppLocalizations {
   String get changelogTitle => 'Değişiklik Günlüğü';
 
   @override
+  String get changelog140Title => '1/2 Döngüleri Dışa Aktar';
+
+  @override
+  String get changelog140Description =>
+      'Şimdi döngüleri farklı formatlar ve kalitelerle dışa aktarabilirsiniz.';
+
+  @override
+  String get changelog1402Title =>
+      '2/2 Hata Düzeltmeleri ve Tasarım İyileştirmeleri';
+
+  @override
+  String get changelog1402Description =>
+      'Birkaç hata düzeltildi ve tasarım iyileştirildi.';
+
+  @override
   String get changelog130Title => 'BPM\'ye göre tempo değiştirme';
 
   @override

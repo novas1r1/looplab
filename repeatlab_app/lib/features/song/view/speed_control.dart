@@ -81,6 +81,7 @@ class _SpeedControlState extends State<SpeedControl> {
         color: Theme.of(context).colorScheme.secondaryContainer,
         borderRadius: BorderRadius.circular(10),
       ),
+      padding: const EdgeInsets.all(8).copyWith(right: 0, top: 8, bottom: 8),
       child: Column(
         children: [
           // Header with tabs
@@ -88,17 +89,40 @@ class _SpeedControlState extends State<SpeedControl> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 0, 16),
-                child: Text(
-                  _controlMode == ControlMode.tempo ? context.l10n.speedControl : 'Pitch Control',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: Theme.of(context).colorScheme.secondaryFixed,
-                  ),
+              Text(
+                _controlMode == ControlMode.tempo ? context.l10n.speedControl : 'Pitch Control',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: Theme.of(context).colorScheme.secondaryFixed,
                 ),
               ),
+              if (hasPremium)
+                SizedBox(
+                  height: 36,
+                  child: ToggleButtons(
+                    borderRadius: BorderRadius.circular(10),
+                    selectedColor: Theme.of(context).colorScheme.onPrimaryContainer,
+                    color: Theme.of(context).colorScheme.secondary,
+                    fillColor: Theme.of(context).colorScheme.primaryContainer,
+                    disabledColor: Theme.of(context).colorScheme.secondary,
+                    isSelected: [_mode == TempoMode.multiplier, _mode == TempoMode.bpm],
+                    onPressed: (index) => _onChangeTempoMode(index),
+                    children: const [
+                      Text(
+                        '×',
+                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                      ),
+                      Text(
+                        'BPM',
+                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                      ),
+                    ],
+                  ),
+                ),
+              const SizedBox(width: 8),
+              // button to expand and collapse the speed control
+
               // Control mode tabs (Tempo/Pitch)
-              Padding(
+              /*Padding(
                 padding: const EdgeInsets.fromLTRB(0, 16, 16, 16),
                 child: SizedBox(
                   height: 36,
@@ -131,50 +155,12 @@ class _SpeedControlState extends State<SpeedControl> {
                     ],
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 8, 0, 16),
-                child: IconButton(
-                  onPressed: () => (_controlMode == ControlMode.tempo)
-                      ? _onResetSpeedForMode(_mode)
-                      : _onResetPitch(),
-                  icon: Icon(
-                    Icons.refresh_rounded,
-                    color: Theme.of(context).colorScheme.secondaryFixed,
-                  ),
-                ),
-              ),
+              ),*/
             ],
           ),
           // Content area - show tempo or pitch controls based on selected tab
           if (_controlMode == ControlMode.tempo) ...[
             // Tempo mode selector (only show for premium users)
-            if (hasPremium)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-                child: SizedBox(
-                  height: 36,
-                  child: ToggleButtons(
-                    borderRadius: BorderRadius.circular(10),
-                    selectedColor: Theme.of(context).colorScheme.onPrimaryContainer,
-                    color: Theme.of(context).colorScheme.secondary,
-                    fillColor: Theme.of(context).colorScheme.primaryContainer,
-                    disabledColor: Theme.of(context).colorScheme.secondary,
-                    isSelected: [_mode == TempoMode.multiplier, _mode == TempoMode.bpm],
-                    onPressed: (index) => _onChangeTempoMode(index),
-                    children: const [
-                      Text(
-                        '×',
-                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-                      ),
-                      Text(
-                        'BPM',
-                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
             if (_mode == TempoMode.multiplier) _buildMultiplierMode(context, hasPremium),
             if (_mode == TempoMode.bpm) _buildBpmMode(context, hasPremium),
           ],
@@ -185,57 +171,63 @@ class _SpeedControlState extends State<SpeedControl> {
   }
 
   Widget _buildMultiplierMode(BuildContext context, bool hasPremium) {
-    return Padding(
-      padding: const EdgeInsets.all(16).copyWith(top: 0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // min speed
-          Text('0.5×', style: context.labelLarge),
-          // slider
-          Expanded(
-            child: CustomSlider(
-              value: _speedMultiplier,
-              min: 0.5,
-              max: 2.0,
-              divisions: 15,
-              onChanged: (double value) {
-                if (!hasPremium) {
-                  return;
-                } else {
-                  setState(() {
-                    _speedMultiplier = value;
-                  });
-                }
-              },
-              onChangeEnd: (double value) {
-                if (!hasPremium) {
-                  _showPremiumDialog(context);
-                } else {
-                  widget.onSpeedMultiplierChanged(value);
-                }
-              },
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.primaryContainer,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Text(
+            '${_speedMultiplier.toStringAsFixed(1)}×',
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: Theme.of(context).colorScheme.onPrimaryContainer,
             ),
           ),
-          // max speed
-          Text('2.0×', style: context.labelLarge),
-          const SizedBox(width: 16),
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primaryContainer,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Text(
-              '${_speedMultiplier.toStringAsFixed(1)}×',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w700,
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
-              ),
-            ),
+        ),
+        const SizedBox(width: 8),
+        // min speed
+        Text('0.5×', style: context.labelLarge),
+        // slider
+        Expanded(
+          child: CustomSlider(
+            value: _speedMultiplier,
+            min: 0.5,
+            max: 2.0,
+            divisions: 15,
+            onChanged: (double value) {
+              if (!hasPremium) {
+                return;
+              } else {
+                setState(() {
+                  _speedMultiplier = value;
+                });
+              }
+            },
+            onChangeEnd: (double value) {
+              if (!hasPremium) {
+                _showPremiumDialog(context);
+              } else {
+                widget.onSpeedMultiplierChanged(value);
+              }
+            },
           ),
-        ],
-      ),
+        ),
+        // max speed
+        Text('2.0×', style: context.labelLarge),
+        const SizedBox(width: 8),
+        IconButton(
+          onPressed: () =>
+              (_controlMode == ControlMode.tempo) ? _onResetSpeedForMode(_mode) : _onResetPitch(),
+          icon: Icon(
+            Icons.refresh_rounded,
+            color: Theme.of(context).colorScheme.secondaryFixed,
+          ),
+        ),
+      ],
     );
   }
 

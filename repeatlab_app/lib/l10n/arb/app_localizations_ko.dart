@@ -363,6 +363,18 @@ class AppLocalizationsKo extends AppLocalizations {
   String get changelogTitle => '변경 사항';
 
   @override
+  String get changelog140Title => '1/2 루프 내보내기';
+
+  @override
+  String get changelog140Description => '이제 다른 형식과 품질로 루프를 내보낼 수 있습니다.';
+
+  @override
+  String get changelog1402Title => '2/2 버그 수정 및 디자인 최적화';
+
+  @override
+  String get changelog1402Description => '여러 버그가 수정되고 디자인이 최적화되었습니다.';
+
+  @override
   String get changelog130Title => 'BPM 기반 템포 변경';
 
   @override

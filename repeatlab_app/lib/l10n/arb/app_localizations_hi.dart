@@ -377,6 +377,20 @@ class AppLocalizationsHi extends AppLocalizations {
   String get changelogTitle => 'परिवर्तन लॉग';
 
   @override
+  String get changelog140Title => '1/2 Export Loops';
+
+  @override
+  String get changelog140Description =>
+      'You can now export loops with different formats and quality.';
+
+  @override
+  String get changelog1402Title => '2/2 Bug Fixes & Design Optimizations';
+
+  @override
+  String get changelog1402Description =>
+      'Several Bugs were fixed and design optimized.';
+
+  @override
   String get changelog130Title => 'BPM आधारित गति बदलें';
 
   @override

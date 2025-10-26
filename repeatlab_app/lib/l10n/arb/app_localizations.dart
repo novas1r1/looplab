@@ -786,6 +786,30 @@ abstract class AppLocalizations {
   /// **'Changelog'**
   String get changelogTitle;
 
+  /// No description provided for @changelog140Title.
+  ///
+  /// In en, this message translates to:
+  /// **'1/2 Export Loops'**
+  String get changelog140Title;
+
+  /// No description provided for @changelog140Description.
+  ///
+  /// In en, this message translates to:
+  /// **'You can now export loops with different formats and quality.'**
+  String get changelog140Description;
+
+  /// No description provided for @changelog1402Title.
+  ///
+  /// In en, this message translates to:
+  /// **'2/2 Bug Fixes & Design Optimizations'**
+  String get changelog1402Title;
+
+  /// No description provided for @changelog1402Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Several Bugs were fixed and design optimized.'**
+  String get changelog1402Description;
+
   /// No description provided for @changelog130Title.
   ///
   /// In en, this message translates to:

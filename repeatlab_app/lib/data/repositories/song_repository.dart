@@ -6,7 +6,7 @@ import 'dart:io';
 import 'package:audio_metadata_reader/audio_metadata_reader.dart';
 import 'package:ffmpeg_kit_flutter_new/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter_new/return_code.dart';
-import 'package:flutter_soloud/flutter_soloud.dart';
+import 'package:flutter_soloud/flutter_soloud.dart' hide AudioMetadata;
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:sembast/sembast.dart';
