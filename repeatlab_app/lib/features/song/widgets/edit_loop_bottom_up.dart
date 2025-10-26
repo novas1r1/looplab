@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:repeatlab/data/models/loop.dart';
-import 'package:repeatlab/features/song/cubit/song_exporter/song_exporter_cubit.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
 class EditLoopBottomUp extends StatefulWidget {
@@ -464,16 +463,4 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
       }
     });
   }
-}
-
-class _LoopExportOptions {
-  final AudioExportFormat format;
-  final int sampleRateHz;
-  final int? bitrateKbps;
-
-  const _LoopExportOptions({
-    required this.format,
-    required this.sampleRateHz,
-    this.bitrateKbps,
-  });
 }

@@ -76,10 +76,14 @@ class SongExporterStatusMapper extends EnumMapper<SongExporterStatus> {
         return SongExporterStatus.initial;
       case r'exporting':
         return SongExporterStatus.exporting;
+      case r'awaitingSave':
+        return SongExporterStatus.awaitingSave;
       case r'exportSuccess':
         return SongExporterStatus.exportSuccess;
       case r'exportError':
         return SongExporterStatus.exportError;
+      case r'exportCanceled':
+        return SongExporterStatus.exportCanceled;
       default:
         throw MapperException.unknownEnumValue(value);
     }
@@ -92,10 +96,14 @@ class SongExporterStatusMapper extends EnumMapper<SongExporterStatus> {
         return r'initial';
       case SongExporterStatus.exporting:
         return r'exporting';
+      case SongExporterStatus.awaitingSave:
+        return r'awaitingSave';
       case SongExporterStatus.exportSuccess:
         return r'exportSuccess';
       case SongExporterStatus.exportError:
         return r'exportError';
+      case SongExporterStatus.exportCanceled:
+        return r'exportCanceled';
     }
   }
 }
@@ -148,6 +156,19 @@ class SongExporterStateMapper extends ClassMapperBase<SongExporterState> {
     _$format,
     opt: true,
   );
+  static Uint8List? _$pendingBytes(SongExporterState v) => v.pendingBytes;
+  static const Field<SongExporterState, Uint8List> _f$pendingBytes = Field(
+    'pendingBytes',
+    _$pendingBytes,
+    opt: true,
+  );
+  static String? _$suggestedFileName(SongExporterState v) =>
+      v.suggestedFileName;
+  static const Field<SongExporterState, String> _f$suggestedFileName = Field(
+    'suggestedFileName',
+    _$suggestedFileName,
+    opt: true,
+  );
 
   @override
   final MappableFields<SongExporterState> fields = const {
@@ -155,6 +176,8 @@ class SongExporterStateMapper extends ClassMapperBase<SongExporterState> {
     #errorMessage: _f$errorMessage,
     #exportedFilePath: _f$exportedFilePath,
     #format: _f$format,
+    #pendingBytes: _f$pendingBytes,
+    #suggestedFileName: _f$suggestedFileName,
   };
 
   static SongExporterState _instantiate(DecodingData data) {
@@ -163,6 +186,8 @@ class SongExporterStateMapper extends ClassMapperBase<SongExporterState> {
       errorMessage: data.dec(_f$errorMessage),
       exportedFilePath: data.dec(_f$exportedFilePath),
       format: data.dec(_f$format),
+      pendingBytes: data.dec(_f$pendingBytes),
+      suggestedFileName: data.dec(_f$suggestedFileName),
     );
   }
 
@@ -242,6 +267,8 @@ abstract class SongExporterStateCopyWith<
     String? errorMessage,
     String? exportedFilePath,
     AudioExportFormat? format,
+    Uint8List? pendingBytes,
+    String? suggestedFileName,
   });
   SongExporterStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
@@ -262,12 +289,16 @@ class _SongExporterStateCopyWithImpl<$R, $Out>
     Object? errorMessage = $none,
     Object? exportedFilePath = $none,
     Object? format = $none,
+    Object? pendingBytes = $none,
+    Object? suggestedFileName = $none,
   }) => $apply(
     FieldCopyWithData({
       if (status != null) #status: status,
       if (errorMessage != $none) #errorMessage: errorMessage,
       if (exportedFilePath != $none) #exportedFilePath: exportedFilePath,
       if (format != $none) #format: format,
+      if (pendingBytes != $none) #pendingBytes: pendingBytes,
+      if (suggestedFileName != $none) #suggestedFileName: suggestedFileName,
     }),
   );
   @override
@@ -276,6 +307,11 @@ class _SongExporterStateCopyWithImpl<$R, $Out>
     errorMessage: data.get(#errorMessage, or: $value.errorMessage),
     exportedFilePath: data.get(#exportedFilePath, or: $value.exportedFilePath),
     format: data.get(#format, or: $value.format),
+    pendingBytes: data.get(#pendingBytes, or: $value.pendingBytes),
+    suggestedFileName: data.get(
+      #suggestedFileName,
+      or: $value.suggestedFileName,
+    ),
   );
 
   @override

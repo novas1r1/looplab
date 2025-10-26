@@ -158,12 +158,10 @@ class _LoopTileState extends State<LoopTile> {
   }
 
   Future<void> _onExportLoop() async {
-    final songDuration = context.read<SongCubit>().state.song.duration;
-
     final exporterCubit = context.read<SongExporterCubit>();
     final songCubit = context.read<SongCubit>();
 
-    final updatedLoop = await showModalBottomSheet<Loop?>(
+    await showModalBottomSheet<void>(
       context: context,
       builder: (context) => MultiBlocProvider(
         providers: [
@@ -180,9 +178,5 @@ class _LoopTileState extends State<LoopTile> {
         ),
       ),
     );
-
-    if (updatedLoop != null) {
-      widget.onUpdate(updatedLoop);
-    }
   }
 }

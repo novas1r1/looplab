@@ -1,11 +1,9 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path/path.dart' as p;
 // import 'package:just_audio/just_audio.dart';
 import 'package:repeatlab/core/ui/widgets/loading.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
@@ -129,33 +127,6 @@ class _SongViewState extends State<_SongView> {
                   context.l10n.loopModeDisabled,
                 );
               }
-            }
-          },
-        ),
-        BlocListener<SongExporterCubit, SongExporterState>(
-          listener: (context, exporterState) {
-            if (exporterState.status == SongExporterStatus.exportSuccess) {
-              if (Platform.isAndroid || Platform.isIOS) {
-                return;
-              }
-              final exportedFileName = exporterState.exportedFilePath != null
-                  ? p.basename(exporterState.exportedFilePath!)
-                  : null;
-              final message = exportedFileName != null
-                  ? context.l10n.loopExportSuccessWithPath(exportedFileName)
-                  : context.l10n.loopExportSuccess;
-
-              SnackbarHelper.showSuccess(context, message);
-              context.read<SongExporterCubit>().reset();
-            } else if (exporterState.status == SongExporterStatus.exportError) {
-              final errorMessage = exporterState.errorMessage != null
-                  ? context.l10n.loopExportError(exporterState.errorMessage!)
-                  : context.l10n.loopExportGenericError;
-              SnackbarHelper.showError(
-                context,
-                errorMessage,
-              );
-              context.read<SongExporterCubit>().reset();
             }
           },
         ),

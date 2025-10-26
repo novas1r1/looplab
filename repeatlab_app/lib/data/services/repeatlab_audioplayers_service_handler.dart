@@ -232,7 +232,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
     }
 
     final positionUpdates = positionStream ?? audioPlayer.onPositionChanged;
-    _loopPositionSubscription = positionUpdates?.listen(_handleLoopPositionUpdate);
+    _loopPositionSubscription = positionUpdates.listen(_handleLoopPositionUpdate);
 
     await _ensureWithinLoopBounds(loop);
   }
@@ -464,7 +464,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
     if (_currentSource == null) return;
 
     final playerState = audioPlayer.state;
-    if (playerState == PlayerState.completed || playerState == PlayerState.stopped || playerState == PlayerState.disposed) {
+    if (playerState == PlayerState.completed ||
+        playerState == PlayerState.stopped ||
+        playerState == PlayerState.disposed) {
       await audioPlayer.setSource(_currentSource!);
       await audioPlayer.setPlaybackRate(_playbackSpeed);
     }
