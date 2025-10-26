@@ -4,8 +4,8 @@ import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:ffmpeg_kit_flutter_new/ffmpeg_kit.dart';
-import 'package:ffmpeg_kit_flutter_new/return_code.dart';
+import 'package:ffmpeg_kit_flutter_new_min/ffmpeg_kit.dart';
+import 'package:ffmpeg_kit_flutter_new_min/return_code.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:repeatlab/data/models/loop.dart';
@@ -17,29 +17,13 @@ part 'song_exporter_state.dart';
 
 @MappableEnum()
 enum AudioExportFormat {
-  mp3,
   wav,
 }
 
 extension AudioExportFormatX on AudioExportFormat {
-  String get fileExtension {
-    switch (this) {
-      case AudioExportFormat.mp3:
-        return 'mp3';
-      case AudioExportFormat.wav:
-        return 'wav';
-    }
-  }
+  String get fileExtension => 'wav';
 
-  String ffmpegCodecArgs({int? bitrateKbps}) {
-    switch (this) {
-      case AudioExportFormat.mp3:
-        final bitrate = bitrateKbps ?? 192;
-        return '-c:a libmp3lame -b:a ${bitrate}k';
-      case AudioExportFormat.wav:
-        return '-c:a pcm_s16le';
-    }
-  }
+  String ffmpegCodecArgs() => '-c:a pcm_s16le';
 }
 
 class SongExporterCubit extends Cubit<SongExporterState> {
@@ -54,7 +38,6 @@ class SongExporterCubit extends Cubit<SongExporterState> {
     required Loop loop,
     required AudioExportFormat format,
     required int sampleRateHz,
-    int? bitrateKbps,
   }) async {
     final loopStart = loop.start ?? Duration.zero;
     final loopEnd = loop.end ?? song.duration;
@@ -91,7 +74,6 @@ class SongExporterCubit extends Cubit<SongExporterState> {
         loopName: loop.name,
         format: format,
         sampleRateHz: sampleRateHz,
-        bitrateKbps: bitrateKbps,
       );
 
       final tempDirectory = await getTemporaryDirectory();
@@ -111,7 +93,6 @@ class SongExporterCubit extends Cubit<SongExporterState> {
           duration: loopEnd - loopStart,
           format: format,
           sampleRateHz: sampleRateHz,
-          bitrateKbps: bitrateKbps,
         ),
       );
       final returnCode = await session.getReturnCode();
@@ -203,11 +184,10 @@ class SongExporterCubit extends Cubit<SongExporterState> {
     required Duration duration,
     required AudioExportFormat format,
     required int sampleRateHz,
-    int? bitrateKbps,
   }) {
     final start = _formatDuration(startTime);
     final length = _formatDuration(duration);
-    final codecArgs = format.ffmpegCodecArgs(bitrateKbps: bitrateKbps);
+    final codecArgs = format.ffmpegCodecArgs();
 
     return '-ss $start -i "$inputPath" -t $length -ar $sampleRateHz $codecArgs -y "$outputPath"';
   }
@@ -229,17 +209,13 @@ class SongExporterCubit extends Cubit<SongExporterState> {
     required String loopName,
     required AudioExportFormat format,
     required int sampleRateHz,
-    required int? bitrateKbps,
   }) {
     final sanitizedSong = _sanitizeFileName(songTitle);
     final sanitizedLoop = _sanitizeFileName(
       loopName.isNotEmpty ? loopName : 'loop',
     );
-    final bitrateSuffix = format == AudioExportFormat.mp3 && bitrateKbps != null
-        ? '-${bitrateKbps}kbps'
-        : '';
 
-    return '$sanitizedSong-$sanitizedLoop-${sampleRateHz}Hz$bitrateSuffix.${format.fileExtension}';
+    return '$sanitizedSong-$sanitizedLoop-${sampleRateHz}Hz.${format.fileExtension}';
   }
 
   String _sanitizeFileName(String input) {

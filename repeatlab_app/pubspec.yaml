@@ -23,8 +23,7 @@ dependencies:
   bloc: ^9.1.0
   clarity_flutter: ^1.4.3
   dart_mappable: ^4.5.0
-  # ffmpeg_kit_flutter_new: ^1.6.1
-  ffmpeg_kit_flutter_new: ^4.1.0
+  ffmpeg_kit_flutter_new_min: ^3.1.0
   file_picker: ^10.3.3
   flutter:
     sdk: flutter

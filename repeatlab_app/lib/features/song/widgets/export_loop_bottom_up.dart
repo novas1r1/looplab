@@ -24,11 +24,9 @@ class ExportLoopBottomUp extends StatefulWidget {
 
 class _ExportLoopBottomUpState extends State<ExportLoopBottomUp> {
   static const List<int> _sampleRateOptions = [44100, 48000];
-  static const List<int> _mp3BitrateOptions = [128, 192, 256, 320];
 
-  AudioExportFormat _selectedFormat = AudioExportFormat.mp3;
+  AudioExportFormat _selectedFormat = AudioExportFormat.wav;
   int _selectedSampleRate = 44100;
-  int _selectedMp3Bitrate = 192;
 
   bool _isExportDialogVisible = false;
   bool _isHandlingSave = false;
@@ -128,14 +126,6 @@ class _ExportLoopBottomUpState extends State<ExportLoopBottomUp> {
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
-                  RadioListTile<AudioExportFormat>(
-                    contentPadding: EdgeInsets.zero,
-                    value: AudioExportFormat.mp3,
-                    title: Text(
-                      context.l10n.loopExportFormatMp3,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -161,30 +151,6 @@ class _ExportLoopBottomUpState extends State<ExportLoopBottomUp> {
                 }
               },
             ),
-            if (_selectedFormat == AudioExportFormat.mp3) ...[
-              const SizedBox(height: 12),
-              Text(
-                context.l10n.loopExportBitrateLabel,
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-              DropdownButton<int>(
-                value: _selectedMp3Bitrate,
-                isExpanded: true,
-                items: _mp3BitrateOptions
-                    .map(
-                      (rate) => DropdownMenuItem<int>(
-                        value: rate,
-                        child: Text('$rate kbps'),
-                      ),
-                    )
-                    .toList(),
-                onChanged: (value) {
-                  if (value != null) {
-                    setState(() => _selectedMp3Bitrate = value);
-                  }
-                },
-              ),
-            ],
             const SizedBox(height: 24),
             Row(
               spacing: 16,
@@ -220,7 +186,6 @@ class _ExportLoopBottomUpState extends State<ExportLoopBottomUp> {
       loop: widget.loop,
       format: _selectedFormat,
       sampleRateHz: _selectedSampleRate,
-      bitrateKbps: _selectedFormat == AudioExportFormat.mp3 ? _selectedMp3Bitrate : null,
     );
   }
 

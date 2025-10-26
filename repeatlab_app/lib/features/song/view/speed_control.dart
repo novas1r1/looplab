@@ -95,6 +95,7 @@ class _SpeedControlState extends State<SpeedControl> {
                   color: Theme.of(context).colorScheme.secondaryFixed,
                 ),
               ),
+              const Spacer(),
               if (hasPremium)
                 SizedBox(
                   height: 36,
@@ -273,7 +274,7 @@ class _SpeedControlState extends State<SpeedControl> {
     }
 
     return Padding(
-      padding: const EdgeInsets.all(16).copyWith(top: 0),
+      padding: const EdgeInsets.all(8),
       child: Column(
         children: [
           Row(
@@ -297,13 +298,13 @@ class _SpeedControlState extends State<SpeedControl> {
                     children: [
                       Text(
                         context.l10n.originalBpm,
-                        style: context.titleSmall.copyWith(
+                        style: context.bodySmall.copyWith(
                           color: Theme.of(context).colorScheme.onPrimaryContainer,
                         ),
                       ),
                       Text(
                         _originalBpm?.toString() ?? '-',
-                        style: context.headlineMedium.copyWith(
+                        style: context.titleMedium.copyWith(
                           color: Theme.of(context).colorScheme.onPrimaryContainer,
                           fontWeight: FontWeight.w600,
                         ),
@@ -323,13 +324,13 @@ class _SpeedControlState extends State<SpeedControl> {
                   children: [
                     Text(
                       context.l10n.currentBpm,
-                      style: context.titleSmall.copyWith(
+                      style: context.bodySmall.copyWith(
                         color: Theme.of(context).colorScheme.onPrimaryContainer,
                       ),
                     ),
                     Text(
                       _currentBpm?.toString() ?? '-',
-                      style: context.headlineMedium.copyWith(
+                      style: context.titleMedium.copyWith(
                         color: Theme.of(context).colorScheme.onPrimaryContainer,
                         fontWeight: FontWeight.w600,
                       ),

@@ -26,8 +26,6 @@ class AudioExportFormatMapper extends EnumMapper<AudioExportFormat> {
   @override
   AudioExportFormat decode(dynamic value) {
     switch (value) {
-      case r'mp3':
-        return AudioExportFormat.mp3;
       case r'wav':
         return AudioExportFormat.wav;
       default:
@@ -38,8 +36,6 @@ class AudioExportFormatMapper extends EnumMapper<AudioExportFormat> {
   @override
   dynamic encode(AudioExportFormat self) {
     switch (self) {
-      case AudioExportFormat.mp3:
-        return r'mp3';
       case AudioExportFormat.wav:
         return r'wav';
     }
@@ -319,4 +315,3 @@ class _SongExporterStateCopyWithImpl<$R, $Out>
     Then<$Out2, $R2> t,
   ) => _SongExporterStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
-

@@ -238,6 +238,7 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                       ),
                     ),
                   ),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: ElevatedButton.icon(
                       onPressed: () => Navigator.pop(context, _updatedLoop),
