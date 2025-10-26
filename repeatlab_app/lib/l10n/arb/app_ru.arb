@@ -149,6 +149,40 @@
     "loopAdded": "Луп добавлен и активирован",
     "loopModeEnabled": "Режим лупа включен",
     "loopModeDisabled": "Режим лупа выключен",
+    "loopExportButton": "Экспорт лупа",
+    "loopExportDialogTitle": "Экспорт лупа",
+    "loopExportDialogDescription": "Выберите формат и качество для этого лупа.",
+    "loopExportFormatLabel": "Формат",
+    "loopExportFormatMp3": "MP3 (сжатый)",
+    "loopExportFormatWav": "WAV (без потерь)",
+    "loopExportSampleRateLabel": "Частота дискретизации",
+    "loopExportBitrateLabel": "Битрейт",
+    "loopExportConfirm": "Экспорт",
+    "loopExportPickLocation": "Выберите место для сохранения экспортированного лупа",
+    "loopExportFallbackName": "loop",
+    "loopExportInProgress": "Экспортируется луп...",
+    "loopExportValidationError": "Проверьте время начала и конца лупа перед экспортом.",
+    "loopExportSuccess": "Луп экспортирован успешно.",
+    "loopExportSuccessWithPath": "Луп экспортирован в {fileName}.",
+    "@loopExportSuccessWithPath": {
+        "description": "Показывается после завершения экспорта лупа и включает имя выходного файла.",
+        "placeholders": {
+            "fileName": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportError": "Не удалось экспортировать луп: {errorMessage}",
+    "@loopExportError": {
+        "description": "Показывается при ошибке экспорта лупа и включает сообщение об ошибке.",
+        "placeholders": {
+            "errorMessage": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportGenericError": "Не удалось экспортировать луп.",
+    "loopExportCanceled": "Экспорт лупа отменен.",
     "pleaseSelectLoop": "Пожалуйста, выберите луп",
     "free": "Free",
     "pro": "Pro",

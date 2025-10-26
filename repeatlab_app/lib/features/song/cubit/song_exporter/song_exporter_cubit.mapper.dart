@@ -7,6 +7,52 @@
 
 part of 'song_exporter_cubit.dart';
 
+class AudioExportFormatMapper extends EnumMapper<AudioExportFormat> {
+  AudioExportFormatMapper._();
+
+  static AudioExportFormatMapper? _instance;
+  static AudioExportFormatMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = AudioExportFormatMapper._());
+    }
+    return _instance!;
+  }
+
+  static AudioExportFormat fromValue(dynamic value) {
+    ensureInitialized();
+    return MapperContainer.globals.fromValue(value);
+  }
+
+  @override
+  AudioExportFormat decode(dynamic value) {
+    switch (value) {
+      case r'mp3':
+        return AudioExportFormat.mp3;
+      case r'wav':
+        return AudioExportFormat.wav;
+      default:
+        throw MapperException.unknownEnumValue(value);
+    }
+  }
+
+  @override
+  dynamic encode(AudioExportFormat self) {
+    switch (self) {
+      case AudioExportFormat.mp3:
+        return r'mp3';
+      case AudioExportFormat.wav:
+        return r'wav';
+    }
+  }
+}
+
+extension AudioExportFormatMapperExtension on AudioExportFormat {
+  String toValue() {
+    AudioExportFormatMapper.ensureInitialized();
+    return MapperContainer.globals.toValue<AudioExportFormat>(this) as String;
+  }
+}
+
 class SongExporterStatusMapper extends EnumMapper<SongExporterStatus> {
   SongExporterStatusMapper._();
 
@@ -69,6 +115,7 @@ class SongExporterStateMapper extends ClassMapperBase<SongExporterState> {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = SongExporterStateMapper._());
       SongExporterStatusMapper.ensureInitialized();
+      AudioExportFormatMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -89,17 +136,33 @@ class SongExporterStateMapper extends ClassMapperBase<SongExporterState> {
     _$errorMessage,
     opt: true,
   );
+  static String? _$exportedFilePath(SongExporterState v) => v.exportedFilePath;
+  static const Field<SongExporterState, String> _f$exportedFilePath = Field(
+    'exportedFilePath',
+    _$exportedFilePath,
+    opt: true,
+  );
+  static AudioExportFormat? _$format(SongExporterState v) => v.format;
+  static const Field<SongExporterState, AudioExportFormat> _f$format = Field(
+    'format',
+    _$format,
+    opt: true,
+  );
 
   @override
   final MappableFields<SongExporterState> fields = const {
     #status: _f$status,
     #errorMessage: _f$errorMessage,
+    #exportedFilePath: _f$exportedFilePath,
+    #format: _f$format,
   };
 
   static SongExporterState _instantiate(DecodingData data) {
     return SongExporterState(
       status: data.dec(_f$status),
       errorMessage: data.dec(_f$errorMessage),
+      exportedFilePath: data.dec(_f$exportedFilePath),
+      format: data.dec(_f$format),
     );
   }
 
@@ -174,7 +237,12 @@ abstract class SongExporterStateCopyWith<
   $Out
 >
     implements ClassCopyWith<$R, $In, $Out> {
-  $R call({SongExporterStatus? status, String? errorMessage});
+  $R call({
+    SongExporterStatus? status,
+    String? errorMessage,
+    String? exportedFilePath,
+    AudioExportFormat? format,
+  });
   SongExporterStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
   );
@@ -189,16 +257,25 @@ class _SongExporterStateCopyWithImpl<$R, $Out>
   late final ClassMapperBase<SongExporterState> $mapper =
       SongExporterStateMapper.ensureInitialized();
   @override
-  $R call({SongExporterStatus? status, Object? errorMessage = $none}) => $apply(
+  $R call({
+    SongExporterStatus? status,
+    Object? errorMessage = $none,
+    Object? exportedFilePath = $none,
+    Object? format = $none,
+  }) => $apply(
     FieldCopyWithData({
       if (status != null) #status: status,
       if (errorMessage != $none) #errorMessage: errorMessage,
+      if (exportedFilePath != $none) #exportedFilePath: exportedFilePath,
+      if (format != $none) #format: format,
     }),
   );
   @override
   SongExporterState $make(CopyWithData data) => SongExporterState(
     status: data.get(#status, or: $value.status),
     errorMessage: data.get(#errorMessage, or: $value.errorMessage),
+    exportedFilePath: data.get(#exportedFilePath, or: $value.exportedFilePath),
+    format: data.get(#format, or: $value.format),
   );
 
   @override

@@ -151,6 +151,40 @@
     "loopAdded": "Döngü eklendi ve etkinleştirildi",
     "loopModeEnabled": "Döngü modu etkinleştirildi",
     "loopModeDisabled": "Döngü modu devre dışı bırakıldı",
+    "loopExportButton": "Döngüyü Dışa Aktar",
+    "loopExportDialogTitle": "Döngüyü Dışa Aktar",
+    "loopExportDialogDescription": "Bu döngü için bir dosya formatı ve kalitesi seçin.",
+    "loopExportFormatLabel": "Format",
+    "loopExportFormatMp3": "MP3 (sıkıştırılmış)",
+    "loopExportFormatWav": "WAV (kayıpsız)",
+    "loopExportSampleRateLabel": "Sample rate",
+    "loopExportBitrateLabel": "Bitrate",
+    "loopExportConfirm": "Dışa Aktar",
+    "loopExportPickLocation": "Dışa aktarılan döngüyü kaydetmek için bir konum seçin",
+    "loopExportFallbackName": "loop",
+    "loopExportInProgress": "Döngüyü dışa aktarıyor...",
+    "loopExportValidationError": "Döngü başlangıç ve bitiş zamanlarını dışa aktarmadan önce kontrol edin.",
+    "loopExportSuccess": "Döngü başarıyla dışa aktarıldı.",
+    "loopExportSuccessWithPath": "Döngü {fileName} dosyasına dışa aktarıldı.",
+    "@loopExportSuccessWithPath": {
+        "description": "Döngü dışa aktarıldıktan sonra ve çıktı dosya adını içeren gösterilir.",
+        "placeholders": {
+            "fileName": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportError": "Döngü dışa aktarılamadı: {errorMessage}",
+    "@loopExportError": {
+        "description": "Döngü dışa aktarımı başarısız olduğunda ve hata mesajını içeren gösterilir.",
+        "placeholders": {
+            "errorMessage": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportGenericError": "Döngü dışa aktarılamadı.",
+    "loopExportCanceled": "Döngü dışa aktarımı iptal edildi.",
     "pleaseSelectLoop": "Lütfen bir döngü seçin",
     "free": "Ücretsiz",
     "pro": "Pro",

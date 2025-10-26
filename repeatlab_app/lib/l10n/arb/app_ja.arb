@@ -151,6 +151,40 @@
     "loopAdded": "ループが追加され、有効化されました",
     "loopModeEnabled": "ループモードが有効になりました",
     "loopModeDisabled": "ループモードが無効になりました",
+    "loopExportButton": "ループをエクスポート",
+    "loopExportDialogTitle": "ループをエクスポート",
+    "loopExportDialogDescription": "ループのファイル形式と品質を選択してください。",
+    "loopExportFormatLabel": "フォーマット",
+    "loopExportFormatMp3": "MP3 (圧縮)",
+    "loopExportFormatWav": "WAV (無損失)",
+    "loopExportSampleRateLabel": "Sample rate",
+    "loopExportBitrateLabel": "ビットレート",
+    "loopExportConfirm": "エクスポート",
+    "loopExportPickLocation": "エクスポートしたループを保存する場所を選択してください",
+    "loopExportFallbackName": "ループ",
+    "loopExportInProgress": "ループをエクスポートしています...",
+    "loopExportValidationError": "ループの開始時間と終了時間をエクスポートする前に確認してください。",
+    "loopExportSuccess": "ループが正常にエクスポートされました。",
+    "loopExportSuccessWithPath": "ループが {fileName} にエクスポートされました。",
+    "@loopExportSuccessWithPath": {
+        "description": "ループがエクスポートされた後に表示され、出力ファイル名が含まれます。",
+        "placeholders": {
+            "fileName": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportError": "ループをエクスポートできませんでした: {errorMessage}",
+    "@loopExportError": {
+        "description": "ループがエクスポートに失敗したときに表示され、エラーメッセージが含まれます。",
+        "placeholders": {
+            "errorMessage": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportGenericError": "ループをエクスポートできませんでした。",
+    "loopExportCanceled": "ループのエクスポートがキャンセルされました。",
     "pleaseSelectLoop": "ループを選択してください",
     "free": "無料",
     "pro": "プロ",

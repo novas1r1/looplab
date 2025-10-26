@@ -149,6 +149,40 @@
     "loopAdded": "Pętla dodana i aktywowana",
     "loopModeEnabled": "Tryb pętli aktywowany",
     "loopModeDisabled": "Tryb pętli wyłączony",
+    "loopExportButton": "Eksportuj pętlę",
+    "loopExportDialogTitle": "Eksportuj pętlę",
+    "loopExportDialogDescription": "Wybierz format i jakość dla tej pętli.",
+    "loopExportFormatLabel": "Format",
+    "loopExportFormatMp3": "MP3 (skompresowany)",
+    "loopExportFormatWav": "WAV (bez strat)",
+    "loopExportSampleRateLabel": "Próbkowanie",
+    "loopExportBitrateLabel": "Bitrate",
+    "loopExportConfirm": "Eksportuj",
+    "loopExportPickLocation": "Wybierz gdzie zapisać eksportowaną pętlę",
+    "loopExportFallbackName": "loop",
+    "loopExportInProgress": "Eksportowanie pętli...",
+    "loopExportValidationError": "Sprawdź czas rozpoczęcia i zakończenia pętli przed eksportowaniem.",
+    "loopExportSuccess": "Pętla eksportowana pomyślnie.",
+    "loopExportSuccessWithPath": "Pętla eksportowana do {fileName}.",
+    "@loopExportSuccessWithPath": {
+        "description": "Shown after a loop export completes and includes the output file name.",
+        "placeholders": {
+            "fileName": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportError": "Nie udało się eksportować pętli: {errorMessage}",
+    "@loopExportError": {
+        "description": "Pokazywane, gdy eksportowanie pętli nie powiedzie się i zawiera komunikat o błędzie.",
+        "placeholders": {
+            "errorMessage": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportGenericError": "Nie udało się eksportować pętli.",
+    "loopExportCanceled": "Eksportowanie pętli anulowane.",
     "pleaseSelectLoop": "Proszę wybrać pętlę",
     "free": "Free",
     "pro": "Pro",

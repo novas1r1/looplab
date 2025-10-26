@@ -463,6 +463,66 @@ class AppLocalizationsPt extends AppLocalizations {
   String get loopModeDisabled => 'Modo loop desativado';
 
   @override
+  String get loopExportButton => 'Exportar loop';
+
+  @override
+  String get loopExportDialogTitle => 'Exportar loop';
+
+  @override
+  String get loopExportDialogDescription =>
+      'Escolha um formato e qualidade para este loop.';
+
+  @override
+  String get loopExportFormatLabel => 'Formato';
+
+  @override
+  String get loopExportFormatMp3 => 'MP3 (compresso)';
+
+  @override
+  String get loopExportFormatWav => 'WAV (sem perda)';
+
+  @override
+  String get loopExportSampleRateLabel => 'Taxa de amostragem';
+
+  @override
+  String get loopExportBitrateLabel => 'Taxa de bits';
+
+  @override
+  String get loopExportConfirm => 'Exportar';
+
+  @override
+  String get loopExportPickLocation => 'Escolha onde salvar o loop exportado';
+
+  @override
+  String get loopExportFallbackName => 'loop';
+
+  @override
+  String get loopExportInProgress => 'Exportando loop...';
+
+  @override
+  String get loopExportValidationError =>
+      'Verifique o tempo inicial e final do loop antes de exportar.';
+
+  @override
+  String get loopExportSuccess => 'Loop exportado com sucesso.';
+
+  @override
+  String loopExportSuccessWithPath(String fileName) {
+    return 'Loop exportado para $fileName.';
+  }
+
+  @override
+  String loopExportError(String errorMessage) {
+    return 'Não foi possível exportar o loop: $errorMessage';
+  }
+
+  @override
+  String get loopExportGenericError => 'Não foi possível exportar o loop.';
+
+  @override
+  String get loopExportCanceled => 'Exportação do loop cancelada.';
+
+  @override
   String get pleaseSelectLoop => 'Por favor, selecione um loop';
 
   @override

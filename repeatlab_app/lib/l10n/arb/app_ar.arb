@@ -153,6 +153,40 @@
     "loopAdded": "تمت إضافة الحلقة وتفعيلها",
     "loopModeEnabled": "تم تفعيل وضع الحلقة",
     "loopModeDisabled": "تم تعطيل وضع الحلقة",
+    "loopExportButton": "تصدير الحلقة",
+    "loopExportDialogTitle": "تصدير الحلقة",
+    "loopExportDialogDescription": "اختر تنسيق الملف والجودة لهذه الحلقة.",
+    "loopExportFormatLabel": "تنسيق",
+    "loopExportFormatMp3": "MP3 (مضغوط)",
+    "loopExportFormatWav": "WAV (بدون فقدان)",
+    "loopExportSampleRateLabel": "معدل النموذج",
+    "loopExportBitrateLabel": "معدل البت",
+    "loopExportConfirm": "تصدير",
+    "loopExportPickLocation": "اختر مكان حفظ الحلقة المصدرة",
+    "loopExportFallbackName": "حلقة",
+    "loopExportInProgress": "يتم تصدير الحلقة...",
+    "loopExportValidationError": "تحقق من أوقات بداية ونهاية الحلقة قبل التصدير.",
+    "loopExportSuccess": "تم تصدير الحلقة بنجاح.",
+    "loopExportSuccessWithPath": "تم تصدير الحلقة إلى {fileName}.",
+    "@loopExportSuccessWithPath": {
+        "description": "يعرض بعد تصدير الحلقة ويشمل اسم الملف المصدر.",
+        "placeholders": {
+            "fileName": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportError": "فشل تصدير الحلقة: {errorMessage}",
+    "@loopExportError": {
+        "description": "Shown when loop export fails and includes the error message.",
+        "placeholders": {
+            "errorMessage": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportGenericError": "فشل تصدير الحلقة.",
+    "loopExportCanceled": "تم إلغاء تصدير الحلقة.",
     "pleaseSelectLoop": "الرجاء تحديد حلقة",
     "free": "مجاني",
     "pro": "احترافي",

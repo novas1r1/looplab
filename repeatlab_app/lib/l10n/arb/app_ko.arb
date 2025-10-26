@@ -151,6 +151,40 @@
     "loopAdded": "루프가 추가되고 활성화되었습니다",
     "loopModeEnabled": "루프 모드가 활성화되었습니다",
     "loopModeDisabled": "루프 모드가 비활성화되었습니다",
+    "loopExportButton": "루프 내보내기",
+    "loopExportDialogTitle": "루프 내보내기",
+    "loopExportDialogDescription": "루프의 파일 형식과 품질을 선택하세요.",
+    "loopExportFormatLabel": "형식",
+    "loopExportFormatMp3": "MP3 (압축)",
+    "loopExportFormatWav": "WAV (손실 없음)",
+    "loopExportSampleRateLabel": "샘플 레이트",
+    "loopExportBitrateLabel": "비트레이트",
+    "loopExportConfirm": "내보내기",
+    "loopExportPickLocation": "내보낸 루프를 저장할 위치를 선택하세요",
+    "loopExportFallbackName": "루프",
+    "loopExportInProgress": "루프 내보내기...",
+    "loopExportValidationError": "루프 시작 시간과 종료 시간을 내보내기 전에 확인하세요.",
+    "loopExportSuccess": "루프가 성공적으로 내보내졌습니다.",
+    "loopExportSuccessWithPath": "루프가 {fileName}에 내보내졌습니다.",
+    "@loopExportSuccessWithPath": {
+        "description": "루프 내보내기가 완료된 후 표시되고 출력 파일 이름이 포함됩니다.",
+        "placeholders": {
+            "fileName": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportError": "루프를 내보낼 수 없습니다: {errorMessage}",
+    "@loopExportError": {
+        "description": "루프 내보내기가 실패하고 오류 메시지가 포함됩니다.",
+        "placeholders": {
+            "errorMessage": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportGenericError": "루프를 내보낼 수 없습니다.",
+    "loopExportCanceled": "루프 내보내기가 취소되었습니다.",
     "pleaseSelectLoop": "루프를 선택하세요",
     "free": "무료",
     "pro": "프로",

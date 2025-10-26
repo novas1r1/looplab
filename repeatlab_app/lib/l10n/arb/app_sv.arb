@@ -149,6 +149,40 @@
     "loopAdded": "Loop tillagd och aktiverad",
     "loopModeEnabled": "Loopläget är aktiverat",
     "loopModeDisabled": "Loopläget är inaktiverat",
+    "loopExportButton": "Export loop",
+    "loopExportDialogTitle": "Export loop",
+    "loopExportDialogDescription": "Välj ett filformat och kvalitet för denna loop.",
+    "loopExportFormatLabel": "Format",
+    "loopExportFormatMp3": "MP3 (komprimerad)",
+    "loopExportFormatWav": "WAV (lossless)",
+    "loopExportSampleRateLabel": "Sample rate",
+    "loopExportBitrateLabel": "Bitrate",
+    "loopExportConfirm": "Exportera",
+    "loopExportPickLocation": "Välj var du vill spara den exporterade loopen",
+    "loopExportFallbackName": "loop",
+    "loopExportInProgress": "Exporterar loop...",
+    "loopExportValidationError": "Kontrollera loopens start- och sluttid innan du exporterar.",
+    "loopExportSuccess": "Loop exporterad lyckades.",
+    "loopExportSuccessWithPath": "Loop exporterad till {fileName}.",
+    "@loopExportSuccessWithPath": {
+        "description": "Visas efter att en loop export har slutförts och inkluderar namnet på utgångsfilen.",
+        "placeholders": {
+            "fileName": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportError": "Kunde inte exportera loop: {errorMessage}",
+    "@loopExportError": {
+        "description": "Visas när loop export misslyckas och inkluderar felmeddelandet.",
+        "placeholders": {
+            "errorMessage": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportGenericError": "Kunde inte exportera loop.",
+    "loopExportCanceled": "Loop export avbruten.",
     "pleaseSelectLoop": "Välj en loop",
     "free": "Free",
     "pro": "Pro",

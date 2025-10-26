@@ -456,6 +456,66 @@ class AppLocalizationsAr extends AppLocalizations {
   String get loopModeDisabled => 'تم تعطيل وضع الحلقة';
 
   @override
+  String get loopExportButton => 'تصدير الحلقة';
+
+  @override
+  String get loopExportDialogTitle => 'تصدير الحلقة';
+
+  @override
+  String get loopExportDialogDescription =>
+      'اختر تنسيق الملف والجودة لهذه الحلقة.';
+
+  @override
+  String get loopExportFormatLabel => 'تنسيق';
+
+  @override
+  String get loopExportFormatMp3 => 'MP3 (مضغوط)';
+
+  @override
+  String get loopExportFormatWav => 'WAV (بدون فقدان)';
+
+  @override
+  String get loopExportSampleRateLabel => 'معدل النموذج';
+
+  @override
+  String get loopExportBitrateLabel => 'معدل البت';
+
+  @override
+  String get loopExportConfirm => 'تصدير';
+
+  @override
+  String get loopExportPickLocation => 'اختر مكان حفظ الحلقة المصدرة';
+
+  @override
+  String get loopExportFallbackName => 'حلقة';
+
+  @override
+  String get loopExportInProgress => 'يتم تصدير الحلقة...';
+
+  @override
+  String get loopExportValidationError =>
+      'تحقق من أوقات بداية ونهاية الحلقة قبل التصدير.';
+
+  @override
+  String get loopExportSuccess => 'تم تصدير الحلقة بنجاح.';
+
+  @override
+  String loopExportSuccessWithPath(String fileName) {
+    return 'تم تصدير الحلقة إلى $fileName.';
+  }
+
+  @override
+  String loopExportError(String errorMessage) {
+    return 'فشل تصدير الحلقة: $errorMessage';
+  }
+
+  @override
+  String get loopExportGenericError => 'فشل تصدير الحلقة.';
+
+  @override
+  String get loopExportCanceled => 'تم إلغاء تصدير الحلقة.';
+
+  @override
   String get pleaseSelectLoop => 'الرجاء تحديد حلقة';
 
   @override

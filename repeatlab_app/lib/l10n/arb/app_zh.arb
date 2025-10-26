@@ -152,6 +152,40 @@
     "loopAdded": "循环已添加并激活",
     "loopModeEnabled": "循环模式已启用",
     "loopModeDisabled": "循环模式已禁用",
+    "loopExportButton": "导出循环",
+    "loopExportDialogTitle": "导出循环",
+    "loopExportDialogDescription": "选择文件格式和质量来导出此循环。",
+    "loopExportFormatLabel": "格式",
+    "loopExportFormatMp3": "MP3 (压缩)",
+    "loopExportFormatWav": "WAV (无损)",
+    "loopExportSampleRateLabel": "采样率",
+    "loopExportBitrateLabel": "比特率",
+    "loopExportConfirm": "导出",
+    "loopExportPickLocation": "选择导出循环的保存位置",
+    "loopExportFallbackName": "loop",
+    "loopExportInProgress": "导出循环...",
+    "loopExportValidationError": "在导出之前检查循环的开始和结束时间。",
+    "loopExportSuccess": "循环导出成功。",
+    "loopExportSuccessWithPath": "循环导出到 {fileName}。",
+    "@loopExportSuccessWithPath": {
+        "description": "在循环导出完成后显示，并包含输出文件名。",
+        "placeholders": {
+            "fileName": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportError": "无法导出循环: {errorMessage}",
+    "@loopExportError": {
+        "description": "当循环导出失败时显示，并包含错误消息。",
+        "placeholders": {
+            "errorMessage": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportGenericError": "无法导出循环。",
+    "loopExportCanceled": "循环导出取消。",
     "pleaseSelectLoop": "请选择一个循环",
     "free": "免费",
     "pro": "专业版",

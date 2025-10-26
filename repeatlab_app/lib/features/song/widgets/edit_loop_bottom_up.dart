@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:repeatlab/data/models/loop.dart';
+import 'package:repeatlab/features/song/cubit/song_exporter/song_exporter_cubit.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
 class EditLoopBottomUp extends StatefulWidget {
@@ -160,7 +161,9 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                     onChanged: (LoopColor? newColor) {
                       if (newColor != null) {
                         setState(() {
-                          _updatedLoop = _updatedLoop.copyWith(color: newColor);
+                          _updatedLoop = _updatedLoop.copyWith(
+                            color: newColor,
+                          );
                         });
                       }
                     },
@@ -218,32 +221,38 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
 
               // Delete button
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      widget.onDelete(widget.loop);
-                      Navigator.pop(context);
-                    },
-                    icon: Icon(
-                      Icons.delete,
-                      color: Theme.of(context).colorScheme.onError,
-                    ),
-                    label: Text(context.l10n.delete),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.error,
-                      foregroundColor: Theme.of(context).colorScheme.onError,
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        widget.onDelete(widget.loop);
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(
+                        Icons.delete,
+                        color: Theme.of(context).colorScheme.onError,
+                      ),
+                      label: Text(context.l10n.delete),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.error,
+                        foregroundColor: Theme.of(
+                          context,
+                        ).colorScheme.onError,
+                      ),
                     ),
                   ),
-                  const SizedBox(width: 16),
                   Expanded(
                     child: ElevatedButton.icon(
                       onPressed: () => Navigator.pop(context, _updatedLoop),
                       icon: const Icon(Icons.save),
                       label: Text(context.l10n.save),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                        backgroundColor: Theme.of(
+                          context,
+                        ).colorScheme.primary,
+                        foregroundColor: Theme.of(
+                          context,
+                        ).colorScheme.onPrimary,
                       ),
                     ),
                   ),
@@ -278,7 +287,10 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                   decoration: InputDecoration(
                     labelText: context.l10n.hours,
                     border: const OutlineInputBorder(),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 12,
+                    ),
                   ),
                   onChanged: (_) => onChanged(),
                 ),
@@ -298,7 +310,10 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                 decoration: InputDecoration(
                   labelText: context.l10n.minutes,
                   border: const OutlineInputBorder(),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 12,
+                  ),
                 ),
                 onChanged: (_) => onChanged(),
               ),
@@ -317,7 +332,10 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                 decoration: InputDecoration(
                   labelText: context.l10n.seconds,
                   border: const OutlineInputBorder(),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 12,
+                  ),
                 ),
                 onChanged: (_) => onChanged(),
               ),
@@ -336,7 +354,10 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                 decoration: InputDecoration(
                   labelText: context.l10n.milliseconds,
                   border: const OutlineInputBorder(),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 12,
+                  ),
                 ),
                 onChanged: (_) => onChanged(),
               ),
@@ -445,4 +466,16 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
       }
     });
   }
+}
+
+class _LoopExportOptions {
+  final AudioExportFormat format;
+  final int sampleRateHz;
+  final int? bitrateKbps;
+
+  const _LoopExportOptions({
+    required this.format,
+    required this.sampleRateHz,
+    this.bitrateKbps,
+  });
 }

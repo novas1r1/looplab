@@ -149,6 +149,40 @@
     "loopAdded": "लूप जोड़ा गया और सक्रिय किया गया",
     "loopModeEnabled": "लूप मोड सक्रिय किया गया",
     "loopModeDisabled": "लूप मोड अक्षम किया गया",
+    "loopExportButton": "Export loop",
+    "loopExportDialogTitle": "Export loop",
+    "loopExportDialogDescription": "Choose a file format and quality for this loop.",
+    "loopExportFormatLabel": "Format",
+    "loopExportFormatMp3": "MP3 (compressed)",
+    "loopExportFormatWav": "WAV (lossless)",
+    "loopExportSampleRateLabel": "Sample rate",
+    "loopExportBitrateLabel": "Bitrate",
+    "loopExportConfirm": "Export loop",
+    "loopExportPickLocation": "चुनें कहां भेजें एक्सपोर्ट लूप",
+    "loopExportFallbackName": "loop",
+    "loopExportInProgress": "लूप एक्सपोर्ट कर रहा है...",
+    "loopExportValidationError": "लूप शुरू और समाप्ति समय को एक्सपोर्ट करने से पहले जांचें।",
+    "loopExportSuccess": "लूप सफलतापूर्वक एक्सपोर्ट किया गया।",
+    "loopExportSuccessWithPath": "लूप {fileName} में एक्सपोर्ट किया गया।",
+    "@loopExportSuccessWithPath": {
+        "description": "एक्सपोर्ट करने के बाद दिखाई देता है और आउटपुट फ़ाइल नाम शामिल है।",
+        "placeholders": {
+            "fileName": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportError": "लूप एक्सपोर्ट नहीं किया जा सकता: {errorMessage}",
+    "@loopExportError": {
+        "description": "लूप एक्सपोर्ट विफल होने पर दिखाई देता है और त्रुटि संदेश शामिल है।",
+        "placeholders": {
+            "errorMessage": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportGenericError": "लूप एक्सपोर्ट नहीं किया जा सकता।",
+    "loopExportCanceled": "लूप एक्सपोर्ट रद्द किया गया।",
     "pleaseSelectLoop": "कृपया एक लूप चुनें",
     "free": "निःशुल्क",
     "pro": "प्रो",

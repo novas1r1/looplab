@@ -149,6 +149,40 @@
     "loopAdded": "Loop toegevoegd en geactiveerd",
     "loopModeEnabled": "Loopmodus geactiveerd",
     "loopModeDisabled": "Loopmodus uitgeschakeld",
+    "loopExportButton": "Loop Exporteren",
+    "loopExportDialogTitle": "Loop Exporteren",
+    "loopExportDialogDescription": "Kies een bestandsformaat en kwaliteit voor deze loop.",
+    "loopExportFormatLabel": "Formaat",
+    "loopExportFormatMp3": "MP3 (gecomprimeerd)",
+    "loopExportFormatWav": "WAV (zonder verlies)",
+    "loopExportSampleRateLabel": "Sample rate",
+    "loopExportBitrateLabel": "Bitsnelheid",
+    "loopExportConfirm": "Exporteren",
+    "loopExportPickLocation": "Kies waar je de geëxporteerde loop wilt opslaan",
+    "loopExportFallbackName": "loop",
+    "loopExportInProgress": "Loop exporteren...",
+    "loopExportValidationError": "Controleer de loop start- en eindtijden voordat je exporteert.",
+    "loopExportSuccess": "Loop geëxporteerd succesvol.",
+    "loopExportSuccessWithPath": "Loop geëxporteerd naar {fileName}.",
+    "@loopExportSuccessWithPath": {
+        "description": "Shown after a loop export completes and includes the output file name.",
+        "placeholders": {
+            "fileName": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportError": "Couldn't export loop: {errorMessage}",
+    "@loopExportError": {
+        "description": "Shown when loop export fails and includes the error message.",
+        "placeholders": {
+            "errorMessage": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportGenericError": "Couldn't export loop.",
+    "loopExportCanceled": "Loop export canceled.",
     "pleaseSelectLoop": "Kies een loop",
     "free": "Free",
     "pro": "Pro",

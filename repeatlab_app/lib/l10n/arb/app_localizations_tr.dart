@@ -460,6 +460,67 @@ class AppLocalizationsTr extends AppLocalizations {
   String get loopModeDisabled => 'Döngü modu devre dışı bırakıldı';
 
   @override
+  String get loopExportButton => 'Döngüyü Dışa Aktar';
+
+  @override
+  String get loopExportDialogTitle => 'Döngüyü Dışa Aktar';
+
+  @override
+  String get loopExportDialogDescription =>
+      'Bu döngü için bir dosya formatı ve kalitesi seçin.';
+
+  @override
+  String get loopExportFormatLabel => 'Format';
+
+  @override
+  String get loopExportFormatMp3 => 'MP3 (sıkıştırılmış)';
+
+  @override
+  String get loopExportFormatWav => 'WAV (kayıpsız)';
+
+  @override
+  String get loopExportSampleRateLabel => 'Sample rate';
+
+  @override
+  String get loopExportBitrateLabel => 'Bitrate';
+
+  @override
+  String get loopExportConfirm => 'Dışa Aktar';
+
+  @override
+  String get loopExportPickLocation =>
+      'Dışa aktarılan döngüyü kaydetmek için bir konum seçin';
+
+  @override
+  String get loopExportFallbackName => 'loop';
+
+  @override
+  String get loopExportInProgress => 'Döngüyü dışa aktarıyor...';
+
+  @override
+  String get loopExportValidationError =>
+      'Döngü başlangıç ve bitiş zamanlarını dışa aktarmadan önce kontrol edin.';
+
+  @override
+  String get loopExportSuccess => 'Döngü başarıyla dışa aktarıldı.';
+
+  @override
+  String loopExportSuccessWithPath(String fileName) {
+    return 'Döngü $fileName dosyasına dışa aktarıldı.';
+  }
+
+  @override
+  String loopExportError(String errorMessage) {
+    return 'Döngü dışa aktarılamadı: $errorMessage';
+  }
+
+  @override
+  String get loopExportGenericError => 'Döngü dışa aktarılamadı.';
+
+  @override
+  String get loopExportCanceled => 'Döngü dışa aktarımı iptal edildi.';
+
+  @override
   String get pleaseSelectLoop => 'Lütfen bir döngü seçin';
 
   @override
