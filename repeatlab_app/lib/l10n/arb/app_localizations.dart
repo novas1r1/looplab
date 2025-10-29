@@ -552,6 +552,12 @@ abstract class AppLocalizations {
   /// **'Unlimited Songs + One Loop per Song'**
   String get freeFeatureUnlimitedSongs;
 
+  /// No description provided for @freeFeatureExportLoops.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Loops'**
+  String get freeFeatureExportLoops;
+
   /// No description provided for @freeFeatureNoAds.
   ///
   /// In en, this message translates to:
@@ -786,6 +792,30 @@ abstract class AppLocalizations {
   /// **'Changelog'**
   String get changelogTitle;
 
+  /// No description provided for @changelog140Title.
+  ///
+  /// In en, this message translates to:
+  /// **'1/2 Export Loops'**
+  String get changelog140Title;
+
+  /// No description provided for @changelog140Description.
+  ///
+  /// In en, this message translates to:
+  /// **'You can now export loops with different formats and quality.'**
+  String get changelog140Description;
+
+  /// No description provided for @changelog1402Title.
+  ///
+  /// In en, this message translates to:
+  /// **'2/2 Bug Fixes & Design Optimizations'**
+  String get changelog1402Title;
+
+  /// No description provided for @changelog1402Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Several Bugs were fixed and design optimized.'**
+  String get changelog1402Description;
+
   /// No description provided for @changelog130Title.
   ///
   /// In en, this message translates to:
@@ -923,6 +953,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Loop mode disabled'**
   String get loopModeDisabled;
+
+  /// No description provided for @loopExportButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get loopExportButton;
+
+  /// No description provided for @loopExportDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export loop'**
+  String get loopExportDialogTitle;
+
+  /// No description provided for @loopExportDialogDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a file format and quality for this loop.'**
+  String get loopExportDialogDescription;
+
+  /// No description provided for @loopExportFormatLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Format'**
+  String get loopExportFormatLabel;
+
+  /// No description provided for @loopExportFormatMp3.
+  ///
+  /// In en, this message translates to:
+  /// **'MP3 (compressed)'**
+  String get loopExportFormatMp3;
+
+  /// No description provided for @loopExportFormatWav.
+  ///
+  /// In en, this message translates to:
+  /// **'WAV (lossless)'**
+  String get loopExportFormatWav;
+
+  /// No description provided for @loopExportSampleRateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample rate'**
+  String get loopExportSampleRateLabel;
+
+  /// No description provided for @loopExportBitrateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Bitrate'**
+  String get loopExportBitrateLabel;
+
+  /// No description provided for @loopExportConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get loopExportConfirm;
+
+  /// No description provided for @loopExportPickLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose where to save the exported loop'**
+  String get loopExportPickLocation;
+
+  /// No description provided for @loopExportFallbackName.
+  ///
+  /// In en, this message translates to:
+  /// **'loop'**
+  String get loopExportFallbackName;
+
+  /// No description provided for @loopExportInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Exporting loop...'**
+  String get loopExportInProgress;
+
+  /// No description provided for @loopExportValidationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the loop start and end times before exporting.'**
+  String get loopExportValidationError;
+
+  /// No description provided for @loopExportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Loop exported successfully.'**
+  String get loopExportSuccess;
+
+  /// Shown after a loop export completes and includes the output file name.
+  ///
+  /// In en, this message translates to:
+  /// **'Loop exported to {fileName}.'**
+  String loopExportSuccessWithPath(String fileName);
+
+  /// Shown when loop export fails and includes the error message.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t export loop: {errorMessage}'**
+  String loopExportError(String errorMessage);
+
+  /// No description provided for @loopExportGenericError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t export loop.'**
+  String get loopExportGenericError;
+
+  /// No description provided for @loopExportCanceled.
+  ///
+  /// In en, this message translates to:
+  /// **'Loop export canceled.'**
+  String get loopExportCanceled;
 
   /// No description provided for @pleaseSelectLoop.
   ///

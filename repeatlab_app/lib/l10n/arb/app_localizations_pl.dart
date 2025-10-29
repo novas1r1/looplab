@@ -243,6 +243,9 @@ class AppLocalizationsPl extends AppLocalizations {
       'Nieograniczona Liczba Utworów + Jedna Pętla na Utwór';
 
   @override
+  String get freeFeatureExportLoops => 'Eksportuj Pętle';
+
+  @override
   String get freeFeatureNoAds => 'Brak Reklam';
 
   @override
@@ -377,6 +380,21 @@ class AppLocalizationsPl extends AppLocalizations {
   String get changelogTitle => 'Zmiany';
 
   @override
+  String get changelog140Title => '1/2 Eksportuj Pętle';
+
+  @override
+  String get changelog140Description =>
+      'Możesz teraz eksportować pętle w różnych formatach i jakościach.';
+
+  @override
+  String get changelog1402Title =>
+      '2/2 Poprawki Błędów i Optymalizacje Designu';
+
+  @override
+  String get changelog1402Description =>
+      'Poprawiono kilka błędów i zoptymalizowano design.';
+
+  @override
   String get changelog130Title => 'Zmiana tempa na podstawie BPM';
 
   @override
@@ -456,6 +474,67 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get loopModeDisabled => 'Tryb pętli wyłączony';
+
+  @override
+  String get loopExportButton => 'Eksportuj pętlę';
+
+  @override
+  String get loopExportDialogTitle => 'Eksportuj pętlę';
+
+  @override
+  String get loopExportDialogDescription =>
+      'Wybierz format i jakość dla tej pętli.';
+
+  @override
+  String get loopExportFormatLabel => 'Format';
+
+  @override
+  String get loopExportFormatMp3 => 'MP3 (skompresowany)';
+
+  @override
+  String get loopExportFormatWav => 'WAV (bez strat)';
+
+  @override
+  String get loopExportSampleRateLabel => 'Próbkowanie';
+
+  @override
+  String get loopExportBitrateLabel => 'Bitrate';
+
+  @override
+  String get loopExportConfirm => 'Eksportuj';
+
+  @override
+  String get loopExportPickLocation =>
+      'Wybierz gdzie zapisać eksportowaną pętlę';
+
+  @override
+  String get loopExportFallbackName => 'loop';
+
+  @override
+  String get loopExportInProgress => 'Eksportowanie pętli...';
+
+  @override
+  String get loopExportValidationError =>
+      'Sprawdź czas rozpoczęcia i zakończenia pętli przed eksportowaniem.';
+
+  @override
+  String get loopExportSuccess => 'Pętla eksportowana pomyślnie.';
+
+  @override
+  String loopExportSuccessWithPath(String fileName) {
+    return 'Pętla eksportowana do $fileName.';
+  }
+
+  @override
+  String loopExportError(String errorMessage) {
+    return 'Nie udało się eksportować pętli: $errorMessage';
+  }
+
+  @override
+  String get loopExportGenericError => 'Nie udało się eksportować pętli.';
+
+  @override
+  String get loopExportCanceled => 'Eksportowanie pętli anulowane.';
 
   @override
   String get pleaseSelectLoop => 'Proszę wybrać pętlę';

@@ -70,6 +70,7 @@
     "premiumFeatureZoomInOut": "Waveform Zoom-In/Out",
     "premiumFeatureSupportDeveloper": "Wesprzyj Niezależnego Dewelopera",
     "freeFeatureUnlimitedSongs": "Nieograniczona Liczba Utworów + Jedna Pętla na Utwór",
+    "freeFeatureExportLoops": "Eksportuj Pętle",
     "freeFeatureNoAds": "Brak Reklam",
     "freeFeatureOneLoopPerSong": "Jedna Pętla na Utwór",
     "purchase": "Kup",
@@ -126,6 +127,10 @@
     "cancelSubscription": "Anuluj Subskrypcję",
     "voteForFeatures": "Głosuj na Funkcje",
     "changelogTitle": "Zmiany",
+    "changelog140Title": "1/2 Eksportuj Pętle",
+    "changelog140Description": "Możesz teraz eksportować pętle w różnych formatach i jakościach.",
+    "changelog1402Title": "2/2 Poprawki Błędów i Optymalizacje Designu",
+    "changelog1402Description": "Poprawiono kilka błędów i zoptymalizowano design.",
     "changelog130Title": "Zmiana tempa na podstawie BPM",
     "changelog130Description": "Możesz teraz zmienić tempo utworu na podstawie BPM. To pozwala na precyzyjne dopasowanie tempa. Dodatkowo, tempo można teraz zresetować przyciskiem.",
     "changelog1201Title": "1/4 Dodano dane mediów dla plików audio",
@@ -149,6 +154,40 @@
     "loopAdded": "Pętla dodana i aktywowana",
     "loopModeEnabled": "Tryb pętli aktywowany",
     "loopModeDisabled": "Tryb pętli wyłączony",
+    "loopExportButton": "Eksportuj pętlę",
+    "loopExportDialogTitle": "Eksportuj pętlę",
+    "loopExportDialogDescription": "Wybierz format i jakość dla tej pętli.",
+    "loopExportFormatLabel": "Format",
+    "loopExportFormatMp3": "MP3 (skompresowany)",
+    "loopExportFormatWav": "WAV (bez strat)",
+    "loopExportSampleRateLabel": "Próbkowanie",
+    "loopExportBitrateLabel": "Bitrate",
+    "loopExportConfirm": "Eksportuj",
+    "loopExportPickLocation": "Wybierz gdzie zapisać eksportowaną pętlę",
+    "loopExportFallbackName": "loop",
+    "loopExportInProgress": "Eksportowanie pętli...",
+    "loopExportValidationError": "Sprawdź czas rozpoczęcia i zakończenia pętli przed eksportowaniem.",
+    "loopExportSuccess": "Pętla eksportowana pomyślnie.",
+    "loopExportSuccessWithPath": "Pętla eksportowana do {fileName}.",
+    "@loopExportSuccessWithPath": {
+        "description": "Shown after a loop export completes and includes the output file name.",
+        "placeholders": {
+            "fileName": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportError": "Nie udało się eksportować pętli: {errorMessage}",
+    "@loopExportError": {
+        "description": "Pokazywane, gdy eksportowanie pętli nie powiedzie się i zawiera komunikat o błędzie.",
+        "placeholders": {
+            "errorMessage": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportGenericError": "Nie udało się eksportować pętli.",
+    "loopExportCanceled": "Eksportowanie pętli anulowane.",
     "pleaseSelectLoop": "Proszę wybrać pętlę",
     "free": "Free",
     "pro": "Pro",

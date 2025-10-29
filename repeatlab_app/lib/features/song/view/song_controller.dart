@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
+import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/features/song/view/speed_control.dart';
 
@@ -36,29 +37,45 @@ class SongController extends StatelessWidget {
                   },
                 ),
               ),
-              IconButton(
-                onPressed: () => context.read<SongCubit>().back(10),
-                icon: const Icon(Icons.replay_10_rounded),
+              SizedBox(
+                height: 32,
+                child: Center(
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    onPressed: () => context.read<SongCubit>().back(10),
+                    icon: const Icon(Icons.replay_10_rounded, size: 24),
+                  ),
+                ),
               ),
               const SizedBox(width: 8),
               BlocSelector<SongCubit, SongState, PlayerState?>(
                 selector: (state) => state.playerState,
                 builder: (context, playerState) {
-                  return IconButton(
-                    iconSize: 36,
-                    onPressed: () => _onTapPlay(context),
-                    icon: Icon(
-                      playerState == PlayerState.playing
-                          ? Icons.pause_rounded
-                          : Icons.play_arrow_rounded,
+                  return SizedBox(
+                    height: 32,
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                      onPressed: () => _onTapPlay(context),
+                      icon: Icon(
+                        playerState == PlayerState.playing
+                            ? Icons.pause_rounded
+                            : Icons.play_arrow_rounded,
+                      ),
                     ),
                   );
                 },
               ),
               const SizedBox(width: 8),
-              IconButton(
-                onPressed: () => context.read<SongCubit>().forward(10),
-                icon: const Icon(Icons.forward_10_rounded),
+              SizedBox(
+                height: 32,
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  onPressed: () => context.read<SongCubit>().forward(10),
+                  icon: const Icon(Icons.forward_10_rounded, size: 24),
+                ),
               ),
               Expanded(
                 child: Align(
@@ -73,15 +90,21 @@ class SongController extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        SpeedControl(
-          onSpeedMultiplierChanged: (value) =>
-              context.read<SongCubit>().updateSpeed(multiplier: value),
-          onOriginalBpmChanged: (value) => context.read<SongCubit>().updateOriginalBpm(value),
-          onCurrentBpmChanged: (value) => context.read<SongCubit>().updateSpeed(bpm: value),
-          onTempoModeChanged: (value) {
-            // TODO check if needed
+        BlocSelector<SongCubit, SongState, Song>(
+          selector: (state) => state.song,
+          builder: (context, song) {
+            return SpeedControl(
+              onSpeedMultiplierChanged: (value) =>
+                  context.read<SongCubit>().updateSpeed(multiplier: value),
+              onOriginalBpmChanged: (value) => context.read<SongCubit>().updateOriginalBpm(value),
+              onCurrentBpmChanged: (value) => context.read<SongCubit>().updateSpeed(bpm: value),
+              onTempoModeChanged: (value) {
+                // TODO check if needed
+              },
+              onPitchChanged: (value) => context.read<SongCubit>().updatePitch(value),
+              song: song,
+            );
           },
-          song: context.read<SongCubit>().state.song,
         ),
       ],
     );

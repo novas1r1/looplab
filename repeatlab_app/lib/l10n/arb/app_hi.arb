@@ -72,6 +72,7 @@
     "premiumFeatureZoomInOut": "वेवफॉर्म ज़ूम इन/आउट",
     "premiumFeatureSupportDeveloper": "स्वतंत्र डेवलपर का समर्थन करें",
     "freeFeatureUnlimitedSongs": "असीमित गीत + प्रति गीत एक लूप",
+    "freeFeatureExportLoops": "लूप निर्यात करें",
     "freeFeatureNoAds": "कोई विज्ञापन नहीं",
     "freeFeatureOneLoopPerSong": "प्रति गीत एक लूप",
     "purchase": "खरीदें",
@@ -126,6 +127,10 @@
     "purchaseSuccess": "सफलतापूर्वक खरीदा गया। डेवलपर का समर्थन करने के लिए धन्यवाद ❤️!",
     "voteForFeatures": "सुविधाओं के लिए वोट करें",
     "changelogTitle": "परिवर्तन लॉग",
+    "changelog140Title": "1/2 Export Loops",
+    "changelog140Description": "You can now export loops with different formats and quality.",
+    "changelog1402Title": "2/2 Bug Fixes & Design Optimizations",
+    "changelog1402Description": "Several Bugs were fixed and design optimized.",
     "changelog130Title": "BPM आधारित गति बदलें",
     "changelog130Description": "अब आप गीत की गति को BPM आधारित रूप से बदल सकते हैं। यह गति को अधिक सटीकता से समायोजित करने की अनुमति देता है। इसके अलावा, गति को अब एक बटन का उपयोग करके रीसेट किया जा सकता है।",
     "changelog1201Title": "1/4 ऑडियो फाइलों के लिए मीडिया डेटा जोड़ा गया",
@@ -149,6 +154,40 @@
     "loopAdded": "लूप जोड़ा गया और सक्रिय किया गया",
     "loopModeEnabled": "लूप मोड सक्रिय किया गया",
     "loopModeDisabled": "लूप मोड अक्षम किया गया",
+    "loopExportButton": "Export loop",
+    "loopExportDialogTitle": "Export loop",
+    "loopExportDialogDescription": "Choose a file format and quality for this loop.",
+    "loopExportFormatLabel": "Format",
+    "loopExportFormatMp3": "MP3 (compressed)",
+    "loopExportFormatWav": "WAV (lossless)",
+    "loopExportSampleRateLabel": "Sample rate",
+    "loopExportBitrateLabel": "Bitrate",
+    "loopExportConfirm": "Export loop",
+    "loopExportPickLocation": "चुनें कहां भेजें एक्सपोर्ट लूप",
+    "loopExportFallbackName": "loop",
+    "loopExportInProgress": "लूप एक्सपोर्ट कर रहा है...",
+    "loopExportValidationError": "लूप शुरू और समाप्ति समय को एक्सपोर्ट करने से पहले जांचें।",
+    "loopExportSuccess": "लूप सफलतापूर्वक एक्सपोर्ट किया गया।",
+    "loopExportSuccessWithPath": "लूप {fileName} में एक्सपोर्ट किया गया।",
+    "@loopExportSuccessWithPath": {
+        "description": "एक्सपोर्ट करने के बाद दिखाई देता है और आउटपुट फ़ाइल नाम शामिल है।",
+        "placeholders": {
+            "fileName": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportError": "लूप एक्सपोर्ट नहीं किया जा सकता: {errorMessage}",
+    "@loopExportError": {
+        "description": "लूप एक्सपोर्ट विफल होने पर दिखाई देता है और त्रुटि संदेश शामिल है।",
+        "placeholders": {
+            "errorMessage": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportGenericError": "लूप एक्सपोर्ट नहीं किया जा सकता।",
+    "loopExportCanceled": "लूप एक्सपोर्ट रद्द किया गया।",
     "pleaseSelectLoop": "कृपया एक लूप चुनें",
     "free": "निःशुल्क",
     "pro": "प्रो",

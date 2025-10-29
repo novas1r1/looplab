@@ -76,6 +76,7 @@
     "premiumFeatureZoomInOut": "تكبير/تصغير الموجة",
     "premiumFeatureSupportDeveloper": "دعم المطور المستقل",
     "freeFeatureUnlimitedSongs": "أغاني غير محدودة + حلقة واحدة لكل أغنية",
+    "freeFeatureExportLoops": "تصدير الحلقات",
     "freeFeatureNoAds": "بدون إعلانات",
     "freeFeatureOneLoopPerSong": "حلقة واحدة لكل أغنية",
     "purchase": "شراء",
@@ -130,6 +131,10 @@
     "purchaseSuccess": "تم الشراء بنجاح. شكرًا لدعم المطور ❤️!",
     "voteForFeatures": "التصويت على الميزات",
     "changelogTitle": "سجل التغييرات",
+    "changelog140Title": "تصدير الحلقات",
+    "changelog140Description": "يمكنك الآن تصدير الحلقات بتنسيقات مختلفة وجودات.",
+    "changelog1402Title": "إصلاح أخطاء وتحسين التصميم",
+    "changelog1402Description": "تم إصلاح عدة أخطاء وتحسين التصميم.",
     "changelog130Title": "تغيير السرعة الأساسية حسب BPM",
     "changelog130Description": "يمكنك الآن تغيير سرعة الأغنية بناءً على BPM. يتيح هذا تعديلات دقيقة للسرعة. علاوة على ذلك، يمكن تعيين السرعة إلى 1.0x باستخدام زر الإعادة تعيين.",
     "changelog1201Title": "إضافة بيانات الوسائط لملفات الصوت",
@@ -153,6 +158,40 @@
     "loopAdded": "تمت إضافة الحلقة وتفعيلها",
     "loopModeEnabled": "تم تفعيل وضع الحلقة",
     "loopModeDisabled": "تم تعطيل وضع الحلقة",
+    "loopExportButton": "تصدير الحلقة",
+    "loopExportDialogTitle": "تصدير الحلقة",
+    "loopExportDialogDescription": "اختر تنسيق الملف والجودة لهذه الحلقة.",
+    "loopExportFormatLabel": "تنسيق",
+    "loopExportFormatMp3": "MP3 (مضغوط)",
+    "loopExportFormatWav": "WAV (بدون فقدان)",
+    "loopExportSampleRateLabel": "معدل النموذج",
+    "loopExportBitrateLabel": "معدل البت",
+    "loopExportConfirm": "تصدير",
+    "loopExportPickLocation": "اختر مكان حفظ الحلقة المصدرة",
+    "loopExportFallbackName": "حلقة",
+    "loopExportInProgress": "يتم تصدير الحلقة...",
+    "loopExportValidationError": "تحقق من أوقات بداية ونهاية الحلقة قبل التصدير.",
+    "loopExportSuccess": "تم تصدير الحلقة بنجاح.",
+    "loopExportSuccessWithPath": "تم تصدير الحلقة إلى {fileName}.",
+    "@loopExportSuccessWithPath": {
+        "description": "يعرض بعد تصدير الحلقة ويشمل اسم الملف المصدر.",
+        "placeholders": {
+            "fileName": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportError": "فشل تصدير الحلقة: {errorMessage}",
+    "@loopExportError": {
+        "description": "Shown when loop export fails and includes the error message.",
+        "placeholders": {
+            "errorMessage": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportGenericError": "فشل تصدير الحلقة.",
+    "loopExportCanceled": "تم إلغاء تصدير الحلقة.",
     "pleaseSelectLoop": "الرجاء تحديد حلقة",
     "free": "مجاني",
     "pro": "احترافي",

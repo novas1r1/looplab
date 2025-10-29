@@ -70,6 +70,7 @@
     "premiumFeatureZoomInOut": "Waveform Zoom-In/Out",
     "premiumFeatureSupportDeveloper": "Steun de Onafhankelijke Ontwikkelaar",
     "freeFeatureUnlimitedSongs": "Onbeperkte Nummers + Een Loop per Nummer",
+    "freeFeatureExportLoops": "Loops Exporteren",
     "freeFeatureNoAds": "Geen Advertenties",
     "freeFeatureOneLoopPerSong": "Een Loop per Nummer",
     "purchase": "Kopen",
@@ -126,6 +127,10 @@
     "cancelSubscription": "Abonnement Opzeggen",
     "voteForFeatures": "Functies Voorstellen",
     "changelogTitle": "Wijzigingen",
+    "changelog140Title": "1/2 Loops Exporteren",
+    "changelog140Description": "Je kunt nu loops exporteren met verschillende formaten en kwaliteiten.",
+    "changelog1402Title": "2/2 Bug Fixes & Design Optimizations",
+    "changelog1402Description": "Several Bugs were fixed and design optimized.",
     "changelog130Title": "Tempo gebaseerd op BPM wijzigen",
     "changelog130Description": "Je kunt nu het tempo van het nummer wijzigen op basis van het BPM. Dit maakt het mogelijk om het tempo nauwkeurig aan te passen. Daarnaast kan het tempo nu worden teruggezet met een knop.",
     "changelog1201Title": "1/4 Media-gegevens toegevoegd voor audio-bestanden",
@@ -149,6 +154,40 @@
     "loopAdded": "Loop toegevoegd en geactiveerd",
     "loopModeEnabled": "Loopmodus geactiveerd",
     "loopModeDisabled": "Loopmodus uitgeschakeld",
+    "loopExportButton": "Loop Exporteren",
+    "loopExportDialogTitle": "Loop Exporteren",
+    "loopExportDialogDescription": "Kies een bestandsformaat en kwaliteit voor deze loop.",
+    "loopExportFormatLabel": "Formaat",
+    "loopExportFormatMp3": "MP3 (gecomprimeerd)",
+    "loopExportFormatWav": "WAV (zonder verlies)",
+    "loopExportSampleRateLabel": "Sample rate",
+    "loopExportBitrateLabel": "Bitsnelheid",
+    "loopExportConfirm": "Exporteren",
+    "loopExportPickLocation": "Kies waar je de geëxporteerde loop wilt opslaan",
+    "loopExportFallbackName": "loop",
+    "loopExportInProgress": "Loop exporteren...",
+    "loopExportValidationError": "Controleer de loop start- en eindtijden voordat je exporteert.",
+    "loopExportSuccess": "Loop geëxporteerd succesvol.",
+    "loopExportSuccessWithPath": "Loop geëxporteerd naar {fileName}.",
+    "@loopExportSuccessWithPath": {
+        "description": "Shown after a loop export completes and includes the output file name.",
+        "placeholders": {
+            "fileName": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportError": "Couldn't export loop: {errorMessage}",
+    "@loopExportError": {
+        "description": "Shown when loop export fails and includes the error message.",
+        "placeholders": {
+            "errorMessage": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportGenericError": "Couldn't export loop.",
+    "loopExportCanceled": "Loop export canceled.",
     "pleaseSelectLoop": "Kies een loop",
     "free": "Free",
     "pro": "Pro",

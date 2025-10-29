@@ -70,6 +70,7 @@
     "premiumFeatureZoomInOut": "Waveform-Zoom In/Out",
     "premiumFeatureSupportDeveloper": "Unterstütze die unabhängige Entwicklerin",
     "freeFeatureUnlimitedSongs": "Unbegrenzt viele Songs + eine Loop pro Song",
+    "freeFeatureExportLoops": "Loops exportieren",
     "freeFeatureNoAds": "Keine Werbung",
     "freeFeatureOneLoopPerSong": "Eine Loop pro Song",
     "deny": "Ablehnen",
@@ -127,6 +128,10 @@
     "cancelSubscription": "Abonnement kündigen",
     "voteForFeatures": "Feature Voting",
     "changelogTitle": "Changelog",
+    "changelog140Title": "1/2 Export Loops",
+    "changelog140Description": "Du kannst jetzt Loops in verschiedenen Formaten und Qualitäten exportieren.",
+    "changelog1402Title": "2/2 Bug Fixes & Design Optimizations",
+    "changelog1402Description": "Mehrere Bugs wurden behoben und das Design optimiert.",
     "changelog130Title": "Tempo basierend auf BPM verändern",
     "changelog130Description": "Du kannst jetzt das Tempo des Songs basierend auf den BPM verändern. Dies ermöglicht eine präzise Anpassung des Tempos. Außerdem kann das Tempo nun mit einem Button zurückgesetzt werden.",
     "changelog1201Title": "1/4 Medieninformationen für Audio-Dateien hinzugefügt",
@@ -150,7 +155,41 @@
     "loopAdded": "Loop hinzugefügt und aktiviert",
     "loopModeEnabled": "Loop-Modus aktiviert",
     "loopModeDisabled": "Loop-Modus deaktiviert",
-    "pleaseSelectLoop": "Bitte wähle eine Loop aus",
+    "loopExportButton": "Export loop",
+    "loopExportDialogTitle": "Export loop",
+    "loopExportDialogDescription": "Choose a file format and quality for this loop.",
+    "loopExportFormatLabel": "Format",
+    "loopExportFormatMp3": "MP3 (compressed)",
+    "loopExportFormatWav": "WAV (lossless)",
+    "loopExportSampleRateLabel": "Sample rate",
+    "loopExportBitrateLabel": "Bitrate",
+    "loopExportConfirm": "Export",
+    "loopExportPickLocation": "Wähle einen Speicherort für die exportierten Loop",
+    "loopExportFallbackName": "loop",
+    "loopExportInProgress": "Loop exportieren...",
+    "loopExportValidationError": "Überprüfe die Loop-Start- und -End-Zeiten vor dem Exportieren.",
+    "loopExportSuccess": "Loop erfolgreich exportiert.",
+    "loopExportSuccessWithPath": "Loop exportiert nach {fileName}.",
+    "@loopExportSuccessWithPath": {
+        "description": "Wird nach einem Loop-Export angezeigt und enthält den Namen der Ausgabedatei.",
+        "placeholders": {
+            "fileName": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportError": "Loop konnte nicht exportiert werden: {errorMessage}",
+    "@loopExportError": {
+        "description": "Wird angezeigt, wenn der Loop-Export fehlschlägt und den Fehlermeldung enthält.",
+        "placeholders": {
+            "errorMessage": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportGenericError": "Loop konnte nicht exportiert werden.",
+    "loopExportCanceled": "Loop-Export abgebrochen.",
+    "pleaseSelectLoop": "Bitte wähle ein Loop aus",
     "free": "Free",
     "pro": "Pro",
     "oneCoffee": "= Ein Kaffee für die Entwicklerin (pro Jahr)",

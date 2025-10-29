@@ -235,6 +235,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get freeFeatureUnlimitedSongs => '무제한 곡 + 곡당 하나의 루프';
 
   @override
+  String get freeFeatureExportLoops => '루프 내보내기';
+
+  @override
   String get freeFeatureNoAds => '광고 없음';
 
   @override
@@ -363,6 +366,18 @@ class AppLocalizationsKo extends AppLocalizations {
   String get changelogTitle => '변경 사항';
 
   @override
+  String get changelog140Title => '1/2 루프 내보내기';
+
+  @override
+  String get changelog140Description => '이제 다른 형식과 품질로 루프를 내보낼 수 있습니다.';
+
+  @override
+  String get changelog1402Title => '2/2 버그 수정 및 디자인 최적화';
+
+  @override
+  String get changelog1402Description => '여러 버그가 수정되고 디자인이 최적화되었습니다.';
+
+  @override
   String get changelog130Title => 'BPM 기반 템포 변경';
 
   @override
@@ -439,6 +454,64 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get loopModeDisabled => '루프 모드가 비활성화되었습니다';
+
+  @override
+  String get loopExportButton => '루프 내보내기';
+
+  @override
+  String get loopExportDialogTitle => '루프 내보내기';
+
+  @override
+  String get loopExportDialogDescription => '루프의 파일 형식과 품질을 선택하세요.';
+
+  @override
+  String get loopExportFormatLabel => '형식';
+
+  @override
+  String get loopExportFormatMp3 => 'MP3 (압축)';
+
+  @override
+  String get loopExportFormatWav => 'WAV (손실 없음)';
+
+  @override
+  String get loopExportSampleRateLabel => '샘플 레이트';
+
+  @override
+  String get loopExportBitrateLabel => '비트레이트';
+
+  @override
+  String get loopExportConfirm => '내보내기';
+
+  @override
+  String get loopExportPickLocation => '내보낸 루프를 저장할 위치를 선택하세요';
+
+  @override
+  String get loopExportFallbackName => '루프';
+
+  @override
+  String get loopExportInProgress => '루프 내보내기...';
+
+  @override
+  String get loopExportValidationError => '루프 시작 시간과 종료 시간을 내보내기 전에 확인하세요.';
+
+  @override
+  String get loopExportSuccess => '루프가 성공적으로 내보내졌습니다.';
+
+  @override
+  String loopExportSuccessWithPath(String fileName) {
+    return '루프가 $fileName에 내보내졌습니다.';
+  }
+
+  @override
+  String loopExportError(String errorMessage) {
+    return '루프를 내보낼 수 없습니다: $errorMessage';
+  }
+
+  @override
+  String get loopExportGenericError => '루프를 내보낼 수 없습니다.';
+
+  @override
+  String get loopExportCanceled => '루프 내보내기가 취소되었습니다.';
 
   @override
   String get pleaseSelectLoop => '루프를 선택하세요';

@@ -236,6 +236,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get freeFeatureUnlimitedSongs => '無制限の曲 + 曲ごとに1つのループ';
 
   @override
+  String get freeFeatureExportLoops => 'ループをエクスポート';
+
+  @override
   String get freeFeatureNoAds => '広告なし';
 
   @override
@@ -364,6 +367,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get changelogTitle => '変更履歴';
 
   @override
+  String get changelog140Title => '1/2 ループをエクスポート';
+
+  @override
+  String get changelog140Description => 'ループを異なる形式と品質でエクスポートできるようになりました。';
+
+  @override
+  String get changelog1402Title => '2/2 バグ修正とデザイン最適化';
+
+  @override
+  String get changelog1402Description => 'いくつかのバグが修正され、デザインが最適化されました。';
+
+  @override
   String get changelog130Title => 'BPMに基づいてテンポを変更';
 
   @override
@@ -441,6 +456,64 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get loopModeDisabled => 'ループモードが無効になりました';
+
+  @override
+  String get loopExportButton => 'ループをエクスポート';
+
+  @override
+  String get loopExportDialogTitle => 'ループをエクスポート';
+
+  @override
+  String get loopExportDialogDescription => 'ループのファイル形式と品質を選択してください。';
+
+  @override
+  String get loopExportFormatLabel => 'フォーマット';
+
+  @override
+  String get loopExportFormatMp3 => 'MP3 (圧縮)';
+
+  @override
+  String get loopExportFormatWav => 'WAV (無損失)';
+
+  @override
+  String get loopExportSampleRateLabel => 'Sample rate';
+
+  @override
+  String get loopExportBitrateLabel => 'ビットレート';
+
+  @override
+  String get loopExportConfirm => 'エクスポート';
+
+  @override
+  String get loopExportPickLocation => 'エクスポートしたループを保存する場所を選択してください';
+
+  @override
+  String get loopExportFallbackName => 'ループ';
+
+  @override
+  String get loopExportInProgress => 'ループをエクスポートしています...';
+
+  @override
+  String get loopExportValidationError => 'ループの開始時間と終了時間をエクスポートする前に確認してください。';
+
+  @override
+  String get loopExportSuccess => 'ループが正常にエクスポートされました。';
+
+  @override
+  String loopExportSuccessWithPath(String fileName) {
+    return 'ループが $fileName にエクスポートされました。';
+  }
+
+  @override
+  String loopExportError(String errorMessage) {
+    return 'ループをエクスポートできませんでした: $errorMessage';
+  }
+
+  @override
+  String get loopExportGenericError => 'ループをエクスポートできませんでした。';
+
+  @override
+  String get loopExportCanceled => 'ループのエクスポートがキャンセルされました。';
 
   @override
   String get pleaseSelectLoop => 'ループを選択してください';

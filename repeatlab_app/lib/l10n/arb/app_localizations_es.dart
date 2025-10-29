@@ -245,6 +245,9 @@ class AppLocalizationsEs extends AppLocalizations {
       'Canciones Ilimitadas + Un Loop por Canción';
 
   @override
+  String get freeFeatureExportLoops => 'Exportar Loops';
+
+  @override
   String get freeFeatureNoAds => 'Sin Anuncios';
 
   @override
@@ -381,6 +384,21 @@ class AppLocalizationsEs extends AppLocalizations {
   String get changelogTitle => 'Cambios';
 
   @override
+  String get changelog140Title => '1/2 Exportar Loops';
+
+  @override
+  String get changelog140Description =>
+      'Ahora puedes exportar loops con diferentes formatos y calidades.';
+
+  @override
+  String get changelog1402Title =>
+      '2/2 Correcciones de errores y optimizaciones de diseño';
+
+  @override
+  String get changelog1402Description =>
+      'Se han corregido varios errores y se ha optimizado el diseño.';
+
+  @override
   String get changelog130Title => 'Cambiar el tempo basado en BPM';
 
   @override
@@ -461,6 +479,66 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get loopModeDisabled => 'Modo loop desactivado';
+
+  @override
+  String get loopExportButton => 'Exportar loop';
+
+  @override
+  String get loopExportDialogTitle => 'Exportar loop';
+
+  @override
+  String get loopExportDialogDescription =>
+      'Elige un formato de archivo y calidad para este loop.';
+
+  @override
+  String get loopExportFormatLabel => 'Formato';
+
+  @override
+  String get loopExportFormatMp3 => 'MP3 (comprimido)';
+
+  @override
+  String get loopExportFormatWav => 'WAV (sin pérdida)';
+
+  @override
+  String get loopExportSampleRateLabel => 'Tasa de muestreo';
+
+  @override
+  String get loopExportBitrateLabel => 'Tasa de bits';
+
+  @override
+  String get loopExportConfirm => 'Exportar';
+
+  @override
+  String get loopExportPickLocation => 'Elige dónde guardar el loop exportado';
+
+  @override
+  String get loopExportFallbackName => 'loop';
+
+  @override
+  String get loopExportInProgress => 'Exportando loop...';
+
+  @override
+  String get loopExportValidationError =>
+      'Verifica las horas de inicio y fin del loop antes de exportar.';
+
+  @override
+  String get loopExportSuccess => 'Loop exportado correctamente.';
+
+  @override
+  String loopExportSuccessWithPath(String fileName) {
+    return 'Loop exportado a $fileName.';
+  }
+
+  @override
+  String loopExportError(String errorMessage) {
+    return 'No se pudo exportar el loop: $errorMessage';
+  }
+
+  @override
+  String get loopExportGenericError => 'No se pudo exportar el loop.';
+
+  @override
+  String get loopExportCanceled => 'Exportación del loop cancelada.';
 
   @override
   String get pleaseSelectLoop => 'Por favor, selecciona un loop';

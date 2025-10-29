@@ -39,8 +39,10 @@ class _LoopTimelineState extends State<LoopTimeline> {
         return Row(
           children: [
             IconButton(
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
               onPressed: loops.length > 1 ? widget.onPreviousLoop : null,
-              icon: const Icon(Icons.skip_previous),
+              icon: const Icon(Icons.skip_previous, size: 24),
             ),
             Expanded(
               child: GestureDetector(

@@ -1,8 +1,9 @@
 // ignore_for_file: avoid_redundant_argument_values
 
 import 'dart:async';
-import 'dart:developer';
+import 'dart:developer' as dev;
 import 'dart:io';
+import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:dart_mappable/dart_mappable.dart';
@@ -184,7 +185,7 @@ class SongCubit extends Cubit<SongState> {
   }
 
   Future<void> togglePlaySong() async {
-    log('togglePlaySong state.playerState was: ${state.playerState}');
+    dev.log('togglePlaySong state.playerState was: ${state.playerState}');
 
     try {
       // If audio handler is available, use it for background playback
@@ -262,7 +263,7 @@ class SongCubit extends Cubit<SongState> {
   /// the loop will be updated and the audio player will continue playing and
   /// as soon as the end is reached, the loop will start over from the new start
   Future<void> setLoopStart() async {
-    // log('setLoopStart to ${state.position}');
+    // dev.log('setLoopStart to ${state.position}');
 
     final activeLoop = state.activeLoop;
     if (activeLoop == null) return;
@@ -270,7 +271,7 @@ class SongCubit extends Cubit<SongState> {
     // Get current position directly from audio player
     final currentPosition = await position;
 
-    log('setLoopStart to $currentPosition');
+    dev.log('setLoopStart to $currentPosition');
 
     await updateLoop(activeLoop.copyWith(start: currentPosition));
   }
@@ -281,7 +282,7 @@ class SongCubit extends Cubit<SongState> {
   /// the loop will be updated and the audio player will continue playing and
   /// as soon as the new end is reached, the loop will start over
   Future<void> setLoopEnd() async {
-    log('setLoopEnd: ${state.activeLoop}');
+    dev.log('setLoopEnd: ${state.activeLoop}');
 
     final activeLoop = state.activeLoop;
     if (activeLoop == null) return;
@@ -295,7 +296,7 @@ class SongCubit extends Cubit<SongState> {
         endPosition = state.song.duration;
       }
 
-      log('setLoopEnd: got current position $endPosition');
+      dev.log('setLoopEnd: got current position $endPosition');
 
       // Update the loop in the audio handler immediately
       if (state.isLoopModeEnabled) {
@@ -320,7 +321,7 @@ class SongCubit extends Cubit<SongState> {
   }
 
   Future<void> unselectLoop() async {
-    log('UNSELECT LOOP: ${state.activeLoop}');
+    dev.log('UNSELECT LOOP: ${state.activeLoop}');
     try {
       await audioHandler.customAction('disableLoop');
 
@@ -344,7 +345,7 @@ class SongCubit extends Cubit<SongState> {
   }
 
   Future<void> selectLoop(Loop loop) async {
-    log('SELECT LOOP: $loop');
+    dev.log('SELECT LOOP: $loop');
     if (loop.start == null) return;
 
     try {
@@ -502,7 +503,7 @@ class SongCubit extends Cubit<SongState> {
   }
 
   Future<void> addLoop() async {
-    log('ADDING LOOP: ${state.activeLoop}', name: 'SongCubit');
+    dev.log('ADDING LOOP: ${state.activeLoop}', name: 'SongCubit');
 
     final startPosition = await position;
 
@@ -547,7 +548,7 @@ class SongCubit extends Cubit<SongState> {
   }
 
   Future<void> updateLoop(Loop updatedLoop) async {
-    log('updateLoop: $updatedLoop');
+    dev.log('updateLoop: $updatedLoop');
     emit(state.copyWith(status: SongStatus.updating));
 
     try {
@@ -579,7 +580,7 @@ class SongCubit extends Cubit<SongState> {
   }
 
   Future<void> deleteLoop(Loop loop) async {
-    log('deleteLoop: $loop');
+    dev.log('deleteLoop: $loop');
     emit(state.copyWith(status: SongStatus.updating));
 
     try {
@@ -661,7 +662,7 @@ class SongCubit extends Cubit<SongState> {
   }
 
   Future<void> back(int seconds) async {
-    log('back: $seconds');
+    dev.log('back: $seconds');
     try {
       await audioHandler.back(seconds, state.activeLoop);
     } catch (ex, stack) {
@@ -676,7 +677,7 @@ class SongCubit extends Cubit<SongState> {
   }
 
   Future<void> forward(int seconds) async {
-    log('forward: $seconds');
+    dev.log('forward: $seconds');
     try {
       await audioHandler.forward(seconds, state.activeLoop);
     } catch (ex, stack) {
@@ -799,6 +800,31 @@ class SongCubit extends Cubit<SongState> {
         state.copyWith(
           status: SongStatus.error,
           error: 'Failed to update bpm: $ex',
+        ),
+      );
+    }
+  }
+
+  Future<void> updatePitch(int semitones) async {
+    try {
+      // Convert semitones to pitch multiplier
+      // Each semitone is approximately 1.059463 multiplier
+      final pitchMultiplier = pow(2.0, semitones / 12.0);
+
+      await audioHandler.customAction('setPitch', {'pitch': pitchMultiplier});
+
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          error: null,
+        ),
+      );
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to update pitch: $ex',
         ),
       );
     }

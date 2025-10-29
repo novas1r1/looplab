@@ -74,6 +74,7 @@
     "premiumFeatureZoomInOut": "波形のズームイン/アウト",
     "premiumFeatureSupportDeveloper": "独立系開発者をサポート",
     "freeFeatureUnlimitedSongs": "無制限の曲 + 曲ごとに1つのループ",
+    "freeFeatureExportLoops": "ループをエクスポート",
     "freeFeatureNoAds": "広告なし",
     "freeFeatureOneLoopPerSong": "曲ごとに1つのループ",
     "purchase": "購入",
@@ -128,6 +129,10 @@
     "purchaseSuccess": "購入が成功しました。開発者をサポートしていただきありがとうございます❤️！",
     "voteForFeatures": "機能に投票",
     "changelogTitle": "変更履歴",
+    "changelog140Title": "1/2 ループをエクスポート",
+    "changelog140Description": "ループを異なる形式と品質でエクスポートできるようになりました。",
+    "changelog1402Title": "2/2 バグ修正とデザイン最適化",
+    "changelog1402Description": "いくつかのバグが修正され、デザインが最適化されました。",
     "changelog130Title": "BPMに基づいてテンポを変更",
     "changelog130Description": "BPMに基づいて曲のテンポを変更できるようになりました。これにより、より正確なテンポ調整が可能になりました。また、テンポをリセットするボタンも追加されました。",
     "changelog1201Title": "1/4 オーディオファイルのメディアデータを追加",
@@ -151,6 +156,40 @@
     "loopAdded": "ループが追加され、有効化されました",
     "loopModeEnabled": "ループモードが有効になりました",
     "loopModeDisabled": "ループモードが無効になりました",
+    "loopExportButton": "ループをエクスポート",
+    "loopExportDialogTitle": "ループをエクスポート",
+    "loopExportDialogDescription": "ループのファイル形式と品質を選択してください。",
+    "loopExportFormatLabel": "フォーマット",
+    "loopExportFormatMp3": "MP3 (圧縮)",
+    "loopExportFormatWav": "WAV (無損失)",
+    "loopExportSampleRateLabel": "Sample rate",
+    "loopExportBitrateLabel": "ビットレート",
+    "loopExportConfirm": "エクスポート",
+    "loopExportPickLocation": "エクスポートしたループを保存する場所を選択してください",
+    "loopExportFallbackName": "ループ",
+    "loopExportInProgress": "ループをエクスポートしています...",
+    "loopExportValidationError": "ループの開始時間と終了時間をエクスポートする前に確認してください。",
+    "loopExportSuccess": "ループが正常にエクスポートされました。",
+    "loopExportSuccessWithPath": "ループが {fileName} にエクスポートされました。",
+    "@loopExportSuccessWithPath": {
+        "description": "ループがエクスポートされた後に表示され、出力ファイル名が含まれます。",
+        "placeholders": {
+            "fileName": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportError": "ループをエクスポートできませんでした: {errorMessage}",
+    "@loopExportError": {
+        "description": "ループがエクスポートに失敗したときに表示され、エラーメッセージが含まれます。",
+        "placeholders": {
+            "errorMessage": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportGenericError": "ループをエクスポートできませんでした。",
+    "loopExportCanceled": "ループのエクスポートがキャンセルされました。",
     "pleaseSelectLoop": "ループを選択してください",
     "free": "無料",
     "pro": "プロ",

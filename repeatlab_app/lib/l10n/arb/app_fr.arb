@@ -70,6 +70,7 @@
     "premiumFeatureZoomInOut": "Waveform Zoom-In/Out",
     "premiumFeatureSupportDeveloper": "Soutenez le Développeur Indépendant",
     "freeFeatureUnlimitedSongs": "Chansons Illimitées + Une Boucle par Chanson",
+    "freeFeatureExportLoops": "Exporter les Boucles",
     "freeFeatureNoAds": "Pas de Publicité",
     "freeFeatureOneLoopPerSong": "Une Boucle par Chanson",
     "purchase": "Acheter",
@@ -127,6 +128,10 @@
     "cancelSubscription": "Annuler l'Abonnement",
     "voteForFeatures": "Voter pour les Fonctionnalités",
     "changelogTitle": "Changelog",
+    "changelog140Title": "1/2 Export Loops",
+    "changelog140Description": "Vous pouvez maintenant exporter des boucles avec différents formats et qualités.",
+    "changelog1402Title": "2/2 Corrections de bugs et optimisations de design",
+    "changelog1402Description": "Plusieurs bugs ont été corrigés et le design optimisé.",
     "changelog130Title": "Changer le tempo basé sur le BPM",
     "changelog130Description": "Vous pouvez maintenant changer le tempo de la chanson en fonction du BPM. Cela permet des ajustements précis du tempo. De plus, le tempo peut maintenant être réinitialisé avec un bouton.",
     "changelog1201Title": "1/4 Ajout de données médias pour les fichiers audio",
@@ -150,6 +155,40 @@
     "loopAdded": "Boucle ajoutée et activée",
     "loopModeEnabled": "Mode boucle activé",
     "loopModeDisabled": "Mode boucle désactivé",
+    "loopExportButton": "Export loop",
+    "loopExportDialogTitle": "Export loop",
+    "loopExportDialogDescription": "Choose a file format and quality for this loop.",
+    "loopExportFormatLabel": "Format",
+    "loopExportFormatMp3": "MP3 (compressed)",
+    "loopExportFormatWav": "WAV (lossless)",
+    "loopExportSampleRateLabel": "Sample rate",
+    "loopExportBitrateLabel": "Bitrate",
+    "loopExportConfirm": "Exporter",
+    "loopExportPickLocation": "Choisir où enregistrer le loop exporté",
+    "loopExportFallbackName": "loop",
+    "loopExportInProgress": "Exportation du loop...",
+    "loopExportValidationError": "Vérifiez les heures de début et de fin du loop avant d'exporter.",
+    "loopExportSuccess": "Loop exporté avec succès.",
+    "loopExportSuccessWithPath": "Loop exporté vers {fileName}.",
+    "@loopExportSuccessWithPath": {
+        "description": "Affiché après l'exportation du loop et inclut le nom du fichier de sortie.",
+        "placeholders": {
+            "fileName": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportError": "Impossible d'exporter le loop: {errorMessage}",
+    "@loopExportError": {
+        "description": "Affiché lorsque l'exportation du loop échoue et inclut le message d'erreur.",
+        "placeholders": {
+            "errorMessage": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportGenericError": "Impossible d'exporter le loop.",
+    "loopExportCanceled": "Exportation du loop annulée.",
     "pleaseSelectLoop": "Veuillez sélectionner une boucle",
     "free": "Free",
     "pro": "Pro",

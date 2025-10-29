@@ -244,6 +244,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get freeFeatureUnlimitedSongs => 'असीमित गीत + प्रति गीत एक लूप';
 
   @override
+  String get freeFeatureExportLoops => 'लूप निर्यात करें';
+
+  @override
   String get freeFeatureNoAds => 'कोई विज्ञापन नहीं';
 
   @override
@@ -377,6 +380,20 @@ class AppLocalizationsHi extends AppLocalizations {
   String get changelogTitle => 'परिवर्तन लॉग';
 
   @override
+  String get changelog140Title => '1/2 Export Loops';
+
+  @override
+  String get changelog140Description =>
+      'You can now export loops with different formats and quality.';
+
+  @override
+  String get changelog1402Title => '2/2 Bug Fixes & Design Optimizations';
+
+  @override
+  String get changelog1402Description =>
+      'Several Bugs were fixed and design optimized.';
+
+  @override
   String get changelog130Title => 'BPM आधारित गति बदलें';
 
   @override
@@ -457,6 +474,66 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get loopModeDisabled => 'लूप मोड अक्षम किया गया';
+
+  @override
+  String get loopExportButton => 'Export loop';
+
+  @override
+  String get loopExportDialogTitle => 'Export loop';
+
+  @override
+  String get loopExportDialogDescription =>
+      'Choose a file format and quality for this loop.';
+
+  @override
+  String get loopExportFormatLabel => 'Format';
+
+  @override
+  String get loopExportFormatMp3 => 'MP3 (compressed)';
+
+  @override
+  String get loopExportFormatWav => 'WAV (lossless)';
+
+  @override
+  String get loopExportSampleRateLabel => 'Sample rate';
+
+  @override
+  String get loopExportBitrateLabel => 'Bitrate';
+
+  @override
+  String get loopExportConfirm => 'Export loop';
+
+  @override
+  String get loopExportPickLocation => 'चुनें कहां भेजें एक्सपोर्ट लूप';
+
+  @override
+  String get loopExportFallbackName => 'loop';
+
+  @override
+  String get loopExportInProgress => 'लूप एक्सपोर्ट कर रहा है...';
+
+  @override
+  String get loopExportValidationError =>
+      'लूप शुरू और समाप्ति समय को एक्सपोर्ट करने से पहले जांचें।';
+
+  @override
+  String get loopExportSuccess => 'लूप सफलतापूर्वक एक्सपोर्ट किया गया।';
+
+  @override
+  String loopExportSuccessWithPath(String fileName) {
+    return 'लूप $fileName में एक्सपोर्ट किया गया।';
+  }
+
+  @override
+  String loopExportError(String errorMessage) {
+    return 'लूप एक्सपोर्ट नहीं किया जा सकता: $errorMessage';
+  }
+
+  @override
+  String get loopExportGenericError => 'लूप एक्सपोर्ट नहीं किया जा सकता।';
+
+  @override
+  String get loopExportCanceled => 'लूप एक्सपोर्ट रद्द किया गया।';
 
   @override
   String get pleaseSelectLoop => 'कृपया एक लूप चुनें';

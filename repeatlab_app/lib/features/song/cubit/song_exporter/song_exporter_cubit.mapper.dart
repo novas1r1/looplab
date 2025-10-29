@@ -7,6 +7,48 @@
 
 part of 'song_exporter_cubit.dart';
 
+class AudioExportFormatMapper extends EnumMapper<AudioExportFormat> {
+  AudioExportFormatMapper._();
+
+  static AudioExportFormatMapper? _instance;
+  static AudioExportFormatMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = AudioExportFormatMapper._());
+    }
+    return _instance!;
+  }
+
+  static AudioExportFormat fromValue(dynamic value) {
+    ensureInitialized();
+    return MapperContainer.globals.fromValue(value);
+  }
+
+  @override
+  AudioExportFormat decode(dynamic value) {
+    switch (value) {
+      case r'wav':
+        return AudioExportFormat.wav;
+      default:
+        throw MapperException.unknownEnumValue(value);
+    }
+  }
+
+  @override
+  dynamic encode(AudioExportFormat self) {
+    switch (self) {
+      case AudioExportFormat.wav:
+        return r'wav';
+    }
+  }
+}
+
+extension AudioExportFormatMapperExtension on AudioExportFormat {
+  String toValue() {
+    AudioExportFormatMapper.ensureInitialized();
+    return MapperContainer.globals.toValue<AudioExportFormat>(this) as String;
+  }
+}
+
 class SongExporterStatusMapper extends EnumMapper<SongExporterStatus> {
   SongExporterStatusMapper._();
 
@@ -30,10 +72,14 @@ class SongExporterStatusMapper extends EnumMapper<SongExporterStatus> {
         return SongExporterStatus.initial;
       case r'exporting':
         return SongExporterStatus.exporting;
+      case r'awaitingSave':
+        return SongExporterStatus.awaitingSave;
       case r'exportSuccess':
         return SongExporterStatus.exportSuccess;
       case r'exportError':
         return SongExporterStatus.exportError;
+      case r'exportCanceled':
+        return SongExporterStatus.exportCanceled;
       default:
         throw MapperException.unknownEnumValue(value);
     }
@@ -46,10 +92,14 @@ class SongExporterStatusMapper extends EnumMapper<SongExporterStatus> {
         return r'initial';
       case SongExporterStatus.exporting:
         return r'exporting';
+      case SongExporterStatus.awaitingSave:
+        return r'awaitingSave';
       case SongExporterStatus.exportSuccess:
         return r'exportSuccess';
       case SongExporterStatus.exportError:
         return r'exportError';
+      case SongExporterStatus.exportCanceled:
+        return r'exportCanceled';
     }
   }
 }
@@ -69,6 +119,7 @@ class SongExporterStateMapper extends ClassMapperBase<SongExporterState> {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = SongExporterStateMapper._());
       SongExporterStatusMapper.ensureInitialized();
+      AudioExportFormatMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -89,17 +140,50 @@ class SongExporterStateMapper extends ClassMapperBase<SongExporterState> {
     _$errorMessage,
     opt: true,
   );
+  static String? _$exportedFilePath(SongExporterState v) => v.exportedFilePath;
+  static const Field<SongExporterState, String> _f$exportedFilePath = Field(
+    'exportedFilePath',
+    _$exportedFilePath,
+    opt: true,
+  );
+  static AudioExportFormat? _$format(SongExporterState v) => v.format;
+  static const Field<SongExporterState, AudioExportFormat> _f$format = Field(
+    'format',
+    _$format,
+    opt: true,
+  );
+  static Uint8List? _$pendingBytes(SongExporterState v) => v.pendingBytes;
+  static const Field<SongExporterState, Uint8List> _f$pendingBytes = Field(
+    'pendingBytes',
+    _$pendingBytes,
+    opt: true,
+  );
+  static String? _$suggestedFileName(SongExporterState v) =>
+      v.suggestedFileName;
+  static const Field<SongExporterState, String> _f$suggestedFileName = Field(
+    'suggestedFileName',
+    _$suggestedFileName,
+    opt: true,
+  );
 
   @override
   final MappableFields<SongExporterState> fields = const {
     #status: _f$status,
     #errorMessage: _f$errorMessage,
+    #exportedFilePath: _f$exportedFilePath,
+    #format: _f$format,
+    #pendingBytes: _f$pendingBytes,
+    #suggestedFileName: _f$suggestedFileName,
   };
 
   static SongExporterState _instantiate(DecodingData data) {
     return SongExporterState(
       status: data.dec(_f$status),
       errorMessage: data.dec(_f$errorMessage),
+      exportedFilePath: data.dec(_f$exportedFilePath),
+      format: data.dec(_f$format),
+      pendingBytes: data.dec(_f$pendingBytes),
+      suggestedFileName: data.dec(_f$suggestedFileName),
     );
   }
 
@@ -174,7 +258,14 @@ abstract class SongExporterStateCopyWith<
   $Out
 >
     implements ClassCopyWith<$R, $In, $Out> {
-  $R call({SongExporterStatus? status, String? errorMessage});
+  $R call({
+    SongExporterStatus? status,
+    String? errorMessage,
+    String? exportedFilePath,
+    AudioExportFormat? format,
+    Uint8List? pendingBytes,
+    String? suggestedFileName,
+  });
   SongExporterStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
   );
@@ -189,16 +280,34 @@ class _SongExporterStateCopyWithImpl<$R, $Out>
   late final ClassMapperBase<SongExporterState> $mapper =
       SongExporterStateMapper.ensureInitialized();
   @override
-  $R call({SongExporterStatus? status, Object? errorMessage = $none}) => $apply(
+  $R call({
+    SongExporterStatus? status,
+    Object? errorMessage = $none,
+    Object? exportedFilePath = $none,
+    Object? format = $none,
+    Object? pendingBytes = $none,
+    Object? suggestedFileName = $none,
+  }) => $apply(
     FieldCopyWithData({
       if (status != null) #status: status,
       if (errorMessage != $none) #errorMessage: errorMessage,
+      if (exportedFilePath != $none) #exportedFilePath: exportedFilePath,
+      if (format != $none) #format: format,
+      if (pendingBytes != $none) #pendingBytes: pendingBytes,
+      if (suggestedFileName != $none) #suggestedFileName: suggestedFileName,
     }),
   );
   @override
   SongExporterState $make(CopyWithData data) => SongExporterState(
     status: data.get(#status, or: $value.status),
     errorMessage: data.get(#errorMessage, or: $value.errorMessage),
+    exportedFilePath: data.get(#exportedFilePath, or: $value.exportedFilePath),
+    format: data.get(#format, or: $value.format),
+    pendingBytes: data.get(#pendingBytes, or: $value.pendingBytes),
+    suggestedFileName: data.get(
+      #suggestedFileName,
+      or: $value.suggestedFileName,
+    ),
   );
 
   @override
@@ -206,4 +315,3 @@ class _SongExporterStateCopyWithImpl<$R, $Out>
     Then<$Out2, $R2> t,
   ) => _SongExporterStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
-

@@ -244,6 +244,9 @@ class AppLocalizationsRu extends AppLocalizations {
       'Неограниченное Количество Песен + Один Луп на Песню';
 
   @override
+  String get freeFeatureExportLoops => 'Экспорт Лупов';
+
+  @override
   String get freeFeatureNoAds => 'Без Рекламы';
 
   @override
@@ -381,6 +384,21 @@ class AppLocalizationsRu extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
+  String get changelog140Title => '1/2 Экспорт Лупов';
+
+  @override
+  String get changelog140Description =>
+      'Теперь вы можете экспортировать лупы в разных форматах и качестве.';
+
+  @override
+  String get changelog1402Title =>
+      '2/2 Исправления Ошибок и Оптимизация Дизайна';
+
+  @override
+  String get changelog1402Description =>
+      'Исправлены несколько ошибок и оптимизирован дизайн.';
+
+  @override
   String get changelog130Title => 'Изменение темпа на основе BPM';
 
   @override
@@ -460,6 +478,67 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get loopModeDisabled => 'Режим лупа выключен';
+
+  @override
+  String get loopExportButton => 'Экспорт лупа';
+
+  @override
+  String get loopExportDialogTitle => 'Экспорт лупа';
+
+  @override
+  String get loopExportDialogDescription =>
+      'Выберите формат и качество для этого лупа.';
+
+  @override
+  String get loopExportFormatLabel => 'Формат';
+
+  @override
+  String get loopExportFormatMp3 => 'MP3 (сжатый)';
+
+  @override
+  String get loopExportFormatWav => 'WAV (без потерь)';
+
+  @override
+  String get loopExportSampleRateLabel => 'Частота дискретизации';
+
+  @override
+  String get loopExportBitrateLabel => 'Битрейт';
+
+  @override
+  String get loopExportConfirm => 'Экспорт';
+
+  @override
+  String get loopExportPickLocation =>
+      'Выберите место для сохранения экспортированного лупа';
+
+  @override
+  String get loopExportFallbackName => 'loop';
+
+  @override
+  String get loopExportInProgress => 'Экспортируется луп...';
+
+  @override
+  String get loopExportValidationError =>
+      'Проверьте время начала и конца лупа перед экспортом.';
+
+  @override
+  String get loopExportSuccess => 'Луп экспортирован успешно.';
+
+  @override
+  String loopExportSuccessWithPath(String fileName) {
+    return 'Луп экспортирован в $fileName.';
+  }
+
+  @override
+  String loopExportError(String errorMessage) {
+    return 'Не удалось экспортировать луп: $errorMessage';
+  }
+
+  @override
+  String get loopExportGenericError => 'Не удалось экспортировать луп.';
+
+  @override
+  String get loopExportCanceled => 'Экспорт лупа отменен.';
 
   @override
   String get pleaseSelectLoop => 'Пожалуйста, выберите луп';

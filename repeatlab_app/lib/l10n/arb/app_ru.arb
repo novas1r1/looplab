@@ -70,6 +70,7 @@
     "premiumFeatureZoomInOut": "Waveform Zoom-In/Out",
     "premiumFeatureSupportDeveloper": "Поддержка Независимого Разработчика",
     "freeFeatureUnlimitedSongs": "Неограниченное Количество Песен + Один Луп на Песню",
+    "freeFeatureExportLoops": "Экспорт Лупов",
     "freeFeatureNoAds": "Без Рекламы",
     "freeFeatureOneLoopPerSong": "Один Луп на Песню",
     "purchase": "Купить",
@@ -126,6 +127,10 @@
     "cancelSubscription": "Отменить Подписку",
     "voteForFeatures": "Предложить Функции",
     "changelogTitle": "Changelog",
+    "changelog140Title": "1/2 Экспорт Лупов",
+    "changelog140Description": "Теперь вы можете экспортировать лупы в разных форматах и качестве.",
+    "changelog1402Title": "2/2 Исправления Ошибок и Оптимизация Дизайна",
+    "changelog1402Description": "Исправлены несколько ошибок и оптимизирован дизайн.",
     "changelog130Title": "Изменение темпа на основе BPM",
     "changelog130Description": "Теперь вы можете изменить темп песни на основе BPM. Это позволяет точно настроить темп. Кроме того, теперь темп можно сбросить с помощью кнопки.",
     "changelog1201Title": "1/4 Добавлены медиаданные для аудиофайлов",
@@ -149,6 +154,40 @@
     "loopAdded": "Луп добавлен и активирован",
     "loopModeEnabled": "Режим лупа включен",
     "loopModeDisabled": "Режим лупа выключен",
+    "loopExportButton": "Экспорт лупа",
+    "loopExportDialogTitle": "Экспорт лупа",
+    "loopExportDialogDescription": "Выберите формат и качество для этого лупа.",
+    "loopExportFormatLabel": "Формат",
+    "loopExportFormatMp3": "MP3 (сжатый)",
+    "loopExportFormatWav": "WAV (без потерь)",
+    "loopExportSampleRateLabel": "Частота дискретизации",
+    "loopExportBitrateLabel": "Битрейт",
+    "loopExportConfirm": "Экспорт",
+    "loopExportPickLocation": "Выберите место для сохранения экспортированного лупа",
+    "loopExportFallbackName": "loop",
+    "loopExportInProgress": "Экспортируется луп...",
+    "loopExportValidationError": "Проверьте время начала и конца лупа перед экспортом.",
+    "loopExportSuccess": "Луп экспортирован успешно.",
+    "loopExportSuccessWithPath": "Луп экспортирован в {fileName}.",
+    "@loopExportSuccessWithPath": {
+        "description": "Показывается после завершения экспорта лупа и включает имя выходного файла.",
+        "placeholders": {
+            "fileName": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportError": "Не удалось экспортировать луп: {errorMessage}",
+    "@loopExportError": {
+        "description": "Показывается при ошибке экспорта лупа и включает сообщение об ошибке.",
+        "placeholders": {
+            "errorMessage": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportGenericError": "Не удалось экспортировать луп.",
+    "loopExportCanceled": "Экспорт лупа отменен.",
     "pleaseSelectLoop": "Пожалуйста, выберите луп",
     "free": "Free",
     "pro": "Pro",

@@ -75,6 +75,7 @@
     "premiumFeatureZoomInOut": "波形缩放",
     "premiumFeatureSupportDeveloper": "支持独立开发者",
     "freeFeatureUnlimitedSongs": "无限歌曲 + 每首歌一个循环",
+    "freeFeatureExportLoops": "导出循环",
     "freeFeatureNoAds": "无广告",
     "freeFeatureOneLoopPerSong": "每首歌一个循环",
     "purchase": "购买",
@@ -129,6 +130,10 @@
     "purchaseSuccess": "购买成功。感谢您支持开发者 ❤️！",
     "voteForFeatures": "功能投票",
     "changelogTitle": "更新日志",
+    "changelog140Title": "1/2 导出循环",
+    "changelog140Description": "现在您可以导出循环，并选择不同的格式和质量。",
+    "changelog1402Title": "2/2 错误修复和设计优化",
+    "changelog1402Description": "修复了多个错误，并优化了设计。",
     "changelog130Title": "基于 BPM 更改速度",
     "changelog130Description": "现在您可以根据 BPM 更改歌曲的速度。这允许更精确地调整速度。此外，现在可以使用按钮重置速度。",
     "changelog1201Title": "1/4 添加了音频文件的媒体数据",
@@ -152,6 +157,40 @@
     "loopAdded": "循环已添加并激活",
     "loopModeEnabled": "循环模式已启用",
     "loopModeDisabled": "循环模式已禁用",
+    "loopExportButton": "导出循环",
+    "loopExportDialogTitle": "导出循环",
+    "loopExportDialogDescription": "选择文件格式和质量来导出此循环。",
+    "loopExportFormatLabel": "格式",
+    "loopExportFormatMp3": "MP3 (压缩)",
+    "loopExportFormatWav": "WAV (无损)",
+    "loopExportSampleRateLabel": "采样率",
+    "loopExportBitrateLabel": "比特率",
+    "loopExportConfirm": "导出",
+    "loopExportPickLocation": "选择导出循环的保存位置",
+    "loopExportFallbackName": "loop",
+    "loopExportInProgress": "导出循环...",
+    "loopExportValidationError": "在导出之前检查循环的开始和结束时间。",
+    "loopExportSuccess": "循环导出成功。",
+    "loopExportSuccessWithPath": "循环导出到 {fileName}。",
+    "@loopExportSuccessWithPath": {
+        "description": "在循环导出完成后显示，并包含输出文件名。",
+        "placeholders": {
+            "fileName": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportError": "无法导出循环: {errorMessage}",
+    "@loopExportError": {
+        "description": "当循环导出失败时显示，并包含错误消息。",
+        "placeholders": {
+            "errorMessage": {
+                "type": "String"
+            }
+        }
+    },
+    "loopExportGenericError": "无法导出循环。",
+    "loopExportCanceled": "循环导出取消。",
     "pleaseSelectLoop": "请选择一个循环",
     "free": "免费",
     "pro": "专业版",

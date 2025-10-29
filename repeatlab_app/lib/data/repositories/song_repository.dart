@@ -4,9 +4,9 @@ import 'dart:io';
 
 // import 'package:audiotags/audiotags.dart';
 import 'package:audio_metadata_reader/audio_metadata_reader.dart';
-import 'package:ffmpeg_kit_flutter_new/ffmpeg_kit.dart';
-import 'package:ffmpeg_kit_flutter_new/return_code.dart';
-import 'package:flutter_soloud/flutter_soloud.dart';
+import 'package:ffmpeg_kit_flutter_new_min/ffmpeg_kit.dart';
+import 'package:ffmpeg_kit_flutter_new_min/return_code.dart';
+import 'package:flutter_soloud/flutter_soloud.dart' hide AudioMetadata;
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:sembast/sembast.dart';
@@ -40,18 +40,18 @@ class SongRepository {
     // store under file name because ios changes the folder name on every update
     String fileName = fileToUse.path.split('/').last;
 
-    // check if the file is an m4a file and if so, convert it to mp3
+    // check if the file is an m4a file and if so, convert it to wav
     // soloud does not support m4a files
     try {
       if (file.path.toLowerCase().endsWith('.m4a')) {
-        final convertedFile = await convertM4aToMp3(file);
+        final convertedFile = await convertM4aToWav(file);
         if (convertedFile != null) {
           fileToUse = convertedFile;
           fileName = fileToUse.path.split('/').last;
         }
       }
     } on Exception catch (ex) {
-      log('Error converting m4a to mp3: $ex', name: 'AddSongFile');
+      log('Error converting m4a to wav: $ex', name: 'AddSongFile');
       rethrow;
     }
 
@@ -84,24 +84,22 @@ class SongRepository {
     await getAllSongs();
   }
 
-  Future<File?> convertM4aToMp3(File file) async {
+  Future<File?> convertM4aToWav(File file) async {
     // Only proceed if the source file has an .m4a extension. Otherwise, skip.
     if (!file.path.toLowerCase().endsWith('.m4a')) {
-      log('Provided file is not an .m4a file – skipping conversion.', name: 'ConvertM4aToMp3');
+      log('Provided file is not an .m4a file – skipping conversion.', name: 'ConvertM4aToWav');
       return null;
     }
 
-    // Build the output path by simply replacing the extension with .mp3
-    final outputPath = file.path.replaceAll(RegExp(r'\.m4a', caseSensitive: false), '.mp3');
+    // Build the output path by simply replacing the extension with .wav
+    final outputPath = file.path.replaceAll(RegExp(r'\.m4a', caseSensitive: false), '.wav');
 
     // FFmpeg command to convert the audio. "-y" overwrites existing files,
     // "-vn" drops any (unlikely) video track, and we encode the audio stream
-    // with libmp3lame using a reasonable constant quality setting.
-    //
-    // Note: libmp3lame is bundled with ffmpeg_kit_flutter_new (GPL build).
-    final ffmpegCommand = '-y -i "${file.path}" -vn -codec:a libmp3lame -qscale:a 2 "$outputPath"';
+    // using 16-bit PCM which is supported by SoLoud.
+    final ffmpegCommand = '-y -i "${file.path}" -vn -c:a pcm_s16le "$outputPath"';
 
-    log('Starting m4a→mp3 conversion using FFmpeg: $ffmpegCommand', name: 'ConvertM4aToMp3');
+    log('Starting m4a→wav conversion using FFmpeg: $ffmpegCommand', name: 'ConvertM4aToWav');
 
     // Execute conversion.
     final session = await FFmpegKit.execute(ffmpegCommand);
@@ -109,23 +107,23 @@ class SongRepository {
     final returnCode = await session.getReturnCode();
 
     if (ReturnCode.isSuccess(returnCode)) {
-      log('FFmpeg conversion succeeded: $outputPath', name: 'ConvertM4aToMp3');
+      log('FFmpeg conversion succeeded: $outputPath', name: 'ConvertM4aToWav');
       // Optionally delete the original .m4a file to avoid wasting space.
       await file.delete();
       return File(outputPath);
     } else if (ReturnCode.isCancel(returnCode)) {
-      log('FFmpeg conversion was cancelled by the user.', name: 'ConvertM4aToMp3');
+      log('FFmpeg conversion was cancelled by the user.', name: 'ConvertM4aToWav');
     } else {
       // Something went wrong – gather diagnostics.
       final failStackTrace = await session.getFailStackTrace();
       final sessionLog = await session.getOutput();
       log(
         'FFmpeg conversion failed with code: $returnCode\n$failStackTrace',
-        name: 'ConvertM4aToMp3',
+        name: 'ConvertM4aToWav',
       );
-      log('FFmpeg log output:\n$sessionLog', name: 'ConvertM4aToMp3');
+      log('FFmpeg log output:\n$sessionLog', name: 'ConvertM4aToWav');
       throw Exception(
-        'Failed to convert m4a to mp3. FFmpeg return code: $returnCode',
+        'Failed to convert m4a to wav. FFmpeg return code: $returnCode',
       );
     }
     return null;

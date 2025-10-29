@@ -233,6 +233,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get freeFeatureUnlimitedSongs => '无限歌曲 + 每首歌一个循环';
 
   @override
+  String get freeFeatureExportLoops => '导出循环';
+
+  @override
   String get freeFeatureNoAds => '无广告';
 
   @override
@@ -357,6 +360,18 @@ class AppLocalizationsZh extends AppLocalizations {
   String get changelogTitle => '更新日志';
 
   @override
+  String get changelog140Title => '1/2 导出循环';
+
+  @override
+  String get changelog140Description => '现在您可以导出循环，并选择不同的格式和质量。';
+
+  @override
+  String get changelog1402Title => '2/2 错误修复和设计优化';
+
+  @override
+  String get changelog1402Description => '修复了多个错误，并优化了设计。';
+
+  @override
   String get changelog130Title => '基于 BPM 更改速度';
 
   @override
@@ -429,6 +444,64 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get loopModeDisabled => '循环模式已禁用';
+
+  @override
+  String get loopExportButton => '导出循环';
+
+  @override
+  String get loopExportDialogTitle => '导出循环';
+
+  @override
+  String get loopExportDialogDescription => '选择文件格式和质量来导出此循环。';
+
+  @override
+  String get loopExportFormatLabel => '格式';
+
+  @override
+  String get loopExportFormatMp3 => 'MP3 (压缩)';
+
+  @override
+  String get loopExportFormatWav => 'WAV (无损)';
+
+  @override
+  String get loopExportSampleRateLabel => '采样率';
+
+  @override
+  String get loopExportBitrateLabel => '比特率';
+
+  @override
+  String get loopExportConfirm => '导出';
+
+  @override
+  String get loopExportPickLocation => '选择导出循环的保存位置';
+
+  @override
+  String get loopExportFallbackName => 'loop';
+
+  @override
+  String get loopExportInProgress => '导出循环...';
+
+  @override
+  String get loopExportValidationError => '在导出之前检查循环的开始和结束时间。';
+
+  @override
+  String get loopExportSuccess => '循环导出成功。';
+
+  @override
+  String loopExportSuccessWithPath(String fileName) {
+    return '循环导出到 $fileName。';
+  }
+
+  @override
+  String loopExportError(String errorMessage) {
+    return '无法导出循环: $errorMessage';
+  }
+
+  @override
+  String get loopExportGenericError => '无法导出循环。';
+
+  @override
+  String get loopExportCanceled => '循环导出取消。';
 
   @override
   String get pleaseSelectLoop => '请选择一个循环';
