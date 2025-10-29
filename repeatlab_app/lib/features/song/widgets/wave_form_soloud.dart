@@ -373,10 +373,6 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
       return;
     }
 
-    developer.log('target: $target', name: 'WaveFormSoLoud');
-    developer.log('maxScroll: $maxScroll', name: 'WaveFormSoLoud');
-    developer.log('position: $position', name: 'WaveFormSoLoud');
-
     try {
       _scrollController.jumpTo(target.clamp(0.0, maxScroll));
     } catch (e) {

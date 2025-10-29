@@ -242,6 +242,9 @@ class AppLocalizationsNl extends AppLocalizations {
       'Onbeperkte Nummers + Een Loop per Nummer';
 
   @override
+  String get freeFeatureExportLoops => 'Loops Exporteren';
+
+  @override
   String get freeFeatureNoAds => 'Geen Advertenties';
 
   @override

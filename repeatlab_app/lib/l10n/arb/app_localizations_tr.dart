@@ -245,6 +245,9 @@ class AppLocalizationsTr extends AppLocalizations {
       'Sınırsız şarkı + şarkı başına bir döngü';
 
   @override
+  String get freeFeatureExportLoops => 'Döngüleri Dışa Aktar';
+
+  @override
   String get freeFeatureNoAds => 'Reklam yok';
 
   @override

@@ -236,6 +236,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get freeFeatureUnlimitedSongs => '無制限の曲 + 曲ごとに1つのループ';
 
   @override
+  String get freeFeatureExportLoops => 'ループをエクスポート';
+
+  @override
   String get freeFeatureNoAds => '広告なし';
 
   @override

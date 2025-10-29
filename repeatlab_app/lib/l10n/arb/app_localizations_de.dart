@@ -242,6 +242,9 @@ class AppLocalizationsDe extends AppLocalizations {
       'Unbegrenzt viele Songs + eine Loop pro Song';
 
   @override
+  String get freeFeatureExportLoops => 'Loops exportieren';
+
+  @override
   String get freeFeatureNoAds => 'Keine Werbung';
 
   @override

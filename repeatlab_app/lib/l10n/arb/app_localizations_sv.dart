@@ -242,6 +242,9 @@ class AppLocalizationsSv extends AppLocalizations {
   String get freeFeatureUnlimitedSongs => 'Obegränsade Låtar + En Loop per Låt';
 
   @override
+  String get freeFeatureExportLoops => 'Exportera Loopar';
+
+  @override
   String get freeFeatureNoAds => 'Inga Annonser';
 
   @override

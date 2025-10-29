@@ -242,6 +242,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get freeFeatureUnlimitedSongs => 'Unlimited Songs + One Loop per Song';
 
   @override
+  String get freeFeatureExportLoops => 'Export Loops';
+
+  @override
   String get freeFeatureNoAds => 'No Ads';
 
   @override

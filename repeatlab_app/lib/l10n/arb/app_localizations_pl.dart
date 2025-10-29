@@ -243,6 +243,9 @@ class AppLocalizationsPl extends AppLocalizations {
       'Nieograniczona Liczba Utworów + Jedna Pętla na Utwór';
 
   @override
+  String get freeFeatureExportLoops => 'Eksportuj Pętle';
+
+  @override
   String get freeFeatureNoAds => 'Brak Reklam';
 
   @override

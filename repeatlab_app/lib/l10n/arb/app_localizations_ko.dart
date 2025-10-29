@@ -235,6 +235,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get freeFeatureUnlimitedSongs => '무제한 곡 + 곡당 하나의 루프';
 
   @override
+  String get freeFeatureExportLoops => '루프 내보내기';
+
+  @override
   String get freeFeatureNoAds => '광고 없음';
 
   @override

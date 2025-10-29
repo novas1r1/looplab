@@ -244,6 +244,9 @@ class AppLocalizationsRu extends AppLocalizations {
       'Неограниченное Количество Песен + Один Луп на Песню';
 
   @override
+  String get freeFeatureExportLoops => 'Экспорт Лупов';
+
+  @override
   String get freeFeatureNoAds => 'Без Рекламы';
 
   @override

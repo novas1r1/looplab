@@ -246,6 +246,9 @@ class AppLocalizationsFr extends AppLocalizations {
       'Chansons Illimitées + Une Boucle par Chanson';
 
   @override
+  String get freeFeatureExportLoops => 'Exporter les Boucles';
+
+  @override
   String get freeFeatureNoAds => 'Pas de Publicité';
 
   @override

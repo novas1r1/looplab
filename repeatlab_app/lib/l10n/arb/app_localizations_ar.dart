@@ -242,6 +242,9 @@ class AppLocalizationsAr extends AppLocalizations {
       'أغاني غير محدودة + حلقة واحدة لكل أغنية';
 
   @override
+  String get freeFeatureExportLoops => 'تصدير الحلقات';
+
+  @override
   String get freeFeatureNoAds => 'بدون إعلانات';
 
   @override

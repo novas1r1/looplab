@@ -233,6 +233,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get freeFeatureUnlimitedSongs => '无限歌曲 + 每首歌一个循环';
 
   @override
+  String get freeFeatureExportLoops => '导出循环';
+
+  @override
   String get freeFeatureNoAds => '无广告';
 
   @override

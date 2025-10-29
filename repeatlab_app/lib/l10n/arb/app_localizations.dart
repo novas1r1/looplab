@@ -552,6 +552,12 @@ abstract class AppLocalizations {
   /// **'Unlimited Songs + One Loop per Song'**
   String get freeFeatureUnlimitedSongs;
 
+  /// No description provided for @freeFeatureExportLoops.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Loops'**
+  String get freeFeatureExportLoops;
+
   /// No description provided for @freeFeatureNoAds.
   ///
   /// In en, this message translates to:

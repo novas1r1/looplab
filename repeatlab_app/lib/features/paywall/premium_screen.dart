@@ -174,6 +174,14 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                       ),
                       TableRow(
                         children: [
+                          Text('💾', style: context.bodyLargeLightBold),
+                          Text(context.l10n.freeFeatureExportLoops),
+                          const Icon(Icons.check, color: Colors.green),
+                          const Icon(Icons.check, color: Colors.green),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
                           Text('🚫', style: context.bodyLargeLightBold),
                           Text(context.l10n.freeFeatureNoAds),
                           const Icon(Icons.check, color: Colors.green),
@@ -282,11 +290,11 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                         ? _selectedPlan == PlanPeriod.yearly
                               ? Text(
                                   context.l10n.purchaseYearly(isApple ? '3' : '5'),
-                                  style: context.bodyLargeLightBold,
+                                  style: context.bodyLargeDarkBold,
                                 )
                               : Text(
                                   context.l10n.purchaseLifetime,
-                                  style: context.bodyLargeLightBold,
+                                  style: context.bodyLargeDarkBold,
                                 )
                         : Text(
                             context.l10n.purchasedAlready,

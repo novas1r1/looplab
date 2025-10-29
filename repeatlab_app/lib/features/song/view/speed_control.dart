@@ -73,6 +73,22 @@ class _SpeedControlState extends State<SpeedControl> {
   }
 
   @override
+  void didUpdateWidget(SpeedControl oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Update internal state when the song prop changes
+    if (oldWidget.song.bpm != widget.song.bpm) {
+      _originalBpmController.text = widget.song.bpm?.toString() ?? '';
+      _originalBpm = widget.song.bpm;
+      if (_originalBpm != null) {
+        _minBpm = _calculateMinBpm(_originalBpm!);
+        _maxBpm = _calculateMaxBpm(_originalBpm!);
+        // Update current BPM only if it was null before
+        _currentBpm ??= _originalBpm;
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final hasPremium = context.watch<PremiumSubscriptionCubit>().hasPremium;
 
@@ -96,29 +112,43 @@ class _SpeedControlState extends State<SpeedControl> {
                 ),
               ),
               const Spacer(),
-              if (hasPremium)
-                SizedBox(
-                  height: 36,
-                  child: ToggleButtons(
-                    borderRadius: BorderRadius.circular(10),
-                    selectedColor: Theme.of(context).colorScheme.onPrimaryContainer,
-                    color: Theme.of(context).colorScheme.secondary,
-                    fillColor: Theme.of(context).colorScheme.primaryContainer,
-                    disabledColor: Theme.of(context).colorScheme.secondary,
-                    isSelected: [_mode == TempoMode.multiplier, _mode == TempoMode.bpm],
-                    onPressed: (index) => _onChangeTempoMode(index),
-                    children: const [
-                      Text(
-                        '×',
-                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-                      ),
-                      Text(
-                        'BPM',
-                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-                      ),
-                    ],
+              SizedBox(
+                height: 36,
+                child: ToggleButtons(
+                  borderRadius: BorderRadius.circular(10),
+                  selectedColor: Theme.of(context).colorScheme.onPrimaryContainer,
+                  color: Theme.of(context).colorScheme.secondary,
+                  fillColor: Theme.of(context).colorScheme.primaryContainer,
+                  disabledColor: Theme.of(context).colorScheme.secondary,
+                  isSelected: [_mode == TempoMode.multiplier, _mode == TempoMode.bpm],
+                  onPressed: (index) => _onChangeTempoMode(index),
+                  children: const [
+                    Text(
+                      '×',
+                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                    ),
+                    Text(
+                      'BPM',
+                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              SizedBox(
+                height: 32,
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  onPressed: () => (_controlMode == ControlMode.tempo)
+                      ? _onResetSpeedForMode(_mode)
+                      : _onResetPitch(),
+                  icon: Icon(
+                    Icons.refresh_rounded,
+                    color: Theme.of(context).colorScheme.secondaryFixed,
                   ),
                 ),
+              ),
               const SizedBox(width: 8),
               // button to expand and collapse the speed control
 
@@ -220,14 +250,6 @@ class _SpeedControlState extends State<SpeedControl> {
         // max speed
         Text('2.0×', style: context.labelLarge),
         const SizedBox(width: 8),
-        IconButton(
-          onPressed: () =>
-              (_controlMode == ControlMode.tempo) ? _onResetSpeedForMode(_mode) : _onResetPitch(),
-          icon: Icon(
-            Icons.refresh_rounded,
-            color: Theme.of(context).colorScheme.secondaryFixed,
-          ),
-        ),
       ],
     );
   }
@@ -548,6 +570,9 @@ class _SpeedControlState extends State<SpeedControl> {
                             _maxBpm = _calculateMaxBpm(_originalBpm!);
                             _currentBpm = _originalBpm;
                           });
+
+                          // Persist the BPM to the repository
+                          widget.onOriginalBpmChanged(_originalBpm!);
 
                           AppAnalytics.trackEvent(
                             AppAnalytics.clickUseTappedBpm,

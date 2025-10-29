@@ -244,6 +244,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get freeFeatureUnlimitedSongs => 'असीमित गीत + प्रति गीत एक लूप';
 
   @override
+  String get freeFeatureExportLoops => 'लूप निर्यात करें';
+
+  @override
   String get freeFeatureNoAds => 'कोई विज्ञापन नहीं';
 
   @override
