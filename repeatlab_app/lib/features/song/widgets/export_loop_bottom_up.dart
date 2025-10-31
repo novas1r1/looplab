@@ -83,92 +83,94 @@ class _ExportLoopBottomUpState extends State<ExportLoopBottomUp> {
             break;
         }
       },
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  context.l10n.loopExportDialogTitle,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                IconButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(Icons.close),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Text(context.l10n.loopExportDialogDescription),
-            const SizedBox(height: 12),
-            Text(
-              context.l10n.loopExportFormatLabel,
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
-            RadioGroup<AudioExportFormat>(
-              groupValue: _selectedFormat,
-              onChanged: (value) {
-                if (value != null) {
-                  setState(() => _selectedFormat = value);
-                }
-              },
-              child: Column(
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  RadioListTile<AudioExportFormat>(
-                    contentPadding: EdgeInsets.zero,
-                    value: AudioExportFormat.wav,
-                    title: Text(
-                      context.l10n.loopExportFormatWav,
-                      style: Theme.of(context).textTheme.bodyMedium,
+                  Text(
+                    context.l10n.loopExportDialogTitle,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: const Icon(Icons.close),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Text(context.l10n.loopExportDialogDescription),
+              const SizedBox(height: 12),
+              Text(
+                context.l10n.loopExportFormatLabel,
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+              RadioGroup<AudioExportFormat>(
+                groupValue: _selectedFormat,
+                onChanged: (value) {
+                  if (value != null) {
+                    setState(() => _selectedFormat = value);
+                  }
+                },
+                child: Column(
+                  children: [
+                    RadioListTile<AudioExportFormat>(
+                      contentPadding: EdgeInsets.zero,
+                      value: AudioExportFormat.wav,
+                      title: Text(
+                        context.l10n.loopExportFormatWav,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                context.l10n.loopExportSampleRateLabel,
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+              DropdownButton<int>(
+                value: _selectedSampleRate,
+                isExpanded: true,
+                items: _sampleRateOptions
+                    .map(
+                      (rate) => DropdownMenuItem<int>(
+                        value: rate,
+                        child: Text(_formatSampleRate(rate)),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (value) {
+                  if (value != null) {
+                    setState(() => _selectedSampleRate = value);
+                  }
+                },
+              ),
+              const SizedBox(height: 24),
+              Row(
+                spacing: 16,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: Text(context.l10n.cancel),
+                  ),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: _onExportLoop,
+                      child: Text(context.l10n.loopExportConfirm),
                     ),
                   ),
                 ],
               ),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              context.l10n.loopExportSampleRateLabel,
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
-            DropdownButton<int>(
-              value: _selectedSampleRate,
-              isExpanded: true,
-              items: _sampleRateOptions
-                  .map(
-                    (rate) => DropdownMenuItem<int>(
-                      value: rate,
-                      child: Text(_formatSampleRate(rate)),
-                    ),
-                  )
-                  .toList(),
-              onChanged: (value) {
-                if (value != null) {
-                  setState(() => _selectedSampleRate = value);
-                }
-              },
-            ),
-            const SizedBox(height: 24),
-            Row(
-              spacing: 16,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: Text(context.l10n.cancel),
-                ),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: _onExportLoop,
-                    child: Text(context.l10n.loopExportConfirm),
-                  ),
-                ),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

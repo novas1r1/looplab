@@ -1,6 +1,6 @@
 name: repeatlab
 description: Audio loop studio
-version: 1.4.1+58
+version: 1.4.2+59
 publish_to: none
 
 environment:

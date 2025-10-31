@@ -140,9 +140,8 @@ class _SpeedControlState extends State<SpeedControl> {
                 child: IconButton(
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
-                  onPressed: () => (_controlMode == ControlMode.tempo)
-                      ? _onResetSpeedForMode(_mode)
-                      : _onResetPitch(),
+                  onPressed: () =>
+                      (_controlMode == ControlMode.tempo) ? _onResetSpeed() : _onResetPitch(),
                   icon: Icon(
                     Icons.refresh_rounded,
                     color: Theme.of(context).colorScheme.secondaryFixed,
@@ -611,16 +610,13 @@ class _SpeedControlState extends State<SpeedControl> {
     widget.onTempoModeChanged(_mode);
   }
 
-  void _onResetSpeedForMode(TempoMode mode) {
-    if (mode == TempoMode.multiplier) {
-      setState(() {
-        _speedMultiplier = 1.0;
-      });
-      widget.onSpeedMultiplierChanged(_speedMultiplier);
-    } else {
-      setState(() {
-        _currentBpm = _originalBpm;
-      });
+  void _onResetSpeed() {
+    setState(() {
+      _speedMultiplier = 1.0;
+      _currentBpm = _originalBpm;
+    });
+    widget.onSpeedMultiplierChanged(_speedMultiplier);
+    if (_currentBpm != null) {
       widget.onCurrentBpmChanged(_currentBpm!);
     }
   }
