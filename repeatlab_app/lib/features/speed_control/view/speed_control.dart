@@ -58,6 +58,8 @@ class _SpeedControlState extends State<_SpeedControlView> {
   @override
   Widget build(BuildContext context) {
     final tempoMode = context.watch<SpeedControlCubit>().state.tempoMode;
+    final speedMultiplier = context.watch<SpeedControlCubit>().state.speedMultiplier;
+    final currentBpm = context.watch<SpeedControlCubit>().state.currentBpm;
 
     return Container(
       decoration: BoxDecoration(
@@ -88,7 +90,7 @@ class _SpeedControlState extends State<_SpeedControlView> {
                   fillColor: Theme.of(context).colorScheme.primaryContainer,
                   disabledColor: Theme.of(context).colorScheme.secondary,
                   isSelected: [tempoMode == TempoMode.multiplier, tempoMode == TempoMode.bpm],
-                  onPressed: (index) => _onChangeTempoMode(index),
+                  onPressed: (index) => _onChangeTempoMode(index, speedMultiplier, currentBpm),
                   children: const [
                     Text(
                       '×',
@@ -107,7 +109,7 @@ class _SpeedControlState extends State<_SpeedControlView> {
                 child: IconButton(
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
-                  onPressed: () => _onResetSpeed(),
+                  onPressed: () => _onResetSpeed(tempoMode),
                   icon: Icon(
                     Icons.refresh_rounded,
                     color: Theme.of(context).colorScheme.secondaryFixed,
@@ -119,6 +121,7 @@ class _SpeedControlState extends State<_SpeedControlView> {
           ),
           if (tempoMode == TempoMode.multiplier)
             SpeedControlMultiplierMode(
+              initialSpeedMultiplier: speedMultiplier,
               onSpeedMultiplierChanged: widget.onSpeedMultiplierChanged,
             ),
           if (tempoMode == TempoMode.bpm)
@@ -131,31 +134,41 @@ class _SpeedControlState extends State<_SpeedControlView> {
     );
   }
 
-  void _onChangeTempoMode(int index) {
+  void _onChangeTempoMode(
+    int index,
+    double? speedMultiplier,
+    int? currentBpm,
+  ) {
     context.read<SpeedControlCubit>().setTempoMode(
       index == 0 ? TempoMode.multiplier : TempoMode.bpm,
     );
 
     if (index == 0) {
+      // change track speed to multiplier mode value
+      widget.onSpeedMultiplierChanged(speedMultiplier ?? 1.0);
       AppAnalytics.trackEvent(
         AppAnalytics.clickTempoModeMultiplier,
       );
     } else {
+      // change track speed to bpm mode value
+      widget.onSpeedBpmChanged(currentBpm);
       AppAnalytics.trackEvent(
         AppAnalytics.clickTempoModeBpm,
       );
     }
   }
 
-  void _onResetSpeed() {
+  void _onResetSpeed(TempoMode tempoMode) {
     dev.log('onResetSpeed', name: 'SpeedControlView');
     context.read<SpeedControlCubit>().resetSpeed();
 
     final originalBpm = context.read<SpeedControlCubit>().state.originalBpm;
-    final currentBpm = context.read<SpeedControlCubit>().state.currentBpm;
 
-    widget.onSpeedMultiplierChanged(1.0);
-    widget.onSpeedBpmChanged(currentBpm ?? originalBpm);
-    widget.onOriginalBpmChanged(originalBpm);
+    if (tempoMode == TempoMode.multiplier) {
+      widget.onSpeedMultiplierChanged(1.0);
+    } else {
+      widget.onOriginalBpmChanged(originalBpm);
+      widget.onSpeedBpmChanged(originalBpm);
+    }
   }
 }

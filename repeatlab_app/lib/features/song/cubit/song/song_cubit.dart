@@ -758,17 +758,20 @@ class SongCubit extends Cubit<SongState> {
       }
 
       final normalizedSpeed = speed.clamp(_minPlaybackSpeed, _maxPlaybackSpeed);
+      // rounded to 1 decimal place
+      final roundedSpeed = double.tryParse(normalizedSpeed.toStringAsFixed(1)) ?? 1.0;
+      dev.log('roundedSpeed: $roundedSpeed');
 
       // update the song
       final updatedSong = state.song.copyWith(currentBpm: bpm);
       await songRepository.updateSong(updatedSong);
 
-      await audioHandler.setSpeed(normalizedSpeed);
+      await audioHandler.setSpeed(roundedSpeed);
 
       emit(
         state.copyWith(
           status: SongStatus.updated,
-          speed: normalizedSpeed,
+          speed: roundedSpeed,
           song: updatedSong,
         ),
       );

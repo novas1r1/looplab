@@ -10,9 +10,11 @@ import 'package:repeatlab/features/paywall/premium_screen.dart';
 import 'package:repeatlab/features/speed_control/cubit/speed_control_cubit.dart';
 
 class SpeedControlMultiplierMode extends StatefulWidget {
+  final double initialSpeedMultiplier;
   final void Function(double) onSpeedMultiplierChanged;
 
   const SpeedControlMultiplierMode({
+    required this.initialSpeedMultiplier,
     required this.onSpeedMultiplierChanged,
   });
 
@@ -22,6 +24,22 @@ class SpeedControlMultiplierMode extends StatefulWidget {
 
 class _SpeedControlMultiplierModeState extends State<SpeedControlMultiplierMode> {
   double _speedMultiplier = 1.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _speedMultiplier = widget.initialSpeedMultiplier;
+  }
+
+  @override
+  void didUpdateWidget(SpeedControlMultiplierMode oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialSpeedMultiplier != widget.initialSpeedMultiplier) {
+      setState(() {
+        _speedMultiplier = widget.initialSpeedMultiplier;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +56,7 @@ class _SpeedControlMultiplierModeState extends State<SpeedControlMultiplierMode>
           ),
           child: Text(
             '${_speedMultiplier.toStringAsFixed(1)}×',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            style: context.titleMedium.copyWith(
               fontWeight: FontWeight.w700,
               color: Theme.of(context).colorScheme.onPrimaryContainer,
             ),
@@ -56,6 +74,7 @@ class _SpeedControlMultiplierModeState extends State<SpeedControlMultiplierMode>
             divisions: 15,
             onChanged: (value) {
               if (!hasPremium) {
+                _showPremiumDialog(context);
                 return;
               } else {
                 setState(() {

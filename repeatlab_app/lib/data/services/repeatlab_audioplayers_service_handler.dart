@@ -321,6 +321,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
   @override
   Future<void> setSpeed(double speed) {
     final targetSpeed = _normalizePlaybackSpeed(speed);
+    log('setSpeed: $targetSpeed');
     _playbackSpeed = targetSpeed;
 
     return _setPlaybackRateSafely(targetSpeed);

@@ -1,6 +1,6 @@
 name: repeatlab
 description: Audio loop studio
-version: 1.4.3+60
+version: 1.4.4+61
 publish_to: none
 
 environment:
@@ -15,6 +15,9 @@ dependencies:
   audio_session: ^0.2.2
   # audioplayers: ^6.4.0
   audioplayers: ^6.5.1
+  audioplayers_android_exo:
+    any
+    # path: ../../packages/audioplayers-main
 
   # audiotags:
   #   git:

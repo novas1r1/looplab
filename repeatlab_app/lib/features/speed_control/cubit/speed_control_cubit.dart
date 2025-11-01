@@ -70,6 +70,8 @@ class SpeedControlCubit extends Cubit<SpeedControlState> {
           speedMultiplier: 1.0,
           originalBpm: state.originalBpm,
           currentBpm: state.originalBpm,
+          minBpm: (state.originalBpm! * 0.5).round().clamp(1, state.originalBpm!),
+          maxBpm: (state.originalBpm! * 2.0).round().clamp(state.originalBpm!, 400),
         ),
       );
     } else {
@@ -79,6 +81,8 @@ class SpeedControlCubit extends Cubit<SpeedControlState> {
           speedMultiplier: 1.0,
           originalBpm: null,
           currentBpm: null,
+          minBpm: null,
+          maxBpm: null,
         ),
       );
     }
