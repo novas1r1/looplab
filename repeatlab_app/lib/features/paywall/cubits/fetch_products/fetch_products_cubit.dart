@@ -90,6 +90,14 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
           ),
         );
         return;
+      } else if (errorCode == PurchasesErrorCode.productAlreadyPurchasedError) {
+        emit(
+          state.copyWith(
+            status: FetchProductsStatus.success,
+            action: FetchProductsAction.none,
+          ),
+        );
+        return;
       }
 
       crashReportingRepository.reportError(e, stackTrace);

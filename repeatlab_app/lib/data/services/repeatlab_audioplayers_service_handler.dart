@@ -13,6 +13,9 @@ import 'package:repeatlab/data/models/song.dart';
 class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
   final AudioPlayer audioPlayer;
 
+  static const double _minPlaybackSpeed = 0.25;
+  static const double _maxPlaybackSpeed = 2.0;
+
   Loop? _activeLoop;
 
   Stream<PlayerState>? playerStateStream;
@@ -317,8 +320,10 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
 
   @override
   Future<void> setSpeed(double speed) {
-    _playbackSpeed = speed;
-    return audioPlayer.setPlaybackRate(speed);
+    final targetSpeed = _normalizePlaybackSpeed(speed);
+    _playbackSpeed = targetSpeed;
+
+    return _setPlaybackRateSafely(targetSpeed);
   }
 
   @override
@@ -507,5 +512,27 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
     if (currentPosition >= end || currentPosition < start) {
       await seek(start);
     }
+  }
+
+  Future<void> _setPlaybackRateSafely(double speed) async {
+    await _awaitActiveSeek();
+    await audioPlayer.setPlaybackRate(speed);
+  }
+
+  double _normalizePlaybackSpeed(double speed) {
+    if (!speed.isFinite || speed <= 0) {
+      log('Ignoring invalid playback speed $speed, defaulting to 1.0');
+      return 1.0;
+    }
+
+    if (speed < _minPlaybackSpeed) {
+      return _minPlaybackSpeed;
+    }
+
+    if (speed > _maxPlaybackSpeed) {
+      return _maxPlaybackSpeed;
+    }
+
+    return speed;
   }
 }

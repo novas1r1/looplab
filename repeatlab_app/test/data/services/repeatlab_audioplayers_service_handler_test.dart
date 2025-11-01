@@ -169,4 +169,21 @@ void main() {
 
     expect(seekCalls, [const Duration(seconds: 2)]);
   });
+
+  test('setSpeed normalizes invalid values before delegating to player', () async {
+    final handler = RepeatlabAudioplayersServiceHandler(audioPlayer: audioPlayer);
+    addTearDown(handler.close);
+
+    await handler.setSpeed(double.nan);
+    await handler.setSpeed(-1);
+    await handler.setSpeed(0.1);
+    await handler.setSpeed(3.5);
+
+    verifyInOrder([
+      () => audioPlayer.setPlaybackRate(1.0),
+      () => audioPlayer.setPlaybackRate(1.0),
+      () => audioPlayer.setPlaybackRate(0.25),
+      () => audioPlayer.setPlaybackRate(2.0),
+    ]);
+  });
 }

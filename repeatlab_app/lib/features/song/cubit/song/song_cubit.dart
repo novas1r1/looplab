@@ -28,6 +28,9 @@ class SongCubit extends Cubit<SongState> {
   final LocalConfigRepository localConfigRepository;
   final CrashReportingRepository crashReportingRepository;
 
+  static const double _minPlaybackSpeed = 0.25;
+  static const double _maxPlaybackSpeed = 2.0;
+
   // audio player subscriptions
   late final RepeatlabAudioplayersServiceHandler audioHandler;
   StreamSubscription<List<Song>>? _songSubscription;
@@ -696,7 +699,12 @@ class SongCubit extends Cubit<SongState> {
     double? multiplier,
     int? bpm,
   }) async {
-    assert(multiplier != null || bpm != null, 'Either multiplier or bpm must be provided');
+    if (multiplier == null && bpm == null) {
+      dev.log('Either multiplier or bpm must be provided');
+      return;
+    }
+
+    dev.log('updateSpeed: multiplier: $multiplier, bpm: $bpm');
 
     try {
       double? speed;
@@ -715,7 +723,18 @@ class SongCubit extends Cubit<SongState> {
           return;
         }
 
-        speed = bpm / state.song.bpm!;
+        final originalBpm = state.song.bpm!;
+        if (originalBpm <= 0) {
+          emit(
+            state.copyWith(
+              status: SongStatus.error,
+              error: 'Failed to update speed: BPM must be greater than zero',
+            ),
+          );
+          return;
+        }
+
+        speed = bpm / originalBpm;
       }
 
       if (speed == null) {
@@ -728,25 +747,38 @@ class SongCubit extends Cubit<SongState> {
         return;
       }
 
+      if (!speed.isFinite || speed <= 0) {
+        emit(
+          state.copyWith(
+            status: SongStatus.error,
+            error: 'Failed to update speed: invalid value $speed',
+          ),
+        );
+        return;
+      }
+
+      final normalizedSpeed = speed.clamp(_minPlaybackSpeed, _maxPlaybackSpeed);
+
       // update the song
       final updatedSong = state.song.copyWith(currentBpm: bpm);
       await songRepository.updateSong(updatedSong);
 
-      await audioHandler.setSpeed(speed);
+      await audioHandler.setSpeed(normalizedSpeed);
 
       emit(
         state.copyWith(
           status: SongStatus.updated,
-          speed: speed,
+          speed: normalizedSpeed,
           song: updatedSong,
         ),
       );
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
+      dev.log('Failed to update speed: $ex');
       emit(
         state.copyWith(
           status: SongStatus.error,
-          error: 'Failed to update speed: $ex',
+          error: 'Failed to update speed to $multiplier or $bpm',
         ),
       );
     }
@@ -780,7 +812,7 @@ class SongCubit extends Cubit<SongState> {
   /// Persist the original BPM for the current song. This does **not** change
   /// the playback speed directly; it merely stores the value so that the UI
   /// can convert BPM values into speed multipliers.
-  Future<void> updateOriginalBpm(int bpm) async {
+  Future<void> updateOriginalBpm(int? bpm) async {
     try {
       emit(state.copyWith(status: SongStatus.updating));
 
