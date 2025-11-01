@@ -18,8 +18,8 @@ class AudioplayerService {
 
   // Constants
   static const double _defaultSpeed = 1.0;
-  static const double _minSpeed = 0.25;
-  static const double _maxSpeed = 4.0;
+  static const double _minSpeed = 0.5;
+  static const double _maxSpeed = 2.0;
 
   AudioplayerService({
     required this.audioPlayer,

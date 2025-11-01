@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
-import 'package:repeatlab/features/song/view/speed_control.dart';
+import 'package:repeatlab/features/speed_control/view/speed_control.dart';
 
 class SongController extends StatelessWidget {
   const SongController({
@@ -96,12 +96,8 @@ class SongController extends StatelessWidget {
             return SpeedControl(
               onSpeedMultiplierChanged: (value) =>
                   context.read<SongCubit>().updateSpeed(multiplier: value),
+              onSpeedBpmChanged: (value) => context.read<SongCubit>().updateSpeed(bpm: value),
               onOriginalBpmChanged: (value) => context.read<SongCubit>().updateOriginalBpm(value),
-              onCurrentBpmChanged: (value) => context.read<SongCubit>().updateSpeed(bpm: value),
-              onTempoModeChanged: (value) {
-                // TODO check if needed
-              },
-              onPitchChanged: (value) => context.read<SongCubit>().updatePitch(value),
               song: song,
             );
           },

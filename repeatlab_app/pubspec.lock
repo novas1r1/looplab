@@ -113,6 +113,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.2.1"
+  audioplayers_android_exo:
+    dependency: "direct main"
+    description:
+      name: audioplayers_android_exo
+      sha256: "7d7027810b2199810d09a1175ba68026d1288b793dece52dec2799264e04be09"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2+1"
   audioplayers_darwin:
     dependency: transitive
     description:
@@ -162,7 +170,7 @@ packages:
     source: hosted
     version: "9.1.0"
   bloc_test:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: bloc_test
       sha256: "1dd549e58be35148bc22a9135962106aa29334bc1e3f285994946a1057b29d7b"
@@ -325,10 +333,10 @@ packages:
     dependency: transitive
     description:
       name: cross_file
-      sha256: "7caf6a750a0c04effbb52a676dce9a4a592e10ad35c34d6d2d0e4811160d5670"
+      sha256: "942a4791cd385a68ccb3b32c71c427aba508a1bb949b86dff2adbe4049f16239"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.4+2"
+    version: "0.3.5"
   crypto:
     dependency: transitive
     description:
@@ -519,10 +527,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_soloud
-      sha256: f4dc07f5b0307e70a9a16f0011bf0d0c627db5f146248ac885f663c9addf06aa
+      sha256: "1527ca88845bcbe6c40717c1bb42134af3b1f009993751b6c2550b71f5d403db"
       url: "https://pub.dev"
     source: hosted
-    version: "3.4.0"
+    version: "3.4.1"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -765,6 +773,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+  mockito:
+    dependency: "direct dev"
+    description:
+      name: mockito
+      sha256: "2314cbe9165bcd16106513df9cf3c3224713087f09723b128928dc11a4379f99"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.5.0"
   mocktail:
     dependency: "direct dev"
     description:
@@ -1350,10 +1366,10 @@ packages:
     dependency: "direct main"
     description:
       name: userorient_flutter
-      sha256: "54ab92ec8b3bf7169f02021ce5c11989b8e71ef0fc7661c0d767b434cc10ab0d"
+      sha256: "99b9c21c20b04200b9ebe84806693814595c356e10c8c2895e091d40398036b3"
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.4"
+    version: "1.4.5"
   uuid:
     dependency: "direct main"
     description:

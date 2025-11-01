@@ -1,6 +1,6 @@
 name: repeatlab
 description: Audio loop studio
-version: 1.4.2+59
+version: 1.4.4+61
 publish_to: none
 
 environment:
@@ -15,12 +15,17 @@ dependencies:
   audio_session: ^0.2.2
   # audioplayers: ^6.4.0
   audioplayers: ^6.5.1
+  audioplayers_android_exo:
+    any
+    # path: ../../packages/audioplayers-main
 
   # audiotags:
   #   git:
   #     url: https://github.com/erikas-taroza/audiotags.git
   #     ref: master
   bloc: ^9.1.0
+  bloc_test: ^10.0.0
+
   clarity_flutter: ^1.4.3
   dart_mappable: ^4.5.0
   ffmpeg_kit_flutter_new_min: ^3.1.0
@@ -58,11 +63,11 @@ dependencies:
 dev_dependencies:
   alchemist: ^0.13.0
 
-  bloc_test: ^10.0.0
   build_runner: ^2.5.4
   dart_mappable_builder: ^4.5.0
   flutter_test:
     sdk: flutter
+  mockito: ^5.5.0
   mocktail: ^1.0.4
   # flutter_launcher_icons: ^0.14.3
   # flutter_native_splash: ^2.4.4
