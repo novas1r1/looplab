@@ -13,7 +13,7 @@ import 'package:repeatlab/data/models/song.dart';
 class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
   final AudioPlayer audioPlayer;
 
-  static const double _minPlaybackSpeed = 0.25;
+  static const double _minPlaybackSpeed = 0.5;
   static const double _maxPlaybackSpeed = 2.0;
 
   Loop? _activeLoop;

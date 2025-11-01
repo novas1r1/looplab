@@ -28,7 +28,7 @@ class SongCubit extends Cubit<SongState> {
   final LocalConfigRepository localConfigRepository;
   final CrashReportingRepository crashReportingRepository;
 
-  static const double _minPlaybackSpeed = 0.25;
+  static const double _minPlaybackSpeed = 0.5;
   static const double _maxPlaybackSpeed = 2.0;
 
   // audio player subscriptions
