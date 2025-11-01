@@ -61,7 +61,9 @@ void main() {
     );
 
     when(() => audioPlayer.getDuration()).thenAnswer((_) async => null);
-    when(() => audioPlayer.getCurrentPosition()).thenAnswer((_) async => const Duration(seconds: 1));
+    when(
+      () => audioPlayer.getCurrentPosition(),
+    ).thenAnswer((_) async => const Duration(seconds: 1));
 
     final recorded = <Duration>[];
     when(() => audioPlayer.seek(any<Duration>())).thenAnswer((invocation) async {
@@ -182,7 +184,7 @@ void main() {
     verifyInOrder([
       () => audioPlayer.setPlaybackRate(1.0),
       () => audioPlayer.setPlaybackRate(1.0),
-      () => audioPlayer.setPlaybackRate(0.25),
+      () => audioPlayer.setPlaybackRate(0.5),
       () => audioPlayer.setPlaybackRate(2.0),
     ]);
   });
