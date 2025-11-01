@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:repeatlab/core/ui/app_colors.dart';
 
 class PrimaryButton extends StatelessWidget {
   final VoidCallback? onPressed;
@@ -15,7 +16,7 @@ class PrimaryButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        backgroundColor: AppColors.primaryContainer,
         foregroundColor: Theme.of(
           context,
         ).colorScheme.onPrimaryContainer,
@@ -28,7 +29,7 @@ class PrimaryButton extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
         style: Theme.of(context).textTheme.labelMedium?.copyWith(
-          color: Theme.of(context).colorScheme.onPrimaryContainer,
+          color: AppColors.onPrimaryContainer,
           fontWeight: FontWeight.w600,
         ),
       ),

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/app_constants.dart';
+import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/core/utils/snackbar_helper.dart';
@@ -266,8 +267,8 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
 
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                      backgroundColor: AppColors.primary,
+                      foregroundColor: AppColors.onPrimary,
                     ),
                     onPressed:
                         !hasSubscription &&
@@ -388,9 +389,7 @@ class PackageWidget extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(
             width: 2,
-            color: isSelected
-                ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
+            color: isSelected ? AppColors.primary : AppColors.primary.withValues(alpha: 0.3),
           ),
           borderRadius: BorderRadius.circular(16),
         ),
@@ -449,8 +448,8 @@ class PackageWidget extends StatelessWidget {
               const SizedBox(height: 16),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: AppColors.onPrimary,
                 ),
                 onPressed: () {
                   // TODO(Verena): Add a confirmation dialog
@@ -508,13 +507,13 @@ class FeatureTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 4),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
         spacing: 16,
         children: [
-          Icon(Icons.check, color: Theme.of(context).colorScheme.primary),
+          const Icon(Icons.check, color: AppColors.primary),
           Text(title),
         ],
       ),

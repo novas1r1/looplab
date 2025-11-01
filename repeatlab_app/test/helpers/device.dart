@@ -55,6 +55,15 @@ class Device {
     safeArea: EdgeInsets.only(top: 24, bottom: 20),
   );
 
+  /// Google Pixel 8a: 1080 x 2400 (density: 2.6, using 2.5 for testing)
+  /// Logical size: 432 x 960
+  static const pixel8a = Device(
+    name: 'pixel_8a',
+    size: Size(1080 / 2.5, 2400 / 2.5),
+    devicePixelRatio: 2.5,
+    safeArea: EdgeInsets.only(top: 32, bottom: 24),
+  );
+
   /// [smallPhone] one of the smallest phone screens
   static const smallPhone = Device(name: 'small_phone', size: Size(375, 667));
 
@@ -72,10 +81,16 @@ class Device {
   );
 
   /// [tabletLandscape] example of tablet that in landscape mode
-  static const tabletLandscape = Device(name: 'tablet_landscape', size: Size(1366, 1024));
+  static const tabletLandscape = Device(
+    name: 'tablet_landscape',
+    size: Size(1366, 1024),
+  );
 
   /// [tabletPortrait] example of tablet that in portrait mode
-  static const tabletPortrait = Device(name: 'tablet_portrait', size: Size(1024, 1366));
+  static const tabletPortrait = Device(
+    name: 'tablet_portrait',
+    size: Size(1024, 1366),
+  );
 
   /// [name] specify device name. Ex: Phone, Tablet, Watch
   final String name;
@@ -126,13 +141,13 @@ class Device {
 
   /// [dark] convenience method to copy the current device and apply dark theme
   Device get dark => Device(
-        size: size,
-        devicePixelRatio: devicePixelRatio,
-        textScaleFactor: textScaleFactor,
-        brightness: Brightness.dark,
-        safeArea: safeArea,
-        name: '${name}_dark',
-      );
+    size: size,
+    devicePixelRatio: devicePixelRatio,
+    textScaleFactor: textScaleFactor,
+    brightness: Brightness.dark,
+    safeArea: safeArea,
+    name: '${name}_dark',
+  );
 
   @override
   String toString() {

@@ -5,7 +5,7 @@ import 'package:repeatlab/features/home/home_page.dart';
 
 import '../helpers/device.dart';
 import '../helpers/golden_test_device_scenario.dart';
-import '../helpers/helpers.dart';
+import '../helpers/pump_app.dart';
 
 void main() {
   // TestWidgetsFlutterBinding.ensureInitialized();
@@ -14,7 +14,7 @@ void main() {
     goldenTest(
       'renders correctly',
       fileName: 'home_page',
-      pumpWidget: (tester, widget)  => tester.pumpApp(
+      pumpWidget: (tester, widget) => tester.pumpApp(
         widget,
       ),
       builder: () => GoldenTestDeviceScenario(

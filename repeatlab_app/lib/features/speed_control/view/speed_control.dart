@@ -2,6 +2,7 @@ import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/data/models/song.dart';
@@ -63,7 +64,7 @@ class _SpeedControlState extends State<_SpeedControlView> {
 
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.secondaryContainer,
+        color: AppColors.secondaryContainer,
         borderRadius: BorderRadius.circular(10),
       ),
       padding: const EdgeInsets.all(8).copyWith(right: 0, top: 8, bottom: 8),
@@ -77,7 +78,7 @@ class _SpeedControlState extends State<_SpeedControlView> {
               Text(
                 context.l10n.speedControl,
                 style: context.titleLarge.copyWith(
-                  color: Theme.of(context).colorScheme.secondaryFixed,
+                  color: AppColors.secondaryFixed,
                 ),
               ),
               const Spacer(),
@@ -85,10 +86,10 @@ class _SpeedControlState extends State<_SpeedControlView> {
                 height: 36,
                 child: ToggleButtons(
                   borderRadius: BorderRadius.circular(10),
-                  selectedColor: Theme.of(context).colorScheme.onPrimaryContainer,
-                  color: Theme.of(context).colorScheme.secondary,
-                  fillColor: Theme.of(context).colorScheme.primaryContainer,
-                  disabledColor: Theme.of(context).colorScheme.secondary,
+                  selectedColor: AppColors.onPrimaryContainer,
+                  color: AppColors.secondary,
+                  fillColor: AppColors.primaryContainer,
+                  disabledColor: AppColors.secondary,
                   isSelected: [tempoMode == TempoMode.multiplier, tempoMode == TempoMode.bpm],
                   onPressed: (index) => _onChangeTempoMode(index, speedMultiplier, currentBpm),
                   children: const [
@@ -110,9 +111,9 @@ class _SpeedControlState extends State<_SpeedControlView> {
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                   onPressed: () => _onResetSpeed(tempoMode),
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.refresh_rounded,
-                    color: Theme.of(context).colorScheme.secondaryFixed,
+                    color: AppColors.secondaryFixed,
                   ),
                 ),
               ),

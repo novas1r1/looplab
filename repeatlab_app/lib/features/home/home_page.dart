@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/ui/widgets/loading.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
@@ -42,7 +43,7 @@ class _HomePageState extends State<HomePage> {
       },
       child: Scaffold(
         key: _scaffoldKey,
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: AppColors.surface,
         drawer: const CustomDrawer(),
         appBar: AppBar(
           elevation: 0,
@@ -96,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                         Icon(
                           Icons.music_note,
                           size: 64,
-                          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.5),
+                          color: AppColors.primary.withValues(alpha: 0.5),
                         ),
                         const SizedBox(height: 16),
                         Text(
@@ -107,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                         Text(
                           context.l10n.tapToAddSong,
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                            color: AppColors.onSurface.withValues(alpha: 0.6),
                           ),
                         ),
                       ],
@@ -174,7 +175,7 @@ class _HomePageState extends State<HomePage> {
     await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(24),

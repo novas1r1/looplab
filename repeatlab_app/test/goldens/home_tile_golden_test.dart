@@ -6,7 +6,7 @@ import 'package:repeatlab/features/home/widgets/home_tile.dart';
 
 import '../helpers/device.dart';
 import '../helpers/golden_test_device_scenario.dart';
-import '../helpers/helpers.dart';
+import '../helpers/pump_app.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

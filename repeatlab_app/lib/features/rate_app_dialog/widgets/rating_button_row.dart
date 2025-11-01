@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/svg_icon.dart';
 
@@ -73,17 +74,17 @@ class _StarButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       icon: isSelected
-          ? SvgIcon(
+          ? const SvgIcon(
               name: 'ic_star_filled',
               size: 42,
               semanticLabel: 'star filled',
-              color: Theme.of(context).colorScheme.primary,
+              color: AppColors.primary,
             )
-          : SvgIcon(
+          : const SvgIcon(
               name: 'ic_star',
               size: 42,
               semanticLabel: 'star',
-              color: Theme.of(context).colorScheme.primary,
+              color: AppColors.primary,
             ),
       onPressed: () => onChanged(!isSelected),
     );

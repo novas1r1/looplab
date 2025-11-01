@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:repeatlab/core/ui/app_colors.dart';
 
 class SmallBadge extends StatelessWidget {
   final String? text;
@@ -11,9 +12,9 @@ class SmallBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(8)),
-        color: Theme.of(context).colorScheme.primaryContainer,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+        color: AppColors.primaryContainer,
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),

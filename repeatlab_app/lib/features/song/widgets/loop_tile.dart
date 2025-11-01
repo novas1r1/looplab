@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
@@ -42,7 +43,7 @@ class LoopTile extends StatefulWidget {
 class _LoopTileState extends State<LoopTile> {
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).colorScheme.primaryContainer;
+    const color = AppColors.primaryContainer;
 
     return Container(
       decoration: BoxDecoration(

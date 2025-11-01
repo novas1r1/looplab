@@ -205,7 +205,7 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
                     top: 0,
                     child: Container(
                       width: 2,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: AppColors.primary,
                     ),
                   ),
                   // Zoom controls

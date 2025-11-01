@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/ui/interaction/custom_slider.dart';
 import 'package:repeatlab/core/ui/interaction/primary_button.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
@@ -95,7 +96,7 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
                 child: Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: AppColors.secondary,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
@@ -104,13 +105,13 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
                       Text(
                         context.l10n.originalBpm,
                         style: context.bodySmall.copyWith(
-                          color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          color: AppColors.onPrimaryContainer,
                         ),
                       ),
                       Text(
                         originalBpm.toString(),
                         style: context.titleMedium.copyWith(
-                          color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          color: AppColors.onPrimaryContainer,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -121,7 +122,7 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: AppColors.primary,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
@@ -130,13 +131,13 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
                     Text(
                       context.l10n.currentBpm,
                       style: context.bodySmall.copyWith(
-                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                        color: AppColors.onPrimaryContainer,
                       ),
                     ),
                     Text(
                       currentBpm.toString(),
                       style: context.titleMedium.copyWith(
-                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                        color: AppColors.onPrimaryContainer,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -239,7 +240,7 @@ class BpmTapDialogState extends State<BpmTapDialog> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.secondary,
+                color: AppColors.secondary,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Column(
@@ -247,7 +248,7 @@ class BpmTapDialogState extends State<BpmTapDialog> {
                   Text(
                     context.l10n.detectedBpm,
                     style: context.labelMedium.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      color: AppColors.onPrimaryContainer,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -255,7 +256,7 @@ class BpmTapDialogState extends State<BpmTapDialog> {
                     '$_calculatedBpm',
                     style: context.headlineMedium.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      color: AppColors.onPrimaryContainer,
                     ),
                   ),
                 ],
@@ -265,13 +266,13 @@ class BpmTapDialogState extends State<BpmTapDialog> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainer,
+                color: AppColors.surfaceContainer,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
                 context.l10n.tapAtLeast2TimesToDetectBpm,
                 style: context.bodyMedium.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  color: AppColors.onSurfaceVariant,
                 ),
               ),
             ),
@@ -285,8 +286,8 @@ class BpmTapDialogState extends State<BpmTapDialog> {
                 _calculateBpmFromTaps();
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                backgroundColor: AppColors.primary,
+                foregroundColor: AppColors.onPrimary,
                 shape: const CircleBorder(),
                 elevation: 4,
               ),
@@ -299,7 +300,7 @@ class BpmTapDialogState extends State<BpmTapDialog> {
                     context.l10n.tap,
                     style: context.titleMedium.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.onPrimary,
+                      color: AppColors.onPrimary,
                     ),
                   ),
                 ],

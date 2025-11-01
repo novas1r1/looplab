@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
@@ -174,7 +175,7 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                         borderRadius: BorderRadius.circular(4),
                         color: _updatedLoop.color.color,
                         border: Border.all(
-                          color: Theme.of(context).colorScheme.secondary,
+                          color: AppColors.secondary,
                           width: 2,
                         ),
                       ),
@@ -225,13 +226,13 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                         widget.onDelete(widget.loop);
                         Navigator.pop(context);
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.delete,
-                        color: Theme.of(context).colorScheme.onError,
+                        color: AppColors.onError,
                       ),
                       label: Text(context.l10n.delete),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.error,
+                        backgroundColor: AppColors.error,
                         foregroundColor: Theme.of(
                           context,
                         ).colorScheme.onError,
@@ -367,8 +368,8 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
             padding: const EdgeInsets.only(top: 4),
             child: Text(
               errorText,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.error,
+              style: const TextStyle(
+                color: AppColors.error,
                 fontSize: 12,
               ),
             ),

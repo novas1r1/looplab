@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/app/router.dart';
+import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
@@ -104,7 +105,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                   text: context.l10n.onboardingPrivacyPolicyLink,
                                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                     decoration: TextDecoration.underline,
-                                    color: Theme.of(context).colorScheme.primary,
+                                    color: AppColors.primary,
                                   ),
                                 ),
                                 TextSpan(
@@ -116,7 +117,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                   text: context.l10n.onboardingTermsOfServiceLink,
                                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                                     decoration: TextDecoration.underline,
-                                    color: Theme.of(context).colorScheme.primary,
+                                    color: AppColors.primary,
                                   ),
                                 ),
                               ],
@@ -240,7 +241,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
           Icon(
             slide.icon,
             size: 100,
-            color: Theme.of(context).colorScheme.primary,
+            color: AppColors.primary,
           ),
           const SizedBox(height: 32),
           Text(
@@ -266,9 +267,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       height: 8,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: _currentPage == index
-            ? Theme.of(context).colorScheme.primary
-            : Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
+        color: _currentPage == index ? AppColors.primary : AppColors.primary.withValues(alpha: 0.2),
       ),
     );
   }
