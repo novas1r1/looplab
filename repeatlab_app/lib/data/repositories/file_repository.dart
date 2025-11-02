@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 class FileRepository {
@@ -33,12 +34,20 @@ class FileRepository {
       return null;
     }
 
+    final pickedFile = result.files.single;
+    final rawPath = pickedFile.path;
+    if (rawPath == null || rawPath.isEmpty) {
+      return null;
+    }
+
+    final sourceFile = File(_normalizePickedPath(rawPath));
+
     // copy file to app directory
     final appDir = await getApplicationDocumentsDirectory();
-    final fileName = result.files.single.path!.split('/').last;
-    final file = File(result.files.single.path!);
-    final newFile = File('${appDir.path}/$fileName');
-    await file.copy(newFile.path);
+    final fileName = _resolveFileName(pickedFile.name, sourceFile.path);
+    final destinationPath = p.join(appDir.path, fileName);
+    final newFile = File(destinationPath);
+    await sourceFile.copy(newFile.path);
 
     return newFile;
   }
@@ -49,6 +58,54 @@ class FileRepository {
       allowMultiple: true,
     );
 
-    return result != null ? result.paths.map((path) => File(path!)).toList() : [];
+    if (result == null) {
+      return [];
+    }
+
+    return result.paths
+        .whereType<String>()
+        .map(_normalizePickedPath)
+        .map(File.new)
+        .toList();
+  }
+}
+
+String _resolveFileName(String providedName, String sourcePath) {
+  final decodedName = _decodePercentEncodedSegment(providedName);
+  if (decodedName.trim().isNotEmpty) {
+    return decodedName;
+  }
+
+  return _decodePercentEncodedSegment(p.basename(sourcePath));
+}
+
+String _normalizePickedPath(String path) {
+  if (path.startsWith('file://')) {
+    try {
+      return Uri.parse(path).toFilePath();
+    } on FormatException {
+      final withoutScheme = path.substring(7);
+      return _decodePercentEncodedSegment(withoutScheme);
+    }
+  }
+
+  return _decodePercentEncodedSegment(path);
+}
+
+String _decodePercentEncodedSegment(String value) {
+  if (!value.contains('%')) {
+    return value;
+  }
+
+  final hasEncodedPattern = RegExp(r'%[0-9A-Fa-f]{2}').hasMatch(value);
+
+  if (!hasEncodedPattern) {
+    return value;
+  }
+
+  try {
+    return Uri.decodeFull(value);
+  } on FormatException {
+    return value;
   }
 }
