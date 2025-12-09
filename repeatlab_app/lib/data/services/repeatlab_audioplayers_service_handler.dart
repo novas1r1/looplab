@@ -24,6 +24,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
   Stream<Duration>? positionStream;
   StreamSubscription<Duration>? _positionSubscription;
   StreamSubscription<Duration>? _loopPositionSubscription;
+  Timer? _loopCheckTimer;
 
   Future<Duration> get position async => await audioPlayer.getCurrentPosition() ?? Duration.zero;
 
@@ -90,6 +91,13 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
             ),
           );
         case PlayerState.completed:
+          // Handle loop restart when song completes - this is especially important
+          // for background playback where position updates may be throttled
+          if (_activeLoop != null && _activeLoop!.start != null && _activeLoop!.end != null) {
+            _handleLoopCompletionRestart();
+            return;
+          }
+
           playbackState.add(
             playbackState.value.copyWith(
               controls: const [
@@ -225,6 +233,8 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
   Future<void> enableLoopMode(Loop loop) async {
     await _loopPositionSubscription?.cancel();
     _loopPositionSubscription = null;
+    _loopCheckTimer?.cancel();
+    _loopCheckTimer = null;
     _activeLoop = loop;
 
     final start = loop.start;
@@ -234,8 +244,15 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
       return;
     }
 
+    // Use stream for responsive UI updates when app is in foreground
     final positionUpdates = positionStream ?? audioPlayer.onPositionChanged;
     _loopPositionSubscription = positionUpdates.listen(_handleLoopPositionUpdate);
+
+    // Use timer as fallback for background mode where stream events may be throttled
+    // The timer actively polls position which works even when the app is backgrounded
+    _loopCheckTimer = Timer.periodic(const Duration(milliseconds: 200), (_) {
+      _checkLoopBoundsAsync();
+    });
 
     await _ensureWithinLoopBounds(loop);
   }
@@ -244,6 +261,8 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
   Future<void> disableLoopMode() async {
     await _loopPositionSubscription?.cancel();
     _loopPositionSubscription = null;
+    _loopCheckTimer?.cancel();
+    _loopCheckTimer = null;
     _activeLoop = null;
     _loopSeekInProgress = false;
   }
@@ -418,6 +437,8 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
     await _playerStateSubscription?.cancel();
     await _positionSubscription?.cancel();
     await _loopPositionSubscription?.cancel();
+    _loopCheckTimer?.cancel();
+    _loopCheckTimer = null;
     _currentSource = null;
   }
 
@@ -500,6 +521,68 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
       seek(start).whenComplete(() {
         _loopSeekInProgress = false;
       });
+    }
+  }
+
+  /// Timer-based loop check that actively polls position.
+  /// This works in background mode where stream events may be throttled.
+  Future<void> _checkLoopBoundsAsync() async {
+    final loop = _activeLoop;
+    if (loop == null) return;
+
+    final start = loop.start;
+    final end = loop.end;
+    if (start == null || end == null) return;
+
+    // Only check when playing
+    if (audioPlayer.state != PlayerState.playing) return;
+
+    if (_loopSeekInProgress) return;
+
+    try {
+      final position = await audioPlayer.getCurrentPosition();
+      if (position == null) return;
+
+      if (position >= end) {
+        _loopSeekInProgress = true;
+        await seek(start);
+        _loopSeekInProgress = false;
+      }
+    } catch (e) {
+      log('Error checking loop bounds: $e');
+      _loopSeekInProgress = false;
+    }
+  }
+
+  /// Handles loop restart when the song completes.
+  /// This is a fallback for when position updates are throttled in background mode.
+  Future<void> _handleLoopCompletionRestart() async {
+    final loop = _activeLoop;
+    if (loop == null || loop.start == null) return;
+
+    if (_loopSeekInProgress) return;
+
+    _loopSeekInProgress = true;
+    try {
+      await seek(loop.start!);
+      await audioPlayer.resume();
+      playbackState.add(
+        playbackState.value.copyWith(
+          controls: const [
+            MediaControl.pause,
+            MediaControl.stop,
+          ],
+          systemActions: const {
+            MediaAction.seek,
+            MediaAction.seekForward,
+            MediaAction.seekBackward,
+          },
+          playing: true,
+          processingState: AudioProcessingState.ready,
+        ),
+      );
+    } finally {
+      _loopSeekInProgress = false;
     }
   }
 

@@ -62,11 +62,7 @@ class FileRepository {
       return [];
     }
 
-    return result.paths
-        .whereType<String>()
-        .map(_normalizePickedPath)
-        .map(File.new)
-        .toList();
+    return result.paths.whereType<String>().map(_normalizePickedPath).map(File.new).toList();
   }
 }
 
@@ -97,7 +93,7 @@ String _decodePercentEncodedSegment(String value) {
     return value;
   }
 
-  final hasEncodedPattern = RegExp(r'%[0-9A-Fa-f]{2}').hasMatch(value);
+  final hasEncodedPattern = RegExp('%[0-9A-Fa-f]{2}').hasMatch(value);
 
   if (!hasEncodedPattern) {
     return value;
