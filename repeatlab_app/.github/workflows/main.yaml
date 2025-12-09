@@ -1,7 +1,7 @@
 name: repeatlab
 
 concurrency:
-  group: $-$
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 on:
@@ -15,27 +15,38 @@ on:
 jobs:
   semantic-pull-request:
     uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/semantic_pull_request.yml@v1
-
-  test:
-    runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
+
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.35.7"
           channel: "stable"
       - name: Install FVM
-        run: |
-          dart pub global activate fvm
-          fvm install
-          fvm use 3.35.7
+        run: dart pub global activate fvm
+      - name: Install Flutter via FVM
+        run: fvm install
+      - name: Install dependencies
+        run: fvm flutter pub get
+      - name: Analyze project
+        run: fvm flutter analyze --fatal-infos
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+      - name: Install FVM
+        run: dart pub global activate fvm
+      - name: Install Flutter via FVM
+        run: fvm install
       - name: Install dependencies
         run: fvm flutter pub get
       - name: Run tests
         run: fvm flutter test
-
-  build:
-    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
-    with:
-      flutter_channel: stable
