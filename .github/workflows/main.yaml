@@ -20,8 +20,10 @@ jobs:
         with:
           flutter-version: "3.38.4"
       - name: Install dependencies
+        working-directory: repeatlab_app
         run: flutter pub get
       - name: Analyze project
+        working-directory: repeatlab_app
         run: flutter analyze --fatal-infos
 
   test:
@@ -33,6 +35,8 @@ jobs:
         with:
           flutter-version: "3.38.4"
       - name: Install dependencies
+        working-directory: repeatlab_app
         run: flutter pub get
       - name: Run tests
+        working-directory: repeatlab_app
         run: flutter test
