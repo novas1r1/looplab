@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:repeatlab/core/app_constants.dart';
+import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/repositories/purchases_repository.dart';
 import 'package:repeatlab/features/changelog_dialog/changelog_dialog.dart';
@@ -33,8 +34,8 @@ class CustomDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primaryContainer,
+            decoration: const BoxDecoration(
+              color: AppColors.primaryContainer,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +44,7 @@ class CustomDrawer extends StatelessWidget {
                 Text(
                   'RepeatLab',
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onPrimary,
+                    color: AppColors.onPrimary,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -51,7 +52,7 @@ class CustomDrawer extends StatelessWidget {
                 Text(
                   context.l10n.appSubtitle,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: Theme.of(context).colorScheme.onPrimary.withValues(alpha: 0.8),
+                    color: AppColors.onPrimary.withValues(alpha: 0.8),
                   ),
                 ),
               ],
@@ -62,7 +63,7 @@ class CustomDrawer extends StatelessWidget {
             title: Text(
               context.l10n.whatsNew,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface,
+                color: AppColors.onSurface,
               ),
             ),
             onTap: () async {
@@ -71,7 +72,7 @@ class CustomDrawer extends StatelessWidget {
               await showModalBottomSheet(
                 context: context,
                 isScrollControlled: true,
-                backgroundColor: Theme.of(context).colorScheme.surface,
+                backgroundColor: AppColors.surface,
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(24),
@@ -88,7 +89,7 @@ class CustomDrawer extends StatelessWidget {
               context.l10n.userSettings,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w300,
-                color: Theme.of(context).colorScheme.onSurface,
+                color: AppColors.onSurface,
               ),
             ),
           ),
@@ -216,7 +217,7 @@ class CustomDrawer extends StatelessWidget {
             child: Text(
               '${context.l10n.version} $appVersion ($buildNumber)',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                color: AppColors.onSurface.withValues(alpha: 0.6),
               ),
             ),
           ),

@@ -1,10 +1,10 @@
 [
     {
         "language": "en-US",
-        "text": "FEATURE: Added option to export loops in different formats and sample rates\nFIX: Fixed a bug where sometimes after the end of an audio was reached it couldnt be restarted\nFIX: Fixed tutorial being cut off\nMISC: Improved stability and performance"
+        "text": "FIX: Fixed tutorial being cut off\nFIX: Fixed loops not looping when the screen is off\nMISC: Improved stability and performance"
     },
     {
         "language": "en-DE",
-        "text": "FEATURE: Loops können nun in verschiedenen Formaten und Sample-Ratings exportiert werden\nFIX: Fehler behoben, der dazu führte, dass manchmal nach dem Erreichen des Endes eines Audios nicht mehr neu gestartet werden konnte\nFIX: Fehler behoben, der dazu führte, dass der Tutorial-Dialog abgeschnitten wurde\nMISC: Verbesserte Stabilität und Leistung"
+        "text": "FIX: Fehler behoben, der dazu führte, dass Loops nicht wiederholten wenn der Bildschirm aus war\nMISC: Verbesserte Stabilität und Leistung"
     }
 ]

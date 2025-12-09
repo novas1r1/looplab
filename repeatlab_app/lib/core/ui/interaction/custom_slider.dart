@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:repeatlab/core/ui/app_colors.dart';
 
 class CustomSlider extends StatelessWidget {
   final double value;
@@ -27,8 +28,8 @@ class CustomSlider extends StatelessWidget {
       max: max,
       divisions: divisions,
       onChanged: onChanged,
-      activeColor: Theme.of(context).colorScheme.primaryContainer,
-      inactiveColor: Theme.of(context).colorScheme.secondary,
+      activeColor: AppColors.primaryContainer,
+      inactiveColor: AppColors.secondary,
       onChangeEnd: onChangeEnd,
     );
   }

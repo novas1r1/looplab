@@ -4,6 +4,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:repeatlab/core/ui/app_colors.dart';
 // import 'package:just_audio/just_audio.dart';
 import 'package:repeatlab/core/ui/widgets/loading.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
@@ -419,7 +420,7 @@ class _SongViewState extends State<_SongView> {
     final result = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: AppColors.surface,
         elevation: 24, // Adds a more prominent shadow
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
@@ -437,21 +438,21 @@ class _SongViewState extends State<_SongView> {
 
         actions: [
           ElevatedButton.icon(
-            icon: Icon(
+            icon: const Icon(
               Icons.delete,
-              color: Theme.of(context).colorScheme.onError,
+              color: AppColors.onError,
             ),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.error,
-              foregroundColor: Theme.of(context).colorScheme.onError,
+              backgroundColor: AppColors.error,
+              foregroundColor: AppColors.onError,
             ),
             onPressed: () => Navigator.of(context).pop(true),
             label: Text(context.l10n.delete),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              foregroundColor: Theme.of(context).colorScheme.onPrimary,
+              backgroundColor: AppColors.primary,
+              foregroundColor: AppColors.onPrimary,
             ),
             onPressed: () => Navigator.of(context).pop(false),
             child: Text(context.l10n.cancel),
@@ -496,7 +497,7 @@ class _SongViewState extends State<_SongView> {
       final loopEnd = activeLoop.end;
       if (loopEnd != null) {
         final currentPosition = await context.read<SongCubit>().position;
-        if (currentPosition >= loopEnd) {
+        if (currentPosition >= loopEnd && context.mounted) {
           SnackbarHelper.showError(
             context,
             context.l10n.startPositionMustBeBeforeEndPosition,
@@ -504,6 +505,8 @@ class _SongViewState extends State<_SongView> {
           return;
         }
       }
+
+      if (!context.mounted) return;
 
       context.read<SongCubit>().setLoopStart();
     }
@@ -523,6 +526,8 @@ class _SongViewState extends State<_SongView> {
 
     final loopStart = activeLoop.start;
 
+    if (!context.mounted) return;
+
     // if active loop was set and current position is after start, set end
     if (loopStart != null && currentPosition > loopStart) {
       context.read<SongCubit>().setLoopEnd();
@@ -541,7 +546,7 @@ class _SongViewState extends State<_SongView> {
   void createTutorial(BuildContext context) {
     tutorialCoachMark = TutorialCoachMark(
       targets: _createTargets(context),
-      colorShadow: Theme.of(context).colorScheme.primaryContainer,
+      colorShadow: AppColors.primaryContainer,
       opacityShadow: 0.95,
       onFinish: () => context.read<SongCubit>().updateTutorialCompleted(),
       onClickTarget: (target) {},

@@ -2,6 +2,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/core/utils/snackbar_helper.dart';
 import 'package:repeatlab/data/models/loop.dart';
@@ -21,7 +22,7 @@ class LoopController extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.secondaryContainer,
+        color: AppColors.secondaryContainer,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
           color: activeLoop?.color.color ?? Colors.transparent,

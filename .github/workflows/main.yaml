@@ -1,0 +1,42 @@
+name: repeatlab
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.38.4"
+      - name: Install dependencies
+        working-directory: repeatlab_app
+        run: flutter pub get
+      - name: Analyze project
+        working-directory: repeatlab_app
+        run: flutter analyze --fatal-infos
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.38.4"
+      - name: Install dependencies
+        working-directory: repeatlab_app
+        run: flutter pub get
+      - name: Run tests
+        working-directory: repeatlab_app
+        run: flutter test

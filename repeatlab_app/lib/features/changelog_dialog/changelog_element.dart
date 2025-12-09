@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:repeatlab/core/ui/app_colors.dart';
 
 class ChangelogElement extends StatelessWidget {
   final String title;
@@ -37,7 +38,7 @@ class ChangelogElement extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  shadowColor: Theme.of(context).colorScheme.primary,
+                  shadowColor: AppColors.primary,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(16),
                     child: Image.asset(
@@ -51,7 +52,7 @@ class ChangelogElement extends StatelessWidget {
               const SizedBox.shrink(),
             const SizedBox(height: 16),
             Divider(
-              color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.5),
+              color: AppColors.primary.withValues(alpha: 0.5),
               thickness: 1,
             ),
             const SizedBox(height: 16),

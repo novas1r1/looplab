@@ -36,7 +36,7 @@ class HomeTile extends StatelessWidget {
         ],
       ),
       child: Card(
-        color: Theme.of(context).colorScheme.inversePrimary.withValues(alpha: 0.7),
+        color: AppColors.inversePrimary.withValues(alpha: 0.7),
         elevation: 2,
         child: Container(
           decoration: const BoxDecoration(
@@ -53,14 +53,14 @@ class HomeTile extends StatelessWidget {
             ),
             leading: Container(
               padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
+              decoration: const BoxDecoration(
+                color: AppColors.primary,
                 shape: BoxShape.circle,
               ),
               child: Text(
                 '${song.loops.length}',
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimary,
+                  color: AppColors.onPrimary,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -84,13 +84,13 @@ class HomeTile extends StatelessWidget {
                 vertical: 6,
               ),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
+                color: AppColors.primaryContainer,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
                 song.duration.toFormattedStringWithoutMilliseconds(),
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                style: const TextStyle(
+                  color: AppColors.onPrimaryContainer,
                   fontWeight: FontWeight.w500,
                 ),
               ),

@@ -205,7 +205,7 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
                     top: 0,
                     child: Container(
                       width: 2,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: AppColors.primary,
                     ),
                   ),
                   // Zoom controls
@@ -349,10 +349,10 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
     }
   }
 
-  void _updateScrollPosition() {
+  /* void _updateScrollPosition() {
     final state = context.read<WaveFormCubit>().state;
     _updateScrollPositionFor(state.currentPosition, state);
-  }
+  } */
 
   void _updateScrollPositionFor(Duration position, WaveFormState state) {
     if (!_scrollController.hasClients) return;

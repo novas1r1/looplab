@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:lottie/lottie.dart';
 import 'package:repeatlab/core/app_constants.dart';
+import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
@@ -54,14 +55,14 @@ class _RateAppDialogState extends State<RateAppDialog> with TickerProviderStateM
     if (_selectedRating! >= 4) {
       return ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          backgroundColor: AppColors.primary,
+          foregroundColor: AppColors.onPrimary,
         ),
         onPressed: () => _sendStoreRating(_selectedRating!),
         child: Text(
           context.l10n.sendRating,
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
-            color: Theme.of(context).colorScheme.onPrimary,
+            color: AppColors.onPrimary,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -78,7 +79,7 @@ class _RateAppDialogState extends State<RateAppDialog> with TickerProviderStateM
           label: Text(
             context.l10n.sendRating,
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: AppColors.primary,
                   fontWeight: FontWeight.bold,
                 ),
           ),
@@ -87,14 +88,14 @@ class _RateAppDialogState extends State<RateAppDialog> with TickerProviderStateM
         Expanded(
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              foregroundColor: Theme.of(context).colorScheme.onPrimary,
+              backgroundColor: AppColors.primary,
+              foregroundColor: AppColors.onPrimary,
             ),
             onPressed: () => _sendReview(context),
             child: Text(
               context.l10n.leaveReview,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: Theme.of(context).colorScheme.onPrimary,
+                color: AppColors.onPrimary,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -146,8 +147,8 @@ class _RateAppDialogState extends State<RateAppDialog> with TickerProviderStateM
                     ),
                     TextSpan(
                       text: context.l10n.you,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
+                      style: const TextStyle(
+                        color: AppColors.primary,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -216,6 +217,7 @@ class _RateAppDialogState extends State<RateAppDialog> with TickerProviderStateM
         Navigator.of(context).pop();
       }
     } catch (e) {
+      if (!mounted) return;
       // Log the error
       unawaited(
         context.read<CrashReportingRepository>().reportError(

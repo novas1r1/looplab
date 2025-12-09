@@ -2,6 +2,7 @@ import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/ui/interaction/custom_slider.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
@@ -51,14 +52,14 @@ class _SpeedControlMultiplierModeState extends State<SpeedControlMultiplierMode>
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primaryContainer,
+            color: AppColors.primaryContainer,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Text(
             '${_speedMultiplier.toStringAsFixed(1)}×',
             style: context.titleMedium.copyWith(
               fontWeight: FontWeight.w700,
-              color: Theme.of(context).colorScheme.onPrimaryContainer,
+              color: AppColors.onPrimaryContainer,
             ),
           ),
         ),

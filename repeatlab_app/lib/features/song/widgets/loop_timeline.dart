@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 
@@ -53,7 +54,7 @@ class _LoopTimelineState extends State<LoopTimeline> {
                   key: _timelineKey,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                    color: AppColors.surfaceContainerHighest,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Stack(
@@ -71,7 +72,7 @@ class _LoopTimelineState extends State<LoopTimeline> {
                               bottom: 0,
                               child: Container(
                                 width: 2,
-                                color: Theme.of(context).colorScheme.primary,
+                                color: AppColors.primary,
                               ),
                             );
                           }
@@ -111,7 +112,7 @@ class _LoopTimelineState extends State<LoopTimeline> {
                                   child: Text(
                                     loop.name,
                                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                      color: AppColors.onSurfaceVariant,
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                   ),

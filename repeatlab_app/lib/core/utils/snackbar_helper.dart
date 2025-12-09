@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:repeatlab/core/ui/app_colors.dart';
 
 abstract class SnackbarHelper {
   const SnackbarHelper._();
@@ -10,19 +11,19 @@ abstract class SnackbarHelper {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        backgroundColor: AppColors.primaryContainer,
         content: Row(
           children: [
-            Icon(
+            const Icon(
               Icons.check,
-              color: Theme.of(context).colorScheme.onPrimaryContainer,
+              color: AppColors.onPrimaryContainer,
             ),
             const SizedBox(width: 8),
             Expanded(
               child: Text(
                 message,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  color: AppColors.onPrimaryContainer,
                 ),
               ),
             ),
@@ -39,19 +40,19 @@ abstract class SnackbarHelper {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
-        backgroundColor: Theme.of(context).colorScheme.errorContainer,
+        backgroundColor: AppColors.errorContainer,
         content: Row(
           children: [
-            Icon(
+            const Icon(
               Icons.error,
-              color: Theme.of(context).colorScheme.onErrorContainer,
+              color: AppColors.onErrorContainer,
             ),
             const SizedBox(width: 8),
             Expanded(
               child: Text(
                 message,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onErrorContainer,
+                  color: AppColors.onErrorContainer,
                 ),
               ),
             ),
@@ -68,11 +69,11 @@ abstract class SnackbarHelper {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        backgroundColor: AppColors.primaryContainer,
         content: Text(
           message,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: Theme.of(context).colorScheme.onPrimaryContainer,
+            color: AppColors.onPrimaryContainer,
           ),
         ),
       ),

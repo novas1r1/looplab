@@ -17,7 +17,7 @@ void main() {
   late StreamController<Duration> positionController;
 
   setUpAll(() {
-    registerFallbackValue(const Duration());
+    registerFallbackValue(Duration.zero);
     registerFallbackValue(DeviceFileSource('fake.mp3'));
     registerFallbackValue(ReleaseMode.stop);
   });
