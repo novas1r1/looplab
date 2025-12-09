@@ -12,6 +12,9 @@ clean:
 get: 
 	fvm flutter pub get
 
+cleanget:
+	make clean && make get
+
 fontsize:
 	adb shell settings put system font_scale ${SIZE}
 

@@ -26,7 +26,11 @@ class FileRepository {
       // );
     } else {
       result = await filePicker.pickFiles(
-        type: FileType.audio,
+        // TODO: Fix this once [log] ERROR: PlatformException(invalid_format_type, Can't handle the provided file type., null, null)
+        // is solved
+        // type: FileType.audio,
+        type: FileType.custom,
+        allowedExtensions: ['mp3', 'm4a', 'aac', 'wav', 'flac', 'mpg', 'ogg'],
       );
     }
 
