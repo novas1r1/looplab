@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:repeatlab/app/router.dart';
+import 'package:repeatlab/core/ui/theme.dart';
+import 'package:repeatlab/core/ui/util.dart';
 import 'package:repeatlab/l10n/arb/app_localizations.dart';
 
 /// Helper extension to pump widgets with proper app setup for golden tests
@@ -12,21 +14,23 @@ extension PumpApp on WidgetTester {
   }) async {
     await pumpWidget(
       Builder(
-        builder: (context) => MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          theme: ThemeData.dark(),
-          home: Builder(
-            builder: (context) {
-              return SafeArea(
-                child: Scaffold(
-                  backgroundColor: Colors.white,
-                  body: widget,
-                ),
-              );
-            },
-          ),
-        ),
+        builder: (context) {
+          final baseTextTheme = ThemeData.dark().textTheme;
+          final textTheme = createTextTheme(
+            baseTextTheme,
+            'Nunito Sans',
+            'Oswald',
+          );
+          final theme = MaterialTheme(textTheme);
+
+          return MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            themeMode: ThemeMode.dark,
+            theme: theme.dark(),
+            home: widget,
+          );
+        },
       ),
     );
 
@@ -43,13 +47,24 @@ extension PumpApp on WidgetTester {
   }) async {
     await pumpWidget(
       Builder(
-        builder: (context) => MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          onGenerateRoute: AppRouter.generateRoute,
-          theme: ThemeData.dark(),
-          home: widget,
-        ),
+        builder: (context) {
+          final baseTextTheme = ThemeData.dark().textTheme;
+          final textTheme = createTextTheme(
+            baseTextTheme,
+            'Nunito Sans',
+            'Oswald',
+          );
+          final theme = MaterialTheme(textTheme);
+
+          return MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            onGenerateRoute: AppRouter.generateRoute,
+            themeMode: ThemeMode.dark,
+            theme: theme.dark(),
+            home: widget,
+          );
+        },
       ),
     );
 

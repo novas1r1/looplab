@@ -5,6 +5,7 @@ import 'package:audio_service/audio_service.dart';
 import 'package:audio_session/audio_session.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/services.dart';
+// ignore: depend_on_referenced_packages
 import 'package:meta/meta.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
@@ -550,6 +551,8 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
       }
     } catch (e) {
       log('Error checking loop bounds: $e');
+      _loopSeekInProgress = false;
+    } finally {
       _loopSeekInProgress = false;
     }
   }

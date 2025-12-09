@@ -497,7 +497,7 @@ class _SongViewState extends State<_SongView> {
       final loopEnd = activeLoop.end;
       if (loopEnd != null) {
         final currentPosition = await context.read<SongCubit>().position;
-        if (currentPosition >= loopEnd) {
+        if (currentPosition >= loopEnd && context.mounted) {
           SnackbarHelper.showError(
             context,
             context.l10n.startPositionMustBeBeforeEndPosition,
@@ -505,6 +505,8 @@ class _SongViewState extends State<_SongView> {
           return;
         }
       }
+
+      if (!context.mounted) return;
 
       context.read<SongCubit>().setLoopStart();
     }
@@ -523,6 +525,8 @@ class _SongViewState extends State<_SongView> {
     final currentPosition = await context.read<SongCubit>().position;
 
     final loopStart = activeLoop.start;
+
+    if (!context.mounted) return;
 
     // if active loop was set and current position is after start, set end
     if (loopStart != null && currentPosition > loopStart) {

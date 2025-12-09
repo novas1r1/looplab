@@ -88,6 +88,8 @@ class _SettingsPageState extends State<SettingsPage> {
       success = await context.read<LocalConfigRepository>().clear();
     }
 
+    if (!context.mounted) return;
+
     Navigator.pop(context);
 
     if (success) {
