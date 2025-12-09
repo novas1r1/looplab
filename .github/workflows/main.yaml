@@ -11,10 +11,6 @@ on:
   pull_request:
 
 jobs:
-  semantic-pull-request:
-    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/semantic_pull_request.yml@v1
-    if: github.event_name == 'pull_request'
-
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
@@ -23,14 +19,10 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: "stable"
-      - name: Install FVM
-        run: dart pub global activate fvm
-      - name: Install Flutter via FVM
-        run: fvm install
       - name: Install dependencies
-        run: fvm flutter pub get
+        run: flutter pub get
       - name: Analyze project
-        run: fvm flutter analyze --fatal-infos
+        run: flutter analyze --fatal-infos
 
   test:
     name: Test
@@ -40,11 +32,7 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: "stable"
-      - name: Install FVM
-        run: dart pub global activate fvm
-      - name: Install Flutter via FVM
-        run: fvm install
       - name: Install dependencies
-        run: fvm flutter pub get
+        run: flutter pub get
       - name: Run tests
-        run: fvm flutter test
+        run: flutter test
