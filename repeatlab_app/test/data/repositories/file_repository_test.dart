@@ -77,7 +77,7 @@ void main() {
 
   test('pickSingleAudioFile copies file when percent character is percent-encoded', () async {
     final sourceDir = await Directory.systemTemp.createTemp('file_repo_source_percent');
-    final originalName = 'Butterfly%by%night.mp3';
+    const originalName = 'Butterfly%by%night.mp3';
     final sourceFile = File(p.join(sourceDir.path, originalName));
     await sourceFile.writeAsString('content-%');
 

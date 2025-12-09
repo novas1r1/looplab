@@ -65,9 +65,14 @@ class PurchasesRepository {
   Future<bool> purchase(Package package) async {
     log('--- REVENUECAT: purchase()');
 
-    final purchaserInfo = await Purchases.purchasePackage(package);
+    // NEW
+    final purchaseParams = PurchaseParams.package(package);
+    final purchaserInfo = await Purchases.purchase(purchaseParams);
 
-    final proEntitlement = purchaserInfo.entitlements.all['Pro'];
+    // OLD
+    // final purchaserInfo = await Purchases.purchasePackage(package);
+
+    final proEntitlement = purchaserInfo.customerInfo.entitlements.all['Pro'];
 
     if (proEntitlement == null) {
       throw Exception('REVENUECAT: Entitlement not found. $purchaserInfo');
