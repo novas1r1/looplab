@@ -18,5 +18,5 @@ cleanget:
 fontsize:
 	adb shell settings put system font_scale ${SIZE}
 
-appbundle-dev:
-	fvm flutter build appbundle
+appbundle:
+	fvm flutter build appbundle --release

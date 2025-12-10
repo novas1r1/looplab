@@ -1,10 +1,10 @@
 [
     {
         "language": "en-US",
-        "text": "FIX: Fixed tutorial being cut off\nFIX: Fixed loops not looping when the screen is off\nMISC: Improved stability and performance"
+        "text": "FIX: Fixed loops not looping when the screen is off\nFIX: Fixed BPM not being set correctly\nMISC: Improved stability and performance"
     },
     {
         "language": "en-DE",
-        "text": "FIX: Fehler behoben, der dazu führte, dass Loops nicht wiederholten wenn der Bildschirm aus war\nMISC: Verbesserte Stabilität und Leistung"
+        "text": "FIX: Fehler behoben, der dazu führte, dass Loops nicht wiederholten wenn der Bildschirm aus war\nFIX: Fehler behoben, der dazu führte, dass BPM nicht korrekt gesetzt wurde\nMISC: Verbesserte Stabilität und Leistung"
     }
 ]
