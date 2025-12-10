@@ -1,6 +1,8 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/services.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
@@ -25,13 +27,22 @@ class FileRepository {
       //   type: FileType.audio,
       // );
     } else {
-      result = await filePicker.pickFiles(
+      try {
         // TODO: Fix this once [log] ERROR: PlatformException(invalid_format_type, Can't handle the provided file type., null, null)
         // is solved
-        // type: FileType.audio,
-        type: FileType.custom,
-        allowedExtensions: ['mp3', 'm4a', 'aac', 'wav', 'flac', 'mpg', 'ogg'],
-      );
+        // filepicking for FileType.audio is not working. It displays all files in the system.
+        /* result = await filePicker.pickFiles(
+          type: FileType.audio,
+        ); */
+
+        result = await filePicker.pickFiles(
+          type: FileType.custom,
+          allowedExtensions: ['mp3', 'm4a', 'aac', 'wav', 'flac', 'mpg', 'ogg'],
+        );
+      } on PlatformException catch (e) {
+        log('Error picking file: $e');
+        rethrow;
+      }
     }
 
     if (result == null || result.files.isEmpty) {
