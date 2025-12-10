@@ -32,6 +32,11 @@ target 'Runner' do
   use_modular_headers!
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+  
+  # Rubber Band library for pitch-preserving time-stretching
+  # Using Git source since no official CocoaPod exists
+  pod 'RubberBand', :git => 'https://github.com/nicktgn/rubberband-library-pod.git', :tag => 'v3.3.0'
+  
   target 'RunnerTests' do
     inherit! :search_paths
   end

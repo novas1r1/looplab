@@ -109,12 +109,6 @@ class SongMapper extends ClassMapperBase<Song> {
     opt: true,
     def: LoopSort.none,
   );
-  static Future<String> _$path(Song v) => v.path;
-  static const Field<Song, Future<String>> _f$path = Field(
-    'path',
-    _$path,
-    mode: FieldMode.member,
-  );
 
   @override
   final MappableFields<Song> fields = const {
@@ -127,7 +121,6 @@ class SongMapper extends ClassMapperBase<Song> {
     #currentBpm: _f$currentBpm,
     #loops: _f$loops,
     #loopSort: _f$loopSort,
-    #path: _f$path,
   };
 
   static Song _instantiate(DecodingData data) {

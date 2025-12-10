@@ -766,6 +766,14 @@ class SongCubit extends Cubit<SongState> {
       final updatedSong = state.song.copyWith(currentBpm: bpm);
       await songRepository.updateSong(updatedSong);
 
+      // Emit processing state - Rubber Band may take a few seconds
+      emit(
+        state.copyWith(
+          status: SongStatus.processing,
+          song: updatedSong,
+        ),
+      );
+
       await audioHandler.setSpeed(roundedSpeed);
 
       emit(

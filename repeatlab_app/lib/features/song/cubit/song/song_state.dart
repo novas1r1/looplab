@@ -40,4 +40,6 @@ enum SongStatus {
   updated,
   updating,
   songDeleted,
+  /// Processing audio with Rubber Band (time-stretch/pitch-shift)
+  processing,
 }

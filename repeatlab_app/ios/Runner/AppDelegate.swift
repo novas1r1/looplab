@@ -8,6 +8,10 @@ import UIKit
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     GeneratedPluginRegistrant.register(with: self)
+    
+    // Register Rubber Band plugin for audio processing
+    RubberBandPlugin.register(with: self.registrar(forPlugin: "RubberBandPlugin")!)
+    
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }

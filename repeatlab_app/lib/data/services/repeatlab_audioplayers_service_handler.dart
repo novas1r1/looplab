@@ -11,10 +11,15 @@ import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
+import 'package:repeatlab/data/services/rubber_band_service.dart';
+
+/// Callback for when Rubber Band processing starts/ends
+typedef ProcessingCallback = void Function(bool isProcessing);
 
 /// AudioHandler implementation for background audio playback
 class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
   final AudioPlayer audioPlayer;
+  final RubberBandService? rubberBandService;
 
   static const double _minPlaybackSpeed = 0.5;
   static const double _maxPlaybackSpeed = 2.0;
@@ -37,8 +42,21 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
   double _playbackSpeed = 1.0;
   bool _loopSeekInProgress = false;
 
-  RepeatlabAudioplayersServiceHandler({required this.audioPlayer}) {
-    log('SoloudAudioServiceHandler constructor');
+  // Rubber Band state
+  String? _currentSongId;
+  String? _originalSongPath;
+  Source? _originalSource;
+  bool _isPlayingProcessedFile = false;
+  double _currentPitch = 1.0;
+
+  /// Callback invoked when processing state changes
+  ProcessingCallback? onProcessingStateChanged;
+
+  RepeatlabAudioplayersServiceHandler({
+    required this.audioPlayer,
+    this.rubberBandService,
+  }) {
+    log('RepeatlabAudioplayersServiceHandler constructor');
 
     _initAudioSession();
 
@@ -157,6 +175,11 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
   Future<void> playSong(Song song) async {
     final path = await song.path;
 
+    // Store song info for Rubber Band processing
+    _currentSongId = song.id;
+    _originalSongPath = path;
+    _isPlayingProcessedFile = false;
+
     // Create a MediaItem for the song
     final item = MediaItem(
       id: song.id,
@@ -170,10 +193,18 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
     try {
       final source = DeviceFileSource(path);
       _currentSource = source;
+      _originalSource = source;
 
       await audioPlayer.setReleaseMode(ReleaseMode.stop);
       await audioPlayer.play(source);
-      await audioPlayer.setPlaybackRate(_playbackSpeed);
+
+      // If speed is not 1.0 and we have Rubber Band, process the file
+      if (_playbackSpeed != 1.0 && rubberBandService != null) {
+        await _switchToProcessedFile(_playbackSpeed, _currentPitch);
+      } else {
+        await audioPlayer.setPlaybackRate(_playbackSpeed);
+      }
+
       playbackState.add(
         playbackState.value.copyWith(
           controls: const [
@@ -341,12 +372,121 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
   }
 
   @override
-  Future<void> setSpeed(double speed) {
+  Future<void> setSpeed(double speed) async {
     final targetSpeed = _normalizePlaybackSpeed(speed);
     log('setSpeed: $targetSpeed');
     _playbackSpeed = targetSpeed;
 
-    return _setPlaybackRateSafely(targetSpeed);
+    // Use Rubber Band for pitch-preserving time-stretch if available
+    if (rubberBandService != null && _currentSongId != null && _originalSongPath != null) {
+      await _handleRubberBandSpeedChange(targetSpeed);
+    } else {
+      // Fallback to native speed change (changes pitch)
+      await _setPlaybackRateSafely(targetSpeed);
+    }
+  }
+
+  /// Handle speed change using Rubber Band for pitch preservation
+  Future<void> _handleRubberBandSpeedChange(double speed) async {
+    if (speed == 1.0 && _currentPitch == 1.0) {
+      // Switch back to original file
+      await _switchToOriginalFile();
+    } else {
+      // Process with Rubber Band
+      await _switchToProcessedFile(speed, _currentPitch);
+    }
+  }
+
+  /// Switch playback to a Rubber Band processed file
+  Future<void> _switchToProcessedFile(double speed, double pitch) async {
+    if (rubberBandService == null || _currentSongId == null || _originalSongPath == null) {
+      // Fallback to native speed change
+      await _setPlaybackRateSafely(speed);
+      return;
+    }
+
+    // Notify processing started
+    onProcessingStateChanged?.call(true);
+
+    try {
+      // Get current position before switching
+      final currentPosition = await audioPlayer.getCurrentPosition() ?? Duration.zero;
+      final wasPlaying = audioPlayer.state == PlayerState.playing;
+
+      // Process the file with Rubber Band
+      final processedPath = await rubberBandService!.processFile(
+        inputPath: _originalSongPath!,
+        songId: _currentSongId!,
+        speed: speed,
+        pitch: pitch,
+      );
+
+      log('Rubber Band processed file: $processedPath');
+
+      // Calculate position in processed file
+      // When speed is 0.5x, the processed file is 2x longer
+      // When speed is 2.0x, the processed file is 0.5x shorter
+      final positionInProcessed = Duration(
+        microseconds: (currentPosition.inMicroseconds / speed).round(),
+      );
+
+      // Switch to processed file
+      final source = DeviceFileSource(processedPath);
+      _currentSource = source;
+      _isPlayingProcessedFile = true;
+
+      await audioPlayer.setSource(source);
+      await audioPlayer.setPlaybackRate(1.0); // Processed file plays at normal rate
+      await audioPlayer.seek(positionInProcessed);
+
+      if (wasPlaying) {
+        await audioPlayer.resume();
+      }
+
+      log('Switched to processed file at position: $positionInProcessed');
+    } on RubberBandException catch (e) {
+      log('Rubber Band processing failed: $e, falling back to native speed');
+      // Fallback to native speed change
+      await _setPlaybackRateSafely(speed);
+    } finally {
+      // Notify processing ended
+      onProcessingStateChanged?.call(false);
+    }
+  }
+
+  /// Switch playback back to the original file
+  Future<void> _switchToOriginalFile() async {
+    if (_originalSource == null || !_isPlayingProcessedFile) {
+      return;
+    }
+
+    try {
+      // Get current position before switching
+      final currentPosition = await audioPlayer.getCurrentPosition() ?? Duration.zero;
+      final wasPlaying = audioPlayer.state == PlayerState.playing;
+
+      // Calculate position in original file
+      // Reverse the position calculation
+      final positionInOriginal = Duration(
+        microseconds: (currentPosition.inMicroseconds * _playbackSpeed).round(),
+      );
+
+      // Switch to original file
+      _currentSource = _originalSource;
+      _isPlayingProcessedFile = false;
+
+      await audioPlayer.setSource(_originalSource!);
+      await audioPlayer.setPlaybackRate(1.0);
+      await audioPlayer.seek(positionInOriginal);
+
+      if (wasPlaying) {
+        await audioPlayer.resume();
+      }
+
+      log('Switched to original file at position: $positionInOriginal');
+    } catch (e) {
+      log('Error switching to original file: $e');
+    }
   }
 
   @override
@@ -367,13 +507,28 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
       case 'setPitch':
         if (extras != null && extras['pitch'] != null) {
           final pitch = extras['pitch'] as double;
-          // Note: audioplayers doesn't directly support pitch shifting
-          // This is a placeholder - actual implementation would need a different approach
-          log('Pitch change requested: $pitch (not implemented in audioplayers)');
+          await _handlePitchChange(pitch);
         }
         return;
       default:
         return super.customAction(name, extras);
+    }
+  }
+
+  /// Handle pitch change using Rubber Band
+  Future<void> _handlePitchChange(double pitch) async {
+    log('setPitch: $pitch');
+    _currentPitch = pitch;
+
+    // Use Rubber Band for pitch shifting if available
+    if (rubberBandService != null && _currentSongId != null && _originalSongPath != null) {
+      if (_playbackSpeed == 1.0 && pitch == 1.0) {
+        await _switchToOriginalFile();
+      } else {
+        await _switchToProcessedFile(_playbackSpeed, pitch);
+      }
+    } else {
+      log('Pitch change requested: $pitch (Rubber Band not available)');
     }
   }
 
@@ -443,6 +598,20 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
     _loopCheckTimer?.cancel();
     _loopCheckTimer = null;
     _currentSource = null;
+    _originalSource = null;
+    _currentSongId = null;
+    _originalSongPath = null;
+    _isPlayingProcessedFile = false;
+  }
+
+  /// Clear Rubber Band cache for a specific song
+  Future<void> clearCacheForSong(String songId) async {
+    await rubberBandService?.clearCacheForSong(songId);
+  }
+
+  /// Clear all Rubber Band cache
+  Future<void> clearAllCache() async {
+    await rubberBandService?.clearAllCache();
   }
 
   Future<void> _awaitActiveSeek() async {

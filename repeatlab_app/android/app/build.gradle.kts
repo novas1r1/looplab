@@ -34,6 +34,28 @@ android {
         targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        
+        // NDK configuration for Rubber Band native library
+        externalNativeBuild {
+            cmake {
+                cppFlags += "-std=c++17"
+                arguments += listOf(
+                    "-DANDROID_STL=c++_shared",
+                    "-DANDROID_ARM_NEON=TRUE"
+                )
+            }
+        }
+        ndk {
+            abiFilters += listOf("armeabi-v7a", "arm64-v8a", "x86_64")
+        }
+    }
+    
+    // CMake build configuration for native code
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+            version = "3.22.1"
+        }
     }
 
     // https://docs.codemagic.io/flutter-code-signing/android-code-signing/
@@ -69,4 +91,9 @@ android {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    // Kotlin coroutines for async native processing
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 }

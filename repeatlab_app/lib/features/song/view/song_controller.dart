@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
-import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/features/speed_control/view/speed_control.dart';
 
@@ -91,15 +90,55 @@ class SongController extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        BlocSelector<SongCubit, SongState, Song>(
-          selector: (state) => state.song,
-          builder: (context, song) {
-            return SpeedControl(
-              onSpeedMultiplierChanged: (value) =>
-                  context.read<SongCubit>().updateSpeed(multiplier: value),
-              onSpeedBpmChanged: (value) => context.read<SongCubit>().updateSpeed(bpm: value),
-              onOriginalBpmChanged: (value) => context.read<SongCubit>().updateOriginalBpm(value),
-              song: song,
+        BlocBuilder<SongCubit, SongState>(
+          buildWhen: (previous, current) =>
+              previous.song != current.song || previous.status != current.status,
+          builder: (context, state) {
+            final isProcessing = state.status == SongStatus.processing;
+            
+            return Stack(
+              children: [
+                SpeedControl(
+                  onSpeedMultiplierChanged: (value) =>
+                      context.read<SongCubit>().updateSpeed(multiplier: value),
+                  onSpeedBpmChanged: (value) => context.read<SongCubit>().updateSpeed(bpm: value),
+                  onOriginalBpmChanged: (value) => context.read<SongCubit>().updateOriginalBpm(value),
+                  song: state.song,
+                ),
+                // Processing overlay
+                if (isProcessing)
+                  Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.secondaryContainer.withValues(alpha: 0.9),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Center(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: AppColors.primary,
+                              ),
+                            ),
+                            SizedBox(width: 12),
+                            Text(
+                              'Processing audio...',
+                              style: TextStyle(
+                                color: AppColors.onSecondaryContainer,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
             );
           },
         ),
