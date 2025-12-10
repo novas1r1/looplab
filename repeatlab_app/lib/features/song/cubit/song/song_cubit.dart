@@ -150,7 +150,7 @@ class SongCubit extends Cubit<SongState> {
       }
 
       // Initialize audio player with the file but keep it paused
-      await audioHandler.setSpeed(1.0);
+      // Note: playSong automatically resets speed to 1.0 for each new song
       await audioHandler.playSong(state.song);
       await audioHandler.pause();
 

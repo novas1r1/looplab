@@ -171,6 +171,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
       final source = DeviceFileSource(path);
       _currentSource = source;
 
+      // Reset playback speed to 1.0 for new songs to ensure consistent behavior
+      _playbackSpeed = 1.0;
+
       await audioPlayer.setReleaseMode(ReleaseMode.stop);
       await audioPlayer.play(source);
       await audioPlayer.setPlaybackRate(_playbackSpeed);
