@@ -27,10 +27,10 @@ void main() {
     test('initial state is correct', () {
       expect(cubit.state.tempoMode, TempoMode.multiplier);
       expect(cubit.state.speedMultiplier, 1.0);
-      expect(cubit.state.originalBpm, isNull);
-      expect(cubit.state.currentBpm, isNull);
-      expect(cubit.state.minBpm, isNull);
-      expect(cubit.state.maxBpm, isNull);
+      expect(cubit.state.originalBpm, 120);
+      expect(cubit.state.currentBpm, 120);
+      expect(cubit.state.minBpm, 60);
+      expect(cubit.state.maxBpm, 240);
     });
 
     group('setTempoMode', () {

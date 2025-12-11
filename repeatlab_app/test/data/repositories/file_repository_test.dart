@@ -54,7 +54,12 @@ void main() {
 
     final encodedPath = sourceFile.path.replaceAll(' ', '%20');
 
-    when(() => filePicker.pickFiles(type: FileType.audio)).thenAnswer(
+    when(
+      () => filePicker.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: any(named: 'allowedExtensions'),
+      ),
+    ).thenAnswer(
       (_) async => FilePickerResult([
         PlatformFile(
           name: 'Butterfly by night.mp3',
@@ -84,7 +89,12 @@ void main() {
 
     final encodedPath = sourceFile.path.replaceAll('%', '%25');
 
-    when(() => filePicker.pickFiles(type: FileType.audio)).thenAnswer(
+    when(
+      () => filePicker.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: any(named: 'allowedExtensions'),
+      ),
+    ).thenAnswer(
       (_) async => FilePickerResult([
         PlatformFile(
           name: originalName,

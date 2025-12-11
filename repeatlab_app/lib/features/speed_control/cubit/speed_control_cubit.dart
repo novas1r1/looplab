@@ -10,7 +10,17 @@ part 'speed_control_state.dart';
 class SpeedControlCubit extends Cubit<SpeedControlState> {
   final Song song;
 
-  SpeedControlCubit({required this.song}) : super(const SpeedControlState());
+  SpeedControlCubit({required this.song})
+    : super(
+        song.bpm != null
+            ? SpeedControlState(
+                originalBpm: song.bpm,
+                currentBpm: song.bpm,
+                minBpm: (song.bpm! * 0.5).round().clamp(1, song.bpm!),
+                maxBpm: (song.bpm! * 2.0).round().clamp(song.bpm!, 400),
+              )
+            : const SpeedControlState(),
+      );
 
   void setTempoMode(TempoMode tempoMode) {
     emit(state.copyWith(tempoMode: tempoMode));

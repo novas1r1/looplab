@@ -1,6 +1,6 @@
 name: repeatlab
 description: Audio loop studio
-version: 1.4.6+63
+version: 1.4.8+65
 publish_to: none
 
 environment:
@@ -29,7 +29,11 @@ dependencies:
   clarity_flutter: ^1.6.0
   dart_mappable: ^4.5.0
   ffmpeg_kit_flutter_new_min: ^3.1.0
-  file_picker: ^10.3.3
+  # file_picker:
+  #   git:
+  #     url: https://github.com/novas1r1/flutter_file_picker.git
+  #     ref: master
+  file_picker: ^10.3.7
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
