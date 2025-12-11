@@ -100,10 +100,11 @@ packages:
   audioplayers:
     dependency: "direct main"
     description:
-      name: audioplayers
-      sha256: "5441fa0ceb8807a5ad701199806510e56afde2b4913d9d17c2f19f2902cf0ae4"
-      url: "https://pub.dev"
-    source: hosted
+      path: "packages/audioplayers"
+      ref: "feat/signalsmith"
+      resolved-ref: dfb722e1e2950c5ba4204f1e1d4c4076de134e56
+      url: "https://github.com/novas1r1/audioplayers.git"
+    source: git
     version: "6.5.1"
   audioplayers_android:
     dependency: transitive
@@ -116,10 +117,11 @@ packages:
   audioplayers_android_exo:
     dependency: "direct main"
     description:
-      name: audioplayers_android_exo
-      sha256: "7d7027810b2199810d09a1175ba68026d1288b793dece52dec2799264e04be09"
-      url: "https://pub.dev"
-    source: hosted
+      path: "packages/audioplayers_android_exo"
+      ref: "feat/signalsmith"
+      resolved-ref: dfb722e1e2950c5ba4204f1e1d4c4076de134e56
+      url: "https://github.com/novas1r1/audioplayers.git"
+    source: git
     version: "0.1.2+1"
   audioplayers_darwin:
     dependency: transitive
@@ -625,10 +627,10 @@ packages:
     dependency: transitive
     description:
       name: image
-      sha256: "4e973fcf4caae1a4be2fa0a13157aa38a8f9cb049db6529aa00b4d71abc4d928"
+      sha256: "51555e36056541237b15b57afc31a0f53d4f9aefd9bd00873a6dc0090e54e332"
       url: "https://pub.dev"
     source: hosted
-    version: "4.5.4"
+    version: "4.6.0"
   in_app_review:
     dependency: "direct main"
     description:
@@ -993,10 +995,10 @@ packages:
     dependency: "direct main"
     description:
       name: purchases_flutter
-      sha256: "93980a3642a4fd7b94495a11b0c62acc623000d391559658fd4bb009e9cc9b86"
+      sha256: f2e58a6c40af341d296ee305c168c7ca7a8289fe54bce6af880a24080d43192a
       url: "https://pub.dev"
     source: hosted
-    version: "9.9.10"
+    version: "9.10.0"
   rxdart:
     dependency: transitive
     description:

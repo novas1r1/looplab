@@ -134,6 +134,8 @@
     "purchaseSuccess": "Purchase successful. Thank you for supporting the developer ❤️!",
     "voteForFeatures": "Vote for Features",
     "changelogTitle": "Changelog",
+    "changelog150Title": "Enorme Improvement of Audio Quality at Speed Changes",
+    "changelog150Description": "The audio quality at speed changes has been significantly improved. This allows for a better playback of loops with different speeds.",
     "changelog140Title": "1/2 Export Loops",
     "changelog140Description": "You can now export loops with different formats and quality.",
     "changelog1402Title": "2/2 Bug Fixes & Design Optimizations",

@@ -384,6 +384,14 @@ class AppLocalizationsRu extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
+  String get changelog150Title =>
+      'Enormное Улучшение Качества Аудио при Изменении Скорости';
+
+  @override
+  String get changelog150Description =>
+      'Качество аудио при изменении скорости было значительно улучшено. Это позволяет лучше воспроизводить лупы с разными скоростями.';
+
+  @override
   String get changelog140Title => '1/2 Экспорт Лупов';
 
   @override

@@ -127,6 +127,8 @@
     "cancelSubscription": "Avbryt Prenumeration",
     "voteForFeatures": "Funktioner förfråga",
     "changelogTitle": "Changelog",
+    "changelog150Title": "Enormt Förbättring av Ljudkvalitet vid Hastighetsändringar",
+    "changelog150Description": "Ljudkvaliteten vid hastighetsändringar har betydligt förbättrats. Detta gör att du kan spela in loopar med olika hastigheter.",
     "changelog140Title": "1/2 Exportera Loopar",
     "changelog140Description": "Nu kan du exportera loopar med olika format och kvalitet.",
     "changelog1402Title": "2/2 Bug Fixes & Design Optimizations",

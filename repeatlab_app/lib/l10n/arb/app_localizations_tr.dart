@@ -382,6 +382,14 @@ class AppLocalizationsTr extends AppLocalizations {
   String get changelogTitle => 'Değişiklik Günlüğü';
 
   @override
+  String get changelog150Title =>
+      'Hız Değişiklikleri Sırasında Ses Kalitesinin Büyük İyileştirmesi';
+
+  @override
+  String get changelog150Description =>
+      'Hız değişiklikleri sırasında ses kalitesi büyük ölçüde iyileştirildi. Bu, farklı hızlarda döngüleri daha iyi çalmayı sağlar.';
+
+  @override
   String get changelog140Title => '1/2 Döngüleri Dışa Aktar';
 
   @override

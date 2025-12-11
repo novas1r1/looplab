@@ -385,6 +385,14 @@ class AppLocalizationsIt extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
+  String get changelog150Title =>
+      'Enorme Miglioramento della Qualità Audio ai Cambiamenti di Velocità';
+
+  @override
+  String get changelog150Description =>
+      'La qualità audio ai cambiamenti di velocità è stata significativamente migliorata. Questo permette una migliore riproduzione dei loop con diverse velocità.';
+
+  @override
   String get changelog140Title => '1/2 Export Loops';
 
   @override

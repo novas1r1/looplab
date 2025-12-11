@@ -128,6 +128,8 @@
     "cancelSubscription": "Annuler l'Abonnement",
     "voteForFeatures": "Voter pour les Fonctionnalités",
     "changelogTitle": "Changelog",
+    "changelog150Title": "Enorme Amélioration de la Qualité Audio aux Changements de Vitesse",
+    "changelog150Description": "La qualité audio aux changements de vitesse a été significativement améliorée. Cela permet une meilleure reproduction des boucles avec différentes vitesses.",
     "changelog140Title": "1/2 Export Loops",
     "changelog140Description": "Vous pouvez maintenant exporter des boucles avec différents formats et qualités.",
     "changelog1402Title": "2/2 Corrections de bugs et optimisations de design",

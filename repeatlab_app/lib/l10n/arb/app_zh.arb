@@ -130,6 +130,8 @@
     "purchaseSuccess": "购买成功。感谢您支持开发者 ❤️！",
     "voteForFeatures": "功能投票",
     "changelogTitle": "更新日志",
+    "changelog150Title": "速度变化时音频质量的巨大改进",
+    "changelog150Description": "速度变化时的音频质量得到了显著改进。这允许更好地播放不同速度的循环。",
     "changelog140Title": "1/2 导出循环",
     "changelog140Description": "现在您可以导出循环，并选择不同的格式和质量。",
     "changelog1402Title": "2/2 错误修复和设计优化",

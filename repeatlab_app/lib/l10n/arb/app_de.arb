@@ -128,6 +128,8 @@
     "cancelSubscription": "Abonnement kündigen",
     "voteForFeatures": "Feature Voting",
     "changelogTitle": "Changelog",
+    "changelog150Title": "Enorme Verbesserung der Audio-Qualität bei Geschwindigkeitsänderungen",
+    "changelog150Description": "Die Audio-Qualität bei Geschwindigkeitsänderungen wurde erheblich verbessert. Dies ermöglicht eine bessere Wiedergabe von Loops mit unterschiedlichen Geschwindigkeiten.",
     "changelog140Title": "1/2 Export Loops",
     "changelog140Description": "Du kannst jetzt Loops in verschiedenen Formaten und Qualitäten exportieren.",
     "changelog1402Title": "2/2 Bug Fixes & Design Optimizations",
@@ -243,5 +245,6 @@
     "tapBpmDialogTitle": "BPM tappen",
     "tapBpmDialogDescription": "Tippe den Button im Rhythmus mit deiner Musik, um die BPM zu bestimmen.",
     "tapBpmDialogButton": "BPM tappen",
-    "reset": "Reset"
+    "reset": "Reset",
+    "deleteAllLocalData": "Alle lokalen Daten löschen"
 }

@@ -366,6 +366,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get changelogTitle => '변경 사항';
 
   @override
+  String get changelog150Title => '속도 변경 시 오디오 품질의 거대한 개선';
+
+  @override
+  String get changelog150Description =>
+      '속도 변경 시 오디오 품질이 극적으로 개선되었습니다. 이를 통해 다양한 속도의 루프를 더 잘 재생할 수 있게 되었습니다.';
+
+  @override
   String get changelog140Title => '1/2 루프 내보내기';
 
   @override

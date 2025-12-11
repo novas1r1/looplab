@@ -379,6 +379,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get changelogTitle => 'سجل التغييرات';
 
   @override
+  String get changelog150Title => 'تحسين كبير في جودة الصوت عند تغيير السرعة';
+
+  @override
+  String get changelog150Description =>
+      'تم تحسين جودة الصوت عند تغيير السرعة بشكل كبير. يتيح هذا تشغيل الحلقات بسرعات مختلفة بشكل أفضل.';
+
+  @override
   String get changelog140Title => 'تصدير الحلقات';
 
   @override
