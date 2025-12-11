@@ -14,10 +14,17 @@ dependencies:
   audio_service: ^0.18.18
   audio_session: ^0.2.2
   # audioplayers: ^6.4.0
-  audioplayers: ^6.5.1
+  audioplayers:
+    git:
+      url: https://github.com/novas1r1/audioplayers.git
+      ref: feat/test-rubberband
+      path: packages/audioplayers
+
   audioplayers_android_exo:
-    any
-    # path: 1.9.1
+    git:
+      url: https://github.com/novas1r1/audioplayers.git
+      ref: feat/test-rubberband
+      path: packages/audioplayers_android_exo
 
   # audiotags:
   #   git:
