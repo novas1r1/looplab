@@ -1,10 +1,10 @@
 [
     {
         "language": "en-US",
-        "text": "FIX: Fixed loops not looping when the screen is off\nFIX: Fixed BPM not being set correctly\nMISC: Improved stability and performance"
+        "text": "IMPROVE: Enorme Improvement of Audio Quality at Speed Changes\nMISC: Improved stability and performance"
     },
     {
         "language": "en-DE",
-        "text": "FIX: Fehler behoben, der dazu führte, dass Loops nicht wiederholten wenn der Bildschirm aus war\nFIX: Fehler behoben, der dazu führte, dass BPM nicht korrekt gesetzt wurde\nMISC: Verbesserte Stabilität und Leistung"
+        "text": "IMPROVE: Enorme Verbesserung der Audio-Qualität bei Geschwindigkeitsänderungen\nMISC: Verbesserte Stabilität und Leistung"
     }
 ]

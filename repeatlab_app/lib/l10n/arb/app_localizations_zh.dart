@@ -360,6 +360,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get changelogTitle => '更新日志';
 
   @override
+  String get changelog150Title => '速度变化时音频质量的巨大改进';
+
+  @override
+  String get changelog150Description => '速度变化时的音频质量得到了显著改进。这允许更好地播放不同速度的循环。';
+
+  @override
   String get changelog140Title => '1/2 导出循环';
 
   @override

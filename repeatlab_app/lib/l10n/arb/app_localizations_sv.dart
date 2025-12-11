@@ -381,6 +381,14 @@ class AppLocalizationsSv extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
+  String get changelog150Title =>
+      'Enormt Förbättring av Ljudkvalitet vid Hastighetsändringar';
+
+  @override
+  String get changelog150Description =>
+      'Ljudkvaliteten vid hastighetsändringar har betydligt förbättrats. Detta gör att du kan spela in loopar med olika hastigheter.';
+
+  @override
   String get changelog140Title => '1/2 Exportera Loopar';
 
   @override

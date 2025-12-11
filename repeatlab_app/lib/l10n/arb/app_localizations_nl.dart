@@ -382,6 +382,14 @@ class AppLocalizationsNl extends AppLocalizations {
   String get changelogTitle => 'Wijzigingen';
 
   @override
+  String get changelog150Title =>
+      'Enorme Verbesserung der Audio-Qualität bei Geschwindigkeitsänderungen';
+
+  @override
+  String get changelog150Description =>
+      'Die Audio-Qualität bei Geschwindigkeitsänderungen wurde erheblich verbessert. Dies ermöglicht eine bessere Wiedergabe von Loops mit unterschiedlichen Geschwindigkeiten.';
+
+  @override
   String get changelog140Title => '1/2 Loops Exporteren';
 
   @override

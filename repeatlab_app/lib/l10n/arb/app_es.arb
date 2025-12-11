@@ -129,6 +129,8 @@
     "cancelSubscription": "Cancelar Suscripción",
     "voteForFeatures": "Vota por Funciones",
     "changelogTitle": "Cambios",
+    "changelog150Title": "Enorme Mejora de la Calidad de Audio en Cambios de Velocidad",
+    "changelog150Description": "La calidad de audio en cambios de velocidad ha sido significativamente mejorada. Esto permite una mejor reproducción de loops con diferentes velocidades.",
     "changelog140Title": "1/2 Exportar Loops",
     "changelog140Description": "Ahora puedes exportar loops con diferentes formatos y calidades.",
     "changelog1402Title": "2/2 Correcciones de errores y optimizaciones de diseño",

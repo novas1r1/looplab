@@ -1,6 +1,6 @@
 name: repeatlab
 description: Audio loop studio
-version: 1.4.8+65
+version: 1.5.0+66
 publish_to: none
 
 environment:
@@ -15,15 +15,21 @@ dependencies:
   audio_session: ^0.2.2
   # audioplayers: ^6.4.0
   audioplayers:
+    # path: ../../packages/audioplayers/packages/audioplayers
+    # ^6.5.1
+    # rubberband implementation
     git:
       url: https://github.com/novas1r1/audioplayers.git
-      ref: feat/test-rubberband
+      ref: feat/signalsmith
       path: packages/audioplayers
 
   audioplayers_android_exo:
+    # path: ../../packages/audioplayers/packages/audioplayers_android_exo
+    # ^0.1.2+1
+    # rubberband implementation
     git:
       url: https://github.com/novas1r1/audioplayers.git
-      ref: feat/test-rubberband
+      ref: feat/signalsmith
       path: packages/audioplayers_android_exo
 
   # audiotags:

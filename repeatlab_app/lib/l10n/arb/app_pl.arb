@@ -127,6 +127,8 @@
     "cancelSubscription": "Anuluj Subskrypcję",
     "voteForFeatures": "Głosuj na Funkcje",
     "changelogTitle": "Zmiany",
+    "changelog150Title": "Enorme Ulepszenie Jakości Audio przy Zmianach Tempa",
+    "changelog150Description": "Jakość audio przy zmianach tempa została znacząco ulepszona. To pozwala na lepszą odtwarzanie pętli z różnymi tempami.",
     "changelog140Title": "1/2 Eksportuj Pętle",
     "changelog140Description": "Możesz teraz eksportować pętle w różnych formatach i jakościach.",
     "changelog1402Title": "2/2 Poprawki Błędów i Optymalizacje Designu",

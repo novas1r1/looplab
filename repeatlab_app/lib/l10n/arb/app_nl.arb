@@ -127,6 +127,8 @@
     "cancelSubscription": "Abonnement Opzeggen",
     "voteForFeatures": "Functies Voorstellen",
     "changelogTitle": "Wijzigingen",
+    "changelog150Title": "Enorme Verbesserung der Audio-Qualität bei Geschwindigkeitsänderungen",
+    "changelog150Description": "Die Audio-Qualität bei Geschwindigkeitsänderungen wurde erheblich verbessert. Dies ermöglicht eine bessere Wiedergabe von Loops mit unterschiedlichen Geschwindigkeiten.",
     "changelog140Title": "1/2 Loops Exporteren",
     "changelog140Description": "Je kunt nu loops exporteren met verschillende formaten en kwaliteiten.",
     "changelog1402Title": "2/2 Bug Fixes & Design Optimizations",

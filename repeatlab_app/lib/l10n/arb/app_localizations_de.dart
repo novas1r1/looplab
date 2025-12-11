@@ -382,6 +382,14 @@ class AppLocalizationsDe extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
+  String get changelog150Title =>
+      'Enorme Verbesserung der Audio-Qualität bei Geschwindigkeitsänderungen';
+
+  @override
+  String get changelog150Description =>
+      'Die Audio-Qualität bei Geschwindigkeitsänderungen wurde erheblich verbessert. Dies ermöglicht eine bessere Wiedergabe von Loops mit unterschiedlichen Geschwindigkeiten.';
+
+  @override
   String get changelog140Title => '1/2 Export Loops';
 
   @override
@@ -558,7 +566,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get localData => 'Lokale Daten';
 
   @override
-  String get deleteAllLocalData => 'Delete All Local Data';
+  String get deleteAllLocalData => 'Alle lokalen Daten löschen';
 
   @override
   String get deleteAllDataTitle => 'Alle Daten, Songs und Loops löschen';

@@ -367,6 +367,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get changelogTitle => '変更履歴';
 
   @override
+  String get changelog150Title => '速度変更時のオーディオ品質の大幅な改善';
+
+  @override
+  String get changelog150Description =>
+      '速度変更時のオーディオ品質が大幅に改善されました。これにより、異なる速度のループをより良く再生できるようになりました。';
+
+  @override
   String get changelog140Title => '1/2 ループをエクスポート';
 
   @override

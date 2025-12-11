@@ -792,6 +792,18 @@ abstract class AppLocalizations {
   /// **'Changelog'**
   String get changelogTitle;
 
+  /// No description provided for @changelog150Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Enorme Improvement of Audio Quality at Speed Changes'**
+  String get changelog150Title;
+
+  /// No description provided for @changelog150Description.
+  ///
+  /// In en, this message translates to:
+  /// **'The audio quality at speed changes has been significantly improved. This allows for a better playback of loops with different speeds.'**
+  String get changelog150Description;
+
   /// No description provided for @changelog140Title.
   ///
   /// In en, this message translates to:

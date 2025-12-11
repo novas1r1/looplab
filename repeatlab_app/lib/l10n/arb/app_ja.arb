@@ -129,6 +129,8 @@
     "purchaseSuccess": "購入が成功しました。開発者をサポートしていただきありがとうございます❤️！",
     "voteForFeatures": "機能に投票",
     "changelogTitle": "変更履歴",
+    "changelog150Title": "速度変更時のオーディオ品質の大幅な改善",
+    "changelog150Description": "速度変更時のオーディオ品質が大幅に改善されました。これにより、異なる速度のループをより良く再生できるようになりました。",
     "changelog140Title": "1/2 ループをエクスポート",
     "changelog140Description": "ループを異なる形式と品質でエクスポートできるようになりました。",
     "changelog1402Title": "2/2 バグ修正とデザイン最適化",

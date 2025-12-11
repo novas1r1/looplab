@@ -380,6 +380,14 @@ class AppLocalizationsPl extends AppLocalizations {
   String get changelogTitle => 'Zmiany';
 
   @override
+  String get changelog150Title =>
+      'Enorme Ulepszenie Jakości Audio przy Zmianach Tempa';
+
+  @override
+  String get changelog150Description =>
+      'Jakość audio przy zmianach tempa została znacząco ulepszona. To pozwala na lepszą odtwarzanie pętli z różnymi tempami.';
+
+  @override
   String get changelog140Title => '1/2 Eksportuj Pętle';
 
   @override

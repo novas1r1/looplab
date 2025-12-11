@@ -127,6 +127,8 @@
     "year": "yıl",
     "purchasedAlready": "Zaten satın alındı",
     "purchaseSuccess": "Başarıyla satın alındı. Geliştiriciyi desteklediğiniz için teşekkür ederiz ❤️!",
+    "changelog150Title": "Hız Değişiklikleri Sırasında Ses Kalitesinin Büyük İyileştirmesi",
+    "changelog150Description": "Hız değişiklikleri sırasında ses kalitesi büyük ölçüde iyileştirildi. Bu, farklı hızlarda döngüleri daha iyi çalmayı sağlar.",
     "changelog140Title": "1/2 Döngüleri Dışa Aktar",
     "changelog140Description": "Şimdi döngüleri farklı formatlar ve kalitelerle dışa aktarabilirsiniz.",
     "changelog1402Title": "2/2 Hata Düzeltmeleri ve Tasarım İyileştirmeleri",
