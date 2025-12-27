@@ -1,4 +1,3 @@
-import 'package:alchemist/alchemist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -8,6 +7,7 @@ import 'package:repeatlab/features/changelog_dialog/cubits/changelog_dialog_cubi
 import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
 import 'package:repeatlab/features/home/home_page.dart';
 
+import '../helpers/golden_multi_locale.dart';
 import '../helpers/golden_test_device_scenario.dart';
 import '../helpers/mock_cubits.dart';
 import '../helpers/mock_data.dart';
@@ -53,10 +53,10 @@ void main() {
   }
 
   group('HomePage Golden Tests', () {
-    goldenTest(
+    multiLocaleGoldenTest(
       'renders empty state',
-      fileName: 'home_page_empty',
-      pumpWidget: (tester, widget) => tester.pumpApp(widget),
+      fileNameBase: 'home_page_empty',
+      pumpWidgetWithLocale: (tester, widget, locale) => tester.pumpApp(widget, locale: locale),
       builder: () {
         when(() => mockAllSongsCubit.state).thenReturn(
           const AllSongsState(status: AllSongsStatus.loaded),
@@ -69,10 +69,10 @@ void main() {
       },
     );
 
-    goldenTest(
+    multiLocaleGoldenTest(
       'renders with songs',
-      fileName: 'home_page_with_songs',
-      pumpWidget: (tester, widget) => tester.pumpApp(widget),
+      fileNameBase: 'home_page_with_songs',
+      pumpWidgetWithLocale: (tester, widget, locale) => tester.pumpApp(widget, locale: locale),
       builder: () {
         when(() => mockAllSongsCubit.state).thenReturn(
           const AllSongsState(
@@ -88,10 +88,11 @@ void main() {
       },
     );
 
-    goldenTest(
+    multiLocaleGoldenTest(
       'renders loading state',
-      fileName: 'home_page_loading',
-      pumpWidget: (tester, widget) => tester.pumpAppWithFrames(widget),
+      fileNameBase: 'home_page_loading',
+      pumpWidgetWithLocale: (tester, widget, locale) =>
+          tester.pumpAppWithFrames(widget, locale: locale),
       pumpBeforeTest: (tester) async {
         // Don't use pumpAndSettle for loading state (infinite animation)
         await tester.pump();
@@ -108,10 +109,10 @@ void main() {
       },
     );
 
-    goldenTest(
+    multiLocaleGoldenTest(
       'renders error state',
-      fileName: 'home_page_error',
-      pumpWidget: (tester, widget) => tester.pumpApp(widget),
+      fileNameBase: 'home_page_error',
+      pumpWidgetWithLocale: (tester, widget, locale) => tester.pumpApp(widget, locale: locale),
       builder: () {
         when(() => mockAllSongsCubit.state).thenReturn(
           const AllSongsState(

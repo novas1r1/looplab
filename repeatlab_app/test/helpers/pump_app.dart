@@ -24,6 +24,7 @@ extension PumpApp on WidgetTester {
           final theme = MaterialTheme(textTheme);
 
           return MaterialApp(
+            locale: locale,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             themeMode: ThemeMode.dark,
@@ -57,6 +58,7 @@ extension PumpApp on WidgetTester {
           final theme = MaterialTheme(textTheme);
 
           return MaterialApp(
+            locale: locale,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             onGenerateRoute: AppRouter.generateRoute,

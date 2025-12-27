@@ -232,10 +232,10 @@
     "settings": "Settings",
     "analytics": "Analytics",
     "analyticsDescription": "We use Microsoft Clarity to collect usage data and improve the app. This data is not shared with third parties.",
-    "enterSongBpm": "Enter Song BPM",
+    "enterSongBpm": "Song BPM",
     "enterSongBpmDescription": "Enter the original BPM of the song to change the tempo. This is useful when practicing a song with a different tempo. The BPM will be assigned to the song and saved.",
     "enterSongBpmHint": "e.g. 120",
-    "tapBpm": "Tap BPM",
+    "tapBpm": "TAP",
     "tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm": "Tap the button below in rhythm with your music to detect the BPM.",
     "detectedBpm": "Detected BPM",
     "tapAtLeast2TimesToDetectBpm": "Tap at least 2 times to detect BPM",
@@ -243,9 +243,10 @@
     "taps": "Taps",
     "useBpm": "Use BPM",
     "reset": "Reset",
-    "speedControl": "Speed Control",
+    "speedControl": "Speed",
     "hereYouCanSetTheOriginalBpmOfTheAudioFile": "Here you can set the original BPM of the audio file.",
-    "setBpm": "Set BPM",
+    "setBpm": "SET",
     "originalBpm": "ORIGINAL BPM",
-    "currentBpm": "CURRENT BPM"
+    "currentBpm": "CURRENT BPM",
+    "loops": "Loops"
 }

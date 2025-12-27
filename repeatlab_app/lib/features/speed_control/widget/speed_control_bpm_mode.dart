@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auto_size_text/flutter_auto_size_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/ui/interaction/custom_slider.dart';
@@ -37,49 +38,58 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
 
     // if original bpm is not set, show a button to set it
     if (originalBpm == null) {
-      return Padding(
-        padding: const EdgeInsets.all(16).copyWith(top: 0),
-        child: Column(
-          spacing: 8,
-          children: [
-            Text(
-              context.l10n.hereYouCanSetTheOriginalBpmOfTheAudioFile,
-              style: context.labelLarge.copyWith(fontStyle: FontStyle.italic),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _originalBpmController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      hintText: context.l10n.enterSongBpm,
-                    ),
+      return Column(
+        spacing: 8,
+        children: [
+          AutoSizeText(
+            context.l10n.hereYouCanSetTheOriginalBpmOfTheAudioFile,
+            minFontSize: 12,
+            maxFontSize: 20,
+            style: context.labelLarge.copyWith(fontStyle: FontStyle.italic),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                flex: 2,
+                child: TextField(
+                  controller: _originalBpmController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    hintText: context.l10n.enterSongBpm,
+                    hintStyle: context.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
                   ),
                 ),
-                TextButton(
-                  onPressed: () {
-                    context.read<SpeedControlCubit>().setOriginalBpm(
-                      int.tryParse(_originalBpmController.text),
-                    );
-                    widget.onOriginalBpmChanged(int.tryParse(_originalBpmController.text));
-                  },
-                  child: Text(context.l10n.setBpm),
+              ),
+              TextButton(
+                onPressed: () {
+                  context.read<SpeedControlCubit>().setOriginalBpm(
+                    int.tryParse(_originalBpmController.text),
+                  );
+                  widget.onOriginalBpmChanged(int.tryParse(_originalBpmController.text));
+                },
+                child: AutoSizeText(
+                  context.l10n.setBpm,
+                  minFontSize: 12,
+                  maxFontSize: 20,
                 ),
-                TextButton(
-                  onPressed: _showTapBpmDialog,
-                  child: Text(context.l10n.tapBpm),
+              ),
+              TextButton(
+                onPressed: _showTapBpmDialog,
+                child: AutoSizeText(
+                  context.l10n.tapBpm,
+                  minFontSize: 12,
+                  maxFontSize: 20,
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       );
     }
 
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.symmetric(vertical: 8).copyWith(right: 8),
       child: Column(
         children: [
           Row(
@@ -102,8 +112,10 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      AutoSizeText(
                         context.l10n.originalBpm,
+                        minFontSize: 14,
+                        maxFontSize: 24,
                         style: context.bodySmall.copyWith(
                           color: AppColors.onPrimaryContainer,
                         ),
@@ -128,8 +140,10 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    AutoSizeText(
                       context.l10n.currentBpm,
+                      minFontSize: 14,
+                      maxFontSize: 24,
                       style: context.bodySmall.copyWith(
                         color: AppColors.onPrimaryContainer,
                       ),

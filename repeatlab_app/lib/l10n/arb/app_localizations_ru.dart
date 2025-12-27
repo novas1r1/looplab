@@ -639,7 +639,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Мы используем Microsoft Clarity для сбора данных об использовании и улучшения приложения. Эти данные не передаются третьим лицам.';
 
   @override
-  String get enterSongBpm => 'Введите BPM песни';
+  String get enterSongBpm => 'BPM песни';
 
   @override
   String get enterSongBpmDescription =>
@@ -649,7 +649,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get enterSongBpmHint => 'например, 120';
 
   @override
-  String get tapBpm => 'Нажмите BPM';
+  String get tapBpm => 'TAP';
 
   @override
   String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
@@ -675,18 +675,21 @@ class AppLocalizationsRu extends AppLocalizations {
   String get reset => 'Сбросить';
 
   @override
-  String get speedControl => 'Управление скоростью';
+  String get speedControl => 'Темп';
 
   @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'Здесь вы можете установить оригинальный BPM аудиофайла.';
 
   @override
-  String get setBpm => 'Установить BPM';
+  String get setBpm => 'SET';
 
   @override
   String get originalBpm => 'Оригинальный BPM';
 
   @override
   String get currentBpm => 'Текущий BPM';
+
+  @override
+  String get loops => 'Лупы';
 }

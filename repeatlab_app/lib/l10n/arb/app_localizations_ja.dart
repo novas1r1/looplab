@@ -612,7 +612,7 @@ class AppLocalizationsJa extends AppLocalizations {
       'Microsoft Clarityを使用して使用データを収集し、アプリを改善します。これらのデータは第三者と共有されません。';
 
   @override
-  String get enterSongBpm => '曲のBPMを入力';
+  String get enterSongBpm => '曲のBPM';
 
   @override
   String get enterSongBpmDescription =>
@@ -622,7 +622,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get enterSongBpmHint => '例：120';
 
   @override
-  String get tapBpm => 'BPMをタップ';
+  String get tapBpm => 'TAP';
 
   @override
   String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
@@ -647,18 +647,21 @@ class AppLocalizationsJa extends AppLocalizations {
   String get reset => 'リセット';
 
   @override
-  String get speedControl => '速度コントロール';
+  String get speedControl => '速度';
 
   @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'ここでオーディオファイルの元のBPMを設定できます。';
 
   @override
-  String get setBpm => 'BPMを設定';
+  String get setBpm => 'SET';
 
   @override
   String get originalBpm => '元のBPM';
 
   @override
   String get currentBpm => '現在のBPM';
+
+  @override
+  String get loops => 'ループ';
 }

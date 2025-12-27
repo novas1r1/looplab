@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auto_size_text/flutter_auto_size_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 // import 'package:just_audio/just_audio.dart';
@@ -168,7 +169,14 @@ class _SongViewState extends State<_SongView> {
                             children: [
                               const Icon(Icons.feedback),
                               const SizedBox(width: 8),
-                              Text(context.l10n.reportBugAndFeedback),
+                              Expanded(
+                                child: AutoSizeText(
+                                  context.l10n.reportBugAndFeedback,
+                                  minFontSize: 20,
+                                  maxFontSize: 24,
+                                  maxLines: 2,
+                                ),
+                              ),
                             ],
                           ),
                           onTap: () {
@@ -185,7 +193,14 @@ class _SongViewState extends State<_SongView> {
                             children: [
                               const Icon(Icons.delete),
                               const SizedBox(width: 8),
-                              Text(context.l10n.deleteSong),
+                              Expanded(
+                                child: AutoSizeText(
+                                  context.l10n.deleteSong,
+                                  minFontSize: 20,
+                                  maxFontSize: 24,
+                                  maxLines: 2,
+                                ),
+                              ),
                             ],
                           ),
                           onTap: () => _onTapDeleteSong(context),
@@ -222,16 +237,18 @@ class _SongViewState extends State<_SongView> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                'Loops',
-                                style: Theme.of(
-                                  context,
-                                ).textTheme.headlineSmall,
+                              AutoSizeText(
+                                context.l10n.loops,
+                                minFontSize: 16,
+                                maxFontSize: 24,
+                                style: context.headlineSmall,
                               ),
                               Row(
                                 children: [
-                                  Text(
+                                  AutoSizeText(
                                     context.l10n.loopMode,
+                                    minFontSize: 20,
+                                    maxFontSize: 24,
                                     style: context.bodySmall,
                                   ),
                                   BlocSelector<SongCubit, SongState, bool>(
@@ -242,18 +259,13 @@ class _SongViewState extends State<_SongView> {
                                         thumbIcon: WidgetStateProperty.resolveWith<Icon?>((
                                           Set<WidgetState> states,
                                         ) {
-                                          if (states.contains(
-                                            WidgetState.disabled,
-                                          )) {
+                                          if (states.contains(WidgetState.disabled)) {
                                             return const Icon(Icons.close);
                                           }
-                                          return const Icon(
-                                            Icons.loop_rounded,
-                                          );
+                                          return const Icon(Icons.loop_rounded);
                                         }),
-                                        activeTrackColor: Theme.of(
-                                          context,
-                                        ).colorScheme.primaryContainer,
+                                        activeTrackColor: AppColors.primaryContainer,
+                                        inactiveTrackColor: AppColors.secondaryContainer,
                                         value: isLoopModeEnabled,
                                         onChanged: (value) => _onToggleLoopMode(context),
                                       );
@@ -283,19 +295,19 @@ class _SongViewState extends State<_SongView> {
                                     minimumSize: const Size(0, 36),
                                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                   ),
-                                  child: Text(
+                                  child: AutoSizeText(
                                     context.l10n.setLoopStart,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
+                                    minFontSize: 12,
+                                    maxFontSize: 24,
                                   ),
                                 ),
                               ),
                               const SizedBox(width: 8),
                               Expanded(
                                 child: BlocSelector<SongCubit, SongState, Loop?>(
-                                  selector: (state) {
-                                    return state.activeLoop;
-                                  },
+                                  selector: (state) => state.activeLoop,
                                   builder: (context, activeLoop) {
                                     return ElevatedButton(
                                       key: tutorialKeyLoopEnd,
@@ -315,10 +327,12 @@ class _SongViewState extends State<_SongView> {
                                         minimumSize: const Size(0, 36),
                                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                       ),
-                                      child: Text(
+                                      child: AutoSizeText(
                                         context.l10n.setLoopEnd,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
+                                        minFontSize: 12,
+                                        maxFontSize: 24,
                                       ),
                                     );
                                   },

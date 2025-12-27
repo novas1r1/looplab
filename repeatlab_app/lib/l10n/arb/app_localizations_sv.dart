@@ -634,7 +634,7 @@ class AppLocalizationsSv extends AppLocalizations {
       'Vi använder Microsoft Clarity för att samla in användarstatistik och förbättra appen. Dessa data delas inte med tredje part.';
 
   @override
-  String get enterSongBpm => 'Ange låtens BPM';
+  String get enterSongBpm => 'BPM låt';
 
   @override
   String get enterSongBpmDescription =>
@@ -644,7 +644,7 @@ class AppLocalizationsSv extends AppLocalizations {
   String get enterSongBpmHint => 'exempelvis 120';
 
   @override
-  String get tapBpm => 'Tapp BPM';
+  String get tapBpm => 'TAP';
 
   @override
   String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
@@ -670,18 +670,21 @@ class AppLocalizationsSv extends AppLocalizations {
   String get reset => 'Återställ';
 
   @override
-  String get speedControl => 'Hastighetskontroll';
+  String get speedControl => 'Tempo';
 
   @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'Här kan du ställa in den ursprungliga BPM för ljudfilen.';
 
   @override
-  String get setBpm => 'Ställ in BPM';
+  String get setBpm => 'SET';
 
   @override
   String get originalBpm => 'Ursprunglig BPM';
 
   @override
   String get currentBpm => 'Nuvarande BPM';
+
+  @override
+  String get loops => 'Loopar';
 }

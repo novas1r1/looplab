@@ -634,7 +634,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'हम माइक्रोसॉफ्ट क्लैरिटी का उपयोग करके उपयोग डेटा एकत्र करते हैं और ऐप को सुधारते हैं। इस डेटा को तीसरे पक्षों के साथ साझा नहीं किया जाता है।';
 
   @override
-  String get enterSongBpm => 'गीत का BPM दर दर्ज करें';
+  String get enterSongBpm => 'गीत का BPM';
 
   @override
   String get enterSongBpmDescription =>
@@ -644,7 +644,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get enterSongBpmHint => 'उदाहरण के लिए, 120';
 
   @override
-  String get tapBpm => 'BPM टैप करें';
+  String get tapBpm => 'TAP';
 
   @override
   String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
@@ -670,18 +670,21 @@ class AppLocalizationsHi extends AppLocalizations {
   String get reset => 'रीसेट';
 
   @override
-  String get speedControl => 'स्पीड कंट्रोल';
+  String get speedControl => 'गति';
 
   @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'आप यहां ऑडियो फ़ाइल का मूल BPM सेट कर सकते हैं।';
 
   @override
-  String get setBpm => 'BPM सेट करें';
+  String get setBpm => 'SET';
 
   @override
   String get originalBpm => 'मूल BPM';
 
   @override
   String get currentBpm => 'वर्तमान BPM';
+
+  @override
+  String get loops => 'लूप';
 }

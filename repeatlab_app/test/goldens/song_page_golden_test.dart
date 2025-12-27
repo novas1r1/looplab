@@ -1,4 +1,3 @@
-import 'package:alchemist/alchemist.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +14,7 @@ import 'package:repeatlab/features/song/cubit/song_exporter/song_exporter_cubit.
 import 'package:repeatlab/features/song/widgets/loop_tile.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
+import '../helpers/golden_multi_locale.dart';
 import '../helpers/golden_test_device_scenario.dart';
 import '../helpers/mock_cubits.dart';
 import '../helpers/mock_data.dart';
@@ -342,10 +342,11 @@ void main() {
   }
 
   group('SongPage Golden Tests', () {
-    goldenTest(
+    multiLocaleGoldenTest(
       'renders loading state',
-      fileName: 'song_page_loading',
-      pumpWidget: (tester, widget) => tester.pumpAppWithFrames(widget),
+      fileNameBase: 'song_page_loading',
+      pumpWidgetWithLocale: (tester, widget, locale) =>
+          tester.pumpAppWithFrames(widget, locale: locale),
       pumpBeforeTest: (tester) async {
         await tester.pump();
       },
@@ -363,10 +364,10 @@ void main() {
       },
     );
 
-    goldenTest(
+    multiLocaleGoldenTest(
       'renders loaded state without loops',
-      fileName: 'song_page_empty',
-      pumpWidget: (tester, widget) => tester.pumpApp(widget),
+      fileNameBase: 'song_page_empty',
+      pumpWidgetWithLocale: (tester, widget, locale) => tester.pumpApp(widget, locale: locale),
       builder: () {
         when(() => mockSongCubit.state).thenReturn(
           const SongState(
@@ -383,10 +384,10 @@ void main() {
       },
     );
 
-    goldenTest(
+    multiLocaleGoldenTest(
       'renders loaded state with loops',
-      fileName: 'song_page_with_loops',
-      pumpWidget: (tester, widget) => tester.pumpApp(widget),
+      fileNameBase: 'song_page_with_loops',
+      pumpWidgetWithLocale: (tester, widget, locale) => tester.pumpApp(widget, locale: locale),
       builder: () {
         final songWithLoops = MockData.songMedium.copyWith(
           loops: MockData.testLoops,
@@ -407,10 +408,10 @@ void main() {
       },
     );
 
-    goldenTest(
+    multiLocaleGoldenTest(
       'renders playing state with active loop',
-      fileName: 'song_page_playing',
-      pumpWidget: (tester, widget) => tester.pumpApp(widget),
+      fileNameBase: 'song_page_playing',
+      pumpWidgetWithLocale: (tester, widget, locale) => tester.pumpApp(widget, locale: locale),
       builder: () {
         final songWithLoops = MockData.songMedium.copyWith(
           loops: MockData.testLoops,
@@ -434,10 +435,10 @@ void main() {
       },
     );
 
-    goldenTest(
+    multiLocaleGoldenTest(
       'renders error state',
-      fileName: 'song_page_error',
-      pumpWidget: (tester, widget) => tester.pumpApp(widget),
+      fileNameBase: 'song_page_error',
+      pumpWidgetWithLocale: (tester, widget, locale) => tester.pumpApp(widget, locale: locale),
       builder: () {
         when(() => mockSongCubit.state).thenReturn(
           const SongState(
@@ -454,10 +455,10 @@ void main() {
       },
     );
 
-    goldenTest(
+    multiLocaleGoldenTest(
       'renders with long song title',
-      fileName: 'song_page_long_title',
-      pumpWidget: (tester, widget) => tester.pumpApp(widget),
+      fileNameBase: 'song_page_long_title',
+      pumpWidgetWithLocale: (tester, widget, locale) => tester.pumpApp(widget, locale: locale),
       builder: () {
         when(() => mockSongCubit.state).thenReturn(
           const SongState(

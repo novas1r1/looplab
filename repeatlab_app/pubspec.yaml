@@ -41,6 +41,7 @@ dependencies:
 
   clarity_flutter: ^1.6.0
   dart_mappable: ^4.5.0
+  device_preview_plus: ^2.6.0
   ffmpeg_kit_flutter_new_min: ^3.1.0
   # file_picker:
   #   git:
@@ -49,6 +50,7 @@ dependencies:
   file_picker: ^10.3.7
   flutter:
     sdk: flutter
+  flutter_auto_size_text: ^4.1.0
   flutter_bloc: ^9.1.1
   flutter_html: ^3.0.0
   flutter_localizations:

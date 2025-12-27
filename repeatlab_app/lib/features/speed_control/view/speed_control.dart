@@ -1,6 +1,7 @@
 import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_auto_size_text/flutter_auto_size_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
@@ -56,6 +57,8 @@ class _SpeedControlView extends StatefulWidget {
 }
 
 class _SpeedControlState extends State<_SpeedControlView> {
+  final _isExpanded = ValueNotifier<bool>(false);
+
   @override
   Widget build(BuildContext context) {
     final tempoMode = context.watch<SpeedControlCubit>().state.tempoMode;
@@ -69,19 +72,22 @@ class _SpeedControlState extends State<_SpeedControlView> {
       ),
       padding: const EdgeInsets.all(8).copyWith(right: 0, top: 8, bottom: 8),
       child: Column(
+        spacing: 4,
         children: [
-          // Header with tabs
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                context.l10n.speedControl,
-                style: context.titleLarge.copyWith(
-                  color: AppColors.secondaryFixed,
+              Expanded(
+                child: AutoSizeText(
+                  minFontSize: 14,
+                  maxFontSize: 24,
+                  context.l10n.speedControl,
+                  style: context.titleLarge.copyWith(
+                    color: AppColors.secondaryFixed,
+                  ),
                 ),
               ),
-              const Spacer(),
               SizedBox(
                 height: 36,
                 child: ToggleButtons(
@@ -93,39 +99,62 @@ class _SpeedControlState extends State<_SpeedControlView> {
                   isSelected: [tempoMode == TempoMode.multiplier, tempoMode == TempoMode.bpm],
                   onPressed: (index) => _onChangeTempoMode(index, speedMultiplier, currentBpm),
                   children: const [
-                    Text(
+                    AutoSizeText(
                       '×',
-                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                      minFontSize: 20,
+                      maxFontSize: 24,
+                      style: TextStyle(fontWeight: FontWeight.w600),
                     ),
-                    Text(
+                    AutoSizeText(
                       'BPM',
-                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                      minFontSize: 16,
+                      maxFontSize: 24,
+                      style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(width: 8),
-              SizedBox(
-                height: 32,
-                child: IconButton(
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
-                  onPressed: () => _onResetSpeed(tempoMode),
-                  icon: const Icon(
-                    Icons.refresh_rounded,
-                    color: AppColors.secondaryFixed,
-                  ),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    SizedBox(
+                      height: 32,
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                        onPressed: () => _onResetSpeed(tempoMode),
+                        icon: const Icon(
+                          Icons.refresh_rounded,
+                          color: AppColors.secondaryFixed,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 32,
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                        onPressed: () => _onToggleExpand(context),
+                        icon: Icon(
+                          _isExpanded.value
+                              ? Icons.keyboard_arrow_up_rounded
+                              : Icons.keyboard_arrow_down_rounded,
+                          color: AppColors.secondaryFixed,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(width: 8),
             ],
           ),
-          if (tempoMode == TempoMode.multiplier)
+          if (_isExpanded.value && tempoMode == TempoMode.multiplier)
             SpeedControlMultiplierMode(
               initialSpeedMultiplier: speedMultiplier,
               onSpeedMultiplierChanged: widget.onSpeedMultiplierChanged,
             ),
-          if (tempoMode == TempoMode.bpm)
+          if (_isExpanded.value && tempoMode == TempoMode.bpm)
             SpeedControlBpmMode(
               onOriginalBpmChanged: widget.onOriginalBpmChanged,
               onSpeedBpmChanged: widget.onSpeedBpmChanged,
@@ -133,6 +162,12 @@ class _SpeedControlState extends State<_SpeedControlView> {
         ],
       ),
     );
+  }
+
+  void _onToggleExpand(BuildContext context) {
+    setState(() {
+      _isExpanded.value = !_isExpanded.value;
+    });
   }
 
   void _onChangeTempoMode(

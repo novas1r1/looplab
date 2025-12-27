@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auto_size_text/flutter_auto_size_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
@@ -32,7 +33,11 @@ class SongController extends StatelessWidget {
                   initialData: Duration.zero,
                   builder: (BuildContext context, AsyncSnapshot<Duration> snapshot) {
                     if (snapshot.hasData) {
-                      return Text(snapshot.data!.toFormattedString());
+                      return AutoSizeText(
+                        snapshot.data!.toFormattedString(),
+                        minFontSize: 14,
+                        maxFontSize: 24,
+                      );
                     }
                     return const SizedBox.shrink();
                   },
@@ -83,7 +88,11 @@ class SongController extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: BlocSelector<SongCubit, SongState, Duration>(
                     selector: (state) => state.song.duration,
-                    builder: (context, duration) => Text(duration.toFormattedString()),
+                    builder: (context, duration) => AutoSizeText(
+                      duration.toFormattedString(),
+                      minFontSize: 14,
+                      maxFontSize: 24,
+                    ),
                   ),
                 ),
               ),

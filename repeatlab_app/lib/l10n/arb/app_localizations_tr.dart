@@ -637,7 +637,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'Microsoft Clarity kullanarak kullanım verilerini topluyor ve uygulamayı iyileştiriyoruz. Bu veriler üçüncü taraflarla paylaşılmaz.';
 
   @override
-  String get enterSongBpm => 'Şarkı BPM\'sini girin';
+  String get enterSongBpm => 'Şarkı BPM\'si';
 
   @override
   String get enterSongBpmDescription =>
@@ -647,7 +647,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get enterSongBpmHint => 'örn. 120';
 
   @override
-  String get tapBpm => 'BPM\'yi tıkla';
+  String get tapBpm => 'TAP';
 
   @override
   String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
@@ -673,18 +673,21 @@ class AppLocalizationsTr extends AppLocalizations {
   String get reset => 'Sıfırla';
 
   @override
-  String get speedControl => 'Hız Kontrolü';
+  String get speedControl => 'Hız';
 
   @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'Burada ses dosyasının orijinal BPM\'sini ayarlayabilirsiniz.';
 
   @override
-  String get setBpm => 'BPM\'yi ayarla';
+  String get setBpm => 'SET';
 
   @override
   String get originalBpm => 'Orijinal BPM';
 
   @override
   String get currentBpm => 'Mevcut BPM';
+
+  @override
+  String get loops => 'Döngüler';
 }

@@ -1,10 +1,10 @@
-import 'package:alchemist/alchemist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/features/home/widgets/home_tile.dart';
 
 import '../helpers/device.dart';
+import '../helpers/golden_multi_locale.dart';
 import '../helpers/golden_test_device_scenario.dart';
 import '../helpers/pump_app.dart';
 
@@ -12,11 +12,12 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('HomeTile Golden Tests', () {
-    goldenTest(
+    multiLocaleGoldenTest(
       'renders correctly',
-      fileName: 'home_tile',
-      pumpWidget: (tester, widget) => tester.pumpApp(
+      fileNameBase: 'home_tile',
+      pumpWidgetWithLocale: (tester, widget, locale) => tester.pumpApp(
         widget,
+        locale: locale,
       ),
       builder: () => GoldenTestDeviceScenario(
         name: 'android',

@@ -1245,7 +1245,7 @@ abstract class AppLocalizations {
   /// No description provided for @enterSongBpm.
   ///
   /// In en, this message translates to:
-  /// **'Enter Song BPM'**
+  /// **'Song BPM'**
   String get enterSongBpm;
 
   /// No description provided for @enterSongBpmDescription.
@@ -1263,7 +1263,7 @@ abstract class AppLocalizations {
   /// No description provided for @tapBpm.
   ///
   /// In en, this message translates to:
-  /// **'Tap BPM'**
+  /// **'TAP'**
   String get tapBpm;
 
   /// No description provided for @tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm.
@@ -1311,7 +1311,7 @@ abstract class AppLocalizations {
   /// No description provided for @speedControl.
   ///
   /// In en, this message translates to:
-  /// **'Speed Control'**
+  /// **'Speed'**
   String get speedControl;
 
   /// No description provided for @hereYouCanSetTheOriginalBpmOfTheAudioFile.
@@ -1323,7 +1323,7 @@ abstract class AppLocalizations {
   /// No description provided for @setBpm.
   ///
   /// In en, this message translates to:
-  /// **'Set BPM'**
+  /// **'SET'**
   String get setBpm;
 
   /// No description provided for @originalBpm.
@@ -1337,6 +1337,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'CURRENT BPM'**
   String get currentBpm;
+
+  /// No description provided for @loops.
+  ///
+  /// In en, this message translates to:
+  /// **'Loops'**
+  String get loops;
 }
 
 class _AppLocalizationsDelegate

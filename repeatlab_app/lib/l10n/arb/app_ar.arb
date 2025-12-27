@@ -230,7 +230,7 @@
     "settings": "الإعدادات",
     "analytics": "التحليلات",
     "analyticsDescription": "نحن نستخدم Microsoft Clarity لجمع بيانات الاستخدام وتحسين التطبيق. لا يتم مشاركة هذه البيانات مع الأطراف الثالثة.",
-    "enterSongBpm": "أدخل BPM الأغنية",
+    "enterSongBpm": "BPM الأغنية",
     "enterSongBpmDescription": "أدخل BPM الأغنية",
     "enterSongBpmHint": "مثل 120",
     "resetTempo": "إعادة تعيين الإيقاع",
@@ -242,12 +242,13 @@
     "taps": "ضغطات",
     "useBpm": "استخدم BPM",
     "reset": "إعادة تعيين",
-    "speedControl": "تحكم بالسرعة",
+    "speedControl": "السرعة",
     "hereYouCanSetTheOriginalBpmOfTheAudioFile": "يمكنك هنا تعيين BPM الأصلي لملف الصوت.",
-    "setBpm": "تعيين BPM",
+    "setBpm": "تعيين",
     "originalBpm": "BPM الأصلي",
     "currentBpm": "BPM الحالي",
     "tapBpmDialogTitle": "إيقاع الضغط",
     "tapBpmDialogDescription": "ضغط الزر أدناه في الإيقاع مع موسيقاك لتحديد BPM.",
-    "tapBpmDialogButton": "إيقاع الضغط"
+    "tapBpmDialogButton": "إيقاع الضغط",
+    "loops": "الحلقات"
 }

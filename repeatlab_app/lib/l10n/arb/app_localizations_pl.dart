@@ -635,7 +635,7 @@ class AppLocalizationsPl extends AppLocalizations {
       'Używamy Microsoft Clarity do zbierania danych użytkowania i poprawiania aplikacji. Te dane nie są udostępniane innym stronom.';
 
   @override
-  String get enterSongBpm => 'Wprowadź BPM utworu';
+  String get enterSongBpm => 'BPM utworu';
 
   @override
   String get enterSongBpmDescription =>
@@ -645,7 +645,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get enterSongBpmHint => 'np. 120';
 
   @override
-  String get tapBpm => 'Tocz BPM';
+  String get tapBpm => 'TAP';
 
   @override
   String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
@@ -671,18 +671,21 @@ class AppLocalizationsPl extends AppLocalizations {
   String get reset => 'Reset';
 
   @override
-  String get speedControl => 'Kontrola prędkości';
+  String get speedControl => 'Tempo';
 
   @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'Tutaj możesz ustawić oryginalny BPM pliku audio.';
 
   @override
-  String get setBpm => 'Ustaw BPM';
+  String get setBpm => 'SET';
 
   @override
   String get originalBpm => 'Oryginalny BPM';
 
   @override
   String get currentBpm => 'Bieżący BPM';
+
+  @override
+  String get loops => 'Pętle';
 }

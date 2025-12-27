@@ -598,7 +598,7 @@ class AppLocalizationsZh extends AppLocalizations {
       '我们使用 Microsoft Clarity 收集使用数据并改进应用程序。这些数据不会与第三方共享。';
 
   @override
-  String get enterSongBpm => '输入歌曲 BPM';
+  String get enterSongBpm => '歌曲 BPM';
 
   @override
   String get enterSongBpmDescription =>
@@ -608,7 +608,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get enterSongBpmHint => '例如 120';
 
   @override
-  String get tapBpm => '点击 BPM';
+  String get tapBpm => '点击';
 
   @override
   String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
@@ -633,17 +633,20 @@ class AppLocalizationsZh extends AppLocalizations {
   String get reset => '重置';
 
   @override
-  String get speedControl => '速度控制';
+  String get speedControl => '速度';
 
   @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile => '您可以在此设置音频文件的原始 BPM。';
 
   @override
-  String get setBpm => '设置 BPM';
+  String get setBpm => '设置';
 
   @override
   String get originalBpm => '原始 BPM';
 
   @override
   String get currentBpm => '当前 BPM';
+
+  @override
+  String get loops => '循环';
 }

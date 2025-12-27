@@ -610,7 +610,7 @@ class AppLocalizationsKo extends AppLocalizations {
       'Microsoft Clarity를 사용하여 사용 데이터를 수집하고 앱을 개선합니다. 이 데이터는 제3자와 공유되지 않습니다.';
 
   @override
-  String get enterSongBpm => '곡의 BPM 입력';
+  String get enterSongBpm => '곡의 BPM';
 
   @override
   String get enterSongBpmDescription =>
@@ -620,7 +620,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get enterSongBpmHint => '예: 120';
 
   @override
-  String get tapBpm => 'BPM 탭';
+  String get tapBpm => '탭';
 
   @override
   String get tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm =>
@@ -652,11 +652,14 @@ class AppLocalizationsKo extends AppLocalizations {
       '오디오 파일의 원래 BPM을 설정할 수 있습니다.';
 
   @override
-  String get setBpm => 'BPM 설정';
+  String get setBpm => 'SET';
 
   @override
   String get originalBpm => '원래 BPM';
 
   @override
   String get currentBpm => '현재 BPM';
+
+  @override
+  String get loops => '루프';
 }

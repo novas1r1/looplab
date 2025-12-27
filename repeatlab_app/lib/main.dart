@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:clarity_flutter/clarity_flutter.dart';
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:device_preview_plus/device_preview_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -194,11 +195,13 @@ Future<void> _initializeApp() async {
   runApp(
     SentryWidget(
       child: ClarityWidget(
-        app: App(
-          db: db,
-          soloud: soloud,
-          packageInfo: packageInfo,
-          localConfigRepository: localConfigRepository,
+        app: DevicePreview(
+          builder: (context) => App(
+            db: db!,
+            soloud: soloud!,
+            packageInfo: packageInfo!,
+            localConfigRepository: localConfigRepository!,
+          ),
         ),
         clarityConfig: config,
       ),
