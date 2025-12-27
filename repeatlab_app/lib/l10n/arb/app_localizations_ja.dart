@@ -560,6 +560,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get reportBugAndFeedback => 'バグ報告とフィードバック';
 
   @override
+  String get repeatFullSong => '全曲繰り返し';
+
+  @override
   String get start => '開始';
 
   @override

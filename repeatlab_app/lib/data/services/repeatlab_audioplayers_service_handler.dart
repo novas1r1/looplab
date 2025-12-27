@@ -12,6 +12,13 @@ import 'package:meta/meta.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 
+/// Navigation event types for skip button actions
+enum LoopNavigationEvent {
+  restartCurrentLoop,
+  previousLoop,
+  nextLoop,
+}
+
 /// AudioHandler implementation for background audio playback
 class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
   final AudioPlayer audioPlayer;
@@ -19,7 +26,20 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
   static const double _minPlaybackSpeed = 0.5;
   static const double _maxPlaybackSpeed = 2.0;
 
+  /// Double-tap detection threshold for skip previous
+  static const Duration _doubleTapThreshold = Duration(milliseconds: 400);
+
   Loop? _activeLoop;
+  List<Loop> _loops = [];
+  int _currentLoopIndex = -1;
+  bool _fullSongRepeatEnabled = false;
+
+  /// Stream controller for navigation events that the cubit can listen to
+  final _navigationEventController = StreamController<LoopNavigationEvent>.broadcast();
+  Stream<LoopNavigationEvent> get navigationEvents => _navigationEventController.stream;
+
+  /// Track last skip previous tap time for double-tap detection
+  DateTime? _lastSkipPreviousTime;
 
   Stream<PlayerState>? playerStateStream;
   StreamSubscription<PlayerState>? _playerStateSubscription;
@@ -51,8 +71,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
           playbackState.add(
             playbackState.value.copyWith(
               controls: const [
+                MediaControl.skipToPrevious,
                 MediaControl.pause,
-                MediaControl.stop,
+                MediaControl.skipToNext,
               ],
               systemActions: const {
                 MediaAction.seek,
@@ -67,7 +88,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
           playbackState.add(
             playbackState.value.copyWith(
               controls: const [
+                MediaControl.skipToPrevious,
                 MediaControl.play,
+                MediaControl.skipToNext,
               ],
               systemActions: const {
                 MediaAction.seek,
@@ -82,7 +105,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
           playbackState.add(
             playbackState.value.copyWith(
               controls: const [
+                MediaControl.skipToPrevious,
                 MediaControl.play,
+                MediaControl.skipToNext,
               ],
               systemActions: const {
                 MediaAction.seek,
@@ -101,11 +126,18 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
             return;
           }
 
+          // Handle full song repeat when no loop is active
+          if (_fullSongRepeatEnabled && _activeLoop == null) {
+            _handleFullSongRepeat();
+            return;
+          }
+
           playbackState.add(
             playbackState.value.copyWith(
               controls: const [
+                MediaControl.skipToPrevious,
                 MediaControl.play,
-                MediaControl.stop,
+                MediaControl.skipToNext,
               ],
               systemActions: const {
                 MediaAction.seek,
@@ -120,7 +152,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
           playbackState.add(
             playbackState.value.copyWith(
               controls: const [
+                MediaControl.skipToPrevious,
                 MediaControl.play,
+                MediaControl.skipToNext,
               ],
               systemActions: const {
                 MediaAction.seek,
@@ -180,8 +214,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
       playbackState.add(
         playbackState.value.copyWith(
           controls: const [
+            MediaControl.skipToPrevious,
             MediaControl.pause,
-            MediaControl.stop,
+            MediaControl.skipToNext,
           ],
           systemActions: const {
             MediaAction.seek,
@@ -221,8 +256,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
     playbackState.add(
       playbackState.value.copyWith(
         controls: const [
+          MediaControl.skipToPrevious,
           MediaControl.pause,
-          MediaControl.stop,
+          MediaControl.skipToNext,
         ],
         systemActions: const {
           MediaAction.seek,
@@ -242,6 +278,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
     _loopCheckTimer?.cancel();
     _loopCheckTimer = null;
     _activeLoop = loop;
+
+    // Update current loop index for navigation
+    _currentLoopIndex = _loops.indexWhere((l) => l.id == loop.id);
 
     final start = loop.start;
     final end = loop.end;
@@ -270,6 +309,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
     _loopCheckTimer?.cancel();
     _loopCheckTimer = null;
     _activeLoop = null;
+    _currentLoopIndex = -1;
     _loopSeekInProgress = false;
   }
 
@@ -279,8 +319,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
     playbackState.add(
       playbackState.value.copyWith(
         controls: const [
+          MediaControl.skipToPrevious,
           MediaControl.pause,
-          MediaControl.stop,
+          MediaControl.skipToNext,
         ],
         systemActions: const {
           MediaAction.seek,
@@ -301,7 +342,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
     playbackState.add(
       playbackState.value.copyWith(
         controls: const [
+          MediaControl.skipToPrevious,
           MediaControl.play,
+          MediaControl.skipToNext,
         ],
         systemActions: const {
           MediaAction.seek,
@@ -323,7 +366,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
     playbackState.add(
       playbackState.value.copyWith(
         controls: const [
+          MediaControl.skipToPrevious,
           MediaControl.play,
+          MediaControl.skipToNext,
         ],
         systemActions: const {
           MediaAction.seek,
@@ -342,6 +387,76 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
     _seekQueue ??= _processSeekQueue();
     return _seekQueue!;
   }
+
+  @override
+  Future<void> skipToPrevious() async {
+    log('skipToPrevious called, currentLoopIndex: $_currentLoopIndex, loops: ${_loops.length}');
+
+    final now = DateTime.now();
+    final isDoubleTap =
+        _lastSkipPreviousTime != null &&
+        now.difference(_lastSkipPreviousTime!) < _doubleTapThreshold;
+    _lastSkipPreviousTime = now;
+
+    if (isDoubleTap && _loops.length > 1) {
+      // Double tap: go to previous loop (cubit handles wrapping)
+      log('Double tap detected, going to previous loop');
+      _navigationEventController.add(LoopNavigationEvent.previousLoop);
+    } else {
+      // Single tap: restart current loop or song
+      log('Single tap, restarting current loop/song');
+      await _restartCurrentPlayback();
+    }
+  }
+
+  @override
+  Future<void> skipToNext() async {
+    log('skipToNext called');
+
+    if (_loops.isEmpty) {
+      // No loops: restart song
+      log('No loops, restarting song');
+      await seek(Duration.zero);
+    } else {
+      // Go to next loop
+      log('Going to next loop');
+      _navigationEventController.add(LoopNavigationEvent.nextLoop);
+    }
+  }
+
+  /// Restart the current playback (loop start or song start)
+  Future<void> _restartCurrentPlayback() async {
+    if (_activeLoop != null && _activeLoop!.start != null) {
+      // Restart current loop
+      await seek(_activeLoop!.start!);
+    } else {
+      // Restart song from beginning
+      await seek(Duration.zero);
+    }
+  }
+
+  /// Update the list of loops for navigation
+  void setLoops(List<Loop> loops) {
+    _loops = loops;
+    // Update current loop index if active loop exists
+    if (_activeLoop != null) {
+      _currentLoopIndex = _loops.indexWhere((l) => l.id == _activeLoop!.id);
+    }
+  }
+
+  /// Set the current loop index
+  void setCurrentLoopIndex(int index) {
+    _currentLoopIndex = index;
+  }
+
+  /// Enable or disable full song repeat mode
+  void setFullSongRepeatEnabled(bool enabled) {
+    _fullSongRepeatEnabled = enabled;
+    log('Full song repeat enabled: $enabled');
+  }
+
+  /// Check if full song repeat is enabled
+  bool get isFullSongRepeatEnabled => _fullSongRepeatEnabled;
 
   @override
   Future<void> setSpeed(double speed) {
@@ -373,6 +488,18 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
           // Note: audioplayers doesn't directly support pitch shifting
           // This is a placeholder - actual implementation would need a different approach
           log('Pitch change requested: $pitch (not implemented in audioplayers)');
+        }
+        return;
+      case 'setLoops':
+        if (extras != null && extras['loops'] != null) {
+          final loops = extras['loops'] as List<Loop>;
+          setLoops(loops);
+        }
+        return;
+      case 'setFullSongRepeat':
+        if (extras != null && extras['enabled'] != null) {
+          final enabled = extras['enabled'] as bool;
+          setFullSongRepeatEnabled(enabled);
         }
         return;
       default:
@@ -446,6 +573,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
     _loopCheckTimer?.cancel();
     _loopCheckTimer = null;
     _currentSource = null;
+    _loops = [];
+    _currentLoopIndex = -1;
+    await _navigationEventController.close();
   }
 
   Future<void> _awaitActiveSeek() async {
@@ -577,8 +707,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
       playbackState.add(
         playbackState.value.copyWith(
           controls: const [
+            MediaControl.skipToPrevious,
             MediaControl.pause,
-            MediaControl.stop,
+            MediaControl.skipToNext,
           ],
           systemActions: const {
             MediaAction.seek,
@@ -591,6 +722,33 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
       );
     } finally {
       _loopSeekInProgress = false;
+    }
+  }
+
+  /// Handles full song repeat when the song completes and repeat is enabled.
+  Future<void> _handleFullSongRepeat() async {
+    log('Handling full song repeat');
+    try {
+      await seek(Duration.zero);
+      await audioPlayer.resume();
+      playbackState.add(
+        playbackState.value.copyWith(
+          controls: const [
+            MediaControl.skipToPrevious,
+            MediaControl.pause,
+            MediaControl.skipToNext,
+          ],
+          systemActions: const {
+            MediaAction.seek,
+            MediaAction.seekForward,
+            MediaAction.seekBackward,
+          },
+          playing: true,
+          processingState: AudioProcessingState.ready,
+        ),
+      );
+    } catch (e) {
+      log('Error handling full song repeat: $e');
     }
   }
 

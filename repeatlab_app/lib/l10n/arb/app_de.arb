@@ -203,6 +203,10 @@
     "addLoop": "Neue Loop",
     "deleteSong": "Song löschen",
     "reportBugAndFeedback": "Fehler melden & Feedback",
+    "repeatFullSong": "Gesamten Song wiederholen",
+    "@repeatFullSong": {
+        "description": "Menüpunkt zum Umschalten des Wiederholmodus für den gesamten Song"
+    },
     "start": "Start",
     "end": "Ende",
     "finish": "Fertig",

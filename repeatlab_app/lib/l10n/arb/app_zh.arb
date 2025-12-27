@@ -205,6 +205,10 @@
     "addLoop": "添加循环",
     "deleteSong": "删除歌曲",
     "reportBugAndFeedback": "报告错误和反馈",
+    "repeatFullSong": "重复整首歌曲",
+    "@repeatFullSong": {
+        "description": "菜单项以切换全曲重复模式"
+    },
     "start": "开始",
     "end": "结束",
     "finish": "完成",

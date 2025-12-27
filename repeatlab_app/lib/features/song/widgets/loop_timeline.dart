@@ -6,16 +6,16 @@ import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 
 class LoopTimeline extends StatefulWidget {
   final void Function(Loop loop)? onLoopTap;
-  final void Function() onPreviousLoop;
-  final void Function() onNextLoop;
+  final void Function() onSkipPrevious;
+  final void Function() onSkipNext;
   final void Function(Duration position) onSeek;
   final Duration duration;
 
   const LoopTimeline({
     super.key,
     this.onLoopTap,
-    required this.onPreviousLoop,
-    required this.onNextLoop,
+    required this.onSkipPrevious,
+    required this.onSkipNext,
     required this.onSeek,
     required this.duration,
   });
@@ -42,7 +42,7 @@ class _LoopTimelineState extends State<LoopTimeline> {
             IconButton(
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),
-              onPressed: loops.length > 1 ? widget.onPreviousLoop : null,
+              onPressed: widget.onSkipPrevious,
               icon: const Icon(Icons.skip_previous, size: 24),
             ),
             Expanded(
@@ -128,7 +128,7 @@ class _LoopTimelineState extends State<LoopTimeline> {
               ),
             ),
             IconButton(
-              onPressed: loops.length > 1 ? widget.onNextLoop : null,
+              onPressed: widget.onSkipNext,
               icon: const Icon(Icons.skip_next),
             ),
           ],

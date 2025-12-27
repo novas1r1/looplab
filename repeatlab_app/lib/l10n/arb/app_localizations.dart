@@ -1146,6 +1146,12 @@ abstract class AppLocalizations {
   /// **'Report Bug & Feedback'**
   String get reportBugAndFeedback;
 
+  /// Menu item to toggle full song repeat mode
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat Full Song'**
+  String get repeatFullSong;
+
   /// No description provided for @start.
   ///
   /// In en, this message translates to:

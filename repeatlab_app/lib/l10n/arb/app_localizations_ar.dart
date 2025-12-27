@@ -576,6 +576,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get reportBugAndFeedback => 'الإبلاغ عن الأخطاء والملاحظات';
 
   @override
+  String get repeatFullSong => 'تكرار الأغنية بالكامل';
+
+  @override
   String get start => 'بدء';
 
   @override

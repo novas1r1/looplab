@@ -202,6 +202,10 @@
     "addLoop": "Dodaj Pętlę",
     "deleteSong": "Usuń Utwór",
     "reportBugAndFeedback": "Zgłoś Błąd & Feedback",
+    "repeatFullSong": "Powtórz cały utwór",
+    "@repeatFullSong": {
+        "description": "Menu item to toggle full song repeat mode"
+    },
     "start": "Początek",
     "end": "Koniec",
     "finish": "Zakończ",

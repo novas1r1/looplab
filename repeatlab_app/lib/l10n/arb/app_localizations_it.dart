@@ -588,6 +588,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get reportBugAndFeedback => 'Segnala Bug & Feedback';
 
   @override
+  String get repeatFullSong => 'Ripeti Canzone Completa';
+
+  @override
   String get start => 'Inizio';
 
   @override

@@ -204,6 +204,10 @@
     "addLoop": "Añadir Loop",
     "deleteSong": "Eliminar Canción",
     "reportBugAndFeedback": "Reportar Bug & Feedback",
+    "repeatFullSong": "Repetir Canción Completa",
+    "@repeatFullSong": {
+        "description": "Menú item para alternar el modo de repetición de la canción completa"
+    },
     "start": "Inicio",
     "end": "Fin",
     "finish": "Finalizar",

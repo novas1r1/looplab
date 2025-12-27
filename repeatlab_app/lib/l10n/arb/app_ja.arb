@@ -204,6 +204,10 @@
     "addLoop": "ループを追加",
     "deleteSong": "曲を削除",
     "reportBugAndFeedback": "バグ報告とフィードバック",
+    "repeatFullSong": "全曲繰り返し",
+    "@repeatFullSong": {
+        "description": "メニュー項目をクリックして全曲繰り返しモードを切り替えます"
+    },
     "start": "開始",
     "end": "終了",
     "finish": "完了",

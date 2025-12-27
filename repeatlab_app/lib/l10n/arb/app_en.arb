@@ -209,6 +209,10 @@
     "addLoop": "Add Loop",
     "deleteSong": "Delete Song",
     "reportBugAndFeedback": "Report Bug & Feedback",
+    "repeatFullSong": "Repeat Full Song",
+    "@repeatFullSong": {
+        "description": "Menu item to toggle full song repeat mode"
+    },
     "start": "Start",
     "end": "End",
     "finish": "Finish",

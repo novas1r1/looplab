@@ -202,6 +202,10 @@
     "addLoop": "Добавить Луп",
     "deleteSong": "Удалить Песню",
     "reportBugAndFeedback": "Сообщить об ошибке и отправить отзыв",
+    "repeatFullSong": "Повторить всю песню",
+    "@repeatFullSong": {
+        "description": "Меню item для переключения режима повторения всей песни"
+    },
     "start": "Начало",
     "end": "Конец",
     "finish": "Завершить",

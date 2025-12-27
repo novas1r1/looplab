@@ -582,6 +582,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get reportBugAndFeedback => 'बग और प्रतिक्रिया रिपोर्ट करें';
 
   @override
+  String get repeatFullSong => 'पूरा गीत दोहराएं';
+
+  @override
   String get start => 'प्रारंभ';
 
   @override

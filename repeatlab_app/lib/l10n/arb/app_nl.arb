@@ -202,6 +202,10 @@
     "addLoop": "Loop Toevoegen",
     "deleteSong": "Nummer Verwijderen",
     "reportBugAndFeedback": "Foutmelding & Feedback",
+    "repeatFullSong": "Volledige Nummer Herhalen",
+    "@repeatFullSong": {
+        "description": "Menu item to toggle full song repeat mode"
+    },
     "start": "Start",
     "end": "Einde",
     "finish": "Voltooien",

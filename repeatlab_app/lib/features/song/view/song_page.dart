@@ -142,7 +142,12 @@ class _SongViewState extends State<_SongView> {
             case SongStatus.loadError:
               return Scaffold(
                 appBar: AppBar(
-                  title: Text(widget.song.title),
+                  title: AutoSizeText(
+                    widget.song.title,
+                    minFontSize: 20,
+                    maxFontSize: 24,
+                    maxLines: 2,
+                  ),
                 ),
                 body: Center(
                   child: Text(
@@ -161,51 +166,76 @@ class _SongViewState extends State<_SongView> {
                       icon: const Icon(Icons.help_outline),
                     ),
                     // add pop up menu
-                    PopupMenuButton(
-                      icon: const Icon(Icons.more_vert),
-                      itemBuilder: (context) => [
-                        PopupMenuItem(
-                          child: Row(
-                            children: [
-                              const Icon(Icons.feedback),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: AutoSizeText(
-                                  context.l10n.reportBugAndFeedback,
-                                  minFontSize: 20,
-                                  maxFontSize: 24,
-                                  maxLines: 2,
-                                ),
+                    BlocSelector<SongCubit, SongState, bool>(
+                      selector: (state) => state.isFullSongRepeatEnabled,
+                      builder: (context, isFullSongRepeatEnabled) {
+                        return PopupMenuButton(
+                          icon: const Icon(Icons.more_vert),
+                          itemBuilder: (context) => [
+                            PopupMenuItem(
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    isFullSongRepeatEnabled ? Icons.repeat_one : Icons.repeat,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: AutoSizeText(
+                                      context.l10n.repeatFullSong,
+                                      minFontSize: 20,
+                                      maxFontSize: 24,
+                                      maxLines: 2,
+                                    ),
+                                  ),
+                                  if (isFullSongRepeatEnabled) const Icon(Icons.check, size: 20),
+                                ],
                               ),
-                            ],
-                          ),
-                          onTap: () {
-                            AppAnalytics.trackEvent(
-                              AppAnalytics.clickReportBug,
-                            );
-                            Wiredash.of(
-                              context,
-                            ).show(inheritMaterialTheme: true);
-                          },
-                        ),
-                        PopupMenuItem(
-                          child: Row(
-                            children: [
-                              const Icon(Icons.delete),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: AutoSizeText(
-                                  context.l10n.deleteSong,
-                                  minFontSize: 20,
-                                  maxFontSize: 24,
-                                  maxLines: 2,
-                                ),
+                              onTap: () => context.read<SongCubit>().toggleFullSongRepeat(),
+                            ),
+                            PopupMenuItem(
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.feedback),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: AutoSizeText(
+                                      context.l10n.reportBugAndFeedback,
+                                      minFontSize: 20,
+                                      maxFontSize: 24,
+                                      maxLines: 2,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                          onTap: () => _onTapDeleteSong(context),
-                        ),
-                      ],
+                              onTap: () {
+                                AppAnalytics.trackEvent(
+                                  AppAnalytics.clickReportBug,
+                                );
+                                Wiredash.of(
+                                  context,
+                                ).show(inheritMaterialTheme: true);
+                              },
+                            ),
+                            PopupMenuItem(
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.delete),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: AutoSizeText(
+                                      context.l10n.deleteSong,
+                                      minFontSize: 20,
+                                      maxFontSize: 24,
+                                      maxLines: 2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              onTap: () => _onTapDeleteSong(context),
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -224,8 +254,9 @@ class _SongViewState extends State<_SongView> {
                           LoopTimeline(
                             key: tutorialKeyLoopTimeline,
                             onLoopTap: (loop) => context.read<SongCubit>().selectLoop(loop),
-                            onPreviousLoop: () => context.read<SongCubit>().previousLoop(),
-                            onNextLoop: () => context.read<SongCubit>().nextLoop(),
+                            onSkipPrevious: () =>
+                                context.read<SongCubit>().skipToPreviousOrRestart(),
+                            onSkipNext: () => context.read<SongCubit>().skipToNextLoop(),
                             onSeek: (position) => context.read<SongCubit>().seekSong(position),
                             duration: widget.song.duration,
                           ),

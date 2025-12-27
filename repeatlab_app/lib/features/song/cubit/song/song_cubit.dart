@@ -47,6 +47,9 @@ class SongCubit extends Cubit<SongState> {
   StreamController<List<Loop>>? loopsStreamController;
   StreamSubscription<List<Loop>>? _loopsSubscription;
 
+  /// Subscription for navigation events from the audio handler (skip prev/next buttons)
+  StreamSubscription<LoopNavigationEvent>? _navigationSubscription;
+
   Duration? positionToSeek;
 
   Future<Duration> get position async => await audioHandler.position;
@@ -73,12 +76,102 @@ class SongCubit extends Cubit<SongState> {
 
     await _songSubscription?.cancel();
     await _loopsSubscription?.cancel();
+    await _navigationSubscription?.cancel();
 
     // Clean up audio service if available
     await audioHandler.stop();
     // dispose loop stream
 
     return super.close();
+  }
+
+  /// Handle navigation events from the audio handler (notification/Bluetooth controls)
+  /// These events come from external sources, so we call the direct methods
+  /// to avoid recursion (skip methods call audio handler which emits events again)
+  void _handleNavigationEvent(LoopNavigationEvent event) {
+    dev.log('Navigation event received: $event');
+    switch (event) {
+      case LoopNavigationEvent.restartCurrentLoop:
+        // Audio handler already handled the restart via _restartCurrentPlayback()
+        break;
+      case LoopNavigationEvent.previousLoop:
+        previousLoop(); // Direct call to avoid recursion
+      case LoopNavigationEvent.nextLoop:
+        nextLoop(); // Direct call to avoid recursion
+    }
+  }
+
+  /// Skip to previous loop or restart current playback.
+  /// Called from skip previous button (UI and notification).
+  /// Uses audio handler's double-tap detection for consistent behavior.
+  Future<void> skipToPreviousOrRestart() async {
+    dev.log('skipToPreviousOrRestart');
+    try {
+      // Use audio handler's skipToPrevious which has double-tap detection
+      // Single tap: restarts current loop/song
+      // Double tap: goes to previous loop (via navigation event)
+      await audioHandler.skipToPrevious();
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to skip to previous: $ex',
+        ),
+      );
+    }
+  }
+
+  /// Skip to the previous loop in the list.
+  /// Called on double-tap of skip previous button.
+  Future<void> skipToPreviousLoop() async {
+    dev.log('skipToPreviousLoop');
+    if (state.song.loops.isEmpty) return;
+
+    previousLoop();
+  }
+
+  /// Skip to the next loop in the list.
+  /// Called from skip next button (UI and notification).
+  Future<void> skipToNextLoop() async {
+    dev.log('skipToNextLoop');
+    try {
+      // Use audio handler's skipToNext for consistent behavior
+      await audioHandler.skipToNext();
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to skip to next: $ex',
+        ),
+      );
+    }
+  }
+
+  /// Toggle full song repeat mode
+  Future<void> toggleFullSongRepeat() async {
+    final newValue = !state.isFullSongRepeatEnabled;
+
+    try {
+      await audioHandler.customAction('setFullSongRepeat', {'enabled': newValue});
+
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          isFullSongRepeatEnabled: newValue,
+          error: null,
+        ),
+      );
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to toggle full song repeat: $ex',
+        ),
+      );
+    }
   }
 
   Future<void> initSong(AudioPlayer audioPlayer) async {
@@ -159,6 +252,12 @@ class SongCubit extends Cubit<SongState> {
 
       // we need to disable loop mode here because the audio handler is not initialized yet
       await audioHandler.customAction('disableLoop');
+
+      // Sync loops with audio handler for navigation
+      await audioHandler.customAction('setLoops', {'loops': state.song.loops});
+
+      // Listen to navigation events from notification/Bluetooth controls
+      _navigationSubscription = audioHandler.navigationEvents.listen(_handleNavigationEvent);
 
       emit(
         state.copyWith(
@@ -530,6 +629,9 @@ class SongCubit extends Cubit<SongState> {
 
       loopsStreamController?.add([...state.song.loops, loop]);
 
+      // Sync loops with audio handler for navigation
+      await audioHandler.customAction('setLoops', {'loops': updatedSong.loops});
+
       emit(
         state.copyWith(
           status: SongStatus.loopAdded,
@@ -593,6 +695,9 @@ class SongCubit extends Cubit<SongState> {
       );
 
       loopsStreamController?.add(updatedSong.loops);
+
+      // Sync loops with audio handler for navigation
+      await audioHandler.customAction('setLoops', {'loops': updatedSong.loops});
 
       if (loop == state.activeLoop) {
         unselectLoop();
@@ -793,6 +898,9 @@ class SongCubit extends Cubit<SongState> {
       await songRepository.updateSong(updatedSong);
 
       loopsStreamController?.add(updatedSong.loops);
+
+      // Sync loops with audio handler for navigation
+      await audioHandler.customAction('setLoops', {'loops': updatedSong.loops});
 
       emit(
         state.copyWith(

@@ -586,6 +586,9 @@ class AppLocalizationsNl extends AppLocalizations {
   String get reportBugAndFeedback => 'Foutmelding & Feedback';
 
   @override
+  String get repeatFullSong => 'Volledige Nummer Herhalen';
+
+  @override
   String get start => 'Start';
 
   @override

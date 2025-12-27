@@ -204,6 +204,10 @@
     "addLoop": "Döngü ekle",
     "deleteSong": "Şarkıyı sil",
     "reportBugAndFeedback": "Hata ve geri bildirim bildir",
+    "repeatFullSong": "Tam Şarkıyı Tekrarla",
+    "@repeatFullSong": {
+        "description": "Menu item to toggle full song repeat mode"
+    },
     "start": "Başla",
     "end": "Bitir",
     "finish": "Bitir",

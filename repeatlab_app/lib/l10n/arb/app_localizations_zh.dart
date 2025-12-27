@@ -546,6 +546,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get reportBugAndFeedback => '报告错误和反馈';
 
   @override
+  String get repeatFullSong => '重复整首歌曲';
+
+  @override
   String get start => '开始';
 
   @override

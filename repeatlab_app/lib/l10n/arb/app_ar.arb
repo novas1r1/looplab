@@ -206,6 +206,10 @@
     "addLoop": "إضافة حلقة",
     "deleteSong": "حذف الأغنية",
     "reportBugAndFeedback": "الإبلاغ عن الأخطاء والملاحظات",
+    "repeatFullSong": "تكرار الأغنية بالكامل",
+    "@repeatFullSong": {
+        "description": "Menu item to toggle full song repeat mode"
+    },
     "start": "بدء",
     "end": "نهاية",
     "finish": "إنهاء",

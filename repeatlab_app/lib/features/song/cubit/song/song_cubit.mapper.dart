@@ -144,6 +144,14 @@ class SongStateMapper extends ClassMapperBase<SongState> {
     opt: true,
     def: false,
   );
+  static bool _$isFullSongRepeatEnabled(SongState v) =>
+      v.isFullSongRepeatEnabled;
+  static const Field<SongState, bool> _f$isFullSongRepeatEnabled = Field(
+    'isFullSongRepeatEnabled',
+    _$isFullSongRepeatEnabled,
+    opt: true,
+    def: false,
+  );
   static PlayerState? _$playerState(SongState v) => v.playerState;
   static const Field<SongState, PlayerState> _f$playerState = Field(
     'playerState',
@@ -160,6 +168,7 @@ class SongStateMapper extends ClassMapperBase<SongState> {
     #activeLoop: _f$activeLoop,
     #isLoopModeEnabled: _f$isLoopModeEnabled,
     #isTutorialCompleted: _f$isTutorialCompleted,
+    #isFullSongRepeatEnabled: _f$isFullSongRepeatEnabled,
     #playerState: _f$playerState,
   };
 
@@ -172,6 +181,7 @@ class SongStateMapper extends ClassMapperBase<SongState> {
       activeLoop: data.dec(_f$activeLoop),
       isLoopModeEnabled: data.dec(_f$isLoopModeEnabled),
       isTutorialCompleted: data.dec(_f$isTutorialCompleted),
+      isFullSongRepeatEnabled: data.dec(_f$isFullSongRepeatEnabled),
       playerState: data.dec(_f$playerState),
     );
   }
@@ -245,6 +255,7 @@ abstract class SongStateCopyWith<$R, $In extends SongState, $Out>
     Loop? activeLoop,
     bool? isLoopModeEnabled,
     bool? isTutorialCompleted,
+    bool? isFullSongRepeatEnabled,
     PlayerState? playerState,
   });
   SongStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
@@ -273,6 +284,7 @@ class _SongStateCopyWithImpl<$R, $Out>
     Object? activeLoop = $none,
     bool? isLoopModeEnabled,
     bool? isTutorialCompleted,
+    bool? isFullSongRepeatEnabled,
     Object? playerState = $none,
   }) => $apply(
     FieldCopyWithData({
@@ -284,6 +296,8 @@ class _SongStateCopyWithImpl<$R, $Out>
       if (isLoopModeEnabled != null) #isLoopModeEnabled: isLoopModeEnabled,
       if (isTutorialCompleted != null)
         #isTutorialCompleted: isTutorialCompleted,
+      if (isFullSongRepeatEnabled != null)
+        #isFullSongRepeatEnabled: isFullSongRepeatEnabled,
       if (playerState != $none) #playerState: playerState,
     }),
   );
@@ -301,6 +315,10 @@ class _SongStateCopyWithImpl<$R, $Out>
     isTutorialCompleted: data.get(
       #isTutorialCompleted,
       or: $value.isTutorialCompleted,
+    ),
+    isFullSongRepeatEnabled: data.get(
+      #isFullSongRepeatEnabled,
+      or: $value.isFullSongRepeatEnabled,
     ),
     playerState: data.get(#playerState, or: $value.playerState),
   );

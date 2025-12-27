@@ -587,6 +587,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get reportBugAndFeedback => 'Сообщить об ошибке и отправить отзыв';
 
   @override
+  String get repeatFullSong => 'Повторить всю песню';
+
+  @override
   String get start => 'Начало';
 
   @override

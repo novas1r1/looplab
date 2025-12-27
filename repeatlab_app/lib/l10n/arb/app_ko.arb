@@ -204,6 +204,10 @@
     "addLoop": "루프 추가",
     "deleteSong": "곡 삭제",
     "reportBugAndFeedback": "버그 보고 및 피드백",
+    "repeatFullSong": "전체 곡 반복",
+    "@repeatFullSong": {
+        "description": "메뉴 항목을 클릭하여 전체 곡 반복 모드를 전환합니다"
+    },
     "start": "시작",
     "end": "종료",
     "finish": "완료",

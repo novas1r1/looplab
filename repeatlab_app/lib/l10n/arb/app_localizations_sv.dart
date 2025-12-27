@@ -582,6 +582,9 @@ class AppLocalizationsSv extends AppLocalizations {
   String get reportBugAndFeedback => 'Rapportera Buggar & Feedback';
 
   @override
+  String get repeatFullSong => 'Upprepa Hela Låten';
+
+  @override
   String get start => 'Start';
 
   @override

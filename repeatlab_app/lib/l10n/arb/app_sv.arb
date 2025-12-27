@@ -202,6 +202,10 @@
     "addLoop": "Lägg Till Loop",
     "deleteSong": "Radera Låt",
     "reportBugAndFeedback": "Rapportera Buggar & Feedback",
+    "repeatFullSong": "Upprepa Hela Låten",
+    "@repeatFullSong": {
+        "description": "Menyobjekt för att växla läge för upprepning av hela låten"
+    },
     "start": "Start",
     "end": "Slut",
     "finish": "Slut",

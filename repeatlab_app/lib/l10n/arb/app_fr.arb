@@ -203,6 +203,10 @@
     "addLoop": "Ajouter une Boucle",
     "deleteSong": "Supprimer la Chanson",
     "reportBugAndFeedback": "Signaler un Bug & Retour",
+    "repeatFullSong": "Répéter la Chanson Entière",
+    "@repeatFullSong": {
+        "description": "Menu item to toggle full song repeat mode"
+    },
     "start": "Début",
     "end": "Fin",
     "finish": "Terminer",

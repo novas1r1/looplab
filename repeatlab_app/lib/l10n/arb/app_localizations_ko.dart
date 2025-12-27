@@ -558,6 +558,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get reportBugAndFeedback => '버그 보고 및 피드백';
 
   @override
+  String get repeatFullSong => '전체 곡 반복';
+
+  @override
   String get start => '시작';
 
   @override

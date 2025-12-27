@@ -585,6 +585,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get reportBugAndFeedback => 'Hata ve geri bildirim bildir';
 
   @override
+  String get repeatFullSong => 'Tam Şarkıyı Tekrarla';
+
+  @override
   String get start => 'Başla';
 
   @override
