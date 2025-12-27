@@ -382,6 +382,28 @@ class AppLocalizationsTr extends AppLocalizations {
   String get changelogTitle => 'Değişiklik Günlüğü';
 
   @override
+  String get changelog1601Title =>
+      '1/3 Döngüleri Seçtiğinizde veya aralarında gezinirken otomatik oynatma';
+
+  @override
+  String get changelog1601Description =>
+      'Şarkı ayarlarında artık döngüleri ve tüm şarkıyı otomatik olarak oynatmayı etkinleştirebilir veya devre dışı bırakabilirsiniz.';
+
+  @override
+  String get changelog1602Title => '2/3 Döngü kontrolünün iyileştirilmesi';
+
+  @override
+  String get changelog1602Description =>
+      'Artık önceki veya sonraki döngüye atlayabilirsiniz. Bu, farklı hızlarda döngüleri daha iyi çalmayı sağlar.';
+
+  @override
+  String get changelog1603Title => '3/3 Düzen ayarları';
+
+  @override
+  String get changelog1603Description =>
+      'Uygulama düzeni iyileştirildi. Bu, kullanıcı deneyimini iyileştirir.';
+
+  @override
   String get changelog150Title =>
       'Hız Değişiklikleri Sırasında Ses Kalitesinin Büyük İyileştirmesi';
 
@@ -693,4 +715,20 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get loops => 'Döngüler';
+
+  @override
+  String get songSettings => 'Şarkı Ayarları';
+
+  @override
+  String get playbackSettings => 'Oynatma';
+
+  @override
+  String get autoPlayOnLoopSelect => 'Döngüleri otomatik oynat';
+
+  @override
+  String get autoPlayOnLoopSelectDescription =>
+      'Döngü seçildiğinde veya sonraki/önceki döngüye geçildiğinde otomatik oynatma';
+
+  @override
+  String get actions => 'Eylemler';
 }

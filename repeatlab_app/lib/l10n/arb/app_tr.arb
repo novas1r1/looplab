@@ -127,6 +127,12 @@
     "year": "yıl",
     "purchasedAlready": "Zaten satın alındı",
     "purchaseSuccess": "Başarıyla satın alındı. Geliştiriciyi desteklediğiniz için teşekkür ederiz ❤️!",
+    "changelog1601Title": "1/3 Döngüleri Seçtiğinizde veya aralarında gezinirken otomatik oynatma",
+    "changelog1601Description": "Şarkı ayarlarında artık döngüleri ve tüm şarkıyı otomatik olarak oynatmayı etkinleştirebilir veya devre dışı bırakabilirsiniz.",
+    "changelog1602Title": "2/3 Döngü kontrolünün iyileştirilmesi",
+    "changelog1602Description": "Artık önceki veya sonraki döngüye atlayabilirsiniz. Bu, farklı hızlarda döngüleri daha iyi çalmayı sağlar.",
+    "changelog1603Title": "3/3 Düzen ayarları",
+    "changelog1603Description": "Uygulama düzeni iyileştirildi. Bu, kullanıcı deneyimini iyileştirir.",
     "changelog150Title": "Hız Değişiklikleri Sırasında Ses Kalitesinin Büyük İyileştirmesi",
     "changelog150Description": "Hız değişiklikleri sırasında ses kalitesi büyük ölçüde iyileştirildi. Bu, farklı hızlarda döngüleri daha iyi çalmayı sağlar.",
     "changelog140Title": "1/2 Döngüleri Dışa Aktar",
@@ -253,5 +259,25 @@
     "tapBpmDialogTitle": "BPM'yi tıkla",
     "tapBpmDialogDescription": "BPM'yi tespit etmek için aşağıdaki düğmeyi müzikle aynı ritmde tıklayın.",
     "tapBpmDialogButton": "BPM'yi tıkla",
-    "loops": "Döngüler"
+    "loops": "Döngüler",
+    "autoPlayOnLoopSelect": "Döngüleri otomatik oynat",
+    "@autoPlayOnLoopSelect": {
+        "description": "Döngüleri otomatik oynatma için geçiş"
+    },
+    "autoPlayOnLoopSelectDescription": "Döngü seçildiğinde veya sonraki/önceki döngüye geçildiğinde otomatik oynatma",
+    "@autoPlayOnLoopSelectDescription": {
+        "description": "Döngüleri otomatik oynatma için açıklama"
+    },
+    "songSettings": "Şarkı Ayarları",
+    "@songSettings": {
+        "description": "Menüdeki şarkı ayarları başlığı"
+    },
+    "playbackSettings": "Oynatma",
+    "@playbackSettings": {
+        "description": "Menüdeki oynatma ayarları başlığı"
+    },
+    "actions": "Eylemler",
+    "@actions": {
+        "description": "Menüdeki eylemler başlığı"
+    }
 }

@@ -23,11 +23,11 @@ import 'package:repeatlab/features/song/cubit/song_exporter/song_exporter_cubit.
 import 'package:repeatlab/features/song/view/song_controller.dart';
 import 'package:repeatlab/features/song/widgets/loop_tile.dart';
 import 'package:repeatlab/features/song/widgets/loop_timeline.dart';
+import 'package:repeatlab/features/song/widgets/song_settings_bottom_sheet.dart';
 import 'package:repeatlab/features/song/widgets/tutorial_item.dart';
 import 'package:repeatlab/features/song/widgets/wave_form_soloud.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
-import 'package:wiredash/wiredash.dart';
 
 class SongPage extends StatelessWidget {
   final Song song;
@@ -165,77 +165,13 @@ class _SongViewState extends State<_SongView> {
                       onPressed: () => showTutorial(),
                       icon: const Icon(Icons.help_outline),
                     ),
-                    // add pop up menu
-                    BlocSelector<SongCubit, SongState, bool>(
-                      selector: (state) => state.isFullSongRepeatEnabled,
-                      builder: (context, isFullSongRepeatEnabled) {
-                        return PopupMenuButton(
-                          icon: const Icon(Icons.more_vert),
-                          itemBuilder: (context) => [
-                            PopupMenuItem(
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    isFullSongRepeatEnabled ? Icons.repeat_one : Icons.repeat,
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Expanded(
-                                    child: AutoSizeText(
-                                      context.l10n.repeatFullSong,
-                                      minFontSize: 20,
-                                      maxFontSize: 24,
-                                      maxLines: 2,
-                                    ),
-                                  ),
-                                  if (isFullSongRepeatEnabled) const Icon(Icons.check, size: 20),
-                                ],
-                              ),
-                              onTap: () => context.read<SongCubit>().toggleFullSongRepeat(),
-                            ),
-                            PopupMenuItem(
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.feedback),
-                                  const SizedBox(width: 8),
-                                  Expanded(
-                                    child: AutoSizeText(
-                                      context.l10n.reportBugAndFeedback,
-                                      minFontSize: 20,
-                                      maxFontSize: 24,
-                                      maxLines: 2,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              onTap: () {
-                                AppAnalytics.trackEvent(
-                                  AppAnalytics.clickReportBug,
-                                );
-                                Wiredash.of(
-                                  context,
-                                ).show(inheritMaterialTheme: true);
-                              },
-                            ),
-                            PopupMenuItem(
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.delete),
-                                  const SizedBox(width: 8),
-                                  Expanded(
-                                    child: AutoSizeText(
-                                      context.l10n.deleteSong,
-                                      minFontSize: 20,
-                                      maxFontSize: 24,
-                                      maxLines: 2,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              onTap: () => _onTapDeleteSong(context),
-                            ),
-                          ],
-                        );
-                      },
+                    // Settings button - opens bottom sheet
+                    IconButton(
+                      icon: const Icon(Icons.more_vert),
+                      onPressed: () => SongSettingsBottomSheet.show(
+                        context,
+                        onDeleteSong: () => _onTapDeleteSong(context),
+                      ),
                     ),
                   ],
                 ),

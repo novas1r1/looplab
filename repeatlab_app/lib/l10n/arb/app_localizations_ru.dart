@@ -381,11 +381,33 @@ class AppLocalizationsRu extends AppLocalizations {
   String get voteForFeatures => 'Предложить Функции';
 
   @override
-  String get changelogTitle => 'Changelog';
+  String get changelogTitle => 'Изменения';
+
+  @override
+  String get changelog1601Title =>
+      '1/3 Автоматическое воспроизведение лупов при выборе лупов или переходе между ними';
+
+  @override
+  String get changelog1601Description =>
+      'В настройках песни вы можете теперь включить или выключить автоматическое воспроизведение лупов и всей песни.';
+
+  @override
+  String get changelog1602Title => '2/3 Улучшенный контроль лупов';
+
+  @override
+  String get changelog1602Description =>
+      'Теперь вы можете перейти к предыдущему или следующему лупу, нажав на кнопку предыдущего или следующего. Также в уведомлении и на экране блокировки.';
+
+  @override
+  String get changelog1603Title => '3/3 Адаптация макета';
+
+  @override
+  String get changelog1603Description =>
+      'Макет приложения был адаптирован для улучшения пользовательского опыта.';
 
   @override
   String get changelog150Title =>
-      'Enormное Улучшение Качества Аудио при Изменении Скорости';
+      'Огромное улучшение качества аудио при изменении скорости';
 
   @override
   String get changelog150Description =>
@@ -695,4 +717,20 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get loops => 'Лупы';
+
+  @override
+  String get songSettings => 'Настройки песни';
+
+  @override
+  String get playbackSettings => 'Воспроизведение';
+
+  @override
+  String get autoPlayOnLoopSelect => 'Автоматически воспроизводить лупы';
+
+  @override
+  String get autoPlayOnLoopSelectDescription =>
+      'Автоматически воспроизводить лупы при выборе лупа или переходе к следующему или предыдущему лупу';
+
+  @override
+  String get actions => 'Действия';
 }

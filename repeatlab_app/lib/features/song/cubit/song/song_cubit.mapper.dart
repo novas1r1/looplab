@@ -152,6 +152,13 @@ class SongStateMapper extends ClassMapperBase<SongState> {
     opt: true,
     def: false,
   );
+  static bool _$isAutoPlayEnabled(SongState v) => v.isAutoPlayEnabled;
+  static const Field<SongState, bool> _f$isAutoPlayEnabled = Field(
+    'isAutoPlayEnabled',
+    _$isAutoPlayEnabled,
+    opt: true,
+    def: true,
+  );
   static PlayerState? _$playerState(SongState v) => v.playerState;
   static const Field<SongState, PlayerState> _f$playerState = Field(
     'playerState',
@@ -169,6 +176,7 @@ class SongStateMapper extends ClassMapperBase<SongState> {
     #isLoopModeEnabled: _f$isLoopModeEnabled,
     #isTutorialCompleted: _f$isTutorialCompleted,
     #isFullSongRepeatEnabled: _f$isFullSongRepeatEnabled,
+    #isAutoPlayEnabled: _f$isAutoPlayEnabled,
     #playerState: _f$playerState,
   };
 
@@ -182,6 +190,7 @@ class SongStateMapper extends ClassMapperBase<SongState> {
       isLoopModeEnabled: data.dec(_f$isLoopModeEnabled),
       isTutorialCompleted: data.dec(_f$isTutorialCompleted),
       isFullSongRepeatEnabled: data.dec(_f$isFullSongRepeatEnabled),
+      isAutoPlayEnabled: data.dec(_f$isAutoPlayEnabled),
       playerState: data.dec(_f$playerState),
     );
   }
@@ -256,6 +265,7 @@ abstract class SongStateCopyWith<$R, $In extends SongState, $Out>
     bool? isLoopModeEnabled,
     bool? isTutorialCompleted,
     bool? isFullSongRepeatEnabled,
+    bool? isAutoPlayEnabled,
     PlayerState? playerState,
   });
   SongStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
@@ -285,6 +295,7 @@ class _SongStateCopyWithImpl<$R, $Out>
     bool? isLoopModeEnabled,
     bool? isTutorialCompleted,
     bool? isFullSongRepeatEnabled,
+    bool? isAutoPlayEnabled,
     Object? playerState = $none,
   }) => $apply(
     FieldCopyWithData({
@@ -298,6 +309,7 @@ class _SongStateCopyWithImpl<$R, $Out>
         #isTutorialCompleted: isTutorialCompleted,
       if (isFullSongRepeatEnabled != null)
         #isFullSongRepeatEnabled: isFullSongRepeatEnabled,
+      if (isAutoPlayEnabled != null) #isAutoPlayEnabled: isAutoPlayEnabled,
       if (playerState != $none) #playerState: playerState,
     }),
   );
@@ -319,6 +331,10 @@ class _SongStateCopyWithImpl<$R, $Out>
     isFullSongRepeatEnabled: data.get(
       #isFullSongRepeatEnabled,
       or: $value.isFullSongRepeatEnabled,
+    ),
+    isAutoPlayEnabled: data.get(
+      #isAutoPlayEnabled,
+      or: $value.isAutoPlayEnabled,
     ),
     playerState: data.get(#playerState, or: $value.playerState),
   );

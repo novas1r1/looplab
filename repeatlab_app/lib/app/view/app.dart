@@ -1,4 +1,3 @@
-import 'package:device_preview_plus/device_preview_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
@@ -82,7 +81,7 @@ class App extends StatelessWidget {
               final introShown = context.watch<LocalConfigRepository>().introShown;
 
               return MaterialApp(
-                locale: DevicePreview.locale(context),
+                // locale: DevicePreview.locale(context),
                 debugShowCheckedModeBanner: false,
                 themeMode: ThemeMode.dark,
                 theme: theme.dark(),

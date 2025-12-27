@@ -728,9 +728,22 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
   /// Handles full song repeat when the song completes and repeat is enabled.
   Future<void> _handleFullSongRepeat() async {
     log('Handling full song repeat');
+
+    // Prevent re-entry while handling repeat
+    if (_loopSeekInProgress) return;
+    _loopSeekInProgress = true;
+
     try {
-      await seek(Duration.zero);
+      // Reload source since player is in completed state
+      if (_currentSource != null) {
+        await audioPlayer.setSource(_currentSource!);
+        await audioPlayer.setPlaybackRate(_playbackSpeed);
+      }
+
+      // Seek to beginning and play
+      await audioPlayer.seek(Duration.zero);
       await audioPlayer.resume();
+
       playbackState.add(
         playbackState.value.copyWith(
           controls: const [
@@ -749,6 +762,8 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
       );
     } catch (e) {
       log('Error handling full song repeat: $e');
+    } finally {
+      _loopSeekInProgress = false;
     }
   }
 

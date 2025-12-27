@@ -16,6 +16,8 @@ class LocalConfigRepository {
   static const kHasRatedApp = 'has_rated_app';
   static const kHasRatedAppTime = 'has_rated_app_time';
   static const kHasCompletedTutorial = 'has_completed_tutorial';
+  static const kAutoPlayOnLoopSelect = 'auto_play_on_loop_select';
+  static const kFullSongRepeatEnabled = 'full_song_repeat_enabled';
 
   final SharedPreferences sharedPreferences;
 
@@ -68,4 +70,16 @@ class LocalConfigRepository {
       DateTime.now().toIso8601String(),
     );
   }
+
+  /// Auto-play when selecting loops or navigating between them
+  bool get autoPlayOnLoopSelect => sharedPreferences.getBool(kAutoPlayOnLoopSelect) ?? true;
+
+  Future<void> setAutoPlayOnLoopSelect({required bool isEnabled}) =>
+      sharedPreferences.setBool(kAutoPlayOnLoopSelect, isEnabled);
+
+  /// Full song repeat - loops the entire song when playback completes
+  bool get fullSongRepeatEnabled => sharedPreferences.getBool(kFullSongRepeatEnabled) ?? false;
+
+  Future<void> setFullSongRepeatEnabled({required bool isEnabled}) =>
+      sharedPreferences.setBool(kFullSongRepeatEnabled, isEnabled);
 }

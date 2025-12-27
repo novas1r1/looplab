@@ -366,7 +366,26 @@ class AppLocalizationsKo extends AppLocalizations {
   String get changelogTitle => '변경 사항';
 
   @override
-  String get changelog150Title => '속도 변경 시 오디오 품질의 거대한 개선';
+  String get changelog1601Title => '1/3 루프 제어 개선';
+
+  @override
+  String get changelog1601Description =>
+      '이제 이전 또는 다음 버튼을 탭하여 이전 또는 다음 루프로 이동할 수 있습니다. 알림 및 잠금 화면에서도 사용할 수 있습니다.';
+
+  @override
+  String get changelog1602Title => '2/3 레이아웃 조정';
+
+  @override
+  String get changelog1602Description => '앱 레이아웃이 조정되어 사용자 경험이 향상되었습니다.';
+
+  @override
+  String get changelog1603Title => '3/3 전체 곡 반복';
+
+  @override
+  String get changelog1603Description => '이제 곡 메뉴에서 버튼을 탭하여 전체 곡을 반복할 수 있습니다.';
+
+  @override
+  String get changelog150Title => '루프 제어 개선';
 
   @override
   String get changelog150Description =>
@@ -665,4 +684,20 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get loops => '루프';
+
+  @override
+  String get songSettings => '곡 설정';
+
+  @override
+  String get playbackSettings => '재생';
+
+  @override
+  String get autoPlayOnLoopSelect => '루프 자동 재생';
+
+  @override
+  String get autoPlayOnLoopSelectDescription =>
+      '루프를 선택하거나 다음 또는 이전 루프로 이동하면 자동으로 루프가 재생됩니다';
+
+  @override
+  String get actions => '작업';
 }

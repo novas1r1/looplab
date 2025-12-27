@@ -381,6 +381,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
+  String get changelog1601Title =>
+      '1/3 Auto-Play when selecting loops or navigating between them';
+
+  @override
+  String get changelog1601Description =>
+      'In the song settings you can now enable or disable the automatic playback of loops and the entire song.';
+
+  @override
+  String get changelog1602Title => '2/3 Improved loop control';
+
+  @override
+  String get changelog1602Description =>
+      'You can now jump to the next or previous loop by tapping the previous or next button. Also in the notification and lock screen.';
+
+  @override
+  String get changelog1603Title => '3/3 Layout adjustments';
+
+  @override
+  String get changelog1603Description =>
+      'The layout of the app has been adjusted to improve the user experience.';
+
+  @override
   String get changelog150Title =>
       'Enorme Improvement of Audio Quality at Speed Changes';
 
@@ -689,4 +711,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loops => 'Loops';
+
+  @override
+  String get songSettings => 'Song Settings';
+
+  @override
+  String get playbackSettings => 'Playback';
+
+  @override
+  String get autoPlayOnLoopSelect => 'Auto-play Loops';
+
+  @override
+  String get autoPlayOnLoopSelectDescription =>
+      'Automatically start playing when selecting a loop or navigating to next/previous loop';
+
+  @override
+  String get actions => 'Actions';
 }

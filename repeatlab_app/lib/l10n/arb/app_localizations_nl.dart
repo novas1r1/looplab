@@ -382,12 +382,34 @@ class AppLocalizationsNl extends AppLocalizations {
   String get changelogTitle => 'Wijzigingen';
 
   @override
+  String get changelog1601Title =>
+      '1/3 Loops automatisch afspelen bij selecteren of navigeren tussen loops';
+
+  @override
+  String get changelog1601Description =>
+      'In de nummerinstellingen kun je nu loops en het hele nummer automatisch afspelen aanzetten of uitschakelen.';
+
+  @override
+  String get changelog1602Title => '2/3 Verbeterde loop controle';
+
+  @override
+  String get changelog1602Description =>
+      'Je kunt nu naar de volgende of vorige loop springen door op de vorige of volgende knop te tikken. Ook in de notificatie en de lock screen.';
+
+  @override
+  String get changelog1603Title => '3/3 Layout aanpassingen';
+
+  @override
+  String get changelog1603Description =>
+      'De layout van de app is aangepast om de gebruikerservaring te verbeteren.';
+
+  @override
   String get changelog150Title =>
-      'Enorme Verbesserung der Audio-Qualität bei Geschwindigkeitsänderungen';
+      'Grote verbetering van de audiokwaliteit bij snelheidswijzigingen';
 
   @override
   String get changelog150Description =>
-      'Die Audio-Qualität bei Geschwindigkeitsänderungen wurde erheblich verbessert. Dies ermöglicht eine bessere Wiedergabe von Loops mit unterschiedlichen Geschwindigkeiten.';
+      'De audio-kwaliteit bij snelheidswijzigingen is aanzienlijk verbeterd. Dit maakt het mogelijk om loops met verschillende snelheden beter af te spelen.';
 
   @override
   String get changelog140Title => '1/2 Loops Exporteren';
@@ -694,4 +716,20 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get loops => 'Loops';
+
+  @override
+  String get songSettings => 'Nummerinstellingen';
+
+  @override
+  String get playbackSettings => 'Afspelen';
+
+  @override
+  String get autoPlayOnLoopSelect => 'Loops automatisch afspelen';
+
+  @override
+  String get autoPlayOnLoopSelectDescription =>
+      'Loops worden automatisch afgespield wanneer je een loop selecteert of naar de volgende of vorige loop navigeert';
+
+  @override
+  String get actions => 'Acties';
 }

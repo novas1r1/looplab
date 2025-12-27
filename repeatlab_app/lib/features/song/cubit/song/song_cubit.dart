@@ -155,6 +155,7 @@ class SongCubit extends Cubit<SongState> {
 
     try {
       await audioHandler.customAction('setFullSongRepeat', {'enabled': newValue});
+      await localConfigRepository.setFullSongRepeatEnabled(isEnabled: newValue);
 
       emit(
         state.copyWith(
@@ -169,6 +170,31 @@ class SongCubit extends Cubit<SongState> {
         state.copyWith(
           status: SongStatus.error,
           error: 'Failed to toggle full song repeat: $ex',
+        ),
+      );
+    }
+  }
+
+  /// Toggle auto-play when selecting loops or navigating between them
+  Future<void> toggleAutoPlay() async {
+    final newValue = !state.isAutoPlayEnabled;
+
+    try {
+      await localConfigRepository.setAutoPlayOnLoopSelect(isEnabled: newValue);
+
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          isAutoPlayEnabled: newValue,
+          error: null,
+        ),
+      );
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to toggle auto-play: $ex',
         ),
       );
     }
@@ -250,8 +276,17 @@ class SongCubit extends Cubit<SongState> {
       // check if tutorial is completed
       final isTutorialCompleted = localConfigRepository.hasCompletedTutorial;
 
+      // load auto-play setting
+      final isAutoPlayEnabled = localConfigRepository.autoPlayOnLoopSelect;
+
+      // load full song repeat setting
+      final isFullSongRepeatEnabled = localConfigRepository.fullSongRepeatEnabled;
+
       // we need to disable loop mode here because the audio handler is not initialized yet
       await audioHandler.customAction('disableLoop');
+
+      // Apply full song repeat setting to audio handler
+      await audioHandler.customAction('setFullSongRepeat', {'enabled': isFullSongRepeatEnabled});
 
       // Sync loops with audio handler for navigation
       await audioHandler.customAction('setLoops', {'loops': state.song.loops});
@@ -264,6 +299,8 @@ class SongCubit extends Cubit<SongState> {
           status: SongStatus.loadSuccess,
           song: state.song,
           isTutorialCompleted: isTutorialCompleted,
+          isAutoPlayEnabled: isAutoPlayEnabled,
+          isFullSongRepeatEnabled: isFullSongRepeatEnabled,
           playerState: PlayerState.paused,
           error: null,
         ),
@@ -465,6 +502,11 @@ class SongCubit extends Cubit<SongState> {
           error: null,
         ),
       );
+
+      // Auto-play the loop if enabled
+      if (state.isAutoPlayEnabled) {
+        await audioHandler.play();
+      }
     } on TimeoutException catch (ex) {
       emit(
         state.copyWith(

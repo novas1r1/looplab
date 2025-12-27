@@ -127,6 +127,12 @@
     "cancelSubscription": "Annulla Abbonamento",
     "voteForFeatures": "Vota per le Funzionalità",
     "changelogTitle": "Changelog",
+    "changelog1601Title": "1/3 Riproduci loops o navighi tra di essi automaticamente",
+    "changelog1601Description": "In le impostazioni della canzone, ora puoi abilitare o disabilitare la riproduzione automatica dei loop e della canzone completa.",
+    "changelog1602Title": "2/3 Miglioramento del controllo dei loop",
+    "changelog1602Description": "Ora puoi saltare al loop successivo o precedente toccando il pulsante precedente o successivo. Questo è utile quando pratichi una canzone con un tempo diverso.",
+    "changelog1603Title": "3/3 Ajusti del layout",
+    "changelog1603Description": "Il layout dell'app è stato adattato per migliorare l'esperienza utente.",
     "changelog150Title": "Enorme Miglioramento della Qualità Audio ai Cambiamenti di Velocità",
     "changelog150Description": "La qualità audio ai cambiamenti di velocità è stata significativamente migliorata. Questo permette una migliore riproduzione dei loop con diverse velocità.",
     "changelog140Title": "1/2 Export Loops",
@@ -250,5 +256,25 @@
     "tapBpmDialogTitle": "Tocca BPM",
     "tapBpmDialogDescription": "Toca il pulsante qui sotto in ritmo con la tua musica per rilevare il BPM.",
     "tapBpmDialogButton": "Tocca BPM",
-    "loops": "Loops"
+    "loops": "Loops",
+    "autoPlayOnLoopSelect": "Riproduci Loops automaticamente",
+    "@autoPlayOnLoopSelect": {
+        "description": "Interruttore per la riproduzione automatica dei loop"
+    },
+    "autoPlayOnLoopSelectDescription": "Riproduce i loop automaticamente quando selezioni un loop o navighi al loop successivo o precedente",
+    "@autoPlayOnLoopSelectDescription": {
+        "description": "Descrizione per la riproduzione automatica dei loop"
+    },
+    "songSettings": "Impostazioni della Canzone",
+    "@songSettings": {
+        "description": "Titolo delle impostazioni della canzone nel menu"
+    },
+    "playbackSettings": "Riproduzione",
+    "@playbackSettings": {
+        "description": "Titolo delle impostazioni di riproduzione nel menu"
+    },
+    "actions": "Azioni",
+    "@actions": {
+        "description": "Titolo delle azioni nel menu"
+    }
 }

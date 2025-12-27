@@ -380,6 +380,28 @@ class AppLocalizationsPl extends AppLocalizations {
   String get changelogTitle => 'Zmiany';
 
   @override
+  String get changelog1601Title =>
+      '1/3 Automatyczne odtwarzanie pętli lub nawigacja między nimi';
+
+  @override
+  String get changelog1601Description =>
+      'W ustawieniach utworu możesz teraz włączyć lub wyłączyć automatyczne odtwarzanie pętli i całego utworu.';
+
+  @override
+  String get changelog1602Title => '2/3 Poprawiona kontrola pętli';
+
+  @override
+  String get changelog1602Description =>
+      'Możesz teraz przeskoczyć do następnej lub poprzedniej pętli, dotykając przycisku poprzedniego lub następnego. Także w powiadomieniu i ekranie blokady.';
+
+  @override
+  String get changelog1603Title => '3/3 Ajusty układu';
+
+  @override
+  String get changelog1603Description =>
+      'Układ aplikacji został zmieniony, aby poprawić doświadczenie użytkownika.';
+
+  @override
   String get changelog150Title =>
       'Enorme Ulepszenie Jakości Audio przy Zmianach Tempa';
 
@@ -691,4 +713,20 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get loops => 'Pętle';
+
+  @override
+  String get songSettings => 'Ustawienia utworu';
+
+  @override
+  String get playbackSettings => 'Odtwarzanie';
+
+  @override
+  String get autoPlayOnLoopSelect => 'Automatycznie odtwarzaj pętle';
+
+  @override
+  String get autoPlayOnLoopSelectDescription =>
+      'Pętle są automatycznie odtwarzane, gdy wybierasz pętlę lub przechodzisz do następnej lub poprzedniej pętli';
+
+  @override
+  String get actions => 'Akcje';
 }

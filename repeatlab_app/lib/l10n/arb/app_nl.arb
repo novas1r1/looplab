@@ -127,8 +127,14 @@
     "cancelSubscription": "Abonnement Opzeggen",
     "voteForFeatures": "Functies Voorstellen",
     "changelogTitle": "Wijzigingen",
-    "changelog150Title": "Enorme Verbesserung der Audio-Qualität bei Geschwindigkeitsänderungen",
-    "changelog150Description": "Die Audio-Qualität bei Geschwindigkeitsänderungen wurde erheblich verbessert. Dies ermöglicht eine bessere Wiedergabe von Loops mit unterschiedlichen Geschwindigkeiten.",
+    "changelog1601Title": "1/3 Loops automatisch afspelen bij selecteren of navigeren tussen loops",
+    "changelog1601Description": "In de nummerinstellingen kun je nu loops en het hele nummer automatisch afspelen aanzetten of uitschakelen.",
+    "changelog1602Title": "2/3 Verbeterde loop controle",
+    "changelog1602Description": "Je kunt nu naar de volgende of vorige loop springen door op de vorige of volgende knop te tikken. Ook in de notificatie en de lock screen.",
+    "changelog1603Title": "3/3 Layout aanpassingen",
+    "changelog1603Description": "De layout van de app is aangepast om de gebruikerservaring te verbeteren.",
+    "changelog150Title": "Grote verbetering van de audiokwaliteit bij snelheidswijzigingen",
+    "changelog150Description": "De audio-kwaliteit bij snelheidswijzigingen is aanzienlijk verbeterd. Dit maakt het mogelijk om loops met verschillende snelheden beter af te spelen.",
     "changelog140Title": "1/2 Loops Exporteren",
     "changelog140Description": "Je kunt nu loops exporteren met verschillende formaten en kwaliteiten.",
     "changelog1402Title": "2/2 Bug Fixes & Design Optimizations",
@@ -250,5 +256,25 @@
     "tapBpmDialogTitle": "BPM tikken",
     "tapBpmDialogDescription": "Tik de knop hieronder in ritme met je muziek om de BPM te detecteren.",
     "tapBpmDialogButton": "BPM tikken",
-    "loops": "Loops"
+    "loops": "Loops",
+    "autoPlayOnLoopSelect": "Loops automatisch afspelen",
+    "@autoPlayOnLoopSelect": {
+        "description": "Uitschakelaar voor het automatisch afspelen van loops"
+    },
+    "autoPlayOnLoopSelectDescription": "Loops worden automatisch afgespield wanneer je een loop selecteert of naar de volgende of vorige loop navigeert",
+    "@autoPlayOnLoopSelectDescription": {
+        "description": "Beschrijving voor het automatisch afspelen van loops"
+    },
+    "songSettings": "Nummerinstellingen",
+    "@songSettings": {
+        "description": "Titel van nummerinstellingen in het menu"
+    },
+    "playbackSettings": "Afspelen",
+    "@playbackSettings": {
+        "description": "Titel van afspelinstellingen in het menu"
+    },
+    "actions": "Acties",
+    "@actions": {
+        "description": "Titel van acties in het menu"
+    }
 }

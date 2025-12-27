@@ -367,6 +367,26 @@ class AppLocalizationsJa extends AppLocalizations {
   String get changelogTitle => '変更履歴';
 
   @override
+  String get changelog1601Title => '1/3 ループを選択したり、それらの間をナビゲートしたりすると、自動的に再生されます';
+
+  @override
+  String get changelog1601Description =>
+      '曲の設定で、ループと全曲の自動再生を有効または無効にできるようになりました。';
+
+  @override
+  String get changelog1602Title => '2/3 ループ制御の改善';
+
+  @override
+  String get changelog1602Description =>
+      '前のループまたは次のループにジャンプするには、前のボタンまたは次のボタンをタップします。通知画面とロック画面でも使用できます。';
+
+  @override
+  String get changelog1603Title => '3/3 レイアウトの調整';
+
+  @override
+  String get changelog1603Description => 'アプリのレイアウトが調整され、ユーザーエクスペリエンスが向上しました。';
+
+  @override
   String get changelog150Title => '速度変更時のオーディオ品質の大幅な改善';
 
   @override
@@ -667,4 +687,20 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get loops => 'ループ';
+
+  @override
+  String get songSettings => '曲の設定';
+
+  @override
+  String get playbackSettings => '再生';
+
+  @override
+  String get autoPlayOnLoopSelect => 'ループを自動再生';
+
+  @override
+  String get autoPlayOnLoopSelectDescription =>
+      'ループを選択したり、次のループまたは前のループに移動したりすると、自動的にループが再生されます';
+
+  @override
+  String get actions => 'アクション';
 }

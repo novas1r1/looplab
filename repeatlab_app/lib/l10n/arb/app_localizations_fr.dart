@@ -387,6 +387,28 @@ class AppLocalizationsFr extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
+  String get changelog1601Title =>
+      '1/3 Reproduire les boucles ou naviguer entre elles automatiquement';
+
+  @override
+  String get changelog1601Description =>
+      'Dans les paramètres de la chanson, vous pouvez maintenant activer ou désactiver la reproduction automatique des boucles et de la chanson entière.';
+
+  @override
+  String get changelog1602Title => '2/3 Amélioration du contrôle des boucles';
+
+  @override
+  String get changelog1602Description =>
+      'Vous pouvez maintenant sauter à la boucle suivante ou précédente en touchant le bouton précédent ou suivant. Aussi dans les notifications et l\'écran de verrouillage.';
+
+  @override
+  String get changelog1603Title => '3/3 Ajustements de l\'interface';
+
+  @override
+  String get changelog1603Description =>
+      'L\'interface de l\'app a été ajustée pour améliorer l\'expérience utilisateur.';
+
+  @override
   String get changelog150Title =>
       'Enorme Amélioration de la Qualité Audio aux Changements de Vitesse';
 
@@ -395,7 +417,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'La qualité audio aux changements de vitesse a été significativement améliorée. Cela permet une meilleure reproduction des boucles avec différentes vitesses.';
 
   @override
-  String get changelog140Title => '1/2 Export Loops';
+  String get changelog140Title => '1/2 Exporter les boucles';
 
   @override
   String get changelog140Description =>
@@ -700,4 +722,20 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get loops => 'Boucles';
+
+  @override
+  String get songSettings => 'Paramètres de la Chanson';
+
+  @override
+  String get playbackSettings => 'Lecture';
+
+  @override
+  String get autoPlayOnLoopSelect => 'Reproduire les Boucles automatiquement';
+
+  @override
+  String get autoPlayOnLoopSelectDescription =>
+      'Reproduit les boucles automatiquement lorsque vous sélectionnez une boucle ou naviguez vers la boucle suivante ou précédente';
+
+  @override
+  String get actions => 'Actions';
 }

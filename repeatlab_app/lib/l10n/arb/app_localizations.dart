@@ -792,6 +792,42 @@ abstract class AppLocalizations {
   /// **'Changelog'**
   String get changelogTitle;
 
+  /// No description provided for @changelog1601Title.
+  ///
+  /// In en, this message translates to:
+  /// **'1/3 Auto-Play when selecting loops or navigating between them'**
+  String get changelog1601Title;
+
+  /// No description provided for @changelog1601Description.
+  ///
+  /// In en, this message translates to:
+  /// **'In the song settings you can now enable or disable the automatic playback of loops and the entire song.'**
+  String get changelog1601Description;
+
+  /// No description provided for @changelog1602Title.
+  ///
+  /// In en, this message translates to:
+  /// **'2/3 Improved loop control'**
+  String get changelog1602Title;
+
+  /// No description provided for @changelog1602Description.
+  ///
+  /// In en, this message translates to:
+  /// **'You can now jump to the next or previous loop by tapping the previous or next button. Also in the notification and lock screen.'**
+  String get changelog1602Description;
+
+  /// No description provided for @changelog1603Title.
+  ///
+  /// In en, this message translates to:
+  /// **'3/3 Layout adjustments'**
+  String get changelog1603Title;
+
+  /// No description provided for @changelog1603Description.
+  ///
+  /// In en, this message translates to:
+  /// **'The layout of the app has been adjusted to improve the user experience.'**
+  String get changelog1603Description;
+
   /// No description provided for @changelog150Title.
   ///
   /// In en, this message translates to:
@@ -1349,6 +1385,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Loops'**
   String get loops;
+
+  /// Title for the song settings bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Song Settings'**
+  String get songSettings;
+
+  /// Section title for playback related settings
+  ///
+  /// In en, this message translates to:
+  /// **'Playback'**
+  String get playbackSettings;
+
+  /// Toggle setting for auto-playing when selecting a loop
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-play Loops'**
+  String get autoPlayOnLoopSelect;
+
+  /// Description for auto-play setting
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically start playing when selecting a loop or navigating to next/previous loop'**
+  String get autoPlayOnLoopSelectDescription;
+
+  /// Section title for action buttons in settings
+  ///
+  /// In en, this message translates to:
+  /// **'Actions'**
+  String get actions;
 }
 
 class _AppLocalizationsDelegate

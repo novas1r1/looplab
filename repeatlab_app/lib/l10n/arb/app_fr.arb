@@ -128,9 +128,15 @@
     "cancelSubscription": "Annuler l'Abonnement",
     "voteForFeatures": "Voter pour les Fonctionnalités",
     "changelogTitle": "Changelog",
+    "changelog1601Title": "1/3 Reproduire les boucles ou naviguer entre elles automatiquement",
+    "changelog1601Description": "Dans les paramètres de la chanson, vous pouvez maintenant activer ou désactiver la reproduction automatique des boucles et de la chanson entière.",
+    "changelog1602Title": "2/3 Amélioration du contrôle des boucles",
+    "changelog1602Description": "Vous pouvez maintenant sauter à la boucle suivante ou précédente en touchant le bouton précédent ou suivant. Aussi dans les notifications et l'écran de verrouillage.",
+    "changelog1603Title": "3/3 Ajustements de l'interface",
+    "changelog1603Description": "L'interface de l'app a été ajustée pour améliorer l'expérience utilisateur.",
     "changelog150Title": "Enorme Amélioration de la Qualité Audio aux Changements de Vitesse",
     "changelog150Description": "La qualité audio aux changements de vitesse a été significativement améliorée. Cela permet une meilleure reproduction des boucles avec différentes vitesses.",
-    "changelog140Title": "1/2 Export Loops",
+    "changelog140Title": "1/2 Exporter les boucles",
     "changelog140Description": "Vous pouvez maintenant exporter des boucles avec différents formats et qualités.",
     "changelog1402Title": "2/2 Corrections de bugs et optimisations de design",
     "changelog1402Description": "Plusieurs bugs ont été corrigés et le design optimisé.",
@@ -250,5 +256,25 @@
     "tapBpmDialogTitle": "Taper le BPM",
     "tapBpmDialogDescription": "Tapez le bouton ci-dessous en rythme avec votre musique pour détecter le BPM.",
     "tapBpmDialogButton": "Taper le BPM",
-    "loops": "Boucles"
+    "loops": "Boucles",
+    "autoPlayOnLoopSelect": "Reproduire les Boucles automatiquement",
+    "@autoPlayOnLoopSelect": {
+        "description": "Interrupteur pour la reproduction automatique des boucles"
+    },
+    "autoPlayOnLoopSelectDescription": "Reproduit les boucles automatiquement lorsque vous sélectionnez une boucle ou naviguez vers la boucle suivante ou précédente",
+    "@autoPlayOnLoopSelectDescription": {
+        "description": "Description pour la reproduction automatique des boucles"
+    },
+    "songSettings": "Paramètres de la Chanson",
+    "@songSettings": {
+        "description": "Titre des paramètres de la chanson dans le menu"
+    },
+    "playbackSettings": "Lecture",
+    "@playbackSettings": {
+        "description": "Titre des paramètres de lecture dans le menu"
+    },
+    "actions": "Actions",
+    "@actions": {
+        "description": "Titre des actions dans le menu"
+    }
 }

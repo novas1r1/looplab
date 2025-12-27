@@ -378,7 +378,29 @@ class AppLocalizationsSv extends AppLocalizations {
   String get voteForFeatures => 'Funktioner förfråga';
 
   @override
-  String get changelogTitle => 'Changelog';
+  String get changelogTitle => 'Ändringar';
+
+  @override
+  String get changelog1601Title =>
+      '1/3 Automatisk Spelning vid Loop-val eller Navigering mellan loopar';
+
+  @override
+  String get changelog1601Description =>
+      'I låtinställningarna kan du nu aktivera eller inaktivera automatisk spelning av loopar och hela låten.';
+
+  @override
+  String get changelog1602Title => '2/3 Förbättrad Loopkontroll';
+
+  @override
+  String get changelog1602Description =>
+      'Du kan nu hoppa till nästa eller föregående loop genom att trycka på föregående eller nästa knapp. Också i meddelandet och låsskärmen.';
+
+  @override
+  String get changelog1603Title => '3/3 Layoutjusteringar';
+
+  @override
+  String get changelog1603Description =>
+      'Layouten av appen har justerats för att förbättra användarupplevelsen.';
 
   @override
   String get changelog150Title =>
@@ -690,4 +712,20 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get loops => 'Loopar';
+
+  @override
+  String get songSettings => 'Låtinställningar';
+
+  @override
+  String get playbackSettings => 'Spelning';
+
+  @override
+  String get autoPlayOnLoopSelect => 'Spela upp Loopar automatiskt';
+
+  @override
+  String get autoPlayOnLoopSelectDescription =>
+      'Spela upp Loopar automatiskt när du väljer en loop eller navigerar till nästa eller föregående loop';
+
+  @override
+  String get actions => 'Åtgärder';
 }

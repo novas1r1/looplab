@@ -130,6 +130,12 @@
     "purchaseSuccess": "购买成功。感谢您支持开发者 ❤️！",
     "voteForFeatures": "功能投票",
     "changelogTitle": "更新日志",
+    "changelog1601Title": "1/3 选择循环或导航之间自动播放",
+    "changelog1601Description": "在歌曲设置中，您现在可以启用或禁用循环和整个歌曲的自动播放。",
+    "changelog1602Title": "2/3 改进循环控制",
+    "changelog1602Description": "您现在可以通过点击上一个或下一个按钮跳转到上一个或下一个循环。这在练习不同速度的歌曲时很有用。",
+    "changelog1603Title": "3/3 布局调整",
+    "changelog1603Description": "应用程序布局已调整以改善用户体验。",
     "changelog150Title": "速度变化时音频质量的巨大改进",
     "changelog150Description": "速度变化时的音频质量得到了显著改进。这允许更好地播放不同速度的循环。",
     "changelog140Title": "1/2 导出循环",
@@ -254,5 +260,25 @@
     "tapBpmDialogTitle": "点击 BPM",
     "tapBpmDialogDescription": "点击下面的按钮，在节奏中与您的音乐一起检测 BPM。",
     "tapBpmDialogButton": "点击 BPM",
-    "loops": "循环"
+    "loops": "循环",
+    "autoPlayOnLoopSelect": "自动播放循环",
+    "@autoPlayOnLoopSelect": {
+        "description": "自动播放循环的开关"
+    },
+    "autoPlayOnLoopSelectDescription": "当选择循环或导航到下一个或上一个循环时自动播放循环",
+    "@autoPlayOnLoopSelectDescription": {
+        "description": "自动播放循环的描述"
+    },
+    "songSettings": "歌曲设置",
+    "@songSettings": {
+        "description": "菜单中的歌曲设置标题"
+    },
+    "playbackSettings": "播放设置",
+    "@playbackSettings": {
+        "description": "菜单中的播放设置标题"
+    },
+    "actions": "操作",
+    "@actions": {
+        "description": "菜单中的操作标题"
+    }
 }

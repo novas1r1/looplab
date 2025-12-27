@@ -379,6 +379,28 @@ class AppLocalizationsAr extends AppLocalizations {
   String get changelogTitle => 'سجل التغييرات';
 
   @override
+  String get changelog1601Title =>
+      '1/3 تشغيل تلقائي عند تحديد حلقات أو التنقل بينهم';
+
+  @override
+  String get changelog1601Description =>
+      'في إعدادات الأغنية، يمكنك الآن تمكين أو تعطيل التشغيل التلقائي للحلقات والأغنية بأكملها.';
+
+  @override
+  String get changelog1602Title => '2/3 تحسين تحكم الحلقات';
+
+  @override
+  String get changelog1602Description =>
+      'يمكنك الآن القفز إلى الحلقة التالية أو السابقة بالنقر على الزر السابق أو التالي. أيضًا في الإشعارات ووضع القفل.';
+
+  @override
+  String get changelog1603Title => '3/3 تعديلات التخطيط';
+
+  @override
+  String get changelog1603Description =>
+      'تم تعديل تخطيط التطبيق لتحسين تجربة المستخدم.';
+
+  @override
   String get changelog150Title => 'تحسين كبير في جودة الصوت عند تغيير السرعة';
 
   @override
@@ -682,4 +704,20 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get loops => 'الحلقات';
+
+  @override
+  String get songSettings => 'إعدادات الأغنية';
+
+  @override
+  String get playbackSettings => 'التشغيل';
+
+  @override
+  String get autoPlayOnLoopSelect => 'تشغيل الحلقات تلقائيًا';
+
+  @override
+  String get autoPlayOnLoopSelectDescription =>
+      'تشغيل الحلقات تلقائيًا عند تحديد حلقة أو التنقل إلى الحلقة التالية أو السابقة';
+
+  @override
+  String get actions => 'الإجراءات';
 }

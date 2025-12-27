@@ -134,6 +134,12 @@
     "purchaseSuccess": "Purchase successful. Thank you for supporting the developer ❤️!",
     "voteForFeatures": "Vote for Features",
     "changelogTitle": "Changelog",
+    "changelog1601Title": "1/3 Auto-Play when selecting loops or navigating between them",
+    "changelog1601Description": "In the song settings you can now enable or disable the automatic playback of loops and the entire song.",
+    "changelog1602Title": "2/3 Improved loop control",
+    "changelog1602Description": "You can now jump to the next or previous loop by tapping the previous or next button. Also in the notification and lock screen.",
+    "changelog1603Title": "3/3 Layout adjustments",
+    "changelog1603Description": "The layout of the app has been adjusted to improve the user experience.",
     "changelog150Title": "Enorme Improvement of Audio Quality at Speed Changes",
     "changelog150Description": "The audio quality at speed changes has been significantly improved. This allows for a better playback of loops with different speeds.",
     "changelog140Title": "1/2 Export Loops",
@@ -252,5 +258,25 @@
     "setBpm": "SET",
     "originalBpm": "ORIGINAL BPM",
     "currentBpm": "CURRENT BPM",
-    "loops": "Loops"
+    "loops": "Loops",
+    "songSettings": "Song Settings",
+    "@songSettings": {
+        "description": "Title for the song settings bottom sheet"
+    },
+    "playbackSettings": "Playback",
+    "@playbackSettings": {
+        "description": "Section title for playback related settings"
+    },
+    "autoPlayOnLoopSelect": "Auto-play Loops",
+    "@autoPlayOnLoopSelect": {
+        "description": "Toggle setting for auto-playing when selecting a loop"
+    },
+    "autoPlayOnLoopSelectDescription": "Automatically start playing when selecting a loop or navigating to next/previous loop",
+    "@autoPlayOnLoopSelectDescription": {
+        "description": "Description for auto-play setting"
+    },
+    "actions": "Actions",
+    "@actions": {
+        "description": "Section title for action buttons in settings"
+    }
 }

@@ -127,6 +127,12 @@
     "cancelSubscription": "Anuluj Subskrypcję",
     "voteForFeatures": "Głosuj na Funkcje",
     "changelogTitle": "Zmiany",
+    "changelog1601Title": "1/3 Automatyczne odtwarzanie pętli lub nawigacja między nimi",
+    "changelog1601Description": "W ustawieniach utworu możesz teraz włączyć lub wyłączyć automatyczne odtwarzanie pętli i całego utworu.",
+    "changelog1602Title": "2/3 Poprawiona kontrola pętli",
+    "changelog1602Description": "Możesz teraz przeskoczyć do następnej lub poprzedniej pętli, dotykając przycisku poprzedniego lub następnego. Także w powiadomieniu i ekranie blokady.",
+    "changelog1603Title": "3/3 Ajusty układu",
+    "changelog1603Description": "Układ aplikacji został zmieniony, aby poprawić doświadczenie użytkownika.",
     "changelog150Title": "Enorme Ulepszenie Jakości Audio przy Zmianach Tempa",
     "changelog150Description": "Jakość audio przy zmianach tempa została znacząco ulepszona. To pozwala na lepszą odtwarzanie pętli z różnymi tempami.",
     "changelog140Title": "1/2 Eksportuj Pętle",
@@ -250,5 +256,25 @@
     "tapBpmDialogTitle": "Tocz BPM",
     "tapBpmDialogDescription": "Tocz przycisk poniżej w rytmie z muzyką, aby wykryć BPM.",
     "tapBpmDialogButton": "Tocz BPM",
-    "loops": "Pętle"
+    "loops": "Pętle",
+    "autoPlayOnLoopSelect": "Automatycznie odtwarzaj pętle",
+    "@autoPlayOnLoopSelect": {
+        "description": "Przełącznik do automatycznego odtwarzania pętli"
+    },
+    "autoPlayOnLoopSelectDescription": "Pętle są automatycznie odtwarzane, gdy wybierasz pętlę lub przechodzisz do następnej lub poprzedniej pętli",
+    "@autoPlayOnLoopSelectDescription": {
+        "description": "Opis dla automatycznego odtwarzania pętli"
+    },
+    "songSettings": "Ustawienia utworu",
+    "@songSettings": {
+        "description": "Tytuł ustawień utworu w menu"
+    },
+    "playbackSettings": "Odtwarzanie",
+    "@playbackSettings": {
+        "description": "Tytuł ustawień odtwarzania w menu"
+    },
+    "actions": "Akcje",
+    "@actions": {
+        "description": "Tytuł akcji w menu"
+    }
 }

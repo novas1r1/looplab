@@ -380,6 +380,28 @@ class AppLocalizationsHi extends AppLocalizations {
   String get changelogTitle => 'परिवर्तन लॉग';
 
   @override
+  String get changelog1601Title =>
+      '1/3 लूप चुनते हैं या अगले या पिछले लूप पर नेविगेट करते हैं तो स्वचालित रूप से लूप चलाएं';
+
+  @override
+  String get changelog1601Description =>
+      'गीत सेटिंग्स में अब आप लूप और पूरा गीत की स्वचालित रूप से चलाना सक्रिय या अक्षम कर सकते हैं।';
+
+  @override
+  String get changelog1602Title => '2/3 लूप नियंत्रण में सुधार';
+
+  @override
+  String get changelog1602Description =>
+      'अब आप पिछले या अगले बटन पर क्लिक करके अगले या पिछले लूप पर जा सकते हैं। इसे नोटिफिकेशन और लॉक स्क्रीन पर भी किया जा सकता है।';
+
+  @override
+  String get changelog1603Title => '3/3 लेआउट समायोजन';
+
+  @override
+  String get changelog1603Description =>
+      'ऐप का लेआउट उपयोगकर्ता अनुभव को सुधारने के लिए समायोजित किया गया है।';
+
+  @override
   String get changelog150Title =>
       'गति परिवर्तनों पर ऑडियो की गुणवत्ता में विशाल सुधार';
 
@@ -690,4 +712,20 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get loops => 'लूप';
+
+  @override
+  String get songSettings => 'गीत सेटिंग्स';
+
+  @override
+  String get playbackSettings => 'प्लेबैक';
+
+  @override
+  String get autoPlayOnLoopSelect => 'लूप स्वचालित रूप से चलाएं';
+
+  @override
+  String get autoPlayOnLoopSelectDescription =>
+      'लूप चुनते हैं या अगले या पिछले लूप पर नेविगेट करते हैं तो स्वचालित रूप से लूप चलाएं';
+
+  @override
+  String get actions => 'क्रियाएं';
 }

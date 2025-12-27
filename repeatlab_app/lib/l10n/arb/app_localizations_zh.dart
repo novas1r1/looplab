@@ -360,6 +360,25 @@ class AppLocalizationsZh extends AppLocalizations {
   String get changelogTitle => '更新日志';
 
   @override
+  String get changelog1601Title => '1/3 选择循环或导航之间自动播放';
+
+  @override
+  String get changelog1601Description => '在歌曲设置中，您现在可以启用或禁用循环和整个歌曲的自动播放。';
+
+  @override
+  String get changelog1602Title => '2/3 改进循环控制';
+
+  @override
+  String get changelog1602Description =>
+      '您现在可以通过点击上一个或下一个按钮跳转到上一个或下一个循环。这在练习不同速度的歌曲时很有用。';
+
+  @override
+  String get changelog1603Title => '3/3 布局调整';
+
+  @override
+  String get changelog1603Description => '应用程序布局已调整以改善用户体验。';
+
+  @override
   String get changelog150Title => '速度变化时音频质量的巨大改进';
 
   @override
@@ -652,4 +671,19 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get loops => '循环';
+
+  @override
+  String get songSettings => '歌曲设置';
+
+  @override
+  String get playbackSettings => '播放设置';
+
+  @override
+  String get autoPlayOnLoopSelect => '自动播放循环';
+
+  @override
+  String get autoPlayOnLoopSelectDescription => '当选择循环或导航到下一个或上一个循环时自动播放循环';
+
+  @override
+  String get actions => '操作';
 }
