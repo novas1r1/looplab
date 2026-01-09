@@ -100,11 +100,9 @@ packages:
   audioplayers:
     dependency: "direct main"
     description:
-      path: "packages/audioplayers"
-      ref: "feat/signalsmith"
-      resolved-ref: ee317061a99b51cc76330fe275a46b0cac5798fb
-      url: "https://github.com/novas1r1/audioplayers.git"
-    source: git
+      path: "../../packages/audioplayers/packages/audioplayers"
+      relative: true
+    source: path
     version: "6.5.1"
   audioplayers_android:
     dependency: transitive
@@ -117,11 +115,9 @@ packages:
   audioplayers_android_exo:
     dependency: "direct main"
     description:
-      path: "packages/audioplayers_android_exo"
-      ref: "feat/signalsmith"
-      resolved-ref: ee317061a99b51cc76330fe275a46b0cac5798fb
-      url: "https://github.com/novas1r1/audioplayers.git"
-    source: git
+      path: "../../packages/audioplayers/packages/audioplayers_android_exo"
+      relative: true
+    source: path
     version: "0.1.2+1"
   audioplayers_darwin:
     dependency: transitive
