@@ -4,7 +4,6 @@ import 'package:flutter_auto_size_text/flutter_auto_size_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
-import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/features/speed_control/view/speed_control.dart';
 
@@ -100,18 +99,8 @@ class SongController extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        BlocSelector<SongCubit, SongState, Song>(
-          selector: (state) => state.song,
-          builder: (context, song) {
-            return SpeedControl(
-              onSpeedMultiplierChanged: (value) =>
-                  context.read<SongCubit>().updateSpeed(multiplier: value),
-              onSpeedBpmChanged: (value) => context.read<SongCubit>().updateSpeed(bpm: value),
-              onOriginalBpmChanged: (value) => context.read<SongCubit>().updateOriginalBpm(value),
-              song: song,
-            );
-          },
-        ),
+        // SpeedControl now reads state directly from SongCubit - no callbacks needed
+        const SpeedControl(),
       ],
     );
   }

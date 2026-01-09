@@ -294,6 +294,15 @@ class SongCubit extends Cubit<SongState> {
       // Listen to navigation events from notification/Bluetooth controls
       _navigationSubscription = audioHandler.navigationEvents.listen(_handleNavigationEvent);
 
+      // Initialize speed control state - always reset to 1.0 on song open
+      final songBpm = state.song.bpm;
+      int? initialMinBpm;
+      int? initialMaxBpm;
+      if (songBpm != null && songBpm > 0) {
+        initialMinBpm = (songBpm * 0.5).round().clamp(1, songBpm);
+        initialMaxBpm = (songBpm * 2.0).round().clamp(songBpm, 400);
+      }
+
       emit(
         state.copyWith(
           status: SongStatus.loadSuccess,
@@ -302,6 +311,13 @@ class SongCubit extends Cubit<SongState> {
           isAutoPlayEnabled: isAutoPlayEnabled,
           isFullSongRepeatEnabled: isFullSongRepeatEnabled,
           playerState: PlayerState.paused,
+          // Speed control state - reset to 1.0 on song open
+          speed: 1.0,
+          tempoMode: TempoMode.multiplier,
+          originalBpm: songBpm,
+          currentBpm: songBpm, // Start at original BPM (speed 1.0)
+          minBpm: initialMinBpm,
+          maxBpm: initialMaxBpm,
           error: null,
         ),
       );
@@ -841,98 +857,184 @@ class SongCubit extends Cubit<SongState> {
     }
   }
 
-  // Add new method
-  Future<void> updateSpeed({
-    double? multiplier,
-    int? bpm,
-  }) async {
-    if (multiplier == null && bpm == null) {
-      dev.log('Either multiplier or bpm must be provided');
+  // ==================== SPEED CONTROL METHODS ====================
+
+  /// Switch between multiplier mode (0.5x-2.0x) and BPM mode
+  void setTempoMode(TempoMode mode) {
+    dev.log('setTempoMode: $mode', name: 'SongCubit');
+    emit(state.copyWith(tempoMode: mode));
+  }
+
+  /// Update speed using a multiplier value (0.5 to 2.0).
+  /// If originalBpm is set, also updates currentBpm accordingly.
+  Future<void> setSpeedByMultiplier(double multiplier) async {
+    dev.log('setSpeedByMultiplier: $multiplier', name: 'SongCubit');
+
+    try {
+      final normalizedSpeed = multiplier.clamp(_minPlaybackSpeed, _maxPlaybackSpeed);
+      // Round to 1 decimal place
+      final roundedSpeed = double.tryParse(normalizedSpeed.toStringAsFixed(1)) ?? 1.0;
+
+      // Apply speed to audio handler
+      await audioHandler.setSpeed(roundedSpeed);
+
+      // Calculate currentBpm if originalBpm is set
+      int? newCurrentBpm;
+      if (state.originalBpm != null) {
+        newCurrentBpm = (state.originalBpm! * roundedSpeed).round();
+      }
+
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          speed: roundedSpeed,
+          currentBpm: newCurrentBpm,
+          error: null,
+        ),
+      );
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      dev.log('Failed to set speed by multiplier: $ex', name: 'SongCubit');
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to update speed: $ex',
+        ),
+      );
+    }
+  }
+
+  /// Update speed using a BPM value.
+  /// Requires originalBpm to be set. Calculates speed as currentBpm/originalBpm.
+  Future<void> setSpeedByBpm(int bpm) async {
+    dev.log('setSpeedByBpm: $bpm', name: 'SongCubit');
+
+    if (state.originalBpm == null || state.originalBpm! <= 0) {
+      dev.log('Cannot set speed by BPM: originalBpm not set', name: 'SongCubit');
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Original BPM must be set first',
+        ),
+      );
       return;
     }
 
-    dev.log('updateSpeed: multiplier: $multiplier, bpm: $bpm');
-
     try {
-      double? speed;
-
-      if (multiplier != null) {
-        speed = multiplier;
-      } else if (bpm != null) {
-        // check if song bpm was set
-        if (state.song.bpm == null) {
-          emit(
-            state.copyWith(
-              status: SongStatus.error,
-              error: 'Failed to update speed: BPM is not set',
-            ),
-          );
-          return;
-        }
-
-        final originalBpm = state.song.bpm!;
-        if (originalBpm <= 0) {
-          emit(
-            state.copyWith(
-              status: SongStatus.error,
-              error: 'Failed to update speed: BPM must be greater than zero',
-            ),
-          );
-          return;
-        }
-
-        speed = bpm / originalBpm;
-      }
-
-      if (speed == null) {
-        emit(
-          state.copyWith(
-            status: SongStatus.error,
-            error: 'Failed to update speed: BPM is not set',
-          ),
-        );
-        return;
-      }
-
-      if (!speed.isFinite || speed <= 0) {
-        emit(
-          state.copyWith(
-            status: SongStatus.error,
-            error: 'Failed to update speed: invalid value $speed',
-          ),
-        );
-        return;
-      }
-
+      // Calculate speed from BPM ratio
+      final speed = bpm / state.originalBpm!;
       final normalizedSpeed = speed.clamp(_minPlaybackSpeed, _maxPlaybackSpeed);
-      // rounded to 1 decimal place
-      final roundedSpeed = double.tryParse(normalizedSpeed.toStringAsFixed(1)) ?? 1.0;
-      dev.log('roundedSpeed: $roundedSpeed');
+      final roundedSpeed = double.tryParse(normalizedSpeed.toStringAsFixed(2)) ?? 1.0;
 
-      // update the song
-      final updatedSong = state.song.copyWith(currentBpm: bpm);
-      await songRepository.updateSong(updatedSong);
-
+      // Apply speed to audio handler
       await audioHandler.setSpeed(roundedSpeed);
 
       emit(
         state.copyWith(
           status: SongStatus.updated,
           speed: roundedSpeed,
-          song: updatedSong,
+          currentBpm: bpm,
+          error: null,
         ),
       );
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
-      dev.log('Failed to update speed: $ex');
+      dev.log('Failed to set speed by BPM: $ex', name: 'SongCubit');
       emit(
         state.copyWith(
           status: SongStatus.error,
-          error: 'Failed to update speed to $multiplier or $bpm',
+          error: 'Failed to update speed: $ex',
         ),
       );
     }
   }
+
+  /// Set or clear the original BPM for the song.
+  /// When set, calculates min/max BPM bounds and sets currentBpm to originalBpm.
+  /// When cleared (null), clears all BPM-related state.
+  Future<void> setOriginalBpm(int? bpm) async {
+    dev.log('setOriginalBpm: $bpm', name: 'SongCubit');
+
+    try {
+      // Persist to song model
+      final updatedSong = state.song.copyWith(bpm: bpm);
+      await songRepository.updateSong(updatedSong);
+
+      if (bpm != null && bpm > 0) {
+        // Calculate BPM bounds (0.5x to 2.0x of original)
+        final minBpm = (bpm * 0.5).round().clamp(1, bpm);
+        final maxBpm = (bpm * 2.0).round().clamp(bpm, 400);
+
+        emit(
+          state.copyWith(
+            status: SongStatus.updated,
+            song: updatedSong,
+            originalBpm: bpm,
+            currentBpm: bpm,
+            minBpm: minBpm,
+            maxBpm: maxBpm,
+            speed: 1.0, // Reset speed to 1.0 when setting original BPM
+            error: null,
+          ),
+        );
+
+        // Reset audio handler speed to 1.0
+        await audioHandler.setSpeed(1.0);
+      } else {
+        // Clear all BPM-related state
+        emit(
+          state.copyWith(
+            status: SongStatus.updated,
+            song: updatedSong,
+            originalBpm: null,
+            currentBpm: null,
+            minBpm: null,
+            maxBpm: null,
+            error: null,
+          ),
+        );
+      }
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      dev.log('Failed to set original BPM: $ex', name: 'SongCubit');
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to set original BPM: $ex',
+        ),
+      );
+    }
+  }
+
+  /// Reset speed to 1.0 (original tempo).
+  /// If originalBpm is set, also resets currentBpm to originalBpm.
+  Future<void> resetSpeed() async {
+    dev.log('resetSpeed', name: 'SongCubit');
+
+    try {
+      await audioHandler.setSpeed(1.0);
+
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          speed: 1.0,
+          currentBpm: state.originalBpm, // Reset to original if set, null otherwise
+          error: null,
+        ),
+      );
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      dev.log('Failed to reset speed: $ex', name: 'SongCubit');
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to reset speed: $ex',
+        ),
+      );
+    }
+  }
+
+  // ==================== END SPEED CONTROL METHODS ====================
 
   Future<void> updateLoopOrder(List<Loop> newLoops) async {
     try {
@@ -957,34 +1059,6 @@ class SongCubit extends Cubit<SongState> {
         state.copyWith(
           status: SongStatus.error,
           error: 'Failed to update loop order: $ex',
-        ),
-      );
-    }
-  }
-
-  /// Persist the original BPM for the current song. This does **not** change
-  /// the playback speed directly; it merely stores the value so that the UI
-  /// can convert BPM values into speed multipliers.
-  Future<void> updateOriginalBpm(int? bpm) async {
-    try {
-      emit(state.copyWith(status: SongStatus.updating));
-
-      final updatedSong = state.song.copyWith(bpm: bpm);
-      await songRepository.updateSong(updatedSong);
-
-      emit(
-        state.copyWith(
-          status: SongStatus.updated,
-          song: updatedSong,
-          error: null,
-        ),
-      );
-    } catch (ex, stack) {
-      unawaited(crashReportingRepository.reportError(ex, stack));
-      emit(
-        state.copyWith(
-          status: SongStatus.error,
-          error: 'Failed to update bpm: $ex',
         ),
       );
     }

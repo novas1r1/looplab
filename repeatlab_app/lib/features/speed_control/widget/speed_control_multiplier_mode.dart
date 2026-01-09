@@ -8,36 +8,41 @@ import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/paywall/premium_screen.dart';
-import 'package:repeatlab/features/speed_control/cubit/speed_control_cubit.dart';
+import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 
+/// Multiplier mode for speed control. Reads state from SongCubit.
 class SpeedControlMultiplierMode extends StatefulWidget {
-  final double initialSpeedMultiplier;
-  final void Function(double) onSpeedMultiplierChanged;
+  /// Current speed from SongCubit state
+  final double speed;
 
   const SpeedControlMultiplierMode({
-    required this.initialSpeedMultiplier,
-    required this.onSpeedMultiplierChanged,
+    super.key,
+    required this.speed,
   });
 
   @override
-  State<SpeedControlMultiplierMode> createState() => _SpeedControlMultiplierModeState();
+  State<SpeedControlMultiplierMode> createState() =>
+      _SpeedControlMultiplierModeState();
 }
 
-class _SpeedControlMultiplierModeState extends State<SpeedControlMultiplierMode> {
-  double _speedMultiplier = 1.0;
+class _SpeedControlMultiplierModeState
+    extends State<SpeedControlMultiplierMode> {
+  // Local state for smooth slider interaction
+  double _localSpeed = 1.0;
 
   @override
   void initState() {
     super.initState();
-    _speedMultiplier = widget.initialSpeedMultiplier;
+    _localSpeed = widget.speed;
   }
 
   @override
   void didUpdateWidget(SpeedControlMultiplierMode oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.initialSpeedMultiplier != widget.initialSpeedMultiplier) {
+    // Sync local state when parent state changes (e.g., reset)
+    if (oldWidget.speed != widget.speed) {
       setState(() {
-        _speedMultiplier = widget.initialSpeedMultiplier;
+        _localSpeed = widget.speed;
       });
     }
   }
@@ -56,7 +61,7 @@ class _SpeedControlMultiplierModeState extends State<SpeedControlMultiplierMode>
             borderRadius: BorderRadius.circular(10),
           ),
           child: Text(
-            '${_speedMultiplier.toStringAsFixed(1)}×',
+            '${_localSpeed.toStringAsFixed(1)}×',
             style: context.titleMedium.copyWith(
               fontWeight: FontWeight.w700,
               color: AppColors.onPrimaryContainer,
@@ -64,12 +69,12 @@ class _SpeedControlMultiplierModeState extends State<SpeedControlMultiplierMode>
           ),
         ),
         const SizedBox(width: 8),
-        // min speed
+        // Min speed label
         Text('0.5×', style: context.labelLarge),
-        // slider
+        // Speed slider
         Expanded(
           child: CustomSlider(
-            value: _speedMultiplier,
+            value: _localSpeed,
             min: 0.5,
             max: 2.0,
             divisions: 15,
@@ -77,24 +82,25 @@ class _SpeedControlMultiplierModeState extends State<SpeedControlMultiplierMode>
               if (!hasPremium) {
                 _showPremiumDialog(context);
                 return;
-              } else {
-                setState(() {
-                  _speedMultiplier = value;
-                });
               }
+              // Update local state for smooth UI feedback
+              setState(() {
+                _localSpeed = value;
+              });
             },
             onChangeEnd: (value) {
               if (!hasPremium) {
                 _showPremiumDialog(context);
-              } else {
-                dev.log('updateSpeed: $value', name: 'SpeedControlMultiplierMode');
-                context.read<SpeedControlCubit>().setSpeedMultiplier(value);
-                widget.onSpeedMultiplierChanged(value);
+                return;
               }
+              dev.log('setSpeedByMultiplier: $value',
+                  name: 'SpeedControlMultiplierMode');
+              // Commit to SongCubit
+              context.read<SongCubit>().setSpeedByMultiplier(value);
             },
           ),
         ),
-        // max speed
+        // Max speed label
         Text('2.0×', style: context.labelLarge),
         const SizedBox(width: 8),
       ],
@@ -104,15 +110,11 @@ class _SpeedControlMultiplierModeState extends State<SpeedControlMultiplierMode>
   Future<void> _showPremiumDialog(BuildContext context) async {
     AppAnalytics.trackEvent(
       AppAnalytics.viewPremiumScreen,
-      data: {
-        'from': 'speed_control_multiplier',
-      },
+      data: {'from': 'speed_control_multiplier'},
     );
 
     await Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const PremiumScreen(),
-      ),
+      MaterialPageRoute(builder: (context) => const PremiumScreen()),
     );
   }
 }

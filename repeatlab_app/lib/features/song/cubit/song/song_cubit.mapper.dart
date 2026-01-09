@@ -7,6 +7,52 @@
 
 part of 'song_cubit.dart';
 
+class TempoModeMapper extends EnumMapper<TempoMode> {
+  TempoModeMapper._();
+
+  static TempoModeMapper? _instance;
+  static TempoModeMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = TempoModeMapper._());
+    }
+    return _instance!;
+  }
+
+  static TempoMode fromValue(dynamic value) {
+    ensureInitialized();
+    return MapperContainer.globals.fromValue(value);
+  }
+
+  @override
+  TempoMode decode(dynamic value) {
+    switch (value) {
+      case r'multiplier':
+        return TempoMode.multiplier;
+      case r'bpm':
+        return TempoMode.bpm;
+      default:
+        throw MapperException.unknownEnumValue(value);
+    }
+  }
+
+  @override
+  dynamic encode(TempoMode self) {
+    switch (self) {
+      case TempoMode.multiplier:
+        return r'multiplier';
+      case TempoMode.bpm:
+        return r'bpm';
+    }
+  }
+}
+
+extension TempoModeMapperExtension on TempoMode {
+  String toValue() {
+    TempoModeMapper.ensureInitialized();
+    return MapperContainer.globals.toValue<TempoMode>(this) as String;
+  }
+}
+
 class SongStatusMapper extends EnumMapper<SongStatus> {
   SongStatusMapper._();
 
@@ -95,6 +141,7 @@ class SongStateMapper extends ClassMapperBase<SongState> {
       SongStatusMapper.ensureInitialized();
       SongMapper.ensureInitialized();
       LoopMapper.ensureInitialized();
+      TempoModeMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -165,6 +212,37 @@ class SongStateMapper extends ClassMapperBase<SongState> {
     _$playerState,
     opt: true,
   );
+  static TempoMode _$tempoMode(SongState v) => v.tempoMode;
+  static const Field<SongState, TempoMode> _f$tempoMode = Field(
+    'tempoMode',
+    _$tempoMode,
+    opt: true,
+    def: TempoMode.multiplier,
+  );
+  static int? _$originalBpm(SongState v) => v.originalBpm;
+  static const Field<SongState, int> _f$originalBpm = Field(
+    'originalBpm',
+    _$originalBpm,
+    opt: true,
+  );
+  static int? _$currentBpm(SongState v) => v.currentBpm;
+  static const Field<SongState, int> _f$currentBpm = Field(
+    'currentBpm',
+    _$currentBpm,
+    opt: true,
+  );
+  static int? _$minBpm(SongState v) => v.minBpm;
+  static const Field<SongState, int> _f$minBpm = Field(
+    'minBpm',
+    _$minBpm,
+    opt: true,
+  );
+  static int? _$maxBpm(SongState v) => v.maxBpm;
+  static const Field<SongState, int> _f$maxBpm = Field(
+    'maxBpm',
+    _$maxBpm,
+    opt: true,
+  );
 
   @override
   final MappableFields<SongState> fields = const {
@@ -178,6 +256,11 @@ class SongStateMapper extends ClassMapperBase<SongState> {
     #isFullSongRepeatEnabled: _f$isFullSongRepeatEnabled,
     #isAutoPlayEnabled: _f$isAutoPlayEnabled,
     #playerState: _f$playerState,
+    #tempoMode: _f$tempoMode,
+    #originalBpm: _f$originalBpm,
+    #currentBpm: _f$currentBpm,
+    #minBpm: _f$minBpm,
+    #maxBpm: _f$maxBpm,
   };
 
   static SongState _instantiate(DecodingData data) {
@@ -192,6 +275,11 @@ class SongStateMapper extends ClassMapperBase<SongState> {
       isFullSongRepeatEnabled: data.dec(_f$isFullSongRepeatEnabled),
       isAutoPlayEnabled: data.dec(_f$isAutoPlayEnabled),
       playerState: data.dec(_f$playerState),
+      tempoMode: data.dec(_f$tempoMode),
+      originalBpm: data.dec(_f$originalBpm),
+      currentBpm: data.dec(_f$currentBpm),
+      minBpm: data.dec(_f$minBpm),
+      maxBpm: data.dec(_f$maxBpm),
     );
   }
 
@@ -267,6 +355,11 @@ abstract class SongStateCopyWith<$R, $In extends SongState, $Out>
     bool? isFullSongRepeatEnabled,
     bool? isAutoPlayEnabled,
     PlayerState? playerState,
+    TempoMode? tempoMode,
+    int? originalBpm,
+    int? currentBpm,
+    int? minBpm,
+    int? maxBpm,
   });
   SongStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
@@ -297,6 +390,11 @@ class _SongStateCopyWithImpl<$R, $Out>
     bool? isFullSongRepeatEnabled,
     bool? isAutoPlayEnabled,
     Object? playerState = $none,
+    TempoMode? tempoMode,
+    Object? originalBpm = $none,
+    Object? currentBpm = $none,
+    Object? minBpm = $none,
+    Object? maxBpm = $none,
   }) => $apply(
     FieldCopyWithData({
       if (speed != null) #speed: speed,
@@ -311,6 +409,11 @@ class _SongStateCopyWithImpl<$R, $Out>
         #isFullSongRepeatEnabled: isFullSongRepeatEnabled,
       if (isAutoPlayEnabled != null) #isAutoPlayEnabled: isAutoPlayEnabled,
       if (playerState != $none) #playerState: playerState,
+      if (tempoMode != null) #tempoMode: tempoMode,
+      if (originalBpm != $none) #originalBpm: originalBpm,
+      if (currentBpm != $none) #currentBpm: currentBpm,
+      if (minBpm != $none) #minBpm: minBpm,
+      if (maxBpm != $none) #maxBpm: maxBpm,
     }),
   );
   @override
@@ -337,6 +440,11 @@ class _SongStateCopyWithImpl<$R, $Out>
       or: $value.isAutoPlayEnabled,
     ),
     playerState: data.get(#playerState, or: $value.playerState),
+    tempoMode: data.get(#tempoMode, or: $value.tempoMode),
+    originalBpm: data.get(#originalBpm, or: $value.originalBpm),
+    currentBpm: data.get(#currentBpm, or: $value.currentBpm),
+    minBpm: data.get(#minBpm, or: $value.minBpm),
+    maxBpm: data.get(#maxBpm, or: $value.maxBpm),
   );
 
   @override

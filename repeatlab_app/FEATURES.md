@@ -33,16 +33,29 @@
 
 ## ⚡ Speed & Tempo Control (Premium)
 
-### Speed Adjustment Methods
-- **Multiplier Mode**: Adjust playback speed from 0.5× to 2.0× (50% to 200%)
-- **BPM Mode**: Set original BPM and adjust current BPM for precise tempo control
-- **BPM Range**: Automatically calculated min/max BPM based on original tempo
+### Two Tempo Modes
+- **Multiplier Mode**: Adjust playback speed using a factor from 0.5× to 2.0× (default: 1.0×)
+- **BPM Mode**: Control tempo in beats per minute for precise musical timing
+
+### Multiplier Mode
+- **Speed Range**: 0.5× (half speed) to 2.0× (double speed)
+- **Default Speed**: 1.0× (original tempo) when opening any song
+- **Bidirectional Sync**: When original BPM is set, current BPM updates to match the speed factor
+
+### BPM Mode
+- **Original BPM**: Set the song's original tempo (can be tapped or entered manually)
+- **Current BPM Range**: Automatically calculated as original BPM × 0.5 to original BPM × 2.0
+- **Original BPM = 1.0×**: The original BPM always corresponds to speed factor 1.0
+- **Bidirectional Sync**: Changing current BPM updates the speed factor accordingly
 - **Tap BPM Detection**: Tap along with the music to automatically detect BPM
+- **Edit Original BPM**: Tap the original BPM tile to change or clear it
 
 ### Speed Control Features
+- **Speed Reset**: Resets speed to 1.0× (and current BPM to original BPM if set)
+- **Per-Song Reset**: Speed always resets to 1.0× when opening a song
+- **Loop Speed Sync**: Loop playback always uses the same speed as song playback
 - **Real-time Adjustment**: Change speed while audio is playing
 - **Pitch Preservation**: Maintain audio quality during speed changes
-- **Speed Reset**: Quickly return to original tempo
 - **Visual Speed Indicator**: See current playback speed at all times
 
 ## 🎼 Pitch Control (Free)

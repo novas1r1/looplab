@@ -102,7 +102,7 @@ packages:
     description:
       path: "packages/audioplayers"
       ref: "feat/signalsmith"
-      resolved-ref: "2b5a093b2b0e35a3b8fc35acd3192493b26f3c6b"
+      resolved-ref: ee317061a99b51cc76330fe275a46b0cac5798fb
       url: "https://github.com/novas1r1/audioplayers.git"
     source: git
     version: "6.5.1"
@@ -119,7 +119,7 @@ packages:
     description:
       path: "packages/audioplayers_android_exo"
       ref: "feat/signalsmith"
-      resolved-ref: "2b5a093b2b0e35a3b8fc35acd3192493b26f3c6b"
+      resolved-ref: ee317061a99b51cc76330fe275a46b0cac5798fb
       url: "https://github.com/novas1r1/audioplayers.git"
     source: git
     version: "0.1.2+1"
@@ -167,10 +167,10 @@ packages:
     dependency: "direct main"
     description:
       name: bloc
-      sha256: a2cebb899f91d36eeeaa55c7b20b5915db5a9df1b8fd4a3c9c825e22e474537d
+      sha256: a48653a82055a900b88cd35f92429f068c5a8057ae9b136d197b3d56c57efb81
       url: "https://pub.dev"
     source: hosted
-    version: "9.1.0"
+    version: "9.2.0"
   bloc_test:
     dependency: "direct main"
     description:
@@ -263,10 +263,10 @@ packages:
     dependency: "direct main"
     description:
       name: clarity_flutter
-      sha256: c7fdf53dfd869ce9fda13b6078ecdc946477037fac98932022e91fd34c008737
+      sha256: "621d3a142b042507b7f4572f1a7384032c327fc7af448f32a68c34c42688c5b0"
       url: "https://pub.dev"
     source: hosted
-    version: "1.6.0"
+    version: "1.7.0"
   cli_config:
     dependency: transitive
     description:
@@ -287,10 +287,10 @@ packages:
     dependency: transitive
     description:
       name: code_builder
-      sha256: "11654819532ba94c34de52ff5feb52bd81cba1de00ef2ed622fd50295f9d4243"
+      sha256: "6a6cab2ba4680d6423f34a9b972a4c9a94ebe1b62ecec4e1a1f2cba91fd1319d"
       url: "https://pub.dev"
     source: hosted
-    version: "4.11.0"
+    version: "4.11.1"
   collection:
     dependency: transitive
     description:
@@ -415,10 +415,10 @@ packages:
     dependency: transitive
     description:
       name: equatable
-      sha256: "567c64b3cb4cf82397aac55f4f0cbd3ca20d77c6c03bedbc4ceaddc08904aef7"
+      sha256: "3e0141505477fd8ad55d6eb4e7776d3fe8430be8e497ccb1521370c3f21a3e2b"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.7"
+    version: "2.0.8"
   fake_async:
     dependency: transitive
     description:
@@ -431,10 +431,10 @@ packages:
     dependency: transitive
     description:
       name: ffi
-      sha256: "289279317b4b16eb2bb7e271abccd4bf84ec9bdcbe999e278a94b804f5630418"
+      sha256: d07d37192dbf97461359c1518788f203b0c9102cfd2c35a716b823741219542c
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.4"
+    version: "2.1.5"
   ffmpeg_kit_flutter_new_min:
     dependency: "direct main"
     description:
@@ -537,10 +537,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_soloud
-      sha256: "09116b29197d7ecb63bd43cfc0a28a463a1559f75a6da4a6ebb75e880deeb9ee"
+      sha256: "5d0277ab9e7516cc9c0558f739c158b638bb11ad2f4388a743d35eb3baf54b1c"
       url: "https://pub.dev"
     source: hosted
-    version: "3.4.7"
+    version: "3.4.8"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -963,10 +963,10 @@ packages:
     dependency: transitive
     description:
       name: protobuf
-      sha256: "2fcc8a202ca7ec17dab7c97d6b6d91cf03aa07fe6f65f8afbb6dfa52cc5bd902"
+      sha256: "75ec242d22e950bdcc79ee38dd520ce4ee0bc491d7fadc4ea47694604d22bf06"
       url: "https://pub.dev"
     source: hosted
-    version: "5.1.0"
+    version: "6.0.0"
   provider:
     dependency: transitive
     description:
@@ -995,10 +995,10 @@ packages:
     dependency: "direct main"
     description:
       name: purchases_flutter
-      sha256: "0a8ce3855dacb8c28e1e8de99cfe5592be2cb350c1210259d6fa4d9d0b152f89"
+      sha256: "29f3469d6c97061795dad1d70b180a70e79e9c54593107e5e7f7db50a749aa8b"
       url: "https://pub.dev"
     source: hosted
-    version: "9.10.2"
+    version: "9.10.4"
   rxdart:
     dependency: transitive
     description:
@@ -1019,18 +1019,18 @@ packages:
     dependency: transitive
     description:
       name: sentry
-      sha256: "9b2fe138df1a104f6e41d8ebf2b1e4fe39d4370d2200eb4eea29913d38b8b33b"
+      sha256: b6020007d35199f2be3170443c01243c8533232261fcd54237e38710788cebd0
       url: "https://pub.dev"
     source: hosted
-    version: "9.9.1"
+    version: "9.9.2"
   sentry_flutter:
     dependency: "direct main"
     description:
       name: sentry_flutter
-      sha256: "698e0d47c0cf7362ad3b8034f6af5e9f3b2175d7a0cf58f78a967c29b43072b7"
+      sha256: "9bc083608f406921f45836d409abf8713bc307486276a129e3fdd6a8df88b171"
       url: "https://pub.dev"
     source: hosted
-    version: "9.9.1"
+    version: "9.9.2"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -1424,10 +1424,10 @@ packages:
     dependency: transitive
     description:
       name: watcher
-      sha256: f52385d4f73589977c80797e60fe51014f7f2b957b5e9a62c3f6ada439889249
+      sha256: "1398c9f081a753f9226febe8900fce8f7d0a67163334e1c94a2438339d79d635"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.1"
   web:
     dependency: transitive
     description:
