@@ -15,20 +15,20 @@ dependencies:
   audio_session: ^0.2.2
   # audioplayers: ^6.4.0
   audioplayers:
-    path: ../../packages/audioplayers/packages/audioplayers
+    # path: ../../packages/audioplayers/packages/audioplayers
     # ^6.5.1
-    # git:
-    #   url: https://github.com/novas1r1/audioplayers.git
-    #   ref: main
-    #   path: packages/audioplayers
+    git:
+      url: https://github.com/novas1r1/audioplayers.git
+      ref: main
+      path: packages/audioplayers
 
   audioplayers_android_exo:
-    path: ../../packages/audioplayers/packages/audioplayers_android_exo
+    # path: ../../packages/audioplayers/packages/audioplayers_android_exo
     # ^0.1.2+1
-    # git:
-    #   url: https://github.com/novas1r1/audioplayers.git
-    #   ref: main
-    #   path: packages/audioplayers_android_exo
+    git:
+      url: https://github.com/novas1r1/audioplayers.git
+      ref: main
+      path: packages/audioplayers_android_exo
 
   # audiotags:
   #   git:
