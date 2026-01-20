@@ -1,0 +1,60 @@
+name: Deploy Widgetbook
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build Widgetbook
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.38.5"
+
+      - name: Install main app dependencies
+        working-directory: repeatlab_app
+        run: flutter pub get
+
+      - name: Install widgetbook dependencies
+        working-directory: repeatlab_app/widgetbook
+        run: flutter pub get
+
+      - name: Generate widgetbook files
+        working-directory: repeatlab_app/widgetbook
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Build web
+        working-directory: repeatlab_app/widgetbook
+        run: flutter build web --release --base-href /looplab/
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: repeatlab_app/widgetbook/build/web
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
