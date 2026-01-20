@@ -92,7 +92,7 @@ packages:
   audioplayers:
     dependency: transitive
     description:
-      path: "../../../packages/audioplayers/packages/audioplayers"
+      path: "../../ap/packages/audioplayers"
       relative: true
     source: path
     version: "6.5.1"
@@ -107,7 +107,7 @@ packages:
   audioplayers_android_exo:
     dependency: transitive
     description:
-      path: "../../../packages/audioplayers/packages/audioplayers_android_exo"
+      path: "../../ap/packages/audioplayers_android_exo"
       relative: true
     source: path
     version: "0.1.2+1"
@@ -1480,7 +1480,7 @@ packages:
     source: hosted
     version: "1.2.1"
   web:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: web
       sha256: "868d88a33d8a87b18ffc05f9f030ba328ffefba92d6c127917a2ba740f9cfe4a"
