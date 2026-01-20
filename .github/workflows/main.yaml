@@ -16,10 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: recursive
-      - name: Disable symlinks in submodules
-        run: git -C ap config core.symlinks false && git -C ap checkout .
+      - name: Checkout submodules without symlinks
+        run: |
+          git submodule init
+          git -c core.symlinks=false submodule update --recursive
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.38.4"
@@ -35,10 +35,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: recursive
-      - name: Disable symlinks in submodules
-        run: git -C ap config core.symlinks false && git -C ap checkout .
+      - name: Checkout submodules without symlinks
+        run: |
+          git submodule init
+          git -c core.symlinks=false submodule update --recursive
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.38.4"
