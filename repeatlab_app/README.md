@@ -14,6 +14,42 @@ Refer to [`AGENTS.md`](AGENTS.md) for repository guidelines covering project lay
 
 ---
 
+## Dependencies Setup
+
+### Audioplayers Submodule
+
+This project uses a forked version of [audioplayers](https://github.com/novas1r1/audioplayers) as a git submodule to work around macOS path length limitations with the pub cache.
+
+**Initial clone (new contributors):**
+
+```sh
+git clone --recurse-submodules https://github.com/your-repo/looplab.git
+```
+
+Or if you already cloned without submodules:
+
+```sh
+git submodule update --init --recursive
+```
+
+**Important:** On macOS, you may need to disable symlinks due to path length issues:
+
+```sh
+git -C ap config core.symlinks false && git -C ap checkout .
+```
+
+**Updating the audioplayers fork:**
+
+```sh
+cd ap
+git pull origin main
+cd ..
+git add ap
+git commit -m "Update audioplayers submodule"
+```
+
+---
+
 ## Running Tests 🧪
 
 To run all unit and widget tests use the following command:

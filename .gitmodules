@@ -1,0 +1,3 @@
+[submodule "ap"]
+	path = ap
+	url = https://github.com/novas1r1/audioplayers.git
