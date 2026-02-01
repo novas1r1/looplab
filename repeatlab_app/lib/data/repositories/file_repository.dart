@@ -31,14 +31,14 @@ class FileRepository {
         // TODO: Fix this once [log] ERROR: PlatformException(invalid_format_type, Can't handle the provided file type., null, null)
         // is solved
         // filepicking for FileType.audio is not working. It displays all files in the system.
-        /* result = await filePicker.pickFiles(
-          type: FileType.audio,
-        ); */
-
         result = await filePicker.pickFiles(
+          type: FileType.audio,
+        );
+
+        /* result = await filePicker.pickFiles(
           type: FileType.custom,
           allowedExtensions: ['mp3', 'm4a', 'aac', 'wav', 'flac', 'mpg', 'ogg'],
-        );
+        ); */
       } on PlatformException catch (e) {
         log('Error picking file: $e');
         rethrow;
