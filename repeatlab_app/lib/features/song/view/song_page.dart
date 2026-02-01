@@ -106,6 +106,12 @@ class _SongViewState extends State<_SongView> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.error ?? 'Unknown error')),
               );
+            } else if (state.status == SongStatus.speedChangeFailed) {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              SnackbarHelper.showError(
+                context,
+                context.l10n.speedChangeFailed,
+              );
             } else if (state.status == SongStatus.songDeleted) {
               Navigator.of(context).popUntil((route) => route.isFirst);
             } else if (state.status == SongStatus.loopAdded) {

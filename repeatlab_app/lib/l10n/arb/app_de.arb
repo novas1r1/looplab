@@ -259,23 +259,9 @@
     "deleteAllLocalData": "Alle lokalen Daten löschen",
     "loops": "Loops",
     "autoPlayOnLoopSelect": "Loops automatisch abspielen",
-    "@autoPlayOnLoopSelect": {
-        "description": "Umschalter für die automatische Wiedergabe von Loops"
-    },
     "autoPlayOnLoopSelectDescription": "Loops werden automatisch abgespielt, wenn du einen Loop auswählst oder zur nächsten oder vorherigen Loop navigierst",
-    "@autoPlayOnLoopSelectDescription": {
-        "description": "Beschreibung für die automatische Wiedergabe von Loops"
-    },
     "songSettings": "Song-Einstellungen",
-    "@songSettings": {
-        "description": "Titel für die Song-Einstellungen im Menü"
-    },
     "playbackSettings": "Wiedergabe",
-    "@playbackSettings": {
-        "description": "Titel für die Wiedergabe-Einstellungen im Menü"
-    },
     "actions": "Aktionen",
-    "@actions": {
-        "description": "Titel für die Aktionen im Menü"
-    }
+    "speedChangeFailed": "Geschwindigkeitsänderung fehlgeschlagen. Bitte versuche es erneut."
 }

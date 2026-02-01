@@ -353,10 +353,14 @@ class SongCubit extends Cubit<SongState> {
         case PlayerState.completed:
         case PlayerState.disposed:
           // Reinitialize the audio handler if it's in a bad state
+          // This resets speed to 1.0, so sync UI state
           await audioHandler.playSong(state.song);
+          _syncSpeedStateAfterSongReload();
         case null:
           // Initialize the audio handler if it's null
+          // This resets speed to 1.0, so sync UI state
           await audioHandler.playSong(state.song);
+          _syncSpeedStateAfterSongReload();
       }
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
@@ -367,6 +371,18 @@ class SongCubit extends Cubit<SongState> {
         ),
       );
     }
+  }
+
+  /// Syncs the UI speed state after the audio handler resets speed to 1.0
+  /// This happens when playSong is called to reinitialize from stopped/completed state
+  void _syncSpeedStateAfterSongReload() {
+    dev.log('Syncing speed state after song reload', name: 'SongCubit');
+    emit(
+      state.copyWith(
+        speed: 1.0,
+        currentBpm: state.originalBpm, // Reset to original BPM if set
+      ),
+    );
   }
 
   Future<void> stopSong() async {
@@ -867,7 +883,8 @@ class SongCubit extends Cubit<SongState> {
 
   /// Update speed using a multiplier value (0.5 to 2.0).
   /// If originalBpm is set, also updates currentBpm accordingly.
-  Future<void> setSpeedByMultiplier(double multiplier) async {
+  /// Returns true if speed was applied successfully, false otherwise.
+  Future<bool> setSpeedByMultiplier(double multiplier) async {
     dev.log('setSpeedByMultiplier: $multiplier', name: 'SongCubit');
 
     try {
@@ -876,7 +893,26 @@ class SongCubit extends Cubit<SongState> {
       final roundedSpeed = double.tryParse(normalizedSpeed.toStringAsFixed(1)) ?? 1.0;
 
       // Apply speed to audio handler
-      await audioHandler.setSpeed(roundedSpeed);
+      final success = await audioHandler.setSpeed(roundedSpeed);
+
+      if (!success) {
+        dev.log('Speed change failed, reverting UI to actual speed', name: 'SongCubit');
+        // Get the actual speed from audio handler
+        final actualSpeed = audioHandler.currentPlaybackSpeed;
+        int? actualBpm;
+        if (state.originalBpm != null) {
+          actualBpm = (state.originalBpm! * actualSpeed).round();
+        }
+        emit(
+          state.copyWith(
+            status: SongStatus.speedChangeFailed,
+            speed: actualSpeed,
+            currentBpm: actualBpm,
+            error: 'Speed change failed. Please try again.',
+          ),
+        );
+        return false;
+      }
 
       // Calculate currentBpm if originalBpm is set
       int? newCurrentBpm;
@@ -892,21 +928,32 @@ class SongCubit extends Cubit<SongState> {
           error: null,
         ),
       );
+      return true;
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
       dev.log('Failed to set speed by multiplier: $ex', name: 'SongCubit');
+      // Revert to actual speed on error
+      final actualSpeed = audioHandler.currentPlaybackSpeed;
+      int? actualBpm;
+      if (state.originalBpm != null) {
+        actualBpm = (state.originalBpm! * actualSpeed).round();
+      }
       emit(
         state.copyWith(
-          status: SongStatus.error,
-          error: 'Failed to update speed: $ex',
+          status: SongStatus.speedChangeFailed,
+          speed: actualSpeed,
+          currentBpm: actualBpm,
+          error: 'Speed change failed. Please try again.',
         ),
       );
+      return false;
     }
   }
 
   /// Update speed using a BPM value.
   /// Requires originalBpm to be set. Calculates speed as currentBpm/originalBpm.
-  Future<void> setSpeedByBpm(int bpm) async {
+  /// Returns true if speed was applied successfully, false otherwise.
+  Future<bool> setSpeedByBpm(int bpm) async {
     dev.log('setSpeedByBpm: $bpm', name: 'SongCubit');
 
     if (state.originalBpm == null || state.originalBpm! <= 0) {
@@ -917,7 +964,7 @@ class SongCubit extends Cubit<SongState> {
           error: 'Original BPM must be set first',
         ),
       );
-      return;
+      return false;
     }
 
     try {
@@ -927,7 +974,22 @@ class SongCubit extends Cubit<SongState> {
       final roundedSpeed = double.tryParse(normalizedSpeed.toStringAsFixed(2)) ?? 1.0;
 
       // Apply speed to audio handler
-      await audioHandler.setSpeed(roundedSpeed);
+      final success = await audioHandler.setSpeed(roundedSpeed);
+
+      if (!success) {
+        dev.log('Speed change failed, reverting UI to actual speed', name: 'SongCubit');
+        final actualSpeed = audioHandler.currentPlaybackSpeed;
+        final actualBpm = (state.originalBpm! * actualSpeed).round();
+        emit(
+          state.copyWith(
+            status: SongStatus.speedChangeFailed,
+            speed: actualSpeed,
+            currentBpm: actualBpm,
+            error: 'Speed change failed. Please try again.',
+          ),
+        );
+        return false;
+      }
 
       emit(
         state.copyWith(
@@ -937,15 +999,21 @@ class SongCubit extends Cubit<SongState> {
           error: null,
         ),
       );
+      return true;
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
       dev.log('Failed to set speed by BPM: $ex', name: 'SongCubit');
+      final actualSpeed = audioHandler.currentPlaybackSpeed;
+      final actualBpm = (state.originalBpm! * actualSpeed).round();
       emit(
         state.copyWith(
-          status: SongStatus.error,
-          error: 'Failed to update speed: $ex',
+          status: SongStatus.speedChangeFailed,
+          speed: actualSpeed,
+          currentBpm: actualBpm,
+          error: 'Speed change failed. Please try again.',
         ),
       );
+      return false;
     }
   }
 
@@ -1008,11 +1076,30 @@ class SongCubit extends Cubit<SongState> {
 
   /// Reset speed to 1.0 (original tempo).
   /// If originalBpm is set, also resets currentBpm to originalBpm.
-  Future<void> resetSpeed() async {
+  /// Returns true if speed was reset successfully, false otherwise.
+  Future<bool> resetSpeed() async {
     dev.log('resetSpeed', name: 'SongCubit');
 
     try {
-      await audioHandler.setSpeed(1.0);
+      final success = await audioHandler.setSpeed(1.0);
+
+      if (!success) {
+        dev.log('Speed reset failed', name: 'SongCubit');
+        final actualSpeed = audioHandler.currentPlaybackSpeed;
+        int? actualBpm;
+        if (state.originalBpm != null) {
+          actualBpm = (state.originalBpm! * actualSpeed).round();
+        }
+        emit(
+          state.copyWith(
+            status: SongStatus.speedChangeFailed,
+            speed: actualSpeed,
+            currentBpm: actualBpm,
+            error: 'Speed reset failed. Please try again.',
+          ),
+        );
+        return false;
+      }
 
       emit(
         state.copyWith(
@@ -1022,15 +1109,24 @@ class SongCubit extends Cubit<SongState> {
           error: null,
         ),
       );
+      return true;
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
       dev.log('Failed to reset speed: $ex', name: 'SongCubit');
+      final actualSpeed = audioHandler.currentPlaybackSpeed;
+      int? actualBpm;
+      if (state.originalBpm != null) {
+        actualBpm = (state.originalBpm! * actualSpeed).round();
+      }
       emit(
         state.copyWith(
-          status: SongStatus.error,
-          error: 'Failed to reset speed: $ex',
+          status: SongStatus.speedChangeFailed,
+          speed: actualSpeed,
+          currentBpm: actualBpm,
+          error: 'Speed reset failed. Please try again.',
         ),
       );
+      return false;
     }
   }
 

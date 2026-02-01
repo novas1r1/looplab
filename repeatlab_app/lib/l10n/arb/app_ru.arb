@@ -258,23 +258,9 @@
     "tapBpmDialogButton": "Нажмите BPM",
     "loops": "Лупы",
     "autoPlayOnLoopSelect": "Автоматически воспроизводить лупы",
-    "@autoPlayOnLoopSelect": {
-        "description": "Переключатель для автоматического воспроизведения лупов"
-    },
     "autoPlayOnLoopSelectDescription": "Автоматически воспроизводить лупы при выборе лупа или переходе к следующему или предыдущему лупу",
-    "@autoPlayOnLoopSelectDescription": {
-        "description": "Описание для автоматического воспроизведения лупов"
-    },
     "songSettings": "Настройки песни",
-    "@songSettings": {
-        "description": "Заголовок настроек песни в меню"
-    },
     "playbackSettings": "Воспроизведение",
-    "@playbackSettings": {
-        "description": "Заголовок настроек воспроизведения в меню"
-    },
     "actions": "Действия",
-    "@actions": {
-        "description": "Заголовок действий в меню"
-    }
+    "speedChangeFailed": "Изменение скорости не удалось. Пожалуйста, попробуйте еще раз."
 }

@@ -700,4 +700,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get actions => '작업';
+
+  @override
+  String get speedChangeFailed => '속도 변경에 실패했습니다. 다시 시도해 주세요.';
 }

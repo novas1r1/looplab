@@ -731,4 +731,8 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get actions => 'Eylemler';
+
+  @override
+  String get speedChangeFailed =>
+      'Hız değişikliği başarısız oldu. Lütfen tekrar deneyin.';
 }

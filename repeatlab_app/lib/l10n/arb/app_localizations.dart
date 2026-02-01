@@ -1386,35 +1386,41 @@ abstract class AppLocalizations {
   /// **'Loops'**
   String get loops;
 
-  /// Title for the song settings bottom sheet
+  /// No description provided for @songSettings.
   ///
   /// In en, this message translates to:
   /// **'Song Settings'**
   String get songSettings;
 
-  /// Section title for playback related settings
+  /// No description provided for @playbackSettings.
   ///
   /// In en, this message translates to:
   /// **'Playback'**
   String get playbackSettings;
 
-  /// Toggle setting for auto-playing when selecting a loop
+  /// No description provided for @autoPlayOnLoopSelect.
   ///
   /// In en, this message translates to:
   /// **'Auto-play Loops'**
   String get autoPlayOnLoopSelect;
 
-  /// Description for auto-play setting
+  /// No description provided for @autoPlayOnLoopSelectDescription.
   ///
   /// In en, this message translates to:
   /// **'Automatically start playing when selecting a loop or navigating to next/previous loop'**
   String get autoPlayOnLoopSelectDescription;
 
-  /// Section title for action buttons in settings
+  /// No description provided for @actions.
   ///
   /// In en, this message translates to:
   /// **'Actions'**
   String get actions;
+
+  /// No description provided for @speedChangeFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Speed change failed. Please try again.'**
+  String get speedChangeFailed;
 }
 
 class _AppLocalizationsDelegate

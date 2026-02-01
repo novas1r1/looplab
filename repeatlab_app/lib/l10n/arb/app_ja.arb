@@ -261,23 +261,9 @@
     "tapBpmDialogButton": "BPMをタップ",
     "loops": "ループ",
     "autoPlayOnLoopSelect": "ループを自動再生",
-    "@autoPlayOnLoopSelect": {
-        "description": "ループを自動再生するためのスイッチ"
-    },
     "autoPlayOnLoopSelectDescription": "ループを選択したり、次のループまたは前のループに移動したりすると、自動的にループが再生されます",
-    "@autoPlayOnLoopSelectDescription": {
-        "description": "ループを自動再生するための説明"
-    },
     "songSettings": "曲の設定",
-    "@songSettings": {
-        "description": "メニューの曲の設定のタイトル"
-    },
     "playbackSettings": "再生",
-    "@playbackSettings": {
-        "description": "メニューの再生のタイトル"
-    },
     "actions": "アクション",
-    "@actions": {
-        "description": "メニューのアクションのタイトル"
-    }
+    "speedChangeFailed": "速度変更に失敗しました。もう一度お試しください。"
 }

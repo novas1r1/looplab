@@ -262,23 +262,9 @@
     "tapBpmDialogButton": "BPM टैप करें",
     "loops": "लूप",
     "autoPlayOnLoopSelect": "लूप स्वचालित रूप से चलाएं",
-    "@autoPlayOnLoopSelect": {
-        "description": "लूप स्वचालित रूप से चलाने के लिए स्विच"
-    },
     "autoPlayOnLoopSelectDescription": "लूप चुनते हैं या अगले या पिछले लूप पर नेविगेट करते हैं तो स्वचालित रूप से लूप चलाएं",
-    "@autoPlayOnLoopSelectDescription": {
-        "description": "लूप स्वचालित रूप से चलाने के लिए विवरण"
-    },
     "songSettings": "गीत सेटिंग्स",
-    "@songSettings": {
-        "description": "गीत सेटिंग्स बॉटम शीट का शीर्षक"
-    },
     "playbackSettings": "प्लेबैक",
-    "@playbackSettings": {
-        "description": "प्लेबैक संबंधित सेटिंग्स का शीर्षक"
-    },
     "actions": "क्रियाएं",
-    "@actions": {
-        "description": "सेटिंग्स में क्रियाएं का शीर्षक"
-    }
+    "speedChangeFailed": "गति परिवर्तन विफल हो गया। कृपया पुनः प्रयास करें।"
 }

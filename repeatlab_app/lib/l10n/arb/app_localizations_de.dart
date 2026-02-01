@@ -731,4 +731,8 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get actions => 'Aktionen';
+
+  @override
+  String get speedChangeFailed =>
+      'Geschwindigkeitsänderung fehlgeschlagen. Bitte versuche es erneut.';
 }

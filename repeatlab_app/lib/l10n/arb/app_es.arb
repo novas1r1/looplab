@@ -259,23 +259,9 @@
     "tapBpmDialogButton": "Tapar BPM",
     "loops": "Loops",
     "autoPlayOnLoopSelect": "Reproducir Loops automáticamente",
-    "@autoPlayOnLoopSelect": {
-        "description": "Interruptor para reproducir loops automáticamente"
-    },
     "autoPlayOnLoopSelectDescription": "Reproduce los loops automáticamente cuando seleccionas un loop o navegas a la siguiente o anterior loop",
-    "@autoPlayOnLoopSelectDescription": {
-        "description": "Descripción para la reproducción automática de loops"
-    },
     "songSettings": "Configuración de la Canción",
-    "@songSettings": {
-        "description": "Título para la configuración de la canción en el menú"
-    },
     "playbackSettings": "Reproducción",
-    "@playbackSettings": {
-        "description": "Título para la reproducción en el menú"
-    },
     "actions": "Acciones",
-    "@actions": {
-        "description": "Título para las acciones en el menú"
-    }
+    "speedChangeFailed": "El cambio de velocidad ha fallado. Por favor, inténtalo de nuevo."
 }

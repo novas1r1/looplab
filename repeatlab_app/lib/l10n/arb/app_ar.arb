@@ -265,5 +265,6 @@
     "playbackSettings": "التشغيل",
     "autoPlayOnLoopSelect": "تشغيل الحلقات تلقائيًا",
     "autoPlayOnLoopSelectDescription": "تشغيل الحلقات تلقائيًا عند تحديد حلقة أو التنقل إلى الحلقة التالية أو السابقة",
-    "actions": "الإجراءات"
+    "actions": "الإجراءات",
+    "speedChangeFailed": "فشل تغيير السرعة. يرجى إعادة المحاولة."
 }

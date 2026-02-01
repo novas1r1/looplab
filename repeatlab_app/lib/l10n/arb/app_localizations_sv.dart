@@ -728,4 +728,8 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get actions => 'Åtgärder';
+
+  @override
+  String get speedChangeFailed =>
+      'Hastighetsändring misslyckades. Vänligen försök igen.';
 }

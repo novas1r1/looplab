@@ -258,23 +258,9 @@
     "tapBpmDialogButton": "Tryck BPM",
     "loops": "Loopar",
     "autoPlayOnLoopSelect": "Spela upp Loopar automatiskt",
-    "@autoPlayOnLoopSelect": {
-        "description": "Växlar för att spela upp Loopar automatiskt"
-    },
     "autoPlayOnLoopSelectDescription": "Spela upp Loopar automatiskt när du väljer en loop eller navigerar till nästa eller föregående loop",
-    "@autoPlayOnLoopSelectDescription": {
-        "description": "Beskrivning för att spela upp Loopar automatiskt"
-    },
     "songSettings": "Låtinställningar",
-    "@songSettings": {
-        "description": "Titel på låtinställningar i menyn"
-    },
     "playbackSettings": "Spelning",
-    "@playbackSettings": {
-        "description": "Titel på spelningsinställningar i menyn"
-    },
     "actions": "Åtgärder",
-    "@actions": {
-        "description": "Titel på åtgärder i menyn"
-    }
+    "speedChangeFailed": "Hastighetsändring misslyckades. Vänligen försök igen."
 }

@@ -260,23 +260,9 @@
     "currentBpm": "CURRENT BPM",
     "loops": "Loops",
     "songSettings": "Song Settings",
-    "@songSettings": {
-        "description": "Title for the song settings bottom sheet"
-    },
     "playbackSettings": "Playback",
-    "@playbackSettings": {
-        "description": "Section title for playback related settings"
-    },
     "autoPlayOnLoopSelect": "Auto-play Loops",
-    "@autoPlayOnLoopSelect": {
-        "description": "Toggle setting for auto-playing when selecting a loop"
-    },
     "autoPlayOnLoopSelectDescription": "Automatically start playing when selecting a loop or navigating to next/previous loop",
-    "@autoPlayOnLoopSelectDescription": {
-        "description": "Description for auto-play setting"
-    },
     "actions": "Actions",
-    "@actions": {
-        "description": "Section title for action buttons in settings"
-    }
+    "speedChangeFailed": "Speed change failed. Please try again."
 }

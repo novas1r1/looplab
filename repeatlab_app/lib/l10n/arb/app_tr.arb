@@ -261,23 +261,9 @@
     "tapBpmDialogButton": "BPM'yi tıkla",
     "loops": "Döngüler",
     "autoPlayOnLoopSelect": "Döngüleri otomatik oynat",
-    "@autoPlayOnLoopSelect": {
-        "description": "Döngüleri otomatik oynatma için geçiş"
-    },
     "autoPlayOnLoopSelectDescription": "Döngü seçildiğinde veya sonraki/önceki döngüye geçildiğinde otomatik oynatma",
-    "@autoPlayOnLoopSelectDescription": {
-        "description": "Döngüleri otomatik oynatma için açıklama"
-    },
     "songSettings": "Şarkı Ayarları",
-    "@songSettings": {
-        "description": "Menüdeki şarkı ayarları başlığı"
-    },
     "playbackSettings": "Oynatma",
-    "@playbackSettings": {
-        "description": "Menüdeki oynatma ayarları başlığı"
-    },
     "actions": "Eylemler",
-    "@actions": {
-        "description": "Menüdeki eylemler başlığı"
-    }
+    "speedChangeFailed": "Hız değişikliği başarısız oldu. Lütfen tekrar deneyin."
 }

@@ -258,23 +258,9 @@
     "tapBpmDialogButton": "BPM tikken",
     "loops": "Loops",
     "autoPlayOnLoopSelect": "Loops automatisch afspelen",
-    "@autoPlayOnLoopSelect": {
-        "description": "Uitschakelaar voor het automatisch afspelen van loops"
-    },
     "autoPlayOnLoopSelectDescription": "Loops worden automatisch afgespield wanneer je een loop selecteert of naar de volgende of vorige loop navigeert",
-    "@autoPlayOnLoopSelectDescription": {
-        "description": "Beschrijving voor het automatisch afspelen van loops"
-    },
     "songSettings": "Nummerinstellingen",
-    "@songSettings": {
-        "description": "Titel van nummerinstellingen in het menu"
-    },
     "playbackSettings": "Afspelen",
-    "@playbackSettings": {
-        "description": "Titel van afspelinstellingen in het menu"
-    },
     "actions": "Acties",
-    "@actions": {
-        "description": "Titel van acties in het menu"
-    }
+    "speedChangeFailed": "Snelheidswijziging is mislukt. Probeer het opnieuw."
 }

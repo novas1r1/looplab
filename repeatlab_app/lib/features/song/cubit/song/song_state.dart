@@ -66,4 +66,5 @@ enum SongStatus {
   updated,
   updating,
   songDeleted,
+  speedChangeFailed,
 }

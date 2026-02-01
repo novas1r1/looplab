@@ -686,4 +686,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get actions => '操作';
+
+  @override
+  String get speedChangeFailed => '速度变化失败。请再试一次。';
 }

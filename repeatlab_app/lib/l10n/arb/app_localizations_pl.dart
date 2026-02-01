@@ -729,4 +729,8 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get actions => 'Akcje';
+
+  @override
+  String get speedChangeFailed =>
+      'Zmiana tempa nie powiodła się. Proszę spróbować ponownie.';
 }

@@ -720,4 +720,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get actions => 'الإجراءات';
+
+  @override
+  String get speedChangeFailed => 'فشل تغيير السرعة. يرجى إعادة المحاولة.';
 }

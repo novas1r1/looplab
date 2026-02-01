@@ -261,23 +261,9 @@
     "tapBpmDialogButton": "BPM 탭",
     "loops": "루프",
     "autoPlayOnLoopSelect": "루프 자동 재생",
-    "@autoPlayOnLoopSelect": {
-        "description": "루프 자동 재생을 위한 스위치"
-    },
     "autoPlayOnLoopSelectDescription": "루프를 선택하거나 다음 또는 이전 루프로 이동하면 자동으로 루프가 재생됩니다",
-    "@autoPlayOnLoopSelectDescription": {
-        "description": "루프 자동 재생을 위한 설명"
-    },
     "songSettings": "곡 설정",
-    "@songSettings": {
-        "description": "메뉴의 곡 설정 제목"
-    },
     "playbackSettings": "재생",
-    "@playbackSettings": {
-        "description": "메뉴의 재생 설정 제목"
-    },
     "actions": "작업",
-    "@actions": {
-        "description": "메뉴의 작업 제목"
-    }
+    "speedChangeFailed": "속도 변경에 실패했습니다. 다시 시도해 주세요."
 }

@@ -258,23 +258,9 @@
     "tapBpmDialogButton": "Taper le BPM",
     "loops": "Boucles",
     "autoPlayOnLoopSelect": "Reproduire les Boucles automatiquement",
-    "@autoPlayOnLoopSelect": {
-        "description": "Interrupteur pour la reproduction automatique des boucles"
-    },
     "autoPlayOnLoopSelectDescription": "Reproduit les boucles automatiquement lorsque vous sélectionnez une boucle ou naviguez vers la boucle suivante ou précédente",
-    "@autoPlayOnLoopSelectDescription": {
-        "description": "Description pour la reproduction automatique des boucles"
-    },
     "songSettings": "Paramètres de la Chanson",
-    "@songSettings": {
-        "description": "Titre des paramètres de la chanson dans le menu"
-    },
     "playbackSettings": "Lecture",
-    "@playbackSettings": {
-        "description": "Titre des paramètres de lecture dans le menu"
-    },
     "actions": "Actions",
-    "@actions": {
-        "description": "Titre des actions dans le menu"
-    }
+    "speedChangeFailed": "Le changement de vitesse a échoué. Veuillez réessayer."
 }

@@ -6,7 +6,11 @@
       "WebSearch",
       "WebFetch(domain:pub.dev)",
       "WebFetch(domain:github.com)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(flutter gen-l10n:*)",
+      "mcp__ide__getDiagnostics",
+      "Bash(dart run build_runner build:*)",
+      "Bash(flutter analyze:*)"
     ]
   }
 }

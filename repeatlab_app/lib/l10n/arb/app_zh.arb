@@ -262,23 +262,9 @@
     "tapBpmDialogButton": "点击 BPM",
     "loops": "循环",
     "autoPlayOnLoopSelect": "自动播放循环",
-    "@autoPlayOnLoopSelect": {
-        "description": "自动播放循环的开关"
-    },
     "autoPlayOnLoopSelectDescription": "当选择循环或导航到下一个或上一个循环时自动播放循环",
-    "@autoPlayOnLoopSelectDescription": {
-        "description": "自动播放循环的描述"
-    },
     "songSettings": "歌曲设置",
-    "@songSettings": {
-        "description": "菜单中的歌曲设置标题"
-    },
     "playbackSettings": "播放设置",
-    "@playbackSettings": {
-        "description": "菜单中的播放设置标题"
-    },
     "actions": "操作",
-    "@actions": {
-        "description": "菜单中的操作标题"
-    }
+    "speedChangeFailed": "速度变化失败。请再试一次。"
 }

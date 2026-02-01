@@ -458,13 +458,19 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
   /// Check if full song repeat is enabled
   bool get isFullSongRepeatEnabled => _fullSongRepeatEnabled;
 
+  /// Returns the current internal playback speed
+  double get currentPlaybackSpeed => _playbackSpeed;
+
   @override
-  Future<void> setSpeed(double speed) {
+  Future<bool> setSpeed(double speed) async {
     final targetSpeed = _normalizePlaybackSpeed(speed);
     log('setSpeed: $targetSpeed');
-    _playbackSpeed = targetSpeed;
 
-    return _setPlaybackRateSafely(targetSpeed);
+    final success = await _setPlaybackRateSafely(targetSpeed);
+    if (success) {
+      _playbackSpeed = targetSpeed;
+    }
+    return success;
   }
 
   @override
@@ -779,9 +785,29 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
     }
   }
 
-  Future<void> _setPlaybackRateSafely(double speed) async {
-    await _awaitActiveSeek();
-    await audioPlayer.setPlaybackRate(speed);
+  /// Timeout for waiting on active seeks before applying speed
+  static const Duration _speedChangeTimeout = Duration(milliseconds: 500);
+
+  Future<bool> _setPlaybackRateSafely(double speed) async {
+    try {
+      // Wait for active seek with timeout - don't block indefinitely
+      final activeSeek = _seekQueue;
+      if (activeSeek != null) {
+        await activeSeek.timeout(
+          _speedChangeTimeout,
+          onTimeout: () {
+            log('Timeout waiting for seek, applying speed anyway');
+          },
+        );
+      }
+
+      await audioPlayer.setPlaybackRate(speed);
+      log('setPlaybackRate applied: $speed');
+      return true;
+    } catch (e) {
+      log('Failed to set playback rate: $e');
+      return false;
+    }
   }
 
   double _normalizePlaybackSpeed(double speed) {

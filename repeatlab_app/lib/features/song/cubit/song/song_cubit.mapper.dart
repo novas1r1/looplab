@@ -92,6 +92,8 @@ class SongStatusMapper extends EnumMapper<SongStatus> {
         return SongStatus.updating;
       case r'songDeleted':
         return SongStatus.songDeleted;
+      case r'speedChangeFailed':
+        return SongStatus.speedChangeFailed;
       default:
         throw MapperException.unknownEnumValue(value);
     }
@@ -120,6 +122,8 @@ class SongStatusMapper extends EnumMapper<SongStatus> {
         return r'updating';
       case SongStatus.songDeleted:
         return r'songDeleted';
+      case SongStatus.speedChangeFailed:
+        return r'speedChangeFailed';
     }
   }
 }

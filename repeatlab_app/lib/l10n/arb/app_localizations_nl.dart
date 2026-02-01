@@ -732,4 +732,8 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get actions => 'Acties';
+
+  @override
+  String get speedChangeFailed =>
+      'Snelheidswijziging is mislukt. Probeer het opnieuw.';
 }

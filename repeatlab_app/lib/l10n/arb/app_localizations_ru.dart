@@ -733,4 +733,8 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get actions => 'Действия';
+
+  @override
+  String get speedChangeFailed =>
+      'Изменение скорости не удалось. Пожалуйста, попробуйте еще раз.';
 }

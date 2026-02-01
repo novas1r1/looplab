@@ -728,4 +728,8 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get actions => 'क्रियाएं';
+
+  @override
+  String get speedChangeFailed =>
+      'गति परिवर्तन विफल हो गया। कृपया पुनः प्रयास करें।';
 }

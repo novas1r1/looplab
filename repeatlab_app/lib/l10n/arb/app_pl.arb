@@ -258,23 +258,9 @@
     "tapBpmDialogButton": "Tocz BPM",
     "loops": "Pętle",
     "autoPlayOnLoopSelect": "Automatycznie odtwarzaj pętle",
-    "@autoPlayOnLoopSelect": {
-        "description": "Przełącznik do automatycznego odtwarzania pętli"
-    },
     "autoPlayOnLoopSelectDescription": "Pętle są automatycznie odtwarzane, gdy wybierasz pętlę lub przechodzisz do następnej lub poprzedniej pętli",
-    "@autoPlayOnLoopSelectDescription": {
-        "description": "Opis dla automatycznego odtwarzania pętli"
-    },
     "songSettings": "Ustawienia utworu",
-    "@songSettings": {
-        "description": "Tytuł ustawień utworu w menu"
-    },
     "playbackSettings": "Odtwarzanie",
-    "@playbackSettings": {
-        "description": "Tytuł ustawień odtwarzania w menu"
-    },
     "actions": "Akcje",
-    "@actions": {
-        "description": "Tytuł akcji w menu"
-    }
+    "speedChangeFailed": "Zmiana tempa nie powiodła się. Proszę spróbować ponownie."
 }
