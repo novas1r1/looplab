@@ -194,13 +194,20 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
     if (mounted) {
       // show paywall, after paywall is dismissed, navigate to home
-      final hasSubscribed = context.read<PremiumSubscriptionCubit>().state.hasSubscription;
+      final hasWeeklySubscription = context
+          .read<PremiumSubscriptionCubit>()
+          .state
+          .hasWeeklySubscription;
+      final hasYearlySubscription = context
+          .read<PremiumSubscriptionCubit>()
+          .state
+          .hasYearlySubscription;
       final hasLifetimePurchased = context
           .read<PremiumSubscriptionCubit>()
           .state
           .hasLifetimePurchase;
 
-      if (!hasSubscribed && !hasLifetimePurchased) {
+      if (!hasWeeklySubscription && !hasYearlySubscription && !hasLifetimePurchased) {
         log('no subscription or lifetime purchase');
         AppAnalytics.trackEvent(
           AppAnalytics.viewPremiumScreen,

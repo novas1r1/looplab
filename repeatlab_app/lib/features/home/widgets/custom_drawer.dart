@@ -29,6 +29,13 @@ class CustomDrawer extends StatelessWidget {
     final appVersion = context.read<PackageInfo>().version;
     final buildNumber = context.read<PackageInfo>().buildNumber;
 
+    Future<bool> hasSubscription() async {
+      final hasWeeklySubscription = await context.read<PurchasesRepository>().hasWeeklySubscription;
+      final hasYearlySubscription = await context.read<PurchasesRepository>().hasYearlySubscription;
+
+      return hasWeeklySubscription || hasYearlySubscription;
+    }
+
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -94,7 +101,7 @@ class CustomDrawer extends StatelessWidget {
             ),
           ),
           FutureBuilder(
-            future: context.read<PurchasesRepository>().hasSubscription,
+            future: hasSubscription(),
             initialData: false,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               return snapshot.data == true
@@ -260,14 +267,22 @@ class CustomDrawer extends StatelessWidget {
   void _onVoteForFeatures(BuildContext context) {
     final appVersion = context.read<PackageInfo>().version;
     final buildNumber = context.read<PackageInfo>().buildNumber;
-    final hasSubscribed = context.read<PremiumSubscriptionCubit>().state.hasSubscription;
+    final hasWeeklySubscription = context
+        .read<PremiumSubscriptionCubit>()
+        .state
+        .hasWeeklySubscription;
+    final hasYearlySubscription = context
+        .read<PremiumSubscriptionCubit>()
+        .state
+        .hasYearlySubscription;
     final hasLifetimePurchased = context.read<PremiumSubscriptionCubit>().state.hasLifetimePurchase;
 
     UserOrient.setUser(
       extra: {
         'appVersion': appVersion,
         'buildNumber': buildNumber,
-        'hasSubscribed': hasSubscribed,
+        'hasWeeklySubscription': hasWeeklySubscription,
+        'hasYearlySubscription': hasYearlySubscription,
         'hasLifetimePurchased': hasLifetimePurchased,
       },
     );

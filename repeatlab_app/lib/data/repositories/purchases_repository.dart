@@ -21,16 +21,27 @@ class PurchasesRepository {
     }
   }
 
-  Future<bool> get hasSubscription async {
+  Future<bool> get hasWeeklySubscription async {
     final purchaserInfo = await Purchases.getCustomerInfo();
 
-    // Check for active subscriptions
-    if (purchaserInfo.activeSubscriptions.isNotEmpty) {
-      log('--- REVENUECAT: SUBSCRIBED');
+    if (purchaserInfo.activeSubscriptions.contains('repeatlab_full_weekly')) {
+      log('--- REVENUECAT: WEEKLY SUBSCRIPTION ACTIVE');
       return true;
     }
 
-    log('--- REVENUECAT: NO ACTIVE SUBSCRIPTION');
+    log('--- REVENUECAT: WEEKLY SUBSCRIPTION NOT ACTIVE');
+    return false;
+  }
+
+  Future<bool> get hasYearlySubscription async {
+    final purchaserInfo = await Purchases.getCustomerInfo();
+
+    if (purchaserInfo.activeSubscriptions.contains('repeatlab_full_yearly')) {
+      log('--- REVENUECAT: YEARLY SUBSCRIPTION ACTIVE');
+      return true;
+    }
+
+    log('--- REVENUECAT: YEARLY SUBSCRIPTION NOT ACTIVE');
     return false;
   }
 
@@ -65,12 +76,8 @@ class PurchasesRepository {
   Future<bool> purchase(Package package) async {
     log('--- REVENUECAT: purchase()');
 
-    // NEW
     final purchaseParams = PurchaseParams.package(package);
     final purchaserInfo = await Purchases.purchase(purchaseParams);
-
-    // OLD
-    // final purchaserInfo = await Purchases.purchasePackage(package);
 
     final proEntitlement = purchaserInfo.customerInfo.entitlements.all['Pro'];
 
@@ -90,13 +97,13 @@ class PurchasesRepository {
   Future<bool> checkTrialEligibility(List<String> productIdentifiers) async {
     log('--- REVENUECAT: checkTrialEligibility()');
 
-    final eligibilityMap =
-        await Purchases.checkTrialOrIntroductoryPriceEligibility(productIdentifiers);
+    final eligibilityMap = await Purchases.checkTrialOrIntroductoryPriceEligibility(
+      productIdentifiers,
+    );
 
     // User is eligible if any product has an intro eligible status
     return eligibilityMap.values.any(
-      (eligibility) =>
-          eligibility.status == IntroEligibilityStatus.introEligibilityStatusEligible,
+      (eligibility) => eligibility.status == IntroEligibilityStatus.introEligibilityStatusEligible,
     );
   }
 

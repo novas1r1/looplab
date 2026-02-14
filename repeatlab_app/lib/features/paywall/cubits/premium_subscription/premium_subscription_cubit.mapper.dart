@@ -34,14 +34,24 @@ class PremiumSubscriptionStateMapper
     opt: true,
     def: PremiumSubscriptionStatus.initial,
   );
-  static bool _$hasSubscription(PremiumSubscriptionState v) =>
-      v.hasSubscription;
-  static const Field<PremiumSubscriptionState, bool> _f$hasSubscription = Field(
-    'hasSubscription',
-    _$hasSubscription,
-    opt: true,
-    def: false,
-  );
+  static bool _$hasWeeklySubscription(PremiumSubscriptionState v) =>
+      v.hasWeeklySubscription;
+  static const Field<PremiumSubscriptionState, bool> _f$hasWeeklySubscription =
+      Field(
+        'hasWeeklySubscription',
+        _$hasWeeklySubscription,
+        opt: true,
+        def: false,
+      );
+  static bool _$hasYearlySubscription(PremiumSubscriptionState v) =>
+      v.hasYearlySubscription;
+  static const Field<PremiumSubscriptionState, bool> _f$hasYearlySubscription =
+      Field(
+        'hasYearlySubscription',
+        _$hasYearlySubscription,
+        opt: true,
+        def: false,
+      );
   static bool _$hasLifetimePurchase(PremiumSubscriptionState v) =>
       v.hasLifetimePurchase;
   static const Field<PremiumSubscriptionState, bool> _f$hasLifetimePurchase =
@@ -61,7 +71,8 @@ class PremiumSubscriptionStateMapper
   @override
   final MappableFields<PremiumSubscriptionState> fields = const {
     #status: _f$status,
-    #hasSubscription: _f$hasSubscription,
+    #hasWeeklySubscription: _f$hasWeeklySubscription,
+    #hasYearlySubscription: _f$hasYearlySubscription,
     #hasLifetimePurchase: _f$hasLifetimePurchase,
     #errorMessage: _f$errorMessage,
   };
@@ -69,7 +80,8 @@ class PremiumSubscriptionStateMapper
   static PremiumSubscriptionState _instantiate(DecodingData data) {
     return PremiumSubscriptionState(
       status: data.dec(_f$status),
-      hasSubscription: data.dec(_f$hasSubscription),
+      hasWeeklySubscription: data.dec(_f$hasWeeklySubscription),
+      hasYearlySubscription: data.dec(_f$hasYearlySubscription),
       hasLifetimePurchase: data.dec(_f$hasLifetimePurchase),
       errorMessage: data.dec(_f$errorMessage),
     );
@@ -147,7 +159,8 @@ abstract class PremiumSubscriptionStateCopyWith<
     implements ClassCopyWith<$R, $In, $Out> {
   $R call({
     PremiumSubscriptionStatus? status,
-    bool? hasSubscription,
+    bool? hasWeeklySubscription,
+    bool? hasYearlySubscription,
     bool? hasLifetimePurchase,
     String? errorMessage,
   });
@@ -168,13 +181,17 @@ class _PremiumSubscriptionStateCopyWithImpl<$R, $Out>
   @override
   $R call({
     PremiumSubscriptionStatus? status,
-    bool? hasSubscription,
+    bool? hasWeeklySubscription,
+    bool? hasYearlySubscription,
     bool? hasLifetimePurchase,
     Object? errorMessage = $none,
   }) => $apply(
     FieldCopyWithData({
       if (status != null) #status: status,
-      if (hasSubscription != null) #hasSubscription: hasSubscription,
+      if (hasWeeklySubscription != null)
+        #hasWeeklySubscription: hasWeeklySubscription,
+      if (hasYearlySubscription != null)
+        #hasYearlySubscription: hasYearlySubscription,
       if (hasLifetimePurchase != null)
         #hasLifetimePurchase: hasLifetimePurchase,
       if (errorMessage != $none) #errorMessage: errorMessage,
@@ -183,7 +200,14 @@ class _PremiumSubscriptionStateCopyWithImpl<$R, $Out>
   @override
   PremiumSubscriptionState $make(CopyWithData data) => PremiumSubscriptionState(
     status: data.get(#status, or: $value.status),
-    hasSubscription: data.get(#hasSubscription, or: $value.hasSubscription),
+    hasWeeklySubscription: data.get(
+      #hasWeeklySubscription,
+      or: $value.hasWeeklySubscription,
+    ),
+    hasYearlySubscription: data.get(
+      #hasYearlySubscription,
+      or: $value.hasYearlySubscription,
+    ),
     hasLifetimePurchase: data.get(
       #hasLifetimePurchase,
       or: $value.hasLifetimePurchase,

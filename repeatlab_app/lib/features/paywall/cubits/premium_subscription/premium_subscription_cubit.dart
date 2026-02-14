@@ -33,7 +33,8 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
     super.close();
   }
 
-  bool get hasPremium => state.hasSubscription || state.hasLifetimePurchase;
+  bool get hasPremium =>
+      state.hasWeeklySubscription || state.hasYearlySubscription || state.hasLifetimePurchase;
 
   /// Initializes the [Purchases] SDK.
   /// Checks if the user is subscribed to the premium plan.
@@ -75,17 +76,21 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
     } */
 
     try {
-      final hasSubscription = await purchasesRepository.hasSubscription;
+      final hasWeeklySubscription = await purchasesRepository.hasWeeklySubscription;
+      final hasYearlySubscription = await purchasesRepository.hasYearlySubscription;
+
       final hasLifetimePurchase = await purchasesRepository.hasLifetimePurchase;
 
-      log('--- REVENUECAT: hasSubscription: $hasSubscription');
+      log('--- REVENUECAT: hasWeeklySubscription: $hasWeeklySubscription');
+      log('--- REVENUECAT: hasYearlySubscription: $hasYearlySubscription');
       log('--- REVENUECAT: hasLifetimePurchase: $hasLifetimePurchase');
 
-      if (hasSubscription || hasLifetimePurchase) {
+      if (hasWeeklySubscription || hasYearlySubscription || hasLifetimePurchase) {
         emit(
           state.copyWith(
             status: PremiumSubscriptionStatus.premium,
-            hasSubscription: hasSubscription,
+            hasWeeklySubscription: hasWeeklySubscription,
+            hasYearlySubscription: hasYearlySubscription,
             hasLifetimePurchase: hasLifetimePurchase,
           ),
         );
@@ -115,14 +120,16 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
             state.copyWith(
               status: PremiumSubscriptionStatus.premium,
               hasLifetimePurchase: true,
-              hasSubscription: false,
+              hasWeeklySubscription: false,
+              hasYearlySubscription: false,
             ),
           );
         } else {
           emit(
             state.copyWith(
               status: PremiumSubscriptionStatus.premium,
-              hasSubscription: true,
+              hasWeeklySubscription: true,
+              hasYearlySubscription: true,
               hasLifetimePurchase: false,
             ),
           );

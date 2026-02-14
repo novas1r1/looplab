@@ -90,16 +90,30 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
     final weeklyPrice = widget.fetchProductsState.weeklyPackage?.storeProduct.priceString;
     final yearlyPrice = widget.fetchProductsState.annualPackage?.storeProduct.priceString;
     final lifetimePrice = widget.fetchProductsState.lifetimePackage?.storeProduct.priceString;
-    final hasSubscription = context.watch<PremiumSubscriptionCubit>().state.hasSubscription;
-    final hasLifetimePurchase = context.watch<PremiumSubscriptionCubit>().state.hasLifetimePurchase;
-    final hasPurchase = hasSubscription || hasLifetimePurchase;
 
-    final weeklySelected = !hasPurchase && _selectedPlan == PlanPeriod.weekly;
+    final hasWeeklySubscription = context
+        .watch<PremiumSubscriptionCubit>()
+        .state
+        .hasWeeklySubscription;
+    final hasYearlySubscription = context
+        .watch<PremiumSubscriptionCubit>()
+        .state
+        .hasYearlySubscription;
+
+    _selectedPlan = hasWeeklySubscription
+        ? PlanPeriod.weekly
+        : hasYearlySubscription
+        ? PlanPeriod.yearly
+        : PlanPeriod.lifetime;
+
+    final hasLifetimePurchase = context.watch<PremiumSubscriptionCubit>().state.hasLifetimePurchase;
+
+    final hasPurchase = hasWeeklySubscription || hasYearlySubscription || hasLifetimePurchase;
+
+    final weeklySelected = _selectedPlan == PlanPeriod.weekly;
     // yearly box should be selected if yearly was bought OR if lifetime was NOT bought and box was selected
-    final yearlySelected =
-        hasSubscription || (!hasLifetimePurchase && _selectedPlan == PlanPeriod.yearly);
-    final lifetimeSelected =
-        hasLifetimePurchase || (!hasSubscription && _selectedPlan == PlanPeriod.lifetime);
+    final yearlySelected = _selectedPlan == PlanPeriod.yearly;
+    final lifetimeSelected = _selectedPlan == PlanPeriod.lifetime;
 
     return SafeArea(
       child: Scaffold(
@@ -243,7 +257,8 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                     isSelected: weeklySelected,
                     onSelected: () => setState(() => _selectedPlan = PlanPeriod.weekly),
                     priceString: weeklyPrice ?? context.l10n.notAvailable,
-                    hasSubscription: hasSubscription,
+                    hasWeeklySubscription: hasWeeklySubscription,
+                    hasYearlySubscription: hasYearlySubscription,
                     hasLifetimePurchase: hasLifetimePurchase,
                     isTrialEligible: widget.fetchProductsState.isTrialEligible,
                   ),
@@ -255,7 +270,8 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                     isSelected: yearlySelected,
                     onSelected: () => setState(() => _selectedPlan = PlanPeriod.yearly),
                     priceString: yearlyPrice ?? context.l10n.notAvailable,
-                    hasSubscription: hasSubscription,
+                    hasWeeklySubscription: hasWeeklySubscription,
+                    hasYearlySubscription: hasYearlySubscription,
                     hasLifetimePurchase: hasLifetimePurchase,
                     isTrialEligible: widget.fetchProductsState.isTrialEligible,
                   ),
@@ -267,7 +283,8 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                     isSelected: lifetimeSelected,
                     onSelected: () => setState(() => _selectedPlan = PlanPeriod.lifetime),
                     priceString: lifetimePrice ?? context.l10n.notAvailable,
-                    hasSubscription: hasSubscription,
+                    hasWeeklySubscription: hasWeeklySubscription,
+                    hasYearlySubscription: hasYearlySubscription,
                     hasLifetimePurchase: hasLifetimePurchase,
                   ),
 
@@ -318,16 +335,16 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                                   style: context.bodyLargeDarkBold,
                                 )
                               : _selectedPlan == PlanPeriod.yearly
-                                  ? Text(
-                                      widget.fetchProductsState.isTrialEligible
-                                          ? context.l10n.purchaseYearly(isApple ? '3' : '5')
-                                          : context.l10n.subscribeYearly,
-                                      style: context.bodyLargeDarkBold,
-                                    )
-                                  : Text(
-                                      context.l10n.purchaseLifetime,
-                                      style: context.bodyLargeDarkBold,
-                                    )
+                              ? Text(
+                                  widget.fetchProductsState.isTrialEligible
+                                      ? context.l10n.purchaseYearly(isApple ? '3' : '5')
+                                      : context.l10n.subscribeYearly,
+                                  style: context.bodyLargeDarkBold,
+                                )
+                              : Text(
+                                  context.l10n.purchaseLifetime,
+                                  style: context.bodyLargeDarkBold,
+                                )
                         : Text(
                             context.l10n.purchasedAlready,
                             style: context.bodyLargeLightBold,
@@ -394,7 +411,8 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
 class PackageWidget extends StatelessWidget {
   final PlanPeriod period;
   final bool isSelected;
-  final bool hasSubscription;
+  final bool hasWeeklySubscription;
+  final bool hasYearlySubscription;
   final bool hasLifetimePurchase;
   final bool isTrialEligible;
   final VoidCallback onSelected;
@@ -406,7 +424,8 @@ class PackageWidget extends StatelessWidget {
     required this.isSelected,
     required this.onSelected,
     required this.priceString,
-    required this.hasSubscription,
+    required this.hasWeeklySubscription,
+    required this.hasYearlySubscription,
     required this.hasLifetimePurchase,
     this.isTrialEligible = false,
   });
@@ -496,7 +515,8 @@ class PackageWidget extends StatelessWidget {
                   ),
               ],
             ),
-            if (hasSubscription && (period == PlanPeriod.yearly || period == PlanPeriod.weekly)) ...[
+            if ((hasWeeklySubscription || hasYearlySubscription) &&
+                (period == PlanPeriod.yearly || period == PlanPeriod.weekly)) ...[
               const SizedBox(height: 16),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
