@@ -87,6 +87,19 @@ class PurchasesRepository {
     await Purchases.presentCodeRedemptionSheet();
   }
 
+  Future<bool> checkTrialEligibility(List<String> productIdentifiers) async {
+    log('--- REVENUECAT: checkTrialEligibility()');
+
+    final eligibilityMap =
+        await Purchases.checkTrialOrIntroductoryPriceEligibility(productIdentifiers);
+
+    // User is eligible if any product has an intro eligible status
+    return eligibilityMap.values.any(
+      (eligibility) =>
+          eligibility.status == IntroEligibilityStatus.introEligibilityStatusEligible,
+    );
+  }
+
   Future<CustomerInfo> restorePurchases() async {
     return await Purchases.restorePurchases();
   }

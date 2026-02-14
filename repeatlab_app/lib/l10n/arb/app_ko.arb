@@ -105,6 +105,10 @@
             }
         }
     },
+    "subscribeWeekly": "주간 구독",
+    "subscribeYearly": "연간 구독",
+    "weeklyDescriptionNoTrial": "주간 {priceString}. 스토어 설정에서 취소하지 않으면 구독이 자동으로 갱신됩니다.",
+    "yearlyDescriptionNoTrial": "연간 {priceString}. 스토어 설정에서 취소하지 않으면 구독이 자동으로 갱신됩니다.",
     "lifetimeDescription": "일회성 결제. 구독이 필요하지 않습니다.",
     "deleteSongLoops": "곡 및 루프 삭제",
     "deleteSongLoopsDescription": "이 곡과 관련된 모든 루프를 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.",
@@ -124,7 +128,28 @@
     "tutorialActivateLoopDescription": "루프를 재생하려면 루프 모드를 활성화해야 합니다. 비활성화된 경우 전체 곡이 재생됩니다.",
     "tutorialAddLoop": "새 루프 추가",
     "tutorialAddLoopDescription": "+ 버튼을 탭하여 새 루프를 추가할 수 있습니다",
+    "week": "주",
     "year": "년",
+    "purchaseWeekly": "{trialString}일 무료 체험",
+    "@purchaseWeekly": {
+        "placeholders": {
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
+    "weeklySubtitle": "일주일 동안 사용해 보세요",
+    "weeklyDescription": "{trialString}일 무료 체험, 이후 주간 {priceString}. 체험 기간이 끝나기 전에 스토어 설정에서 취소하지 않으면 구독이 자동으로 갱신됩니다.",
+    "@weeklyDescription": {
+        "placeholders": {
+            "priceString": {
+                "type": "String"
+            },
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
     "purchasedAlready": "이미 구매함",
     "purchaseSuccess": "구매가 성공적으로 완료되었습니다. 개발자를 지원해 주셔서 감사합니다 ❤️!",
     "voteForFeatures": "기능 투표",

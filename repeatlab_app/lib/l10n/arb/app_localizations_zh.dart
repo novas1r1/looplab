@@ -279,6 +279,22 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String get subscribeWeekly => '每周订阅';
+
+  @override
+  String get subscribeYearly => '每年订阅';
+
+  @override
+  String weeklyDescriptionNoTrial(String priceString) {
+    return '$priceString/周。除非在商店设置中取消，否则订阅将自动续订。';
+  }
+
+  @override
+  String yearlyDescriptionNoTrial(String priceString) {
+    return '$priceString/年。除非在商店设置中取消，否则订阅将自动续订。';
+  }
+
+  @override
   String get lifetimeDescription => '一次性付款。无需订阅。';
 
   @override
@@ -345,7 +361,23 @@ class AppLocalizationsZh extends AppLocalizations {
   String get tutorialAddLoopDescription => '您可以通过点击 + 按钮添加新循环';
 
   @override
+  String get week => '周';
+
+  @override
   String get year => '年';
+
+  @override
+  String purchaseWeekly(String trialString) {
+    return '免费试用 $trialString 天';
+  }
+
+  @override
+  String get weeklySubtitle => '试用一周';
+
+  @override
+  String weeklyDescription(String priceString, String trialString) {
+    return '$trialString 天免费试用，之后每周 $priceString。除非在试用期结束前在商店设置中取消，否则订阅将自动续订。';
+  }
 
   @override
   String get purchasedAlready => '已购买';

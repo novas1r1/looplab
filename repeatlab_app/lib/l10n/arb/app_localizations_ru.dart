@@ -291,6 +291,22 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get subscribeWeekly => 'Подписка на неделю';
+
+  @override
+  String get subscribeYearly => 'Подписка на год';
+
+  @override
+  String weeklyDescriptionNoTrial(String priceString) {
+    return '$priceString/неделя. Подписка продлевается автоматически, если не отменить в настройках магазина.';
+  }
+
+  @override
+  String yearlyDescriptionNoTrial(String priceString) {
+    return '$priceString/год. Подписка продлевается автоматически, если не отменить в настройках магазина.';
+  }
+
+  @override
   String get lifetimeDescription =>
       'Единоразовый платеж. Подписка не требуется.';
 
@@ -368,7 +384,23 @@ class AppLocalizationsRu extends AppLocalizations {
       'Вы можете добавить новый луп, нажав на кнопку +';
 
   @override
+  String get week => 'неделя';
+
+  @override
   String get year => 'год';
+
+  @override
+  String purchaseWeekly(String trialString) {
+    return 'Попробовать Бесплатно $trialString дней';
+  }
+
+  @override
+  String get weeklySubtitle => 'Попробуйте в течение недели';
+
+  @override
+  String weeklyDescription(String priceString, String trialString) {
+    return '$trialString-дневный бесплатный пробный период, затем $priceString/неделя. Подписка продлевается автоматически, если не отменить в настройках магазина до окончания пробного периода.';
+  }
 
   @override
   String get purchasedAlready => 'Уже приобретено';

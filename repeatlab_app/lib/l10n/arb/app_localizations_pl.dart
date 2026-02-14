@@ -290,6 +290,22 @@ class AppLocalizationsPl extends AppLocalizations {
   }
 
   @override
+  String get subscribeWeekly => 'Subskrypcja tygodniowa';
+
+  @override
+  String get subscribeYearly => 'Subskrypcja roczna';
+
+  @override
+  String weeklyDescriptionNoTrial(String priceString) {
+    return '$priceString/tydzień. Subskrypcja odnawia się automatycznie, chyba że zostanie anulowana w ustawieniach sklepu.';
+  }
+
+  @override
+  String yearlyDescriptionNoTrial(String priceString) {
+    return '$priceString/rok. Subskrypcja odnawia się automatycznie, chyba że zostanie anulowana w ustawieniach sklepu.';
+  }
+
+  @override
   String get lifetimeDescription => 'Jednorazowa płatność. Bez subskrypcji.';
 
   @override
@@ -364,7 +380,23 @@ class AppLocalizationsPl extends AppLocalizations {
       'Możesz dodać nową pętlę dotykając przycisku +';
 
   @override
+  String get week => 'tydzień';
+
+  @override
   String get year => 'rok';
+
+  @override
+  String purchaseWeekly(String trialString) {
+    return 'Spróbuj za darmo $trialString dni';
+  }
+
+  @override
+  String get weeklySubtitle => 'Wypróbuj przez tydzień';
+
+  @override
+  String weeklyDescription(String priceString, String trialString) {
+    return '$trialString-dniowy okres próbny, następnie $priceString/tydzień. Subskrypcja odnawia się automatycznie, chyba że zostanie anulowana w ustawieniach sklepu przed końcem okresu próbnego.';
+  }
 
   @override
   String get purchasedAlready => 'Już kupione';

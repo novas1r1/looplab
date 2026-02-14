@@ -107,6 +107,10 @@
             }
         }
     },
+    "subscribeWeekly": "اشتراك أسبوعي",
+    "subscribeYearly": "اشتراك سنوي",
+    "weeklyDescriptionNoTrial": "{priceString}/أسبوع. يتم تجديد الاشتراك تلقائيًا ما لم يتم إلغاؤه في إعدادات المتجر.",
+    "yearlyDescriptionNoTrial": "{priceString}/سنة. يتم تجديد الاشتراك تلقائيًا ما لم يتم إلغاؤه في إعدادات المتجر.",
     "lifetimeDescription": "دفعة واحدة. لا يلزم الاشتراك.",
     "deleteSongLoops": "حذف الأغنية والحلقات",
     "deleteSongLoopsDescription": "هل أنت متأكد أنك تريد حذف هذه الأغنية وجميع الحلقات المرتبطة بها؟ لا يمكن التراجع عن هذا الإجراء.",
@@ -126,7 +130,28 @@
     "tutorialActivateLoopDescription": "إذا كنت تريد تشغيل الحلقة، يجب عليك تفعيل وضع الحلقة. إذا كان معطلاً، سيتم تشغيل الأغنية بأكملها.",
     "tutorialAddLoop": "إضافة حلقة جديدة",
     "tutorialAddLoopDescription": "يمكنك إضافة حلقة جديدة بالنقر على زر +",
+    "week": "أسبوع",
     "year": "سنة",
+    "purchaseWeekly": "تجربة مجانية لمدة {trialString} يومًا",
+    "@purchaseWeekly": {
+        "placeholders": {
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
+    "weeklySubtitle": "جربه لمدة أسبوع",
+    "weeklyDescription": "فترة تجريبية مجانية لمدة {trialString} يومًا، ثم {priceString} أسبوعيًا. يتم تجديد الاشتراك تلقائيًا ما لم يتم إلغاؤه في إعدادات المتجر قبل انتهاء الفترة التجريبية.",
+    "@weeklyDescription": {
+        "placeholders": {
+            "priceString": {
+                "type": "String"
+            },
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
     "purchasedAlready": "تم الشراء بالفعل",
     "purchaseSuccess": "تم الشراء بنجاح. شكرًا لدعم المطور ❤️!",
     "voteForFeatures": "التصويت على الميزات",

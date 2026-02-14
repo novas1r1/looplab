@@ -98,6 +98,10 @@
             }
         }
     },
+    "subscribeWeekly": "Abonnement hebdomadaire",
+    "subscribeYearly": "Abonnement annuel",
+    "weeklyDescriptionNoTrial": "{priceString}/semaine. L'abonnement se renouvelle automatiquement sauf annulation dans les paramètres du store.",
+    "yearlyDescriptionNoTrial": "{priceString}/an. L'abonnement se renouvelle automatiquement sauf annulation dans les paramètres du store.",
     "lifetimeDescription": "Paiement unique. Pas d'abonnement requis.",
     "deleteSongLoops": "Supprimer la Chanson et les Boucles",
     "deleteSongLoopsDescription": "Êtes-vous sûr de vouloir supprimer cette chanson et toutes les boucles associées ? Cette action ne peut pas être annulée.",
@@ -119,7 +123,28 @@
     "tutorialActivateLoopDescription": "Si vous voulez jouer la boucle, vous devez activer le mode boucle. S'il est désactivé, toute la chanson sera jouée.",
     "tutorialAddLoop": "Ajouter une nouvelle boucle",
     "tutorialAddLoopDescription": "Vous pouvez ajouter une nouvelle boucle en touchant le bouton +",
+    "week": "semaine",
     "year": "an",
+    "purchaseWeekly": "Essayer gratuitement {trialString} jours",
+    "@purchaseWeekly": {
+        "placeholders": {
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
+    "weeklySubtitle": "Essayez pendant une semaine",
+    "weeklyDescription": "Essai gratuit de {trialString} jours, puis {priceString}/semaine. L'abonnement se renouvelle automatiquement sauf annulation dans les paramètres du store avant la fin de l'essai.",
+    "@weeklyDescription": {
+        "placeholders": {
+            "priceString": {
+                "type": "String"
+            },
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
     "purchasedAlready": "Déjà acheté",
     "purchaseSuccess": "Achat réussi. Merci pour votre soutien au développeur ❤️!",
     "purchaseLifetime": "Acheter",

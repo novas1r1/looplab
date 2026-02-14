@@ -292,6 +292,22 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
+  String get subscribeWeekly => 'Haftalık abone ol';
+
+  @override
+  String get subscribeYearly => 'Yıllık abone ol';
+
+  @override
+  String weeklyDescriptionNoTrial(String priceString) {
+    return 'Haftalık $priceString. Mağaza ayarlarından iptal edilmediği sürece abonelik otomatik olarak yenilenir.';
+  }
+
+  @override
+  String yearlyDescriptionNoTrial(String priceString) {
+    return 'Yıllık $priceString. Mağaza ayarlarından iptal edilmediği sürece abonelik otomatik olarak yenilenir.';
+  }
+
+  @override
   String get lifetimeDescription => 'Tek seferlik ödeme. Abonelik gerekmez.';
 
   @override
@@ -366,7 +382,23 @@ class AppLocalizationsTr extends AppLocalizations {
       '+ düğmesine tıklayarak yeni bir döngü ekleyebilirsiniz';
 
   @override
+  String get week => 'hafta';
+
+  @override
   String get year => 'yıl';
+
+  @override
+  String purchaseWeekly(String trialString) {
+    return '$trialString günlük ücretsiz deneme';
+  }
+
+  @override
+  String get weeklySubtitle => 'Bir hafta deneyin';
+
+  @override
+  String weeklyDescription(String priceString, String trialString) {
+    return '$trialString günlük ücretsiz deneme, ardından haftalık $priceString. Deneme süresi bitmeden önce mağaza ayarlarından iptal edilmediği sürece abonelik otomatik olarak yenilenir.';
+  }
 
   @override
   String get purchasedAlready => 'Zaten satın alındı';

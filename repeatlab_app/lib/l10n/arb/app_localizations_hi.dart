@@ -291,6 +291,22 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
+  String get subscribeWeekly => 'साप्ताहिक सदस्यता';
+
+  @override
+  String get subscribeYearly => 'वार्षिक सदस्यता';
+
+  @override
+  String weeklyDescriptionNoTrial(String priceString) {
+    return '$priceString/सप्ताह। स्टोर सेटिंग्स में रद्द नहीं किए जाने तक सदस्यता स्वचालित रूप से नवीनीकृत होती है।';
+  }
+
+  @override
+  String yearlyDescriptionNoTrial(String priceString) {
+    return '$priceString/वर्ष। स्टोर सेटिंग्स में रद्द नहीं किए जाने तक सदस्यता स्वचालित रूप से नवीनीकृत होती है।';
+  }
+
+  @override
   String get lifetimeDescription => 'एक बार का भुगतान। कोई सदस्यता नहीं।';
 
   @override
@@ -364,7 +380,23 @@ class AppLocalizationsHi extends AppLocalizations {
       'आप + बटन पर क्लिक करके एक नया लूप जोड़ सकते हैं';
 
   @override
+  String get week => 'सप्ताह';
+
+  @override
   String get year => 'वर्ष';
+
+  @override
+  String purchaseWeekly(String trialString) {
+    return '$trialString दिनों का निःशुल्क परीक्षण';
+  }
+
+  @override
+  String get weeklySubtitle => 'एक सप्ताह के लिए आज़माएं';
+
+  @override
+  String weeklyDescription(String priceString, String trialString) {
+    return '$trialString दिनों का निःशुल्क परीक्षण, फिर $priceString साप्ताहिक। परीक्षण अवधि समाप्त होने से पहले स्टोर सेटिंग्स में रद्द नहीं किए जाने तक सदस्यता स्वचालित रूप से नवीनीकृत होती है।';
+  }
 
   @override
   String get purchasedAlready => 'पहले से ही खरीदा गया';

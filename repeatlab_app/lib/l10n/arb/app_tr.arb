@@ -105,6 +105,10 @@
             }
         }
     },
+    "subscribeWeekly": "Haftalık abone ol",
+    "subscribeYearly": "Yıllık abone ol",
+    "weeklyDescriptionNoTrial": "Haftalık {priceString}. Mağaza ayarlarından iptal edilmediği sürece abonelik otomatik olarak yenilenir.",
+    "yearlyDescriptionNoTrial": "Yıllık {priceString}. Mağaza ayarlarından iptal edilmediği sürece abonelik otomatik olarak yenilenir.",
     "lifetimeDescription": "Tek seferlik ödeme. Abonelik gerekmez.",
     "deleteSongLoops": "Şarkı ve Döngüleri Sil",
     "deleteSongLoopsDescription": "Bu şarkıyı ve ilişkili tüm döngüleri silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
@@ -124,7 +128,28 @@
     "tutorialActivateLoopDescription": "Döngüyü çalmak istiyorsanız, döngü modunu etkinleştirmeniz gerekir. Devre dışıysa, tüm şarkı çalınacaktır.",
     "tutorialAddLoop": "Yeni döngü ekle",
     "tutorialAddLoopDescription": "+ düğmesine tıklayarak yeni bir döngü ekleyebilirsiniz",
+    "week": "hafta",
     "year": "yıl",
+    "purchaseWeekly": "{trialString} günlük ücretsiz deneme",
+    "@purchaseWeekly": {
+        "placeholders": {
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
+    "weeklySubtitle": "Bir hafta deneyin",
+    "weeklyDescription": "{trialString} günlük ücretsiz deneme, ardından haftalık {priceString}. Deneme süresi bitmeden önce mağaza ayarlarından iptal edilmediği sürece abonelik otomatik olarak yenilenir.",
+    "@weeklyDescription": {
+        "placeholders": {
+            "priceString": {
+                "type": "String"
+            },
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
     "purchasedAlready": "Zaten satın alındı",
     "purchaseSuccess": "Başarıyla satın alındı. Geliştiriciyi desteklediğiniz için teşekkür ederiz ❤️!",
     "changelog1601Title": "1/3 Döngüleri Seçtiğinizde veya aralarında gezinirken otomatik oynatma",

@@ -106,6 +106,10 @@
             }
         }
     },
+    "subscribeWeekly": "每周订阅",
+    "subscribeYearly": "每年订阅",
+    "weeklyDescriptionNoTrial": "{priceString}/周。除非在商店设置中取消，否则订阅将自动续订。",
+    "yearlyDescriptionNoTrial": "{priceString}/年。除非在商店设置中取消，否则订阅将自动续订。",
     "lifetimeDescription": "一次性付款。无需订阅。",
     "deleteSongLoops": "删除歌曲和循环",
     "deleteSongLoopsDescription": "您确定要删除此歌曲和所有附加的循环吗？此操作无法撤销。",
@@ -125,7 +129,28 @@
     "tutorialActivateLoopDescription": "如果您想播放循环，您必须激活循环模式。如果禁用，将播放整个歌曲。",
     "tutorialAddLoop": "添加新循环",
     "tutorialAddLoopDescription": "您可以通过点击 + 按钮添加新循环",
+    "week": "周",
     "year": "年",
+    "purchaseWeekly": "免费试用 {trialString} 天",
+    "@purchaseWeekly": {
+        "placeholders": {
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
+    "weeklySubtitle": "试用一周",
+    "weeklyDescription": "{trialString} 天免费试用，之后每周 {priceString}。除非在试用期结束前在商店设置中取消，否则订阅将自动续订。",
+    "@weeklyDescription": {
+        "placeholders": {
+            "priceString": {
+                "type": "String"
+            },
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
     "purchasedAlready": "已购买",
     "purchaseSuccess": "购买成功。感谢您支持开发者 ❤️！",
     "voteForFeatures": "功能投票",

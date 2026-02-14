@@ -30,14 +30,29 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
     try {
       final offers = await purchasesRepository.offers;
 
+      final weeklyPackage = offers.firstOrNull?.weekly;
       final lifetimePackage = offers.firstOrNull?.lifetime;
       final annualPackage = offers.firstOrNull?.annual;
+
+      // Check trial eligibility for subscription products
+      final subscriptionProductIds = [
+        if (weeklyPackage != null) weeklyPackage.storeProduct.identifier,
+        if (annualPackage != null) annualPackage.storeProduct.identifier,
+      ];
+
+      var isTrialEligible = false;
+      if (subscriptionProductIds.isNotEmpty) {
+        isTrialEligible =
+            await purchasesRepository.checkTrialEligibility(subscriptionProductIds);
+      }
 
       maybeEmit(
         state.copyWith(
           status: FetchProductsStatus.success,
+          weeklyPackage: weeklyPackage,
           lifetimePackage: lifetimePackage,
           annualPackage: annualPackage,
+          isTrialEligible: isTrialEligible,
         ),
       );
     } catch (ex, stackTrace) {

@@ -289,6 +289,22 @@ class AppLocalizationsNl extends AppLocalizations {
   }
 
   @override
+  String get subscribeWeekly => 'Wekelijks abonneren';
+
+  @override
+  String get subscribeYearly => 'Jaarlijks abonneren';
+
+  @override
+  String weeklyDescriptionNoTrial(String priceString) {
+    return '$priceString/week. Abonnement wordt automatisch verlengd tenzij geannuleerd in de store-instellingen.';
+  }
+
+  @override
+  String yearlyDescriptionNoTrial(String priceString) {
+    return '$priceString/jaar. Abonnement wordt automatisch verlengd tenzij geannuleerd in de store-instellingen.';
+  }
+
+  @override
   String get lifetimeDescription =>
       'Eenmalige betaling. Geen abonnement vereist.';
 
@@ -366,7 +382,23 @@ class AppLocalizationsNl extends AppLocalizations {
       'Je kunt een nieuwe loop toevoegen door op de + knop te tikken';
 
   @override
+  String get week => 'week';
+
+  @override
   String get year => 'jaar';
+
+  @override
+  String purchaseWeekly(String trialString) {
+    return 'Probeer gratis $trialString dagen';
+  }
+
+  @override
+  String get weeklySubtitle => 'Probeer het een week';
+
+  @override
+  String weeklyDescription(String priceString, String trialString) {
+    return '$trialString dagen gratis proefperiode, daarna $priceString/week. Abonnement wordt automatisch verlengd tenzij geannuleerd in de store-instellingen voor het einde van de proefperiode.';
+  }
 
   @override
   String get purchasedAlready => 'Al gekocht';

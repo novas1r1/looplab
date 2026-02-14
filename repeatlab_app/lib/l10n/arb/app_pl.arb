@@ -101,6 +101,10 @@
             }
         }
     },
+    "subscribeWeekly": "Subskrypcja tygodniowa",
+    "subscribeYearly": "Subskrypcja roczna",
+    "weeklyDescriptionNoTrial": "{priceString}/tydzień. Subskrypcja odnawia się automatycznie, chyba że zostanie anulowana w ustawieniach sklepu.",
+    "yearlyDescriptionNoTrial": "{priceString}/rok. Subskrypcja odnawia się automatycznie, chyba że zostanie anulowana w ustawieniach sklepu.",
     "lifetimeDescription": "Jednorazowa płatność. Bez subskrypcji.",
     "deleteSongLoops": "Usuń Utwór i Pętle",
     "deleteSongLoopsDescription": "Czy na pewno chcesz usunąć ten utwór i wszystkie powiązane pętle? Tej operacji nie można cofnąć.",
@@ -121,7 +125,28 @@
     "tutorialActivateLoopDescription": "Jeśli chcesz odtworzyć pętlę, musisz aktywować tryb pętli. Jeśli jest wyłączony, zostanie odtworzony cały utwór.",
     "tutorialAddLoop": "Dodaj nową pętlę",
     "tutorialAddLoopDescription": "Możesz dodać nową pętlę dotykając przycisku +",
+    "week": "tydzień",
     "year": "rok",
+    "purchaseWeekly": "Spróbuj za darmo {trialString} dni",
+    "@purchaseWeekly": {
+        "placeholders": {
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
+    "weeklySubtitle": "Wypróbuj przez tydzień",
+    "weeklyDescription": "{trialString}-dniowy okres próbny, następnie {priceString}/tydzień. Subskrypcja odnawia się automatycznie, chyba że zostanie anulowana w ustawieniach sklepu przed końcem okresu próbnego.",
+    "@weeklyDescription": {
+        "placeholders": {
+            "priceString": {
+                "type": "String"
+            },
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
     "purchasedAlready": "Już kupione",
     "purchaseSuccess": "Kupienie powiodło się. Dziękujemy za wsparcie dla dewelopera ❤️!",
     "cancelSubscription": "Anuluj Subskrypcję",

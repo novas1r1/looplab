@@ -289,6 +289,22 @@ class AppLocalizationsSv extends AppLocalizations {
   }
 
   @override
+  String get subscribeWeekly => 'Prenumerera veckovis';
+
+  @override
+  String get subscribeYearly => 'Prenumerera årsvis';
+
+  @override
+  String weeklyDescriptionNoTrial(String priceString) {
+    return '$priceString/vecka. Prenumerationen förnyas automatiskt om den inte avbryts i butiksinställningarna.';
+  }
+
+  @override
+  String yearlyDescriptionNoTrial(String priceString) {
+    return '$priceString/år. Prenumerationen förnyas automatiskt om den inte avbryts i butiksinställningarna.';
+  }
+
+  @override
   String get lifetimeDescription =>
       'Engångsbetalning. Ingen prenumeration krävs.';
 
@@ -365,7 +381,23 @@ class AppLocalizationsSv extends AppLocalizations {
       'Du kan lägga till en ny loop genom att trycka på + knappen';
 
   @override
+  String get week => 'vecka';
+
+  @override
   String get year => 'år';
+
+  @override
+  String purchaseWeekly(String trialString) {
+    return 'Prova Gratis $trialString dagar';
+  }
+
+  @override
+  String get weeklySubtitle => 'Prova i en vecka';
+
+  @override
+  String weeklyDescription(String priceString, String trialString) {
+    return '$trialString dagars gratis provperiod, sedan $priceString/vecka. Prenumerationen förnyas automatiskt om den inte avbryts i butiksinställningarna före provperiodens slut.';
+  }
 
   @override
   String get purchasedAlready => 'Redan köpt';

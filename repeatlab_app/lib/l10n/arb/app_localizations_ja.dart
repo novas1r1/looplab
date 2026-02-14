@@ -283,6 +283,22 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String get subscribeWeekly => '週間サブスクリプション';
+
+  @override
+  String get subscribeYearly => '年間サブスクリプション';
+
+  @override
+  String weeklyDescriptionNoTrial(String priceString) {
+    return '週間$priceString。ストア設定でキャンセルしない限り、サブスクリプションは自動更新されます。';
+  }
+
+  @override
+  String yearlyDescriptionNoTrial(String priceString) {
+    return '年間$priceString。ストア設定でキャンセルしない限り、サブスクリプションは自動更新されます。';
+  }
+
+  @override
   String get lifetimeDescription => '一度の支払い。サブスクリプションは不要です。';
 
   @override
@@ -352,7 +368,23 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tutorialAddLoopDescription => '+ボタンをタップして新しいループを追加できます';
 
   @override
+  String get week => '週';
+
+  @override
   String get year => '年';
+
+  @override
+  String purchaseWeekly(String trialString) {
+    return '$trialString日間無料トライアル';
+  }
+
+  @override
+  String get weeklySubtitle => '1週間お試しください';
+
+  @override
+  String weeklyDescription(String priceString, String trialString) {
+    return '$trialString日間の無料トライアル、その後は週間$priceString。トライアル期間終了前にストア設定でキャンセルしない限り、サブスクリプションは自動更新されます。';
+  }
 
   @override
   String get purchasedAlready => 'すでに購入済み';

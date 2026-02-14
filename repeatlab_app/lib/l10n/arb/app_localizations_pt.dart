@@ -291,6 +291,22 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
+  String get subscribeWeekly => 'Assinatura semanal';
+
+  @override
+  String get subscribeYearly => 'Assinatura anual';
+
+  @override
+  String weeklyDescriptionNoTrial(String priceString) {
+    return '$priceString/semana. A assinatura renova automaticamente a menos que seja cancelada nas configurações da loja.';
+  }
+
+  @override
+  String yearlyDescriptionNoTrial(String priceString) {
+    return '$priceString/ano. A assinatura renova automaticamente a menos que seja cancelada nas configurações da loja.';
+  }
+
+  @override
   String get lifetimeDescription =>
       'Pagamento único. Sem necessidade de assinatura.';
 
@@ -368,7 +384,23 @@ class AppLocalizationsPt extends AppLocalizations {
       'Você pode adicionar um novo loop tocando no botão +';
 
   @override
+  String get week => 'semana';
+
+  @override
   String get year => 'ano';
+
+  @override
+  String purchaseWeekly(String trialString) {
+    return 'Experimente Grátis $trialString dias';
+  }
+
+  @override
+  String get weeklySubtitle => 'Experimente por uma semana';
+
+  @override
+  String weeklyDescription(String priceString, String trialString) {
+    return '$trialString dias de teste grátis, depois $priceString/semana. A assinatura renova automaticamente a menos que seja cancelada nas configurações da loja antes do fim do período de teste.';
+  }
 
   @override
   String get purchasedAlready => 'Já comprado';

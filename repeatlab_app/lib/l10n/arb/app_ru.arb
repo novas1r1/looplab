@@ -101,6 +101,10 @@
             }
         }
     },
+    "subscribeWeekly": "Подписка на неделю",
+    "subscribeYearly": "Подписка на год",
+    "weeklyDescriptionNoTrial": "{priceString}/неделя. Подписка продлевается автоматически, если не отменить в настройках магазина.",
+    "yearlyDescriptionNoTrial": "{priceString}/год. Подписка продлевается автоматически, если не отменить в настройках магазина.",
     "lifetimeDescription": "Единоразовый платеж. Подписка не требуется.",
     "deleteSongLoops": "Удалить Песню и Лупы",
     "deleteSongLoopsDescription": "Вы уверены, что хотите удалить эту песню и все прикрепленные лупы? Это действие нельзя отменить.",
@@ -121,7 +125,28 @@
     "tutorialActivateLoopDescription": "Если вы хотите воспроизвести луп, вы должны активировать режим лупа. Если он отключен, будет воспроизведена вся песня.",
     "tutorialAddLoop": "Добавление нового лупа",
     "tutorialAddLoopDescription": "Вы можете добавить новый луп, нажав на кнопку +",
+    "week": "неделя",
     "year": "год",
+    "purchaseWeekly": "Попробовать Бесплатно {trialString} дней",
+    "@purchaseWeekly": {
+        "placeholders": {
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
+    "weeklySubtitle": "Попробуйте в течение недели",
+    "weeklyDescription": "{trialString}-дневный бесплатный пробный период, затем {priceString}/неделя. Подписка продлевается автоматически, если не отменить в настройках магазина до окончания пробного периода.",
+    "@weeklyDescription": {
+        "placeholders": {
+            "priceString": {
+                "type": "String"
+            },
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
     "purchasedAlready": "Уже приобретено",
     "purchaseSuccess": "Покупка прошла успешно. Спасибо за поддержку разработчика ❤️!",
     "cancelSubscription": "Отменить Подписку",

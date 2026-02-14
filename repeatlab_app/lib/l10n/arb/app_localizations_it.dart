@@ -292,6 +292,22 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
+  String get subscribeWeekly => 'Abbonamento settimanale';
+
+  @override
+  String get subscribeYearly => 'Abbonamento annuale';
+
+  @override
+  String weeklyDescriptionNoTrial(String priceString) {
+    return '$priceString/settimana. L\'abbonamento si rinnova automaticamente a meno che non venga annullato nelle impostazioni dello store.';
+  }
+
+  @override
+  String yearlyDescriptionNoTrial(String priceString) {
+    return '$priceString/anno. L\'abbonamento si rinnova automaticamente a meno che non venga annullato nelle impostazioni dello store.';
+  }
+
+  @override
   String get lifetimeDescription =>
       'Pagamento unico. Nessun abbonamento richiesto.';
 
@@ -369,7 +385,23 @@ class AppLocalizationsIt extends AppLocalizations {
       'Puoi aggiungere un nuovo loop toccando il pulsante +';
 
   @override
+  String get week => 'settimana';
+
+  @override
   String get year => 'anno';
+
+  @override
+  String purchaseWeekly(String trialString) {
+    return 'Prova Gratuita $trialString giorni';
+  }
+
+  @override
+  String get weeklySubtitle => 'Provalo per una settimana';
+
+  @override
+  String weeklyDescription(String priceString, String trialString) {
+    return 'Prova gratuita di $trialString giorni, poi $priceString/settimana. L\'abbonamento si rinnova automaticamente a meno che non venga annullato nelle impostazioni dello store prima della fine della prova.';
+  }
 
   @override
   String get purchasedAlready => 'Già acquistato';

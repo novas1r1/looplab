@@ -87,11 +87,14 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
   Widget build(BuildContext context) {
     final bool isApple = Platform.isIOS;
 
+    final weeklyPrice = widget.fetchProductsState.weeklyPackage?.storeProduct.priceString;
     final yearlyPrice = widget.fetchProductsState.annualPackage?.storeProduct.priceString;
     final lifetimePrice = widget.fetchProductsState.lifetimePackage?.storeProduct.priceString;
     final hasSubscription = context.watch<PremiumSubscriptionCubit>().state.hasSubscription;
     final hasLifetimePurchase = context.watch<PremiumSubscriptionCubit>().state.hasLifetimePurchase;
+    final hasPurchase = hasSubscription || hasLifetimePurchase;
 
+    final weeklySelected = !hasPurchase && _selectedPlan == PlanPeriod.weekly;
     // yearly box should be selected if yearly was bought OR if lifetime was NOT bought and box was selected
     final yearlySelected =
         hasSubscription || (!hasLifetimePurchase && _selectedPlan == PlanPeriod.yearly);
@@ -234,6 +237,18 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                   const Divider(),
 
                   const SizedBox(height: 16),
+                  // package weekly with title, subtitle, border if selected
+                  PackageWidget(
+                    period: PlanPeriod.weekly,
+                    isSelected: weeklySelected,
+                    onSelected: () => setState(() => _selectedPlan = PlanPeriod.weekly),
+                    priceString: weeklyPrice ?? context.l10n.notAvailable,
+                    hasSubscription: hasSubscription,
+                    hasLifetimePurchase: hasLifetimePurchase,
+                    isTrialEligible: widget.fetchProductsState.isTrialEligible,
+                  ),
+
+                  const SizedBox(height: 16),
                   // package yearly with title, subtitle, border if selected
                   PackageWidget(
                     period: PlanPeriod.yearly,
@@ -242,6 +257,7 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                     priceString: yearlyPrice ?? context.l10n.notAvailable,
                     hasSubscription: hasSubscription,
                     hasLifetimePurchase: hasLifetimePurchase,
+                    isTrialEligible: widget.fetchProductsState.isTrialEligible,
                   ),
 
                   const SizedBox(height: 16),
@@ -257,7 +273,9 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
 
                   const SizedBox(height: 16),
 
-                  if (_selectedPlan == PlanPeriod.yearly) ...[
+                  if (widget.fetchProductsState.isTrialEligible &&
+                      (_selectedPlan == PlanPeriod.weekly ||
+                          _selectedPlan == PlanPeriod.yearly)) ...[
                     Text(
                       context.l10n.cancelAnytime,
                       style: Theme.of(context).textTheme.bodySmall,
@@ -271,12 +289,16 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                       foregroundColor: AppColors.onPrimary,
                     ),
                     onPressed:
-                        !hasSubscription &&
-                            !hasLifetimePurchase &&
+                        !hasPurchase &&
+                            widget.fetchProductsState.weeklyPackage != null &&
                             widget.fetchProductsState.annualPackage != null &&
                             widget.fetchProductsState.lifetimePackage != null
                         ? () {
-                            if (_selectedPlan == PlanPeriod.yearly) {
+                            if (_selectedPlan == PlanPeriod.weekly) {
+                              context.read<FetchProductsCubit>().purchase(
+                                widget.fetchProductsState.weeklyPackage!,
+                              );
+                            } else if (_selectedPlan == PlanPeriod.yearly) {
                               context.read<FetchProductsCubit>().purchase(
                                 widget.fetchProductsState.annualPackage!,
                               );
@@ -287,16 +309,25 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
                             }
                           }
                         : null,
-                    child: !hasSubscription && !hasLifetimePurchase
-                        ? _selectedPlan == PlanPeriod.yearly
+                    child: !hasPurchase
+                        ? _selectedPlan == PlanPeriod.weekly
                               ? Text(
-                                  context.l10n.purchaseYearly(isApple ? '3' : '5'),
+                                  widget.fetchProductsState.isTrialEligible
+                                      ? context.l10n.purchaseWeekly('3')
+                                      : context.l10n.subscribeWeekly,
                                   style: context.bodyLargeDarkBold,
                                 )
-                              : Text(
-                                  context.l10n.purchaseLifetime,
-                                  style: context.bodyLargeDarkBold,
-                                )
+                              : _selectedPlan == PlanPeriod.yearly
+                                  ? Text(
+                                      widget.fetchProductsState.isTrialEligible
+                                          ? context.l10n.purchaseYearly(isApple ? '3' : '5')
+                                          : context.l10n.subscribeYearly,
+                                      style: context.bodyLargeDarkBold,
+                                    )
+                                  : Text(
+                                      context.l10n.purchaseLifetime,
+                                      style: context.bodyLargeDarkBold,
+                                    )
                         : Text(
                             context.l10n.purchasedAlready,
                             style: context.bodyLargeLightBold,
@@ -365,6 +396,7 @@ class PackageWidget extends StatelessWidget {
   final bool isSelected;
   final bool hasSubscription;
   final bool hasLifetimePurchase;
+  final bool isTrialEligible;
   final VoidCallback onSelected;
   final String priceString;
 
@@ -376,6 +408,7 @@ class PackageWidget extends StatelessWidget {
     required this.priceString,
     required this.hasSubscription,
     required this.hasLifetimePurchase,
+    this.isTrialEligible = false,
   });
 
   @override
@@ -400,6 +433,11 @@ class PackageWidget extends StatelessWidget {
               'RepeatLab Pro ${period.name}',
               style: context.bodyLargeLightBold,
             ),
+            if (period == PlanPeriod.weekly)
+              Text(
+                context.l10n.weeklySubtitle,
+                style: context.bodyMediumBold,
+              ),
             if (period == PlanPeriod.yearly)
               Text(
                 context.l10n.oneCoffee,
@@ -418,9 +456,18 @@ class PackageWidget extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      if (period == PlanPeriod.weekly)
+                        Text(
+                          isTrialEligible
+                              ? context.l10n.weeklyDescription(priceString, '3')
+                              : context.l10n.weeklyDescriptionNoTrial(priceString),
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
                       if (period == PlanPeriod.yearly)
                         Text(
-                          context.l10n.yearlyDescription(priceString, isApple ? '3' : '5'),
+                          isTrialEligible
+                              ? context.l10n.yearlyDescription(priceString, isApple ? '3' : '5')
+                              : context.l10n.yearlyDescriptionNoTrial(priceString),
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       if (period == PlanPeriod.lifetime)
@@ -432,6 +479,11 @@ class PackageWidget extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 16),
+                if (period == PlanPeriod.weekly)
+                  Text(
+                    "$priceString/${context.l10n.week}",
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
                 if (period == PlanPeriod.yearly)
                   Text(
                     "$priceString/${context.l10n.year}",
@@ -444,7 +496,7 @@ class PackageWidget extends StatelessWidget {
                   ),
               ],
             ),
-            if (hasSubscription && period == PlanPeriod.yearly) ...[
+            if (hasSubscription && (period == PlanPeriod.yearly || period == PlanPeriod.weekly)) ...[
               const SizedBox(height: 16),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -524,4 +576,5 @@ class FeatureTile extends StatelessWidget {
 enum PlanPeriod {
   lifetime,
   yearly,
+  weekly,
 }

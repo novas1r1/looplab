@@ -289,6 +289,22 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get subscribeWeekly => 'اشتراك أسبوعي';
+
+  @override
+  String get subscribeYearly => 'اشتراك سنوي';
+
+  @override
+  String weeklyDescriptionNoTrial(String priceString) {
+    return '$priceString/أسبوع. يتم تجديد الاشتراك تلقائيًا ما لم يتم إلغاؤه في إعدادات المتجر.';
+  }
+
+  @override
+  String yearlyDescriptionNoTrial(String priceString) {
+    return '$priceString/سنة. يتم تجديد الاشتراك تلقائيًا ما لم يتم إلغاؤه في إعدادات المتجر.';
+  }
+
+  @override
   String get lifetimeDescription => 'دفعة واحدة. لا يلزم الاشتراك.';
 
   @override
@@ -364,7 +380,23 @@ class AppLocalizationsAr extends AppLocalizations {
       'يمكنك إضافة حلقة جديدة بالنقر على زر +';
 
   @override
+  String get week => 'أسبوع';
+
+  @override
   String get year => 'سنة';
+
+  @override
+  String purchaseWeekly(String trialString) {
+    return 'تجربة مجانية لمدة $trialString يومًا';
+  }
+
+  @override
+  String get weeklySubtitle => 'جربه لمدة أسبوع';
+
+  @override
+  String weeklyDescription(String priceString, String trialString) {
+    return 'فترة تجريبية مجانية لمدة $trialString يومًا، ثم $priceString أسبوعيًا. يتم تجديد الاشتراك تلقائيًا ما لم يتم إلغاؤه في إعدادات المتجر قبل انتهاء الفترة التجريبية.';
+  }
 
   @override
   String get purchasedAlready => 'تم الشراء بالفعل';

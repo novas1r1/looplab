@@ -10,7 +10,13 @@
       "Bash(flutter gen-l10n:*)",
       "mcp__ide__getDiagnostics",
       "Bash(dart run build_runner build:*)",
-      "Bash(flutter analyze:*)"
+      "Bash(flutter analyze:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nFix position tracking when using Signalsmith time-stretching\n\nWhen using Signalsmith for pitch-preserving speed control, ExoPlayer\nruns at 1.0x internally while Signalsmith processes audio at the\ndesired rate. This caused getCurrentPosition\\(\\) to report incorrect\npositions \\(advancing at 1.0x instead of the actual playback rate\\),\nbreaking loop end detection at non-1.0x speeds.\n\nAdded position tracking that calculates the actual content position\nbased on the Signalsmith playback speed.\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push:*)",
+      "Bash(git fetch:*)",
+      "Bash(git pull:*)",
+      "Bash(flutter pub get:*)"
     ]
   }
 }

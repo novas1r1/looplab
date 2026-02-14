@@ -101,6 +101,10 @@
             }
         }
     },
+    "subscribeWeekly": "Prenumerera veckovis",
+    "subscribeYearly": "Prenumerera årsvis",
+    "weeklyDescriptionNoTrial": "{priceString}/vecka. Prenumerationen förnyas automatiskt om den inte avbryts i butiksinställningarna.",
+    "yearlyDescriptionNoTrial": "{priceString}/år. Prenumerationen förnyas automatiskt om den inte avbryts i butiksinställningarna.",
     "lifetimeDescription": "Engångsbetalning. Ingen prenumeration krävs.",
     "deleteSongLoops": "Radera Låt och Loopar",
     "deleteSongLoopsDescription": "Är du säker på att du vill radera denna låt och alla tillhörande loopar? Detta kan inte ångras.",
@@ -121,7 +125,28 @@
     "tutorialActivateLoopDescription": "Om du vill spela loopen måste du aktivera loopläget. Om det är inaktiverat kommer hela låten att spelas.",
     "tutorialAddLoop": "Lägg till en ny loop",
     "tutorialAddLoopDescription": "Du kan lägga till en ny loop genom att trycka på + knappen",
+    "week": "vecka",
     "year": "år",
+    "purchaseWeekly": "Prova Gratis {trialString} dagar",
+    "@purchaseWeekly": {
+        "placeholders": {
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
+    "weeklySubtitle": "Prova i en vecka",
+    "weeklyDescription": "{trialString} dagars gratis provperiod, sedan {priceString}/vecka. Prenumerationen förnyas automatiskt om den inte avbryts i butiksinställningarna före provperiodens slut.",
+    "@weeklyDescription": {
+        "placeholders": {
+            "priceString": {
+                "type": "String"
+            },
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
     "purchasedAlready": "Redan köpt",
     "purchaseSuccess": "Köp lyckades. Tack för att du stödjer utvecklaren ❤️!",
     "cancelSubscription": "Avbryt Prenumeration",

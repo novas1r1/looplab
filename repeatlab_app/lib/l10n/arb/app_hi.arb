@@ -103,6 +103,10 @@
             }
         }
     },
+    "subscribeWeekly": "साप्ताहिक सदस्यता",
+    "subscribeYearly": "वार्षिक सदस्यता",
+    "weeklyDescriptionNoTrial": "{priceString}/सप्ताह। स्टोर सेटिंग्स में रद्द नहीं किए जाने तक सदस्यता स्वचालित रूप से नवीनीकृत होती है।",
+    "yearlyDescriptionNoTrial": "{priceString}/वर्ष। स्टोर सेटिंग्स में रद्द नहीं किए जाने तक सदस्यता स्वचालित रूप से नवीनीकृत होती है।",
     "lifetimeDescription": "एक बार का भुगतान। कोई सदस्यता नहीं।",
     "deleteSongLoops": "गीत और लूप हटाएं",
     "deleteSongLoopsDescription": "क्या आप वाकई इस गीत और इससे जुड़े सभी लूपों को हटाना चाहते हैं? इस क्रिया को पूर्ववत नहीं किया जा सकता।",
@@ -122,7 +126,28 @@
     "tutorialActivateLoopDescription": "यदि आप लूप चलाना चाहते हैं, तो आपको लूप मोड सक्रिय करना होगा। यदि यह अक्षम है, तो पूरा गीत चलेगा।",
     "tutorialAddLoop": "नया लूप जोड़ें",
     "tutorialAddLoopDescription": "आप + बटन पर क्लिक करके एक नया लूप जोड़ सकते हैं",
+    "week": "सप्ताह",
     "year": "वर्ष",
+    "purchaseWeekly": "{trialString} दिनों का निःशुल्क परीक्षण",
+    "@purchaseWeekly": {
+        "placeholders": {
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
+    "weeklySubtitle": "एक सप्ताह के लिए आज़माएं",
+    "weeklyDescription": "{trialString} दिनों का निःशुल्क परीक्षण, फिर {priceString} साप्ताहिक। परीक्षण अवधि समाप्त होने से पहले स्टोर सेटिंग्स में रद्द नहीं किए जाने तक सदस्यता स्वचालित रूप से नवीनीकृत होती है।",
+    "@weeklyDescription": {
+        "placeholders": {
+            "priceString": {
+                "type": "String"
+            },
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
     "purchasedAlready": "पहले से ही खरीदा गया",
     "purchaseSuccess": "सफलतापूर्वक खरीदा गया। डेवलपर का समर्थन करने के लिए धन्यवाद ❤️!",
     "voteForFeatures": "सुविधाओं के लिए वोट करें",

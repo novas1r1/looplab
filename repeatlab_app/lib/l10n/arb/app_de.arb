@@ -101,6 +101,10 @@
             }
         }
     },
+    "subscribeWeekly": "Wöchentlich abonnieren",
+    "subscribeYearly": "Jährlich abonnieren",
+    "weeklyDescriptionNoTrial": "{priceString}/Woche. Das Abo erneuert sich automatisch, wenn es nicht in den Store-Einstellungen gekündigt wird.",
+    "yearlyDescriptionNoTrial": "{priceString}/Jahr. Das Abo erneuert sich automatisch, wenn es nicht in den Store-Einstellungen gekündigt wird.",
     "lifetimeDescription": "Einmalzahlung. Kein Abo.",
     "deleteSongLoops": "Song und Loops löschen",
     "deleteSongLoopsDescription": "Bist du sicher, dass du diesen Song und alle angehängten Loops löschen möchtest? Dies kann nicht rückgängig gemacht werden.",
@@ -122,7 +126,28 @@
     "tutorialActivateLoopDescription": "Wenn du die Loop spielen möchtest, musst du den Loop-Modus aktivieren. Wenn er deaktiviert ist, wird der gesamte Song gespielt.",
     "tutorialAddLoop": "Füge eine neue Loop hinzu",
     "tutorialAddLoopDescription": "Du kannst eine neue Loop hinzufügen, indem du auf den + Button tippst",
+    "week": "Woche",
     "year": "Jahr",
+    "purchaseWeekly": "Jetzt {trialString}-Tage kostenlos testen",
+    "@purchaseWeekly": {
+        "placeholders": {
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
+    "weeklySubtitle": "Probiere es eine Woche aus",
+    "weeklyDescription": "{trialString}-tägiger kostenloser Testzeitraum, dann {priceString}/Woche. Das Abo erneuert sich automatisch, es sei denn, es wird in den Store-Einstellungen vor Ablauf des Testzeitraums storniert.",
+    "@weeklyDescription": {
+        "placeholders": {
+            "priceString": {
+                "type": "String"
+            },
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
     "purchasedAlready": "Bereits gekauft",
     "purchaseSuccess": "Kauf erfolgreich. Vielen Dank für die Unterstützung der Entwicklerin ❤️!",
     "cancelSubscription": "Abonnement kündigen",

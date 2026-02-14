@@ -636,6 +636,30 @@ abstract class AppLocalizations {
   /// **'{trialString}-day free trial, then {priceString}/year. Subscription auto-renews unless canceled in Google Play settings before the trial ends.'**
   String yearlyDescription(String priceString, String trialString);
 
+  /// No description provided for @subscribeWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe Weekly'**
+  String get subscribeWeekly;
+
+  /// No description provided for @subscribeYearly.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe Yearly'**
+  String get subscribeYearly;
+
+  /// No description provided for @weeklyDescriptionNoTrial.
+  ///
+  /// In en, this message translates to:
+  /// **'{priceString}/week. Subscription auto-renews unless canceled in store settings.'**
+  String weeklyDescriptionNoTrial(String priceString);
+
+  /// No description provided for @yearlyDescriptionNoTrial.
+  ///
+  /// In en, this message translates to:
+  /// **'{priceString}/year. Subscription auto-renews unless canceled in store settings.'**
+  String yearlyDescriptionNoTrial(String priceString);
+
   /// No description provided for @lifetimeDescription.
   ///
   /// In en, this message translates to:
@@ -762,11 +786,35 @@ abstract class AppLocalizations {
   /// **'You can add a new loop by tapping on the + button'**
   String get tutorialAddLoopDescription;
 
+  /// No description provided for @week.
+  ///
+  /// In en, this message translates to:
+  /// **'week'**
+  String get week;
+
   /// No description provided for @year.
   ///
   /// In en, this message translates to:
   /// **'year'**
   String get year;
+
+  /// No description provided for @purchaseWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Try for {trialString} days free'**
+  String purchaseWeekly(String trialString);
+
+  /// No description provided for @weeklySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Try it out for a week'**
+  String get weeklySubtitle;
+
+  /// No description provided for @weeklyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'{trialString}-day free trial, then {priceString}/week. Subscription auto-renews unless canceled in store settings before the trial ends.'**
+  String weeklyDescription(String priceString, String trialString);
 
   /// No description provided for @purchasedAlready.
   ///

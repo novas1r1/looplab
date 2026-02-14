@@ -282,6 +282,22 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
+  String get subscribeWeekly => '주간 구독';
+
+  @override
+  String get subscribeYearly => '연간 구독';
+
+  @override
+  String weeklyDescriptionNoTrial(String priceString) {
+    return '주간 $priceString. 스토어 설정에서 취소하지 않으면 구독이 자동으로 갱신됩니다.';
+  }
+
+  @override
+  String yearlyDescriptionNoTrial(String priceString) {
+    return '연간 $priceString. 스토어 설정에서 취소하지 않으면 구독이 자동으로 갱신됩니다.';
+  }
+
+  @override
   String get lifetimeDescription => '일회성 결제. 구독이 필요하지 않습니다.';
 
   @override
@@ -351,7 +367,23 @@ class AppLocalizationsKo extends AppLocalizations {
   String get tutorialAddLoopDescription => '+ 버튼을 탭하여 새 루프를 추가할 수 있습니다';
 
   @override
+  String get week => '주';
+
+  @override
   String get year => '년';
+
+  @override
+  String purchaseWeekly(String trialString) {
+    return '$trialString일 무료 체험';
+  }
+
+  @override
+  String get weeklySubtitle => '일주일 동안 사용해 보세요';
+
+  @override
+  String weeklyDescription(String priceString, String trialString) {
+    return '$trialString일 무료 체험, 이후 주간 $priceString. 체험 기간이 끝나기 전에 스토어 설정에서 취소하지 않으면 구독이 자동으로 갱신됩니다.';
+  }
 
   @override
   String get purchasedAlready => '이미 구매함';

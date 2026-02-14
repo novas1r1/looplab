@@ -105,6 +105,10 @@
             }
         }
     },
+    "subscribeWeekly": "週間サブスクリプション",
+    "subscribeYearly": "年間サブスクリプション",
+    "weeklyDescriptionNoTrial": "週間{priceString}。ストア設定でキャンセルしない限り、サブスクリプションは自動更新されます。",
+    "yearlyDescriptionNoTrial": "年間{priceString}。ストア設定でキャンセルしない限り、サブスクリプションは自動更新されます。",
     "lifetimeDescription": "一度の支払い。サブスクリプションは不要です。",
     "deleteSongLoops": "曲とループを削除",
     "deleteSongLoopsDescription": "この曲と関連するすべてのループを削除してもよろしいですか？この操作は元に戻せません。",
@@ -124,7 +128,28 @@
     "tutorialActivateLoopDescription": "ループを再生したい場合は、ループモードを有効にする必要があります。無効の場合、曲全体が再生されます。",
     "tutorialAddLoop": "新しいループを追加",
     "tutorialAddLoopDescription": "+ボタンをタップして新しいループを追加できます",
+    "week": "週",
     "year": "年",
+    "purchaseWeekly": "{trialString}日間無料トライアル",
+    "@purchaseWeekly": {
+        "placeholders": {
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
+    "weeklySubtitle": "1週間お試しください",
+    "weeklyDescription": "{trialString}日間の無料トライアル、その後は週間{priceString}。トライアル期間終了前にストア設定でキャンセルしない限り、サブスクリプションは自動更新されます。",
+    "@weeklyDescription": {
+        "placeholders": {
+            "priceString": {
+                "type": "String"
+            },
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
     "purchasedAlready": "すでに購入済み",
     "purchaseSuccess": "購入が成功しました。開発者をサポートしていただきありがとうございます❤️！",
     "voteForFeatures": "機能に投票",

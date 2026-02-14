@@ -101,6 +101,10 @@
             }
         }
     },
+    "subscribeWeekly": "Wekelijks abonneren",
+    "subscribeYearly": "Jaarlijks abonneren",
+    "weeklyDescriptionNoTrial": "{priceString}/week. Abonnement wordt automatisch verlengd tenzij geannuleerd in de store-instellingen.",
+    "yearlyDescriptionNoTrial": "{priceString}/jaar. Abonnement wordt automatisch verlengd tenzij geannuleerd in de store-instellingen.",
     "lifetimeDescription": "Eenmalige betaling. Geen abonnement vereist.",
     "deleteSongLoops": "Nummer en Loops Verwijderen",
     "deleteSongLoopsDescription": "Weet je zeker dat je dit nummer en alle bijbehorende loops wilt verwijderen? Dit kan niet ongedaan worden gemaakt.",
@@ -121,7 +125,28 @@
     "tutorialActivateLoopDescription": "Als je de loop wilt afspelen, moet je de loopmodus activeren. Als deze is uitgeschakeld, wordt het hele nummer afgespeeld.",
     "tutorialAddLoop": "Voeg een nieuwe loop toe",
     "tutorialAddLoopDescription": "Je kunt een nieuwe loop toevoegen door op de + knop te tikken",
+    "week": "week",
     "year": "jaar",
+    "purchaseWeekly": "Probeer gratis {trialString} dagen",
+    "@purchaseWeekly": {
+        "placeholders": {
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
+    "weeklySubtitle": "Probeer het een week",
+    "weeklyDescription": "{trialString} dagen gratis proefperiode, daarna {priceString}/week. Abonnement wordt automatisch verlengd tenzij geannuleerd in de store-instellingen voor het einde van de proefperiode.",
+    "@weeklyDescription": {
+        "placeholders": {
+            "priceString": {
+                "type": "String"
+            },
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
     "purchasedAlready": "Al gekocht",
     "purchaseSuccess": "Aankoop succesvol. Bedankt voor je ondersteuning aan de ontwikkelaar ❤️!",
     "cancelSubscription": "Abonnement Opzeggen",

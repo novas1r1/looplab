@@ -108,6 +108,24 @@
             }
         }
     },
+    "subscribeWeekly": "Subscribe Weekly",
+    "subscribeYearly": "Subscribe Yearly",
+    "weeklyDescriptionNoTrial": "{priceString}/week. Subscription auto-renews unless canceled in store settings.",
+    "@weeklyDescriptionNoTrial": {
+        "placeholders": {
+            "priceString": {
+                "type": "String"
+            }
+        }
+    },
+    "yearlyDescriptionNoTrial": "{priceString}/year. Subscription auto-renews unless canceled in store settings.",
+    "@yearlyDescriptionNoTrial": {
+        "placeholders": {
+            "priceString": {
+                "type": "String"
+            }
+        }
+    },
     "lifetimeDescription": "One-time payment. No subscription required.",
     "deleteSongLoops": "Delete Song & Loops",
     "deleteSongLoopsDescription": "Are you sure you want to delete this song and all attached loops? This can't be undone.",
@@ -129,7 +147,28 @@
     "tutorialActivateLoopDescription": "If you want to play the loop, you have to activate the loop mode. If it's disabled, the whole song will be played.",
     "tutorialAddLoop": "Add a new loop",
     "tutorialAddLoopDescription": "You can add a new loop by tapping on the + button",
+    "week": "week",
     "year": "year",
+    "purchaseWeekly": "Try for {trialString} days free",
+    "@purchaseWeekly": {
+        "placeholders": {
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
+    "weeklySubtitle": "Try it out for a week",
+    "weeklyDescription": "{trialString}-day free trial, then {priceString}/week. Subscription auto-renews unless canceled in store settings before the trial ends.",
+    "@weeklyDescription": {
+        "placeholders": {
+            "priceString": {
+                "type": "String"
+            },
+            "trialString": {
+                "type": "String"
+            }
+        }
+    },
     "purchasedAlready": "Purchased already",
     "purchaseSuccess": "Purchase successful. Thank you for supporting the developer ❤️!",
     "voteForFeatures": "Vote for Features",
