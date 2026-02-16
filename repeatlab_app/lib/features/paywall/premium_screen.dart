@@ -99,14 +99,15 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
         .watch<PremiumSubscriptionCubit>()
         .state
         .hasYearlySubscription;
-
-    _selectedPlan = hasWeeklySubscription
-        ? PlanPeriod.weekly
-        : hasYearlySubscription
-        ? PlanPeriod.yearly
-        : PlanPeriod.lifetime;
-
     final hasLifetimePurchase = context.watch<PremiumSubscriptionCubit>().state.hasLifetimePurchase;
+
+    if (hasWeeklySubscription) {
+      _selectedPlan = PlanPeriod.weekly;
+    } else if (hasYearlySubscription) {
+      _selectedPlan = PlanPeriod.yearly;
+    } else if (hasLifetimePurchase) {
+      _selectedPlan = PlanPeriod.lifetime;
+    }
 
     final hasPurchase = hasWeeklySubscription || hasYearlySubscription || hasLifetimePurchase;
 
@@ -436,96 +437,99 @@ class PackageWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: () => onSelected(),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          border: Border.all(
-            width: 2,
-            color: isSelected ? AppColors.primary : AppColors.primary.withValues(alpha: 0.3),
-          ),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              'RepeatLab Pro ${period.name}',
-              style: context.bodyLargeLightBold,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              border: Border.all(
+                width: 2,
+                color: isSelected ? AppColors.primary : AppColors.primary.withValues(alpha: 0.3),
+              ),
+              borderRadius: BorderRadius.circular(16),
             ),
-            if (period == PlanPeriod.weekly)
-              Text(
-                context.l10n.weeklySubtitle,
-                style: context.bodyMediumBold,
-              ),
-            if (period == PlanPeriod.yearly)
-              Text(
-                context.l10n.oneCoffee,
-                style: context.bodyMediumBold,
-              ),
-            if (period == PlanPeriod.lifetime)
-              Text(
-                context.l10n.onePairOfDrumSticks,
-                style: context.bodyMediumBold,
-              ),
-            const SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (period == PlanPeriod.weekly)
-                        Text(
-                          isTrialEligible
-                              ? context.l10n.weeklyDescription(priceString, '3')
-                              : context.l10n.weeklyDescriptionNoTrial(priceString),
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      if (period == PlanPeriod.yearly)
-                        Text(
-                          isTrialEligible
-                              ? context.l10n.yearlyDescription(priceString, isApple ? '3' : '5')
-                              : context.l10n.yearlyDescriptionNoTrial(priceString),
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      if (period == PlanPeriod.lifetime)
-                        Text(
-                          context.l10n.lifetimeDescription,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                    ],
-                  ),
+                Text(
+                  'RepeatLab Pro ${period.name}',
+                  style: context.bodyLargeLightBold,
                 ),
-                const SizedBox(width: 16),
                 if (period == PlanPeriod.weekly)
                   Text(
-                    "$priceString/${context.l10n.week}",
-                    style: Theme.of(context).textTheme.titleLarge,
+                    context.l10n.weeklySubtitle,
+                    style: context.bodyMediumBold,
                   ),
                 if (period == PlanPeriod.yearly)
                   Text(
-                    "$priceString/${context.l10n.year}",
-                    style: Theme.of(context).textTheme.titleLarge,
+                    context.l10n.oneCoffee,
+                    style: context.bodyMediumBold,
                   ),
                 if (period == PlanPeriod.lifetime)
                   Text(
-                    priceString,
-                    style: Theme.of(context).textTheme.titleLarge,
+                    context.l10n.onePairOfDrumSticks,
+                    style: context.bodyMediumBold,
                   ),
-              ],
-            ),
-            if ((hasWeeklySubscription || hasYearlySubscription) &&
-                (period == PlanPeriod.yearly || period == PlanPeriod.weekly)) ...[
-              const SizedBox(height: 16),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: AppColors.onPrimary,
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (period == PlanPeriod.weekly)
+                            Text(
+                              isTrialEligible
+                                  ? context.l10n.weeklyDescription(priceString, '3')
+                                  : context.l10n.weeklyDescriptionNoTrial(priceString),
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          if (period == PlanPeriod.yearly)
+                            Text(
+                              isTrialEligible
+                                  ? context.l10n.yearlyDescription(priceString, isApple ? '3' : '5')
+                                  : context.l10n.yearlyDescriptionNoTrial(priceString),
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          if (period == PlanPeriod.lifetime)
+                            Text(
+                              context.l10n.lifetimeDescription,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    if (period == PlanPeriod.weekly)
+                      Text(
+                        "$priceString/${context.l10n.week}",
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                    if (period == PlanPeriod.yearly)
+                      Text(
+                        "$priceString/${context.l10n.year}",
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                    if (period == PlanPeriod.lifetime)
+                      Text(
+                        priceString,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                  ],
                 ),
-                onPressed: () {
-                  // TODO(Verena): Add a confirmation dialog
-                  /* final result = await DrumbitiousDialogs.showConfirmCancelDialog(
+                if ((hasWeeklySubscription || hasYearlySubscription) &&
+                    (period == PlanPeriod.yearly || period == PlanPeriod.weekly)) ...[
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      foregroundColor: AppColors.onPrimary,
+                    ),
+                    onPressed: () {
+                      // TODO(Verena): Add a confirmation dialog
+                      /* final result = await DrumbitiousDialogs.showConfirmCancelDialog(
                     context: context,
                     title: context.l10n.cancelSubscriptionTitle,
                     message: context.l10n.cancelSubscriptionText,
@@ -534,33 +538,55 @@ class PackageWidget extends StatelessWidget {
                   );
 
                   if (result != null && result) { */
-                  if (Platform.isIOS) {
-                    AppAnalytics.trackEvent(
-                      AppAnalytics.clickCancelSubscriptionIos,
-                    );
-                    final uri = Uri.parse(AppConstants.urlIosSubscriptions);
-                    launchUrl(uri);
-                  } else {
-                    AppAnalytics.trackEvent(
-                      AppAnalytics.clickCancelSubscriptionAndroid,
-                    );
-                    final uri = Uri.parse(AppConstants.urlAndroidSubscriptions);
-                    launchUrl(uri);
-                  }
+                      if (Platform.isIOS) {
+                        AppAnalytics.trackEvent(
+                          AppAnalytics.clickCancelSubscriptionIos,
+                        );
+                        final uri = Uri.parse(AppConstants.urlIosSubscriptions);
+                        launchUrl(uri);
+                      } else {
+                        AppAnalytics.trackEvent(
+                          AppAnalytics.clickCancelSubscriptionAndroid,
+                        );
+                        final uri = Uri.parse(AppConstants.urlAndroidSubscriptions);
+                        launchUrl(uri);
+                      }
 
-                  /* } else {
+                      /* } else {
                       // ignore: use_build_context_synchronously
                       Navigator.of(context).pop();
                     } */
-                },
-                child: Text(
-                  context.l10n.cancelSubscription,
-                  style: context.bodyLargeDarkBold,
+                    },
+                    child: Text(
+                      context.l10n.cancelSubscription,
+                      style: context.bodyLargeDarkBold,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+          if (period == PlanPeriod.yearly)
+            Positioned(
+              top: -12,
+              right: 12,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Text(
+                  'Save 87%',
+                  style: TextStyle(
+                    color: AppColors.onPrimary,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
                 ),
               ),
-            ],
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }
