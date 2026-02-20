@@ -3,12 +3,12 @@ import 'dart:developer';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 import 'package:repeatlab/app/router.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
-import 'package:repeatlab/features/paywall/premium_screen.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
 class OnboardingPage extends StatefulWidget {
@@ -214,11 +214,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
           data: {'fromOnboarding': true},
         );
 
-        await Navigator.of(context).push(
+        await RevenueCatUI.presentPaywall();
+
+        /* await Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => const PremiumScreen(),
           ),
-        );
+        ); */
       } else {
         log('has subscribed or has lifetime purchased');
       }

@@ -4,12 +4,12 @@ import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
+import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
-import 'package:repeatlab/features/paywall/premium_screen.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/features/song/cubit/wave_form/wave_form_cubit.dart';
 import 'package:repeatlab/features/song/widgets/wave_painter.dart';
@@ -277,11 +277,13 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
       _showZoomControls();
     } else {
       if (!context.mounted) return;
-      Navigator.of(context).push(
+      await RevenueCatUI.presentPaywall();
+
+      /*Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => const PremiumScreen(),
         ),
-      );
+      );*/
     }
   }
 
@@ -341,11 +343,12 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
       _showZoomControls();
     } else {
       if (!context.mounted) return;
-      Navigator.of(context).push(
+      await RevenueCatUI.presentPaywall();
+      /* Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => const PremiumScreen(),
         ),
-      );
+      ); */
     }
   }
 

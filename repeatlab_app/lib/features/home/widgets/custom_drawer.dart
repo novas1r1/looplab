@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 import 'package:repeatlab/core/app_constants.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
@@ -13,7 +14,6 @@ import 'package:repeatlab/features/home/legal_notices_page.dart';
 import 'package:repeatlab/features/home/settings_page.dart';
 import 'package:repeatlab/features/home/terms_of_service_page.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
-import 'package:repeatlab/features/paywall/premium_screen.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:userorient_flutter/userorient_flutter.dart';
@@ -34,6 +34,14 @@ class CustomDrawer extends StatelessWidget {
       final hasYearlySubscription = await context.read<PurchasesRepository>().hasYearlySubscription;
 
       return hasWeeklySubscription || hasYearlySubscription;
+    }
+
+    Future<bool> hasPremium() async {
+      final hasWeeklySubscription = await context.read<PurchasesRepository>().hasWeeklySubscription;
+      final hasYearlySubscription = await context.read<PurchasesRepository>().hasYearlySubscription;
+      final hasLifetimePurchase = await context.read<PurchasesRepository>().hasLifetimePurchase;
+
+      return hasWeeklySubscription || hasYearlySubscription || hasLifetimePurchase;
     }
 
     return Drawer(
@@ -115,17 +123,21 @@ class CustomDrawer extends StatelessWidget {
                   : const SizedBox.shrink();
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.shopping_cart),
-            title: Text(context.l10n.buyRepeatLabPro),
-            onTap: () {
-              AppAnalytics.trackEvent(AppAnalytics.viewPremiumScreen);
+          FutureBuilder(
+            future: hasPremium(),
+            initialData: false,
+            builder: (context, snapshot) {
+              return snapshot.data == false
+                  ? ListTile(
+                      leading: const Icon(Icons.shopping_cart),
+                      title: Text(context.l10n.buyRepeatLabPro),
+                      onTap: () async {
+                        AppAnalytics.trackEvent(AppAnalytics.viewPremiumScreen);
 
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const PremiumScreen(),
-                ),
-              );
+                        await RevenueCatUI.presentPaywall();
+                      },
+                    )
+                  : const SizedBox.shrink();
             },
           ),
           ListTile(

@@ -59,12 +59,20 @@ PODS:
     - Flutter
   - package_info_plus (0.4.5):
     - Flutter
-  - purchases_flutter (9.10.8):
+  - purchases_flutter (9.12.1):
     - Flutter
-    - PurchasesHybridCommon (= 17.30.0)
-  - PurchasesHybridCommon (17.30.0):
-    - RevenueCat (= 5.56.0)
-  - RevenueCat (5.56.0)
+    - PurchasesHybridCommon (= 17.39.0)
+  - purchases_ui_flutter (9.12.1):
+    - Flutter
+    - PurchasesHybridCommonUI (= 17.39.0)
+  - PurchasesHybridCommon (17.39.0):
+    - RevenueCat (= 5.59.0)
+  - PurchasesHybridCommonUI (17.39.0):
+    - PurchasesHybridCommon (= 17.39.0)
+    - RevenueCatUI (= 5.59.0)
+  - RevenueCat (5.59.0)
+  - RevenueCatUI (5.59.0):
+    - RevenueCat (= 5.59.0)
   - SDWebImage (5.21.6):
     - SDWebImage/Core (= 5.21.6)
   - SDWebImage/Core (5.21.6)
@@ -97,6 +105,7 @@ DEPENDENCIES:
   - memory_info (from `.symlinks/plugins/memory_info/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - purchases_flutter (from `.symlinks/plugins/purchases_flutter/ios`)
+  - purchases_ui_flutter (from `.symlinks/plugins/purchases_ui_flutter/ios`)
   - sentry_flutter (from `.symlinks/plugins/sentry_flutter/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
@@ -107,7 +116,9 @@ SPEC REPOS:
     - DKImagePickerController
     - DKPhotoGallery
     - PurchasesHybridCommon
+    - PurchasesHybridCommonUI
     - RevenueCat
+    - RevenueCatUI
     - SDWebImage
     - Sentry
     - SwiftyGif
@@ -139,6 +150,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/package_info_plus/ios"
   purchases_flutter:
     :path: ".symlinks/plugins/purchases_flutter/ios"
+  purchases_ui_flutter:
+    :path: ".symlinks/plugins/purchases_ui_flutter/ios"
   sentry_flutter:
     :path: ".symlinks/plugins/sentry_flutter/ios"
   shared_preferences_foundation:
@@ -163,9 +176,12 @@ SPEC CHECKSUMS:
   in_app_review: 7dd1ea365263f834b8464673f9df72c80c17c937
   memory_info: 0c8ecafff5f646e2957972aee37801131affa512
   package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
-  purchases_flutter: 388ea2288fa901f38661d5b5149cacbca558008e
-  PurchasesHybridCommon: c00f6ce5933b9928e99766a45c9e53c0a5a03240
-  RevenueCat: 9e2a13bead55198a72272ff105a7265e9510cd11
+  purchases_flutter: 5a777e426b6ddf01c7c3cdfcc99e3e67ca037ce6
+  purchases_ui_flutter: 8706449e09162adb6ecbfd9e24517d6739717820
+  PurchasesHybridCommon: 482a3741b7c94cdae1cae1a5d06c5be2fdd2cf8e
+  PurchasesHybridCommonUI: d691c2e3c81ee9f57070e3e671f43f0d90de78cc
+  RevenueCat: e6722311bff00ecb66d7a1129138843bff94d742
+  RevenueCatUI: af5fa6cdf063760a4e2980a6d3d6f2fe24a6afb8
   SDWebImage: 1bb6a1b84b6fe87b972a102bdc77dd589df33477
   Sentry: b53951377b78e21a734f5dc8318e333dbfc682d7
   sentry_flutter: da39d10e3f2f3e060eebc9d7ecea027d34443d66

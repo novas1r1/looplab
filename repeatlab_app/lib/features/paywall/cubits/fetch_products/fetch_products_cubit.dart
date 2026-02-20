@@ -42,8 +42,7 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
 
       var isTrialEligible = false;
       if (subscriptionProductIds.isNotEmpty) {
-        isTrialEligible =
-            await purchasesRepository.checkTrialEligibility(subscriptionProductIds);
+        isTrialEligible = await purchasesRepository.checkTrialEligibility(subscriptionProductIds);
       }
 
       maybeEmit(

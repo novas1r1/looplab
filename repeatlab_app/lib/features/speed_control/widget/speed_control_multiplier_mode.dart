@@ -2,12 +2,12 @@ import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/ui/interaction/custom_slider.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
-import 'package:repeatlab/features/paywall/premium_screen.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 
 /// Multiplier mode for speed control. Reads state from SongCubit.
@@ -21,12 +21,10 @@ class SpeedControlMultiplierMode extends StatefulWidget {
   });
 
   @override
-  State<SpeedControlMultiplierMode> createState() =>
-      _SpeedControlMultiplierModeState();
+  State<SpeedControlMultiplierMode> createState() => _SpeedControlMultiplierModeState();
 }
 
-class _SpeedControlMultiplierModeState
-    extends State<SpeedControlMultiplierMode> {
+class _SpeedControlMultiplierModeState extends State<SpeedControlMultiplierMode> {
   // Local state for smooth slider interaction
   double _localSpeed = 1.0;
 
@@ -93,8 +91,7 @@ class _SpeedControlMultiplierModeState
                 _showPremiumDialog(context);
                 return;
               }
-              dev.log('setSpeedByMultiplier: $value',
-                  name: 'SpeedControlMultiplierMode');
+              dev.log('setSpeedByMultiplier: $value', name: 'SpeedControlMultiplierMode');
               // Commit to SongCubit
               context.read<SongCubit>().setSpeedByMultiplier(value);
             },
@@ -113,8 +110,10 @@ class _SpeedControlMultiplierModeState
       data: {'from': 'speed_control_multiplier'},
     );
 
-    await Navigator.of(context).push(
+    await RevenueCatUI.presentPaywall();
+
+    /* await Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => const PremiumScreen()),
-    );
+    ); */
   }
 }

@@ -1,6 +1,6 @@
 name: repeatlab
 description: Audio loop studio
-version: 1.6.6+73
+version: 1.6.7+74
 publish_to: none
 
 environment:
@@ -53,7 +53,7 @@ dependencies:
   path: ^1.9.1
   path_provider: ^2.1.5
   purchases_flutter: ^9.10.6
-  # purchases_ui_flutter: ^8.4.1
+  purchases_ui_flutter: ^9.12.1
   sembast: ^3.8.6
   sentry_flutter: ^9.10.0
   shared_preferences: ^2.5.4

@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auto_size_text/flutter_auto_size_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 // import 'package:just_audio/just_audio.dart';
 import 'package:repeatlab/core/ui/widgets/loading.dart';
@@ -17,7 +18,6 @@ import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
-import 'package:repeatlab/features/paywall/premium_screen.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/features/song/cubit/song_exporter/song_exporter_cubit.dart';
 import 'package:repeatlab/features/song/view/song_controller.dart';
@@ -474,11 +474,12 @@ class _SongViewState extends State<_SongView> {
         }
       } else {
         AppAnalytics.trackEvent(AppAnalytics.showPaywallSongLoops);
-        Navigator.of(context).push(
+        await RevenueCatUI.presentPaywall();
+        /* Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => const PremiumScreen(),
           ),
-        );
+        ); */
       }
     } else {
       final loopEnd = activeLoop.end;
@@ -696,11 +697,12 @@ class _SongViewState extends State<_SongView> {
       context.read<SongCubit>().addLoop();
     } else {
       AppAnalytics.trackEvent(AppAnalytics.showPaywallSongLoops);
-      Navigator.of(context).push(
+      await RevenueCatUI.presentPaywall();
+      /* Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => const PremiumScreen(),
         ),
-      );
+      ); */
     }
   }
 
