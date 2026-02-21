@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
@@ -56,13 +57,17 @@ abstract final class AppAnalytics {
   static const clickCancelSubscriptionAndroid = 'click_cancel_subscription_android';
   static const clickCancelSubscriptionIos = 'click_cancel_subscription_ios';
 
-  static Future<void> trackEvent(
+  static void trackEvent(
     String event, {
     Map<String, dynamic>? data,
-  }) async {
+  }) {
     log('ANALYTICS: $event, data: $data');
     if (!kDebugMode) {
-      await Wiredash.trackEvent(event, data: data);
+      try {
+        unawaited(Wiredash.trackEvent(event, data: data));
+      } catch (e) {
+        log('Error tracking event: $e');
+      }
     }
   }
 }
