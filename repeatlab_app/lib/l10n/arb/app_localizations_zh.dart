@@ -721,4 +721,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get speedChangeFailed => '速度变化失败。请再试一次。';
+
+  @override
+  String get copyToClipboard => '复制到剪贴板';
 }

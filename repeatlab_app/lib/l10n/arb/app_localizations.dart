@@ -1469,6 +1469,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Speed change failed. Please try again.'**
   String get speedChangeFailed;
+
+  /// Button or action to copy text to the device clipboard
+  ///
+  /// In en, this message translates to:
+  /// **'Copy to Clipboard'**
+  String get copyToClipboard;
 }
 
 class _AppLocalizationsDelegate

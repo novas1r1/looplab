@@ -767,4 +767,7 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get speedChangeFailed =>
       'Hız değişikliği başarısız oldu. Lütfen tekrar deneyin.';
+
+  @override
+  String get copyToClipboard => 'Panoya kopyala';
 }

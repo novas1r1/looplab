@@ -287,5 +287,6 @@
     "songSettings": "Ustawienia utworu",
     "playbackSettings": "Odtwarzanie",
     "actions": "Akcje",
-    "speedChangeFailed": "Zmiana tempa nie powiodła się. Proszę spróbować ponownie."
+    "speedChangeFailed": "Zmiana tempa nie powiodła się. Proszę spróbować ponownie.",
+    "copyToClipboard": "Skopiuj do schowka"
 }

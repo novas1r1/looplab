@@ -4,7 +4,6 @@ import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
-import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/models/song.dart';
@@ -277,13 +276,7 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
       _showZoomControls();
     } else {
       if (!context.mounted) return;
-      await RevenueCatUI.presentPaywall();
-
-      /*Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => const PremiumScreen(),
-        ),
-      );*/
+      await context.read<PremiumSubscriptionCubit>().presentPaywall();
     }
   }
 
@@ -343,12 +336,7 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
       _showZoomControls();
     } else {
       if (!context.mounted) return;
-      await RevenueCatUI.presentPaywall();
-      /* Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => const PremiumScreen(),
-        ),
-      ); */
+      await context.read<PremiumSubscriptionCubit>().presentPaywall();
     }
   }
 

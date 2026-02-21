@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 import 'package:repeatlab/app/router.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
@@ -214,13 +213,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
           data: {'fromOnboarding': true},
         );
 
-        await RevenueCatUI.presentPaywall();
-
-        /* await Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => const PremiumScreen(),
-          ),
-        ); */
+        await context.read<PremiumSubscriptionCubit>().presentPaywall();
       } else {
         log('has subscribed or has lifetime purchased');
       }

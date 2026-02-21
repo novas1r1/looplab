@@ -765,4 +765,7 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get speedChangeFailed =>
       'Zmiana tempa nie powiodła się. Proszę spróbować ponownie.';
+
+  @override
+  String get copyToClipboard => 'Skopiuj do schowka';
 }

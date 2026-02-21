@@ -767,4 +767,7 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get speedChangeFailed =>
       'Geschwindigkeitsänderung fehlgeschlagen. Bitte versuche es erneut.';
+
+  @override
+  String get copyToClipboard => 'In Zwischenablage kopieren';
 }

@@ -2,7 +2,6 @@ import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/ui/interaction/custom_slider.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
@@ -110,10 +109,6 @@ class _SpeedControlMultiplierModeState extends State<SpeedControlMultiplierMode>
       data: {'from': 'speed_control_multiplier'},
     );
 
-    await RevenueCatUI.presentPaywall();
-
-    /* await Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => const PremiumScreen()),
-    ); */
+    await context.read<PremiumSubscriptionCubit>().presentPaywall();
   }
 }

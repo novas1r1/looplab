@@ -291,5 +291,6 @@
     "songSettings": "歌曲设置",
     "playbackSettings": "播放设置",
     "actions": "操作",
-    "speedChangeFailed": "速度变化失败。请再试一次。"
+    "speedChangeFailed": "速度变化失败。请再试一次。",
+    "copyToClipboard": "复制到剪贴板"
 }

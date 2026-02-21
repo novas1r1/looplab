@@ -290,5 +290,6 @@
     "songSettings": "Şarkı Ayarları",
     "playbackSettings": "Oynatma",
     "actions": "Eylemler",
-    "speedChangeFailed": "Hız değişikliği başarısız oldu. Lütfen tekrar deneyin."
+    "speedChangeFailed": "Hız değişikliği başarısız oldu. Lütfen tekrar deneyin.",
+    "copyToClipboard": "Panoya kopyala"
 }

@@ -290,5 +290,6 @@
     "songSettings": "곡 설정",
     "playbackSettings": "재생",
     "actions": "작업",
-    "speedChangeFailed": "속도 변경에 실패했습니다. 다시 시도해 주세요."
+    "speedChangeFailed": "속도 변경에 실패했습니다. 다시 시도해 주세요.",
+    "copyToClipboard": "클립보드에 복사"
 }

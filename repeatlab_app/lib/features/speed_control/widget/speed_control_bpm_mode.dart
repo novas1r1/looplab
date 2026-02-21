@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auto_size_text/flutter_auto_size_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/ui/interaction/custom_slider.dart';
 import 'package:repeatlab/core/ui/interaction/primary_button.dart';
@@ -228,11 +227,7 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
       data: {'from': 'speed_control_bpm'},
     );
 
-    await RevenueCatUI.presentPaywall();
-
-    /* await Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => const PremiumScreen()),
-    ); */
+    await context.read<PremiumSubscriptionCubit>().presentPaywall();
   }
 
   Future<void> _showTapBpmDialog(BuildContext context) async {

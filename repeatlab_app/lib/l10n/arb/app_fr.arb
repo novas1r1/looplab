@@ -287,5 +287,6 @@
     "songSettings": "Paramètres de la Chanson",
     "playbackSettings": "Lecture",
     "actions": "Actions",
-    "speedChangeFailed": "Le changement de vitesse a échoué. Veuillez réessayer."
+    "speedChangeFailed": "Le changement de vitesse a échoué. Veuillez réessayer.",
+    "copyToClipboard": "Copier dans le presse-papiers"
 }

@@ -764,4 +764,7 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get speedChangeFailed =>
       'गति परिवर्तन विफल हो गया। कृपया पुनः प्रयास करें।';
+
+  @override
+  String get copyToClipboard => 'क्लिपबोर्ड पर कॉपी करें';
 }

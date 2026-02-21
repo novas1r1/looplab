@@ -770,4 +770,7 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get speedChangeFailed =>
       'El cambio de velocidad ha fallado. Por favor, inténtalo de nuevo.';
+
+  @override
+  String get copyToClipboard => 'Copiar al portapapeles';
 }

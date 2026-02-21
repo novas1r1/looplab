@@ -288,5 +288,6 @@
     "songSettings": "Song-Einstellungen",
     "playbackSettings": "Wiedergabe",
     "actions": "Aktionen",
-    "speedChangeFailed": "Geschwindigkeitsänderung fehlgeschlagen. Bitte versuche es erneut."
+    "speedChangeFailed": "Geschwindigkeitsänderung fehlgeschlagen. Bitte versuche es erneut.",
+    "copyToClipboard": "In Zwischenablage kopieren"
 }

@@ -290,5 +290,6 @@
     "songSettings": "曲の設定",
     "playbackSettings": "再生",
     "actions": "アクション",
-    "speedChangeFailed": "速度変更に失敗しました。もう一度お試しください。"
+    "speedChangeFailed": "速度変更に失敗しました。もう一度お試しください。",
+    "copyToClipboard": "クリップボードにコピー"
 }

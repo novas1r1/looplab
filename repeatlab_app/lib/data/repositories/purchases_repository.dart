@@ -25,7 +25,15 @@ class PurchasesRepository {
     final purchaserInfo = await Purchases.getCustomerInfo();
 
     if (purchaserInfo.activeSubscriptions.contains('repeatlab_full_weekly')) {
-      log('--- REVENUECAT: WEEKLY SUBSCRIPTION ACTIVE');
+      log('--- REVENUECAT: WEEKLY SUBSCRIPTION ACTIVE (via activeSubscriptions)');
+      return true;
+    }
+
+    // Fallback: check entitlements (activeSubscriptions can be empty in sandbox)
+    final proEntitlement = purchaserInfo.entitlements.all['Pro'];
+    if (proEntitlement?.isActive == true &&
+        proEntitlement?.productIdentifier == 'repeatlab_full_weekly') {
+      log('--- REVENUECAT: WEEKLY SUBSCRIPTION ACTIVE (via entitlement)');
       return true;
     }
 
@@ -37,7 +45,15 @@ class PurchasesRepository {
     final purchaserInfo = await Purchases.getCustomerInfo();
 
     if (purchaserInfo.activeSubscriptions.contains('repeatlab_full_yearly')) {
-      log('--- REVENUECAT: YEARLY SUBSCRIPTION ACTIVE');
+      log('--- REVENUECAT: YEARLY SUBSCRIPTION ACTIVE (via activeSubscriptions)');
+      return true;
+    }
+
+    // Fallback: check entitlements (activeSubscriptions can be empty in sandbox)
+    final proEntitlement = purchaserInfo.entitlements.all['Pro'];
+    if (proEntitlement?.isActive == true &&
+        proEntitlement?.productIdentifier == 'repeatlab_full_yearly') {
+      log('--- REVENUECAT: YEARLY SUBSCRIPTION ACTIVE (via entitlement)');
       return true;
     }
 
@@ -48,9 +64,13 @@ class PurchasesRepository {
   Future<bool> get hasLifetimePurchase async {
     final purchaserInfo = await Purchases.getCustomerInfo();
 
-    // Check for lifetime purchase through entitlements
     final proEntitlement = purchaserInfo.entitlements.all['Pro'];
-    if (proEntitlement?.isActive == true) {
+    log('--- REVENUECAT: LIFETIME PURCHASE ENTITLEMENT: $proEntitlement');
+
+    // Only treat as lifetime if the entitlement is active AND not from a subscription product
+    if (proEntitlement?.isActive == true &&
+        proEntitlement?.productIdentifier != 'repeatlab_full_weekly' &&
+        proEntitlement?.productIdentifier != 'repeatlab_full_yearly') {
       log('--- REVENUECAT: LIFETIME PURCHASE ACTIVE');
       return true;
     }
@@ -111,18 +131,7 @@ class PurchasesRepository {
     return await Purchases.restorePurchases();
   }
 
-  /// RevenueCatUI Paywall V1
-  /* Future<PaywallResult> presentPaywallIfNeeded() async {
-    return await RevenueCatUI.presentPaywallIfNeeded(
-      "default",
-      displayCloseButton: true,
-    );
-  } */
-
-  /// RevenueCatUI Paywall V1
-  /* Future<PaywallResult> presentPaywall() async {
-    return await RevenueCatUI.presentPaywall(
-      displayCloseButton: true,
-    );
-  } */
+  Future<CustomerInfo> get revenueCatUser async {
+    return await Purchases.getCustomerInfo();
+  }
 }

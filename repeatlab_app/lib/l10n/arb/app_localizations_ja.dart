@@ -738,4 +738,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get speedChangeFailed => '速度変更に失敗しました。もう一度お試しください。';
+
+  @override
+  String get copyToClipboard => 'クリップボードにコピー';
 }

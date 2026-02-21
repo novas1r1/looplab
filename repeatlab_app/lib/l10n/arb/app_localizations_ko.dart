@@ -735,4 +735,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get speedChangeFailed => '속도 변경에 실패했습니다. 다시 시도해 주세요.';
+
+  @override
+  String get copyToClipboard => '클립보드에 복사';
 }

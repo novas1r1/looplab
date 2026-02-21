@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/purchases_repository.dart';
 
@@ -106,6 +107,11 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
         ),
       );
     }
+  }
+
+  Future<void> presentPaywall() async {
+    await RevenueCatUI.presentPaywallIfNeeded("Pro");
+    await checkStatus();
   }
 
   Future<void> restore() async {

@@ -287,5 +287,6 @@
     "songSettings": "Configurações da Música",
     "playbackSettings": "Reprodução",
     "actions": "Ações",
-    "speedChangeFailed": "A mudança de velocidade falhou. Por favor, tente novamente."
+    "speedChangeFailed": "A mudança de velocidade falhou. Por favor, tente novamente.",
+    "copyToClipboard": "Copiar para a área de transferência"
 }

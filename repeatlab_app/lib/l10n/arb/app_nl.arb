@@ -287,5 +287,6 @@
     "songSettings": "Nummerinstellingen",
     "playbackSettings": "Afspelen",
     "actions": "Acties",
-    "speedChangeFailed": "Snelheidswijziging is mislukt. Probeer het opnieuw."
+    "speedChangeFailed": "Snelheidswijziging is mislukt. Probeer het opnieuw.",
+    "copyToClipboard": "Kopiëren naar klembord"
 }

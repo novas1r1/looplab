@@ -755,4 +755,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get speedChangeFailed => 'فشل تغيير السرعة. يرجى إعادة المحاولة.';
+
+  @override
+  String get copyToClipboard => 'نسخ إلى الحافظة';
 }

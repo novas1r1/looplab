@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 import 'package:repeatlab/core/app_constants.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
@@ -28,21 +28,6 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final appVersion = context.read<PackageInfo>().version;
     final buildNumber = context.read<PackageInfo>().buildNumber;
-
-    Future<bool> hasSubscription() async {
-      final hasWeeklySubscription = await context.read<PurchasesRepository>().hasWeeklySubscription;
-      final hasYearlySubscription = await context.read<PurchasesRepository>().hasYearlySubscription;
-
-      return hasWeeklySubscription || hasYearlySubscription;
-    }
-
-    Future<bool> hasPremium() async {
-      final hasWeeklySubscription = await context.read<PurchasesRepository>().hasWeeklySubscription;
-      final hasYearlySubscription = await context.read<PurchasesRepository>().hasYearlySubscription;
-      final hasLifetimePurchase = await context.read<PurchasesRepository>().hasLifetimePurchase;
-
-      return hasWeeklySubscription || hasYearlySubscription || hasLifetimePurchase;
-    }
 
     return Drawer(
       child: ListView(
@@ -108,36 +93,38 @@ class CustomDrawer extends StatelessWidget {
               ),
             ),
           ),
-          FutureBuilder(
-            future: hasSubscription(),
-            initialData: false,
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              return snapshot.data == true
-                  ? ListTile(
+          BlocBuilder<PremiumSubscriptionCubit, PremiumSubscriptionState>(
+            builder: (context, state) {
+              final hasPremium = state.hasWeeklySubscription ||
+                  state.hasYearlySubscription ||
+                  state.hasLifetimePurchase;
+              final hasSubscription =
+                  state.hasWeeklySubscription || state.hasYearlySubscription;
+
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (hasSubscription)
+                    ListTile(
                       leading: const Icon(Icons.free_cancellation),
                       title: Text(context.l10n.cancelSubscription),
                       onTap: () {
                         _onCancelSubscription(context);
                       },
-                    )
-                  : const SizedBox.shrink();
-            },
-          ),
-          FutureBuilder(
-            future: hasPremium(),
-            initialData: false,
-            builder: (context, snapshot) {
-              return snapshot.data == false
-                  ? ListTile(
+                    ),
+                  if (!hasPremium)
+                    ListTile(
                       leading: const Icon(Icons.shopping_cart),
                       title: Text(context.l10n.buyRepeatLabPro),
                       onTap: () async {
                         AppAnalytics.trackEvent(AppAnalytics.viewPremiumScreen);
-
-                        await RevenueCatUI.presentPaywall();
+                        await context
+                            .read<PremiumSubscriptionCubit>()
+                            .presentPaywall();
                       },
-                    )
-                  : const SizedBox.shrink();
+                    ),
+                ],
+              );
             },
           ),
           ListTile(
@@ -232,12 +219,60 @@ class CustomDrawer extends StatelessWidget {
             },
           ),
           Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              '${context.l10n.version} $appVersion ($buildNumber)',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: AppColors.onSurface.withValues(alpha: 0.6),
-              ),
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    final revenueCatUser = await context.read<PurchasesRepository>().revenueCatUser;
+
+                    // display dialog to copy to clipboard
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text(context.l10n.copyToClipboard),
+                        content: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(revenueCatUser.originalAppUserId),
+                            const SizedBox(height: 8),
+                            Text(revenueCatUser.activeSubscriptions.join(', ')),
+                            const SizedBox(height: 16),
+                            Text(revenueCatUser.entitlements.all.keys.join(', ')),
+                            const SizedBox(height: 16),
+                            TextButton(
+                              onPressed: () {
+                                Clipboard.setData(
+                                  ClipboardData(text: revenueCatUser.originalAppUserId),
+                                );
+                                Navigator.of(context).pop();
+                              },
+                              child: Text(context.l10n.copyToClipboard),
+                            ),
+                            const SizedBox(height: 16),
+                            TextButton(
+                              onPressed: () async {
+                                await context
+                                    .read<PremiumSubscriptionCubit>()
+                                    .presentPaywall();
+                              },
+                              child: const Text('Open Paywall'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    '${context.l10n.version} $appVersion ($buildNumber)',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: AppColors.onSurface.withValues(alpha: 0.6),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

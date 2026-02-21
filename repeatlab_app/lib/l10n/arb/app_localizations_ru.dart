@@ -769,4 +769,7 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get speedChangeFailed =>
       'Изменение скорости не удалось. Пожалуйста, попробуйте еще раз.';
+
+  @override
+  String get copyToClipboard => 'Скопировать в буфер обмена';
 }

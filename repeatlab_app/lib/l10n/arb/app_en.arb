@@ -303,5 +303,9 @@
     "autoPlayOnLoopSelect": "Auto-play Loops",
     "autoPlayOnLoopSelectDescription": "Automatically start playing when selecting a loop or navigating to next/previous loop",
     "actions": "Actions",
-    "speedChangeFailed": "Speed change failed. Please try again."
+    "speedChangeFailed": "Speed change failed. Please try again.",
+    "copyToClipboard": "Copy to Clipboard",
+    "@copyToClipboard": {
+        "description": "Button or action to copy text to the device clipboard"
+    }
 }

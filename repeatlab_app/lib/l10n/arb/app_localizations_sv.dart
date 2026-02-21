@@ -764,4 +764,7 @@ class AppLocalizationsSv extends AppLocalizations {
   @override
   String get speedChangeFailed =>
       'Hastighetsändring misslyckades. Vänligen försök igen.';
+
+  @override
+  String get copyToClipboard => 'Kopiera till urklipp';
 }

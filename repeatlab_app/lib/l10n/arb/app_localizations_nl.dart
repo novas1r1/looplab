@@ -768,4 +768,7 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get speedChangeFailed =>
       'Snelheidswijziging is mislukt. Probeer het opnieuw.';
+
+  @override
+  String get copyToClipboard => 'Kopiëren naar klembord';
 }
