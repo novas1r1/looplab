@@ -131,11 +131,15 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
             ),
           );
         } else {
+          final isWeekly =
+              proEntitlement?.productIdentifier.contains('repeatlab_full_weekly') == true;
+          final isYearly =
+              proEntitlement?.productIdentifier.contains('repeatlab_full_yearly') == true;
           emit(
             state.copyWith(
               status: PremiumSubscriptionStatus.premium,
-              hasWeeklySubscription: true,
-              hasYearlySubscription: true,
+              hasWeeklySubscription: isWeekly,
+              hasYearlySubscription: isYearly,
               hasLifetimePurchase: false,
             ),
           );

@@ -44,7 +44,7 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
 
   return AlchemistConfig.runWithConfig(
     config: AlchemistConfig(
-      forceUpdateGoldenFiles: true,
+      forceUpdateGoldenFiles: false,
       theme: baseTheme,
       // theme: baseTheme.copyWith(textTheme: textTheme),
       // theme: theme.dark(),
