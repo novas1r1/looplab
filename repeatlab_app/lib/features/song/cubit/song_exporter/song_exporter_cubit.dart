@@ -9,6 +9,7 @@ import 'package:ffmpeg_kit_flutter_new_min/return_code.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:repeatlab/data/models/loop.dart';
+import 'package:repeatlab/data/models/recording_layer.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 
@@ -176,6 +177,135 @@ class SongExporterCubit extends Cubit<SongExporterState> {
   }
 
   void reset() => emit(SongExporterState());
+
+  /// Export the original song mixed with all recording layers.
+  Future<void> exportMix({
+    required Song song,
+    required List<RecordingLayer> layers,
+    required AudioExportFormat format,
+    required int sampleRateHz,
+  }) async {
+    if (layers.isEmpty) return;
+
+    emit(
+      state.copyWith(
+        status: SongExporterStatus.exporting,
+        errorMessage: null,
+        exportedFilePath: null,
+        format: format,
+        pendingBytes: null,
+        suggestedFileName: null,
+      ),
+    );
+
+    File? tempFile;
+
+    try {
+      final inputPath = await song.path;
+      final outputFileName =
+          '${_sanitizeFileName(song.title)}-mix-${sampleRateHz}Hz.${format.fileExtension}';
+      final tempDirectory = await getTemporaryDirectory();
+      final tempPath = p.join(tempDirectory.path, outputFileName);
+      tempFile = File(tempPath);
+
+      if (await tempFile.exists()) {
+        await tempFile.delete();
+      }
+
+      // Build FFmpeg command with amix filter for all layers
+      final command = _buildMixCommand(
+        inputPath: inputPath,
+        layerPaths: layers.map((l) => l.filePath).toList(),
+        layerOffsets: layers.map((l) => l.startPosition).toList(),
+        layerVolumes: layers.map((l) => l.isMuted ? 0.0 : l.volume).toList(),
+        outputPath: tempPath,
+        format: format,
+        sampleRateHz: sampleRateHz,
+      );
+
+      final session = await FFmpegKit.execute(command);
+      final returnCode = await session.getReturnCode();
+
+      if (ReturnCode.isSuccess(returnCode)) {
+        final bytes = await tempFile.readAsBytes();
+        await _deleteLocalFile(tempFile);
+
+        emit(
+          state.copyWith(
+            status: SongExporterStatus.awaitingSave,
+            pendingBytes: bytes,
+            suggestedFileName: outputFileName,
+          ),
+        );
+      } else {
+        await _deleteLocalFile(tempFile);
+        final logs = await session.getOutput();
+        final error =
+            'FFmpeg mix failed with code ${returnCode?.getValue() ?? 'unknown'}';
+        unawaited(
+          crashReportingRepository.reportError(
+              Exception(error), StackTrace.current),
+        );
+        emit(
+          state.copyWith(
+            status: SongExporterStatus.exportError,
+            errorMessage: logs?.isNotEmpty == true ? '$error\n$logs' : error,
+            pendingBytes: null,
+            suggestedFileName: null,
+          ),
+        );
+      }
+    } catch (ex, stackTrace) {
+      if (tempFile != null) {
+        await _deleteLocalFile(tempFile);
+      }
+      unawaited(crashReportingRepository.reportError(ex, stackTrace));
+      emit(
+        state.copyWith(
+          status: SongExporterStatus.exportError,
+          errorMessage: ex.toString(),
+          pendingBytes: null,
+          suggestedFileName: null,
+        ),
+      );
+    }
+  }
+
+  String _buildMixCommand({
+    required String inputPath,
+    required List<String> layerPaths,
+    required List<Duration> layerOffsets,
+    required List<double> layerVolumes,
+    required String outputPath,
+    required AudioExportFormat format,
+    required int sampleRateHz,
+  }) {
+    // Build input arguments: original track + each layer
+    final inputs = StringBuffer('-i "$inputPath"');
+    for (final path in layerPaths) {
+      inputs.write(' -i "$path"');
+    }
+
+    // Build filter_complex: delay each layer and set volumes
+    final totalInputs = 1 + layerPaths.length;
+    final filters = StringBuffer();
+
+    for (var i = 0; i < layerPaths.length; i++) {
+      final delayMs = layerOffsets[i].inMilliseconds;
+      final vol = layerVolumes[i];
+      filters.write('[${i + 1}]adelay=$delayMs|$delayMs,volume=$vol[a${i + 1}];');
+    }
+
+    // Amix all streams together
+    filters.write('[0]');
+    for (var i = 0; i < layerPaths.length; i++) {
+      filters.write('[a${i + 1}]');
+    }
+    filters.write('amix=inputs=$totalInputs:duration=longest');
+
+    final codecArgs = format.ffmpegCodecArgs();
+    return '$inputs -filter_complex "$filters" -ar $sampleRateHz $codecArgs -y "$outputPath"';
+  }
 
   String _buildCommand({
     required String inputPath,
