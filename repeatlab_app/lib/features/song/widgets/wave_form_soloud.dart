@@ -9,6 +9,7 @@ import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
+import 'package:repeatlab/features/song/cubit/recording/recording_cubit.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/features/song/cubit/wave_form/wave_form_cubit.dart';
 import 'package:repeatlab/features/song/widgets/wave_painter.dart';
@@ -128,7 +129,17 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
           case WaveFormStateStatus.updated:
             final waveformWidth = (state.waveformData?.length.toDouble() ?? 0.0) * _zoomScale;
 
-            return SizedBox(
+            return BlocSelector<RecordingCubit, RecordingState, bool>(
+              selector: (state) => state.status == RecordingStatus.recording,
+              builder: (context, isRecording) {
+                return Container(
+                  decoration: isRecording
+                      ? BoxDecoration(
+                          border: Border.all(color: Colors.red, width: 2),
+                          borderRadius: BorderRadius.circular(8),
+                        )
+                      : null,
+                  child: SizedBox(
               height: 132,
               child: Stack(
                 children: [
@@ -260,6 +271,9 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
                   ),
                 ],
               ),
+            ),
+                );
+              },
             );
         }
       },
