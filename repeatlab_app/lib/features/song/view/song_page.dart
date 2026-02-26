@@ -27,6 +27,7 @@ import 'package:repeatlab/features/song/widgets/loop_timeline.dart';
 import 'package:repeatlab/features/song/widgets/song_settings_bottom_sheet.dart';
 import 'package:repeatlab/features/song/widgets/tutorial_item.dart';
 import 'package:repeatlab/features/song/widgets/recording_countdown_overlay.dart';
+import 'package:repeatlab/features/song/widgets/recording_layers_panel.dart';
 import 'package:repeatlab/features/song/widgets/wave_form_soloud.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
@@ -238,6 +239,7 @@ class _SongViewState extends State<_SongView> {
                           SongController(
                             key: tutorialKeySongController,
                           ),
+                          const RecordingLayersPanel(),
                           const Divider(height: 24),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
