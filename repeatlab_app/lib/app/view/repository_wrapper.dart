@@ -7,6 +7,7 @@ import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/file_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/purchases_repository.dart';
+import 'package:repeatlab/data/repositories/recording_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:sembast/sembast.dart';
 
@@ -42,6 +43,9 @@ class RepositoryWrapper extends StatelessWidget {
             db: db,
             soLoud: soLoud,
           )..getAllSongs(),
+        ),
+        RepositoryProvider(
+          create: (context) => RecordingRepository(db: db),
         ),
         RepositoryProvider(
           create: (context) => packageInfo,
