@@ -26,6 +26,7 @@ import 'package:repeatlab/features/song/widgets/loop_tile.dart';
 import 'package:repeatlab/features/song/widgets/loop_timeline.dart';
 import 'package:repeatlab/features/song/widgets/song_settings_bottom_sheet.dart';
 import 'package:repeatlab/features/song/widgets/tutorial_item.dart';
+import 'package:repeatlab/features/song/widgets/recording_countdown_overlay.dart';
 import 'package:repeatlab/features/song/widgets/wave_form_soloud.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
@@ -190,7 +191,9 @@ class _SongViewState extends State<_SongView> {
                   ],
                 ),
                 resizeToAvoidBottomInset: true,
-                body: CustomScrollView(
+                body: Stack(
+                  children: [
+                    CustomScrollView(
                   slivers: [
                     SliverPadding(
                       padding: const EdgeInsets.all(16),
@@ -389,6 +392,11 @@ class _SongViewState extends State<_SongView> {
                           childCount: 1,
                         ),
                       ),
+                    ),
+                  ],
+                ),
+                    const Positioned.fill(
+                      child: RecordingCountdownOverlay(),
                     ),
                   ],
                 ),
