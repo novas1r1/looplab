@@ -75,7 +75,7 @@
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
 		<key>NSMicrophoneUsageDescription</key>
-		<string>The microphone is used to record audio for the app.</string>
+		<string>RepeatLab needs microphone access to record your practice sessions over imported tracks.</string>
 		<key>NSCameraUsageDescription</key>
 		<string>This app needs camera access to allow users to take photos when selecting files through the file picker and attach photos to the song.</string>
 		<key>NSAppTransportSecurity</key>
