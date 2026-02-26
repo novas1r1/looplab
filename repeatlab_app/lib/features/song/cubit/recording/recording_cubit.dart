@@ -98,7 +98,6 @@ class RecordingCubit extends Cubit<RecordingState> {
       await _recorder!.start(
         const RecordConfig(
           encoder: AudioEncoder.wav,
-          numChannels: 1,
           sampleRate: 44100,
         ),
         path: filePath,

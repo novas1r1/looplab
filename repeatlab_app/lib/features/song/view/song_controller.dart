@@ -4,6 +4,7 @@ import 'package:flutter_auto_size_text/flutter_auto_size_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
+import 'package:repeatlab/features/song/cubit/recording/recording_cubit.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/features/speed_control/view/speed_control.dart';
 
@@ -73,6 +74,33 @@ class SongController extends StatelessWidget {
                 },
               ),
               const SizedBox(width: 8),
+              BlocSelector<RecordingCubit, RecordingState, RecordingStatus>(
+                selector: (state) => state.status,
+                builder: (context, status) {
+                  final isRecording = status == RecordingStatus.recording;
+                  final isCountdown = status == RecordingStatus.countdown;
+                  return SizedBox(
+                    height: 32,
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                      onPressed: isCountdown
+                          ? null
+                          : () => _onTapRecord(context),
+                      icon: Icon(
+                        isRecording
+                            ? Icons.stop_circle_rounded
+                            : Icons.fiber_manual_record_rounded,
+                        size: 24,
+                        color: (isRecording || isCountdown)
+                            ? Colors.red
+                            : null,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(width: 8),
               SizedBox(
                 height: 32,
                 child: IconButton(
@@ -103,6 +131,41 @@ class SongController extends StatelessWidget {
         const SpeedControl(),
       ],
     );
+  }
+
+  void _onTapRecord(BuildContext context) {
+    final recordingCubit = context.read<RecordingCubit>();
+    final songCubit = context.read<SongCubit>();
+
+    if (recordingCubit.state.status == RecordingStatus.recording) {
+      // Stop recording
+      songCubit.pauseSong();
+      recordingCubit.stopRecording(
+        startPosition: Duration.zero,
+      );
+    } else {
+      // Start recording
+      final activeLoop = songCubit.state.activeLoop;
+      final startPos = activeLoop?.start ?? Duration.zero;
+      final stopPos = activeLoop?.end;
+
+      // Pause current playback, seek to start
+      songCubit.pauseSong();
+      songCubit.seekSong(startPos);
+
+      recordingCubit.startRecording(
+        startPosition: startPos,
+        stopPosition: stopPos,
+        onCountdownComplete: () async {
+          await songCubit.seekSong(startPos);
+          if (songCubit.state.isLoopModeEnabled && activeLoop != null) {
+            await songCubit.togglePlayLoop(activeLoop);
+          } else {
+            await songCubit.togglePlaySong();
+          }
+        },
+      );
+    }
   }
 
   void _onTapPlay(BuildContext context) {

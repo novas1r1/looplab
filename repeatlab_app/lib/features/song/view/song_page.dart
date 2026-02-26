@@ -15,8 +15,10 @@ import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
+import 'package:repeatlab/data/repositories/recording_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
+import 'package:repeatlab/features/song/cubit/recording/recording_cubit.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/features/song/cubit/song_exporter/song_exporter_cubit.dart';
 import 'package:repeatlab/features/song/view/song_controller.dart';
@@ -49,6 +51,13 @@ class SongPage extends StatelessWidget {
           create: (context) => SongExporterCubit(
             crashReportingRepository: context.read<CrashReportingRepository>(),
           ),
+        ),
+        BlocProvider(
+          create: (context) => RecordingCubit(
+            songId: song.id,
+            recordingRepository: context.read<RecordingRepository>(),
+            crashReportingRepository: context.read<CrashReportingRepository>(),
+          )..loadLayers(),
         ),
       ],
       child: _SongView(song: song),

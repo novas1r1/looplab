@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:repeatlab/data/models/recording_layer.dart';
 import 'package:repeatlab/features/song/cubit/recording/recording_cubit.dart';
 
 import '../../../helpers/mock_data.dart';
