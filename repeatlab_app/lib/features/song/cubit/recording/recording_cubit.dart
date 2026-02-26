@@ -21,6 +21,8 @@ class RecordingCubit extends Cubit<RecordingState> {
 
   Timer? _countdownTimer;
   AudioRecorder? _recorder;
+  StreamSubscription<Duration>? _positionSubscription;
+  Stream<Duration>? _positionStream;
 
   RecordingCubit({
     required this.songId,
@@ -48,7 +50,9 @@ class RecordingCubit extends Cubit<RecordingState> {
     required Duration startPosition,
     required Duration? stopPosition,
     required Future<void> Function() onCountdownComplete,
+    Stream<Duration>? positionStream,
   }) async {
+    _positionStream = positionStream;
     // Check microphone permission
     _recorder = AudioRecorder();
     final hasPermission = await _recorder!.hasPermission();
@@ -110,6 +114,18 @@ class RecordingCubit extends Cubit<RecordingState> {
       ));
 
       dev.log('Recording started: $filePath', name: 'RecordingCubit');
+
+      // Set up auto-stop at loop boundary
+      if (stopPosition != null && _positionStream != null) {
+        _positionSubscription?.cancel();
+        _positionSubscription = _positionStream!.listen((position) {
+          if (position >= stopPosition &&
+              state.status == RecordingStatus.recording) {
+            stopRecording(startPosition: startPosition);
+            _positionSubscription?.cancel();
+          }
+        });
+      }
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
       emit(state.copyWith(
@@ -183,6 +199,7 @@ class RecordingCubit extends Cubit<RecordingState> {
 
   void cancelRecording() {
     _countdownTimer?.cancel();
+    _positionSubscription?.cancel();
     _recorder?.stop();
     _recorder?.dispose();
     emit(state.copyWith(
@@ -230,6 +247,7 @@ class RecordingCubit extends Cubit<RecordingState> {
   @override
   Future<void> close() {
     _countdownTimer?.cancel();
+    _positionSubscription?.cancel();
     _recorder?.dispose();
     return super.close();
   }

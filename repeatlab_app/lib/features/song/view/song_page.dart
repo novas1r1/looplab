@@ -147,6 +147,27 @@ class _SongViewState extends State<_SongView> {
             }
           },
         ),
+        BlocListener<RecordingCubit, RecordingState>(
+          listenWhen: (previous, current) =>
+              previous.status != current.status,
+          listener: (context, recordingState) {
+            if (recordingState.status == RecordingStatus.idle &&
+                recordingState.layers.isNotEmpty) {
+              SnackbarHelper.showSuccess(context, context.l10n.recordingAdded);
+            } else if (recordingState.status ==
+                RecordingStatus.permissionDenied) {
+              SnackbarHelper.showError(
+                context,
+                context.l10n.microphonePermissionDenied,
+              );
+            } else if (recordingState.status == RecordingStatus.error) {
+              SnackbarHelper.showError(
+                context,
+                recordingState.error ?? 'Recording error',
+              );
+            }
+          },
+        ),
       ],
       child: BlocSelector<SongCubit, SongState, SongStatus>(
         selector: (state) => state.status,

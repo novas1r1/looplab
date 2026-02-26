@@ -156,6 +156,7 @@ class SongController extends StatelessWidget {
       recordingCubit.startRecording(
         startPosition: startPos,
         stopPosition: stopPos,
+        positionStream: songCubit.positionStream,
         onCountdownComplete: () async {
           await songCubit.seekSong(startPos);
           if (songCubit.state.isLoopModeEnabled && activeLoop != null) {
