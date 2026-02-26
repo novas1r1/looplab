@@ -1,4 +1,5 @@
 import 'package:repeatlab/data/models/loop.dart';
+import 'package:repeatlab/data/models/recording_layer.dart';
 import 'package:repeatlab/data/models/song.dart';
 
 /// Mock data for testing
@@ -118,4 +119,26 @@ class MockData {
     songSuperLong,
     songNoBpm,
   ];
+
+  // ========== Recording Layers ==========
+
+  static final recordingLayer1 = RecordingLayer(
+    id: 'recording-1',
+    songId: 'song-medium',
+    filePath: '/recordings/song-medium/recording-1.wav',
+    startPosition: const Duration(seconds: 15),
+    duration: const Duration(seconds: 15),
+    createdAt: DateTime(2026, 2, 26),
+    label: 'Guitar take 1',
+  );
+
+  static final recordingLayer2 = RecordingLayer(
+    id: 'recording-2',
+    songId: 'song-medium',
+    filePath: '/recordings/song-medium/recording-2.wav',
+    startPosition: const Duration(minutes: 1, seconds: 30),
+    duration: const Duration(seconds: 30),
+    createdAt: DateTime(2026, 2, 26),
+    volume: 0.8,
+  );
 }
