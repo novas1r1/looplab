@@ -738,4 +738,72 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get copyToClipboard => '클립보드에 복사';
+
+  @override
+  String get record => 'Record';
+
+  @override
+  String get recording => 'Recording...';
+
+  @override
+  String get recordings => 'Recordings';
+
+  @override
+  String get recordingLayers => 'Recording Layers';
+
+  @override
+  String get startRecording => 'Start Recording';
+
+  @override
+  String get stopRecording => 'Stop Recording';
+
+  @override
+  String get deleteRecording => 'Delete Recording';
+
+  @override
+  String get deleteRecordingConfirmation =>
+      'Are you sure you want to delete this recording?';
+
+  @override
+  String get recordingAdded => 'Recording added';
+
+  @override
+  String get recordingDeleted => 'Recording deleted';
+
+  @override
+  String get microphonePermissionRequired =>
+      'Microphone permission is required to record audio';
+
+  @override
+  String get microphonePermissionDenied =>
+      'Microphone permission denied. Please enable it in Settings.';
+
+  @override
+  String get exportMix => 'Export Mix';
+
+  @override
+  String get exportMixDescription =>
+      'Merge all recording layers with the original track into a single file';
+
+  @override
+  String get mute => 'Mute';
+
+  @override
+  String get unmute => 'Unmute';
+
+  @override
+  String get volume => 'Volume';
+
+  @override
+  String get noRecordings => 'No recordings yet';
+
+  @override
+  String get tapRecordToStart => 'Tap the record button to start';
+
+  @override
+  String get recordingLayersPremiumDescription =>
+      'Upgrade to add more recording layers';
+
+  @override
+  String get premiumFeatureRecordingLayers => 'Unlimited Recording Layers';
 }

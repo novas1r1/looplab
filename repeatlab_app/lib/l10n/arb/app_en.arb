@@ -307,5 +307,26 @@
     "copyToClipboard": "Copy to Clipboard",
     "@copyToClipboard": {
         "description": "Button or action to copy text to the device clipboard"
-    }
+    },
+    "record": "Record",
+    "recording": "Recording...",
+    "recordings": "Recordings",
+    "recordingLayers": "Recording Layers",
+    "startRecording": "Start Recording",
+    "stopRecording": "Stop Recording",
+    "deleteRecording": "Delete Recording",
+    "deleteRecordingConfirmation": "Are you sure you want to delete this recording?",
+    "recordingAdded": "Recording added",
+    "recordingDeleted": "Recording deleted",
+    "microphonePermissionRequired": "Microphone permission is required to record audio",
+    "microphonePermissionDenied": "Microphone permission denied. Please enable it in Settings.",
+    "exportMix": "Export Mix",
+    "exportMixDescription": "Merge all recording layers with the original track into a single file",
+    "mute": "Mute",
+    "unmute": "Unmute",
+    "volume": "Volume",
+    "noRecordings": "No recordings yet",
+    "tapRecordToStart": "Tap the record button to start",
+    "recordingLayersPremiumDescription": "Upgrade to add more recording layers",
+    "premiumFeatureRecordingLayers": "Unlimited Recording Layers"
 }

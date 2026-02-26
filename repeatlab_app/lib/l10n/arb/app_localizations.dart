@@ -1475,6 +1475,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Copy to Clipboard'**
   String get copyToClipboard;
+
+  /// No description provided for @record.
+  ///
+  /// In en, this message translates to:
+  /// **'Record'**
+  String get record;
+
+  /// No description provided for @recording.
+  ///
+  /// In en, this message translates to:
+  /// **'Recording...'**
+  String get recording;
+
+  /// No description provided for @recordings.
+  ///
+  /// In en, this message translates to:
+  /// **'Recordings'**
+  String get recordings;
+
+  /// No description provided for @recordingLayers.
+  ///
+  /// In en, this message translates to:
+  /// **'Recording Layers'**
+  String get recordingLayers;
+
+  /// No description provided for @startRecording.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Recording'**
+  String get startRecording;
+
+  /// No description provided for @stopRecording.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop Recording'**
+  String get stopRecording;
+
+  /// No description provided for @deleteRecording.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Recording'**
+  String get deleteRecording;
+
+  /// No description provided for @deleteRecordingConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this recording?'**
+  String get deleteRecordingConfirmation;
+
+  /// No description provided for @recordingAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Recording added'**
+  String get recordingAdded;
+
+  /// No description provided for @recordingDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Recording deleted'**
+  String get recordingDeleted;
+
+  /// No description provided for @microphonePermissionRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone permission is required to record audio'**
+  String get microphonePermissionRequired;
+
+  /// No description provided for @microphonePermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone permission denied. Please enable it in Settings.'**
+  String get microphonePermissionDenied;
+
+  /// No description provided for @exportMix.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Mix'**
+  String get exportMix;
+
+  /// No description provided for @exportMixDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge all recording layers with the original track into a single file'**
+  String get exportMixDescription;
+
+  /// No description provided for @mute.
+  ///
+  /// In en, this message translates to:
+  /// **'Mute'**
+  String get mute;
+
+  /// No description provided for @unmute.
+  ///
+  /// In en, this message translates to:
+  /// **'Unmute'**
+  String get unmute;
+
+  /// No description provided for @volume.
+  ///
+  /// In en, this message translates to:
+  /// **'Volume'**
+  String get volume;
+
+  /// No description provided for @noRecordings.
+  ///
+  /// In en, this message translates to:
+  /// **'No recordings yet'**
+  String get noRecordings;
+
+  /// No description provided for @tapRecordToStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the record button to start'**
+  String get tapRecordToStart;
+
+  /// No description provided for @recordingLayersPremiumDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to add more recording layers'**
+  String get recordingLayersPremiumDescription;
+
+  /// No description provided for @premiumFeatureRecordingLayers.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited Recording Layers'**
+  String get premiumFeatureRecordingLayers;
 }
 
 class _AppLocalizationsDelegate
