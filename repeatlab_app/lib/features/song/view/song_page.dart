@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:flutter_auto_size_text/flutter_auto_size_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
@@ -13,6 +14,7 @@ import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/core/utils/snackbar_helper.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
+import 'package:repeatlab/data/services/recording_playback_service.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/recording_repository.dart';
@@ -24,10 +26,10 @@ import 'package:repeatlab/features/song/cubit/song_exporter/song_exporter_cubit.
 import 'package:repeatlab/features/song/view/song_controller.dart';
 import 'package:repeatlab/features/song/widgets/loop_tile.dart';
 import 'package:repeatlab/features/song/widgets/loop_timeline.dart';
-import 'package:repeatlab/features/song/widgets/song_settings_bottom_sheet.dart';
-import 'package:repeatlab/features/song/widgets/tutorial_item.dart';
 import 'package:repeatlab/features/song/widgets/recording_countdown_overlay.dart';
 import 'package:repeatlab/features/song/widgets/recording_layers_panel.dart';
+import 'package:repeatlab/features/song/widgets/song_settings_bottom_sheet.dart';
+import 'package:repeatlab/features/song/widgets/tutorial_item.dart';
 import 'package:repeatlab/features/song/widgets/wave_form_soloud.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
@@ -80,6 +82,7 @@ class _SongViewState extends State<_SongView> {
   // final Duration _currentPlayerPosition = Duration.zero;
 
   final _loopListController = ScrollController();
+  RecordingPlaybackService? _recordingPlayback;
 
   late TutorialCoachMark tutorialCoachMark;
 
@@ -93,8 +96,17 @@ class _SongViewState extends State<_SongView> {
   GlobalKey tutorialKeyLoopAdd = GlobalKey();
 
   @override
+  void initState() {
+    super.initState();
+    _recordingPlayback = RecordingPlaybackService(
+      soloud: SoLoud.instance,
+    );
+  }
+
+  @override
   void dispose() {
     // context.read<SongCubit>().close();
+    _recordingPlayback?.dispose();
     _loopListController.dispose();
     super.dispose();
   }
@@ -149,14 +161,11 @@ class _SongViewState extends State<_SongView> {
           },
         ),
         BlocListener<RecordingCubit, RecordingState>(
-          listenWhen: (previous, current) =>
-              previous.status != current.status,
+          listenWhen: (previous, current) => previous.status != current.status,
           listener: (context, recordingState) {
-            if (recordingState.status == RecordingStatus.idle &&
-                recordingState.layers.isNotEmpty) {
+            if (recordingState.status == RecordingStatus.idle && recordingState.layers.isNotEmpty) {
               SnackbarHelper.showSuccess(context, context.l10n.recordingAdded);
-            } else if (recordingState.status ==
-                RecordingStatus.permissionDenied) {
+            } else if (recordingState.status == RecordingStatus.permissionDenied) {
               SnackbarHelper.showError(
                 context,
                 context.l10n.microphonePermissionDenied,
@@ -166,6 +175,27 @@ class _SongViewState extends State<_SongView> {
                 context,
                 recordingState.error ?? 'Recording error',
               );
+            }
+          },
+        ),
+        BlocListener<SongCubit, SongState>(
+          listenWhen: (previous, current) =>
+              previous.playerState != current.playerState,
+          listener: (context, songState) async {
+            final layers = context.read<RecordingCubit>().state.layers;
+            if (layers.isEmpty) return;
+
+            final songCubit = context.read<SongCubit>();
+
+            if (songState.playerState == PlayerState.playing) {
+              // Load layers if needed and start playback
+              for (final layer in layers) {
+                await _recordingPlayback?.loadLayer(layer);
+              }
+              final position = await songCubit.position;
+              await _recordingPlayback?.playAllLayers(layers, position);
+            } else {
+              _recordingPlayback?.stopAll();
             }
           },
         ),
@@ -216,111 +246,79 @@ class _SongViewState extends State<_SongView> {
                 body: Stack(
                   children: [
                     CustomScrollView(
-                  slivers: [
-                    SliverPadding(
-                      padding: const EdgeInsets.all(16),
-                      sliver: SliverList(
-                        delegate: SliverChildListDelegate([
-                          WaveFormSoLoud(
-                            key: tutorialKeyWaveform,
-                            song: widget.song,
-                          ),
-                          const SizedBox(height: 8),
-                          LoopTimeline(
-                            key: tutorialKeyLoopTimeline,
-                            onLoopTap: (loop) => context.read<SongCubit>().selectLoop(loop),
-                            onSkipPrevious: () =>
-                                context.read<SongCubit>().skipToPreviousOrRestart(),
-                            onSkipNext: () => context.read<SongCubit>().skipToNextLoop(),
-                            onSeek: (position) => context.read<SongCubit>().seekSong(position),
-                            duration: widget.song.duration,
-                          ),
-                          const SizedBox(height: 12),
-                          SongController(
-                            key: tutorialKeySongController,
-                          ),
-                          const RecordingLayersPanel(),
-                          const Divider(height: 24),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              AutoSizeText(
-                                context.l10n.loops,
-                                minFontSize: 16,
-                                maxFontSize: 24,
-                                style: context.headlineSmall,
+                      slivers: [
+                        SliverPadding(
+                          padding: const EdgeInsets.all(16),
+                          sliver: SliverList(
+                            delegate: SliverChildListDelegate([
+                              WaveFormSoLoud(
+                                key: tutorialKeyWaveform,
+                                song: widget.song,
                               ),
+                              const SizedBox(height: 8),
+                              LoopTimeline(
+                                key: tutorialKeyLoopTimeline,
+                                onLoopTap: (loop) => context.read<SongCubit>().selectLoop(loop),
+                                onSkipPrevious: () =>
+                                    context.read<SongCubit>().skipToPreviousOrRestart(),
+                                onSkipNext: () => context.read<SongCubit>().skipToNextLoop(),
+                                onSeek: (position) => context.read<SongCubit>().seekSong(position),
+                                duration: widget.song.duration,
+                              ),
+                              const SizedBox(height: 12),
+                              SongController(
+                                key: tutorialKeySongController,
+                              ),
+                              const RecordingLayersPanel(),
+                              const Divider(height: 24),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   AutoSizeText(
-                                    context.l10n.loopMode,
-                                    minFontSize: 20,
+                                    context.l10n.loops,
+                                    minFontSize: 16,
                                     maxFontSize: 24,
-                                    style: context.bodySmall,
+                                    style: context.headlineSmall,
                                   ),
-                                  BlocSelector<SongCubit, SongState, bool>(
-                                    selector: (state) => state.isLoopModeEnabled,
-                                    builder: (context, isLoopModeEnabled) {
-                                      return CupertinoSwitch(
-                                        key: tutorialKeyLoopActivate,
-                                        thumbIcon: WidgetStateProperty.resolveWith<Icon?>((
-                                          Set<WidgetState> states,
-                                        ) {
-                                          if (states.contains(WidgetState.disabled)) {
-                                            return const Icon(Icons.close);
-                                          }
-                                          return const Icon(Icons.loop_rounded);
-                                        }),
-                                        activeTrackColor: AppColors.primaryContainer,
-                                        inactiveTrackColor: AppColors.secondaryContainer,
-                                        value: isLoopModeEnabled,
-                                        onChanged: (value) => _onToggleLoopMode(context),
-                                      );
-                                    },
+                                  Row(
+                                    children: [
+                                      AutoSizeText(
+                                        context.l10n.loopMode,
+                                        minFontSize: 20,
+                                        maxFontSize: 24,
+                                        style: context.bodySmall,
+                                      ),
+                                      BlocSelector<SongCubit, SongState, bool>(
+                                        selector: (state) => state.isLoopModeEnabled,
+                                        builder: (context, isLoopModeEnabled) {
+                                          return CupertinoSwitch(
+                                            key: tutorialKeyLoopActivate,
+                                            thumbIcon: WidgetStateProperty.resolveWith<Icon?>((
+                                              Set<WidgetState> states,
+                                            ) {
+                                              if (states.contains(WidgetState.disabled)) {
+                                                return const Icon(Icons.close);
+                                              }
+                                              return const Icon(Icons.loop_rounded);
+                                            }),
+                                            activeTrackColor: AppColors.primaryContainer,
+                                            inactiveTrackColor: AppColors.secondaryContainer,
+                                            value: isLoopModeEnabled,
+                                            onChanged: (value) => _onToggleLoopMode(context),
+                                          );
+                                        },
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 8),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: ElevatedButton(
-                                  key: tutorialKeyLoopStart,
-                                  onPressed: () => _onSetLoopStart(context),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Theme.of(
-                                      context,
-                                    ).colorScheme.primaryContainer,
-                                    foregroundColor: Theme.of(
-                                      context,
-                                    ).colorScheme.onPrimaryContainer,
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 8,
-                                    ),
-                                    minimumSize: const Size(0, 36),
-                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                  ),
-                                  child: AutoSizeText(
-                                    context.l10n.setLoopStart,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    minFontSize: 12,
-                                    maxFontSize: 24,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: BlocSelector<SongCubit, SongState, Loop?>(
-                                  selector: (state) => state.activeLoop,
-                                  builder: (context, activeLoop) {
-                                    return ElevatedButton(
-                                      key: tutorialKeyLoopEnd,
-                                      onPressed: (activeLoop != null)
-                                          ? () => _onSetLoopEnd(context)
-                                          : null,
+                              const SizedBox(height: 8),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: ElevatedButton(
+                                      key: tutorialKeyLoopStart,
+                                      onPressed: () => _onSetLoopStart(context),
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Theme.of(
                                           context,
@@ -335,89 +333,123 @@ class _SongViewState extends State<_SongView> {
                                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                       ),
                                       child: AutoSizeText(
-                                        context.l10n.setLoopEnd,
+                                        context.l10n.setLoopStart,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                         minFontSize: 12,
                                         maxFontSize: 24,
                                       ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: BlocSelector<SongCubit, SongState, Loop?>(
+                                      selector: (state) => state.activeLoop,
+                                      builder: (context, activeLoop) {
+                                        return ElevatedButton(
+                                          key: tutorialKeyLoopEnd,
+                                          onPressed: (activeLoop != null)
+                                              ? () => _onSetLoopEnd(context)
+                                              : null,
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Theme.of(
+                                              context,
+                                            ).colorScheme.primaryContainer,
+                                            foregroundColor: Theme.of(
+                                              context,
+                                            ).colorScheme.onPrimaryContainer,
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 8,
+                                            ),
+                                            minimumSize: const Size(0, 36),
+                                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                          ),
+                                          child: AutoSizeText(
+                                            context.l10n.setLoopEnd,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                            minFontSize: 12,
+                                            maxFontSize: 24,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ]),
+                          ),
+                        ),
+                        SliverPadding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          sliver: SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                              (context, index) {
+                                return BlocSelector<SongCubit, SongState, List<Loop>>(
+                                  selector: (state) => state.song.loops,
+                                  builder: (context, loops) {
+                                    return SizedBox(
+                                      height: MediaQuery.of(context).size.height * 0.4,
+                                      child: ReorderableListView.builder(
+                                        onReorder: (oldIndex, newIndex) {
+                                          if (oldIndex < newIndex) {
+                                            newIndex -= 1;
+                                          }
+
+                                          final List<Loop> newLoops = List<Loop>.from(loops);
+                                          final Loop item = newLoops.removeAt(
+                                            oldIndex,
+                                          );
+                                          newLoops.insert(newIndex, item);
+
+                                          // Update order numbers
+                                          for (var i = 0; i < newLoops.length; i++) {
+                                            newLoops[i] = newLoops[i].copyWith(
+                                              orderNumber: i,
+                                            );
+                                          }
+
+                                          context.read<SongCubit>().updateLoopOrder(
+                                            newLoops,
+                                          );
+                                        },
+                                        scrollController: _loopListController,
+                                        padding: const EdgeInsets.only(bottom: 92),
+                                        itemBuilder: (context, index) => Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 4,
+                                          ),
+                                          key: ValueKey(loops[index].id),
+                                          child: LoopTile(
+                                            index: index,
+                                            loop: loops[index],
+                                            isSelected:
+                                                loops[index] ==
+                                                context.read<SongCubit>().state.activeLoop,
+                                            onTap: (loop) =>
+                                                context.read<SongCubit>().selectLoop(loop),
+                                            onDelete: (loop) =>
+                                                context.read<SongCubit>().deleteLoop(loop),
+                                            onPlay: (loop) =>
+                                                context.read<SongCubit>().togglePlayLoop(loop),
+                                            onPause: (loop) =>
+                                                context.read<SongCubit>().pauseLoop(),
+                                            onUpdate: (loop) =>
+                                                context.read<SongCubit>().updateLoop(loop),
+                                          ),
+                                        ),
+                                        itemCount: loops.length,
+                                      ),
                                     );
                                   },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ]),
-                      ),
-                    ),
-                    SliverPadding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      sliver: SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            return BlocSelector<SongCubit, SongState, List<Loop>>(
-                              selector: (state) => state.song.loops,
-                              builder: (context, loops) {
-                                return SizedBox(
-                                  height: MediaQuery.of(context).size.height * 0.4,
-                                  child: ReorderableListView.builder(
-                                    onReorder: (oldIndex, newIndex) {
-                                      if (oldIndex < newIndex) {
-                                        newIndex -= 1;
-                                      }
-
-                                      final List<Loop> newLoops = List<Loop>.from(loops);
-                                      final Loop item = newLoops.removeAt(
-                                        oldIndex,
-                                      );
-                                      newLoops.insert(newIndex, item);
-
-                                      // Update order numbers
-                                      for (var i = 0; i < newLoops.length; i++) {
-                                        newLoops[i] = newLoops[i].copyWith(
-                                          orderNumber: i,
-                                        );
-                                      }
-
-                                      context.read<SongCubit>().updateLoopOrder(
-                                        newLoops,
-                                      );
-                                    },
-                                    scrollController: _loopListController,
-                                    padding: const EdgeInsets.only(bottom: 92),
-                                    itemBuilder: (context, index) => Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 4,
-                                      ),
-                                      key: ValueKey(loops[index].id),
-                                      child: LoopTile(
-                                        index: index,
-                                        loop: loops[index],
-                                        isSelected:
-                                            loops[index] ==
-                                            context.read<SongCubit>().state.activeLoop,
-                                        onTap: (loop) => context.read<SongCubit>().selectLoop(loop),
-                                        onDelete: (loop) =>
-                                            context.read<SongCubit>().deleteLoop(loop),
-                                        onPlay: (loop) =>
-                                            context.read<SongCubit>().togglePlayLoop(loop),
-                                        onPause: (loop) => context.read<SongCubit>().pauseLoop(),
-                                        onUpdate: (loop) =>
-                                            context.read<SongCubit>().updateLoop(loop),
-                                      ),
-                                    ),
-                                    itemCount: loops.length,
-                                  ),
                                 );
                               },
-                            );
-                          },
-                          childCount: 1,
+                              childCount: 1,
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
                     const Positioned.fill(
                       child: RecordingCountdownOverlay(),
                     ),
