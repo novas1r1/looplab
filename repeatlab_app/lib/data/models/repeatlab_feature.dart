@@ -33,4 +33,8 @@ List<RepeatLabFeature> getPremiumFeatures(
     title: translator.premiumFeatureSupportDeveloper,
     isPremium: true,
   ),
+  RepeatLabFeature(
+    title: translator.premiumFeatureRecordingLayers,
+    isPremium: true,
+  ),
 ];

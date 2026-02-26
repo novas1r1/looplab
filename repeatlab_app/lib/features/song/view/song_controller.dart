@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auto_size_text/flutter_auto_size_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
+import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/song/cubit/recording/recording_cubit.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/features/speed_control/view/speed_control.dart';
@@ -133,7 +135,7 @@ class SongController extends StatelessWidget {
     );
   }
 
-  void _onTapRecord(BuildContext context) {
+  Future<void> _onTapRecord(BuildContext context) async {
     final recordingCubit = context.read<RecordingCubit>();
     final songCubit = context.read<SongCubit>();
 
@@ -144,6 +146,15 @@ class SongController extends StatelessWidget {
         startPosition: Duration.zero,
       );
     } else {
+      // Check premium gate: free users get 1 recording per song
+      final premiumCubit = context.read<PremiumSubscriptionCubit>();
+      if (!premiumCubit.hasPremium &&
+          recordingCubit.state.layers.isNotEmpty) {
+        AppAnalytics.trackEvent('show_paywall_recording_layers');
+        await premiumCubit.presentPaywall();
+        return;
+      }
+
       // Start recording
       final activeLoop = songCubit.state.activeLoop;
       final startPos = activeLoop?.start ?? Duration.zero;
