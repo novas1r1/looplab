@@ -520,6 +520,11 @@ class _SongViewState extends State<_SongView> {
     );
 
     if (result != null && result && context.mounted) {
+      // Clean up recording layers
+      final recordingRepository = context.read<RecordingRepository>();
+      await recordingRepository.deleteAllLayersForSong(widget.song.id);
+
+      if (!context.mounted) return;
       context.read<SongCubit>().deleteSong();
       Navigator.of(context).pop();
     }

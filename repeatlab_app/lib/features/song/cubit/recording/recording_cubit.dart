@@ -36,10 +36,12 @@ class RecordingCubit extends Cubit<RecordingState> {
       emit(state.copyWith(layers: layers));
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
-      emit(state.copyWith(
-        status: RecordingStatus.error,
-        error: 'Failed to load recording layers: $ex',
-      ));
+      emit(
+        state.copyWith(
+          status: RecordingStatus.error,
+          error: 'Failed to load recording layers: $ex',
+        ),
+      );
     }
   }
 
@@ -63,10 +65,12 @@ class RecordingCubit extends Cubit<RecordingState> {
     }
 
     // Start countdown
-    emit(state.copyWith(
-      status: RecordingStatus.countdown,
-      countdownValue: 3,
-    ));
+    emit(
+      state.copyWith(
+        status: RecordingStatus.countdown,
+        countdownValue: 3,
+      ),
+    );
 
     _countdownTimer?.cancel();
     var count = 3;
@@ -102,16 +106,17 @@ class RecordingCubit extends Cubit<RecordingState> {
       await _recorder!.start(
         const RecordConfig(
           encoder: AudioEncoder.wav,
-          sampleRate: 44100,
         ),
         path: filePath,
       );
 
-      emit(state.copyWith(
-        status: RecordingStatus.recording,
-        activeLayerId: layerId,
-        countdownValue: null,
-      ));
+      emit(
+        state.copyWith(
+          status: RecordingStatus.recording,
+          activeLayerId: layerId,
+          countdownValue: null,
+        ),
+      );
 
       dev.log('Recording started: $filePath', name: 'RecordingCubit');
 
@@ -119,8 +124,7 @@ class RecordingCubit extends Cubit<RecordingState> {
       if (stopPosition != null && _positionStream != null) {
         _positionSubscription?.cancel();
         _positionSubscription = _positionStream!.listen((position) {
-          if (position >= stopPosition &&
-              state.status == RecordingStatus.recording) {
+          if (position >= stopPosition && state.status == RecordingStatus.recording) {
             stopRecording(startPosition: startPosition);
             _positionSubscription?.cancel();
           }
@@ -128,11 +132,13 @@ class RecordingCubit extends Cubit<RecordingState> {
       }
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
-      emit(state.copyWith(
-        status: RecordingStatus.error,
-        error: 'Failed to start recording: $ex',
-        countdownValue: null,
-      ));
+      emit(
+        state.copyWith(
+          status: RecordingStatus.error,
+          error: 'Failed to start recording: $ex',
+          countdownValue: null,
+        ),
+      );
     }
   }
 
@@ -146,19 +152,23 @@ class RecordingCubit extends Cubit<RecordingState> {
     try {
       final path = await _recorder!.stop();
       if (path == null) {
-        emit(state.copyWith(
-          status: RecordingStatus.error,
-          error: 'Recording failed - no file produced',
-        ));
+        emit(
+          state.copyWith(
+            status: RecordingStatus.error,
+            error: 'Recording failed - no file produced',
+          ),
+        );
         return;
       }
 
       final file = File(path);
       if (!await file.exists()) {
-        emit(state.copyWith(
-          status: RecordingStatus.error,
-          error: 'Recording file not found',
-        ));
+        emit(
+          state.copyWith(
+            status: RecordingStatus.error,
+            error: 'Recording file not found',
+          ),
+        );
         return;
       }
 
@@ -179,21 +189,24 @@ class RecordingCubit extends Cubit<RecordingState> {
 
       await recordingRepository.addLayer(layer);
 
-      emit(state.copyWith(
-        status: RecordingStatus.idle,
-        layers: [...state.layers, layer],
-        activeLayerId: null,
-      ));
+      emit(
+        state.copyWith(
+          status: RecordingStatus.idle,
+          layers: [...state.layers, layer],
+          activeLayerId: null,
+        ),
+      );
 
-      dev.log('Recording saved: $path (${duration.inSeconds}s)',
-          name: 'RecordingCubit');
+      dev.log('Recording saved: $path (${duration.inSeconds}s)', name: 'RecordingCubit');
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
-      emit(state.copyWith(
-        status: RecordingStatus.error,
-        error: 'Failed to save recording: $ex',
-        activeLayerId: null,
-      ));
+      emit(
+        state.copyWith(
+          status: RecordingStatus.error,
+          error: 'Failed to save recording: $ex',
+          activeLayerId: null,
+        ),
+      );
     }
   }
 
@@ -202,19 +215,20 @@ class RecordingCubit extends Cubit<RecordingState> {
     _positionSubscription?.cancel();
     _recorder?.stop();
     _recorder?.dispose();
-    emit(state.copyWith(
-      status: RecordingStatus.idle,
-      countdownValue: null,
-      activeLayerId: null,
-    ));
+    emit(
+      state.copyWith(
+        status: RecordingStatus.idle,
+        countdownValue: null,
+        activeLayerId: null,
+      ),
+    );
   }
 
   Future<void> toggleMute(RecordingLayer layer) async {
     final updated = layer.copyWith(isMuted: !layer.isMuted);
     try {
       await recordingRepository.updateLayer(updated);
-      final updatedLayers =
-          state.layers.map((l) => l.id == layer.id ? updated : l).toList();
+      final updatedLayers = state.layers.map((l) => l.id == layer.id ? updated : l).toList();
       emit(state.copyWith(layers: updatedLayers));
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
@@ -225,8 +239,7 @@ class RecordingCubit extends Cubit<RecordingState> {
     final updated = layer.copyWith(volume: volume.clamp(0.0, 1.0));
     try {
       await recordingRepository.updateLayer(updated);
-      final updatedLayers =
-          state.layers.map((l) => l.id == layer.id ? updated : l).toList();
+      final updatedLayers = state.layers.map((l) => l.id == layer.id ? updated : l).toList();
       emit(state.copyWith(layers: updatedLayers));
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
@@ -236,8 +249,7 @@ class RecordingCubit extends Cubit<RecordingState> {
   Future<void> deleteLayer(RecordingLayer layer) async {
     try {
       await recordingRepository.deleteLayer(layer);
-      final updatedLayers =
-          state.layers.where((l) => l.id != layer.id).toList();
+      final updatedLayers = state.layers.where((l) => l.id != layer.id).toList();
       emit(state.copyWith(layers: updatedLayers));
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));

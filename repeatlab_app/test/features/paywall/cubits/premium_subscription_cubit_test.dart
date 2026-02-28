@@ -20,8 +20,9 @@ void main() {
   setUp(() {
     mockPurchasesRepository = MockPurchasesRepository();
     mockCrashReportingRepository = MockCrashReportingRepository();
-    when(() => mockCrashReportingRepository.reportError(any(), any()))
-        .thenAnswer((_) async => null);
+    when(
+      () => mockCrashReportingRepository.reportError(any(), any()),
+    ).thenAnswer((_) async => null);
   });
 
   setUpAll(() {
@@ -40,39 +41,27 @@ void main() {
   }
 
   void stubNoSubscriptions() {
-    when(() => mockPurchasesRepository.hasWeeklySubscription)
-        .thenAnswer((_) async => false);
-    when(() => mockPurchasesRepository.hasYearlySubscription)
-        .thenAnswer((_) async => false);
-    when(() => mockPurchasesRepository.hasLifetimePurchase)
-        .thenAnswer((_) async => false);
+    when(() => mockPurchasesRepository.hasWeeklySubscription).thenAnswer((_) async => false);
+    when(() => mockPurchasesRepository.hasYearlySubscription).thenAnswer((_) async => false);
+    when(() => mockPurchasesRepository.hasLifetimePurchase).thenAnswer((_) async => false);
   }
 
   void stubWeeklySubscription() {
-    when(() => mockPurchasesRepository.hasWeeklySubscription)
-        .thenAnswer((_) async => true);
-    when(() => mockPurchasesRepository.hasYearlySubscription)
-        .thenAnswer((_) async => false);
-    when(() => mockPurchasesRepository.hasLifetimePurchase)
-        .thenAnswer((_) async => false);
+    when(() => mockPurchasesRepository.hasWeeklySubscription).thenAnswer((_) async => true);
+    when(() => mockPurchasesRepository.hasYearlySubscription).thenAnswer((_) async => false);
+    when(() => mockPurchasesRepository.hasLifetimePurchase).thenAnswer((_) async => false);
   }
 
   void stubYearlySubscription() {
-    when(() => mockPurchasesRepository.hasWeeklySubscription)
-        .thenAnswer((_) async => false);
-    when(() => mockPurchasesRepository.hasYearlySubscription)
-        .thenAnswer((_) async => true);
-    when(() => mockPurchasesRepository.hasLifetimePurchase)
-        .thenAnswer((_) async => false);
+    when(() => mockPurchasesRepository.hasWeeklySubscription).thenAnswer((_) async => false);
+    when(() => mockPurchasesRepository.hasYearlySubscription).thenAnswer((_) async => true);
+    when(() => mockPurchasesRepository.hasLifetimePurchase).thenAnswer((_) async => false);
   }
 
   void stubLifetimePurchase() {
-    when(() => mockPurchasesRepository.hasWeeklySubscription)
-        .thenAnswer((_) async => false);
-    when(() => mockPurchasesRepository.hasYearlySubscription)
-        .thenAnswer((_) async => false);
-    when(() => mockPurchasesRepository.hasLifetimePurchase)
-        .thenAnswer((_) async => true);
+    when(() => mockPurchasesRepository.hasWeeklySubscription).thenAnswer((_) async => false);
+    when(() => mockPurchasesRepository.hasYearlySubscription).thenAnswer((_) async => false);
+    when(() => mockPurchasesRepository.hasLifetimePurchase).thenAnswer((_) async => true);
   }
 
   MockCustomerInfo buildMockCustomerInfo({
@@ -168,8 +157,7 @@ void main() {
       blocTest<PremiumSubscriptionCubit, PremiumSubscriptionState>(
         'emits failure when setup throws',
         setUp: () {
-          when(() => mockPurchasesRepository.setup())
-              .thenThrow(Exception('Setup failed'));
+          when(() => mockPurchasesRepository.setup()).thenThrow(Exception('Setup failed'));
         },
         build: buildCubit,
         act: (cubit) => cubit.init(),
@@ -199,8 +187,6 @@ void main() {
           const PremiumSubscriptionState(
             status: PremiumSubscriptionStatus.premium,
             hasWeeklySubscription: true,
-            hasYearlySubscription: false,
-            hasLifetimePurchase: false,
           ),
         ],
       );
@@ -216,9 +202,7 @@ void main() {
         expect: () => [
           const PremiumSubscriptionState(
             status: PremiumSubscriptionStatus.premium,
-            hasWeeklySubscription: false,
             hasYearlySubscription: true,
-            hasLifetimePurchase: false,
           ),
         ],
       );
@@ -234,8 +218,6 @@ void main() {
         expect: () => [
           const PremiumSubscriptionState(
             status: PremiumSubscriptionStatus.premium,
-            hasWeeklySubscription: false,
-            hasYearlySubscription: false,
             hasLifetimePurchase: true,
           ),
         ],
@@ -260,8 +242,9 @@ void main() {
         'emits failure when checkStatus throws',
         setUp: () {
           stubSetup();
-          when(() => mockPurchasesRepository.hasWeeklySubscription)
-              .thenThrow(Exception('Network error'));
+          when(
+            () => mockPurchasesRepository.hasWeeklySubscription,
+          ).thenThrow(Exception('Network error'));
         },
         build: buildCubit,
         act: (cubit) => cubit.init(),
@@ -276,12 +259,9 @@ void main() {
         'emits premium with multiple subscription types active',
         setUp: () {
           stubSetup();
-          when(() => mockPurchasesRepository.hasWeeklySubscription)
-              .thenAnswer((_) async => true);
-          when(() => mockPurchasesRepository.hasYearlySubscription)
-              .thenAnswer((_) async => true);
-          when(() => mockPurchasesRepository.hasLifetimePurchase)
-              .thenAnswer((_) async => false);
+          when(() => mockPurchasesRepository.hasWeeklySubscription).thenAnswer((_) async => true);
+          when(() => mockPurchasesRepository.hasYearlySubscription).thenAnswer((_) async => true);
+          when(() => mockPurchasesRepository.hasLifetimePurchase).thenAnswer((_) async => false);
         },
         build: buildCubit,
         act: (cubit) => cubit.init(),
@@ -290,7 +270,6 @@ void main() {
             status: PremiumSubscriptionStatus.premium,
             hasWeeklySubscription: true,
             hasYearlySubscription: true,
-            hasLifetimePurchase: false,
           ),
         ],
       );
@@ -305,16 +284,15 @@ void main() {
             isActive: true,
             productIdentifier: 'repeatlab_full_extended',
           );
-          when(() => mockPurchasesRepository.restorePurchases())
-              .thenAnswer((_) async => customerInfo);
+          when(
+            () => mockPurchasesRepository.restorePurchases(),
+          ).thenAnswer((_) async => customerInfo);
         },
         build: buildCubit,
         act: (cubit) => cubit.restore(),
         expect: () => [
           const PremiumSubscriptionState(
             status: PremiumSubscriptionStatus.premium,
-            hasWeeklySubscription: false,
-            hasYearlySubscription: false,
             hasLifetimePurchase: true,
           ),
         ],
@@ -328,8 +306,9 @@ void main() {
             isActive: true,
             productIdentifier: 'repeatlab_full_weekly',
           );
-          when(() => mockPurchasesRepository.restorePurchases())
-              .thenAnswer((_) async => customerInfo);
+          when(
+            () => mockPurchasesRepository.restorePurchases(),
+          ).thenAnswer((_) async => customerInfo);
         },
         build: buildCubit,
         act: (cubit) => cubit.restore(),
@@ -337,8 +316,6 @@ void main() {
           const PremiumSubscriptionState(
             status: PremiumSubscriptionStatus.premium,
             hasWeeklySubscription: true,
-            hasYearlySubscription: false,
-            hasLifetimePurchase: false,
           ),
         ],
       );
@@ -351,17 +328,16 @@ void main() {
             isActive: true,
             productIdentifier: 'repeatlab_full_yearly',
           );
-          when(() => mockPurchasesRepository.restorePurchases())
-              .thenAnswer((_) async => customerInfo);
+          when(
+            () => mockPurchasesRepository.restorePurchases(),
+          ).thenAnswer((_) async => customerInfo);
         },
         build: buildCubit,
         act: (cubit) => cubit.restore(),
         expect: () => [
           const PremiumSubscriptionState(
             status: PremiumSubscriptionStatus.premium,
-            hasWeeklySubscription: false,
             hasYearlySubscription: true,
-            hasLifetimePurchase: false,
           ),
         ],
       );
@@ -371,11 +347,11 @@ void main() {
         setUp: () {
           final customerInfo = buildMockCustomerInfo(
             hasProEntitlement: true,
-            isActive: false,
             productIdentifier: 'repeatlab_full_weekly',
           );
-          when(() => mockPurchasesRepository.restorePurchases())
-              .thenAnswer((_) async => customerInfo);
+          when(
+            () => mockPurchasesRepository.restorePurchases(),
+          ).thenAnswer((_) async => customerInfo);
         },
         build: buildCubit,
         act: (cubit) => cubit.restore(),
@@ -389,9 +365,10 @@ void main() {
       blocTest<PremiumSubscriptionCubit, PremiumSubscriptionState>(
         'emits noPremium when no Pro entitlement exists',
         setUp: () {
-          final customerInfo = buildMockCustomerInfo(hasProEntitlement: false);
-          when(() => mockPurchasesRepository.restorePurchases())
-              .thenAnswer((_) async => customerInfo);
+          final customerInfo = buildMockCustomerInfo();
+          when(
+            () => mockPurchasesRepository.restorePurchases(),
+          ).thenAnswer((_) async => customerInfo);
         },
         build: buildCubit,
         act: (cubit) => cubit.restore(),
@@ -405,16 +382,16 @@ void main() {
       blocTest<PremiumSubscriptionCubit, PremiumSubscriptionState>(
         'emits failure when restore throws',
         setUp: () {
-          when(() => mockPurchasesRepository.restorePurchases())
-              .thenThrow(Exception('Restore failed'));
+          when(
+            () => mockPurchasesRepository.restorePurchases(),
+          ).thenThrow(Exception('Restore failed'));
         },
         build: buildCubit,
         act: (cubit) => cubit.restore(),
         expect: () => [
           isA<PremiumSubscriptionState>()
               .having((s) => s.status, 'status', PremiumSubscriptionStatus.failure)
-              .having(
-                  (s) => s.errorMessage, 'errorMessage', contains('Restore failed')),
+              .having((s) => s.errorMessage, 'errorMessage', contains('Restore failed')),
         ],
         verify: (_) {
           verify(
