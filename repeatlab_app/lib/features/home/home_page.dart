@@ -8,6 +8,7 @@ import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/core/utils/dialog_helper.dart';
 import 'package:repeatlab/core/utils/snackbar_helper.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
+import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:repeatlab/features/changelog_dialog/changelog_dialog.dart';
 import 'package:repeatlab/features/changelog_dialog/cubits/changelog_dialog_cubit.dart';
 import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
@@ -79,7 +80,19 @@ class _HomePageState extends State<HomePage> {
           listenWhen: (previous, current) => previous.status != current.status,
           listener: (context, state) {
             if (state.status == AllSongsStatus.error) {
-              SnackbarHelper.showError(context, context.l10n.songAddError);
+              final format = state.errorMessage;
+              if (format != null) {
+                // errorMessage contains the unsupported format extension
+                SnackbarHelper.showError(
+                  context,
+                  context.l10n.unsupportedAudioFormatError(
+                    format,
+                    SongRepository.supportedFormatsLabel,
+                  ),
+                );
+              } else {
+                SnackbarHelper.showError(context, context.l10n.songAddError);
+              }
             }
           },
           builder: (context, state) {
@@ -107,9 +120,12 @@ class _HomePageState extends State<HomePage> {
                         const SizedBox(height: 8),
                         Text(
                           context.l10n.tapToAddSong,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: AppColors.onSurface.withValues(alpha: 0.6),
-                          ),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: AppColors.onSurface.withValues(
+                                  alpha: 0.6,
+                                ),
+                              ),
                         ),
                       ],
                     ),
@@ -117,7 +133,8 @@ class _HomePageState extends State<HomePage> {
                 }
                 return ListView.separated(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 92),
-                  separatorBuilder: (context, index) => const SizedBox(height: 8),
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 8),
                   itemCount: state.songs.length,
                   itemBuilder: (context, index) {
                     final song = state.songs[index];

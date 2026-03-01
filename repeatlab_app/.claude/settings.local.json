@@ -18,7 +18,9 @@
       "Bash(git pull:*)",
       "Bash(flutter pub get:*)",
       "Bash(git ls-tree:*)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(dart analyze:*)",
+      "Bash(dart test:*)"
     ]
   }
 }

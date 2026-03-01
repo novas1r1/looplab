@@ -185,6 +185,17 @@
     "changelog1013Description": "Vous pouvez maintenant voter pour de nouvelles fonctionnalités ou soumettre vos propres propositions de fonctionnalités dans l'app. Simplement ouvrez le menu et ouvrez le tableau 'Voter pour les Fonctionnalités'. Heureux de recevoir vos souhaits !",
     "whatsNew": "Qu'y a-t-il de nouveau ?",
     "songAddError": "Erreur lors de l'ajout de la chanson. Cela pourrait être dû à un problème avec le format de fichier. Essayez de convertir le fichier en un format compatible comme mp3 ou wav.",
+    "unsupportedAudioFormatError": "Le format audio \".{format}\" n'est pas pris en charge. Formats pris en charge : {supportedFormats}.",
+    "@unsupportedAudioFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
     "loopAdded": "Boucle ajoutée et activée",
     "loopModeEnabled": "Mode boucle activé",
     "loopModeDisabled": "Mode boucle désactivé",

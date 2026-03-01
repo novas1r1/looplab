@@ -531,6 +531,11 @@ class AppLocalizationsDe extends AppLocalizations {
       'Fehler beim Hinzufügen des Songs. Dies könnte daran liegen, dass das Dateiformat nicht unterstützt wird. Bitte versuche, die Datei in ein unterstütztes Format wie mp3 oder wav umzuwandeln.';
 
   @override
+  String unsupportedAudioFormatError(String format, String supportedFormats) {
+    return 'Das Audioformat \".$format\" wird nicht unterstützt. Unterstützte Formate: $supportedFormats.';
+  }
+
+  @override
   String get loopAdded => 'Loop hinzugefügt und aktiviert';
 
   @override

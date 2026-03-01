@@ -186,6 +186,17 @@
     "changelog1013Description": "アプリ内で新機能に投票したり、独自の機能提案を送信したりできるようになりました。メニューを開いて「機能に投票」ボードを開くだけです。あなたの要望をお聞かせください！",
     "whatsNew": "新機能",
     "songAddError": "曲の追加に失敗しました。ファイル形式に問題がある可能性があります。mp3やwavなどのサポートされている形式に変換してみてください。",
+    "unsupportedAudioFormatError": "オーディオ形式「.{format}」はサポートされていません。サポートされている形式：{supportedFormats}。",
+    "@unsupportedAudioFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
     "loopAdded": "ループが追加され、有効化されました",
     "loopModeEnabled": "ループモードが有効になりました",
     "loopModeDisabled": "ループモードが無効になりました",

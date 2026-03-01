@@ -55,14 +55,16 @@ class App extends StatelessWidget {
             create: (context) => AllSongsCubit(
               songRepository: context.read<SongRepository>(),
               fileRepository: context.read<FileRepository>(),
-              crashReportingRepository: context.read<CrashReportingRepository>(),
+              crashReportingRepository: context
+                  .read<CrashReportingRepository>(),
             )..loadSongs(),
           ),
           BlocProvider(
             lazy: false,
             create: (context) => PremiumSubscriptionCubit(
               purchasesRepository: context.read<PurchasesRepository>(),
-              crashReportingRepository: context.read<CrashReportingRepository>(),
+              crashReportingRepository: context
+                  .read<CrashReportingRepository>(),
             )..init(),
           ),
           BlocProvider(
@@ -78,7 +80,9 @@ class App extends StatelessWidget {
           secret: '31TK1lGlcgAPuF4bp1fc3SlhLgtfJVop',
           child: Builder(
             builder: (context) {
-              final introShown = context.watch<LocalConfigRepository>().introShown;
+              final introShown = context
+                  .watch<LocalConfigRepository>()
+                  .introShown;
 
               return MaterialApp(
                 // locale: DevicePreview.locale(context),

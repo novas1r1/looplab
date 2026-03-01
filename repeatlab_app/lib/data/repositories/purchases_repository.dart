@@ -11,9 +11,13 @@ class PurchasesRepository {
 
     PurchasesConfiguration? configuration;
     if (Platform.isAndroid) {
-      configuration = PurchasesConfiguration('goog_NhdNoPthClDEMfKSoFnpljqybdX');
+      configuration = PurchasesConfiguration(
+        'goog_NhdNoPthClDEMfKSoFnpljqybdX',
+      );
     } else if (Platform.isIOS) {
-      configuration = PurchasesConfiguration('appl_sUAEypMdINdSIzcVlkUWvVZPjlN');
+      configuration = PurchasesConfiguration(
+        'appl_sUAEypMdINdSIzcVlkUWvVZPjlN',
+      );
     }
 
     if (configuration != null) {
@@ -25,7 +29,9 @@ class PurchasesRepository {
     final purchaserInfo = await Purchases.getCustomerInfo();
 
     if (purchaserInfo.activeSubscriptions.contains('repeatlab_full_weekly')) {
-      log('--- REVENUECAT: WEEKLY SUBSCRIPTION ACTIVE (via activeSubscriptions)');
+      log(
+        '--- REVENUECAT: WEEKLY SUBSCRIPTION ACTIVE (via activeSubscriptions)',
+      );
       return true;
     }
 
@@ -45,7 +51,9 @@ class PurchasesRepository {
     final purchaserInfo = await Purchases.getCustomerInfo();
 
     if (purchaserInfo.activeSubscriptions.contains('repeatlab_full_yearly')) {
-      log('--- REVENUECAT: YEARLY SUBSCRIPTION ACTIVE (via activeSubscriptions)');
+      log(
+        '--- REVENUECAT: YEARLY SUBSCRIPTION ACTIVE (via activeSubscriptions)',
+      );
       return true;
     }
 
@@ -83,7 +91,8 @@ class PurchasesRepository {
     log('--- REVENUECAT: getOfferings()');
     final offerings = await Purchases.getOfferings();
 
-    return offerings.current != null && offerings.current!.availablePackages.isNotEmpty
+    return offerings.current != null &&
+            offerings.current!.availablePackages.isNotEmpty
         ? [offerings.current!]
         : [];
   }
@@ -117,13 +126,16 @@ class PurchasesRepository {
   Future<bool> checkTrialEligibility(List<String> productIdentifiers) async {
     log('--- REVENUECAT: checkTrialEligibility()');
 
-    final eligibilityMap = await Purchases.checkTrialOrIntroductoryPriceEligibility(
-      productIdentifiers,
-    );
+    final eligibilityMap =
+        await Purchases.checkTrialOrIntroductoryPriceEligibility(
+          productIdentifiers,
+        );
 
     // User is eligible if any product has an intro eligible status
     return eligibilityMap.values.any(
-      (eligibility) => eligibility.status == IntroEligibilityStatus.introEligibilityStatusEligible,
+      (eligibility) =>
+          eligibility.status ==
+          IntroEligibilityStatus.introEligibilityStatusEligible,
     );
   }
 

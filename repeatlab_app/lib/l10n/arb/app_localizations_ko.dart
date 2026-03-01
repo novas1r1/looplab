@@ -505,6 +505,11 @@ class AppLocalizationsKo extends AppLocalizations {
       '곡 추가에 실패했습니다. 파일 형식에 문제가 있을 수 있습니다. mp3나 wav와 같은 지원되는 형식으로 변환해 보세요.';
 
   @override
+  String unsupportedAudioFormatError(String format, String supportedFormats) {
+    return '오디오 형식 \".$format\"은(는) 지원되지 않습니다. 지원되는 형식: $supportedFormats.';
+  }
+
+  @override
   String get loopAdded => '루프가 추가되고 활성화되었습니다';
 
   @override

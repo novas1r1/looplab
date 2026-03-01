@@ -42,7 +42,9 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
 
       var isTrialEligible = false;
       if (subscriptionProductIds.isNotEmpty) {
-        isTrialEligible = await purchasesRepository.checkTrialEligibility(subscriptionProductIds);
+        isTrialEligible = await purchasesRepository.checkTrialEligibility(
+          subscriptionProductIds,
+        );
       }
 
       maybeEmit(
@@ -89,7 +91,8 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
         emit(
           state.copyWith(
             status: FetchProductsStatus.failure,
-            errorMessage: 'Something went wrong while purchasing. Please contact our support.',
+            errorMessage:
+                'Something went wrong while purchasing. Please contact our support.',
           ),
         );
       }

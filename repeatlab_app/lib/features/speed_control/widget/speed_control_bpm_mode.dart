@@ -75,7 +75,9 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         hintText: context.l10n.enterSongBpm,
-                        hintStyle: context.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
+                        hintStyle: context.bodySmall.copyWith(
+                          color: AppColors.onSurfaceVariant,
+                        ),
                       ),
                     ),
                   ),
@@ -110,7 +112,8 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
                 children: [
                   // Original BPM tile - tappable to edit
                   GestureDetector(
-                    onTap: () => _showEditOriginalBpmDialog(context, originalBpm),
+                    onTap: () =>
+                        _showEditOriginalBpmDialog(context, originalBpm),
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
@@ -135,7 +138,9 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
                               Icon(
                                 Icons.edit,
                                 size: 14,
-                                color: AppColors.onPrimaryContainer.withAlpha(180),
+                                color: AppColors.onPrimaryContainer.withAlpha(
+                                  180,
+                                ),
                               ),
                             ],
                           ),
@@ -189,7 +194,10 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
                     // BPM slider
                     Expanded(
                       child: CustomSlider(
-                        value: currentBpm.toDouble().clamp(minBpm.toDouble(), maxBpm.toDouble()),
+                        value: currentBpm.toDouble().clamp(
+                          minBpm.toDouble(),
+                          maxBpm.toDouble(),
+                        ),
                         min: minBpm.toDouble(),
                         max: maxBpm.toDouble(),
                         divisions: maxBpm - minBpm,
@@ -198,7 +206,9 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
                             _showPremiumDialog(context);
                             return;
                           }
-                          context.read<SongCubit>().setSpeedByBpm(value.round());
+                          context.read<SongCubit>().setSpeedByBpm(
+                            value.round(),
+                          );
                         },
                       ),
                     ),
@@ -242,7 +252,10 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
     );
   }
 
-  Future<void> _showEditOriginalBpmDialog(BuildContext context, int currentOriginalBpm) async {
+  Future<void> _showEditOriginalBpmDialog(
+    BuildContext context,
+    int currentOriginalBpm,
+  ) async {
     final cubit = context.read<SongCubit>();
 
     await showDialog(
@@ -274,7 +287,9 @@ class _EditOriginalBpmDialogState extends State<EditOriginalBpmDialog> {
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: widget.currentOriginalBpm.toString());
+    _controller = TextEditingController(
+      text: widget.currentOriginalBpm.toString(),
+    );
   }
 
   @override
@@ -296,7 +311,9 @@ class _EditOriginalBpmDialogState extends State<EditOriginalBpmDialog> {
             autofocus: true,
             decoration: InputDecoration(
               hintText: context.l10n.enterSongBpm,
-              hintStyle: context.bodySmall.copyWith(color: AppColors.onSurfaceVariant),
+              hintStyle: context.bodySmall.copyWith(
+                color: AppColors.onSurfaceVariant,
+              ),
             ),
           ),
           const SizedBox(height: 16),

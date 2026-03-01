@@ -188,6 +188,17 @@
     "changelog1013Description": "يمكنك الآن التصويت على الميزات الجديدة أو تقديم اقتراحات الميزات الخاصة بك في التطبيق. ما عليك سوى فتح القائمة وفتح لوحة 'التصويت على الميزات'. يسعدنا سماع رغباتك!",
     "whatsNew": "ما الجديد",
     "songAddError": "فشل في إضافة الأغنية. قد يكون هذا بسبب مشكلة في تنسيق الملف. يرجى محاولة تحويل الملف إلى تنسيق مدعوم مثل mp3 أو wav.",
+    "unsupportedAudioFormatError": "تنسيق الصوت \".{format}\" غير مدعوم. التنسيقات المدعومة: {supportedFormats}.",
+    "@unsupportedAudioFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
     "loopAdded": "تمت إضافة الحلقة وتفعيلها",
     "loopModeEnabled": "تم تفعيل وضع الحلقة",
     "loopModeDisabled": "تم تعطيل وضع الحلقة",

@@ -26,7 +26,9 @@ class BpmTapDialogState extends State<BpmTapDialog> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(context.l10n.tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm),
+          Text(
+            context.l10n.tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm,
+          ),
           const SizedBox(height: 24),
           if (_calculatedBpm != null)
             Container(
@@ -152,7 +154,8 @@ class BpmTapDialogState extends State<BpmTapDialog> {
     if (intervals.isEmpty) return;
 
     // Calculate average interval
-    final averageInterval = intervals.reduce((a, b) => a + b) / intervals.length;
+    final averageInterval =
+        intervals.reduce((a, b) => a + b) / intervals.length;
 
     // Convert to BPM: 60000ms per minute / average interval in ms
     final bpm = (60000 / averageInterval).round();

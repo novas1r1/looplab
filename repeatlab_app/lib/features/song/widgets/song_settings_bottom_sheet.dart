@@ -120,7 +120,8 @@ class SongSettingsBottomSheet extends StatelessWidget {
                             : AppColors.onSurfaceVariant,
                         title: context.l10n.repeatFullSong,
                         value: isFullSongRepeatEnabled,
-                        onChanged: (_) => context.read<SongCubit>().toggleFullSongRepeat(),
+                        onChanged: (_) =>
+                            context.read<SongCubit>().toggleFullSongRepeat(),
                       );
                     },
                   ),
@@ -137,7 +138,8 @@ class SongSettingsBottomSheet extends StatelessWidget {
                         title: context.l10n.autoPlayOnLoopSelect,
                         subtitle: context.l10n.autoPlayOnLoopSelectDescription,
                         value: isAutoPlayEnabled,
-                        onChanged: (_) => context.read<SongCubit>().toggleAutoPlay(),
+                        onChanged: (_) =>
+                            context.read<SongCubit>().toggleAutoPlay(),
                       );
                     },
                   ),
@@ -269,7 +271,9 @@ class _SettingsTile extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: (iconColor ?? AppColors.onSurfaceVariant).withValues(alpha: 0.12),
+                color: (iconColor ?? AppColors.onSurfaceVariant).withValues(
+                  alpha: 0.12,
+                ),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(

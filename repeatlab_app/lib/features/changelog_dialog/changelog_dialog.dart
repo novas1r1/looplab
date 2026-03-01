@@ -14,7 +14,8 @@ class ChangelogDialog extends StatefulWidget {
   State<ChangelogDialog> createState() => _ChangelogDialogState();
 }
 
-class _ChangelogDialogState extends State<ChangelogDialog> with TickerProviderStateMixin {
+class _ChangelogDialogState extends State<ChangelogDialog>
+    with TickerProviderStateMixin {
   late final AnimationController _animationController;
 
   @override

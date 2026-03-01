@@ -1032,6 +1032,12 @@ abstract class AppLocalizations {
   /// **'Failed to add song. This could be due to a problem with the file format. Please try to convert the file to a supported format like mp3 or wav.'**
   String get songAddError;
 
+  /// No description provided for @unsupportedAudioFormatError.
+  ///
+  /// In en, this message translates to:
+  /// **'The audio format \".{format}\" is not supported. Supported formats: {supportedFormats}.'**
+  String unsupportedAudioFormatError(String format, String supportedFormats);
+
   /// No description provided for @loopAdded.
   ///
   /// In en, this message translates to:

@@ -154,7 +154,9 @@ class SongCubit extends Cubit<SongState> {
     final newValue = !state.isFullSongRepeatEnabled;
 
     try {
-      await audioHandler.customAction('setFullSongRepeat', {'enabled': newValue});
+      await audioHandler.customAction('setFullSongRepeat', {
+        'enabled': newValue,
+      });
       await localConfigRepository.setFullSongRepeatEnabled(isEnabled: newValue);
 
       emit(
@@ -280,19 +282,24 @@ class SongCubit extends Cubit<SongState> {
       final isAutoPlayEnabled = localConfigRepository.autoPlayOnLoopSelect;
 
       // load full song repeat setting
-      final isFullSongRepeatEnabled = localConfigRepository.fullSongRepeatEnabled;
+      final isFullSongRepeatEnabled =
+          localConfigRepository.fullSongRepeatEnabled;
 
       // we need to disable loop mode here because the audio handler is not initialized yet
       await audioHandler.customAction('disableLoop');
 
       // Apply full song repeat setting to audio handler
-      await audioHandler.customAction('setFullSongRepeat', {'enabled': isFullSongRepeatEnabled});
+      await audioHandler.customAction('setFullSongRepeat', {
+        'enabled': isFullSongRepeatEnabled,
+      });
 
       // Sync loops with audio handler for navigation
       await audioHandler.customAction('setLoops', {'loops': state.song.loops});
 
       // Listen to navigation events from notification/Bluetooth controls
-      _navigationSubscription = audioHandler.navigationEvents.listen(_handleNavigationEvent);
+      _navigationSubscription = audioHandler.navigationEvents.listen(
+        _handleNavigationEvent,
+      );
 
       // Initialize speed control state - always reset to 1.0 on song open
       final songBpm = state.song.bpm;
@@ -367,7 +374,8 @@ class SongCubit extends Cubit<SongState> {
       emit(
         state.copyWith(
           status: SongStatus.error,
-          error: 'Failed to play audio file. The file format might not be supported: $ex',
+          error:
+              'Failed to play audio file. The file format might not be supported: $ex',
         ),
       );
     }
@@ -543,7 +551,8 @@ class SongCubit extends Cubit<SongState> {
       emit(
         state.copyWith(
           status: SongStatus.error,
-          error: 'Failed to select loop because start position could not be seeked: $ex',
+          error:
+              'Failed to select loop because start position could not be seeked: $ex',
           activeLoop: null,
           isLoopModeEnabled: false,
         ),
@@ -594,7 +603,8 @@ class SongCubit extends Cubit<SongState> {
         // if reached, start over
         if (updatedLoop.end != null && currentPosition >= updatedLoop.end!) {
           await audioHandler.seek(updatedLoop.start!);
-        } else if (updatedLoop.start != null && currentPosition < updatedLoop.start!) {
+        } else if (updatedLoop.start != null &&
+            currentPosition < updatedLoop.start!) {
           await audioHandler.seek(updatedLoop.start!);
         }
       } else {
@@ -640,7 +650,9 @@ class SongCubit extends Cubit<SongState> {
 
     // if not null get the next loop
     if (currentLoop != null) {
-      final currentLoopIndex = state.song.loops.indexWhere((loop) => loop.id == currentLoop.id);
+      final currentLoopIndex = state.song.loops.indexWhere(
+        (loop) => loop.id == currentLoop.id,
+      );
       final nextLoopIndex = currentLoopIndex + 1;
       // check if last loop
       if (nextLoopIndex >= state.song.loops.length) {
@@ -664,7 +676,9 @@ class SongCubit extends Cubit<SongState> {
 
     // if not null get the previous loop
     if (currentLoop != null) {
-      final currentLoopIndex = state.song.loops.indexWhere((loop) => loop.id == currentLoop.id);
+      final currentLoopIndex = state.song.loops.indexWhere(
+        (loop) => loop.id == currentLoop.id,
+      );
       final previousLoopIndex = currentLoopIndex - 1;
       // check if first loop
       if (previousLoopIndex < 0) {
@@ -692,7 +706,8 @@ class SongCubit extends Cubit<SongState> {
         // for each new loop assign a color based on LoopColor.values
         // for the first loop, first color, for the second loop, second color, etc.
         // if the number of loops is greater than the number of colors, start again from the first color
-        color: LoopColor.values[state.song.loops.length % LoopColor.values.length],
+        color:
+            LoopColor.values[state.song.loops.length % LoopColor.values.length],
         start: startPosition,
       );
 
@@ -838,7 +853,10 @@ class SongCubit extends Cubit<SongState> {
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
       emit(
-        state.copyWith(status: SongStatus.error, error: 'Failed to toggle loop mode: $ex'),
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to toggle loop mode: $ex',
+        ),
       );
     }
   }
@@ -888,15 +906,22 @@ class SongCubit extends Cubit<SongState> {
     dev.log('setSpeedByMultiplier: $multiplier', name: 'SongCubit');
 
     try {
-      final normalizedSpeed = multiplier.clamp(_minPlaybackSpeed, _maxPlaybackSpeed);
+      final normalizedSpeed = multiplier.clamp(
+        _minPlaybackSpeed,
+        _maxPlaybackSpeed,
+      );
       // Round to 1 decimal place
-      final roundedSpeed = double.tryParse(normalizedSpeed.toStringAsFixed(1)) ?? 1.0;
+      final roundedSpeed =
+          double.tryParse(normalizedSpeed.toStringAsFixed(1)) ?? 1.0;
 
       // Apply speed to audio handler
       final success = await audioHandler.setSpeed(roundedSpeed);
 
       if (!success) {
-        dev.log('Speed change failed, reverting UI to actual speed', name: 'SongCubit');
+        dev.log(
+          'Speed change failed, reverting UI to actual speed',
+          name: 'SongCubit',
+        );
         // Get the actual speed from audio handler
         final actualSpeed = audioHandler.currentPlaybackSpeed;
         int? actualBpm;
@@ -957,7 +982,10 @@ class SongCubit extends Cubit<SongState> {
     dev.log('setSpeedByBpm: $bpm', name: 'SongCubit');
 
     if (state.originalBpm == null || state.originalBpm! <= 0) {
-      dev.log('Cannot set speed by BPM: originalBpm not set', name: 'SongCubit');
+      dev.log(
+        'Cannot set speed by BPM: originalBpm not set',
+        name: 'SongCubit',
+      );
       emit(
         state.copyWith(
           status: SongStatus.error,
@@ -971,13 +999,17 @@ class SongCubit extends Cubit<SongState> {
       // Calculate speed from BPM ratio
       final speed = bpm / state.originalBpm!;
       final normalizedSpeed = speed.clamp(_minPlaybackSpeed, _maxPlaybackSpeed);
-      final roundedSpeed = double.tryParse(normalizedSpeed.toStringAsFixed(2)) ?? 1.0;
+      final roundedSpeed =
+          double.tryParse(normalizedSpeed.toStringAsFixed(2)) ?? 1.0;
 
       // Apply speed to audio handler
       final success = await audioHandler.setSpeed(roundedSpeed);
 
       if (!success) {
-        dev.log('Speed change failed, reverting UI to actual speed', name: 'SongCubit');
+        dev.log(
+          'Speed change failed, reverting UI to actual speed',
+          name: 'SongCubit',
+        );
         final actualSpeed = audioHandler.currentPlaybackSpeed;
         final actualBpm = (state.originalBpm! * actualSpeed).round();
         emit(
@@ -1105,7 +1137,8 @@ class SongCubit extends Cubit<SongState> {
         state.copyWith(
           status: SongStatus.updated,
           speed: 1.0,
-          currentBpm: state.originalBpm, // Reset to original if set, null otherwise
+          currentBpm:
+              state.originalBpm, // Reset to original if set, null otherwise
           error: null,
         ),
       );

@@ -28,7 +28,8 @@ class _LoopTimelineState extends State<LoopTimeline> {
   final _timelineKey = GlobalKey();
 
   double get _timelineWidth {
-    final RenderBox? box = _timelineKey.currentContext?.findRenderObject() as RenderBox?;
+    final RenderBox? box =
+        _timelineKey.currentContext?.findRenderObject() as RenderBox?;
     return box?.size.width ?? 0;
   }
 
@@ -47,7 +48,8 @@ class _LoopTimelineState extends State<LoopTimeline> {
             ),
             Expanded(
               child: GestureDetector(
-                onTapDown: (details) => _handleTimelineInteraction(details.localPosition),
+                onTapDown: (details) =>
+                    _handleTimelineInteraction(details.localPosition),
                 onHorizontalDragUpdate: (details) =>
                     _handleTimelineInteraction(details.localPosition),
                 child: Container(
@@ -62,22 +64,27 @@ class _LoopTimelineState extends State<LoopTimeline> {
                       StreamBuilder<Duration>(
                         stream: context.read<SongCubit>().positionStream,
                         initialData: Duration.zero,
-                        builder: (BuildContext context, AsyncSnapshot<Duration> snapshot) {
-                          if (snapshot.hasData) {
-                            return Positioned(
-                              left:
-                                  (snapshot.data!.inMilliseconds / widget.duration.inMilliseconds) *
-                                  _timelineWidth,
-                              top: 0,
-                              bottom: 0,
-                              child: Container(
-                                width: 2,
-                                color: AppColors.primary,
-                              ),
-                            );
-                          }
-                          return const SizedBox.shrink();
-                        },
+                        builder:
+                            (
+                              BuildContext context,
+                              AsyncSnapshot<Duration> snapshot,
+                            ) {
+                              if (snapshot.hasData) {
+                                return Positioned(
+                                  left:
+                                      (snapshot.data!.inMilliseconds /
+                                          widget.duration.inMilliseconds) *
+                                      _timelineWidth,
+                                  top: 0,
+                                  bottom: 0,
+                                  child: Container(
+                                    width: 2,
+                                    color: AppColors.primary,
+                                  ),
+                                );
+                              }
+                              return const SizedBox.shrink();
+                            },
                       ),
 
                       // Loop containers
@@ -88,20 +95,25 @@ class _LoopTimelineState extends State<LoopTimeline> {
                           }
 
                           final startPosition =
-                              loop.start!.inMilliseconds / widget.duration.inMilliseconds;
+                              loop.start!.inMilliseconds /
+                              widget.duration.inMilliseconds;
                           final endPosition =
-                              loop.end!.inMilliseconds / widget.duration.inMilliseconds;
+                              loop.end!.inMilliseconds /
+                              widget.duration.inMilliseconds;
 
                           return Positioned(
                             left: startPosition * _timelineWidth,
-                            width: (endPosition - startPosition) * _timelineWidth,
+                            width:
+                                (endPosition - startPosition) * _timelineWidth,
                             top: 8,
                             bottom: 8,
                             child: GestureDetector(
                               onTap: () => widget.onLoopTap?.call(loop),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: loop.color.color.withValues(alpha: 0.5),
+                                  color: loop.color.color.withValues(
+                                    alpha: 0.5,
+                                  ),
                                   borderRadius: BorderRadius.circular(4),
                                   border: Border.all(
                                     color: loop.color.color,
@@ -111,9 +123,12 @@ class _LoopTimelineState extends State<LoopTimeline> {
                                 child: Center(
                                   child: Text(
                                     loop.name,
-                                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                                      color: AppColors.onSurfaceVariant,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelSmall
+                                        ?.copyWith(
+                                          color: AppColors.onSurfaceVariant,
+                                        ),
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),

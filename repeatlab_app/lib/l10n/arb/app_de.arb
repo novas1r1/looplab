@@ -185,6 +185,17 @@
     "changelog1013Description": "Öffne das Menü und klicke auf 'Feature Voting'. Hier kannst du deine Stimme abgeben und/oder neue Features vorschlagen. Ich freue mich auf deine Ideen!",
     "whatsNew": "Was ist neu?",
     "songAddError": "Fehler beim Hinzufügen des Songs. Dies könnte daran liegen, dass das Dateiformat nicht unterstützt wird. Bitte versuche, die Datei in ein unterstütztes Format wie mp3 oder wav umzuwandeln.",
+    "unsupportedAudioFormatError": "Das Audioformat \".{format}\" wird nicht unterstützt. Unterstützte Formate: {supportedFormats}.",
+    "@unsupportedAudioFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
     "loopAdded": "Loop hinzugefügt und aktiviert",
     "loopModeEnabled": "Loop-Modus aktiviert",
     "loopModeDisabled": "Loop-Modus deaktiviert",

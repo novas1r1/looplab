@@ -533,6 +533,11 @@ class AppLocalizationsRu extends AppLocalizations {
       'Ошибка при добавлении песни. Это может быть связано с проблемой с форматом файла. Пожалуйста, попробуйте преобразовать файл в поддерживаемый формат, например mp3 или wav.';
 
   @override
+  String unsupportedAudioFormatError(String format, String supportedFormats) {
+    return 'Аудиоформат \".$format\" не поддерживается. Поддерживаемые форматы: $supportedFormats.';
+  }
+
+  @override
   String get loopAdded => 'Луп добавлен и активирован';
 
   @override

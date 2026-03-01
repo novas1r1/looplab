@@ -184,6 +184,17 @@
     "changelog1013Description": "Du kan nu rösta för nya funktioner eller skicka in egna funktioner i appen. Justera menyn och öppna 'Rösta för funktioner' boarden. Jag uppskattar dina önskningar!",
     "whatsNew": "Vad är nytt?",
     "songAddError": "Fel vid läggning av låt. Detta kan bero på ett problem med filformatet. Försök att konvertera filen till ett understött format som mp3 eller wav.",
+    "unsupportedAudioFormatError": "Audioformatet \".{format}\" stöds inte. Format som stöds: {supportedFormats}.",
+    "@unsupportedAudioFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
     "loopAdded": "Loop tillagd och aktiverad",
     "loopModeEnabled": "Loopläget är aktiverat",
     "loopModeDisabled": "Loopläget är inaktiverat",

@@ -35,27 +35,45 @@ class SongRepository {
     return songs;
   }
 
+  /// File extensions natively supported by SoLoud (via miniaudio).
+  static const _soloudSupportedExtensions = {'.mp3', '.wav', '.ogg', '.flac'};
+
+  /// Human-readable list of supported formats shown in error messages.
+  static const supportedFormatsLabel = 'MP3, WAV, OGG, FLAC, M4A, AAC';
+
   Future<void> addSongFile(File file) async {
     File fileToUse = file;
     // store under file name because ios changes the folder name on every update
     String fileName = fileToUse.path.split('/').last;
 
-    // check if the file is an m4a file and if so, convert it to wav
-    // soloud does not support m4a files
-    try {
-      if (file.path.toLowerCase().endsWith('.m4a')) {
-        final convertedFile = await convertM4aToWav(file);
+    // Convert any file format not natively supported by SoLoud to WAV.
+    // SoLoud supports: mp3, wav, ogg, flac. Everything else (m4a, aac, …)
+    // must be converted via FFmpeg first.
+    final extension = fileName.toLowerCase().split('.').last;
+    if (!_soloudSupportedExtensions.contains('.$extension')) {
+      try {
+        final convertedFile = await _convertToWav(file);
         if (convertedFile != null) {
           fileToUse = convertedFile;
           fileName = fileToUse.path.split('/').last;
+        } else {
+          throw UnsupportedAudioFormatException(extension);
         }
+      } on UnsupportedAudioFormatException {
+        rethrow;
+      } on Exception catch (ex) {
+        log('Error converting .$extension to wav: $ex', name: 'AddSongFile');
+        throw UnsupportedAudioFormatException(extension);
       }
-    } on Exception catch (ex) {
-      log('Error converting m4a to wav: $ex', name: 'AddSongFile');
-      rethrow;
     }
 
-    final source = await soLoud.loadFile(fileToUse.path);
+    AudioSource source;
+    try {
+      source = await soLoud.loadFile(fileToUse.path);
+    } on SoLoudFileLoadFailedException {
+      throw UnsupportedAudioFormatException(extension);
+    }
+
     final duration = soLoud.getLength(source);
 
     // Don't forget to dispose the source when you're done with it
@@ -84,22 +102,26 @@ class SongRepository {
     await getAllSongs();
   }
 
-  Future<File?> convertM4aToWav(File file) async {
-    // Only proceed if the source file has an .m4a extension. Otherwise, skip.
-    if (!file.path.toLowerCase().endsWith('.m4a')) {
-      log('Provided file is not an .m4a file – skipping conversion.', name: 'ConvertM4aToWav');
-      return null;
-    }
+  /// Converts any audio file to 16-bit PCM WAV using FFmpeg.
+  /// Returns the converted [File] on success, or `null` if cancelled.
+  /// Throws on conversion failure.
+  Future<File?> _convertToWav(File file) async {
+    final ext = file.path.toLowerCase().split('.').last;
 
-    // Build the output path by simply replacing the extension with .wav
-    final outputPath = file.path.replaceAll(RegExp(r'\.m4a', caseSensitive: false), '.wav');
+    // Build the output path by replacing the original extension with .wav
+    final outputPath =
+        '${file.path.substring(0, file.path.length - ext.length)}wav';
 
     // FFmpeg command to convert the audio. "-y" overwrites existing files,
     // "-vn" drops any (unlikely) video track, and we encode the audio stream
     // using 16-bit PCM which is supported by SoLoud.
-    final ffmpegCommand = '-y -i "${file.path}" -vn -c:a pcm_s16le "$outputPath"';
+    final ffmpegCommand =
+        '-y -i "${file.path}" -vn -c:a pcm_s16le "$outputPath"';
 
-    log('Starting m4a→wav conversion using FFmpeg: $ffmpegCommand', name: 'ConvertM4aToWav');
+    log(
+      'Starting $ext→wav conversion using FFmpeg: $ffmpegCommand',
+      name: 'ConvertToWav',
+    );
 
     // Execute conversion.
     final session = await FFmpegKit.execute(ffmpegCommand);
@@ -107,23 +129,23 @@ class SongRepository {
     final returnCode = await session.getReturnCode();
 
     if (ReturnCode.isSuccess(returnCode)) {
-      log('FFmpeg conversion succeeded: $outputPath', name: 'ConvertM4aToWav');
-      // Optionally delete the original .m4a file to avoid wasting space.
+      log('FFmpeg conversion succeeded: $outputPath', name: 'ConvertToWav');
+      // Delete the original file to avoid wasting space.
       await file.delete();
       return File(outputPath);
     } else if (ReturnCode.isCancel(returnCode)) {
-      log('FFmpeg conversion was cancelled by the user.', name: 'ConvertM4aToWav');
+      log('FFmpeg conversion was cancelled.', name: 'ConvertToWav');
     } else {
       // Something went wrong – gather diagnostics.
       final failStackTrace = await session.getFailStackTrace();
       final sessionLog = await session.getOutput();
       log(
         'FFmpeg conversion failed with code: $returnCode\n$failStackTrace',
-        name: 'ConvertM4aToWav',
+        name: 'ConvertToWav',
       );
-      log('FFmpeg log output:\n$sessionLog', name: 'ConvertM4aToWav');
+      log('FFmpeg log output:\n$sessionLog', name: 'ConvertToWav');
       throw Exception(
-        'Failed to convert m4a to wav. FFmpeg return code: $returnCode',
+        'Failed to convert $ext to wav. FFmpeg return code: $returnCode',
       );
     }
     return null;
@@ -171,7 +193,9 @@ class SongRepository {
     log('UPDATING LOOP: ${loop.toMap()}');
 
     // update the loop in the song
-    final updatedLoops = song.loops.map((e) => e.id == loop.id ? loop : e).toList();
+    final updatedLoops = song.loops
+        .map((e) => e.id == loop.id ? loop : e)
+        .toList();
     final updatedSong = song.copyWith(loops: updatedLoops);
 
     await _store.update(
@@ -210,4 +234,16 @@ class SongRepository {
   void dispose() {
     _songController.close();
   }
+}
+
+/// Thrown when a user picks an audio file whose format cannot be loaded.
+class UnsupportedAudioFormatException implements Exception {
+  final String format;
+
+  const UnsupportedAudioFormatException(this.format);
+
+  @override
+  String toString() =>
+      'The audio format ".$format" is not supported. '
+      'Supported formats: ${SongRepository.supportedFormatsLabel}.';
 }

@@ -192,7 +192,7 @@ void main() {
               .having(
                 (s) => s.errorMessage,
                 'errorMessage',
-                contains('Failed to add song'),
+                isNull,
               ),
         ],
         verify: (_) {

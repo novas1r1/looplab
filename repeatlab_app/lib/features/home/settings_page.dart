@@ -39,7 +39,10 @@ class _SettingsPageState extends State<SettingsPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(context.l10n.analytics, style: context.titleLarge),
-                Text(context.l10n.analyticsDescription, style: context.bodySmall),
+                Text(
+                  context.l10n.analyticsDescription,
+                  style: context.bodySmall,
+                ),
               ],
             ),
             value: analyticsEnabled,

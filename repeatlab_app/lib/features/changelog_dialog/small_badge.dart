@@ -20,7 +20,11 @@ class SmallBadge extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Text(
           text!,
-          style: const TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+            fontSize: 12,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
           overflow: TextOverflow.visible,
         ),
       ),

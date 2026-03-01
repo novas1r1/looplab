@@ -73,7 +73,8 @@ class _ExportLoopBottomUpState extends State<ExportLoopBottomUp> {
             if (state.errorMessage == null) {
               break;
             }
-            final message = state.errorMessage == SongExporterCubit.invalidLoopRangeErrorKey
+            final message =
+                state.errorMessage == SongExporterCubit.invalidLoopRangeErrorKey
                 ? context.l10n.loopExportValidationError
                 : context.l10n.loopExportError(state.errorMessage!);
 

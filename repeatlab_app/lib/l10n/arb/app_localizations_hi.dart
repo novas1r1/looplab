@@ -529,6 +529,11 @@ class AppLocalizationsHi extends AppLocalizations {
       'गीत जोड़ने में विफल। यह फाइल प्रारूप के कारण हो सकता है। कृपया फाइल को mp3 या wav जैसे समर्थित प्रारूप में कनवर्ट करने का प्रयास करें।';
 
   @override
+  String unsupportedAudioFormatError(String format, String supportedFormats) {
+    return 'ऑडियो प्रारूप \".$format\" समर्थित नहीं है। समर्थित प्रारूप: $supportedFormats।';
+  }
+
+  @override
   String get loopAdded => 'लूप जोड़ा गया और सक्रिय किया गया';
 
   @override

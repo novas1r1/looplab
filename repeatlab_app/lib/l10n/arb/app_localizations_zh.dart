@@ -494,6 +494,11 @@ class AppLocalizationsZh extends AppLocalizations {
   String get songAddError => '添加歌曲失败。这可能是由于文件格式问题。请尝试将文件转换为支持的格式，如 mp3 或 wav。';
 
   @override
+  String unsupportedAudioFormatError(String format, String supportedFormats) {
+    return '音频格式 \".$format\" 不受支持。支持的格式：$supportedFormats。';
+  }
+
+  @override
   String get loopAdded => '循环已添加并激活';
 
   @override

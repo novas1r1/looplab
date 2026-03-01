@@ -22,7 +22,8 @@ class ChangelogDialogCubit extends Cubit<ChangelogDialogState> {
     // get current build number
     final currentBuildNumber = int.tryParse(packageInfo.buildNumber) ?? 0;
 
-    final lastChangelogVersionShown = localConfigRepository.lastChangelogVersionShown;
+    final lastChangelogVersionShown =
+        localConfigRepository.lastChangelogVersionShown;
 
     if (lastChangelogVersionShown < currentBuildNumber) {
       emit(state.copyWith(shouldShowDialog: true));

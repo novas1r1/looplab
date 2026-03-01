@@ -20,7 +20,17 @@ class FileRepository {
 
       result = await filePicker.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['mp3', 'm4a', 'aac', 'wav', 'flac', 'mpg', 'ogg'],
+        allowedExtensions: [
+          'mp3',
+          'm4a',
+          'aac',
+          'wav',
+          'flac',
+          'ogg',
+          'wma',
+          'opus',
+          'aiff',
+        ],
       );
       // this only shows files in mediathek
       // result = await filePicker.pickFiles(
@@ -77,7 +87,11 @@ class FileRepository {
       return [];
     }
 
-    return result.paths.whereType<String>().map(_normalizePickedPath).map(File.new).toList();
+    return result.paths
+        .whereType<String>()
+        .map(_normalizePickedPath)
+        .map(File.new)
+        .toList();
   }
 }
 

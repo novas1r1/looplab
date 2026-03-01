@@ -61,6 +61,18 @@ class AllSongsCubit extends Cubit<AllSongsState> {
 
       await songRepository.addSongFile(file);
       await loadSongs();
+    } on UnsupportedAudioFormatException catch (ex, stack) {
+      crashReportingRepository.reportError(
+        ex,
+        stack,
+        properties: {'file': file?.path},
+      );
+      emit(
+        state.copyWith(
+          status: AllSongsStatus.error,
+          errorMessage: ex.format,
+        ),
+      );
     } catch (ex, stack) {
       crashReportingRepository.reportError(
         ex,

@@ -25,7 +25,11 @@ class _SpeedControlState extends State<SpeedControl> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<SongCubit, SongState, ({TempoMode tempoMode, double speed, int? currentBpm})>(
+    return BlocSelector<
+      SongCubit,
+      SongState,
+      ({TempoMode tempoMode, double speed, int? currentBpm})
+    >(
       selector: (state) => (
         tempoMode: state.tempoMode,
         speed: state.speed,
@@ -40,7 +44,9 @@ class _SpeedControlState extends State<SpeedControl> {
             color: AppColors.secondaryContainer,
             borderRadius: BorderRadius.circular(10),
           ),
-          padding: const EdgeInsets.all(8).copyWith(right: 0, top: 8, bottom: 8),
+          padding: const EdgeInsets.all(
+            8,
+          ).copyWith(right: 0, top: 8, bottom: 8),
           child: Column(
             spacing: 4,
             children: [

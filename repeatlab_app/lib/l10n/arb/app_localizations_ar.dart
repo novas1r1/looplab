@@ -524,6 +524,11 @@ class AppLocalizationsAr extends AppLocalizations {
       'فشل في إضافة الأغنية. قد يكون هذا بسبب مشكلة في تنسيق الملف. يرجى محاولة تحويل الملف إلى تنسيق مدعوم مثل mp3 أو wav.';
 
   @override
+  String unsupportedAudioFormatError(String format, String supportedFormats) {
+    return 'تنسيق الصوت \".$format\" غير مدعوم. التنسيقات المدعومة: $supportedFormats.';
+  }
+
+  @override
   String get loopAdded => 'تمت إضافة الحلقة وتفعيلها';
 
   @override

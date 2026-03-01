@@ -30,16 +30,17 @@ class SongController extends StatelessWidget {
                 child: StreamBuilder<Duration>(
                   stream: context.read<SongCubit>().positionStream,
                   initialData: Duration.zero,
-                  builder: (BuildContext context, AsyncSnapshot<Duration> snapshot) {
-                    if (snapshot.hasData) {
-                      return AutoSizeText(
-                        snapshot.data!.toFormattedString(),
-                        minFontSize: 14,
-                        maxFontSize: 24,
-                      );
-                    }
-                    return const SizedBox.shrink();
-                  },
+                  builder:
+                      (BuildContext context, AsyncSnapshot<Duration> snapshot) {
+                        if (snapshot.hasData) {
+                          return AutoSizeText(
+                            snapshot.data!.toFormattedString(),
+                            minFontSize: 14,
+                            maxFontSize: 24,
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
                 ),
               ),
               SizedBox(

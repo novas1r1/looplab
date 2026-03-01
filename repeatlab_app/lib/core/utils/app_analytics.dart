@@ -54,7 +54,8 @@ abstract final class AppAnalytics {
   static const showPaywallSongSpeed = 'show_paywall_song_speed';
 
   // subscription
-  static const clickCancelSubscriptionAndroid = 'click_cancel_subscription_android';
+  static const clickCancelSubscriptionAndroid =
+      'click_cancel_subscription_android';
   static const clickCancelSubscriptionIos = 'click_cancel_subscription_ios';
 
   static void trackEvent(

@@ -531,6 +531,11 @@ class AppLocalizationsNl extends AppLocalizations {
       'Fout bij het toevoegen van het nummer. Dit kan veroorzaakt worden door een probleem met het bestandsformaat. Probeer het bestand om te zetten in een ondersteund formaat zoals mp3 of wav.';
 
   @override
+  String unsupportedAudioFormatError(String format, String supportedFormats) {
+    return 'Het audioformaat \".$format\" wordt niet ondersteund. Ondersteunde formaten: $supportedFormats.';
+  }
+
+  @override
   String get loopAdded => 'Loop toegevoegd en geactiveerd';
 
   @override

@@ -184,6 +184,17 @@
     "changelog1013Description": "Teraz możesz głosować na nowe funkcje lub sugerować swoje własne funkcje w aplikacji. Wystarczy otworzyć menu i otworzyć tablicę 'Głosuj na funkcje'. Miłego głosowania!",
     "whatsNew": "Co nowego?",
     "songAddError": "Wystąpił błąd podczas dodawania utworu. Może to być spowodowane problemem z formatem pliku. Proszę spróbować przekonwertować plik na obsługiwany format, takich jak mp3 lub wav.",
+    "unsupportedAudioFormatError": "Format audio \".{format}\" nie jest obsługiwany. Obsługiwane formaty: {supportedFormats}.",
+    "@unsupportedAudioFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
     "loopAdded": "Pętla dodana i aktywowana",
     "loopModeEnabled": "Tryb pętli aktywowany",
     "loopModeDisabled": "Tryb pętli wyłączony",

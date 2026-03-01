@@ -20,7 +20,8 @@ enum LoopNavigationEvent {
 }
 
 /// AudioHandler implementation for background audio playback
-class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
+class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
+    with QueueHandler, SeekHandler {
   final AudioPlayer audioPlayer;
 
   static const double _minPlaybackSpeed = 0.5;
@@ -35,8 +36,10 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
   bool _fullSongRepeatEnabled = false;
 
   /// Stream controller for navigation events that the cubit can listen to
-  final _navigationEventController = StreamController<LoopNavigationEvent>.broadcast();
-  Stream<LoopNavigationEvent> get navigationEvents => _navigationEventController.stream;
+  final _navigationEventController =
+      StreamController<LoopNavigationEvent>.broadcast();
+  Stream<LoopNavigationEvent> get navigationEvents =>
+      _navigationEventController.stream;
 
   /// Track last skip previous tap time for double-tap detection
   DateTime? _lastSkipPreviousTime;
@@ -49,7 +52,8 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
   StreamSubscription<Duration>? _loopPositionSubscription;
   Timer? _loopCheckTimer;
 
-  Future<Duration> get position async => await audioPlayer.getCurrentPosition() ?? Duration.zero;
+  Future<Duration> get position async =>
+      await audioPlayer.getCurrentPosition() ?? Duration.zero;
 
   Duration? _pendingSeekTarget;
   Future<void>? _seekQueue;
@@ -121,7 +125,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
         case PlayerState.completed:
           // Handle loop restart when song completes - this is especially important
           // for background playback where position updates may be throttled
-          if (_activeLoop != null && _activeLoop!.start != null && _activeLoop!.end != null) {
+          if (_activeLoop != null &&
+              _activeLoop!.start != null &&
+              _activeLoop!.end != null) {
             _handleLoopCompletionRestart();
             return;
           }
@@ -242,7 +248,8 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
     if (_activeLoop != null) {
       // check if is in loop mode
       if (_activeLoop!.start != null && _activeLoop!.end != null) {
-        final position = await audioPlayer.getCurrentPosition() ?? Duration.zero;
+        final position =
+            await audioPlayer.getCurrentPosition() ?? Duration.zero;
         // check if is in loop mode
         if (position >= _activeLoop!.end!) {
           await audioPlayer.seek(_activeLoop!.start!);
@@ -291,7 +298,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
 
     // Use stream for responsive UI updates when app is in foreground
     final positionUpdates = positionStream ?? audioPlayer.onPositionChanged;
-    _loopPositionSubscription = positionUpdates.listen(_handleLoopPositionUpdate);
+    _loopPositionSubscription = positionUpdates.listen(
+      _handleLoopPositionUpdate,
+    );
 
     // Use timer as fallback for background mode where stream events may be throttled
     // The timer actively polls position which works even when the app is backgrounded
@@ -390,7 +399,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
 
   @override
   Future<void> skipToPrevious() async {
-    log('skipToPrevious called, currentLoopIndex: $_currentLoopIndex, loops: ${_loops.length}');
+    log(
+      'skipToPrevious called, currentLoopIndex: $_currentLoopIndex, loops: ${_loops.length}',
+    );
 
     final now = DateTime.now();
     final isDoubleTap =
@@ -493,7 +504,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
           final pitch = extras['pitch'] as double;
           // Note: audioplayers doesn't directly support pitch shifting
           // This is a placeholder - actual implementation would need a different approach
-          log('Pitch change requested: $pitch (not implemented in audioplayers)');
+          log(
+            'Pitch change requested: $pitch (not implemented in audioplayers)',
+          );
         }
         return;
       case 'setLoops':
@@ -610,19 +623,24 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
   Future<void> _performSeek(Duration requestedPosition) async {
     await _reloadSourceIfNeeded();
 
-    final trackDuration = await audioPlayer.getDuration() ?? mediaItem.value?.duration;
-    final currentPosition = await audioPlayer.getCurrentPosition() ?? Duration.zero;
+    final trackDuration =
+        await audioPlayer.getDuration() ?? mediaItem.value?.duration;
+    final currentPosition =
+        await audioPlayer.getCurrentPosition() ?? Duration.zero;
 
     var clampedPosition = requestedPosition;
     if (clampedPosition < Duration.zero) {
       clampedPosition = Duration.zero;
     }
 
-    if (trackDuration != null && trackDuration > Duration.zero && clampedPosition > trackDuration) {
+    if (trackDuration != null &&
+        trackDuration > Duration.zero &&
+        clampedPosition > trackDuration) {
       clampedPosition = trackDuration;
     }
 
-    if ((clampedPosition - currentPosition).abs() < const Duration(milliseconds: 20)) {
+    if ((clampedPosition - currentPosition).abs() <
+        const Duration(milliseconds: 20)) {
       return;
     }
 
@@ -778,7 +796,8 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler with QueueHan
     final end = loop.end;
     if (start == null || end == null) return;
 
-    final currentPosition = await audioPlayer.getCurrentPosition() ?? Duration.zero;
+    final currentPosition =
+        await audioPlayer.getCurrentPosition() ?? Duration.zero;
 
     if (currentPosition >= end || currentPosition < start) {
       await seek(start);

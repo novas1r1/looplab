@@ -508,6 +508,11 @@ class AppLocalizationsJa extends AppLocalizations {
       '曲の追加に失敗しました。ファイル形式に問題がある可能性があります。mp3やwavなどのサポートされている形式に変換してみてください。';
 
   @override
+  String unsupportedAudioFormatError(String format, String supportedFormats) {
+    return 'オーディオ形式「.$format」はサポートされていません。サポートされている形式：$supportedFormats。';
+  }
+
+  @override
   String get loopAdded => 'ループが追加され、有効化されました';
 
   @override

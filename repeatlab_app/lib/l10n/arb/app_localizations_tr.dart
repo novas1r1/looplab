@@ -531,6 +531,11 @@ class AppLocalizationsTr extends AppLocalizations {
       'Şarkı eklenemedi. Bu dosya formatından kaynaklanıyor olabilir. Lütfen dosyayı mp3 veya wav gibi desteklenen bir formata dönüştürmeyi deneyin.';
 
   @override
+  String unsupportedAudioFormatError(String format, String supportedFormats) {
+    return 'Ses formatı \".$format\" desteklenmiyor. Desteklenen formatlar: $supportedFormats.';
+  }
+
+  @override
   String get loopAdded => 'Döngü eklendi ve etkinleştirildi';
 
   @override

@@ -18,7 +18,8 @@ class LoopController extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isPaused = context.watch<SongCubit>().state.playerState == PlayerState.paused;
+    final isPaused =
+        context.watch<SongCubit>().state.playerState == PlayerState.paused;
 
     return Container(
       decoration: BoxDecoration(
@@ -58,11 +59,16 @@ class LoopController extends StatelessWidget {
                     ),
                     IconButton(
                       iconSize: 36,
-                      onPressed: activeLoop?.start != null && activeLoop?.end != null
-                          ? () => context.read<SongCubit>().togglePlayLoop(activeLoop!)
+                      onPressed:
+                          activeLoop?.start != null && activeLoop?.end != null
+                          ? () => context.read<SongCubit>().togglePlayLoop(
+                              activeLoop!,
+                            )
                           : null,
                       icon: Icon(
-                        isPaused ? Icons.play_arrow_rounded : Icons.pause_rounded,
+                        isPaused
+                            ? Icons.play_arrow_rounded
+                            : Icons.pause_rounded,
                       ),
                     ),
                     IconButton(
@@ -94,11 +100,13 @@ class LoopController extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         TextButton(
-                          onPressed: () => _onSetLoopStart(context, currentPosition),
+                          onPressed: () =>
+                              _onSetLoopStart(context, currentPosition),
                           child: Text(context.l10n.setLoopStart),
                         ),
                         TextButton(
-                          onPressed: () => _onSetLoopEnd(context, currentPosition),
+                          onPressed: () =>
+                              _onSetLoopEnd(context, currentPosition),
                           child: Text(context.l10n.setLoopEnd),
                         ),
                       ],

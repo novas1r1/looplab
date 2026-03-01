@@ -31,7 +31,8 @@ class SongExporterCubit extends Cubit<SongExporterState> {
 
   final CrashReportingRepository crashReportingRepository;
 
-  SongExporterCubit({required this.crashReportingRepository}) : super(SongExporterState());
+  SongExporterCubit({required this.crashReportingRepository})
+    : super(SongExporterState());
 
   Future<void> exportLoop({
     required Song song,
@@ -122,10 +123,14 @@ class SongExporterCubit extends Cubit<SongExporterState> {
         await _deleteLocalFile(file);
 
         final logs = await session.getOutput();
-        final error = 'FFmpeg failed with code ${returnCode?.getValue() ?? 'unknown'}';
+        final error =
+            'FFmpeg failed with code ${returnCode?.getValue() ?? 'unknown'}';
 
         unawaited(
-          crashReportingRepository.reportError(Exception(error), StackTrace.current),
+          crashReportingRepository.reportError(
+            Exception(error),
+            StackTrace.current,
+          ),
         );
 
         emit(

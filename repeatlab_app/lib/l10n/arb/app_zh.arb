@@ -187,6 +187,17 @@
     "changelog1013Description": "您现在可以在应用中投票支持新功能或提交自己的功能提案。只需打开菜单并打开\"功能投票\"板。很高兴听到您的愿望！",
     "whatsNew": "新功能",
     "songAddError": "添加歌曲失败。这可能是由于文件格式问题。请尝试将文件转换为支持的格式，如 mp3 或 wav。",
+    "unsupportedAudioFormatError": "音频格式 \".{format}\" 不受支持。支持的格式：{supportedFormats}。",
+    "@unsupportedAudioFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
     "loopAdded": "循环已添加并激活",
     "loopModeEnabled": "循环模式已启用",
     "loopModeDisabled": "循环模式已禁用",

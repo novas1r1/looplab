@@ -537,6 +537,11 @@ class AppLocalizationsFr extends AppLocalizations {
       'Erreur lors de l\'ajout de la chanson. Cela pourrait être dû à un problème avec le format de fichier. Essayez de convertir le fichier en un format compatible comme mp3 ou wav.';
 
   @override
+  String unsupportedAudioFormatError(String format, String supportedFormats) {
+    return 'Le format audio \".$format\" n\'est pas pris en charge. Formats pris en charge : $supportedFormats.';
+  }
+
+  @override
   String get loopAdded => 'Boucle ajoutée et activée';
 
   @override

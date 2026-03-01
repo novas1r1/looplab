@@ -22,7 +22,8 @@ class RateAppDialog extends StatefulWidget {
   State<RateAppDialog> createState() => _RateAppDialogState();
 }
 
-class _RateAppDialogState extends State<RateAppDialog> with TickerProviderStateMixin {
+class _RateAppDialogState extends State<RateAppDialog>
+    with TickerProviderStateMixin {
   late final AnimationController _animationController;
   int? _selectedRating;
 
@@ -174,7 +175,9 @@ class _RateAppDialogState extends State<RateAppDialog> with TickerProviderStateM
                     const SizedBox(height: 16),
                     Text(
                       context.l10n.rateDialogDescription,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 16),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodyMedium?.copyWith(fontSize: 16),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 16),

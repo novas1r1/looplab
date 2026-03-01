@@ -528,6 +528,11 @@ class AppLocalizationsSv extends AppLocalizations {
       'Fel vid läggning av låt. Detta kan bero på ett problem med filformatet. Försök att konvertera filen till ett understött format som mp3 eller wav.';
 
   @override
+  String unsupportedAudioFormatError(String format, String supportedFormats) {
+    return 'Audioformatet \".$format\" stöds inte. Format som stöds: $supportedFormats.';
+  }
+
+  @override
   String get loopAdded => 'Loop tillagd och aktiverad';
 
   @override

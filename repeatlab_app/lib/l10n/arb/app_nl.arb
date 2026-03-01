@@ -184,6 +184,17 @@
     "changelog1013Description": "You can now vote for new features or submit your own feature proposals in the app. Just open the menu and open the 'Vote for Features' board. Happy to hear your wishes!",
     "whatsNew": "Wat is er nieuw?",
     "songAddError": "Fout bij het toevoegen van het nummer. Dit kan veroorzaakt worden door een probleem met het bestandsformaat. Probeer het bestand om te zetten in een ondersteund formaat zoals mp3 of wav.",
+    "unsupportedAudioFormatError": "Het audioformaat \".{format}\" wordt niet ondersteund. Ondersteunde formaten: {supportedFormats}.",
+    "@unsupportedAudioFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
     "loopAdded": "Loop toegevoegd en geactiveerd",
     "loopModeEnabled": "Loopmodus geactiveerd",
     "loopModeDisabled": "Loopmodus uitgeschakeld",

@@ -20,10 +20,12 @@ class SpeedControlMultiplierMode extends StatefulWidget {
   });
 
   @override
-  State<SpeedControlMultiplierMode> createState() => _SpeedControlMultiplierModeState();
+  State<SpeedControlMultiplierMode> createState() =>
+      _SpeedControlMultiplierModeState();
 }
 
-class _SpeedControlMultiplierModeState extends State<SpeedControlMultiplierMode> {
+class _SpeedControlMultiplierModeState
+    extends State<SpeedControlMultiplierMode> {
   // Local state for smooth slider interaction
   double _localSpeed = 1.0;
 
@@ -90,7 +92,10 @@ class _SpeedControlMultiplierModeState extends State<SpeedControlMultiplierMode>
                 _showPremiumDialog(context);
                 return;
               }
-              dev.log('setSpeedByMultiplier: $value', name: 'SpeedControlMultiplierMode');
+              dev.log(
+                'setSpeedByMultiplier: $value',
+                name: 'SpeedControlMultiplierMode',
+              );
               // Commit to SongCubit
               context.read<SongCubit>().setSpeedByMultiplier(value);
             },

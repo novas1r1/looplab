@@ -1,9 +1,11 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:repeatlab/core/app_constants.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
@@ -95,7 +97,8 @@ class CustomDrawer extends StatelessWidget {
           ),
           BlocBuilder<PremiumSubscriptionCubit, PremiumSubscriptionState>(
             builder: (context, state) {
-              final hasPremium = state.hasWeeklySubscription ||
+              final hasPremium =
+                  state.hasWeeklySubscription ||
                   state.hasYearlySubscription ||
                   state.hasLifetimePurchase;
               final hasSubscription =
@@ -225,7 +228,9 @@ class CustomDrawer extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () async {
-                    final revenueCatUser = await context.read<PurchasesRepository>().revenueCatUser;
+                    final revenueCatUser = await context
+                        .read<PurchasesRepository>()
+                        .revenueCatUser;
 
                     // display dialog to copy to clipboard
                     showDialog(
@@ -238,14 +243,40 @@ class CustomDrawer extends StatelessWidget {
                           children: [
                             Text(revenueCatUser.originalAppUserId),
                             const SizedBox(height: 8),
-                            Text(revenueCatUser.activeSubscriptions.join(', ')),
+                            Row(
+                              children: [
+                                Text(
+                                  revenueCatUser.activeSubscriptions.join(', '),
+                                ),
+                                IconButton(
+                                  onPressed: () async {
+                                    final purchaserInfo =
+                                        await Purchases.getCustomerInfo();
+                                    log(
+                                      '--- REVENUECAT: purchaserInfo: $purchaserInfo',
+                                    );
+                                    log(
+                                      '--- REVENUECAT: purchaserInfo.activeSubscriptions: ${purchaserInfo.activeSubscriptions}',
+                                    );
+                                    log(
+                                      '--- REVENUECAT: purchaserInfo.entitlements: ${purchaserInfo.entitlements.all}',
+                                    );
+                                  },
+                                  icon: const Icon(Icons.refresh),
+                                ),
+                              ],
+                            ),
                             const SizedBox(height: 16),
-                            Text(revenueCatUser.entitlements.all.keys.join(', ')),
+                            Text(
+                              revenueCatUser.entitlements.all.keys.join(', '),
+                            ),
                             const SizedBox(height: 16),
                             TextButton(
                               onPressed: () {
                                 Clipboard.setData(
-                                  ClipboardData(text: revenueCatUser.originalAppUserId),
+                                  ClipboardData(
+                                    text: revenueCatUser.originalAppUserId,
+                                  ),
                                 );
                                 Navigator.of(context).pop();
                               },
@@ -256,7 +287,9 @@ class CustomDrawer extends StatelessWidget {
                               onPressed: () async {
                                 await context
                                     .read<PremiumSubscriptionCubit>()
-                                    .presentPaywall();
+                                    .presentPaywall(
+                                      ifNeeded: false,
+                                    );
                               },
                               child: const Text('Open Paywall'),
                             ),
@@ -322,7 +355,10 @@ class CustomDrawer extends StatelessWidget {
         .read<PremiumSubscriptionCubit>()
         .state
         .hasYearlySubscription;
-    final hasLifetimePurchased = context.read<PremiumSubscriptionCubit>().state.hasLifetimePurchase;
+    final hasLifetimePurchased = context
+        .read<PremiumSubscriptionCubit>()
+        .state
+        .hasLifetimePurchase;
 
     UserOrient.setUser(
       extra: {

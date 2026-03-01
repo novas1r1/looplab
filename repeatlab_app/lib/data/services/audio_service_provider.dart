@@ -11,19 +11,23 @@ class AudioServiceProvider {
   const AudioServiceProvider({required this.audioPlayer});
 
   /// Initialize the audio service
-  static Future<RepeatlabAudioplayersServiceHandler> init(AudioPlayer audioPlayer) async {
+  static Future<RepeatlabAudioplayersServiceHandler> init(
+    AudioPlayer audioPlayer,
+  ) async {
     if (_audioHandler != null) {
       return _audioHandler!;
     }
 
-    _audioHandler = await AudioService.init<RepeatlabAudioplayersServiceHandler>(
-      builder: () => RepeatlabAudioplayersServiceHandler(audioPlayer: audioPlayer),
-      config: const AudioServiceConfig(
-        androidNotificationChannelId: 'com.repeatlab.channel.audio',
-        androidNotificationChannelName: 'RepeatLab Audio Playback',
-        androidNotificationIcon: 'mipmap/launcher_icon',
-      ),
-    );
+    _audioHandler =
+        await AudioService.init<RepeatlabAudioplayersServiceHandler>(
+          builder: () =>
+              RepeatlabAudioplayersServiceHandler(audioPlayer: audioPlayer),
+          config: const AudioServiceConfig(
+            androidNotificationChannelId: 'com.repeatlab.channel.audio',
+            androidNotificationChannelName: 'RepeatLab Audio Playback',
+            androidNotificationIcon: 'mipmap/launcher_icon',
+          ),
+        );
 
     return _audioHandler!;
   }

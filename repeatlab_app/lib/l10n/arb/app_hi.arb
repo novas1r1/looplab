@@ -184,6 +184,17 @@
     "changelog1013Description": "अब आप ऐप में नई सुविधाओं के लिए वोट कर सकते हैं या अपने स्वयं के सुविधा सुझाव दे सकते हैं। बस मेनू खोलें और 'सुविधाओं के लिए वोट करें' पैनल खोलें। आपकी इच्छाओं को सुनकर खुशी होगी!",
     "whatsNew": "नया क्या है",
     "songAddError": "गीत जोड़ने में विफल। यह फाइल प्रारूप के कारण हो सकता है। कृपया फाइल को mp3 या wav जैसे समर्थित प्रारूप में कनवर्ट करने का प्रयास करें।",
+    "unsupportedAudioFormatError": "ऑडियो प्रारूप \".{format}\" समर्थित नहीं है। समर्थित प्रारूप: {supportedFormats}।",
+    "@unsupportedAudioFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
     "loopAdded": "लूप जोड़ा गया और सक्रिय किया गया",
     "loopModeEnabled": "लूप मोड सक्रिय किया गया",
     "loopModeDisabled": "लूप मोड अक्षम किया गया",

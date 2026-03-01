@@ -186,6 +186,17 @@
     "changelog1013Description": "Artık uygulamada yeni özellikler için oy verebilir veya kendi özellik önerilerinizi sunabilirsiniz. Sadece menüyü açın ve 'Özellikler için oy ver' panelini açın. İsteklerinizi duymaktan mutluluk duyarız!",
     "whatsNew": "Yenilikler",
     "songAddError": "Şarkı eklenemedi. Bu dosya formatından kaynaklanıyor olabilir. Lütfen dosyayı mp3 veya wav gibi desteklenen bir formata dönüştürmeyi deneyin.",
+    "unsupportedAudioFormatError": "Ses formatı \".{format}\" desteklenmiyor. Desteklenen formatlar: {supportedFormats}.",
+    "@unsupportedAudioFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
     "loopAdded": "Döngü eklendi ve etkinleştirildi",
     "loopModeEnabled": "Döngü modu etkinleştirildi",
     "loopModeDisabled": "Döngü modu devre dışı bırakıldı",

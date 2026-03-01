@@ -126,7 +126,8 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
             );
           case WaveFormStateStatus.loaded:
           case WaveFormStateStatus.updated:
-            final waveformWidth = (state.waveformData?.length.toDouble() ?? 0.0) * _zoomScale;
+            final waveformWidth =
+                (state.waveformData?.length.toDouble() ?? 0.0) * _zoomScale;
 
             return SizedBox(
               height: 132,
@@ -148,21 +149,26 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
                         ),
                         state,
                       ),
-                      onPointerUp: (details) => _handleDragEnd(DragEndDetails(), state),
+                      onPointerUp: (details) =>
+                          _handleDragEnd(DragEndDetails(), state),
                       child: ListView(
                         controller: _scrollController,
                         scrollDirection: Axis.horizontal,
-                        padding: EdgeInsets.symmetric(horizontal: (widget.width / 2) - 16),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: (widget.width / 2) - 16,
+                        ),
                         physics: const NeverScrollableScrollPhysics(),
                         children: [
                           if (state.waveformData != null)
                             GestureDetector(
                               onHorizontalDragStart: _handleDragStart,
-                              onHorizontalDragUpdate: (details) => _handleDragUpdate(
-                                details,
-                                state,
-                              ),
-                              onHorizontalDragEnd: (details) => _handleDragEnd(details, state),
+                              onHorizontalDragUpdate: (details) =>
+                                  _handleDragUpdate(
+                                    details,
+                                    state,
+                                  ),
+                              onHorizontalDragEnd: (details) =>
+                                  _handleDragEnd(details, state),
                               child: SizedBox(
                                 width: waveformWidth,
                                 child: RepaintBoundary(
@@ -170,7 +176,10 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
                                     valueListenable: positionNotifier,
                                     builder: (_, position, _) {
                                       if (!_isDragging) {
-                                        _updateScrollPositionFor(position, state);
+                                        _updateScrollPositionFor(
+                                          position,
+                                          state,
+                                        );
                                       }
 
                                       return CustomPaint(
@@ -182,7 +191,9 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
                                           colorPlayed: Theme.of(
                                             context,
                                           ).colorScheme.primaryFixedDim,
-                                          colorUnplayed: const Color(0xff00696e),
+                                          colorUnplayed: const Color(
+                                            0xff00696e,
+                                          ),
                                           zoomScale: _zoomScale,
                                           startText: context.l10n.start,
                                           endText: context.l10n.end,
@@ -212,11 +223,15 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
                     right: 8,
                     top: 0,
                     child: GestureDetector(
-                      onTap: _zoomScale < maxZoom ? () => _onZoomIn(context) : null,
+                      onTap: _zoomScale < maxZoom
+                          ? () => _onZoomIn(context)
+                          : null,
                       child: Icon(
                         Icons.zoom_in,
                         size: 24,
-                        color: _zoomScale < maxZoom ? Colors.white : Colors.grey,
+                        color: _zoomScale < maxZoom
+                            ? Colors.white
+                            : Colors.grey,
                       ),
                     ),
                   ),
@@ -232,7 +247,9 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
                         child: SliderTheme(
                           data: SliderTheme.of(context).copyWith(
                             trackHeight: 2,
-                            thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
+                            thumbShape: const RoundSliderThumbShape(
+                              enabledThumbRadius: 6,
+                            ),
                             overlayShape: SliderComponentShape.noOverlay,
                             trackShape: const RectangularSliderTrackShape(),
                           ),
@@ -250,11 +267,15 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
                     left: 8,
                     top: 0,
                     child: GestureDetector(
-                      onTap: _zoomScale > minZoom ? () => _onZoomOut(context) : null,
+                      onTap: _zoomScale > minZoom
+                          ? () => _onZoomOut(context)
+                          : null,
                       child: Icon(
                         Icons.zoom_out,
                         size: 24,
-                        color: _zoomScale > minZoom ? Colors.white : Colors.grey,
+                        color: _zoomScale > minZoom
+                            ? Colors.white
+                            : Colors.grey,
                       ),
                     ),
                   ),
@@ -267,7 +288,10 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
   }
 
   Future<void> _onZoomOut(BuildContext context) async {
-    AppAnalytics.trackEvent(AppAnalytics.clickZoomOut, data: {'zoom_scale': _zoomScale});
+    AppAnalytics.trackEvent(
+      AppAnalytics.clickZoomOut,
+      data: {'zoom_scale': _zoomScale},
+    );
 
     final hasPurchased = context.read<PremiumSubscriptionCubit>().hasPremium;
     // check if user has premium subscription
@@ -290,12 +314,14 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
   void _handleDragUpdate(DragUpdateDetails details, WaveFormState state) {
     if (!_isDragging) return;
 
-    final maxScroll = (state.waveformData?.length.toDouble() ?? 0.0) * _zoomScale;
+    final maxScroll =
+        (state.waveformData?.length.toDouble() ?? 0.0) * _zoomScale;
     if (maxScroll <= 0 || !_scrollController.hasClients) {
       return;
     }
 
-    final newScrollPosition = _scrollController.position.pixels - details.delta.dx;
+    final newScrollPosition =
+        _scrollController.position.pixels - details.delta.dx;
 
     _scrollController.jumpTo(newScrollPosition.clamp(0, maxScroll));
 
@@ -314,7 +340,8 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
       _isDragging = false;
     });
 
-    final maxScroll = (state.waveformData?.length.toDouble() ?? 0.0) * _zoomScale;
+    final maxScroll =
+        (state.waveformData?.length.toDouble() ?? 0.0) * _zoomScale;
     if (maxScroll <= 0 || !_scrollController.hasClients) {
       return;
     }
@@ -328,7 +355,10 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
   }
 
   Future<void> _onZoomIn(BuildContext context) async {
-    AppAnalytics.trackEvent(AppAnalytics.clickZoomIn, data: {'zoom_scale': _zoomScale});
+    AppAnalytics.trackEvent(
+      AppAnalytics.clickZoomIn,
+      data: {'zoom_scale': _zoomScale},
+    );
 
     final premiumSubscriptionCubit = context.read<PremiumSubscriptionCubit>();
     if (premiumSubscriptionCubit.hasPremium) {
@@ -357,7 +387,9 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
     final maxScroll = waveformLength.toDouble() * _zoomScale;
     if (maxScroll <= 0) return;
 
-    final clampedPositionMs = position.inMilliseconds.clamp(0, totalMilliseconds).toDouble();
+    final clampedPositionMs = position.inMilliseconds
+        .clamp(0, totalMilliseconds)
+        .toDouble();
     final target = (clampedPositionMs / totalMilliseconds) * maxScroll;
 
     if ((_scrollController.position.pixels - target).abs() < 1.0) {
@@ -374,7 +406,10 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
   void _zoomIn() {
     if (_zoomScale >= maxZoom) return;
 
-    AppAnalytics.trackEvent(AppAnalytics.clickZoomIn, data: {'zoom_scale': _zoomScale});
+    AppAnalytics.trackEvent(
+      AppAnalytics.clickZoomIn,
+      data: {'zoom_scale': _zoomScale},
+    );
 
     // Calculate the center position before zooming
     final centerPosition = _scrollController.hasClients
@@ -394,7 +429,10 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
   void _zoomOut() {
     if (_zoomScale <= minZoom) return;
 
-    AppAnalytics.trackEvent(AppAnalytics.clickZoomOut, data: {'zoom_scale': _zoomScale});
+    AppAnalytics.trackEvent(
+      AppAnalytics.clickZoomOut,
+      data: {'zoom_scale': _zoomScale},
+    );
 
     // Calculate the center position before zooming
     final centerPosition = _scrollController.hasClients
@@ -450,7 +488,8 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
 
     final state = context.read<WaveFormCubit>().state;
 
-    final maxScroll = (state.waveformData?.length.toDouble() ?? 0.0) * _zoomScale;
+    final maxScroll =
+        (state.waveformData?.length.toDouble() ?? 0.0) * _zoomScale;
     if (maxScroll <= 0 || !_scrollController.hasClients) {
       return;
     }

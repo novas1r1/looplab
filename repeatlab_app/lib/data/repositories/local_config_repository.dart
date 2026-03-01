@@ -28,11 +28,14 @@ class LocalConfigRepository {
   Future<void> setIntroShown({required bool wasShown}) =>
       sharedPreferences.setBool(kIntroShown, wasShown);
 
-  bool get hasCompletedTutorial => sharedPreferences.getBool(kHasCompletedTutorial) ?? false;
+  bool get hasCompletedTutorial =>
+      sharedPreferences.getBool(kHasCompletedTutorial) ?? false;
 
-  bool get acceptedDataprotection => sharedPreferences.getBool(kAcceptedDataprotection) ?? false;
+  bool get acceptedDataprotection =>
+      sharedPreferences.getBool(kAcceptedDataprotection) ?? false;
 
-  bool get acceptedAnalytics => sharedPreferences.getBool(kAnalyticsEnabled) ?? false;
+  bool get acceptedAnalytics =>
+      sharedPreferences.getBool(kAnalyticsEnabled) ?? false;
 
   bool get hasRatedApp => sharedPreferences.getBool(kHasRatedApp) ?? false;
 
@@ -59,9 +62,11 @@ class LocalConfigRepository {
   Future<void> setChangelogShown(int version) =>
       sharedPreferences.setInt(kChangelogVersionShown, version);
 
-  int get lastChangelogVersionShown => sharedPreferences.getInt(kChangelogVersionShown) ?? 1;
+  int get lastChangelogVersionShown =>
+      sharedPreferences.getInt(kChangelogVersionShown) ?? 1;
 
-  bool get rateAppDialogShown => sharedPreferences.getBool(kRateAppDialogShown) ?? false;
+  bool get rateAppDialogShown =>
+      sharedPreferences.getBool(kRateAppDialogShown) ?? false;
 
   Future<void> setHasRatedApp(bool value) async {
     await sharedPreferences.setBool(kHasRatedApp, value);
@@ -72,13 +77,15 @@ class LocalConfigRepository {
   }
 
   /// Auto-play when selecting loops or navigating between them
-  bool get autoPlayOnLoopSelect => sharedPreferences.getBool(kAutoPlayOnLoopSelect) ?? true;
+  bool get autoPlayOnLoopSelect =>
+      sharedPreferences.getBool(kAutoPlayOnLoopSelect) ?? true;
 
   Future<void> setAutoPlayOnLoopSelect({required bool isEnabled}) =>
       sharedPreferences.setBool(kAutoPlayOnLoopSelect, isEnabled);
 
   /// Full song repeat - loops the entire song when playback completes
-  bool get fullSongRepeatEnabled => sharedPreferences.getBool(kFullSongRepeatEnabled) ?? false;
+  bool get fullSongRepeatEnabled =>
+      sharedPreferences.getBool(kFullSongRepeatEnabled) ?? false;
 
   Future<void> setFullSongRepeatEnabled({required bool isEnabled}) =>
       sharedPreferences.setBool(kFullSongRepeatEnabled, isEnabled);

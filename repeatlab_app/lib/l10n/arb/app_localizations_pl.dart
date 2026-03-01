@@ -529,6 +529,11 @@ class AppLocalizationsPl extends AppLocalizations {
       'Wystąpił błąd podczas dodawania utworu. Może to być spowodowane problemem z formatem pliku. Proszę spróbować przekonwertować plik na obsługiwany format, takich jak mp3 lub wav.';
 
   @override
+  String unsupportedAudioFormatError(String format, String supportedFormats) {
+    return 'Format audio \".$format\" nie jest obsługiwany. Obsługiwane formaty: $supportedFormats.';
+  }
+
+  @override
   String get loopAdded => 'Pętla dodana i aktywowana';
 
   @override

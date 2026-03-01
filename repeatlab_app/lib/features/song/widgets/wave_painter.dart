@@ -83,8 +83,10 @@ class WavePainter extends CustomPainter {
     canvas.drawPath(waveformPath, paintUnplayed);
 
     // Calculate played width based on current position
-    final currentPositionInMilliseconds = currentPosition.inMilliseconds.toDouble();
-    final playedFraction = currentPositionInMilliseconds / durationInMilliseconds;
+    final currentPositionInMilliseconds = currentPosition.inMilliseconds
+        .toDouble();
+    final playedFraction =
+        currentPositionInMilliseconds / durationInMilliseconds;
     final playedWidth = playedFraction * (data.length * barSpacing);
 
     // Overlay played part using clip rect
