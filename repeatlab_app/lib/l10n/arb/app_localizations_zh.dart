@@ -620,6 +620,84 @@ class AppLocalizationsZh extends AppLocalizations {
   String get deleteAllDataError => '删除所有数据失败';
 
   @override
+  String get backupAndRestore => 'Backup & Restore';
+
+  @override
+  String get backupExport => 'Export my library';
+
+  @override
+  String get backupExportSubtitle =>
+      'Save all songs and loops to a single file you can transfer to another device.';
+
+  @override
+  String get backupImport => 'Import backup';
+
+  @override
+  String get backupImportSubtitle =>
+      'Restore songs and loops from a previously exported file.';
+
+  @override
+  String get backupProOnly => 'Pro feature';
+
+  @override
+  String get backupExporting => 'Preparing backup…';
+
+  @override
+  String get backupImporting => 'Importing…';
+
+  @override
+  String backupExportFailed(String message) {
+    return 'Export failed: $message';
+  }
+
+  @override
+  String backupImportFailed(String message) {
+    return 'Import failed: $message';
+  }
+
+  @override
+  String get backupImportConfirmTitle => 'Import backup';
+
+  @override
+  String backupImportConfirmMessage(int songCount, String exportedAt) {
+    return 'This backup contains $songCount songs (exported $exportedAt).';
+  }
+
+  @override
+  String get backupImportModeMerge => 'Merge';
+
+  @override
+  String get backupImportModeMergeDescription =>
+      'Add new songs, keep existing ones.';
+
+  @override
+  String get backupImportModeReplace => 'Replace';
+
+  @override
+  String get backupImportModeReplaceDescription =>
+      'Delete everything and import from scratch.';
+
+  @override
+  String get backupImportReplaceConfirmTitle => 'Replace entire library?';
+
+  @override
+  String get backupImportReplaceConfirmMessage =>
+      'This will permanently delete all current songs and loops before importing. This cannot be undone.';
+
+  @override
+  String backupImportSuccess(int imported, int skipped, int renamed) {
+    return 'Imported $imported songs. $skipped skipped, $renamed renamed.';
+  }
+
+  @override
+  String get backupImportSchemaTooNew =>
+      'This backup was created by a newer version of RepeatLab. Please update the app to import it.';
+
+  @override
+  String get backupImportMalformed =>
+      'This file isn\'t a valid RepeatLab backup.';
+
+  @override
   String get errorOpeningStore =>
       '无法打开应用商店列表。请尝试直接通过 Play 或 Apple Store 提交评论。谢谢！';
 

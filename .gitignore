@@ -82,3 +82,5 @@ coverage/
 *~
 # Local Netlify folder
 .netlify
+
+repeatlab_app/test/goldens/failures/

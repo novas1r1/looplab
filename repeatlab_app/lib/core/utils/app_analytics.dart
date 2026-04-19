@@ -82,6 +82,18 @@ abstract final class AppAnalytics {
   // paywall
   static const showPaywallSongLoops = 'show_paywall_song_loops';
   static const showPaywallSongSpeed = 'show_paywall_song_speed';
+  static const viewPaywallFromBackup = 'view_paywall_from_backup';
+
+  // backup & restore
+  static const clickBackupExport = 'click_backup_export';
+  static const backupExportSuccess = 'backup_export_success';
+  static const backupExportFailure = 'backup_export_failure';
+  static const backupExportShareCanceled = 'backup_export_share_canceled';
+  static const clickBackupImport = 'click_backup_import';
+  static const backupImportPicked = 'backup_import_picked';
+  static const backupImportCanceled = 'backup_import_canceled';
+  static const backupImportSuccess = 'backup_import_success';
+  static const backupImportFailure = 'backup_import_failure';
 
   // subscription
   static const clickCancelSubscriptionAndroid =
