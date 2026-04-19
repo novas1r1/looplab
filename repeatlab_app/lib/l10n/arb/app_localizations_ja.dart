@@ -399,6 +399,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get changelogTitle => '変更履歴';
 
   @override
+  String get changelog170Title => 'ライブラリをバックアップして移動';
+
+  @override
+  String get changelog170Description =>
+      'プロ機能を使用して、ライブラリ全体（曲、ループ、オーディオファイル）を単一のファイルにエクスポートし、別のデバイスに復元します。マージを選択して既存の曲に新しい曲を追加するか、リプレイスを選択して新しいライブラリを開始します。';
+
+  @override
   String get changelog1601Title => '1/3 ループを選択したり、それらの間をナビゲートしたりすると、自動的に再生されます';
 
   @override

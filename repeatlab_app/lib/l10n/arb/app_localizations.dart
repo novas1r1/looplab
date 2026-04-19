@@ -840,6 +840,18 @@ abstract class AppLocalizations {
   /// **'Changelog'**
   String get changelogTitle;
 
+  /// No description provided for @changelog170Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Back up and move your library'**
+  String get changelog170Title;
+
+  /// No description provided for @changelog170Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Export your entire library — songs, loops, and audio — to a single file, then restore it on another device with Pro. Choose Merge to add new songs alongside your existing ones, or Replace to start fresh.'**
+  String get changelog170Description;
+
   /// No description provided for @changelog1601Title.
   ///
   /// In en, this message translates to:

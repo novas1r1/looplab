@@ -412,6 +412,13 @@ class AppLocalizationsPl extends AppLocalizations {
   String get changelogTitle => 'Zmiany';
 
   @override
+  String get changelog170Title => 'Backup i przeniesienie swojej biblioteki';
+
+  @override
+  String get changelog170Description =>
+      'Eksportuj swoją całą bibliotekę — utwory, pętle i audio — do jednego pliku, a następnie przywróć ją na innym urządzeniu za pomocą Pro. Wybierz \'Scal\' aby dodać nowe utwory obok istniejących, lub \'Zastąp\' aby zacząć od nowa.';
+
+  @override
   String get changelog1601Title =>
       '1/3 Automatyczne odtwarzanie pętli lub nawigacja między nimi';
 

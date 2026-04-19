@@ -416,6 +416,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get changelogTitle => 'Изменения';
 
   @override
+  String get changelog170Title => 'Backup и перенос вашей библиотеки';
+
+  @override
+  String get changelog170Description =>
+      'Экспортируйте свою полную библиотеку — песни, лупы и аудио — в один файл, а затем восстановите ее на другом устройстве с Pro. Выберите \"Объединить\", чтобы добавить новые песни рядом с существующими, или \"Заменить\", чтобы начать с нуля.';
+
+  @override
   String get changelog1601Title =>
       '1/3 Автоматическое воспроизведение лупов при выборе лупов или переходе между ними';
 

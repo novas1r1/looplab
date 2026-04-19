@@ -416,6 +416,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get changelogTitle => 'Cambios';
 
   @override
+  String get changelog170Title => 'Backup y mover tu biblioteca';
+
+  @override
+  String get changelog170Description =>
+      'Exporta tu biblioteca completa - canciones, loops y audio - a un solo archivo, luego restauralo en otro dispositivo con Pro. Elige Fusionar para agregar nuevas canciones junto a las existentes, o Reemplazar para comenzar de cero.';
+
+  @override
   String get changelog1601Title =>
       '1/3 Reproducir loops o navegar entre ellos automáticamente';
 

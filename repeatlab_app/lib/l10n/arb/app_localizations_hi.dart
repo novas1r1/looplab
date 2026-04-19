@@ -412,6 +412,14 @@ class AppLocalizationsHi extends AppLocalizations {
   String get changelogTitle => 'परिवर्तन लॉग';
 
   @override
+  String get changelog170Title =>
+      'अपनी लाइब्रेरी बैकअप करें और स्थानांतरित करें';
+
+  @override
+  String get changelog170Description =>
+      'अपनी पूरी लाइब्रेरी — गीत, लूप और ऑडियो — एक ही फ़ाइल में निर्यात करें, फिर दूसरे डिवाइस पर पुनर्स्थापित करें जिसमें Pro चुनें। मर्ज करने का चुनाव करें जो नई गीत अपने मौजूदा गीतों के साथ जोड़ता है, या रीप्लेस करने का चुनाव करें जो नई लाइब्रेरी शुरू करता है।';
+
+  @override
   String get changelog1601Title =>
       '1/3 लूप चुनते हैं या अगले या पिछले लूप पर नेविगेट करते हैं तो स्वचालित रूप से लूप चलाएं';
 

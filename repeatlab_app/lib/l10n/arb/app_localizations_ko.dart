@@ -398,6 +398,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get changelogTitle => '변경 사항';
 
   @override
+  String get changelog170Title => '라이브러리 백업 및 이동';
+
+  @override
+  String get changelog170Description =>
+      '프로 기능을 사용하여 라이브러리 전체(곡, 루프, 오디오 파일)를 단일 파일로 내보내고 다른 기기에서 복원합니다. 기존 곡에 새 곡을 추가하려면 병합을 선택하거나 새 라이브러리를 시작하려면 대체를 선택하세요.';
+
+  @override
   String get changelog1601Title => '1/3 루프 제어 개선';
 
   @override

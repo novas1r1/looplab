@@ -392,6 +392,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get changelogTitle => '更新日志';
 
   @override
+  String get changelog170Title => '备份和移动您的库';
+
+  @override
+  String get changelog170Description =>
+      '将您的整个库（歌曲、循环和音频）导出到一个文件中，然后在另一个设备上使用 Pro 恢复。选择合并以在现有歌曲旁边添加新歌曲，或选择替换以从头开始。';
+
+  @override
   String get changelog1601Title => '1/3 选择循环或导航之间自动播放';
 
   @override

@@ -152,6 +152,8 @@
     },
     "purchasedAlready": "Zaten satın alındı",
     "purchaseSuccess": "Başarıyla satın alındı. Geliştiriciyi desteklediğiniz için teşekkür ederiz ❤️!",
+    "changelog170Title": "Kütüphaneyi yedekle ve taşı",
+    "changelog170Description": "Kütüphanenizi tamamen dışa aktarın - şarkılar, döngüler ve ses dosyaları - tek bir dosyaya, ardından Pro ile başka bir cihazda geri yükleyin. Mevcut şarkıların yanına yeni şarkılar eklemek için Birleştir'i seçin, ya da sıfırdan başlamak için Değiştir'i seçin.",
     "changelog1601Title": "1/3 Döngüleri Seçtiğinizde veya aralarında gezinirken otomatik oynatma",
     "changelog1601Description": "Şarkı ayarlarında artık döngüleri ve tüm şarkıyı otomatik olarak oynatmayı etkinleştirebilir veya devre dışı bırakabilirsiniz.",
     "changelog1602Title": "2/3 Döngü kontrolünün iyileştirilmesi",

@@ -173,6 +173,8 @@
     "purchaseSuccess": "Purchase successful. Thank you for supporting the developer ❤️!",
     "voteForFeatures": "Vote for Features",
     "changelogTitle": "Changelog",
+    "changelog170Title": "Back up and move your library",
+    "changelog170Description": "Export your entire library — songs, loops, and audio — to a single file, then restore it on another device with Pro. Choose Merge to add new songs alongside your existing ones, or Replace to start fresh.",
     "changelog1601Title": "1/3 Auto-Play when selecting loops or navigating between them",
     "changelog1601Description": "In the song settings you can now enable or disable the automatic playback of loops and the entire song.",
     "changelog1602Title": "2/3 Improved loop control",

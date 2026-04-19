@@ -419,6 +419,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
+  String get changelog170Title => 'Sauvegarder et déplacer votre bibliothèque';
+
+  @override
+  String get changelog170Description =>
+      'Exportez votre bibliothèque complète - chansons, boucles et audio - dans un seul fichier, puis restaurez-le sur un autre appareil avec Pro. Choisissez Fusionner pour ajouter de nouvelles chansons en plus de vos existantes, ou Remplacer pour commencer de zéro.';
+
+  @override
   String get changelog1601Title =>
       '1/3 Reproduire les boucles ou naviguer entre elles automatiquement';
 

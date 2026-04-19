@@ -152,6 +152,8 @@
     "cancelSubscription": "Abonnement Opzeggen",
     "voteForFeatures": "Functies Voorstellen",
     "changelogTitle": "Wijzigingen",
+    "changelog170Title": "Back up en verplaats je bibliotheek",
+    "changelog170Description": "Exporteer je hele bibliotheek — nummers, loops en audio — naar een enkel bestand, en herstel het op een ander apparaat met Pro. Kies 'Samenvoegen' om nieuwe nummers naast je bestaande toe te voegen, of 'Vervangen' om vanaf nul te beginnen.",
     "changelog1601Title": "1/3 Loops automatisch afspelen bij selecteren of navigeren tussen loops",
     "changelog1601Description": "In de nummerinstellingen kun je nu loops en het hele nummer automatisch afspelen aanzetten of uitschakelen.",
     "changelog1602Title": "2/3 Verbeterde loop controle",

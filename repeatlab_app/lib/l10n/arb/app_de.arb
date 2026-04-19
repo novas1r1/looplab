@@ -153,6 +153,8 @@
     "cancelSubscription": "Abonnement kündigen",
     "voteForFeatures": "Feature Voting",
     "changelogTitle": "Changelog",
+    "changelog170Title": "Deine Bibliothek sichern und verschieben",
+    "changelog170Description": "Exportiere deine gesamte Bibliothek — Songs, Loops und Audio — in eine einzige Datei, um sie auf einem anderen Gerät wiederherzustellen. Wähle Zusammenführen, um neue Songs neben deinen bestehenden zu hinzufügen, oder Ersetzen, um neu zu starten.",
     "changelog1603Title": "3/3 Layout Anpassungen",
     "changelog1603Description": "Das Layout der App wurde angepasst, um die Benutzererfahrung zu verbessern.",
     "changelog1602Title": "2/3 Steuerung der Loops verbessert",

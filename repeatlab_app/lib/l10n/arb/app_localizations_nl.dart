@@ -414,6 +414,13 @@ class AppLocalizationsNl extends AppLocalizations {
   String get changelogTitle => 'Wijzigingen';
 
   @override
+  String get changelog170Title => 'Back up en verplaats je bibliotheek';
+
+  @override
+  String get changelog170Description =>
+      'Exporteer je hele bibliotheek — nummers, loops en audio — naar een enkel bestand, en herstel het op een ander apparaat met Pro. Kies \'Samenvoegen\' om nieuwe nummers naast je bestaande toe te voegen, of \'Vervangen\' om vanaf nul te beginnen.';
+
+  @override
   String get changelog1601Title =>
       '1/3 Loops automatisch afspelen bij selecteren of navigeren tussen loops';
 

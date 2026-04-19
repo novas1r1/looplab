@@ -414,6 +414,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
+  String get changelog170Title => 'Deine Bibliothek sichern und verschieben';
+
+  @override
+  String get changelog170Description =>
+      'Exportiere deine gesamte Bibliothek — Songs, Loops und Audio — in eine einzige Datei, um sie auf einem anderen Gerät wiederherzustellen. Wähle Zusammenführen, um neue Songs neben deinen bestehenden zu hinzufügen, oder Ersetzen, um neu zu starten.';
+
+  @override
   String get changelog1601Title =>
       '1/3 Auto-Play bei Loops & ganzen Song loopen';
 

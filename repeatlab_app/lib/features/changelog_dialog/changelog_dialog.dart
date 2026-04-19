@@ -37,6 +37,16 @@ class _ChangelogDialogState extends State<ChangelogDialog>
   Widget build(BuildContext context) {
     final versions = [
       ChangelogVersion(
+        version: '1.7.0',
+        releaseDate: DateTime(2026, 4, 19),
+        updates: [
+          ChangelogElement(
+            title: context.l10n.changelog170Title,
+            description: context.l10n.changelog170Description,
+          ),
+        ],
+      ),
+      ChangelogVersion(
         version: '1.6.0',
         releaseDate: DateTime(2025, 12, 27),
         updates: [

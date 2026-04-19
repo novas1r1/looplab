@@ -413,6 +413,13 @@ class AppLocalizationsSv extends AppLocalizations {
   String get changelogTitle => 'Ändringar';
 
   @override
+  String get changelog170Title => 'Backup och flytta din bibliotek';
+
+  @override
+  String get changelog170Description =>
+      'Exportera din hela bibliotek — låtar, loopar och ljud — till en enda fil, och återställ den på ett annat enhet med Pro. Välj \'Sammanfoga\' för att lägga till nya låtar bredvid de befintliga, eller \'Ersätt\' för att börja från början.';
+
+  @override
   String get changelog1601Title =>
       '1/3 Automatisk Spelning vid Loop-val eller Navigering mellan loopar';
 

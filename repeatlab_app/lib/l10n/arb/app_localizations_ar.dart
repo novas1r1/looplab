@@ -411,6 +411,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get changelogTitle => 'سجل التغييرات';
 
   @override
+  String get changelog170Title => 'حفظ ونقل مكتبتك';
+
+  @override
+  String get changelog170Description =>
+      'تصدير مكتبتك كاملة - الأغاني والحلقات والصوت - إلى ملف واحد، ثم استعادته على جهاز آخر باستخدام Pro. اختر الجمع بينها لإضافة أغاني جديدة بجانب الأغاني الموجودة، أو استبدالها لبدء من جديد.';
+
+  @override
   String get changelog1601Title =>
       '1/3 تشغيل تلقائي عند تحديد حلقات أو التنقل بينهم';
 
