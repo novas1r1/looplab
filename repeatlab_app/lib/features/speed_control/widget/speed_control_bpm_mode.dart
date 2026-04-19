@@ -206,6 +206,10 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
                             _showPremiumDialog(context);
                             return;
                           }
+                          AppAnalytics.trackEvent(
+                            AppAnalytics.clickUpdateBpm,
+                            data: {'bpm': value.round()},
+                          );
                           context.read<SongCubit>().setSpeedByBpm(
                             value.round(),
                           );
@@ -226,6 +230,10 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
   void _onSetOriginalBpm(BuildContext context) {
     final bpm = int.tryParse(_originalBpmController.text);
     if (bpm != null && bpm > 0) {
+      AppAnalytics.trackEvent(
+        AppAnalytics.clickSetOriginalBpm,
+        data: {'bpm': bpm, 'source': 'manual_input'},
+      );
       context.read<SongCubit>().setOriginalBpm(bpm);
       _originalBpmController.clear();
     }
@@ -233,7 +241,7 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
 
   Future<void> _showPremiumDialog(BuildContext context) async {
     AppAnalytics.trackEvent(
-      AppAnalytics.viewPremiumScreen,
+      AppAnalytics.showPaywallSongSpeed,
       data: {'from': 'speed_control_bpm'},
     );
 
@@ -242,6 +250,8 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
 
   Future<void> _showTapBpmDialog(BuildContext context) async {
     final cubit = context.read<SongCubit>();
+
+    AppAnalytics.trackEvent(AppAnalytics.viewTapBpmDialog);
 
     await showDialog(
       context: context,
@@ -257,6 +267,8 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
     int currentOriginalBpm,
   ) async {
     final cubit = context.read<SongCubit>();
+
+    AppAnalytics.trackEvent(AppAnalytics.viewEditOriginalBpmDialog);
 
     await showDialog(
       context: context,
@@ -320,6 +332,10 @@ class _EditOriginalBpmDialogState extends State<EditOriginalBpmDialog> {
           // Option to clear BPM
           TextButton(
             onPressed: () {
+              AppAnalytics.trackEvent(
+                AppAnalytics.clickSetOriginalBpm,
+                data: {'source': 'reset'},
+              );
               Navigator.of(context).pop();
               context.read<SongCubit>().setOriginalBpm(null);
             },
@@ -340,6 +356,10 @@ class _EditOriginalBpmDialogState extends State<EditOriginalBpmDialog> {
           onPressed: () {
             final bpm = int.tryParse(_controller.text);
             if (bpm != null && bpm > 0) {
+              AppAnalytics.trackEvent(
+                AppAnalytics.clickSetOriginalBpm,
+                data: {'bpm': bpm, 'source': 'edit_dialog'},
+              );
               context.read<SongCubit>().setOriginalBpm(bpm);
             }
             Navigator.of(context).pop();

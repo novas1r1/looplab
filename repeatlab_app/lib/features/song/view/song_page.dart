@@ -82,6 +82,12 @@ class _SongViewState extends State<_SongView> {
   GlobalKey tutorialKeyLoopAdd = GlobalKey();
 
   @override
+  void initState() {
+    super.initState();
+    AppAnalytics.trackEvent(AppAnalytics.viewSong);
+  }
+
+  @override
   void dispose() {
     // context.read<SongCubit>().close();
     _loopListController.dispose();
@@ -167,7 +173,10 @@ class _SongViewState extends State<_SongView> {
                   title: Text(widget.song.title),
                   actions: [
                     IconButton(
-                      onPressed: () => showTutorial(),
+                      onPressed: () {
+                        AppAnalytics.trackEvent(AppAnalytics.clickHelp);
+                        showTutorial();
+                      },
                       icon: const Icon(Icons.help_outline),
                     ),
                     // Settings button - opens bottom sheet
@@ -192,18 +201,44 @@ class _SongViewState extends State<_SongView> {
                             song: widget.song,
                           ),
                           const SizedBox(height: 8),
-                          LoopTimeline(
-                            key: tutorialKeyLoopTimeline,
-                            onLoopTap: (loop) =>
-                                context.read<SongCubit>().selectLoop(loop),
-                            onSkipPrevious: () => context
-                                .read<SongCubit>()
-                                .skipToPreviousOrRestart(),
-                            onSkipNext: () =>
-                                context.read<SongCubit>().skipToNextLoop(),
-                            onSeek: (position) =>
-                                context.read<SongCubit>().seekSong(position),
-                            duration: widget.song.duration,
+                          BlocSelector<
+                            PremiumSubscriptionCubit,
+                            PremiumSubscriptionState,
+                            bool
+                          >(
+                            selector: (state) =>
+                                state.hasWeeklySubscription ||
+                                state.hasYearlySubscription ||
+                                state.hasLifetimePurchase,
+                            builder: (context, hasPremium) {
+                              return LoopTimeline(
+                                key: tutorialKeyLoopTimeline,
+                                onLoopTap: (loop) =>
+                                    context.read<SongCubit>().selectLoop(loop),
+                                onSkipPrevious: () => context
+                                    .read<SongCubit>()
+                                    .skipToPreviousOrRestart(),
+                                onSkipNext: () =>
+                                    context.read<SongCubit>().skipToNextLoop(),
+                                onSeek: (position) => context
+                                    .read<SongCubit>()
+                                    .seekSong(position),
+                                duration: widget.song.duration,
+                                isLoopLocked: (loop) {
+                                  if (hasPremium) return false;
+                                  final loops = context
+                                      .read<SongCubit>()
+                                      .state
+                                      .song
+                                      .loops;
+                                  if (loops.isEmpty) return false;
+                                  return loop.id != loops.first.id;
+                                },
+                                onLockedLoopTap: (_) => _presentLoopPaywall(
+                                  context,
+                                ),
+                              );
+                            },
                           ),
                           const SizedBox(height: 12),
                           SongController(
@@ -354,6 +389,10 @@ class _SongViewState extends State<_SongView> {
                                         newIndex -= 1;
                                       }
 
+                                      AppAnalytics.trackEvent(
+                                        AppAnalytics.clickReorderLoops,
+                                      );
+
                                       final List<Loop> newLoops =
                                           List<Loop>.from(loops);
                                       final Loop item = newLoops.removeAt(
@@ -383,30 +422,66 @@ class _SongViewState extends State<_SongView> {
                                         vertical: 4,
                                       ),
                                       key: ValueKey(loops[index].id),
-                                      child: LoopTile(
-                                        index: index,
-                                        loop: loops[index],
-                                        isSelected:
-                                            loops[index] ==
-                                            context
+                                      child: BlocSelector<
+                                        PremiumSubscriptionCubit,
+                                        PremiumSubscriptionState,
+                                        bool
+                                      >(
+                                        selector: (state) =>
+                                            state.hasWeeklySubscription ||
+                                            state.hasYearlySubscription ||
+                                            state.hasLifetimePurchase,
+                                        builder: (context, hasPremium) {
+                                          return LoopTile(
+                                            index: index,
+                                            loop: loops[index],
+                                            isSelected:
+                                                loops[index] ==
+                                                context
+                                                    .read<SongCubit>()
+                                                    .state
+                                                    .activeLoop,
+                                            isLocked:
+                                                !hasPremium && index > 0,
+                                            onTap: (loop) => context
                                                 .read<SongCubit>()
-                                                .state
-                                                .activeLoop,
-                                        onTap: (loop) => context
-                                            .read<SongCubit>()
-                                            .selectLoop(loop),
-                                        onDelete: (loop) => context
-                                            .read<SongCubit>()
-                                            .deleteLoop(loop),
-                                        onPlay: (loop) => context
-                                            .read<SongCubit>()
-                                            .togglePlayLoop(loop),
-                                        onPause: (loop) => context
-                                            .read<SongCubit>()
-                                            .pauseLoop(),
-                                        onUpdate: (loop) => context
-                                            .read<SongCubit>()
-                                            .updateLoop(loop),
+                                                .selectLoop(loop),
+                                            onDelete: (loop) {
+                                              AppAnalytics.trackEvent(
+                                                AppAnalytics.clickDeleteLoop,
+                                              );
+                                              context
+                                                  .read<SongCubit>()
+                                                  .deleteLoop(loop);
+                                            },
+                                            onPlay: (loop) {
+                                              AppAnalytics.trackEvent(
+                                                AppAnalytics.clickPlayLoop,
+                                              );
+                                              context
+                                                  .read<SongCubit>()
+                                                  .togglePlayLoop(loop);
+                                            },
+                                            onPause: (loop) {
+                                              AppAnalytics.trackEvent(
+                                                AppAnalytics.clickStopLoop,
+                                              );
+                                              context
+                                                  .read<SongCubit>()
+                                                  .pauseLoop();
+                                            },
+                                            onUpdate: (loop) {
+                                              AppAnalytics.trackEvent(
+                                                AppAnalytics.clickUpdateLoop,
+                                              );
+                                              context
+                                                  .read<SongCubit>()
+                                                  .updateLoop(loop);
+                                            },
+                                            onLockedTap: () =>
+                                                _presentLoopPaywall(context),
+                                          );
+                                        },
                                       ),
                                     ),
                                     itemCount: loops.length,
@@ -717,6 +792,11 @@ class _SongViewState extends State<_SongView> {
     tutorialCoachMark.show(context: context);
   }
 
+  Future<void> _presentLoopPaywall(BuildContext context) async {
+    AppAnalytics.trackEvent(AppAnalytics.showPaywallSongLoops);
+    await context.read<PremiumSubscriptionCubit>().presentPaywall();
+  }
+
   /// If user already has added one loop, show paywall if not already purchased
   Future<void> _onAddLoop(BuildContext context) async {
     AppAnalytics.trackEvent(AppAnalytics.clickAddLoop);
@@ -735,6 +815,8 @@ class _SongViewState extends State<_SongView> {
   }
 
   Future<void> _onToggleLoopMode(BuildContext context) async {
+    AppAnalytics.trackEvent(AppAnalytics.clickToggleLoopMode);
+
     final state = context.read<SongCubit>().state;
 
     if (state.activeLoop != null) {

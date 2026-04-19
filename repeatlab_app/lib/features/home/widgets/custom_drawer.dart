@@ -101,8 +101,7 @@ class CustomDrawer extends StatelessWidget {
                   state.hasWeeklySubscription ||
                   state.hasYearlySubscription ||
                   state.hasLifetimePurchase;
-              final hasSubscription =
-                  state.hasWeeklySubscription || state.hasYearlySubscription;
+              final hasSubscription = state.hasWeeklySubscription || state.hasYearlySubscription;
 
               return Column(
                 mainAxisSize: MainAxisSize.min,
@@ -120,10 +119,10 @@ class CustomDrawer extends StatelessWidget {
                       leading: const Icon(Icons.shopping_cart),
                       title: Text(context.l10n.buyRepeatLabPro),
                       onTap: () async {
-                        AppAnalytics.trackEvent(AppAnalytics.viewPremiumScreen);
-                        await context
-                            .read<PremiumSubscriptionCubit>()
-                            .presentPaywall();
+                        AppAnalytics.trackEvent(
+                          AppAnalytics.viewPaywallFromDrawer,
+                        );
+                        await context.read<PremiumSubscriptionCubit>().presentPaywall();
                       },
                     ),
                 ],
@@ -148,12 +147,17 @@ class CustomDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.volunteer_activism),
             title: Text(context.l10n.voteForFeatures),
-            onTap: () => _onVoteForFeatures(context),
+            onTap: () {
+              AppAnalytics.trackEvent(AppAnalytics.clickVoteForFeatures);
+              _onVoteForFeatures(context);
+            },
           ),
           ListTile(
             leading: const Icon(Icons.feedback),
             title: Text(context.l10n.feedback),
             onTap: () {
+              AppAnalytics.trackEvent(AppAnalytics.clickFeedback);
+              AppAnalytics.trackEvent(AppAnalytics.viewFeedback);
               Wiredash.of(context).show(inheritMaterialTheme: true);
               Navigator.pop(context);
             },
@@ -171,6 +175,7 @@ class CustomDrawer extends StatelessWidget {
             leading: const Icon(Icons.security),
             title: Text(context.l10n.dataProtection),
             onTap: () {
+              AppAnalytics.trackEvent(AppAnalytics.viewDataProtection);
               Navigator.pop(context);
 
               Navigator.of(context).push(
@@ -184,6 +189,7 @@ class CustomDrawer extends StatelessWidget {
             leading: const Icon(Icons.security),
             title: Text(context.l10n.terms),
             onTap: () {
+              AppAnalytics.trackEvent(AppAnalytics.viewTermsOfService);
               Navigator.pop(context);
 
               Navigator.of(context).push(
@@ -197,6 +203,7 @@ class CustomDrawer extends StatelessWidget {
             leading: const Icon(Icons.gavel),
             title: Text(context.l10n.legalNotices),
             onTap: () {
+              AppAnalytics.trackEvent(AppAnalytics.viewLegalNotices);
               Navigator.pop(context);
 
               Navigator.of(context).push(
@@ -210,6 +217,7 @@ class CustomDrawer extends StatelessWidget {
             leading: const Icon(Icons.list_alt),
             title: Text(context.l10n.licenses),
             onTap: () {
+              AppAnalytics.trackEvent(AppAnalytics.viewLicenses);
               Navigator.pop(context);
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -228,12 +236,12 @@ class CustomDrawer extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () async {
-                    final revenueCatUser = await context
-                        .read<PurchasesRepository>()
-                        .revenueCatUser;
+                    final revenueCatUser = await context.read<PurchasesRepository>().revenueCatUser;
+
+                    if (!context.mounted) return;
 
                     // display dialog to copy to clipboard
-                    showDialog(
+                    await showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
                         title: Text(context.l10n.copyToClipboard),
@@ -250,8 +258,7 @@ class CustomDrawer extends StatelessWidget {
                                 ),
                                 IconButton(
                                   onPressed: () async {
-                                    final purchaserInfo =
-                                        await Purchases.getCustomerInfo();
+                                    final purchaserInfo = await Purchases.getCustomerInfo();
                                     log(
                                       '--- REVENUECAT: purchaserInfo: $purchaserInfo',
                                     );
@@ -285,11 +292,9 @@ class CustomDrawer extends StatelessWidget {
                             const SizedBox(height: 16),
                             TextButton(
                               onPressed: () async {
-                                await context
-                                    .read<PremiumSubscriptionCubit>()
-                                    .presentPaywall(
-                                      ifNeeded: false,
-                                    );
+                                await context.read<PremiumSubscriptionCubit>().presentPaywall(
+                                  ifNeeded: false,
+                                );
                               },
                               child: const Text('Open Paywall'),
                             ),
@@ -355,10 +360,7 @@ class CustomDrawer extends StatelessWidget {
         .read<PremiumSubscriptionCubit>()
         .state
         .hasYearlySubscription;
-    final hasLifetimePurchased = context
-        .read<PremiumSubscriptionCubit>()
-        .state
-        .hasLifetimePurchase;
+    final hasLifetimePurchased = context.read<PremiumSubscriptionCubit>().state.hasLifetimePurchase;
 
     UserOrient.setUser(
       extra: {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
@@ -14,6 +15,7 @@ class LoopTile extends StatefulWidget {
   final Loop loop;
   // final Duration songDuration;
   final bool isSelected;
+  final bool isLocked;
   // final bool isPaused;
 
   final Function(Loop) onTap;
@@ -21,6 +23,7 @@ class LoopTile extends StatefulWidget {
   final Function(Loop) onPlay;
   final Function(Loop) onPause;
   final Function(Loop) onUpdate;
+  final VoidCallback? onLockedTap;
 
   const LoopTile({
     super.key,
@@ -28,12 +31,14 @@ class LoopTile extends StatefulWidget {
     required this.loop,
     // required this.songDuration,
     required this.isSelected,
+    this.isLocked = false,
     // required this.isPaused,
     required this.onTap,
     required this.onDelete,
     required this.onPlay,
     required this.onPause,
     required this.onUpdate,
+    this.onLockedTap,
   });
 
   @override
@@ -44,8 +49,9 @@ class _LoopTileState extends State<LoopTile> {
   @override
   Widget build(BuildContext context) {
     const color = AppColors.primaryContainer;
+    final isLocked = widget.isLocked;
 
-    return Container(
+    final content = Container(
       decoration: BoxDecoration(
         color: widget.isSelected ? color.withValues(alpha: 0.2) : null,
         border: Border.all(
@@ -56,7 +62,9 @@ class _LoopTileState extends State<LoopTile> {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(8),
-        onTap: () => widget.onTap(widget.loop),
+        onTap: () => isLocked
+            ? widget.onLockedTap?.call()
+            : widget.onTap(widget.loop),
         child: Column(
           children: [
             Row(
@@ -76,6 +84,10 @@ class _LoopTileState extends State<LoopTile> {
                         widget.loop.name,
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
+                      if (isLocked) ...[
+                        const SizedBox(width: 6),
+                        const Icon(Icons.lock, size: 16, color: Colors.grey),
+                      ],
                     ],
                   ),
                 ),
@@ -85,7 +97,8 @@ class _LoopTileState extends State<LoopTile> {
                   child: IconButton(
                     constraints: const BoxConstraints(),
                     padding: EdgeInsets.zero,
-                    onPressed: () => _onExportLoop(),
+                    onPressed: () =>
+                        isLocked ? widget.onLockedTap?.call() : _onExportLoop(),
                     icon: const Icon(Icons.upload_file, size: 20),
                   ),
                 ),
@@ -95,7 +108,8 @@ class _LoopTileState extends State<LoopTile> {
                   child: IconButton(
                     constraints: const BoxConstraints(),
                     padding: EdgeInsets.zero,
-                    onPressed: () => _onEditLoop(),
+                    onPressed: () =>
+                        isLocked ? widget.onLockedTap?.call() : _onEditLoop(),
                     icon: const Icon(Icons.more_vert, size: 20),
                   ),
                 ),
@@ -141,9 +155,17 @@ class _LoopTileState extends State<LoopTile> {
         ),
       ),
     );
+
+    if (isLocked) {
+      return Opacity(opacity: 0.45, child: content);
+    }
+    return content;
   }
 
   Future<void> _onEditLoop() async {
+    AppAnalytics.trackEvent(AppAnalytics.clickEditLoop);
+    AppAnalytics.trackEvent(AppAnalytics.viewEditLoopDialog);
+
     final songDuration = context.read<SongCubit>().state.song.duration;
 
     final updatedLoop = await showModalBottomSheet<Loop?>(
@@ -161,6 +183,8 @@ class _LoopTileState extends State<LoopTile> {
   }
 
   Future<void> _onExportLoop() async {
+    AppAnalytics.trackEvent(AppAnalytics.viewExportLoopDialog);
+
     final exporterCubit = context.read<SongExporterCubit>();
     final songCubit = context.read<SongCubit>();
 

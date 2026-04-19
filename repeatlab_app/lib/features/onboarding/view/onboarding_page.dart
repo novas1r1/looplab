@@ -28,6 +28,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
   List<OnboardingSlide> _slides = [];
 
   @override
+  void initState() {
+    super.initState();
+    AppAnalytics.trackEvent(AppAnalytics.viewOnboarding);
+  }
+
+  @override
   void dispose() {
     _pageController.dispose();
     super.dispose();
@@ -196,6 +202,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
   Future<void> _finishOnboarding() async {
     final localConfig = context.read<LocalConfigRepository>();
 
+    AppAnalytics.trackEvent(AppAnalytics.onboardingCompleted);
+    AppAnalytics.trackEvent(
+      _analyticsAccepted
+          ? AppAnalytics.onboardingAnalyticsAccepted
+          : AppAnalytics.onboardingAnalyticsDeclined,
+    );
+
     await localConfig.setIntroShown(wasShown: true);
     await localConfig.setAnalyticsEnabled(isEnabled: _analyticsAccepted);
 
@@ -218,10 +231,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
           !hasYearlySubscription &&
           !hasLifetimePurchased) {
         log('no subscription or lifetime purchase');
-        AppAnalytics.trackEvent(
-          AppAnalytics.viewPremiumScreen,
-          data: {'fromOnboarding': true},
-        );
+        AppAnalytics.trackEvent(AppAnalytics.viewPaywallFromOnboarding);
 
         await context.read<PremiumSubscriptionCubit>().presentPaywall();
       } else {

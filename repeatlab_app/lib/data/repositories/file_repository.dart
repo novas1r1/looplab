@@ -5,9 +5,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+import 'package:repeatlab/app/view/repository_wrapper.dart';
 
 class FileRepository {
-  final FilePicker filePicker;
+  final FilePickerWrapper filePicker;
 
   const FileRepository({required this.filePicker});
 
@@ -87,11 +88,7 @@ class FileRepository {
       return [];
     }
 
-    return result.paths
-        .whereType<String>()
-        .map(_normalizePickedPath)
-        .map(File.new)
-        .toList();
+    return result.paths.whereType<String>().map(_normalizePickedPath).map(File.new).toList();
   }
 }
 

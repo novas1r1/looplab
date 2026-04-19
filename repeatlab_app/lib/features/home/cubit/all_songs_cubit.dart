@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/file_repository.dart';
@@ -60,6 +61,7 @@ class AllSongsCubit extends Cubit<AllSongsState> {
       }
 
       await songRepository.addSongFile(file);
+      AppAnalytics.trackEvent(AppAnalytics.songAddSuccess);
       await loadSongs();
     } on UnsupportedAudioFormatException catch (ex, stack) {
       crashReportingRepository.reportError(

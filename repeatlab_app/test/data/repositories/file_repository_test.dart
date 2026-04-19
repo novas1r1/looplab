@@ -6,9 +6,10 @@ import 'package:mocktail/mocktail.dart';
 import 'package:path/path.dart' as p;
 // ignore: depend_on_referenced_packages
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
+import 'package:repeatlab/app/view/repository_wrapper.dart';
 import 'package:repeatlab/data/repositories/file_repository.dart';
 
-class _MockFilePicker extends Mock implements FilePicker {}
+class _MockFilePicker extends Mock implements FilePickerWrapper {}
 
 class _FakePathProviderPlatform extends PathProviderPlatform {
   _FakePathProviderPlatform({

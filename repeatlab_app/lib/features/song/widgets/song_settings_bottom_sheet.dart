@@ -120,8 +120,13 @@ class SongSettingsBottomSheet extends StatelessWidget {
                             : AppColors.onSurfaceVariant,
                         title: context.l10n.repeatFullSong,
                         value: isFullSongRepeatEnabled,
-                        onChanged: (_) =>
-                            context.read<SongCubit>().toggleFullSongRepeat(),
+                        onChanged: (newValue) {
+                          AppAnalytics.trackEvent(
+                            AppAnalytics.clickToggleFullSongRepeat,
+                            data: {'enabled': newValue},
+                          );
+                          context.read<SongCubit>().toggleFullSongRepeat();
+                        },
                       );
                     },
                   ),
@@ -138,8 +143,13 @@ class SongSettingsBottomSheet extends StatelessWidget {
                         title: context.l10n.autoPlayOnLoopSelect,
                         subtitle: context.l10n.autoPlayOnLoopSelectDescription,
                         value: isAutoPlayEnabled,
-                        onChanged: (_) =>
-                            context.read<SongCubit>().toggleAutoPlay(),
+                        onChanged: (newValue) {
+                          AppAnalytics.trackEvent(
+                            AppAnalytics.clickToggleAutoPlay,
+                            data: {'enabled': newValue},
+                          );
+                          context.read<SongCubit>().toggleAutoPlay();
+                        },
                       );
                     },
                   ),
@@ -161,6 +171,7 @@ class SongSettingsBottomSheet extends StatelessWidget {
                     title: context.l10n.reportBugAndFeedback,
                     onTap: () {
                       AppAnalytics.trackEvent(AppAnalytics.clickReportBug);
+                      AppAnalytics.trackEvent(AppAnalytics.viewFeedback);
                       Navigator.pop(context);
                       Wiredash.of(context).show(inheritMaterialTheme: true);
                     },

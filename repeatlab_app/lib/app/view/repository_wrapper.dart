@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +36,7 @@ class RepositoryWrapper extends StatelessWidget {
       providers: [
         RepositoryProvider(
           create: (context) => FileRepository(
-            filePicker: FilePicker.platform,
+            filePicker: FilePickerWrapper(),
           ),
         ),
         RepositoryProvider(
@@ -59,6 +61,31 @@ class RepositoryWrapper extends StatelessWidget {
         // ),
       ],
       child: child,
+    );
+  }
+}
+
+class FilePickerWrapper {
+  Future<FilePickerResult?> pickFiles({
+    required FileType type,
+    List<String>? allowedExtensions,
+    bool allowMultiple = false,
+  }) async {
+    return await FilePicker.pickFiles(
+      type: type,
+      allowedExtensions: allowedExtensions,
+      allowMultiple: allowMultiple,
+    );
+  }
+
+  Future<String?> saveFile({
+    required String fileName,
+    required Uint8List bytes,
+    required FileType type,
+    List<String>? allowedExtensions,
+  }) async {
+    return await FilePicker.saveFile(
+      fileName: fileName,
     );
   }
 }

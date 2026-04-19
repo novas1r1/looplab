@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    AppAnalytics.trackEvent(AppAnalytics.viewHome);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<ChangelogDialogCubit>().checkChangelogDialog();
     });
@@ -82,6 +83,10 @@ class _HomePageState extends State<HomePage> {
             if (state.status == AllSongsStatus.error) {
               final format = state.errorMessage;
               if (format != null) {
+                AppAnalytics.trackEvent(
+                  AppAnalytics.songAddUnsupportedFormat,
+                  data: {'format': format},
+                );
                 // errorMessage contains the unsupported format extension
                 SnackbarHelper.showError(
                   context,
@@ -91,6 +96,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
               } else {
+                AppAnalytics.trackEvent(AppAnalytics.songAddError);
                 SnackbarHelper.showError(context, context.l10n.songAddError);
               }
             }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auto_size_text/flutter_auto_size_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/features/speed_control/view/speed_control.dart';
@@ -49,7 +50,12 @@ class SongController extends StatelessWidget {
                   child: IconButton(
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
-                    onPressed: () => context.read<SongCubit>().back(10),
+                    onPressed: () {
+                      AppAnalytics.trackEvent(
+                        AppAnalytics.clickBack10Seconds,
+                      );
+                      context.read<SongCubit>().back(10);
+                    },
                     icon: const Icon(Icons.replay_10_rounded, size: 24),
                   ),
                 ),
@@ -79,7 +85,12 @@ class SongController extends StatelessWidget {
                 child: IconButton(
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
-                  onPressed: () => context.read<SongCubit>().forward(10),
+                  onPressed: () {
+                    AppAnalytics.trackEvent(
+                      AppAnalytics.clickForward10Seconds,
+                    );
+                    context.read<SongCubit>().forward(10);
+                  },
                   icon: const Icon(Icons.forward_10_rounded, size: 24),
                 ),
               ),
@@ -107,13 +118,22 @@ class SongController extends StatelessWidget {
   }
 
   void _onTapPlay(BuildContext context) {
-    if (context.read<SongCubit>().state.isLoopModeEnabled) {
-      final activeLoop = context.read<SongCubit>().state.activeLoop;
+    final cubit = context.read<SongCubit>();
+    final isPlaying = cubit.state.playerState == PlayerState.playing;
+
+    if (cubit.state.isLoopModeEnabled) {
+      final activeLoop = cubit.state.activeLoop;
       if (activeLoop != null) {
-        context.read<SongCubit>().togglePlayLoop(activeLoop);
+        AppAnalytics.trackEvent(
+          isPlaying ? AppAnalytics.clickStopLoop : AppAnalytics.clickPlayLoop,
+        );
+        cubit.togglePlayLoop(activeLoop);
       }
     } else {
-      context.read<SongCubit>().togglePlaySong();
+      AppAnalytics.trackEvent(
+        isPlaying ? AppAnalytics.clickPauseSong : AppAnalytics.clickPlaySong,
+      );
+      cubit.togglePlaySong();
     }
   }
 }

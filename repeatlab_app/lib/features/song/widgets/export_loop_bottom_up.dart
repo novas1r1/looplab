@@ -2,6 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path/path.dart' as p;
+import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/snackbar_helper.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
@@ -52,6 +53,13 @@ class _ExportLoopBottomUpState extends State<ExportLoopBottomUp> {
           case SongExporterStatus.awaitingSave:
             await _handlePendingSave(state);
           case SongExporterStatus.exportSuccess:
+            AppAnalytics.trackEvent(
+              AppAnalytics.exportLoopSuccess,
+              data: {
+                'format': state.format?.name ?? _selectedFormat.name,
+                'sampleRateHz': _selectedSampleRate,
+              },
+            );
             final fileName = state.exportedFilePath != null
                 ? p.basename(state.exportedFilePath!)
                 : state.suggestedFileName ?? widget.loop.name;
@@ -64,6 +72,7 @@ class _ExportLoopBottomUpState extends State<ExportLoopBottomUp> {
               Navigator.of(context).pop();
             }
           case SongExporterStatus.exportCanceled:
+            AppAnalytics.trackEvent(AppAnalytics.exportLoopCanceled);
             SnackbarHelper.showInfo(
               context,
               context.l10n.loopExportCanceled,
@@ -73,8 +82,11 @@ class _ExportLoopBottomUpState extends State<ExportLoopBottomUp> {
             if (state.errorMessage == null) {
               break;
             }
-            final message =
-                state.errorMessage == SongExporterCubit.invalidLoopRangeErrorKey
+            AppAnalytics.trackEvent(
+              AppAnalytics.exportLoopError,
+              data: {'reason': state.errorMessage},
+            );
+            final message = state.errorMessage == SongExporterCubit.invalidLoopRangeErrorKey
                 ? context.l10n.loopExportValidationError
                 : context.l10n.loopExportError(state.errorMessage!);
 
@@ -184,6 +196,14 @@ class _ExportLoopBottomUpState extends State<ExportLoopBottomUp> {
       return;
     }
 
+    AppAnalytics.trackEvent(
+      AppAnalytics.clickExportLoop,
+      data: {
+        'format': _selectedFormat.name,
+        'sampleRateHz': _selectedSampleRate,
+      },
+    );
+
     exporterCubit.exportLoop(
       song: widget.song,
       loop: widget.loop,
@@ -205,7 +225,8 @@ class _ExportLoopBottomUpState extends State<ExportLoopBottomUp> {
 
     _isHandlingSave = true;
     try {
-      final savedPath = await FilePicker.platform.saveFile(
+      // TODO: extract this and use file picker wrapper
+      final savedPath = await FilePicker.saveFile(
         dialogTitle: context.l10n.loopExportPickLocation,
         fileName:
             state.suggestedFileName ??

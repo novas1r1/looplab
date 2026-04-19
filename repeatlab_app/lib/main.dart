@@ -125,7 +125,6 @@ Future<void> _initializeApp() async {
   try {
     UserOrient.configure(
       apiKey: '691f5ff6-2fa2-444f-b440-734f7cb12c1d',
-      languageCode: 'en',
     );
   } catch (error, stackTrace) {
     await Sentry.captureException(

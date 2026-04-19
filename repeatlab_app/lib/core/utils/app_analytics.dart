@@ -10,13 +10,20 @@ abstract final class AppAnalytics {
   static const viewHome = 'view_home';
   static const viewSong = 'view_song';
   static const viewPaywallFromDrawer = 'view_paywall_from_drawer';
+  static const viewPaywallFromOnboarding = 'view_paywall_from_onboarding';
   static const viewFeedback = 'view_feedback';
   static const viewRateApp = 'view_rate_app';
   static const viewDataProtection = 'view_data_protection';
+  static const viewTermsOfService = 'view_terms_of_service';
   static const viewLegalNotices = 'view_legal_notices';
   static const viewLicenses = 'view_licenses';
   static const viewPremiumScreen = 'view_premium_screen';
   static const viewChangelogDialog = 'view_changelog_dialog';
+  static const viewTapBpmDialog = 'view_tap_bpm_dialog';
+  static const viewEditOriginalBpmDialog = 'view_edit_original_bpm_dialog';
+  static const viewEditLoopDialog = 'view_edit_loop_dialog';
+  static const viewExportLoopDialog = 'view_export_loop_dialog';
+  static const viewOnboarding = 'view_onboarding';
   // events home screen
   static const clickAddSong = 'click_add_song';
   static const clickClearDb = 'click_clear_db';
@@ -24,6 +31,7 @@ abstract final class AppAnalytics {
   static const clickReportBug = 'click_report_bug';
   static const clickRateApp = 'click_rate_app';
   static const clickFeedback = 'click_feedback';
+  static const clickVoteForFeatures = 'click_vote_for_features';
   static const clickHelp = 'click_help';
   static const clickOpenSong = 'click_open_song';
   static const clickSkipTutorial = 'click_skip_tutorial';
@@ -32,12 +40,18 @@ abstract final class AppAnalytics {
   static const clickAddLoop = 'click_add_loop';
   static const clickForward10Seconds = 'click_forward_10_sec';
   static const clickBack10Seconds = 'click_back_10_sec';
+  static const clickSkipPrevious = 'click_skip_previous';
+  static const clickSkipNext = 'click_skip_next';
   static const clickEditLoop = 'click_edit_loop';
   static const clickPlayLoop = 'click_play_loop';
   static const clickStopLoop = 'click_stop_loop';
+  static const clickPlaySong = 'click_play_song';
+  static const clickPauseSong = 'click_pause_song';
   static const clickSetLoopStart = 'click_set_loop_start';
   static const clickSetLoopEnd = 'click_set_loop_end';
   static const clickUpdateSpeed = 'click_update_speed';
+  static const clickUpdateBpm = 'click_update_bpm';
+  static const clickSetOriginalBpm = 'click_set_original_bpm';
   static const clickShowTutorial = 'click_show_tutorial';
   static const clickZoomIn = 'click_zoom_in';
   static const clickZoomOut = 'click_zoom_out';
@@ -45,11 +59,27 @@ abstract final class AppAnalytics {
   static const clickTerms = 'click_terms';
   static const clickPrivacy = 'click_privacy';
   static const clickDeleteAllData = 'click_delete_all_data';
-  static const clickRateAppDrawer = 'click_rate_app_drawer';
   static const clickUseTappedBpm = 'click_use_tapped_bpm';
   static const clickTempoModeMultiplier = 'click_tempo_mode_multiplier';
   static const clickTempoModeBpm = 'click_tempo_mode_bpm';
+  static const clickToggleFullSongRepeat = 'click_toggle_full_song_repeat';
+  static const clickToggleAutoPlay = 'click_toggle_auto_play';
+  static const clickToggleLoopMode = 'click_toggle_loop_mode';
+  static const clickReorderLoops = 'click_reorder_loops';
+  static const clickUpdateLoop = 'click_update_loop';
 
+  // export
+  static const clickExportLoop = 'click_export_loop';
+  static const exportLoopSuccess = 'export_loop_success';
+  static const exportLoopError = 'export_loop_error';
+  static const exportLoopCanceled = 'export_loop_canceled';
+
+  // song add lifecycle
+  static const songAddSuccess = 'song_add_success';
+  static const songAddError = 'song_add_error';
+  static const songAddUnsupportedFormat = 'song_add_unsupported_format';
+
+  // paywall
   static const showPaywallSongLoops = 'show_paywall_song_loops';
   static const showPaywallSongSpeed = 'show_paywall_song_speed';
 
@@ -57,18 +87,37 @@ abstract final class AppAnalytics {
   static const clickCancelSubscriptionAndroid =
       'click_cancel_subscription_android';
   static const clickCancelSubscriptionIos = 'click_cancel_subscription_ios';
+  static const restoreSubscriptionSuccess = 'restore_subscription_success';
+  static const restoreSubscriptionFailure = 'restore_subscription_failure';
+
+  // onboarding
+  static const onboardingCompleted = 'onboarding_completed';
+  static const onboardingAnalyticsAccepted = 'onboarding_analytics_accepted';
+  static const onboardingAnalyticsDeclined = 'onboarding_analytics_declined';
 
   static void trackEvent(
     String event, {
     Map<String, dynamic>? data,
   }) {
     log('ANALYTICS: $event, data: $data');
-    if (!kDebugMode) {
-      try {
-        unawaited(Wiredash.trackEvent(event, data: data));
-      } catch (e) {
-        log('Error tracking event: $e');
-      }
-    }
+    if (kDebugMode) return;
+
+    // Run inside a guarded zone so any sync OR async failure inside the
+    // analytics SDK can never bubble up into the user-facing call site.
+    runZonedGuarded(
+      () {
+        final future = Wiredash.trackEvent(event, data: data);
+        unawaited(
+          future.catchError(
+            (Object error, StackTrace stack) {
+              log('Error tracking event "$event": $error');
+            },
+          ),
+        );
+      },
+      (error, stack) {
+        log('Error tracking event "$event": $error');
+      },
+    );
   }
 }

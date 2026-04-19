@@ -5,6 +5,7 @@ import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
+import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/purchases_repository.dart';
 
@@ -35,9 +36,7 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
   }
 
   bool get hasPremium =>
-      state.hasWeeklySubscription ||
-      state.hasYearlySubscription ||
-      state.hasLifetimePurchase;
+      state.hasWeeklySubscription || state.hasYearlySubscription || state.hasLifetimePurchase;
 
   /// Initializes the [Purchases] SDK.
   /// Checks if the user is subscribed to the premium plan.
@@ -79,10 +78,8 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
     } */
 
     try {
-      final hasWeeklySubscription =
-          await purchasesRepository.hasWeeklySubscription;
-      final hasYearlySubscription =
-          await purchasesRepository.hasYearlySubscription;
+      final hasWeeklySubscription = await purchasesRepository.hasWeeklySubscription;
+      final hasYearlySubscription = await purchasesRepository.hasYearlySubscription;
 
       final hasLifetimePurchase = await purchasesRepository.hasLifetimePurchase;
 
@@ -90,9 +87,7 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
       log('--- REVENUECAT: hasYearlySubscription: $hasYearlySubscription');
       log('--- REVENUECAT: hasLifetimePurchase: $hasLifetimePurchase');
 
-      if (hasWeeklySubscription ||
-          hasYearlySubscription ||
-          hasLifetimePurchase) {
+      if (hasWeeklySubscription || hasYearlySubscription || hasLifetimePurchase) {
         emit(
           state.copyWith(
             status: PremiumSubscriptionStatus.premium,
@@ -135,6 +130,10 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
               'repeatlab_full_extended',
             ) ==
             true) {
+          AppAnalytics.trackEvent(
+            AppAnalytics.restoreSubscriptionSuccess,
+            data: {'tier': 'lifetime'},
+          );
           emit(
             state.copyWith(
               status: PremiumSubscriptionStatus.premium,
@@ -154,6 +153,16 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
                 'repeatlab_full_yearly',
               ) ==
               true;
+          AppAnalytics.trackEvent(
+            AppAnalytics.restoreSubscriptionSuccess,
+            data: {
+              'tier': isWeekly
+                  ? 'weekly'
+                  : isYearly
+                      ? 'yearly'
+                      : 'unknown',
+            },
+          );
           emit(
             state.copyWith(
               status: PremiumSubscriptionStatus.premium,
@@ -164,9 +173,17 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
           );
         }
       } else {
+        AppAnalytics.trackEvent(
+          AppAnalytics.restoreSubscriptionFailure,
+          data: {'reason': 'no_active_entitlement'},
+        );
         emit(state.copyWith(status: PremiumSubscriptionStatus.noPremium));
       }
     } catch (ex, stackTrace) {
+      AppAnalytics.trackEvent(
+        AppAnalytics.restoreSubscriptionFailure,
+        data: {'reason': 'exception'},
+      );
       crashReportingRepository.reportError(ex, stackTrace);
       emit(
         state.copyWith(

@@ -96,6 +96,10 @@ class _SpeedControlMultiplierModeState
                 'setSpeedByMultiplier: $value',
                 name: 'SpeedControlMultiplierMode',
               );
+              AppAnalytics.trackEvent(
+                AppAnalytics.clickUpdateSpeed,
+                data: {'speed': value},
+              );
               // Commit to SongCubit
               context.read<SongCubit>().setSpeedByMultiplier(value);
             },
@@ -110,7 +114,7 @@ class _SpeedControlMultiplierModeState
 
   Future<void> _showPremiumDialog(BuildContext context) async {
     AppAnalytics.trackEvent(
-      AppAnalytics.viewPremiumScreen,
+      AppAnalytics.showPaywallSongSpeed,
       data: {'from': 'speed_control_multiplier'},
     );
 

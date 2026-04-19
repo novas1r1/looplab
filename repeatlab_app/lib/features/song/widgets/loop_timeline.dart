@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 
@@ -10,6 +11,8 @@ class LoopTimeline extends StatefulWidget {
   final void Function() onSkipNext;
   final void Function(Duration position) onSeek;
   final Duration duration;
+  final bool Function(Loop loop)? isLoopLocked;
+  final void Function(Loop loop)? onLockedLoopTap;
 
   const LoopTimeline({
     super.key,
@@ -18,6 +21,8 @@ class LoopTimeline extends StatefulWidget {
     required this.onSkipNext,
     required this.onSeek,
     required this.duration,
+    this.isLoopLocked,
+    this.onLockedLoopTap,
   });
 
   @override
@@ -43,7 +48,10 @@ class _LoopTimelineState extends State<LoopTimeline> {
             IconButton(
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),
-              onPressed: widget.onSkipPrevious,
+              onPressed: () {
+                AppAnalytics.trackEvent(AppAnalytics.clickSkipPrevious);
+                widget.onSkipPrevious();
+              },
               icon: const Icon(Icons.skip_previous, size: 24),
             ),
             Expanded(
@@ -101,6 +109,9 @@ class _LoopTimelineState extends State<LoopTimeline> {
                               loop.end!.inMilliseconds /
                               widget.duration.inMilliseconds;
 
+                          final isLocked =
+                              widget.isLoopLocked?.call(loop) ?? false;
+
                           return Positioned(
                             left: startPosition * _timelineWidth,
                             width:
@@ -108,28 +119,40 @@ class _LoopTimelineState extends State<LoopTimeline> {
                             top: 8,
                             bottom: 8,
                             child: GestureDetector(
-                              onTap: () => widget.onLoopTap?.call(loop),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: loop.color.color.withValues(
-                                    alpha: 0.5,
+                              onTap: () => isLocked
+                                  ? widget.onLockedLoopTap?.call(loop)
+                                  : widget.onLoopTap?.call(loop),
+                              child: Opacity(
+                                opacity: isLocked ? 0.4 : 1.0,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: loop.color.color.withValues(
+                                      alpha: 0.5,
+                                    ),
+                                    borderRadius: BorderRadius.circular(4),
+                                    border: Border.all(
+                                      color: loop.color.color,
+                                      width: 2,
+                                    ),
                                   ),
-                                  borderRadius: BorderRadius.circular(4),
-                                  border: Border.all(
-                                    color: loop.color.color,
-                                    width: 2,
-                                  ),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    loop.name,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelSmall
-                                        ?.copyWith(
-                                          color: AppColors.onSurfaceVariant,
-                                        ),
-                                    overflow: TextOverflow.ellipsis,
+                                  child: Center(
+                                    child: isLocked
+                                        ? const Icon(
+                                            Icons.lock,
+                                            size: 14,
+                                            color: AppColors.onSurfaceVariant,
+                                          )
+                                        : Text(
+                                            loop.name,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelSmall
+                                                ?.copyWith(
+                                                  color: AppColors
+                                                      .onSurfaceVariant,
+                                                ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
                                   ),
                                 ),
                               ),
@@ -143,7 +166,10 @@ class _LoopTimelineState extends State<LoopTimeline> {
               ),
             ),
             IconButton(
-              onPressed: widget.onSkipNext,
+              onPressed: () {
+                AppAnalytics.trackEvent(AppAnalytics.clickSkipNext);
+                widget.onSkipNext();
+              },
               icon: const Icon(Icons.skip_next),
             ),
           ],
