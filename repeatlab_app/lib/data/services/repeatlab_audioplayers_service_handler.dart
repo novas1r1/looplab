@@ -193,8 +193,12 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     }
   }
 
-  /// Play a song from a file path
-  Future<void> playSong(Song song) async {
+  /// Play a song from a file path.
+  ///
+  /// When [autoStart] is false, the source is loaded but playback does not
+  /// start. This avoids a brief audible blip on platforms where `play()`
+  /// followed by `pause()` round-trips through the platform channel.
+  Future<void> playSong(Song song, {bool autoStart = true}) async {
     final path = await song.path;
 
     // Create a MediaItem for the song
@@ -215,13 +219,17 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
       _playbackSpeed = 1.0;
 
       await audioPlayer.setReleaseMode(ReleaseMode.stop);
-      await audioPlayer.play(source);
+      if (autoStart) {
+        await audioPlayer.play(source);
+      } else {
+        await audioPlayer.setSource(source);
+      }
       await audioPlayer.setPlaybackRate(_playbackSpeed);
       playbackState.add(
         playbackState.value.copyWith(
-          controls: const [
+          controls: [
             MediaControl.skipToPrevious,
-            MediaControl.pause,
+            if (autoStart) MediaControl.pause else MediaControl.play,
             MediaControl.skipToNext,
           ],
           systemActions: const {
@@ -229,7 +237,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
             MediaAction.seekForward,
             MediaAction.seekBackward,
           },
-          playing: true,
+          playing: autoStart,
           processingState: AudioProcessingState.ready,
         ),
       );
