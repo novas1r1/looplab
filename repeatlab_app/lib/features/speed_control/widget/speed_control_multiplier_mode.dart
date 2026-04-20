@@ -72,38 +72,41 @@ class _SpeedControlMultiplierModeState
         Text('0.5×', style: context.labelLarge),
         // Speed slider
         Expanded(
-          child: CustomSlider(
-            value: _localSpeed,
-            min: 0.5,
-            max: 2.0,
-            divisions: 15,
-            onChanged: (value) {
-              if (!hasPremium) {
-                _showPremiumDialog(context);
-                return;
-              }
-              // Update local state for smooth UI feedback
-              setState(() {
-                _localSpeed = value;
-              });
-            },
-            onChangeEnd: (value) {
-              if (!hasPremium) {
-                _showPremiumDialog(context);
-                return;
-              }
-              dev.log(
-                'setSpeedByMultiplier: $value',
-                name: 'SpeedControlMultiplierMode',
-              );
-              AppAnalytics.trackEvent(
-                AppAnalytics.clickUpdateSpeed,
-                data: {'speed': value},
-              );
-              // Commit to SongCubit
-              context.read<SongCubit>().setSpeedByMultiplier(value);
-            },
-          ),
+          child: hasPremium
+              ? CustomSlider(
+                  value: _localSpeed,
+                  min: 0.5,
+                  max: 2.0,
+                  divisions: 15,
+                  onChanged: (value) {
+                    setState(() {
+                      _localSpeed = value;
+                    });
+                  },
+                  onChangeEnd: (value) {
+                    dev.log(
+                      'setSpeedByMultiplier: $value',
+                      name: 'SpeedControlMultiplierMode',
+                    );
+                    AppAnalytics.trackEvent(
+                      AppAnalytics.clickUpdateSpeed,
+                      data: {'speed': value},
+                    );
+                    context.read<SongCubit>().setSpeedByMultiplier(value);
+                  },
+                )
+              : GestureDetector(
+                  onTap: () => _showPremiumDialog(context),
+                  child: AbsorbPointer(
+                    child: CustomSlider(
+                      value: _localSpeed,
+                      min: 0.5,
+                      max: 2.0,
+                      divisions: 15,
+                      onChanged: (_) {},
+                    ),
+                  ),
+                ),
         ),
         // Max speed label
         Text('2.0×', style: context.labelLarge),

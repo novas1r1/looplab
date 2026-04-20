@@ -193,28 +193,40 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
                     Text(minBpm.toString(), style: context.labelLarge),
                     // BPM slider
                     Expanded(
-                      child: CustomSlider(
-                        value: currentBpm.toDouble().clamp(
-                          minBpm.toDouble(),
-                          maxBpm.toDouble(),
-                        ),
-                        min: minBpm.toDouble(),
-                        max: maxBpm.toDouble(),
-                        divisions: maxBpm - minBpm,
-                        onChanged: (value) {
-                          if (!hasPremium) {
-                            _showPremiumDialog(context);
-                            return;
-                          }
-                          AppAnalytics.trackEvent(
-                            AppAnalytics.clickUpdateBpm,
-                            data: {'bpm': value.round()},
-                          );
-                          context.read<SongCubit>().setSpeedByBpm(
-                            value.round(),
-                          );
-                        },
-                      ),
+                      child: hasPremium
+                          ? CustomSlider(
+                              value: currentBpm.toDouble().clamp(
+                                minBpm.toDouble(),
+                                maxBpm.toDouble(),
+                              ),
+                              min: minBpm.toDouble(),
+                              max: maxBpm.toDouble(),
+                              divisions: maxBpm - minBpm,
+                              onChanged: (value) {
+                                AppAnalytics.trackEvent(
+                                  AppAnalytics.clickUpdateBpm,
+                                  data: {'bpm': value.round()},
+                                );
+                                context.read<SongCubit>().setSpeedByBpm(
+                                  value.round(),
+                                );
+                              },
+                            )
+                          : GestureDetector(
+                              onTap: () => _showPremiumDialog(context),
+                              child: AbsorbPointer(
+                                child: CustomSlider(
+                                  value: currentBpm.toDouble().clamp(
+                                    minBpm.toDouble(),
+                                    maxBpm.toDouble(),
+                                  ),
+                                  min: minBpm.toDouble(),
+                                  max: maxBpm.toDouble(),
+                                  divisions: maxBpm - minBpm,
+                                  onChanged: (_) {},
+                                ),
+                              ),
+                            ),
                     ),
                     // Max BPM label
                     Text(maxBpm.toString(), style: context.labelLarge),

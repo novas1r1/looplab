@@ -270,10 +270,11 @@ class SongCubit extends Cubit<SongState> {
         return;
       }
 
-      // Initialize audio player with the file but keep it paused
-      // Note: playSong automatically resets speed to 1.0 for each new song
-      await audioHandler.playSong(state.song);
-      await audioHandler.pause();
+      // Initialize audio player with the file but keep it paused.
+      // autoStart: false loads the source without starting playback, so the
+      // user doesn't hear a brief blip when opening a song.
+      // Note: playSong automatically resets speed to 1.0 for each new song.
+      await audioHandler.playSong(state.song, autoStart: false);
 
       // check if tutorial is completed
       final isTutorialCompleted = localConfigRepository.hasCompletedTutorial;
