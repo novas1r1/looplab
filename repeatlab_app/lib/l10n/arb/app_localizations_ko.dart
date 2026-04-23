@@ -15,6 +15,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get userSettings => '사용자 설정';
 
   @override
+  String get language => '언어';
+
+  @override
+  String get systemDefault => '시스템 기본값';
+
+  @override
   String get cancelSubscription => '구독 취소';
 
   @override

@@ -5,6 +5,8 @@
         "description": "Text shown in the AppDrawer"
     },
     "userSettings": "إعدادات المستخدم",
+    "language": "اللغة",
+    "systemDefault": "إعدادات النظام الافتراضية",
     "cancelSubscription": "إلغاء الاشتراك",
     "buyRepeatLabPro": "شراء RepeatLab Pro",
     "improveTheApp": "تحسين التطبيق",

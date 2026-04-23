@@ -15,6 +15,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get userSettings => 'Настройки Пользователя';
 
   @override
+  String get language => 'Язык';
+
+  @override
+  String get systemDefault => 'Системный по умолчанию';
+
+  @override
   String get cancelSubscription => 'Отменить Подписку';
 
   @override

@@ -5,6 +5,8 @@
         "description": "Text shown in the AppDrawer"
     },
     "userSettings": "Kullanıcı Ayarları",
+    "language": "Dil",
+    "systemDefault": "Sistem varsayılanı",
     "cancelSubscription": "Aboneliği İptal Et",
     "buyRepeatLabPro": "RepeatLab Pro Satın Al",
     "improveTheApp": "Uygulamayı İyileştir",

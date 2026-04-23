@@ -15,6 +15,12 @@ class AppLocalizationsNl extends AppLocalizations {
   String get userSettings => 'Gebruikersinstellingen';
 
   @override
+  String get language => 'Taal';
+
+  @override
+  String get systemDefault => 'Systeemstandaard';
+
+  @override
   String get cancelSubscription => 'Abonnement Opzeggen';
 
   @override

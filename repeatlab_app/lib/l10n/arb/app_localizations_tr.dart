@@ -15,6 +15,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get userSettings => 'Kullanıcı Ayarları';
 
   @override
+  String get language => 'Dil';
+
+  @override
+  String get systemDefault => 'Sistem varsayılanı';
+
+  @override
   String get cancelSubscription => 'Aboneliği İptal Et';
 
   @override

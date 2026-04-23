@@ -2,6 +2,8 @@
     "@@locale": "ru",
     "appSubtitle": "Ваша Музыкальная Луп-Станция",
     "userSettings": "Настройки Пользователя",
+    "language": "Язык",
+    "systemDefault": "Системный по умолчанию",
     "buyRepeatLabPro": "Купить RepeatLab Pro",
     "improveTheApp": "Улучшить Приложение",
     "feedback": "Отзывы/Ошибки",

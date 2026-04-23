@@ -15,6 +15,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String get userSettings => 'उपयोगकर्ता सेटिंग्स';
 
   @override
+  String get language => 'भाषा';
+
+  @override
+  String get systemDefault => 'सिस्टम डिफ़ॉल्ट';
+
+  @override
   String get cancelSubscription => 'सदस्यता रद्द करें';
 
   @override

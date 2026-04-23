@@ -18,6 +18,7 @@ class LocalConfigRepository {
   static const kHasCompletedTutorial = 'has_completed_tutorial';
   static const kAutoPlayOnLoopSelect = 'auto_play_on_loop_select';
   static const kFullSongRepeatEnabled = 'full_song_repeat_enabled';
+  static const kLanguageCode = 'language_code';
 
   final SharedPreferences sharedPreferences;
 
@@ -89,4 +90,15 @@ class LocalConfigRepository {
 
   Future<void> setFullSongRepeatEnabled({required bool isEnabled}) =>
       sharedPreferences.setBool(kFullSongRepeatEnabled, isEnabled);
+
+  /// Selected app language code (e.g. 'en', 'de'). `null` means follow system.
+  String? get languageCode => sharedPreferences.getString(kLanguageCode);
+
+  Future<void> setLanguageCode(String? code) async {
+    if (code == null) {
+      await sharedPreferences.remove(kLanguageCode);
+    } else {
+      await sharedPreferences.setString(kLanguageCode, code);
+    }
+  }
 }

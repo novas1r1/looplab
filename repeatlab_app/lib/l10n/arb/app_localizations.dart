@@ -138,6 +138,18 @@ abstract class AppLocalizations {
   /// **'User Settings'**
   String get userSettings;
 
+  /// Label for the language selector in the drawer
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// Option in the language picker to follow the device language
+  ///
+  /// In en, this message translates to:
+  /// **'System default'**
+  String get systemDefault;
+
   /// No description provided for @cancelSubscription.
   ///
   /// In en, this message translates to:

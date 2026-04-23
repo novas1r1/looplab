@@ -102,6 +102,10 @@ abstract final class AppAnalytics {
   static const restoreSubscriptionSuccess = 'restore_subscription_success';
   static const restoreSubscriptionFailure = 'restore_subscription_failure';
 
+  // language
+  static const clickChangeLanguage = 'click_change_language';
+  static const changeLanguage = 'change_language';
+
   // onboarding
   static const onboardingCompleted = 'onboarding_completed';
   static const onboardingAnalyticsAccepted = 'onboarding_analytics_accepted';

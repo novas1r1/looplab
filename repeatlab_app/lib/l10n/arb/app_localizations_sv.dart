@@ -15,6 +15,12 @@ class AppLocalizationsSv extends AppLocalizations {
   String get userSettings => 'Användarinställningar';
 
   @override
+  String get language => 'Språk';
+
+  @override
+  String get systemDefault => 'Systemstandard';
+
+  @override
   String get cancelSubscription => 'Avbryt Prenumeration';
 
   @override

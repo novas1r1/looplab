@@ -15,6 +15,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get userSettings => 'Ajustes de Usuario';
 
   @override
+  String get language => 'Idioma';
+
+  @override
+  String get systemDefault => 'Predeterminado del sistema';
+
+  @override
   String get cancelSubscription => 'Cancelar Suscripción';
 
   @override

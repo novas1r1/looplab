@@ -15,6 +15,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get userSettings => 'إعدادات المستخدم';
 
   @override
+  String get language => 'اللغة';
+
+  @override
+  String get systemDefault => 'إعدادات النظام الافتراضية';
+
+  @override
   String get cancelSubscription => 'إلغاء الاشتراك';
 
   @override

@@ -15,6 +15,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get userSettings => 'Configurações do Usuário';
 
   @override
+  String get language => 'Idioma';
+
+  @override
+  String get systemDefault => 'Padrão do sistema';
+
+  @override
   String get cancelSubscription => 'Cancelar Assinatura';
 
   @override

@@ -2,6 +2,8 @@
     "@@locale": "fr",
     "appSubtitle": "Votre Station de Boucles Musicales",
     "userSettings": "Paramètres Utilisateur",
+    "language": "Langue",
+    "systemDefault": "Par défaut du système",
     "buyRepeatLabPro": "Acheter RepeatLab Pro",
     "improveTheApp": "Améliorer l'App",
     "feedback": "Retours/Bugs",

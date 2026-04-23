@@ -15,6 +15,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get userSettings => 'ユーザー設定';
 
   @override
+  String get language => '言語';
+
+  @override
+  String get systemDefault => 'システムのデフォルト';
+
+  @override
   String get cancelSubscription => 'サブスクリプションをキャンセル';
 
   @override

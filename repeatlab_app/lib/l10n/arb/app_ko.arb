@@ -5,6 +5,8 @@
         "description": "Text shown in the AppDrawer"
     },
     "userSettings": "사용자 설정",
+    "language": "언어",
+    "systemDefault": "시스템 기본값",
     "cancelSubscription": "구독 취소",
     "buyRepeatLabPro": "RepeatLab Pro 구매",
     "improveTheApp": "앱 개선",

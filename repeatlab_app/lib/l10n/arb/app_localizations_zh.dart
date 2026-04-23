@@ -15,6 +15,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get userSettings => '用户设置';
 
   @override
+  String get language => '语言';
+
+  @override
+  String get systemDefault => '系统默认';
+
+  @override
   String get cancelSubscription => '取消订阅';
 
   @override

@@ -5,6 +5,8 @@
         "description": "Text shown in the AppDrawer"
     },
     "userSettings": "用户设置",
+    "language": "语言",
+    "systemDefault": "系统默认",
     "cancelSubscription": "取消订阅",
     "buyRepeatLabPro": "购买 RepeatLab Pro",
     "improveTheApp": "改进应用",

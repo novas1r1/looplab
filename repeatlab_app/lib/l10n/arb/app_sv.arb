@@ -2,6 +2,8 @@
     "@@locale": "sv",
     "appSubtitle": "Din Musikloopstation",
     "userSettings": "Användarinställningar",
+    "language": "Språk",
+    "systemDefault": "Systemstandard",
     "buyRepeatLabPro": "Köp RepeatLab Pro",
     "improveTheApp": "Förbättra Appen",
     "feedback": "Feedback/Buggar",

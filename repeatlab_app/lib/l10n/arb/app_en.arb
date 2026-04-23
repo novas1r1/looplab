@@ -8,6 +8,14 @@
     "@userSettings": {
         "description": "Title for user settings section"
     },
+    "language": "Language",
+    "@language": {
+        "description": "Label for the language selector in the drawer"
+    },
+    "systemDefault": "System default",
+    "@systemDefault": {
+        "description": "Option in the language picker to follow the device language"
+    },
     "cancelSubscription": "Cancel Subscription",
     "buyRepeatLabPro": "Buy RepeatLab Pro",
     "improveTheApp": "Improve the App",
@@ -175,6 +183,14 @@
     "changelogTitle": "Changelog",
     "changelog170Title": "Back up and move your library",
     "changelog170Description": "Export your entire library — songs, loops, and audio — to a single file, then restore it on another device with Pro. Choose Merge to add new songs alongside your existing ones, or Replace to start fresh.",
+    "changelog170LanguageTitle": "Choose your language",
+    "@changelog170LanguageTitle": {
+        "description": "Changelog entry title for the 1.7.0 language switcher feature"
+    },
+    "changelog170LanguageDescription": "Switch the app language from the drawer — pick from 16 supported languages or follow your device's system default.",
+    "@changelog170LanguageDescription": {
+        "description": "Changelog entry description for the 1.7.0 language switcher feature"
+    },
     "changelog1601Title": "1/3 Auto-Play when selecting loops or navigating between them",
     "changelog1601Description": "In the song settings you can now enable or disable the automatic playback of loops and the entire song.",
     "changelog1602Title": "2/3 Improved loop control",

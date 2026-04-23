@@ -15,6 +15,12 @@ class AppLocalizationsIt extends AppLocalizations {
   String get userSettings => 'Impostazioni Utente';
 
   @override
+  String get language => 'Lingua';
+
+  @override
+  String get systemDefault => 'Predefinito di sistema';
+
+  @override
   String get cancelSubscription => 'Annulla Abbonamento';
 
   @override

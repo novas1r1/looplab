@@ -15,6 +15,12 @@ class AppLocalizationsPl extends AppLocalizations {
   String get userSettings => 'Ustawienia Użytkownika';
 
   @override
+  String get language => 'Język';
+
+  @override
+  String get systemDefault => 'Systemowy domyślny';
+
+  @override
   String get cancelSubscription => 'Anuluj Subskrypcję';
 
   @override

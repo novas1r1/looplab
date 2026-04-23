@@ -5,6 +5,8 @@
         "description": "Text shown in the AppDrawer"
     },
     "userSettings": "उपयोगकर्ता सेटिंग्स",
+    "language": "भाषा",
+    "systemDefault": "सिस्टम डिफ़ॉल्ट",
     "cancelSubscription": "सदस्यता रद्द करें",
     "buyRepeatLabPro": "RepeatLab Pro खरीदें",
     "improveTheApp": "ऐप को बेहतर बनाएं",

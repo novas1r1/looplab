@@ -5,6 +5,8 @@
         "description": "Text shown in the AppDrawer"
     },
     "userSettings": "ユーザー設定",
+    "language": "言語",
+    "systemDefault": "システムのデフォルト",
     "cancelSubscription": "サブスクリプションをキャンセル",
     "buyRepeatLabPro": "RepeatLab Proを購入",
     "improveTheApp": "アプリを改善",

@@ -2,6 +2,8 @@
     "@@locale": "pt",
     "appSubtitle": "Sua Estação de Loop Musical",
     "userSettings": "Configurações do Usuário",
+    "language": "Idioma",
+    "systemDefault": "Padrão do sistema",
     "buyRepeatLabPro": "Comprar RepeatLab Pro",
     "improveTheApp": "Melhorar o App",
     "feedback": "Feedback/Bugs",

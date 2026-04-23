@@ -2,6 +2,8 @@
     "@@locale": "nl",
     "appSubtitle": "Je Muziek Loop Station",
     "userSettings": "Gebruikersinstellingen",
+    "language": "Taal",
+    "systemDefault": "Systeemstandaard",
     "buyRepeatLabPro": "RepeatLab Pro Kopen",
     "improveTheApp": "App Verbeteren",
     "feedback": "Feedback/Bugs",

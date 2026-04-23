@@ -2,6 +2,8 @@
     "@@locale": "pl",
     "appSubtitle": "Twoja Stacja Pętli Muzycznych",
     "userSettings": "Ustawienia Użytkownika",
+    "language": "Język",
+    "systemDefault": "Systemowy domyślny",
     "buyRepeatLabPro": "Kup RepeatLab Pro",
     "improveTheApp": "Ulepsz Aplikację",
     "feedback": "Opinie/Błędy",
