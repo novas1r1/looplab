@@ -425,6 +425,13 @@ class AppLocalizationsPl extends AppLocalizations {
       'Eksportuj swoją całą bibliotekę — utwory, pętle i audio — do jednego pliku, a następnie przywróć ją na innym urządzeniu za pomocą Pro. Wybierz \'Scal\' aby dodać nowe utwory obok istniejących, lub \'Zastąp\' aby zacząć od nowa.';
 
   @override
+  String get changelog170LanguageTitle => 'Wybierz swój język';
+
+  @override
+  String get changelog170LanguageDescription =>
+      'Zmień język aplikacji z menu — wybierz spośród 16 obsługiwanych języków lub użyj domyślnego ustawienia systemu urządzenia.';
+
+  @override
   String get changelog1601Title =>
       '1/3 Automatyczne odtwarzanie pętli lub nawigacja między nimi';
 

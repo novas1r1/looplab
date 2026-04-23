@@ -21,6 +21,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Paywall hook: reuses `PremiumSubscriptionCubit.hasPremium` + `presentPaywall()` — same pattern as the drawer's Pro upsell.
   - Format: `manifest.json` (schemaVersion 1, appVersion, exportedAt, songCount, per-file sha256+size) + `songs.json` (dart_mappable JSON) + `audio/<fileName>` raw bytes, wrapped in a zip.
   - Analytics: `click_backup_export/import`, `backup_export_success/failure/share_canceled`, `backup_import_picked/canceled/success/failure`, `view_paywall_from_backup`.
+- **Language switcher.** Users can pick the app language from the drawer under User Settings. 16 locales supported (ar, de, en, es, fr, hi, it, ja, ko, nl, pl, pt, ru, sv, tr, zh) plus a "System default" option that follows the device locale. Each language renders in its native script in the picker.
+  - New feature: `lib/features/locale/` — `LocaleCubit` (`Cubit<Locale?>` where `null` = system default) and `LanguagePickerDialog` (`SimpleDialog` with native-script labels).
+  - Persistence: `LocalConfigRepository.languageCode` getter/setter backed by `SharedPreferences`; clearing the key restores system-default behavior.
+  - Wiring: `MaterialApp.locale` in `lib/app/view/app.dart` is now bound to the cubit state via `context.watch`.
+  - Drawer UI: new `ListTile` directly below `Settings` showing the current language as subtitle; tapping opens the picker.
+  - Analytics: `click_change_language` (tile tap), `change_language` (with `language_code` data: ISO code or `'system'`).
 
 ### Changed
 - **Subscription gating for existing loops.** When a user's subscription lapses, all loops beyond the first (by current order) are now visually locked (grey + lock icon) and tapping any locked surface — tile body, edit, export, timeline block — opens the paywall. Loop data is preserved so re-subscribing restores access instantly. Design doc: `ai/2026-04-19_unsubscribe-logic.md`.

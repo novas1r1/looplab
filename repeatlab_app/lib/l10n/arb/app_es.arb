@@ -158,6 +158,8 @@
     "changelogTitle": "Cambios",
     "changelog170Title": "Backup y mover tu biblioteca",
     "changelog170Description": "Exporta tu biblioteca completa - canciones, loops y audio - a un solo archivo, luego restauralo en otro dispositivo con Pro. Elige Fusionar para agregar nuevas canciones junto a las existentes, o Reemplazar para comenzar de cero.",
+    "changelog170LanguageTitle": "Elige tu idioma",
+    "changelog170LanguageDescription": "Cambia el idioma de la app desde el menú — elige entre 16 idiomas compatibles o sigue el predeterminado de tu dispositivo.",
     "changelog1601Title": "1/3 Reproducir loops o navegar entre ellos automáticamente",
     "changelog1601Description": "En las configuraciones de la canción, ahora puedes activar o desactivar la reproducción automática de loops y la canción completa.",
     "changelog1602Title": "2/3 Mejora en el control de loops",

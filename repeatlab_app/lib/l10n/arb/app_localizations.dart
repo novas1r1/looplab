@@ -864,6 +864,18 @@ abstract class AppLocalizations {
   /// **'Export your entire library — songs, loops, and audio — to a single file, then restore it on another device with Pro. Choose Merge to add new songs alongside your existing ones, or Replace to start fresh.'**
   String get changelog170Description;
 
+  /// Changelog entry title for the 1.7.0 language switcher feature
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your language'**
+  String get changelog170LanguageTitle;
+
+  /// Changelog entry description for the 1.7.0 language switcher feature
+  ///
+  /// In en, this message translates to:
+  /// **'Switch the app language from the drawer — pick from 16 supported languages or follow your device\'s system default.'**
+  String get changelog170LanguageDescription;
+
   /// No description provided for @changelog1601Title.
   ///
   /// In en, this message translates to:

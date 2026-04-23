@@ -427,6 +427,13 @@ class AppLocalizationsNl extends AppLocalizations {
       'Exporteer je hele bibliotheek — nummers, loops en audio — naar een enkel bestand, en herstel het op een ander apparaat met Pro. Kies \'Samenvoegen\' om nieuwe nummers naast je bestaande toe te voegen, of \'Vervangen\' om vanaf nul te beginnen.';
 
   @override
+  String get changelog170LanguageTitle => 'Kies je taal';
+
+  @override
+  String get changelog170LanguageDescription =>
+      'Wijzig de app-taal via het menu — kies uit 16 ondersteunde talen of volg de systeemstandaard van je apparaat.';
+
+  @override
   String get changelog1601Title =>
       '1/3 Loops automatisch afspelen bij selecteren of navigeren tussen loops';
 

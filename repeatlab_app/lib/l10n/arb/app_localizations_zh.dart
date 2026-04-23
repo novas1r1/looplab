@@ -405,6 +405,13 @@ class AppLocalizationsZh extends AppLocalizations {
       '将您的整个库（歌曲、循环和音频）导出到一个文件中，然后在另一个设备上使用 Pro 恢复。选择合并以在现有歌曲旁边添加新歌曲，或选择替换以从头开始。';
 
   @override
+  String get changelog170LanguageTitle => '选择您的语言';
+
+  @override
+  String get changelog170LanguageDescription =>
+      '从抽屉菜单切换应用语言——从 16 种支持的语言中选择，或使用设备的系统默认设置。';
+
+  @override
   String get changelog1601Title => '1/3 选择循环或导航之间自动播放';
 
   @override

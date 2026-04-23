@@ -424,6 +424,13 @@ class AppLocalizationsAr extends AppLocalizations {
       'تصدير مكتبتك كاملة - الأغاني والحلقات والصوت - إلى ملف واحد، ثم استعادته على جهاز آخر باستخدام Pro. اختر الجمع بينها لإضافة أغاني جديدة بجانب الأغاني الموجودة، أو استبدالها لبدء من جديد.';
 
   @override
+  String get changelog170LanguageTitle => 'اختر لغتك';
+
+  @override
+  String get changelog170LanguageDescription =>
+      'بدّل لغة التطبيق من القائمة — اختر من بين 16 لغة مدعومة أو اتبع الإعدادات الافتراضية لجهازك.';
+
+  @override
   String get changelog1601Title =>
       '1/3 تشغيل تلقائي عند تحديد حلقات أو التنقل بينهم';
 

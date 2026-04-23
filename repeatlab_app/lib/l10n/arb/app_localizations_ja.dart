@@ -412,6 +412,13 @@ class AppLocalizationsJa extends AppLocalizations {
       'プロ機能を使用して、ライブラリ全体（曲、ループ、オーディオファイル）を単一のファイルにエクスポートし、別のデバイスに復元します。マージを選択して既存の曲に新しい曲を追加するか、リプレイスを選択して新しいライブラリを開始します。';
 
   @override
+  String get changelog170LanguageTitle => '言語を選ぶ';
+
+  @override
+  String get changelog170LanguageDescription =>
+      'ドロワーからアプリの言語を切り替えられます。対応する16言語から選択するか、デバイスのシステム設定に従います。';
+
+  @override
   String get changelog1601Title => '1/3 ループを選択したり、それらの間をナビゲートしたりすると、自動的に再生されます';
 
   @override

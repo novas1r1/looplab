@@ -427,6 +427,13 @@ class AppLocalizationsTr extends AppLocalizations {
       'Kütüphanenizi tamamen dışa aktarın - şarkılar, döngüler ve ses dosyaları - tek bir dosyaya, ardından Pro ile başka bir cihazda geri yükleyin. Mevcut şarkıların yanına yeni şarkılar eklemek için Birleştir\'i seçin, ya da sıfırdan başlamak için Değiştir\'i seçin.';
 
   @override
+  String get changelog170LanguageTitle => 'Dilinizi seçin';
+
+  @override
+  String get changelog170LanguageDescription =>
+      'Uygulama dilini menüden değiştirin — desteklenen 16 dil arasından seçin ya da cihazınızın sistem varsayılanını kullanın.';
+
+  @override
   String get changelog1601Title =>
       '1/3 Döngüleri Seçtiğinizde veya aralarında gezinirken otomatik oynatma';
 

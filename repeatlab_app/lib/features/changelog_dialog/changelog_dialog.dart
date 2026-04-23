@@ -44,6 +44,10 @@ class _ChangelogDialogState extends State<ChangelogDialog>
             title: context.l10n.changelog170Title,
             description: context.l10n.changelog170Description,
           ),
+          ChangelogElement(
+            title: context.l10n.changelog170LanguageTitle,
+            description: context.l10n.changelog170LanguageDescription,
+          ),
         ],
       ),
       ChangelogVersion(

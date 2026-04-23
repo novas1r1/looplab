@@ -429,6 +429,13 @@ class AppLocalizationsPt extends AppLocalizations {
       'Exporte sua biblioteca completa — músicas, loops e áudio — para um único arquivo, e restaure-o em outro dispositivo com Pro. Escolha \'Mesclar\' para adicionar novas músicas junto às existentes, ou \'Substituir\' para começar do zero.';
 
   @override
+  String get changelog170LanguageTitle => 'Escolha seu idioma';
+
+  @override
+  String get changelog170LanguageDescription =>
+      'Altere o idioma do app a partir do menu — escolha entre 16 idiomas compatíveis ou siga o padrão do sistema do seu dispositivo.';
+
+  @override
   String get changelog1601Title =>
       '1/3 Auto-Play ao selecionar loops ou navegar entre eles';
 

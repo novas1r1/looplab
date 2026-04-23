@@ -430,6 +430,13 @@ class AppLocalizationsIt extends AppLocalizations {
       'Esporta la tua libreria completa - canzoni, loop e audio - in un unico file, quindi ripristinalo su un altro dispositivo con Pro. Scegli Unisci per aggiungere nuove canzoni accanto alle esistenti, o Sostituisci per iniziare da zero.';
 
   @override
+  String get changelog170LanguageTitle => 'Scegli la tua lingua';
+
+  @override
+  String get changelog170LanguageDescription =>
+      'Cambia la lingua dell\'app dal menu — scegli tra 16 lingue supportate o segui l\'impostazione predefinita del tuo dispositivo.';
+
+  @override
   String get changelog1601Title =>
       '1/3 Riproduci loops o navighi tra di essi automaticamente';
 

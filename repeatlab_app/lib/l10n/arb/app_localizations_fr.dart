@@ -432,6 +432,13 @@ class AppLocalizationsFr extends AppLocalizations {
       'Exportez votre bibliothèque complète - chansons, boucles et audio - dans un seul fichier, puis restaurez-le sur un autre appareil avec Pro. Choisissez Fusionner pour ajouter de nouvelles chansons en plus de vos existantes, ou Remplacer pour commencer de zéro.';
 
   @override
+  String get changelog170LanguageTitle => 'Choisissez votre langue';
+
+  @override
+  String get changelog170LanguageDescription =>
+      'Changez la langue de l\'application depuis le menu — choisissez parmi 16 langues prises en charge ou suivez la langue par défaut de votre appareil.';
+
+  @override
   String get changelog1601Title =>
       '1/3 Reproduire les boucles ou naviguer entre elles automatiquement';
 
