@@ -838,15 +838,27 @@ class SongCubit extends Cubit<SongState> {
   Future<void> updateSongDetails({
     required String title,
     required String artist,
-    int? bpm,
+    required int? bpm,
   }) async {
+    final bpmChanged = bpm != state.song.bpm;
+
     emit(state.copyWith(status: SongStatus.updating));
 
     try {
-      final updatedSong = state.song.copyWith(
+      // Build the updated song. For BPM we must construct a new Song directly
+      // because dart_mappable's copyWith cannot distinguish null (clear) from
+      // not-provided when the field is nullable.
+      final updatedSong = Song(
+        id: state.song.id,
         title: title,
         artist: artist,
+        fileName: state.song.fileName,
+        duration: state.song.duration,
         bpm: bpm,
+        currentBpm: state.song.currentBpm,
+        loops: state.song.loops,
+        loopSort: state.song.loopSort,
+        sortOrder: state.song.sortOrder,
       );
       await songRepository.updateSong(updatedSong);
 
@@ -859,7 +871,7 @@ class SongCubit extends Cubit<SongState> {
       );
 
       // Update BPM-related speed state if BPM changed
-      if (bpm != state.song.bpm) {
+      if (bpmChanged) {
         await setOriginalBpm(bpm);
       }
     } catch (ex, stack) {

@@ -610,7 +610,8 @@ class _SongViewState extends State<_SongView> {
                 ),
               ),
               title: Text(dialogContext.l10n.editSong),
-              content: Column(
+              content: SingleChildScrollView(
+                child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   TextField(
@@ -643,6 +644,7 @@ class _SongViewState extends State<_SongView> {
                     keyboardType: TextInputType.number,
                   ),
                 ],
+              ),
               ),
               actions: [
                 ElevatedButton(
