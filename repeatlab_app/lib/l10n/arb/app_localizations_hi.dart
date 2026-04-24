@@ -418,6 +418,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get changelogTitle => 'परिवर्तन लॉग';
 
   @override
+  String get changelog180Title => 'अपने गाने पुनः व्यवस्थित करें';
+
+  @override
+  String get changelog180Description =>
+      'अपनी गाने की सूची जैसे चाहें व्यवस्थित करें — किसी भी गाने को लंबे समय तक दबाएं और उसे नई स्थिति में खींचें। आपका कस्टम क्रम स्वचालित रूप से सहेजा जाता है।';
+
+  @override
   String get changelog170Title =>
       'अपनी लाइब्रेरी बैकअप करें और स्थानांतरित करें';
 

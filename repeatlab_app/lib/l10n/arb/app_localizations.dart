@@ -852,6 +852,18 @@ abstract class AppLocalizations {
   /// **'Changelog'**
   String get changelogTitle;
 
+  /// Changelog entry title for the 1.8.0 song reorder feature
+  ///
+  /// In en, this message translates to:
+  /// **'Reorder your songs'**
+  String get changelog180Title;
+
+  /// Changelog entry description for the 1.8.0 song reorder feature
+  ///
+  /// In en, this message translates to:
+  /// **'Organize your song list the way you want — long-press any song and drag it to a new position. Your custom order is saved automatically.'**
+  String get changelog180Description;
+
   /// No description provided for @changelog170Title.
   ///
   /// In en, this message translates to:

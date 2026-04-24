@@ -425,6 +425,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
+  String get changelog180Title => 'Réorganisez vos chansons';
+
+  @override
+  String get changelog180Description =>
+      'Organisez votre liste de chansons comme vous le souhaitez — appuyez longuement sur n\'importe quelle chanson et faites-la glisser vers une nouvelle position. Votre ordre personnalisé est enregistré automatiquement.';
+
+  @override
   String get changelog170Title => 'Sauvegarder et déplacer votre bibliothèque';
 
   @override

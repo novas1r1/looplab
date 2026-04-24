@@ -78,7 +78,7 @@ void main() {
       );
 
       expect(await file.exists(), isTrue);
-      expect(p.basename(file.path), 'repeatlab-backup-2026-04-19.rlbackup');
+      expect(p.basename(file.path), '2026-04-19_repeatlab_export.rlbackup');
       expect(p.dirname(file.path), tempDir.path);
 
       final payload = const BackupSerializer().decode(await file.readAsBytes());

@@ -66,6 +66,7 @@ abstract final class AppAnalytics {
   static const clickToggleAutoPlay = 'click_toggle_auto_play';
   static const clickToggleLoopMode = 'click_toggle_loop_mode';
   static const clickReorderLoops = 'click_reorder_loops';
+  static const reorderSongs = 'reorder_songs';
   static const clickUpdateLoop = 'click_update_loop';
 
   // export

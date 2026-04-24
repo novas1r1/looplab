@@ -154,6 +154,8 @@
     "cancelSubscription": "Cancelar Assinatura",
     "voteForFeatures": "Votar por Recursos",
     "changelogTitle": "Changelog",
+    "changelog180Title": "Reordene suas músicas",
+    "changelog180Description": "Organize sua lista de músicas do jeito que quiser — pressione e segure qualquer música e arraste-a para uma nova posição. Sua ordem personalizada é salva automaticamente.",
     "changelog170Title": "Backup e mover sua biblioteca",
     "changelog170Description": "Exporte sua biblioteca completa — músicas, loops e áudio — para um único arquivo, e restaure-o em outro dispositivo com Pro. Escolha 'Mesclar' para adicionar novas músicas junto às existentes, ou 'Substituir' para começar do zero.",
     "changelog170LanguageTitle": "Escolha seu idioma",

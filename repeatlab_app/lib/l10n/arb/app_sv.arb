@@ -154,6 +154,8 @@
     "cancelSubscription": "Avbryt Prenumeration",
     "voteForFeatures": "Funktioner förfråga",
     "changelogTitle": "Ändringar",
+    "changelog180Title": "Ändra ordningen på dina låtar",
+    "changelog180Description": "Organisera din låtlista som du vill — håll in en låt länge och dra den till en ny position. Din anpassade ordning sparas automatiskt.",
     "changelog170Title": "Backup och flytta din bibliotek",
     "changelog170Description": "Exportera din hela bibliotek — låtar, loopar och ljud — till en enda fil, och återställ den på ett annat enhet med Pro. Välj 'Sammanfoga' för att lägga till nya låtar bredvid de befintliga, eller 'Ersätt' för att börja från början.",
     "changelog170LanguageTitle": "Välj ditt språk",

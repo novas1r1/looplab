@@ -181,6 +181,14 @@
     "purchaseSuccess": "Purchase successful. Thank you for supporting the developer ❤️!",
     "voteForFeatures": "Vote for Features",
     "changelogTitle": "Changelog",
+    "changelog180Title": "Reorder your songs",
+    "@changelog180Title": {
+        "description": "Changelog entry title for the 1.8.0 song reorder feature"
+    },
+    "changelog180Description": "Organize your song list the way you want — long-press any song and drag it to a new position. Your custom order is saved automatically.",
+    "@changelog180Description": {
+        "description": "Changelog entry description for the 1.8.0 song reorder feature"
+    },
     "changelog170Title": "Back up and move your library",
     "changelog170Description": "Export your entire library — songs, loops, and audio — to a single file, then restore it on another device with Pro. Choose Merge to add new songs alongside your existing ones, or Replace to start fresh.",
     "changelog170LanguageTitle": "Choose your language",

@@ -420,6 +420,13 @@ class AppLocalizationsNl extends AppLocalizations {
   String get changelogTitle => 'Wijzigingen';
 
   @override
+  String get changelog180Title => 'Nummers herordenen';
+
+  @override
+  String get changelog180Description =>
+      'Organiseer je nummerslijst zoals je wilt — houd een nummer lang ingedrukt en sleep het naar een nieuwe positie. Jouw aangepaste volgorde wordt automatisch opgeslagen.';
+
+  @override
   String get changelog170Title => 'Back up en verplaats je bibliotheek';
 
   @override

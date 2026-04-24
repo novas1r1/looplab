@@ -418,6 +418,13 @@ class AppLocalizationsPl extends AppLocalizations {
   String get changelogTitle => 'Zmiany';
 
   @override
+  String get changelog180Title => 'Zmień kolejność piosenek';
+
+  @override
+  String get changelog180Description =>
+      'Organizuj listę piosenek według własnych upodobań — naciśnij i przytrzymaj dowolną piosenkę, a następnie przeciągnij ją na nowe miejsce. Twoja niestandardowa kolejność jest zapisywana automatycznie.';
+
+  @override
   String get changelog170Title => 'Backup i przeniesienie swojej biblioteki';
 
   @override

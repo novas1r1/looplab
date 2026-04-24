@@ -23,7 +23,8 @@
       "Bash(dart test:*)",
       "Bash(flutter pub *)",
       "Bash(git stash *)",
-      "Bash(git checkout *)"
+      "Bash(git checkout *)",
+      "Bash(fvm flutter:*)"
     ]
   }
 }

@@ -420,6 +420,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get changelogTitle => 'Değişiklik Günlüğü';
 
   @override
+  String get changelog180Title => 'Şarkılarınızı yeniden sıralayın';
+
+  @override
+  String get changelog180Description =>
+      'Şarkı listenizi istediğiniz şekilde düzenleyin — herhangi bir şarkıya uzun basın ve yeni bir konuma sürükleyin. Özel sıranız otomatik olarak kaydedilir.';
+
+  @override
   String get changelog170Title => 'Kütüphaneyi yedekle ve taşı';
 
   @override

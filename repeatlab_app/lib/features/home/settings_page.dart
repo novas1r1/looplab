@@ -228,7 +228,13 @@ class _BackupTiles extends StatelessWidget {
                     context.read<PremiumSubscriptionCubit>().presentPaywall();
                     return;
                   }
-                  context.read<BackupCubit>().exportAndShare();
+                  final box = context.findRenderObject() as RenderBox?;
+                  final origin = box != null
+                      ? box.localToGlobal(Offset.zero) & box.size
+                      : null;
+                  context
+                      .read<BackupCubit>()
+                      .exportAndShare(sharePositionOrigin: origin);
                 },
         ),
         ListTile(

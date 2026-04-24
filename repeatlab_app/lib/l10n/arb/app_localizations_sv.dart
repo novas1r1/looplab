@@ -419,6 +419,13 @@ class AppLocalizationsSv extends AppLocalizations {
   String get changelogTitle => 'Ändringar';
 
   @override
+  String get changelog180Title => 'Ändra ordningen på dina låtar';
+
+  @override
+  String get changelog180Description =>
+      'Organisera din låtlista som du vill — håll in en låt länge och dra den till en ny position. Din anpassade ordning sparas automatiskt.';
+
+  @override
   String get changelog170Title => 'Backup och flytta din bibliotek';
 
   @override

@@ -11,6 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Skip-next/prev (both UI and media-session controls) can still auto-advance into a locked loop.
 - `ReorderableListView` still allows non-premium users to drag a locked loop to position 0, promoting it to the accessible slot.
 
+## [1.8.0]
+
+### Added
+- **Song reordering.** Users can long-press a song on the home page and drag it to reorder. The order is persisted via a new `sortOrder` field on `Song` (default `0`). New songs appear at the top. Backwards compatible — old app versions ignore the unknown field; old data deserializes with `sortOrder: 0`.
+  - Model: `lib/data/models/song.dart` — added `sortOrder` int field with default `0`.
+  - Repository: `lib/data/repositories/song_repository.dart` — `getAllSongs` now sorts by `sortOrder` ascending; new `reorderSongs()` and `incrementExistingSortOrders()` methods.
+  - Cubit: `lib/features/home/cubit/all_songs_cubit.dart` — `reorderSongs(oldIndex, newIndex)` with optimistic update.
+  - UI: `lib/features/home/home_page.dart` — replaced `ListView.separated` with `ReorderableListView.builder`.
+
 ## [1.7.0]
 
 ### Added

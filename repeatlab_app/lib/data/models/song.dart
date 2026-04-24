@@ -21,6 +21,7 @@ class Song with SongMappable {
   final int? currentBpm;
   final List<Loop> loops;
   final LoopSort loopSort;
+  final int sortOrder;
 
   const Song({
     required this.id,
@@ -32,6 +33,7 @@ class Song with SongMappable {
     this.currentBpm,
     this.loops = const [],
     this.loopSort = LoopSort.none,
+    this.sortOrder = 0,
   });
 
   Future<String> get path async {

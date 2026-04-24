@@ -405,6 +405,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get changelogTitle => '変更履歴';
 
   @override
+  String get changelog180Title => '曲を並べ替える';
+
+  @override
+  String get changelog180Description =>
+      '好きな順番で曲リストを整理できます — 任意の曲を長押しして新しい位置にドラッグするだけです。カスタム順序は自動的に保存されます。';
+
+  @override
   String get changelog170Title => 'ライブラリをバックアップして移動';
 
   @override

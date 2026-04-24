@@ -422,6 +422,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get changelogTitle => 'Cambios';
 
   @override
+  String get changelog180Title => 'Reordena tus canciones';
+
+  @override
+  String get changelog180Description =>
+      'Organiza tu lista de canciones como quieras — mantén pulsada cualquier canción y arrástrala a una nueva posición. Tu orden personalizado se guarda automáticamente.';
+
+  @override
   String get changelog170Title => 'Backup y mover tu biblioteca';
 
   @override

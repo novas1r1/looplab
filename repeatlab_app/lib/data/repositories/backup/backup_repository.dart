@@ -1,11 +1,13 @@
 import 'dart:developer';
 import 'dart:io';
+import 'dart:isolate';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart' as path_provider;
+import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/backup/backup_manifest.dart';
 import 'package:repeatlab/data/repositories/backup/backup_serializer.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
@@ -84,19 +86,28 @@ class BackupRepository {
       audioFiles[song.fileName] = await audioFile.readAsBytes();
     }
 
-    final bytes = serializer.encode(
-      songs: songs,
-      audioFiles: audioFiles,
-      appVersion: packageInfo.version,
-      exportedAt: now,
-    );
-
     final tempDir = await _getTemporaryDirectory();
     final fileName = _buildExportFileName(now ?? DateTime.now());
-    final outFile = File(p.join(tempDir.path, fileName));
-    await outFile.writeAsBytes(bytes, flush: true);
+    final outPath = p.join(tempDir.path, fileName);
+    final songMaps = songs.map((s) => s.toMap()).toList();
+    final appVersion = packageInfo.version;
+    final exportedAt = now;
 
-    return outFile;
+    // Run the CPU-heavy zip encoding on a background isolate to avoid
+    // blocking the UI thread.
+    await Isolate.run(() {
+      final restoredSongs =
+          songMaps.map((m) => SongMapper.fromMap(m)).toList();
+      final bytes = const BackupSerializer().encode(
+        songs: restoredSongs,
+        audioFiles: audioFiles,
+        appVersion: appVersion,
+        exportedAt: exportedAt,
+      );
+      File(outPath).writeAsBytesSync(bytes, flush: true);
+    });
+
+    return File(outPath);
   }
 
   /// Reads just the manifest from a backup file — cheap, used to render the
@@ -119,7 +130,12 @@ class BackupRepository {
     required BackupImportMode mode,
   }) async {
     final bytes = await file.readAsBytes();
-    final payload = serializer.decode(bytes);
+
+    // Run the CPU-heavy zip decoding + hash verification on a background
+    // isolate to avoid blocking the UI thread.
+    final payload = await Isolate.run(
+      () => const BackupSerializer().decode(bytes),
+    );
 
     final docsDir = await _getDocumentsDirectory();
     await docsDir.create(recursive: true);
@@ -221,6 +237,6 @@ class BackupRepository {
     final y = local.year.toString().padLeft(4, '0');
     final m = local.month.toString().padLeft(2, '0');
     final d = local.day.toString().padLeft(2, '0');
-    return 'repeatlab-backup-$y-$m-$d.$fileExtension';
+    return '$y-$m-${d}_repeatlab_export.$fileExtension';
   }
 }

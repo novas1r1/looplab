@@ -21,6 +21,7 @@ void main() {
   setUpAll(() {
     registerFallbackValue(MockData.songShort);
     registerFallbackValue(StackTrace.empty);
+    registerFallbackValue(<Song>[]);
   });
 
   setUp(() {
@@ -276,6 +277,65 @@ void main() {
           final result = await cubit.clearDb();
           expect(result, isFalse);
         },
+        verify: (_) {
+          verify(
+            () => mockCrashReportingRepository.reportError(any(), any()),
+          ).called(1);
+        },
+      );
+    });
+
+    group('reorderSongs', () {
+      blocTest<AllSongsCubit, AllSongsState>(
+        'optimistically reorders songs and persists via repository',
+        seed: () => const AllSongsState(
+          status: AllSongsStatus.loaded,
+          songs: [MockData.songShort, MockData.songMedium, MockData.songLong],
+        ),
+        build: () {
+          when(() => mockSongRepository.reorderSongs(any())).thenAnswer((_) async {});
+          return buildCubit();
+        },
+        act: (cubit) => cubit.reorderSongs(2, 0),
+        expect: () => [
+          isA<AllSongsState>().having(
+            (s) => s.songs.map((s) => s.id).toList(),
+            'song ids',
+            [MockData.songLong.id, MockData.songShort.id, MockData.songMedium.id],
+          ),
+        ],
+        verify: (_) {
+          verify(() => mockSongRepository.reorderSongs(any())).called(1);
+        },
+      );
+
+      blocTest<AllSongsCubit, AllSongsState>(
+        'emits error state when reorderSongs throws',
+        seed: () => const AllSongsState(
+          status: AllSongsStatus.loaded,
+          songs: [MockData.songShort, MockData.songMedium],
+        ),
+        build: () {
+          when(() => mockSongRepository.reorderSongs(any())).thenThrow(
+            Exception('Reorder failed'),
+          );
+          return buildCubit();
+        },
+        act: (cubit) => cubit.reorderSongs(1, 0),
+        expect: () => [
+          // Optimistic reorder
+          isA<AllSongsState>().having(
+            (s) => s.songs.map((s) => s.id).toList(),
+            'song ids',
+            [MockData.songMedium.id, MockData.songShort.id],
+          ),
+          // Error state after persistence fails
+          isA<AllSongsState>().having(
+            (s) => s.status,
+            'status',
+            AllSongsStatus.error,
+          ),
+        ],
         verify: (_) {
           verify(
             () => mockCrashReportingRepository.reportError(any(), any()),

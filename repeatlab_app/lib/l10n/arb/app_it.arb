@@ -154,6 +154,8 @@
     "cancelSubscription": "Annulla Abbonamento",
     "voteForFeatures": "Vota per le Funzionalità",
     "changelogTitle": "Changelog",
+    "changelog180Title": "Riordina le tue canzoni",
+    "changelog180Description": "Organizza la tua lista di canzoni come preferisci — tieni premuta qualsiasi canzone e trascinala in una nuova posizione. Il tuo ordine personalizzato viene salvato automaticamente.",
     "changelog170Title": "Backup e sposta la tua libreria",
     "changelog170Description": "Esporta la tua libreria completa - canzoni, loop e audio - in un unico file, quindi ripristinalo su un altro dispositivo con Pro. Scegli Unisci per aggiungere nuove canzoni accanto alle esistenti, o Sostituisci per iniziare da zero.",
     "changelog170LanguageTitle": "Scegli la tua lingua",

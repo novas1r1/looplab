@@ -154,6 +154,8 @@
     },
     "purchasedAlready": "Zaten satın alındı",
     "purchaseSuccess": "Başarıyla satın alındı. Geliştiriciyi desteklediğiniz için teşekkür ederiz ❤️!",
+    "changelog180Title": "Şarkılarınızı yeniden sıralayın",
+    "changelog180Description": "Şarkı listenizi istediğiniz şekilde düzenleyin — herhangi bir şarkıya uzun basın ve yeni bir konuma sürükleyin. Özel sıranız otomatik olarak kaydedilir.",
     "changelog170Title": "Kütüphaneyi yedekle ve taşı",
     "changelog170Description": "Kütüphanenizi tamamen dışa aktarın - şarkılar, döngüler ve ses dosyaları - tek bir dosyaya, ardından Pro ile başka bir cihazda geri yükleyin. Mevcut şarkıların yanına yeni şarkılar eklemek için Birleştir'i seçin, ya da sıfırdan başlamak için Değiştir'i seçin.",
     "changelog170LanguageTitle": "Dilinizi seçin",

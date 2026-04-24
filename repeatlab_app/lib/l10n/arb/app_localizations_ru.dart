@@ -422,6 +422,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get changelogTitle => 'Изменения';
 
   @override
+  String get changelog180Title => 'Изменение порядка песен';
+
+  @override
+  String get changelog180Description =>
+      'Организуйте список песен так, как вам удобно — нажмите и удерживайте любую песню, затем перетащите её на новое место. Ваш порядок сохраняется автоматически.';
+
+  @override
   String get changelog170Title => 'Backup и перенос вашей библиотеки';
 
   @override

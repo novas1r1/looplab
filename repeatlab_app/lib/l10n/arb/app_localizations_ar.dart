@@ -417,6 +417,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get changelogTitle => 'سجل التغييرات';
 
   @override
+  String get changelog180Title => 'إعادة ترتيب أغانيك';
+
+  @override
+  String get changelog180Description =>
+      'نظّم قائمة أغانيك كما تريد — اضغط مطولاً على أي أغنية واسحبها إلى موضع جديد. يُحفظ ترتيبك المخصص تلقائياً.';
+
+  @override
   String get changelog170Title => 'حفظ ونقل مكتبتك';
 
   @override

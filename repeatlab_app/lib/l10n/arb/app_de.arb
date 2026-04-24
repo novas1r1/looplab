@@ -155,6 +155,8 @@
     "cancelSubscription": "Abonnement kündigen",
     "voteForFeatures": "Feature Voting",
     "changelogTitle": "Changelog",
+    "changelog180Title": "Songs neu anordnen",
+    "changelog180Description": "Organisiere deine Songliste nach deinen Wünschen — halte einen Song gedrückt und ziehe ihn an eine neue Position. Deine individuelle Reihenfolge wird automatisch gespeichert.",
     "changelog170Title": "Deine Bibliothek sichern und verschieben",
     "changelog170Description": "Exportiere deine gesamte Bibliothek — Songs, Loops und Audio — in eine einzige Datei, um sie auf einem anderen Gerät wiederherzustellen. Wähle Zusammenführen, um neue Songs neben deinen bestehenden zu hinzufügen, oder Ersetzen, um neu zu starten.",
     "changelog170LanguageTitle": "Wähle deine Sprache",

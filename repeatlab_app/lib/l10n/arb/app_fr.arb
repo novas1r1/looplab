@@ -155,6 +155,8 @@
     "cancelSubscription": "Annuler l'Abonnement",
     "voteForFeatures": "Voter pour les Fonctionnalités",
     "changelogTitle": "Changelog",
+    "changelog180Title": "Réorganisez vos chansons",
+    "changelog180Description": "Organisez votre liste de chansons comme vous le souhaitez — appuyez longuement sur n'importe quelle chanson et faites-la glisser vers une nouvelle position. Votre ordre personnalisé est enregistré automatiquement.",
     "changelog170Title": "Sauvegarder et déplacer votre bibliothèque",
     "changelog170Description": "Exportez votre bibliothèque complète - chansons, boucles et audio - dans un seul fichier, puis restaurez-le sur un autre appareil avec Pro. Choisissez Fusionner pour ajouter de nouvelles chansons en plus de vos existantes, ou Remplacer pour commencer de zéro.",
     "changelog170LanguageTitle": "Choisissez votre langue",

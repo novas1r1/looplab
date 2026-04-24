@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:file_picker/file_picker.dart';
@@ -15,6 +16,9 @@ import 'package:share_plus/share_plus.dart';
 part 'backup_cubit.mapper.dart';
 part 'backup_state.dart';
 
+/// POSIX errno 28 — "No space left on device".
+const _errNoSpaceOnDevice = 28;
+
 /// Wraps the [BackupRepository] with BLoC-facing state transitions for the
 /// Settings UI. Exposes two flows: export-and-share and pick-and-import.
 class BackupCubit extends Cubit<BackupState> {
@@ -22,19 +26,19 @@ class BackupCubit extends Cubit<BackupState> {
   final CrashReportingRepository crashReportingRepository;
 
   // Injected for tests. In production these resolve to share_plus + file_picker.
-  final Future<ShareResultStatus> Function(File file) _shareFile;
+  final Future<ShareResultStatus> Function(File file, {Rect? sharePositionOrigin}) _shareFile;
   final Future<File?> Function() _pickBackupFile;
 
   BackupCubit({
     required this.backupRepository,
     required this.crashReportingRepository,
-    Future<ShareResultStatus> Function(File file)? shareFile,
+    Future<ShareResultStatus> Function(File file, {Rect? sharePositionOrigin})? shareFile,
     Future<File?> Function()? pickBackupFile,
   }) : _shareFile = shareFile ?? _defaultShareFile,
        _pickBackupFile = pickBackupFile ?? _defaultPickBackupFile,
        super(const BackupState());
 
-  Future<void> exportAndShare() async {
+  Future<void> exportAndShare({Rect? sharePositionOrigin}) async {
     AppAnalytics.trackEvent(AppAnalytics.clickBackupExport);
     emit(state.copyWith(status: BackupStatus.exporting, errorMessage: null));
 
@@ -45,10 +49,14 @@ class BackupCubit extends Cubit<BackupState> {
       log('BackupCubit.exportAndShare: export failed: $ex');
       crashReportingRepository.reportError(ex, stack);
       AppAnalytics.trackEvent(AppAnalytics.backupExportFailure);
+      final message = ex is FileSystemException &&
+              ex.osError?.errorCode == _errNoSpaceOnDevice
+          ? 'Not enough storage space on your device. Free up some space and try again.'
+          : ex.toString();
       emit(
         state.copyWith(
           status: BackupStatus.failure,
-          errorMessage: ex.toString(),
+          errorMessage: message,
         ),
       );
       return;
@@ -57,7 +65,10 @@ class BackupCubit extends Cubit<BackupState> {
     final sizeBytes = await file.length();
 
     try {
-      final shareStatus = await _shareFile(file);
+      final shareStatus = await _shareFile(
+        file,
+        sharePositionOrigin: sharePositionOrigin,
+      );
       if (shareStatus == ShareResultStatus.dismissed) {
         AppAnalytics.trackEvent(AppAnalytics.backupExportShareCanceled);
       }
@@ -171,10 +182,14 @@ class BackupCubit extends Cubit<BackupState> {
         AppAnalytics.backupImportFailure,
         data: {'mode': mode.name},
       );
+      final message = ex is FileSystemException &&
+              ex.osError?.errorCode == _errNoSpaceOnDevice
+          ? 'Not enough storage space on your device. Free up some space and try again.'
+          : ex.toString();
       emit(
         state.copyWith(
           status: BackupStatus.failure,
-          errorMessage: ex.toString(),
+          errorMessage: message,
         ),
       );
     }
@@ -201,9 +216,15 @@ class BackupImportCandidate {
   const BackupImportCandidate({required this.file, required this.manifest});
 }
 
-Future<ShareResultStatus> _defaultShareFile(File file) async {
+Future<ShareResultStatus> _defaultShareFile(
+  File file, {
+  Rect? sharePositionOrigin,
+}) async {
   final result = await SharePlus.instance.share(
-    ShareParams(files: [XFile(file.path)]),
+    ShareParams(
+      files: [XFile(file.path)],
+      sharePositionOrigin: sharePositionOrigin,
+    ),
   );
   return result.status;
 }

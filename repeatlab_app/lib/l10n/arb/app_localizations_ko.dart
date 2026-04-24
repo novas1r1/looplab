@@ -404,6 +404,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get changelogTitle => '변경 사항';
 
   @override
+  String get changelog180Title => '노래 순서 재정렬';
+
+  @override
+  String get changelog180Description =>
+      '원하는 대로 노래 목록을 정리하세요 — 아무 노래나 길게 누른 후 새 위치로 드래그하면 됩니다. 사용자 지정 순서는 자동으로 저장됩니다.';
+
+  @override
   String get changelog170Title => '라이브러리 백업 및 이동';
 
   @override

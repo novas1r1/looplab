@@ -154,6 +154,8 @@
     "cancelSubscription": "Abonnement Opzeggen",
     "voteForFeatures": "Functies Voorstellen",
     "changelogTitle": "Wijzigingen",
+    "changelog180Title": "Nummers herordenen",
+    "changelog180Description": "Organiseer je nummerslijst zoals je wilt — houd een nummer lang ingedrukt en sleep het naar een nieuwe positie. Jouw aangepaste volgorde wordt automatisch opgeslagen.",
     "changelog170Title": "Back up en verplaats je bibliotheek",
     "changelog170Description": "Exporteer je hele bibliotheek — nummers, loops en audio — naar een enkel bestand, en herstel het op een ander apparaat met Pro. Kies 'Samenvoegen' om nieuwe nummers naast je bestaande toe te voegen, of 'Vervangen' om vanaf nul te beginnen.",
     "changelog170LanguageTitle": "Kies je taal",

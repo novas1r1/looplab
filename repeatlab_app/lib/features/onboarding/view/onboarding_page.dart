@@ -90,6 +90,31 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     Row(
                       children: [
                         Checkbox(
+                          value: _analyticsAccepted,
+                          onChanged: (value) {
+                            setState(() {
+                              _analyticsAccepted = value ?? false;
+                            });
+                          },
+                        ),
+                        Expanded(
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: context.l10n.onboardingIAcceptUsageStatistics,
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Checkbox(
                           value: _privacyAccepted,
                           onChanged: (value) {
                             setState(() {
@@ -106,30 +131,24 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                                 TextSpan(
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = _showPrivacyPolicy,
-                                  text:
-                                      context.l10n.onboardingPrivacyPolicyLink,
-                                  style: Theme.of(context).textTheme.bodyLarge
-                                      ?.copyWith(
-                                        decoration: TextDecoration.underline,
-                                        color: AppColors.primary,
-                                      ),
+                                  recognizer: TapGestureRecognizer()..onTap = _showPrivacyPolicy,
+                                  text: context.l10n.onboardingPrivacyPolicyLink,
+                                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                    decoration: TextDecoration.underline,
+                                    color: AppColors.primary,
+                                  ),
                                 ),
                                 TextSpan(
                                   text: context.l10n.and,
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                                 TextSpan(
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = _showTermsOfService,
-                                  text:
-                                      context.l10n.onboardingTermsOfServiceLink,
-                                  style: Theme.of(context).textTheme.bodyLarge
-                                      ?.copyWith(
-                                        decoration: TextDecoration.underline,
-                                        color: AppColors.primary,
-                                      ),
+                                  recognizer: TapGestureRecognizer()..onTap = _showTermsOfService,
+                                  text: context.l10n.onboardingTermsOfServiceLink,
+                                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                    decoration: TextDecoration.underline,
+                                    color: AppColors.primary,
+                                  ),
                                 ),
                               ],
                             ),
@@ -137,33 +156,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Checkbox(
-                          value: _analyticsAccepted,
-                          onChanged: (value) {
-                            setState(() {
-                              _analyticsAccepted = value ?? false;
-                            });
-                          },
-                        ),
-                        Expanded(
-                          child: RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: context
-                                      .l10n
-                                      .onboardingIAcceptUsageStatistics,
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+
                     const SizedBox(height: 16),
                   ],
                   SizedBox(
@@ -227,9 +220,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
           .state
           .hasLifetimePurchase;
 
-      if (!hasWeeklySubscription &&
-          !hasYearlySubscription &&
-          !hasLifetimePurchased) {
+      if (!hasWeeklySubscription && !hasYearlySubscription && !hasLifetimePurchased) {
         log('no subscription or lifetime purchase');
         AppAnalytics.trackEvent(AppAnalytics.viewPaywallFromOnboarding);
 
@@ -291,9 +282,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       height: 8,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: _currentPage == index
-            ? AppColors.primary
-            : AppColors.primary.withValues(alpha: 0.2),
+        color: _currentPage == index ? AppColors.primary : AppColors.primary.withValues(alpha: 0.2),
       ),
     );
   }

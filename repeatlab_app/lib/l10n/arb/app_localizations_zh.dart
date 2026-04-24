@@ -398,6 +398,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get changelogTitle => '更新日志';
 
   @override
+  String get changelog180Title => '重新排列您的歌曲';
+
+  @override
+  String get changelog180Description =>
+      '按照您的喜好整理歌曲列表——长按任意歌曲并将其拖动到新位置。您的自定义顺序将自动保存。';
+
+  @override
   String get changelog170Title => '备份和移动您的库';
 
   @override

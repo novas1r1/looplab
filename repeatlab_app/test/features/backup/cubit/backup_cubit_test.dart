@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_implementing_value_types
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -38,13 +39,14 @@ void main() {
   });
 
   BackupCubit buildCubit({
-    Future<ShareResultStatus> Function(File)? shareFile,
+    Future<ShareResultStatus> Function(File, {Rect? sharePositionOrigin})? shareFile,
     Future<File?> Function()? pickBackupFile,
   }) {
     return BackupCubit(
       backupRepository: mockBackup,
       crashReportingRepository: mockCrash,
-      shareFile: shareFile ?? (_) async => ShareResultStatus.success,
+      shareFile: shareFile ??
+          (_, {Rect? sharePositionOrigin}) async => ShareResultStatus.success,
       pickBackupFile: pickBackupFile ?? () async => null,
     );
   }
@@ -104,7 +106,10 @@ void main() {
         when(() => mockBackup.exportToFile())
             .thenAnswer((_) async => file);
       },
-      build: () => buildCubit(shareFile: (_) async => throw Exception('share boom')),
+      build: () => buildCubit(
+            shareFile: (_, {Rect? sharePositionOrigin}) async =>
+                throw Exception('share boom'),
+          ),
       act: (cubit) => cubit.exportAndShare(),
       expect: () => [
         isA<BackupState>().having((s) => s.status, 'status', BackupStatus.exporting),
