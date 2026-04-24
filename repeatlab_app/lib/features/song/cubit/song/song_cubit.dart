@@ -835,6 +835,44 @@ class SongCubit extends Cubit<SongState> {
     }
   }
 
+  Future<void> updateSongDetails({
+    required String title,
+    required String artist,
+    int? bpm,
+  }) async {
+    emit(state.copyWith(status: SongStatus.updating));
+
+    try {
+      final updatedSong = state.song.copyWith(
+        title: title,
+        artist: artist,
+        bpm: bpm,
+      );
+      await songRepository.updateSong(updatedSong);
+
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          song: updatedSong,
+          error: null,
+        ),
+      );
+
+      // Update BPM-related speed state if BPM changed
+      if (bpm != state.song.bpm) {
+        await setOriginalBpm(bpm);
+      }
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to update song details: $ex',
+        ),
+      );
+    }
+  }
+
   Future<void> toggleLoopMode() async {
     emit(
       state.copyWith(

@@ -311,5 +311,9 @@
     "autoPlayOnLoopSelectDescription": "تشغيل الحلقات تلقائيًا عند تحديد حلقة أو التنقل إلى الحلقة التالية أو السابقة",
     "actions": "الإجراءات",
     "speedChangeFailed": "فشل تغيير السرعة. يرجى إعادة المحاولة.",
-    "copyToClipboard": "نسخ إلى الحافظة"
+    "copyToClipboard": "نسخ إلى الحافظة",
+    "editSong": "تعديل الأغنية",
+    "editSongTitle": "العنوان",
+    "editSongArtist": "الفنان",
+    "editSongTitleRequired": "لا يمكن أن يكون العنوان فارغًا"
 }

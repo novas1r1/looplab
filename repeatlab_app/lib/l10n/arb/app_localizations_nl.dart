@@ -881,4 +881,16 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get copyToClipboard => 'Kopiëren naar klembord';
+
+  @override
+  String get editSong => 'Nummer bewerken';
+
+  @override
+  String get editSongTitle => 'Titel';
+
+  @override
+  String get editSongArtist => 'Artiest';
+
+  @override
+  String get editSongTitleRequired => 'Titel mag niet leeg zijn';
 }

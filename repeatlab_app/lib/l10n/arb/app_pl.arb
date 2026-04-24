@@ -307,5 +307,9 @@
     "playbackSettings": "Odtwarzanie",
     "actions": "Akcje",
     "speedChangeFailed": "Zmiana tempa nie powiodła się. Proszę spróbować ponownie.",
-    "copyToClipboard": "Skopiuj do schowka"
+    "copyToClipboard": "Skopiuj do schowka",
+    "editSong": "Edytuj utwór",
+    "editSongTitle": "Tytuł",
+    "editSongArtist": "Artysta",
+    "editSongTitleRequired": "Tytuł nie może być pusty"
 }

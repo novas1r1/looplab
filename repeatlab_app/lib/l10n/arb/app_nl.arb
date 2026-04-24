@@ -307,5 +307,9 @@
     "playbackSettings": "Afspelen",
     "actions": "Acties",
     "speedChangeFailed": "Snelheidswijziging is mislukt. Probeer het opnieuw.",
-    "copyToClipboard": "Kopiëren naar klembord"
+    "copyToClipboard": "Kopiëren naar klembord",
+    "editSong": "Nummer bewerken",
+    "editSongTitle": "Titel",
+    "editSongArtist": "Artiest",
+    "editSongTitleRequired": "Titel mag niet leeg zijn"
 }

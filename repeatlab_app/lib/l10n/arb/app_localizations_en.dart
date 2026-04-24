@@ -875,4 +875,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get copyToClipboard => 'Copy to Clipboard';
+
+  @override
+  String get editSong => 'Edit Song';
+
+  @override
+  String get editSongTitle => 'Title';
+
+  @override
+  String get editSongArtist => 'Artist';
+
+  @override
+  String get editSongTitleRequired => 'Title cannot be empty';
 }

@@ -310,5 +310,9 @@
     "playbackSettings": "Oynatma",
     "actions": "Eylemler",
     "speedChangeFailed": "Hız değişikliği başarısız oldu. Lütfen tekrar deneyin.",
-    "copyToClipboard": "Panoya kopyala"
+    "copyToClipboard": "Panoya kopyala",
+    "editSong": "Şarkıyı düzenle",
+    "editSongTitle": "Başlık",
+    "editSongArtist": "Sanatçı",
+    "editSongTitleRequired": "Başlık boş olamaz"
 }

@@ -880,4 +880,16 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get copyToClipboard => 'In Zwischenablage kopieren';
+
+  @override
+  String get editSong => 'Song bearbeiten';
+
+  @override
+  String get editSongTitle => 'Titel';
+
+  @override
+  String get editSongArtist => 'Künstler';
+
+  @override
+  String get editSongTitleRequired => 'Titel darf nicht leer sein';
 }

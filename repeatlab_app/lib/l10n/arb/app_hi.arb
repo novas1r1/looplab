@@ -311,5 +311,9 @@
     "playbackSettings": "प्लेबैक",
     "actions": "क्रियाएं",
     "speedChangeFailed": "गति परिवर्तन विफल हो गया। कृपया पुनः प्रयास करें।",
-    "copyToClipboard": "क्लिपबोर्ड पर कॉपी करें"
+    "copyToClipboard": "क्लिपबोर्ड पर कॉपी करें",
+    "editSong": "गाना संपादित करें",
+    "editSongTitle": "शीर्षक",
+    "editSongArtist": "कलाकार",
+    "editSongTitleRequired": "शीर्षक खाली नहीं हो सकता"
 }

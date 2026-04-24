@@ -310,5 +310,9 @@
     "playbackSettings": "再生",
     "actions": "アクション",
     "speedChangeFailed": "速度変更に失敗しました。もう一度お試しください。",
-    "copyToClipboard": "クリップボードにコピー"
+    "copyToClipboard": "クリップボードにコピー",
+    "editSong": "曲を編集",
+    "editSongTitle": "タイトル",
+    "editSongArtist": "アーティスト",
+    "editSongTitleRequired": "タイトルは空にできません"
 }

@@ -877,4 +877,16 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get copyToClipboard => 'Kopiera till urklipp';
+
+  @override
+  String get editSong => 'Redigera låt';
+
+  @override
+  String get editSongTitle => 'Titel';
+
+  @override
+  String get editSongArtist => 'Artist';
+
+  @override
+  String get editSongTitleRequired => 'Titeln får inte vara tom';
 }

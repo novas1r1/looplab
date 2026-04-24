@@ -834,4 +834,16 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get copyToClipboard => '复制到剪贴板';
+
+  @override
+  String get editSong => '编辑歌曲';
+
+  @override
+  String get editSongTitle => '标题';
+
+  @override
+  String get editSongArtist => '艺术家';
+
+  @override
+  String get editSongTitleRequired => '标题不能为空';
 }

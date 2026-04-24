@@ -868,4 +868,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get copyToClipboard => 'نسخ إلى الحافظة';
+
+  @override
+  String get editSong => 'تعديل الأغنية';
+
+  @override
+  String get editSongTitle => 'العنوان';
+
+  @override
+  String get editSongArtist => 'الفنان';
+
+  @override
+  String get editSongTitleRequired => 'لا يمكن أن يكون العنوان فارغًا';
 }

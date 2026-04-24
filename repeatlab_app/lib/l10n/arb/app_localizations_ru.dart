@@ -882,4 +882,16 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get copyToClipboard => 'Скопировать в буфер обмена';
+
+  @override
+  String get editSong => 'Редактировать песню';
+
+  @override
+  String get editSongTitle => 'Название';
+
+  @override
+  String get editSongArtist => 'Исполнитель';
+
+  @override
+  String get editSongTitleRequired => 'Название не может быть пустым';
 }

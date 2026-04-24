@@ -153,11 +153,16 @@ class _SongViewState extends State<_SongView> {
             case SongStatus.loadError:
               return Scaffold(
                 appBar: AppBar(
-                  title: AutoSizeText(
-                    widget.song.title,
-                    minFontSize: 20,
-                    maxFontSize: 24,
-                    maxLines: 2,
+                  title: BlocSelector<SongCubit, SongState, String>(
+                    selector: (state) => state.song.title,
+                    builder: (context, title) {
+                      return AutoSizeText(
+                        title,
+                        minFontSize: 20,
+                        maxFontSize: 24,
+                        maxLines: 2,
+                      );
+                    },
                   ),
                 ),
                 body: Center(
@@ -170,7 +175,12 @@ class _SongViewState extends State<_SongView> {
             default:
               return Scaffold(
                 appBar: AppBar(
-                  title: Text(widget.song.title),
+                  title: BlocSelector<SongCubit, SongState, String>(
+                    selector: (state) => state.song.title,
+                    builder: (context, title) {
+                      return Text(title);
+                    },
+                  ),
                   actions: [
                     IconButton(
                       onPressed: () {
@@ -185,6 +195,7 @@ class _SongViewState extends State<_SongView> {
                       onPressed: () => SongSettingsBottomSheet.show(
                         context,
                         onDeleteSong: () => _onTapDeleteSong(context),
+                        onEditSong: () => _showEditSongDialog(context),
                       ),
                     ),
                   ],
@@ -563,6 +574,118 @@ class _SongViewState extends State<_SongView> {
     if (result != null && result && context.mounted) {
       context.read<SongCubit>().deleteSong();
       Navigator.of(context).pop();
+    }
+  }
+
+  Future<void> _showEditSongDialog(BuildContext context) async {
+    AppAnalytics.trackEvent(AppAnalytics.clickEditSong);
+    final songCubit = context.read<SongCubit>();
+    final currentSong = songCubit.state.song;
+
+    final result =
+        await showDialog<({String title, String artist, int? bpm})>(
+      context: context,
+      builder: (dialogContext) {
+        final titleController =
+            TextEditingController(text: currentSong.title);
+        final artistController =
+            TextEditingController(text: currentSong.artist);
+        final bpmController = TextEditingController(
+          text: currentSong.bpm?.toString() ?? '',
+        );
+
+        return StatefulBuilder(
+          builder: (dialogContext, setState) {
+            return AlertDialog(
+              backgroundColor: AppColors.surface,
+              elevation: 24,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+                side: BorderSide(
+                  color: Theme.of(dialogContext)
+                      .colorScheme
+                      .outlineVariant
+                      .withValues(alpha: 0.8),
+                  width: 1.5,
+                ),
+              ),
+              title: Text(dialogContext.l10n.editSong),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: titleController,
+                    decoration: InputDecoration(
+                      labelText: dialogContext.l10n.editSongTitle,
+                      errorText: titleController.text.trim().isEmpty
+                          ? dialogContext.l10n.editSongTitleRequired
+                          : null,
+                    ),
+                    autofocus: true,
+                    textCapitalization: TextCapitalization.words,
+                    onChanged: (_) => setState(() {}),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: artistController,
+                    decoration: InputDecoration(
+                      labelText: dialogContext.l10n.editSongArtist,
+                    ),
+                    textCapitalization: TextCapitalization.words,
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: bpmController,
+                    decoration: const InputDecoration(
+                      labelText: 'BPM',
+                      hintText: '120',
+                    ),
+                    keyboardType: TextInputType.number,
+                  ),
+                ],
+              ),
+              actions: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryContainer,
+                    foregroundColor: AppColors.onPrimaryContainer,
+                  ),
+                  onPressed: () => Navigator.of(dialogContext).pop(null),
+                  child: Text(dialogContext.l10n.cancel),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: AppColors.onPrimary,
+                  ),
+                  onPressed: titleController.text.trim().isEmpty
+                      ? null
+                      : () {
+                          final bpmText = bpmController.text.trim();
+                          final bpm = bpmText.isEmpty
+                              ? null
+                              : int.tryParse(bpmText);
+                          Navigator.of(dialogContext).pop((
+                            title: titleController.text.trim(),
+                            artist: artistController.text.trim(),
+                            bpm: bpm,
+                          ));
+                        },
+                  child: Text(dialogContext.l10n.save),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+
+    if (result != null && context.mounted) {
+      songCubit.updateSongDetails(
+        title: result.title,
+        artist: result.artist,
+        bpm: result.bpm,
+      );
     }
   }
 

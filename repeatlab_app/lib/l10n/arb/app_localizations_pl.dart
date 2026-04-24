@@ -878,4 +878,16 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get copyToClipboard => 'Skopiuj do schowka';
+
+  @override
+  String get editSong => 'Edytuj utwór';
+
+  @override
+  String get editSongTitle => 'Tytuł';
+
+  @override
+  String get editSongArtist => 'Artysta';
+
+  @override
+  String get editSongTitleRequired => 'Tytuł nie może być pusty';
 }

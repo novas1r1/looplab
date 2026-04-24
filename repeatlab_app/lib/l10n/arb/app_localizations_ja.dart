@@ -851,4 +851,16 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get copyToClipboard => 'クリップボードにコピー';
+
+  @override
+  String get editSong => '曲を編集';
+
+  @override
+  String get editSongTitle => 'タイトル';
+
+  @override
+  String get editSongArtist => 'アーティスト';
+
+  @override
+  String get editSongTitleRequired => 'タイトルは空にできません';
 }

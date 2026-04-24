@@ -880,4 +880,16 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get copyToClipboard => 'Panoya kopyala';
+
+  @override
+  String get editSong => 'Şarkıyı düzenle';
+
+  @override
+  String get editSongTitle => 'Başlık';
+
+  @override
+  String get editSongArtist => 'Sanatçı';
+
+  @override
+  String get editSongTitleRequired => 'Başlık boş olamaz';
 }

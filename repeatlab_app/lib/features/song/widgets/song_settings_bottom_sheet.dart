@@ -11,15 +11,18 @@ import 'package:wiredash/wiredash.dart';
 /// A beautiful bottom sheet for song settings and actions.
 class SongSettingsBottomSheet extends StatelessWidget {
   final VoidCallback onDeleteSong;
+  final VoidCallback onEditSong;
 
   const SongSettingsBottomSheet({
     super.key,
     required this.onDeleteSong,
+    required this.onEditSong,
   });
 
   static Future<void> show(
     BuildContext context, {
     required VoidCallback onDeleteSong,
+    required VoidCallback onEditSong,
   }) {
     final songCubit = context.read<SongCubit>();
 
@@ -31,6 +34,7 @@ class SongSettingsBottomSheet extends StatelessWidget {
         value: songCubit,
         child: SongSettingsBottomSheet(
           onDeleteSong: onDeleteSong,
+          onEditSong: onEditSong,
         ),
       ),
     );
@@ -166,6 +170,15 @@ class SongSettingsBottomSheet extends StatelessWidget {
               const SizedBox(height: 12),
               _SettingsCard(
                 children: [
+                  _ActionTile(
+                    icon: Icons.edit_outlined,
+                    title: context.l10n.editSong,
+                    onTap: () {
+                      Navigator.pop(context);
+                      onEditSong();
+                    },
+                  ),
+                  const _SettingsDivider(),
                   _ActionTile(
                     icon: Icons.feedback_outlined,
                     title: context.l10n.reportBugAndFeedback,

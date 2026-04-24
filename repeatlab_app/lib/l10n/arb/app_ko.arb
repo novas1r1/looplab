@@ -310,5 +310,9 @@
     "playbackSettings": "재생",
     "actions": "작업",
     "speedChangeFailed": "속도 변경에 실패했습니다. 다시 시도해 주세요.",
-    "copyToClipboard": "클립보드에 복사"
+    "copyToClipboard": "클립보드에 복사",
+    "editSong": "곡 편집",
+    "editSongTitle": "제목",
+    "editSongArtist": "아티스트",
+    "editSongTitleRequired": "제목은 비워 둘 수 없습니다"
 }

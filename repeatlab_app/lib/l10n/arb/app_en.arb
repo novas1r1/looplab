@@ -388,5 +388,9 @@
     "copyToClipboard": "Copy to Clipboard",
     "@copyToClipboard": {
         "description": "Button or action to copy text to the device clipboard"
-    }
+    },
+    "editSong": "Edit Song",
+    "editSongTitle": "Title",
+    "editSongArtist": "Artist",
+    "editSongTitleRequired": "Title cannot be empty"
 }

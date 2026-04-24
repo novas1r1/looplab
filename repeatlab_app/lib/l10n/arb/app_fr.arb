@@ -307,5 +307,9 @@
     "playbackSettings": "Lecture",
     "actions": "Actions",
     "speedChangeFailed": "Le changement de vitesse a échoué. Veuillez réessayer.",
-    "copyToClipboard": "Copier dans le presse-papiers"
+    "copyToClipboard": "Copier dans le presse-papiers",
+    "editSong": "Modifier le morceau",
+    "editSongTitle": "Titre",
+    "editSongArtist": "Artiste",
+    "editSongTitleRequired": "Le titre ne peut pas être vide"
 }

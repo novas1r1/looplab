@@ -311,5 +311,9 @@
     "playbackSettings": "播放设置",
     "actions": "操作",
     "speedChangeFailed": "速度变化失败。请再试一次。",
-    "copyToClipboard": "复制到剪贴板"
+    "copyToClipboard": "复制到剪贴板",
+    "editSong": "编辑歌曲",
+    "editSongTitle": "标题",
+    "editSongArtist": "艺术家",
+    "editSongTitleRequired": "标题不能为空"
 }

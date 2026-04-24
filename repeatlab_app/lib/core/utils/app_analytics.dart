@@ -64,6 +64,7 @@ abstract final class AppAnalytics {
   static const clickTempoModeBpm = 'click_tempo_mode_bpm';
   static const clickToggleFullSongRepeat = 'click_toggle_full_song_repeat';
   static const clickToggleAutoPlay = 'click_toggle_auto_play';
+  static const clickEditSong = 'click_edit_song';
   static const clickToggleLoopMode = 'click_toggle_loop_mode';
   static const clickReorderLoops = 'click_reorder_loops';
   static const reorderSongs = 'reorder_songs';

@@ -307,5 +307,9 @@
     "playbackSettings": "Reprodução",
     "actions": "Ações",
     "speedChangeFailed": "A mudança de velocidade falhou. Por favor, tente novamente.",
-    "copyToClipboard": "Copiar para a área de transferência"
+    "copyToClipboard": "Copiar para a área de transferência",
+    "editSong": "Editar música",
+    "editSongTitle": "Título",
+    "editSongArtist": "Artista",
+    "editSongTitleRequired": "O título não pode estar vazio"
 }

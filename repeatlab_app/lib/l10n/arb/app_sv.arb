@@ -307,5 +307,9 @@
     "playbackSettings": "Spelning",
     "actions": "Åtgärder",
     "speedChangeFailed": "Hastighetsändring misslyckades. Vänligen försök igen.",
-    "copyToClipboard": "Kopiera till urklipp"
+    "copyToClipboard": "Kopiera till urklipp",
+    "editSong": "Redigera låt",
+    "editSongTitle": "Titel",
+    "editSongArtist": "Artist",
+    "editSongTitleRequired": "Titeln får inte vara tom"
 }

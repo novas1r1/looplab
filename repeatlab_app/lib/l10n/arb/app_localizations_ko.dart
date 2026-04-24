@@ -848,4 +848,16 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get copyToClipboard => '클립보드에 복사';
+
+  @override
+  String get editSong => '곡 편집';
+
+  @override
+  String get editSongTitle => '제목';
+
+  @override
+  String get editSongArtist => '아티스트';
+
+  @override
+  String get editSongTitleRequired => '제목은 비워 둘 수 없습니다';
 }

@@ -307,5 +307,9 @@
     "playbackSettings": "Воспроизведение",
     "actions": "Действия",
     "speedChangeFailed": "Изменение скорости не удалось. Пожалуйста, попробуйте еще раз.",
-    "copyToClipboard": "Скопировать в буфер обмена"
+    "copyToClipboard": "Скопировать в буфер обмена",
+    "editSong": "Редактировать песню",
+    "editSongTitle": "Название",
+    "editSongArtist": "Исполнитель",
+    "editSongTitleRequired": "Название не может быть пустым"
 }

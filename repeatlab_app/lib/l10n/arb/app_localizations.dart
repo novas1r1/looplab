@@ -1655,6 +1655,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Copy to Clipboard'**
   String get copyToClipboard;
+
+  /// No description provided for @editSong.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Song'**
+  String get editSong;
+
+  /// No description provided for @editSongTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get editSongTitle;
+
+  /// No description provided for @editSongArtist.
+  ///
+  /// In en, this message translates to:
+  /// **'Artist'**
+  String get editSongArtist;
+
+  /// No description provided for @editSongTitleRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Title cannot be empty'**
+  String get editSongTitleRequired;
 }
 
 class _AppLocalizationsDelegate

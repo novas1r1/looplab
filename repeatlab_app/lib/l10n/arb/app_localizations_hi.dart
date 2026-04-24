@@ -878,4 +878,16 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get copyToClipboard => 'क्लिपबोर्ड पर कॉपी करें';
+
+  @override
+  String get editSong => 'गाना संपादित करें';
+
+  @override
+  String get editSongTitle => 'शीर्षक';
+
+  @override
+  String get editSongArtist => 'कलाकार';
+
+  @override
+  String get editSongTitleRequired => 'शीर्षक खाली नहीं हो सकता';
 }
