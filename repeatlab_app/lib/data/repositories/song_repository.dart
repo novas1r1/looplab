@@ -7,6 +7,7 @@ import 'package:audio_metadata_reader/audio_metadata_reader.dart';
 import 'package:ffmpeg_kit_flutter_new_min/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter_new_min/return_code.dart';
 import 'package:flutter_soloud/flutter_soloud.dart' hide AudioMetadata;
+import 'package:path/path.dart' as p;
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:sembast/sembast.dart';
@@ -69,7 +70,7 @@ class SongRepository {
   Future<void> addSongFile(File file) async {
     File fileToUse = file;
     // store under file name because ios changes the folder name on every update
-    String fileName = fileToUse.path.split('/').last;
+    String fileName = p.basename(fileToUse.path);
 
     // Convert any file format not natively supported by SoLoud to WAV.
     // SoLoud supports: mp3, wav, ogg, flac. Everything else (m4a, aac, …)
@@ -80,7 +81,7 @@ class SongRepository {
         final convertedFile = await _convertToWav(file);
         if (convertedFile != null) {
           fileToUse = convertedFile;
-          fileName = fileToUse.path.split('/').last;
+          fileName = p.basename(fileToUse.path);
         } else {
           throw UnsupportedAudioFormatException(extension);
         }

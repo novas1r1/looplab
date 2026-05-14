@@ -224,7 +224,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
         log('no subscription or lifetime purchase');
         AppAnalytics.trackEvent(AppAnalytics.viewPaywallFromOnboarding);
 
-        await context.read<PremiumSubscriptionCubit>().presentPaywall();
+        try {
+          await context.read<PremiumSubscriptionCubit>().presentPaywall();
+        } catch (e) {
+          log('error presenting paywall: $e');
+        }
       } else {
         log('has subscribed or has lifetime purchased');
       }

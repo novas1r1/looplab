@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,27 +14,13 @@ part 'premium_subscription_cubit.mapper.dart';
 part 'premium_subscription_state.dart';
 
 class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
-  // final AuthRepository authRepository;
   final CrashReportingRepository crashReportingRepository;
   final PurchasesRepository purchasesRepository;
 
-  // StreamSubscription<bool>? _internetSubscription;
-
   PremiumSubscriptionCubit({
-    // required this.authRepository,
     required this.crashReportingRepository,
     required this.purchasesRepository,
-  }) : super(const PremiumSubscriptionState()) {
-    /*  _internetSubscription = purchaseRepository.internetSubscription.listen((isConnected) {
-      emit(state.copyWith(isConnected: isConnected));
-    }); */
-  }
-
-  @override
-  Future<void> close() async {
-    // _internetSubscription?.cancel();
-    super.close();
-  }
+  }) : super(const PremiumSubscriptionState());
 
   bool get hasPremium =>
       state.hasWeeklySubscription || state.hasYearlySubscription || state.hasLifetimePurchase;
@@ -43,6 +30,16 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
   /// Checks if the user has an internet connection.
   Future<void> init() async {
     log('--- REVENUECAT: init()');
+
+    if (Platform.isWindows) {
+      emit(
+        state.copyWith(
+          status: PremiumSubscriptionStatus.premium,
+          hasLifetimePurchase: true,
+        ),
+      );
+      return;
+    }
 
     try {
       await purchasesRepository.setup();
@@ -71,6 +68,16 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
   }
 
   Future<void> checkStatus() async {
+    if (Platform.isWindows) {
+      emit(
+        state.copyWith(
+          status: PremiumSubscriptionStatus.premium,
+          hasLifetimePurchase: true,
+        ),
+      );
+      return;
+    }
+
     /*     if (kDebugMode) {
       emit(state.copyWith(status: PremiumSubscriptionStatus.premium));
 
@@ -111,6 +118,16 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
   }
 
   Future<void> presentPaywall({bool ifNeeded = true}) async {
+    if (Platform.isWindows) {
+      emit(
+        state.copyWith(
+          status: PremiumSubscriptionStatus.premium,
+          hasLifetimePurchase: true,
+        ),
+      );
+      return;
+    }
+
     if (ifNeeded) {
       await RevenueCatUI.presentPaywallIfNeeded("Pro");
     } else {
@@ -159,8 +176,8 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
               'tier': isWeekly
                   ? 'weekly'
                   : isYearly
-                      ? 'yearly'
-                      : 'unknown',
+                  ? 'yearly'
+                  : 'unknown',
             },
           );
           emit(

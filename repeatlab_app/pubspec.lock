@@ -100,10 +100,10 @@ packages:
   audioplayers:
     dependency: "direct main"
     description:
-      path: "../../packages/ap/packages/audioplayers"
+      path: "../../packages/audioplayers/packages/audioplayers"
       relative: true
     source: path
-    version: "6.5.1"
+    version: "6.6.0"
   audioplayers_android:
     dependency: transitive
     description:
@@ -115,10 +115,10 @@ packages:
   audioplayers_android_exo:
     dependency: "direct main"
     description:
-      path: "../../packages/ap/packages/audioplayers_android_exo"
+      path: "../../packages/audioplayers/packages/audioplayers_android_exo"
       relative: true
     source: path
-    version: "0.1.2+1"
+    version: "0.1.3"
   audioplayers_darwin:
     dependency: transitive
     description:

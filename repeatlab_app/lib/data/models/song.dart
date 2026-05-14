@@ -1,4 +1,5 @@
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:repeatlab/data/models/loop.dart';
 
@@ -39,7 +40,7 @@ class Song with SongMappable {
   Future<String> get path async {
     final appDir = await getApplicationDocumentsDirectory();
 
-    return '${appDir.path}/$fileName';
+    return p.join(appDir.path, fileName);
   }
 }
 
