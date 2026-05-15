@@ -19,11 +19,13 @@ import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/features/song/cubit/song_exporter/song_exporter_cubit.dart';
+import 'package:repeatlab/features/song/cubit/video_song/video_song_cubit.dart';
 import 'package:repeatlab/features/song/view/song_controller.dart';
 import 'package:repeatlab/features/song/widgets/loop_tile.dart';
 import 'package:repeatlab/features/song/widgets/loop_timeline.dart';
 import 'package:repeatlab/features/song/widgets/song_settings_bottom_sheet.dart';
 import 'package:repeatlab/features/song/widgets/tutorial_item.dart';
+import 'package:repeatlab/features/song/widgets/video_preview.dart';
 import 'package:repeatlab/features/song/widgets/wave_form_soloud.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
@@ -35,16 +37,33 @@ class SongPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isVideo = song.mediaType == MediaType.video;
+
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => SongCubit(
-            songRepository: context.read<SongRepository>(),
-            localConfigRepository: context.read<LocalConfigRepository>(),
-            crashReportingRepository: context.read<CrashReportingRepository>(),
-            song: song,
-          )..initSong(AudioPlayer()),
-        ),
+        // For video, provide a VideoSongCubit under the SongCubit type so all
+        // shared widgets reading `context.read<SongCubit>()` resolve to it.
+        // The video cubit shares state shape + methods via inheritance.
+        if (isVideo)
+          BlocProvider<SongCubit>(
+            create: (context) => VideoSongCubit(
+              songRepository: context.read<SongRepository>(),
+              localConfigRepository: context.read<LocalConfigRepository>(),
+              crashReportingRepository: context
+                  .read<CrashReportingRepository>(),
+              song: song,
+            )..initVideo(),
+          )
+        else
+          BlocProvider<SongCubit>(
+            create: (context) => SongCubit(
+              songRepository: context.read<SongRepository>(),
+              localConfigRepository: context.read<LocalConfigRepository>(),
+              crashReportingRepository: context
+                  .read<CrashReportingRepository>(),
+              song: song,
+            )..initSong(AudioPlayer()),
+          ),
         BlocProvider(
           create: (context) => SongExporterCubit(
             crashReportingRepository: context.read<CrashReportingRepository>(),
@@ -65,7 +84,7 @@ class _SongView extends StatefulWidget {
   State<_SongView> createState() => _SongViewState();
 }
 
-class _SongViewState extends State<_SongView> {
+class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
   // final Duration _currentPlayerPosition = Duration.zero;
 
   final _loopListController = ScrollController();
@@ -81,17 +100,42 @@ class _SongViewState extends State<_SongView> {
   GlobalKey tutorialKeyLoopActivate = GlobalKey();
   GlobalKey tutorialKeyLoopAdd = GlobalKey();
 
+  bool get _isVideo => widget.song.mediaType == MediaType.video;
+
   @override
   void initState() {
     super.initState();
     AppAnalytics.trackEvent(AppAnalytics.viewSong);
+    // Video has no background-playback story (no audio_service integration);
+    // observe lifecycle so we can pause when the app is backgrounded.
+    if (_isVideo) {
+      WidgetsBinding.instance.addObserver(this);
+    }
   }
 
   @override
   void dispose() {
     // context.read<SongCubit>().close();
+    if (_isVideo) {
+      WidgetsBinding.instance.removeObserver(this);
+    }
     _loopListController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (!_isVideo) return;
+    // Only react to states that mean the user can't see the video:
+    //   * paused — true backgrounding (mobile)
+    //   * hidden — window minimized (desktop)
+    // NOT inactive — that fires on transient focus changes (e.g. clicking
+    // a button on Windows, control-center swipe on iOS) while the app is
+    // still visible; pausing on it would defeat user-initiated playback.
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.hidden) {
+      context.read<SongCubit>().pauseSong();
+    }
   }
 
   @override
@@ -207,10 +251,16 @@ class _SongViewState extends State<_SongView> {
                       padding: const EdgeInsets.all(16),
                       sliver: SliverList(
                         delegate: SliverChildListDelegate([
-                          WaveFormSoLoud(
-                            key: tutorialKeyWaveform,
-                            song: widget.song,
-                          ),
+                          if (_isVideo)
+                            VideoPreview(
+                              key: tutorialKeyWaveform,
+                              song: widget.song,
+                            )
+                          else
+                            WaveFormSoLoud(
+                              key: tutorialKeyWaveform,
+                              song: widget.song,
+                            ),
                           const SizedBox(height: 8),
                           BlocSelector<
                             PremiumSubscriptionCubit,

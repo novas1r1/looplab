@@ -15,6 +15,7 @@ import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:repeatlab/data/services/audio_service_provider.dart';
+import 'package:repeatlab/data/services/media_player_handler.dart';
 import 'package:repeatlab/data/services/repeatlab_audioplayers_service_handler.dart';
 
 // part 'song_cubit.mapper.dart';
@@ -31,8 +32,11 @@ class SongCubit extends Cubit<SongState> {
   static const double _minPlaybackSpeed = 0.5;
   static const double _maxPlaybackSpeed = 2.0;
 
-  // audio player subscriptions
-  late final RepeatlabAudioplayersServiceHandler audioHandler;
+  /// Active media handler. Concretely a [RepeatlabAudioplayersServiceHandler]
+  /// for audio songs (set in [initSong]) or a [VideoPlayerHandler] for video
+  /// songs (set in `VideoSongCubit.initVideo`). All cubit/widget code goes
+  /// through the [MediaPlayerHandler] interface.
+  late final MediaPlayerHandler audioHandler;
   StreamSubscription<List<Song>>? _songSubscription;
 
   Stream<PlayerState>? playerStateStream;
@@ -203,6 +207,16 @@ class SongCubit extends Cubit<SongState> {
   }
 
   Future<void> initSong(AudioPlayer audioPlayer) async {
+    final handler = await AudioServiceProvider.init(audioPlayer);
+    await initWithHandler(handler);
+  }
+
+  /// Shared init body used by both audio (via [initSong]) and video (via
+  /// `VideoSongCubit.initVideo`). The caller is responsible for constructing
+  /// the right [MediaPlayerHandler] implementation.
+  ///
+  /// Subclasses (e.g. `VideoSongCubit`) call this from their own init method.
+  Future<void> initWithHandler(MediaPlayerHandler handler) async {
     emit(state.copyWith(status: SongStatus.loading));
 
     try {
@@ -211,8 +225,8 @@ class SongCubit extends Cubit<SongState> {
       await _positionSubscription?.cancel();
       await _durationSubscription?.cancel();
 
-      // Initialize audio handler first
-      audioHandler = await AudioServiceProvider.init(audioPlayer);
+      // Assign the media handler (late final — assigned exactly once).
+      audioHandler = handler;
 
       // Initialize subscriptions before any other operations
       playerStateStream = audioHandler.playerStateStream;
@@ -859,6 +873,7 @@ class SongCubit extends Cubit<SongState> {
         loops: state.song.loops,
         loopSort: state.song.loopSort,
         sortOrder: state.song.sortOrder,
+        mediaType: state.song.mediaType,
       );
       await songRepository.updateSong(updatedSong);
 

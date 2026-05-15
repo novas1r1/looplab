@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
+import 'package:media_kit/media_kit.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -97,6 +98,19 @@ Future<void> _initializeApp() async {
       hint: Hint.withMap({'location': 'soloud_initialization'}),
     );
     rethrow;
+  }
+
+  // Initialize media_kit (libmpv-based video playback). Idempotent and cheap;
+  // safe to call even if no video songs exist yet.
+  try {
+    MediaKit.ensureInitialized();
+  } catch (error, stackTrace) {
+    await Sentry.captureException(
+      error,
+      stackTrace: stackTrace,
+      hint: Hint.withMap({'location': 'media_kit_initialization'}),
+    );
+    // Don't rethrow: audio still works without media_kit.
   }
 
   // Initialize other services with error handling

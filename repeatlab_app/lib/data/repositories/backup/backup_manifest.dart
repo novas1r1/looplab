@@ -7,7 +7,13 @@ class BackupManifest with BackupManifestMappable {
   /// Bump when the on-disk backup format changes in a way existing importers
   /// can't handle. Older versions are accepted with migrations; newer versions
   /// are rejected.
-  static const int currentSchemaVersion = 1;
+  ///
+  /// Version history:
+  /// * v1 — initial format. Songs lack `mediaType`; decoded as audio.
+  /// * v2 — adds `mediaType` to `Song`. The `audioFiles` map name is kept
+  ///   for backward compat; it now stores any media file (audio or video).
+  ///   v1 backups still import: missing `mediaType` defaults to `audio`.
+  static const int currentSchemaVersion = 2;
 
   final int schemaVersion;
   final String appVersion;

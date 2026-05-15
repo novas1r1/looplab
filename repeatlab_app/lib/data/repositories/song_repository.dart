@@ -7,6 +7,7 @@ import 'package:audio_metadata_reader/audio_metadata_reader.dart';
 import 'package:ffmpeg_kit_flutter_new_min/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter_new_min/return_code.dart';
 import 'package:flutter_soloud/flutter_soloud.dart' hide AudioMetadata;
+import 'package:media_kit/media_kit.dart';
 import 'package:path/path.dart' as p;
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
@@ -67,6 +68,19 @@ class SongRepository {
   /// Human-readable list of supported formats shown in error messages.
   static const supportedFormatsLabel = 'MP3, WAV, OGG, FLAC, M4A, AAC';
 
+  /// File extensions imported as videos (played via media_kit / libmpv).
+  static const _videoSupportedExtensions = {
+    '.mp4',
+    '.mov',
+    '.m4v',
+    '.mkv',
+    '.webm',
+    '.avi',
+  };
+
+  /// Human-readable list of supported video formats shown in error messages.
+  static const supportedVideoFormatsLabel = 'MP4, MOV, M4V, MKV, WEBM, AVI';
+
   Future<void> addSongFile(File file) async {
     File fileToUse = file;
     // store under file name because ios changes the folder name on every update
@@ -122,12 +136,79 @@ class SongRepository {
       artist: metadata?.artist ?? 'Unknown Artist',
       fileName: fileName,
       duration: duration,
+      mediaType: MediaType.audio,
     );
 
     // Shift existing songs down so the new song appears at the top
     await incrementExistingSortOrders();
     await _store.add(db, song.toMap());
     await getAllSongs();
+  }
+
+  /// Import a video file. The file is kept as-is (no transcoding, no audio
+  /// extraction); duration is probed via a short-lived media_kit [Player].
+  /// File metadata (title/artist) is attempted via [readMetadata] which can
+  /// handle moov-atom tags in mp4/mov; falls back to filename / 'Unknown'.
+  Future<void> addVideoFile(File file) async {
+    final fileName = p.basename(file.path);
+    final extension = fileName.toLowerCase().split('.').last;
+
+    if (!_videoSupportedExtensions.contains('.$extension')) {
+      throw UnsupportedVideoFormatException(extension);
+    }
+
+    final duration = await _probeVideoDuration(file);
+    if (duration == null || duration <= Duration.zero) {
+      throw UnsupportedVideoFormatException(extension);
+    }
+
+    // Best-effort metadata; many mp4/mov files carry moov-atom tags.
+    AudioMetadata? metadata;
+    try {
+      metadata = readMetadata(file);
+    } on NoMetadataParserException catch (ex) {
+      log('No metadata available for video: $ex');
+    } on Exception catch (ex) {
+      log('Metadata read failed for video: $ex');
+    }
+
+    final song = Song(
+      id: const Uuid().v4(),
+      title: metadata?.title ?? fileName,
+      artist: metadata?.artist ?? 'Unknown Artist',
+      fileName: fileName,
+      duration: duration,
+      mediaType: MediaType.video,
+    );
+
+    // Shift existing songs down so the new song appears at the top
+    await incrementExistingSortOrders();
+    await _store.add(db, song.toMap());
+    await getAllSongs();
+  }
+
+  /// Probe video duration by briefly opening the file with media_kit. Returns
+  /// `null` if duration can't be determined within a small timeout. Adds
+  /// ~100–500 ms one-time at import; acceptable for a non-hot path.
+  Future<Duration?> _probeVideoDuration(File file) async {
+    final probe = Player(configuration: const PlayerConfiguration());
+    try {
+      await probe.open(Media(file.path), play: false);
+      // Wait for libmpv to report a non-zero duration. Bail after 5s to avoid
+      // hanging on truly broken files.
+      final duration = await probe.stream.duration
+          .firstWhere((d) => d > Duration.zero)
+          .timeout(
+            const Duration(seconds: 5),
+            onTimeout: () => Duration.zero,
+          );
+      return duration > Duration.zero ? duration : null;
+    } on Exception catch (ex) {
+      log('Failed to probe video duration: $ex', name: 'AddVideoFile');
+      return null;
+    } finally {
+      await probe.dispose();
+    }
   }
 
   /// Converts any audio file to 16-bit PCM WAV using FFmpeg.
@@ -274,4 +355,16 @@ class UnsupportedAudioFormatException implements Exception {
   String toString() =>
       'The audio format ".$format" is not supported. '
       'Supported formats: ${SongRepository.supportedFormatsLabel}.';
+}
+
+/// Thrown when a user picks a video file whose format cannot be loaded.
+class UnsupportedVideoFormatException implements Exception {
+  final String format;
+
+  const UnsupportedVideoFormatException(this.format);
+
+  @override
+  String toString() =>
+      'The video format ".$format" is not supported. '
+      'Supported formats: ${SongRepository.supportedVideoFormatsLabel}.';
 }

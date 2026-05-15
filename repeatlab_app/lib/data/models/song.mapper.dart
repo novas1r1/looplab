@@ -58,6 +58,52 @@ extension LoopSortMapperExtension on LoopSort {
   }
 }
 
+class MediaTypeMapper extends EnumMapper<MediaType> {
+  MediaTypeMapper._();
+
+  static MediaTypeMapper? _instance;
+  static MediaTypeMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = MediaTypeMapper._());
+    }
+    return _instance!;
+  }
+
+  static MediaType fromValue(dynamic value) {
+    ensureInitialized();
+    return MapperContainer.globals.fromValue(value);
+  }
+
+  @override
+  MediaType decode(dynamic value) {
+    switch (value) {
+      case r'audio':
+        return MediaType.audio;
+      case r'video':
+        return MediaType.video;
+      default:
+        throw MapperException.unknownEnumValue(value);
+    }
+  }
+
+  @override
+  dynamic encode(MediaType self) {
+    switch (self) {
+      case MediaType.audio:
+        return r'audio';
+      case MediaType.video:
+        return r'video';
+    }
+  }
+}
+
+extension MediaTypeMapperExtension on MediaType {
+  String toValue() {
+    MediaTypeMapper.ensureInitialized();
+    return MapperContainer.globals.toValue<MediaType>(this) as String;
+  }
+}
+
 class SongMapper extends ClassMapperBase<Song> {
   SongMapper._();
 
@@ -68,6 +114,7 @@ class SongMapper extends ClassMapperBase<Song> {
       MapperContainer.globals.useAll([DurationMapper()]);
       LoopMapper.ensureInitialized();
       LoopSortMapper.ensureInitialized();
+      MediaTypeMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -117,6 +164,13 @@ class SongMapper extends ClassMapperBase<Song> {
     opt: true,
     def: 0,
   );
+  static MediaType _$mediaType(Song v) => v.mediaType;
+  static const Field<Song, MediaType> _f$mediaType = Field(
+    'mediaType',
+    _$mediaType,
+    opt: true,
+    def: MediaType.audio,
+  );
 
   @override
   final MappableFields<Song> fields = const {
@@ -130,6 +184,7 @@ class SongMapper extends ClassMapperBase<Song> {
     #loops: _f$loops,
     #loopSort: _f$loopSort,
     #sortOrder: _f$sortOrder,
+    #mediaType: _f$mediaType,
   };
 
   static Song _instantiate(DecodingData data) {
@@ -144,6 +199,7 @@ class SongMapper extends ClassMapperBase<Song> {
       loops: data.dec(_f$loops),
       loopSort: data.dec(_f$loopSort),
       sortOrder: data.dec(_f$sortOrder),
+      mediaType: data.dec(_f$mediaType),
     );
   }
 
@@ -205,6 +261,7 @@ abstract class SongCopyWith<$R, $In extends Song, $Out>
     List<Loop>? loops,
     LoopSort? loopSort,
     int? sortOrder,
+    MediaType? mediaType,
   });
   SongCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
@@ -234,6 +291,7 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
     List<Loop>? loops,
     LoopSort? loopSort,
     int? sortOrder,
+    MediaType? mediaType,
   }) => $apply(
     FieldCopyWithData({
       if (id != null) #id: id,
@@ -246,6 +304,7 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
       if (loops != null) #loops: loops,
       if (loopSort != null) #loopSort: loopSort,
       if (sortOrder != null) #sortOrder: sortOrder,
+      if (mediaType != null) #mediaType: mediaType,
     }),
   );
   @override
@@ -260,6 +319,7 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
     loops: data.get(#loops, or: $value.loops),
     loopSort: data.get(#loopSort, or: $value.loopSort),
     sortOrder: data.get(#sortOrder, or: $value.sortOrder),
+    mediaType: data.get(#mediaType, or: $value.mediaType),
   );
 
   @override

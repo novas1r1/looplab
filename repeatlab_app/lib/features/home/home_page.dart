@@ -99,6 +99,19 @@ class _HomePageState extends State<HomePage> {
                 AppAnalytics.trackEvent(AppAnalytics.songAddError);
                 SnackbarHelper.showError(context, context.l10n.songAddError);
               }
+            } else if (state.status == AllSongsStatus.errorVideoFormat) {
+              final format = state.errorMessage ?? '';
+              AppAnalytics.trackEvent(
+                AppAnalytics.songAddUnsupportedFormat,
+                data: {'format': format, 'kind': 'video'},
+              );
+              // No dedicated l10n key yet; surface a clear English message.
+              SnackbarHelper.showError(
+                context,
+                'The video format ".$format" is not supported. '
+                'Supported formats: '
+                '${SongRepository.supportedVideoFormatsLabel}.',
+              );
             }
           },
           builder: (context, state) {
@@ -108,6 +121,7 @@ class _HomePageState extends State<HomePage> {
               case AllSongsStatus.initial:
               case AllSongsStatus.loaded:
               case AllSongsStatus.error:
+              case AllSongsStatus.errorVideoFormat:
                 if (state.songs.isEmpty) {
                   return Center(
                     child: Column(
@@ -167,8 +181,8 @@ class _HomePageState extends State<HomePage> {
           },
         ),
         floatingActionButton: FloatingActionButton.extended(
-          heroTag: 'addSong',
-          onPressed: () => _onAddSong(context, songCount),
+          heroTag: 'addMedia',
+          onPressed: () => _showAddMediaSheet(context, songCount),
           icon: const Icon(Icons.add),
           label: Text(
             context.l10n.addSong,
@@ -179,17 +193,83 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> _onAddSong(BuildContext context, int numberOfSongs) async {
+  /// Show a bottom sheet that lets the user choose between adding an audio
+  /// file or a video file. Both flows share the same rate-app prompt.
+  Future<void> _showAddMediaSheet(
+    BuildContext context,
+    int numberOfSongs,
+  ) async {
     AppAnalytics.trackEvent(AppAnalytics.clickAddSong);
-    // check if user already added 2 songs. If yes, show rating dialog
-    final hasRatedAlready = context.read<LocalConfigRepository>().hasRatedApp;
 
+    final choice = await showModalBottomSheet<_AddMediaChoice>(
+      context: context,
+      backgroundColor: AppColors.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(24),
+          topRight: Radius.circular(24),
+        ),
+      ),
+      builder: (sheetContext) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 8),
+              Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: AppColors.onSurface.withValues(alpha: 0.3),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(height: 16),
+              ListTile(
+                leading: const Icon(Icons.audiotrack),
+                title: Text(context.l10n.addSong),
+                subtitle: const Text(SongRepository.supportedFormatsLabel),
+                onTap: () =>
+                    Navigator.of(sheetContext).pop(_AddMediaChoice.audio),
+              ),
+              ListTile(
+                leading: const Icon(Icons.movie),
+                title: const Text('Add video'),
+                subtitle: const Text(
+                  SongRepository.supportedVideoFormatsLabel,
+                ),
+                onTap: () =>
+                    Navigator.of(sheetContext).pop(_AddMediaChoice.video),
+              ),
+              const SizedBox(height: 8),
+            ],
+          ),
+        );
+      },
+    );
+
+    if (choice == null || !context.mounted) return;
+
+    await _promptRateAppIfDue(context, numberOfSongs);
+    if (!context.mounted) return;
+
+    switch (choice) {
+      case _AddMediaChoice.audio:
+        context.read<AllSongsCubit>().addSong();
+      case _AddMediaChoice.video:
+        context.read<AllSongsCubit>().addVideo();
+    }
+  }
+
+  /// Show the rate-app dialog if the user has 2+ songs and hasn't rated yet.
+  /// Shared between audio and video add flows.
+  Future<void> _promptRateAppIfDue(
+    BuildContext context,
+    int numberOfSongs,
+  ) async {
+    final hasRatedAlready = context.read<LocalConfigRepository>().hasRatedApp;
     if (numberOfSongs >= 2 && !hasRatedAlready) {
       await DialogHelper.displayRateAppDialog(context);
-    }
-
-    if (context.mounted) {
-      context.read<AllSongsCubit>().addSong();
     }
   }
 
@@ -227,3 +307,6 @@ class _HomePageState extends State<HomePage> {
     context.read<ChangelogDialogCubit>().setChangelogDialogSeen();
   }
 }
+
+/// User choice from the add-media bottom sheet.
+enum _AddMediaChoice { audio, video }

@@ -78,6 +78,59 @@ class FileRepository {
     return newFile;
   }
 
+  /// Pick a single video file and copy it into the app documents directory.
+  ///
+  /// Mirrors [pickSingleAudioFile] for video formats supported by media_kit
+  /// (libmpv): mp4, mov, m4v, mkv, webm. `.avi` works in the underlying
+  /// player but isn't reliably surfaced by iOS's `FileType.custom`; users on
+  /// iOS may not see `.avi` files in the picker.
+  Future<File?> pickSingleVideoFile() async {
+    FilePickerResult? result;
+
+    if (Platform.isIOS) {
+      result = await filePicker.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: [
+          'mp4',
+          'mov',
+          'm4v',
+          'mkv',
+          'webm',
+        ],
+      );
+    } else {
+      try {
+        result = await filePicker.pickFiles(
+          type: FileType.video,
+        );
+      } on PlatformException catch (e) {
+        log('Error picking video file: $e');
+        rethrow;
+      }
+    }
+
+    if (result == null || result.files.isEmpty) {
+      return null;
+    }
+
+    final pickedFile = result.files.single;
+    final rawPath = pickedFile.path;
+    if (rawPath == null || rawPath.isEmpty) {
+      return null;
+    }
+
+    final sourceFile = File(_normalizePickedPath(rawPath));
+
+    // copy file to app directory
+    final appDir = await getApplicationDocumentsDirectory();
+    final fileName = _resolveFileName(pickedFile.name, sourceFile.path);
+    final destinationPath = p.join(appDir.path, fileName);
+    final newFile = File(destinationPath);
+    await sourceFile.copy(newFile.path);
+
+    return newFile;
+  }
+
   Future<List<File>> pickMultipleAudioFiles() async {
     final result = await filePicker.pickFiles(
       type: FileType.audio,

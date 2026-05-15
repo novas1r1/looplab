@@ -24,6 +24,11 @@ class Song with SongMappable {
   final LoopSort loopSort;
   final int sortOrder;
 
+  /// Whether this entry is an audio file or a video file. Defaults to
+  /// [MediaType.audio] so existing sembast records (which were written before
+  /// this field existed) decode as audio without needing a migration.
+  final MediaType mediaType;
+
   const Song({
     required this.id,
     required this.title,
@@ -35,6 +40,7 @@ class Song with SongMappable {
     this.loops = const [],
     this.loopSort = LoopSort.none,
     this.sortOrder = 0,
+    this.mediaType = MediaType.audio,
   });
 
   Future<String> get path async {
@@ -49,6 +55,12 @@ enum LoopSort {
   manual,
   startTime,
   none,
+}
+
+@MappableEnum()
+enum MediaType {
+  audio,
+  video,
 }
 
 class DurationMapper extends SimpleMapper<Duration> {

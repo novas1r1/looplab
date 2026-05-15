@@ -14,4 +14,4 @@ class AllSongsState with AllSongsStateMappable {
 }
 
 @MappableEnum()
-enum AllSongsStatus { initial, loading, loaded, error }
+enum AllSongsStatus { initial, loading, loaded, error, errorVideoFormat }

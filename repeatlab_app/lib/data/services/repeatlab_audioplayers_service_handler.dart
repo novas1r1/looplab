@@ -11,17 +11,15 @@ import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
+import 'package:repeatlab/data/services/loop_navigation_event.dart';
+import 'package:repeatlab/data/services/media_player_handler.dart';
 
-/// Navigation event types for skip button actions
-enum LoopNavigationEvent {
-  restartCurrentLoop,
-  previousLoop,
-  nextLoop,
-}
+export 'package:repeatlab/data/services/loop_navigation_event.dart';
 
 /// AudioHandler implementation for background audio playback
 class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
-    with QueueHandler, SeekHandler {
+    with QueueHandler, SeekHandler
+    implements MediaPlayerHandler {
   final AudioPlayer audioPlayer;
 
   static const double _minPlaybackSpeed = 0.5;
@@ -38,20 +36,24 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
   /// Stream controller for navigation events that the cubit can listen to
   final _navigationEventController =
       StreamController<LoopNavigationEvent>.broadcast();
+  @override
   Stream<LoopNavigationEvent> get navigationEvents =>
       _navigationEventController.stream;
 
   /// Track last skip previous tap time for double-tap detection
   DateTime? _lastSkipPreviousTime;
 
+  @override
   Stream<PlayerState>? playerStateStream;
   StreamSubscription<PlayerState>? _playerStateSubscription;
 
+  @override
   Stream<Duration>? positionStream;
   StreamSubscription<Duration>? _positionSubscription;
   StreamSubscription<Duration>? _loopPositionSubscription;
   Timer? _loopCheckTimer;
 
+  @override
   Future<Duration> get position async =>
       await audioPlayer.getCurrentPosition() ?? Duration.zero;
 
@@ -198,6 +200,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
   /// When [autoStart] is false, the source is loaded but playback does not
   /// start. This avoids a brief audible blip on platforms where `play()`
   /// followed by `pause()` round-trips through the platform channel.
+  @override
   Future<void> playSong(Song song, {bool autoStart = true}) async {
     final path = await song.path;
 
@@ -251,6 +254,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     }
   }
 
+  @override
   Future<void> resume() async {
     // check if is in loop mode
     if (_activeLoop != null) {
@@ -478,6 +482,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
   bool get isFullSongRepeatEnabled => _fullSongRepeatEnabled;
 
   /// Returns the current internal playback speed
+  @override
   double get currentPlaybackSpeed => _playbackSpeed;
 
   @override
@@ -543,6 +548,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
 
   // if loop is not null, check if position is within loop start and end,
   // if not, seek to loop start
+  @override
   Future<void> forward(int seconds, Loop? loop) async {
     final position = await audioPlayer.getCurrentPosition() ?? Duration.zero;
     final duration = await audioPlayer.getDuration() ?? Duration.zero;
@@ -568,6 +574,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
 
   // if loop is not null, check if position is within loop start and end,
   // if not, seek to loop start
+  @override
   Future<void> back(int seconds, Loop? loop) async {
     final position = await audioPlayer.getCurrentPosition() ?? Duration.zero;
 
@@ -588,6 +595,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
   }
 
   // Close resources when the audio handler is no longer needed
+  @override
   Future<void> close() async {
     _pendingSeekTarget = null;
     await _awaitActiveSeek();

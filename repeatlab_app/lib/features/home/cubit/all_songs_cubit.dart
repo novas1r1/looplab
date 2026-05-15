@@ -92,6 +92,51 @@ class AllSongsCubit extends Cubit<AllSongsState> {
     }
   }
 
+  Future<void> addVideo() async {
+    emit(state.copyWith(status: AllSongsStatus.loading));
+
+    File? file;
+
+    try {
+      file = await fileRepository.pickSingleVideoFile();
+
+      if (file == null) {
+        emit(state.copyWith(status: AllSongsStatus.initial));
+        return;
+      }
+
+      await songRepository.addVideoFile(file);
+      AppAnalytics.trackEvent(AppAnalytics.songAddSuccess);
+      await loadSongs();
+    } on UnsupportedVideoFormatException catch (ex, stack) {
+      crashReportingRepository.reportError(
+        ex,
+        stack,
+        properties: {'file': file?.path},
+      );
+      emit(
+        state.copyWith(
+          status: AllSongsStatus.errorVideoFormat,
+          errorMessage: ex.format,
+        ),
+      );
+    } catch (ex, stack) {
+      crashReportingRepository.reportError(
+        ex,
+        stack,
+        properties: {
+          'file': file?.path,
+        },
+      );
+      emit(
+        state.copyWith(
+          status: AllSongsStatus.error,
+          errorMessage: ex.toString(),
+        ),
+      );
+    }
+  }
+
   Future<bool> clearDb() async {
     try {
       await songRepository.clearDb();

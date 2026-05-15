@@ -24,7 +24,9 @@
       "Bash(flutter pub *)",
       "Bash(git stash *)",
       "Bash(git checkout *)",
-      "Bash(fvm flutter:*)"
+      "Bash(fvm flutter:*)",
+      "Read(//c/Users/vry/.claude/plans/**)",
+      "Read(//c/Users/vry/.claude/**)"
     ]
   }
 }
