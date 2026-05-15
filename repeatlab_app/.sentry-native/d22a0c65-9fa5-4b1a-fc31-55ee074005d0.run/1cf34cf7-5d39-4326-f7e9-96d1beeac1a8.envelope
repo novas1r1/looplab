@@ -1,3 +1,0 @@
-{"dsn":"https://2ca5460258f78d3ad8694f64123da2e1@o4508596905050112.ingest.de.sentry.io/4508596929167440"}
-{"type":"session","length":210}
-{"init":true,"sid":"32561809-df87-49e5-d2ff-55391bc41946","status":"crashed","errors":1,"started":"2026-05-14T07:44:46.308395Z","duration":44.455491,"attrs":{"release":"repeatlab@1.7.3+82","environment":"dev"}}
