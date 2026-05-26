@@ -23,7 +23,9 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
   }) : super(const PremiumSubscriptionState());
 
   bool get hasPremium =>
-      state.hasWeeklySubscription || state.hasYearlySubscription || state.hasLifetimePurchase;
+      state.hasWeeklySubscription ||
+      state.hasYearlySubscription ||
+      state.hasLifetimePurchase;
 
   /// Initializes the [Purchases] SDK.
   /// Checks if the user is subscribed to the premium plan.
@@ -85,8 +87,10 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
     } */
 
     try {
-      final hasWeeklySubscription = await purchasesRepository.hasWeeklySubscription;
-      final hasYearlySubscription = await purchasesRepository.hasYearlySubscription;
+      final hasWeeklySubscription =
+          await purchasesRepository.hasWeeklySubscription;
+      final hasYearlySubscription =
+          await purchasesRepository.hasYearlySubscription;
 
       final hasLifetimePurchase = await purchasesRepository.hasLifetimePurchase;
 
@@ -94,7 +98,9 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
       log('--- REVENUECAT: hasYearlySubscription: $hasYearlySubscription');
       log('--- REVENUECAT: hasLifetimePurchase: $hasLifetimePurchase');
 
-      if (hasWeeklySubscription || hasYearlySubscription || hasLifetimePurchase) {
+      if (hasWeeklySubscription ||
+          hasYearlySubscription ||
+          hasLifetimePurchase) {
         emit(
           state.copyWith(
             status: PremiumSubscriptionStatus.premium,

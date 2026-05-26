@@ -32,6 +32,15 @@ class _VideoPreviewState extends State<VideoPreview> {
   int? _knownWidth;
   int? _knownHeight;
 
+  // Fraction of screen height the video may occupy, per size mode. The frame
+  // is centered horizontally so portrait videos shrink to fit instead of
+  // dominating the screen.
+  static const Map<VideoSizeMode, double> _heightFractions = {
+    VideoSizeMode.small: 0.22,
+    VideoSizeMode.medium: 0.40,
+    VideoSizeMode.large: 0.65,
+  };
+
   @override
   void initState() {
     super.initState();
@@ -76,25 +85,141 @@ class _VideoPreviewState extends State<VideoPreview> {
     super.dispose();
   }
 
+  void _shrink(VideoSizeMode current) {
+    final next = switch (current) {
+      VideoSizeMode.large => VideoSizeMode.medium,
+      VideoSizeMode.medium => VideoSizeMode.small,
+      VideoSizeMode.small => VideoSizeMode.small,
+    };
+    context.read<SongCubit>().setVideoSizeMode(next);
+  }
+
+  void _grow(VideoSizeMode current) {
+    final next = switch (current) {
+      VideoSizeMode.small => VideoSizeMode.medium,
+      VideoSizeMode.medium => VideoSizeMode.large,
+      VideoSizeMode.large => VideoSizeMode.large,
+    };
+    context.read<SongCubit>().setVideoSizeMode(next);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: _aspectRatio,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: ColoredBox(
-          color: AppColors.surface,
-          child: Video(
-            controller: _controller,
-            fit: BoxFit.contain,
-            // Hide media_kit_video's built-in scrub bar; LoopTimeline +
-            // SongController already cover playback control. The default
-            // controls would also intercept taps we want passing through to
-            // surrounding widgets.
-            controls: (_) => const SizedBox.shrink(),
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    return BlocSelector<SongCubit, SongState, VideoSizeMode>(
+      selector: (state) => state.song.videoSizeMode,
+      builder: (context, mode) {
+        final maxHeight = screenHeight * (_heightFractions[mode] ?? 0.40);
+        return Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxHeight: maxHeight),
+            child: AspectRatio(
+              aspectRatio: _aspectRatio,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Stack(
+                  children: [
+                    Positioned.fill(
+                      child: ColoredBox(
+                        color: AppColors.surface,
+                        child: Video(
+                          controller: _controller,
+                          // Hide media_kit_video's built-in scrub bar;
+                          // LoopTimeline + SongController already cover
+                          // playback control. The default controls would also
+                          // intercept taps we want passing through to
+                          // surrounding widgets.
+                          controls: (_) => const SizedBox.shrink(),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 4,
+                      right: 4,
+                      child: _SizeControls(
+                        mode: mode,
+                        onShrink: () => _shrink(mode),
+                        onGrow: () => _grow(mode),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
-        ),
+        );
+      },
+    );
+  }
+}
+
+class _SizeControls extends StatelessWidget {
+  final VideoSizeMode mode;
+  final VoidCallback onShrink;
+  final VoidCallback onGrow;
+
+  const _SizeControls({
+    required this.mode,
+    required this.onShrink,
+    required this.onGrow,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        // Semi-transparent pill so the icons stay legible over both light and
+        // dark video content.
+        color: Colors.black.withValues(alpha: 0.45),
+        borderRadius: BorderRadius.circular(20),
       ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _IconBtn(
+            icon: Icons.remove,
+            enabled: mode != VideoSizeMode.small,
+            onTap: onShrink,
+            tooltip: 'Shrink video',
+          ),
+          _IconBtn(
+            icon: Icons.add,
+            enabled: mode != VideoSizeMode.large,
+            onTap: onGrow,
+            tooltip: 'Enlarge video',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _IconBtn extends StatelessWidget {
+  final IconData icon;
+  final bool enabled;
+  final VoidCallback onTap;
+  final String tooltip;
+
+  const _IconBtn({
+    required this.icon,
+    required this.enabled,
+    required this.onTap,
+    required this.tooltip,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(icon, size: 18),
+      color: Colors.white,
+      disabledColor: Colors.white38,
+      tooltip: tooltip,
+      onPressed: enabled ? onTap : null,
+      padding: const EdgeInsets.all(4),
+      constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+      visualDensity: VisualDensity.compact,
+      splashRadius: 18,
     );
   }
 }

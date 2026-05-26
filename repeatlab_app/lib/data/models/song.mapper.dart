@@ -104,6 +104,56 @@ extension MediaTypeMapperExtension on MediaType {
   }
 }
 
+class VideoSizeModeMapper extends EnumMapper<VideoSizeMode> {
+  VideoSizeModeMapper._();
+
+  static VideoSizeModeMapper? _instance;
+  static VideoSizeModeMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = VideoSizeModeMapper._());
+    }
+    return _instance!;
+  }
+
+  static VideoSizeMode fromValue(dynamic value) {
+    ensureInitialized();
+    return MapperContainer.globals.fromValue(value);
+  }
+
+  @override
+  VideoSizeMode decode(dynamic value) {
+    switch (value) {
+      case r'small':
+        return VideoSizeMode.small;
+      case r'medium':
+        return VideoSizeMode.medium;
+      case r'large':
+        return VideoSizeMode.large;
+      default:
+        throw MapperException.unknownEnumValue(value);
+    }
+  }
+
+  @override
+  dynamic encode(VideoSizeMode self) {
+    switch (self) {
+      case VideoSizeMode.small:
+        return r'small';
+      case VideoSizeMode.medium:
+        return r'medium';
+      case VideoSizeMode.large:
+        return r'large';
+    }
+  }
+}
+
+extension VideoSizeModeMapperExtension on VideoSizeMode {
+  String toValue() {
+    VideoSizeModeMapper.ensureInitialized();
+    return MapperContainer.globals.toValue<VideoSizeMode>(this) as String;
+  }
+}
+
 class SongMapper extends ClassMapperBase<Song> {
   SongMapper._();
 
@@ -115,6 +165,7 @@ class SongMapper extends ClassMapperBase<Song> {
       LoopMapper.ensureInitialized();
       LoopSortMapper.ensureInitialized();
       MediaTypeMapper.ensureInitialized();
+      VideoSizeModeMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -171,6 +222,13 @@ class SongMapper extends ClassMapperBase<Song> {
     opt: true,
     def: MediaType.audio,
   );
+  static VideoSizeMode _$videoSizeMode(Song v) => v.videoSizeMode;
+  static const Field<Song, VideoSizeMode> _f$videoSizeMode = Field(
+    'videoSizeMode',
+    _$videoSizeMode,
+    opt: true,
+    def: VideoSizeMode.medium,
+  );
 
   @override
   final MappableFields<Song> fields = const {
@@ -185,6 +243,7 @@ class SongMapper extends ClassMapperBase<Song> {
     #loopSort: _f$loopSort,
     #sortOrder: _f$sortOrder,
     #mediaType: _f$mediaType,
+    #videoSizeMode: _f$videoSizeMode,
   };
 
   static Song _instantiate(DecodingData data) {
@@ -200,6 +259,7 @@ class SongMapper extends ClassMapperBase<Song> {
       loopSort: data.dec(_f$loopSort),
       sortOrder: data.dec(_f$sortOrder),
       mediaType: data.dec(_f$mediaType),
+      videoSizeMode: data.dec(_f$videoSizeMode),
     );
   }
 
@@ -262,6 +322,7 @@ abstract class SongCopyWith<$R, $In extends Song, $Out>
     LoopSort? loopSort,
     int? sortOrder,
     MediaType? mediaType,
+    VideoSizeMode? videoSizeMode,
   });
   SongCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
@@ -292,6 +353,7 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
     LoopSort? loopSort,
     int? sortOrder,
     MediaType? mediaType,
+    VideoSizeMode? videoSizeMode,
   }) => $apply(
     FieldCopyWithData({
       if (id != null) #id: id,
@@ -305,6 +367,7 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
       if (loopSort != null) #loopSort: loopSort,
       if (sortOrder != null) #sortOrder: sortOrder,
       if (mediaType != null) #mediaType: mediaType,
+      if (videoSizeMode != null) #videoSizeMode: videoSizeMode,
     }),
   );
   @override
@@ -320,6 +383,7 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
     loopSort: data.get(#loopSort, or: $value.loopSort),
     sortOrder: data.get(#sortOrder, or: $value.sortOrder),
     mediaType: data.get(#mediaType, or: $value.mediaType),
+    videoSizeMode: data.get(#videoSizeMode, or: $value.videoSizeMode),
   );
 
   @override

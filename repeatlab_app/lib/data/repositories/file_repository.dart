@@ -141,7 +141,11 @@ class FileRepository {
       return [];
     }
 
-    return result.paths.whereType<String>().map(_normalizePickedPath).map(File.new).toList();
+    return result.paths
+        .whereType<String>()
+        .map(_normalizePickedPath)
+        .map(File.new)
+        .toList();
   }
 }
 

@@ -62,9 +62,8 @@ class _LoopTileState extends State<LoopTile> {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(8),
-        onTap: () => isLocked
-            ? widget.onLockedTap?.call()
-            : widget.onTap(widget.loop),
+        onTap: () =>
+            isLocked ? widget.onLockedTap?.call() : widget.onTap(widget.loop),
         child: Column(
           children: [
             Row(

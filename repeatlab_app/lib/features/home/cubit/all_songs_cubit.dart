@@ -162,8 +162,7 @@ class AllSongsCubit extends Cubit<AllSongsState> {
 
     // Reassign sortOrder based on new positions
     final reordered = [
-      for (int i = 0; i < songs.length; i++)
-        songs[i].copyWith(sortOrder: i),
+      for (int i = 0; i < songs.length; i++) songs[i].copyWith(sortOrder: i),
     ];
 
     // Optimistic update

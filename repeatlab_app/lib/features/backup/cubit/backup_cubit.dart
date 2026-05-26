@@ -26,13 +26,18 @@ class BackupCubit extends Cubit<BackupState> {
   final CrashReportingRepository crashReportingRepository;
 
   // Injected for tests. In production these resolve to share_plus + file_picker.
-  final Future<ShareResultStatus> Function(File file, {Rect? sharePositionOrigin}) _shareFile;
+  final Future<ShareResultStatus> Function(
+    File file, {
+    Rect? sharePositionOrigin,
+  })
+  _shareFile;
   final Future<File?> Function() _pickBackupFile;
 
   BackupCubit({
     required this.backupRepository,
     required this.crashReportingRepository,
-    Future<ShareResultStatus> Function(File file, {Rect? sharePositionOrigin})? shareFile,
+    Future<ShareResultStatus> Function(File file, {Rect? sharePositionOrigin})?
+    shareFile,
     Future<File?> Function()? pickBackupFile,
   }) : _shareFile = shareFile ?? _defaultShareFile,
        _pickBackupFile = pickBackupFile ?? _defaultPickBackupFile,
@@ -49,7 +54,8 @@ class BackupCubit extends Cubit<BackupState> {
       log('BackupCubit.exportAndShare: export failed: $ex');
       crashReportingRepository.reportError(ex, stack);
       AppAnalytics.trackEvent(AppAnalytics.backupExportFailure);
-      final message = ex is FileSystemException &&
+      final message =
+          ex is FileSystemException &&
               ex.osError?.errorCode == _errNoSpaceOnDevice
           ? 'Not enough storage space on your device. Free up some space and try again.'
           : ex.toString();
@@ -182,7 +188,8 @@ class BackupCubit extends Cubit<BackupState> {
         AppAnalytics.backupImportFailure,
         data: {'mode': mode.name},
       );
-      final message = ex is FileSystemException &&
+      final message =
+          ex is FileSystemException &&
               ex.osError?.errorCode == _errNoSpaceOnDevice
           ? 'Not enough storage space on your device. Free up some space and try again.'
           : ex.toString();

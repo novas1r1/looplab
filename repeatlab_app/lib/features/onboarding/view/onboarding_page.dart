@@ -102,7 +102,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: context.l10n.onboardingIAcceptUsageStatistics,
+                                  text: context
+                                      .l10n
+                                      .onboardingIAcceptUsageStatistics,
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                               ],
@@ -131,24 +133,30 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                                 TextSpan(
-                                  recognizer: TapGestureRecognizer()..onTap = _showPrivacyPolicy,
-                                  text: context.l10n.onboardingPrivacyPolicyLink,
-                                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                    decoration: TextDecoration.underline,
-                                    color: AppColors.primary,
-                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = _showPrivacyPolicy,
+                                  text:
+                                      context.l10n.onboardingPrivacyPolicyLink,
+                                  style: Theme.of(context).textTheme.bodyLarge
+                                      ?.copyWith(
+                                        decoration: TextDecoration.underline,
+                                        color: AppColors.primary,
+                                      ),
                                 ),
                                 TextSpan(
                                   text: context.l10n.and,
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                                 TextSpan(
-                                  recognizer: TapGestureRecognizer()..onTap = _showTermsOfService,
-                                  text: context.l10n.onboardingTermsOfServiceLink,
-                                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                    decoration: TextDecoration.underline,
-                                    color: AppColors.primary,
-                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = _showTermsOfService,
+                                  text:
+                                      context.l10n.onboardingTermsOfServiceLink,
+                                  style: Theme.of(context).textTheme.bodyLarge
+                                      ?.copyWith(
+                                        decoration: TextDecoration.underline,
+                                        color: AppColors.primary,
+                                      ),
                                 ),
                               ],
                             ),
@@ -220,7 +228,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
           .state
           .hasLifetimePurchase;
 
-      if (!hasWeeklySubscription && !hasYearlySubscription && !hasLifetimePurchased) {
+      if (!hasWeeklySubscription &&
+          !hasYearlySubscription &&
+          !hasLifetimePurchased) {
         log('no subscription or lifetime purchase');
         AppAnalytics.trackEvent(AppAnalytics.viewPaywallFromOnboarding);
 
@@ -286,7 +296,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
       height: 8,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: _currentPage == index ? AppColors.primary : AppColors.primary.withValues(alpha: 0.2),
+        color: _currentPage == index
+            ? AppColors.primary
+            : AppColors.primary.withValues(alpha: 0.2),
       ),
     );
   }

@@ -477,73 +477,78 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                                       );
                                     },
                                     scrollController: _loopListController,
-                                    padding: const EdgeInsets.only(bottom: 92),
+                                    padding: const EdgeInsets.only(bottom: 174),
                                     itemBuilder: (context, index) => Padding(
                                       padding: const EdgeInsets.symmetric(
                                         vertical: 4,
                                       ),
                                       key: ValueKey(loops[index].id),
-                                      child: BlocSelector<
-                                        PremiumSubscriptionCubit,
-                                        PremiumSubscriptionState,
-                                        bool
-                                      >(
-                                        selector: (state) =>
-                                            state.hasWeeklySubscription ||
-                                            state.hasYearlySubscription ||
-                                            state.hasLifetimePurchase,
-                                        builder: (context, hasPremium) {
-                                          return LoopTile(
-                                            index: index,
-                                            loop: loops[index],
-                                            isSelected:
-                                                loops[index] ==
-                                                context
+                                      child:
+                                          BlocSelector<
+                                            PremiumSubscriptionCubit,
+                                            PremiumSubscriptionState,
+                                            bool
+                                          >(
+                                            selector: (state) =>
+                                                state.hasWeeklySubscription ||
+                                                state.hasYearlySubscription ||
+                                                state.hasLifetimePurchase,
+                                            builder: (context, hasPremium) {
+                                              return LoopTile(
+                                                index: index,
+                                                loop: loops[index],
+                                                isSelected:
+                                                    loops[index] ==
+                                                    context
+                                                        .read<SongCubit>()
+                                                        .state
+                                                        .activeLoop,
+                                                isLocked:
+                                                    !hasPremium && index > 0,
+                                                onTap: (loop) => context
                                                     .read<SongCubit>()
-                                                    .state
-                                                    .activeLoop,
-                                            isLocked:
-                                                !hasPremium && index > 0,
-                                            onTap: (loop) => context
-                                                .read<SongCubit>()
-                                                .selectLoop(loop),
-                                            onDelete: (loop) {
-                                              AppAnalytics.trackEvent(
-                                                AppAnalytics.clickDeleteLoop,
+                                                    .selectLoop(loop),
+                                                onDelete: (loop) {
+                                                  AppAnalytics.trackEvent(
+                                                    AppAnalytics
+                                                        .clickDeleteLoop,
+                                                  );
+                                                  context
+                                                      .read<SongCubit>()
+                                                      .deleteLoop(loop);
+                                                },
+                                                onPlay: (loop) {
+                                                  AppAnalytics.trackEvent(
+                                                    AppAnalytics.clickPlayLoop,
+                                                  );
+                                                  context
+                                                      .read<SongCubit>()
+                                                      .togglePlayLoop(loop);
+                                                },
+                                                onPause: (loop) {
+                                                  AppAnalytics.trackEvent(
+                                                    AppAnalytics.clickStopLoop,
+                                                  );
+                                                  context
+                                                      .read<SongCubit>()
+                                                      .pauseLoop();
+                                                },
+                                                onUpdate: (loop) {
+                                                  AppAnalytics.trackEvent(
+                                                    AppAnalytics
+                                                        .clickUpdateLoop,
+                                                  );
+                                                  context
+                                                      .read<SongCubit>()
+                                                      .updateLoop(loop);
+                                                },
+                                                onLockedTap: () =>
+                                                    _presentLoopPaywall(
+                                                      context,
+                                                    ),
                                               );
-                                              context
-                                                  .read<SongCubit>()
-                                                  .deleteLoop(loop);
                                             },
-                                            onPlay: (loop) {
-                                              AppAnalytics.trackEvent(
-                                                AppAnalytics.clickPlayLoop,
-                                              );
-                                              context
-                                                  .read<SongCubit>()
-                                                  .togglePlayLoop(loop);
-                                            },
-                                            onPause: (loop) {
-                                              AppAnalytics.trackEvent(
-                                                AppAnalytics.clickStopLoop,
-                                              );
-                                              context
-                                                  .read<SongCubit>()
-                                                  .pauseLoop();
-                                            },
-                                            onUpdate: (loop) {
-                                              AppAnalytics.trackEvent(
-                                                AppAnalytics.clickUpdateLoop,
-                                              );
-                                              context
-                                                  .read<SongCubit>()
-                                                  .updateLoop(loop);
-                                            },
-                                            onLockedTap: () =>
-                                                _presentLoopPaywall(context),
-                                          );
-                                        },
-                                      ),
+                                          ),
                                     ),
                                     itemCount: loops.length,
                                   ),
@@ -632,14 +637,13 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
     final songCubit = context.read<SongCubit>();
     final currentSong = songCubit.state.song;
 
-    final result =
-        await showDialog<({String title, String artist, int? bpm})>(
+    final result = await showDialog<({String title, String artist, int? bpm})>(
       context: context,
       builder: (dialogContext) {
-        final titleController =
-            TextEditingController(text: currentSong.title);
-        final artistController =
-            TextEditingController(text: currentSong.artist);
+        final titleController = TextEditingController(text: currentSong.title);
+        final artistController = TextEditingController(
+          text: currentSong.artist,
+        );
         final bpmController = TextEditingController(
           text: currentSong.bpm?.toString() ?? '',
         );
@@ -652,49 +656,48 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
                 side: BorderSide(
-                  color: Theme.of(dialogContext)
-                      .colorScheme
-                      .outlineVariant
-                      .withValues(alpha: 0.8),
+                  color: Theme.of(
+                    dialogContext,
+                  ).colorScheme.outlineVariant.withValues(alpha: 0.8),
                   width: 1.5,
                 ),
               ),
               title: Text(dialogContext.l10n.editSong),
               content: SingleChildScrollView(
                 child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextField(
-                    controller: titleController,
-                    decoration: InputDecoration(
-                      labelText: dialogContext.l10n.editSongTitle,
-                      errorText: titleController.text.trim().isEmpty
-                          ? dialogContext.l10n.editSongTitleRequired
-                          : null,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      controller: titleController,
+                      decoration: InputDecoration(
+                        labelText: dialogContext.l10n.editSongTitle,
+                        errorText: titleController.text.trim().isEmpty
+                            ? dialogContext.l10n.editSongTitleRequired
+                            : null,
+                      ),
+                      autofocus: true,
+                      textCapitalization: TextCapitalization.words,
+                      onChanged: (_) => setState(() {}),
                     ),
-                    autofocus: true,
-                    textCapitalization: TextCapitalization.words,
-                    onChanged: (_) => setState(() {}),
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: artistController,
-                    decoration: InputDecoration(
-                      labelText: dialogContext.l10n.editSongArtist,
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: artistController,
+                      decoration: InputDecoration(
+                        labelText: dialogContext.l10n.editSongArtist,
+                      ),
+                      textCapitalization: TextCapitalization.words,
                     ),
-                    textCapitalization: TextCapitalization.words,
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: bpmController,
-                    decoration: const InputDecoration(
-                      labelText: 'BPM',
-                      hintText: '120',
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: bpmController,
+                      decoration: const InputDecoration(
+                        labelText: 'BPM',
+                        hintText: '120',
+                      ),
+                      keyboardType: TextInputType.number,
                     ),
-                    keyboardType: TextInputType.number,
-                  ),
-                ],
-              ),
+                  ],
+                ),
               ),
               actions: [
                 ElevatedButton(
@@ -702,7 +705,7 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                     backgroundColor: AppColors.primaryContainer,
                     foregroundColor: AppColors.onPrimaryContainer,
                   ),
-                  onPressed: () => Navigator.of(dialogContext).pop(null),
+                  onPressed: () => Navigator.of(dialogContext).pop(),
                   child: Text(dialogContext.l10n.cancel),
                 ),
                 ElevatedButton(

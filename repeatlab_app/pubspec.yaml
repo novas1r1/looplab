@@ -1,10 +1,10 @@
 name: repeatlab
 description: Audio loop studio
-version: 1.7.3+82
+version: 2.0.0+83
 publish_to: none
 
 environment:
-  flutter: 3.41.7
+  flutter: 3.41.9
   sdk: ">=3.11.0 <4.0.0"
 
 dependencies:

@@ -140,11 +140,12 @@ class _HomePageState extends State<HomePage> {
                         const SizedBox(height: 8),
                         Text(
                           context.l10n.tapToAddSong,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: AppColors.onSurface.withValues(
-                              alpha: 0.6,
-                            ),
-                          ),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: AppColors.onSurface.withValues(
+                                  alpha: 0.6,
+                                ),
+                              ),
                         ),
                       ],
                     ),
@@ -162,12 +163,13 @@ class _HomePageState extends State<HomePage> {
                   onReorderEnd: (_) {
                     AppAnalytics.trackEvent(AppAnalytics.reorderSongs);
                   },
-                  proxyDecorator: (Widget child, int index, Animation<double> animation) {
-                    return Material(
-                      color: Colors.transparent,
-                      child: child,
-                    );
-                  },
+                  proxyDecorator:
+                      (Widget child, int index, Animation<double> animation) {
+                        return Material(
+                          color: Colors.transparent,
+                          child: child,
+                        );
+                      },
                   itemBuilder: (context, index) {
                     final song = state.songs[index];
                     return Padding(

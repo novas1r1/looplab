@@ -1259,6 +1259,17 @@ class SongCubit extends Cubit<SongState> {
     }
   }
 
+  Future<void> setVideoSizeMode(VideoSizeMode mode) async {
+    if (state.song.videoSizeMode == mode) return;
+    final updatedSong = state.song.copyWith(videoSizeMode: mode);
+    emit(state.copyWith(song: updatedSong, status: SongStatus.updated));
+    try {
+      await songRepository.updateSong(updatedSong);
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+    }
+  }
+
   Future<void> updatePitch(int semitones) async {
     try {
       // Convert semitones to pitch multiplier

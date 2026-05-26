@@ -78,8 +78,7 @@ class VideoPlayerHandler implements MediaPlayerHandler {
   /// `paused`/`playing` when buffering toggles.
   PlayerState? _lastEmittedState;
 
-  VideoPlayerHandler({Player? player})
-    : player = player ?? Player(configuration: const PlayerConfiguration()) {
+  VideoPlayerHandler({Player? player}) : player = player ?? Player() {
     log('VideoPlayerHandler constructor');
 
     _playingSubscription = this.player.stream.playing.listen((playing) {

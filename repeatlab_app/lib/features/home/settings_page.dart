@@ -104,8 +104,8 @@ class _SettingsViewState extends State<_SettingsView> {
     final messenger = ScaffoldMessenger.of(context);
     switch (state.status) {
       case BackupStatus.exportSuccess:
-        // Sharing is handled inside the cubit; no visible toast needed on
-        // success because the share sheet already confirms the action.
+      // Sharing is handled inside the cubit; no visible toast needed on
+      // success because the share sheet already confirms the action.
       case BackupStatus.importSuccess:
         final s = state.lastImportSummary;
         if (s != null) {
@@ -232,9 +232,9 @@ class _BackupTiles extends StatelessWidget {
                   final origin = box != null
                       ? box.localToGlobal(Offset.zero) & box.size
                       : null;
-                  context
-                      .read<BackupCubit>()
-                      .exportAndShare(sharePositionOrigin: origin);
+                  context.read<BackupCubit>().exportAndShare(
+                    sharePositionOrigin: origin,
+                  );
                 },
         ),
         ListTile(

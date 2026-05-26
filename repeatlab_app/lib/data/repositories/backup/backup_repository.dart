@@ -62,7 +62,8 @@ class BackupRepository {
     Future<Directory> Function()? getDocumentsDirectory,
     Future<Directory> Function()? getTemporaryDirectory,
   }) : _getDocumentsDirectory =
-           getDocumentsDirectory ?? path_provider.getApplicationDocumentsDirectory,
+           getDocumentsDirectory ??
+           path_provider.getApplicationDocumentsDirectory,
        _getTemporaryDirectory =
            getTemporaryDirectory ?? path_provider.getTemporaryDirectory;
 
@@ -96,8 +97,7 @@ class BackupRepository {
     // Run the CPU-heavy zip encoding on a background isolate to avoid
     // blocking the UI thread.
     await Isolate.run(() {
-      final restoredSongs =
-          songMaps.map((m) => SongMapper.fromMap(m)).toList();
+      final restoredSongs = songMaps.map((m) => SongMapper.fromMap(m)).toList();
       final bytes = const BackupSerializer().encode(
         songs: restoredSongs,
         audioFiles: audioFiles,
@@ -227,8 +227,9 @@ class BackupRepository {
     final stem = p.basenameWithoutExtension(desiredFileName);
     final suffix = const Uuid().v4().substring(0, 8);
     final renamed = '$stem-imported-$suffix$ext';
-    await File(p.join(docsDir.path, renamed))
-        .writeAsBytes(incomingBytes, flush: true);
+    await File(
+      p.join(docsDir.path, renamed),
+    ).writeAsBytes(incomingBytes, flush: true);
     return renamed;
   }
 

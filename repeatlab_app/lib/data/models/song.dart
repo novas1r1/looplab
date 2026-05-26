@@ -29,6 +29,11 @@ class Song with SongMappable {
   /// this field existed) decode as audio without needing a migration.
   final MediaType mediaType;
 
+  /// Display size of the video preview on the song page. Only meaningful when
+  /// [mediaType] is [MediaType.video]; ignored for audio. Defaults to
+  /// [VideoSizeMode.medium] so existing records decode without migration.
+  final VideoSizeMode videoSizeMode;
+
   const Song({
     required this.id,
     required this.title,
@@ -41,6 +46,7 @@ class Song with SongMappable {
     this.loopSort = LoopSort.none,
     this.sortOrder = 0,
     this.mediaType = MediaType.audio,
+    this.videoSizeMode = VideoSizeMode.medium,
   });
 
   Future<String> get path async {
@@ -61,6 +67,13 @@ enum LoopSort {
 enum MediaType {
   audio,
   video,
+}
+
+@MappableEnum()
+enum VideoSizeMode {
+  small,
+  medium,
+  large,
 }
 
 class DurationMapper extends SimpleMapper<Duration> {
