@@ -537,6 +537,11 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
+  String unsupportedVideoFormatError(String format, String supportedFormats) {
+    return 'The video format \".$format\" is not supported. Supported formats: $supportedFormats.';
+  }
+
+  @override
   String get loopAdded => '루프가 추가되고 활성화되었습니다';
 
   @override
@@ -860,4 +865,10 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get editSongTitleRequired => '제목은 비워 둘 수 없습니다';
+
+  @override
+  String get addVideo => '동영상 추가';
+
+  @override
+  String get betaLabel => '베타';
 }

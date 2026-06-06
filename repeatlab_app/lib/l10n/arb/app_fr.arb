@@ -204,6 +204,17 @@
             }
         }
     },
+    "unsupportedVideoFormatError": "Le format vidéo \".{format}\" n'est pas pris en charge. Formats pris en charge : {supportedFormats}.",
+    "@unsupportedVideoFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
     "loopAdded": "Boucle ajoutée et activée",
     "loopModeEnabled": "Mode boucle activé",
     "loopModeDisabled": "Mode boucle désactivé",
@@ -311,5 +322,7 @@
     "editSong": "Modifier le morceau",
     "editSongTitle": "Titre",
     "editSongArtist": "Artiste",
-    "editSongTitleRequired": "Le titre ne peut pas être vide"
+    "editSongTitleRequired": "Le titre ne peut pas être vide",
+    "addVideo": "Ajouter une vidéo",
+    "betaLabel": "BETA"
 }

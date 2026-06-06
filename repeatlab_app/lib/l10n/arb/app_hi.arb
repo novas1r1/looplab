@@ -315,5 +315,7 @@
     "editSong": "गाना संपादित करें",
     "editSongTitle": "शीर्षक",
     "editSongArtist": "कलाकार",
-    "editSongTitleRequired": "शीर्षक खाली नहीं हो सकता"
+    "editSongTitleRequired": "शीर्षक खाली नहीं हो सकता",
+    "addVideo": "वीडियो जोड़ें",
+    "betaLabel": "बीटा"
 }

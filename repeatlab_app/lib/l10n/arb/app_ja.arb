@@ -314,5 +314,7 @@
     "editSong": "曲を編集",
     "editSongTitle": "タイトル",
     "editSongArtist": "アーティスト",
-    "editSongTitleRequired": "タイトルは空にできません"
+    "editSongTitleRequired": "タイトルは空にできません",
+    "addVideo": "動画を追加",
+    "betaLabel": "ベータ"
 }

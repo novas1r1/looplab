@@ -203,6 +203,17 @@
             }
         }
     },
+    "unsupportedVideoFormatError": "Het videoformaat \".{format}\" wordt niet ondersteund. Ondersteunde formaten: {supportedFormats}.",
+    "@unsupportedVideoFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
     "loopAdded": "Loop toegevoegd en geactiveerd",
     "loopModeEnabled": "Loopmodus geactiveerd",
     "loopModeDisabled": "Loopmodus uitgeschakeld",
@@ -311,5 +322,7 @@
     "editSong": "Nummer bewerken",
     "editSongTitle": "Titel",
     "editSongArtist": "Artiest",
-    "editSongTitleRequired": "Titel mag niet leeg zijn"
+    "editSongTitleRequired": "Titel mag niet leeg zijn",
+    "addVideo": "Video toevoegen",
+    "betaLabel": "BETA"
 }

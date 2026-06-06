@@ -314,5 +314,7 @@
     "editSong": "Şarkıyı düzenle",
     "editSongTitle": "Başlık",
     "editSongArtist": "Sanatçı",
-    "editSongTitleRequired": "Başlık boş olamaz"
+    "editSongTitleRequired": "Başlık boş olamaz",
+    "addVideo": "Video ekle",
+    "betaLabel": "BETA"
 }

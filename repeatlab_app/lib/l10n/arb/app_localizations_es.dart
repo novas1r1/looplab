@@ -566,6 +566,11 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String unsupportedVideoFormatError(String format, String supportedFormats) {
+    return 'El formato de vídeo \".$format\" no es compatible. Formatos compatibles: $supportedFormats.';
+  }
+
+  @override
   String get loopAdded => 'Loop añadido y activado';
 
   @override
@@ -895,4 +900,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get editSongTitleRequired => 'El título no puede estar vacío';
+
+  @override
+  String get addVideo => 'Agregar video';
+
+  @override
+  String get betaLabel => 'BETA';
 }

@@ -1086,6 +1086,12 @@ abstract class AppLocalizations {
   /// **'The audio format \".{format}\" is not supported. Supported formats: {supportedFormats}.'**
   String unsupportedAudioFormatError(String format, String supportedFormats);
 
+  /// Snackbar error shown when the user picks a video file whose extension is not in the supported list. {format} is the file extension without the leading dot; {supportedFormats} is a comma-separated list of supported extensions.
+  ///
+  /// In en, this message translates to:
+  /// **'The video format \".{format}\" is not supported. Supported formats: {supportedFormats}.'**
+  String unsupportedVideoFormatError(String format, String supportedFormats);
+
   /// No description provided for @loopAdded.
   ///
   /// In en, this message translates to:
@@ -1679,6 +1685,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Title cannot be empty'**
   String get editSongTitleRequired;
+
+  /// Title of the "Add video" option in the add-media bottom sheet on the home page. Used as a button-style label.
+  ///
+  /// In en, this message translates to:
+  /// **'Add video'**
+  String get addVideo;
+
+  /// Short pill/badge label shown next to features that are in beta. Should remain very short (3-6 chars) and uppercase where appropriate for the locale.
+  ///
+  /// In en, this message translates to:
+  /// **'BETA'**
+  String get betaLabel;
 }
 
 class _AppLocalizationsDelegate

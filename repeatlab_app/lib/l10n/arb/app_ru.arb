@@ -203,6 +203,17 @@
             }
         }
     },
+    "unsupportedVideoFormatError": "Видеоформат \".{format}\" не поддерживается. Поддерживаемые форматы: {supportedFormats}.",
+    "@unsupportedVideoFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
     "loopAdded": "Луп добавлен и активирован",
     "loopModeEnabled": "Режим лупа включен",
     "loopModeDisabled": "Режим лупа выключен",
@@ -311,5 +322,7 @@
     "editSong": "Редактировать песню",
     "editSongTitle": "Название",
     "editSongArtist": "Исполнитель",
-    "editSongTitleRequired": "Название не может быть пустым"
+    "editSongTitleRequired": "Название не может быть пустым",
+    "addVideo": "Добавить видео",
+    "betaLabel": "БЕТА"
 }

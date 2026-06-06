@@ -540,6 +540,11 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String unsupportedVideoFormatError(String format, String supportedFormats) {
+    return 'The video format \".$format\" is not supported. Supported formats: $supportedFormats.';
+  }
+
+  @override
   String get loopAdded => 'ループが追加され、有効化されました';
 
   @override
@@ -863,4 +868,10 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get editSongTitleRequired => 'タイトルは空にできません';
+
+  @override
+  String get addVideo => '動画を追加';
+
+  @override
+  String get betaLabel => 'ベータ';
 }

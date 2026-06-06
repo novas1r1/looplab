@@ -526,6 +526,11 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String unsupportedVideoFormatError(String format, String supportedFormats) {
+    return 'The video format \".$format\" is not supported. Supported formats: $supportedFormats.';
+  }
+
+  @override
   String get loopAdded => '循环已添加并激活';
 
   @override
@@ -846,4 +851,10 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get editSongTitleRequired => '标题不能为空';
+
+  @override
+  String get addVideo => '添加视频';
+
+  @override
+  String get betaLabel => '测试版';
 }

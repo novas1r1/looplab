@@ -203,6 +203,17 @@
             }
         }
     },
+    "unsupportedVideoFormatError": "O formato de vídeo \".{format}\" não é suportado. Formatos suportados: {supportedFormats}.",
+    "@unsupportedVideoFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
     "loopAdded": "Loop adicionado e ativado",
     "loopModeEnabled": "Modo loop ativado",
     "loopModeDisabled": "Modo loop desativado",
@@ -311,5 +322,7 @@
     "editSong": "Editar música",
     "editSongTitle": "Título",
     "editSongArtist": "Artista",
-    "editSongTitleRequired": "O título não pode estar vazio"
+    "editSongTitleRequired": "O título não pode estar vazio",
+    "addVideo": "Adicionar vídeo",
+    "betaLabel": "BETA"
 }

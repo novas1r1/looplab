@@ -242,6 +242,18 @@
             }
         }
     },
+    "unsupportedVideoFormatError": "The video format \".{format}\" is not supported. Supported formats: {supportedFormats}.",
+    "@unsupportedVideoFormatError": {
+        "description": "Snackbar error shown when the user picks a video file whose extension is not in the supported list. {format} is the file extension without the leading dot; {supportedFormats} is a comma-separated list of supported extensions.",
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
     "loopAdded": "Loop added and activated",
     "loopModeEnabled": "Loop mode enabled",
     "loopModeDisabled": "Loop mode disabled",
@@ -392,5 +404,13 @@
     "editSong": "Edit Song",
     "editSongTitle": "Title",
     "editSongArtist": "Artist",
-    "editSongTitleRequired": "Title cannot be empty"
+    "editSongTitleRequired": "Title cannot be empty",
+    "addVideo": "Add video",
+    "@addVideo": {
+        "description": "Title of the \"Add video\" option in the add-media bottom sheet on the home page. Used as a button-style label."
+    },
+    "betaLabel": "BETA",
+    "@betaLabel": {
+        "description": "Short pill/badge label shown next to features that are in beta. Should remain very short (3-6 chars) and uppercase where appropriate for the locale."
+    }
 }

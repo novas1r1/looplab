@@ -203,6 +203,17 @@
             }
         }
     },
+    "unsupportedVideoFormatError": "Videoformatet \".{format}\" stöds inte. Format som stöds: {supportedFormats}.",
+    "@unsupportedVideoFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
     "loopAdded": "Loop tillagd och aktiverad",
     "loopModeEnabled": "Loopläget är aktiverat",
     "loopModeDisabled": "Loopläget är inaktiverat",
@@ -311,5 +322,7 @@
     "editSong": "Redigera låt",
     "editSongTitle": "Titel",
     "editSongArtist": "Artist",
-    "editSongTitleRequired": "Titeln får inte vara tom"
+    "editSongTitleRequired": "Titeln får inte vara tom",
+    "addVideo": "Lägg till video",
+    "betaLabel": "BETA"
 }

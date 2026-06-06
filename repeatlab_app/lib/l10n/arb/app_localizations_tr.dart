@@ -563,6 +563,11 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
+  String unsupportedVideoFormatError(String format, String supportedFormats) {
+    return 'The video format \".$format\" is not supported. Supported formats: $supportedFormats.';
+  }
+
+  @override
   String get loopAdded => 'Döngü eklendi ve etkinleştirildi';
 
   @override
@@ -892,4 +897,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get editSongTitleRequired => 'Başlık boş olamaz';
+
+  @override
+  String get addVideo => 'Video ekle';
+
+  @override
+  String get betaLabel => 'BETA';
 }

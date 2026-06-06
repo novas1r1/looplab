@@ -315,5 +315,7 @@
     "editSong": "编辑歌曲",
     "editSongTitle": "标题",
     "editSongArtist": "艺术家",
-    "editSongTitleRequired": "标题不能为空"
+    "editSongTitleRequired": "标题不能为空",
+    "addVideo": "添加视频",
+    "betaLabel": "测试版"
 }

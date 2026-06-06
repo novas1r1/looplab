@@ -315,5 +315,7 @@
     "editSong": "تعديل الأغنية",
     "editSongTitle": "العنوان",
     "editSongArtist": "الفنان",
-    "editSongTitleRequired": "لا يمكن أن يكون العنوان فارغًا"
+    "editSongTitleRequired": "لا يمكن أن يكون العنوان فارغًا",
+    "addVideo": "إضافة فيديو",
+    "betaLabel": "تجريبي"
 }

@@ -556,6 +556,11 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String unsupportedVideoFormatError(String format, String supportedFormats) {
+    return 'The video format \".$format\" is not supported. Supported formats: $supportedFormats.';
+  }
+
+  @override
   String get loopAdded => 'تمت إضافة الحلقة وتفعيلها';
 
   @override
@@ -880,4 +885,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get editSongTitleRequired => 'لا يمكن أن يكون العنوان فارغًا';
+
+  @override
+  String get addVideo => 'إضافة فيديو';
+
+  @override
+  String get betaLabel => 'تجريبي';
 }
