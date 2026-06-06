@@ -73,13 +73,36 @@ class VideoPlayerHandler implements MediaPlayerHandler {
   StreamSubscription<bool>? _playingSubscription;
   StreamSubscription<bool>? _completedSubscription;
   StreamSubscription<Duration>? _loopPositionSubscription;
+  StreamSubscription<String>? _errorSubscription;
+  StreamSubscription<PlayerLog>? _logSubscription;
 
   /// Tracks the last emitted bridged state, so we don't double-emit
   /// `paused`/`playing` when buffering toggles.
   PlayerState? _lastEmittedState;
 
-  VideoPlayerHandler({Player? player}) : player = player ?? Player() {
+  VideoPlayerHandler({Player? player})
+    : player =
+          player ??
+          Player(
+            // Crank libmpv verbosity so file-open / decoder / audio-device
+            // failures surface in the logs instead of failing silently.
+            // Drop back to MPVLogLevel.error once iOS playback is confirmed.
+            configuration: const PlayerConfiguration(
+              logLevel: MPVLogLevel.debug,
+            ),
+          ) {
     log('VideoPlayerHandler constructor');
+
+    // libmpv reports load/decode failures asynchronously on these streams —
+    // NOT as exceptions from open()/play(). Without these listeners an iOS
+    // failure (e.g. "cannot open file://…" or "no decoder for hevc") is
+    // completely invisible: the screen just stays black with nothing playing.
+    _errorSubscription = this.player.stream.error.listen((error) {
+      log('VideoPlayerHandler mpv ERROR: $error');
+    });
+    _logSubscription = this.player.stream.log.listen((entry) {
+      log('VideoPlayerHandler mpv[${entry.level}] ${entry.prefix}: ${entry.text}');
+    });
 
     _playingSubscription = this.player.stream.playing.listen((playing) {
       final next = playing ? PlayerState.playing : PlayerState.paused;
@@ -119,7 +142,12 @@ class VideoPlayerHandler implements MediaPlayerHandler {
     final path = await song.path;
     _playbackSpeed = 1.0;
 
-    log('VideoPlayerHandler.playSong path=$path autoStart=$autoStart');
+    // iOS's bundled libmpv won't reliably open a bare POSIX path like
+    // /var/mobile/.../Documents/foo.mp4 (Android's tolerates it). Hand it a
+    // proper file:// URI, which is the cross-platform-safe form.
+    final mediaUri = Uri.file(path).toString();
+
+    log('VideoPlayerHandler.playSong uri=$mediaUri autoStart=$autoStart');
 
     try {
       // media_kit on Windows has a quirk where `open(media, play: false)`
@@ -127,7 +155,7 @@ class VideoPlayerHandler implements MediaPlayerHandler {
       // `play()` may then silently no-op. Workaround: always open with
       // play=true, then immediately pause if the caller didn't want autoStart.
       // This forces a full media load and leaves the player cleanly paused.
-      await player.open(Media(path));
+      await player.open(Media(mediaUri));
       if (!autoStart) {
         await player.pause();
       }
@@ -357,6 +385,8 @@ class VideoPlayerHandler implements MediaPlayerHandler {
     await _playingSubscription?.cancel();
     await _completedSubscription?.cancel();
     await _loopPositionSubscription?.cancel();
+    await _errorSubscription?.cancel();
+    await _logSubscription?.cancel();
     await _navigationEventController.close();
     await _playerStateController.close();
     await player.dispose();
