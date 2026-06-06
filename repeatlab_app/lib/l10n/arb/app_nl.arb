@@ -326,5 +326,15 @@
     "editSongArtist": "Artiest",
     "editSongTitleRequired": "Titel mag niet leeg zijn",
     "addVideo": "Video toevoegen",
-    "betaLabel": "BETA"
+    "betaLabel": "BETA",
+    "backupExportSheetTitle": "Wat wil je exporteren?",
+    "backupExportOptionAudios": "Audionummers",
+    "backupExportOptionAudiosSubtitle": "Audiobestanden opnemen (MP3, WAV, …)",
+    "backupExportOptionVideos": "Videonummers",
+    "backupExportOptionVideosSubtitle": "Videobestanden opnemen (MP4, MOV, …)",
+    "backupExportOptionLoopsAndSettings": "Loops & nummerinstellingen",
+    "backupExportOptionLoopsAndSettingsSubtitle": "Loops, BPM, sorteervolgorde en videovoorbeeldformaat opnemen",
+    "backupExportSheetExport": "Exporteren",
+    "backupExportSheetCancel": "Annuleren",
+    "backupExportSheetNoMediaSelected": "Selecteer minimaal audio of video."
 }

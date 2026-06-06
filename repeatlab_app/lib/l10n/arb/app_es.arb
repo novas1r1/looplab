@@ -327,5 +327,15 @@
     "editSongArtist": "Artista",
     "editSongTitleRequired": "El título no puede estar vacío",
     "addVideo": "Agregar video",
-    "betaLabel": "BETA"
+    "betaLabel": "BETA",
+    "backupExportSheetTitle": "¿Qué quieres exportar?",
+    "backupExportOptionAudios": "Canciones de audio",
+    "backupExportOptionAudiosSubtitle": "Incluir archivos de audio (MP3, WAV, …)",
+    "backupExportOptionVideos": "Canciones de vídeo",
+    "backupExportOptionVideosSubtitle": "Incluir archivos de vídeo (MP4, MOV, …)",
+    "backupExportOptionLoopsAndSettings": "Loops y ajustes de canción",
+    "backupExportOptionLoopsAndSettingsSubtitle": "Incluir loops, BPM, orden de clasificación y tamaño de vista previa de vídeo",
+    "backupExportSheetExport": "Exportar",
+    "backupExportSheetCancel": "Cancelar",
+    "backupExportSheetNoMediaSelected": "Selecciona al menos audio o vídeo."
 }

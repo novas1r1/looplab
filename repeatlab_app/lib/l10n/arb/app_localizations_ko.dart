@@ -681,6 +681,37 @@ class AppLocalizationsKo extends AppLocalizations {
       'Save all songs and loops to a single file you can transfer to another device.';
 
   @override
+  String get backupExportSheetTitle => '무엇을 내보내시겠습니까?';
+
+  @override
+  String get backupExportOptionAudios => '오디오 곡';
+
+  @override
+  String get backupExportOptionAudiosSubtitle => '오디오 파일 포함 (MP3, WAV, …)';
+
+  @override
+  String get backupExportOptionVideos => '동영상 곡';
+
+  @override
+  String get backupExportOptionVideosSubtitle => '동영상 파일 포함 (MP4, MOV, …)';
+
+  @override
+  String get backupExportOptionLoopsAndSettings => '루프 및 곡 설정';
+
+  @override
+  String get backupExportOptionLoopsAndSettingsSubtitle =>
+      '루프, BPM, 정렬 순서 및 동영상 미리보기 크기 포함';
+
+  @override
+  String get backupExportSheetExport => '내보내기';
+
+  @override
+  String get backupExportSheetCancel => '취소';
+
+  @override
+  String get backupExportSheetNoMediaSelected => '오디오 또는 동영상 중 하나 이상을 선택하세요.';
+
+  @override
   String get backupImport => 'Import backup';
 
   @override

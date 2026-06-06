@@ -43,13 +43,23 @@ class BackupCubit extends Cubit<BackupState> {
        _pickBackupFile = pickBackupFile ?? _defaultPickBackupFile,
        super(const BackupState());
 
-  Future<void> exportAndShare({Rect? sharePositionOrigin}) async {
-    AppAnalytics.trackEvent(AppAnalytics.clickBackupExport);
+  Future<void> exportAndShare({
+    Rect? sharePositionOrigin,
+    BackupExportOptions options = BackupExportOptions.all,
+  }) async {
+    AppAnalytics.trackEvent(
+      AppAnalytics.clickBackupExport,
+      data: {
+        'audio': options.includeAudioSongs,
+        'video': options.includeVideoSongs,
+        'loops_settings': options.includeLoopsAndSettings,
+      },
+    );
     emit(state.copyWith(status: BackupStatus.exporting, errorMessage: null));
 
     File? file;
     try {
-      file = await backupRepository.exportToFile();
+      file = await backupRepository.exportToFile(options: options);
     } catch (ex, stack) {
       log('BackupCubit.exportAndShare: export failed: $ex');
       crashReportingRepository.reportError(ex, stack);
@@ -87,7 +97,12 @@ class BackupCubit extends Cubit<BackupState> {
 
     AppAnalytics.trackEvent(
       AppAnalytics.backupExportSuccess,
-      data: {'size_bucket': _sizeBucket(sizeBytes)},
+      data: {
+        'size_bucket': _sizeBucket(sizeBytes),
+        'audio': options.includeAudioSongs,
+        'video': options.includeVideoSongs,
+        'loops_settings': options.includeLoopsAndSettings,
+      },
     );
     emit(state.copyWith(status: BackupStatus.exportSuccess));
   }

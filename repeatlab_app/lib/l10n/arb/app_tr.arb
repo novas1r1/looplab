@@ -329,5 +329,15 @@
     "editSongArtist": "Sanatçı",
     "editSongTitleRequired": "Başlık boş olamaz",
     "addVideo": "Video ekle",
-    "betaLabel": "BETA"
+    "betaLabel": "BETA",
+    "backupExportSheetTitle": "Ne dışa aktarmak istiyorsunuz?",
+    "backupExportOptionAudios": "Ses şarkıları",
+    "backupExportOptionAudiosSubtitle": "Ses dosyalarını dahil et (MP3, WAV, …)",
+    "backupExportOptionVideos": "Video şarkılar",
+    "backupExportOptionVideosSubtitle": "Video dosyalarını dahil et (MP4, MOV, …)",
+    "backupExportOptionLoopsAndSettings": "Döngüler ve şarkı ayarları",
+    "backupExportOptionLoopsAndSettingsSubtitle": "Döngüleri, BPM'yi, sıralama düzenini ve video önizleme boyutunu dahil et",
+    "backupExportSheetExport": "Dışa Aktar",
+    "backupExportSheetCancel": "İptal",
+    "backupExportSheetNoMediaSelected": "En az bir ses veya video seçin."
 }

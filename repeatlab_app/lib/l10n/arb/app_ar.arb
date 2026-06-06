@@ -330,5 +330,15 @@
     "editSongArtist": "الفنان",
     "editSongTitleRequired": "لا يمكن أن يكون العنوان فارغًا",
     "addVideo": "إضافة فيديو",
-    "betaLabel": "تجريبي"
+    "betaLabel": "تجريبي",
+    "backupExportSheetTitle": "ماذا تريد تصدير؟",
+    "backupExportOptionAudios": "أغاني صوتية",
+    "backupExportOptionAudiosSubtitle": "تضمين ملفات الصوت (MP3, WAV, …)",
+    "backupExportOptionVideos": "أغاني فيديو",
+    "backupExportOptionVideosSubtitle": "تضمين ملفات الفيديو (MP4, MOV, …)",
+    "backupExportOptionLoopsAndSettings": "الحلقات وإعدادات الأغنية",
+    "backupExportOptionLoopsAndSettingsSubtitle": "تضمين الحلقات، BPM، ترتيب الفرز وحجم معاينة الفيديو",
+    "backupExportSheetExport": "تصدير",
+    "backupExportSheetCancel": "إلغاء",
+    "backupExportSheetNoMediaSelected": "اختر صوتًا أو فيديو على الأقل."
 }

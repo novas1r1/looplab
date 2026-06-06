@@ -713,6 +713,40 @@ class AppLocalizationsNl extends AppLocalizations {
       'Save all songs and loops to a single file you can transfer to another device.';
 
   @override
+  String get backupExportSheetTitle => 'Wat wil je exporteren?';
+
+  @override
+  String get backupExportOptionAudios => 'Audionummers';
+
+  @override
+  String get backupExportOptionAudiosSubtitle =>
+      'Audiobestanden opnemen (MP3, WAV, …)';
+
+  @override
+  String get backupExportOptionVideos => 'Videonummers';
+
+  @override
+  String get backupExportOptionVideosSubtitle =>
+      'Videobestanden opnemen (MP4, MOV, …)';
+
+  @override
+  String get backupExportOptionLoopsAndSettings => 'Loops & nummerinstellingen';
+
+  @override
+  String get backupExportOptionLoopsAndSettingsSubtitle =>
+      'Loops, BPM, sorteervolgorde en videovoorbeeldformaat opnemen';
+
+  @override
+  String get backupExportSheetExport => 'Exporteren';
+
+  @override
+  String get backupExportSheetCancel => 'Annuleren';
+
+  @override
+  String get backupExportSheetNoMediaSelected =>
+      'Selecteer minimaal audio of video.';
+
+  @override
   String get backupImport => 'Import backup';
 
   @override

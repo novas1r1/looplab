@@ -326,5 +326,15 @@
     "editSongArtist": "Artist",
     "editSongTitleRequired": "Titeln får inte vara tom",
     "addVideo": "Lägg till video",
-    "betaLabel": "BETA"
+    "betaLabel": "BETA",
+    "backupExportSheetTitle": "Vad vill du exportera?",
+    "backupExportOptionAudios": "Ljudlåtar",
+    "backupExportOptionAudiosSubtitle": "Inkludera ljudfiler (MP3, WAV, …)",
+    "backupExportOptionVideos": "Videolåtar",
+    "backupExportOptionVideosSubtitle": "Inkludera videofiler (MP4, MOV, …)",
+    "backupExportOptionLoopsAndSettings": "Loopar och låtinställningar",
+    "backupExportOptionLoopsAndSettingsSubtitle": "Inkludera loopar, BPM, sorteringsordning och videominiatyrformat",
+    "backupExportSheetExport": "Exportera",
+    "backupExportSheetCancel": "Avbryt",
+    "backupExportSheetNoMediaSelected": "Välj minst ljud eller video."
 }

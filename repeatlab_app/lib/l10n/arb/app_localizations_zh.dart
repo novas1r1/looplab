@@ -669,6 +669,37 @@ class AppLocalizationsZh extends AppLocalizations {
       'Save all songs and loops to a single file you can transfer to another device.';
 
   @override
+  String get backupExportSheetTitle => '您想导出什么？';
+
+  @override
+  String get backupExportOptionAudios => '音频歌曲';
+
+  @override
+  String get backupExportOptionAudiosSubtitle => '包含音频文件 (MP3, WAV, …)';
+
+  @override
+  String get backupExportOptionVideos => '视频歌曲';
+
+  @override
+  String get backupExportOptionVideosSubtitle => '包含视频文件 (MP4, MOV, …)';
+
+  @override
+  String get backupExportOptionLoopsAndSettings => '循环与歌曲设置';
+
+  @override
+  String get backupExportOptionLoopsAndSettingsSubtitle =>
+      '包含循环、BPM、排序顺序和视频预览大小';
+
+  @override
+  String get backupExportSheetExport => '导出';
+
+  @override
+  String get backupExportSheetCancel => '取消';
+
+  @override
+  String get backupExportSheetNoMediaSelected => '请至少选择音频或视频之一。';
+
+  @override
   String get backupImport => 'Import backup';
 
   @override

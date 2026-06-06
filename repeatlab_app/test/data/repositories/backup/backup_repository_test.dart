@@ -111,6 +111,81 @@ void main() {
       expect(payload.songs, isEmpty);
       expect(payload.audioFiles, isEmpty);
     });
+
+    test('skips audio songs when includeAudioSongs is false', () async {
+      await seedSong(MockData.songShort, bytes('short'));
+      final video = MockData.songShort.copyWith(
+        id: 'video-1',
+        title: 'Sample Video',
+        fileName: 'clip.mp4',
+        mediaType: MediaType.video,
+      );
+      await seedSong(video, bytes('video'));
+
+      final file = await backupRepository.exportToFile(
+        options: const BackupExportOptions(includeAudioSongs: false),
+      );
+      final payload = const BackupSerializer().decode(await file.readAsBytes());
+
+      expect(payload.songs.map((s) => s.id), ['video-1']);
+      expect(payload.audioFiles.keys, ['clip.mp4']);
+    });
+
+    test('skips video songs when includeVideoSongs is false', () async {
+      await seedSong(MockData.songShort, bytes('short'));
+      final video = MockData.songShort.copyWith(
+        id: 'video-1',
+        title: 'Sample Video',
+        fileName: 'clip.mp4',
+        mediaType: MediaType.video,
+      );
+      await seedSong(video, bytes('video'));
+
+      final file = await backupRepository.exportToFile(
+        options: const BackupExportOptions(includeVideoSongs: false),
+      );
+      final payload = const BackupSerializer().decode(await file.readAsBytes());
+
+      expect(payload.songs.map((s) => s.id), [MockData.songShort.id]);
+      expect(payload.audioFiles.keys, [MockData.songShort.fileName]);
+    });
+
+    test(
+      'strips loops and per-song settings when includeLoopsAndSettings is false',
+      () async {
+        final richSong = MockData.songMedium.copyWith(
+          loops: [MockData.loopVerse, MockData.loopChorus],
+          loopSort: LoopSort.startTime,
+          sortOrder: 42,
+          videoSizeMode: VideoSizeMode.large,
+          bpm: 99,
+          currentBpm: 110,
+        );
+        await seedSong(richSong, bytes('rich'));
+
+        final file = await backupRepository.exportToFile(
+          options: const BackupExportOptions(includeLoopsAndSettings: false),
+        );
+        final payload = const BackupSerializer().decode(await file.readAsBytes());
+        final exported = payload.songs.single;
+
+        // Intrinsic record preserved.
+        expect(exported.id, richSong.id);
+        expect(exported.title, richSong.title);
+        expect(exported.artist, richSong.artist);
+        expect(exported.fileName, richSong.fileName);
+        expect(exported.duration, richSong.duration);
+        expect(exported.mediaType, richSong.mediaType);
+
+        // Loops + tweakable settings reset to defaults.
+        expect(exported.loops, isEmpty);
+        expect(exported.bpm, isNull);
+        expect(exported.currentBpm, isNull);
+        expect(exported.loopSort, LoopSort.none);
+        expect(exported.sortOrder, 0);
+        expect(exported.videoSizeMode, VideoSizeMode.medium);
+      },
+    );
   });
 
   group('BackupRepository.peekImport', () {

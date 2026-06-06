@@ -330,5 +330,15 @@
     "editSongArtist": "艺术家",
     "editSongTitleRequired": "标题不能为空",
     "addVideo": "添加视频",
-    "betaLabel": "测试版"
+    "betaLabel": "测试版",
+    "backupExportSheetTitle": "您想导出什么？",
+    "backupExportOptionAudios": "音频歌曲",
+    "backupExportOptionAudiosSubtitle": "包含音频文件 (MP3, WAV, …)",
+    "backupExportOptionVideos": "视频歌曲",
+    "backupExportOptionVideosSubtitle": "包含视频文件 (MP4, MOV, …)",
+    "backupExportOptionLoopsAndSettings": "循环与歌曲设置",
+    "backupExportOptionLoopsAndSettingsSubtitle": "包含循环、BPM、排序顺序和视频预览大小",
+    "backupExportSheetExport": "导出",
+    "backupExportSheetCancel": "取消",
+    "backupExportSheetNoMediaSelected": "请至少选择音频或视频之一。"
 }

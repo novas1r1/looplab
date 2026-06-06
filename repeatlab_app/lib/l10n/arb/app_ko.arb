@@ -329,5 +329,15 @@
     "editSongArtist": "아티스트",
     "editSongTitleRequired": "제목은 비워 둘 수 없습니다",
     "addVideo": "동영상 추가",
-    "betaLabel": "베타"
+    "betaLabel": "베타",
+    "backupExportSheetTitle": "무엇을 내보내시겠습니까?",
+    "backupExportOptionAudios": "오디오 곡",
+    "backupExportOptionAudiosSubtitle": "오디오 파일 포함 (MP3, WAV, …)",
+    "backupExportOptionVideos": "동영상 곡",
+    "backupExportOptionVideosSubtitle": "동영상 파일 포함 (MP4, MOV, …)",
+    "backupExportOptionLoopsAndSettings": "루프 및 곡 설정",
+    "backupExportOptionLoopsAndSettingsSubtitle": "루프, BPM, 정렬 순서 및 동영상 미리보기 크기 포함",
+    "backupExportSheetExport": "내보내기",
+    "backupExportSheetCancel": "취소",
+    "backupExportSheetNoMediaSelected": "오디오 또는 동영상 중 하나 이상을 선택하세요."
 }

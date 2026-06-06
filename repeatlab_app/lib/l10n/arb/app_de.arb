@@ -327,5 +327,15 @@
     "editSongArtist": "Künstler",
     "editSongTitleRequired": "Titel darf nicht leer sein",
     "addVideo": "Video hinzufügen",
-    "betaLabel": "BETA"
+    "betaLabel": "BETA",
+    "backupExportSheetTitle": "Was möchtest du exportieren?",
+    "backupExportOptionAudios": "Audio-Songs",
+    "backupExportOptionAudiosSubtitle": "Audiodateien einschließen (MP3, WAV, …)",
+    "backupExportOptionVideos": "Video-Songs",
+    "backupExportOptionVideosSubtitle": "Videodateien einschließen (MP4, MOV, …)",
+    "backupExportOptionLoopsAndSettings": "Loops & Song-Einstellungen",
+    "backupExportOptionLoopsAndSettingsSubtitle": "Loops, BPM, Sortierreihenfolge und Video-Vorschaugröße einschließen",
+    "backupExportSheetExport": "Exportieren",
+    "backupExportSheetCancel": "Abbrechen",
+    "backupExportSheetNoMediaSelected": "Wähle mindestens Audio oder Video aus."
 }

@@ -1356,6 +1356,66 @@ abstract class AppLocalizations {
   /// **'Save all songs and loops to a single file you can transfer to another device.'**
   String get backupExportSubtitle;
 
+  /// No description provided for @backupExportSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What do you want to export?'**
+  String get backupExportSheetTitle;
+
+  /// No description provided for @backupExportOptionAudios.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio songs'**
+  String get backupExportOptionAudios;
+
+  /// No description provided for @backupExportOptionAudiosSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Include audio files (MP3, WAV, …)'**
+  String get backupExportOptionAudiosSubtitle;
+
+  /// No description provided for @backupExportOptionVideos.
+  ///
+  /// In en, this message translates to:
+  /// **'Video songs'**
+  String get backupExportOptionVideos;
+
+  /// No description provided for @backupExportOptionVideosSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Include video files (MP4, MOV, …)'**
+  String get backupExportOptionVideosSubtitle;
+
+  /// No description provided for @backupExportOptionLoopsAndSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Loops & song settings'**
+  String get backupExportOptionLoopsAndSettings;
+
+  /// No description provided for @backupExportOptionLoopsAndSettingsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Include loops, BPM, sort order, and video preview size'**
+  String get backupExportOptionLoopsAndSettingsSubtitle;
+
+  /// No description provided for @backupExportSheetExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get backupExportSheetExport;
+
+  /// No description provided for @backupExportSheetCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get backupExportSheetCancel;
+
+  /// No description provided for @backupExportSheetNoMediaSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Select at least one of audio or video.'**
+  String get backupExportSheetNoMediaSelected;
+
   /// No description provided for @backupImport.
   ///
   /// In en, this message translates to:

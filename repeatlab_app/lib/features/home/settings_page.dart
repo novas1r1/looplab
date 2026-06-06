@@ -7,6 +7,7 @@ import 'package:repeatlab/data/repositories/backup/backup_repository.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/features/backup/cubit/backup_cubit.dart';
+import 'package:repeatlab/features/backup/widgets/export_options_sheet.dart';
 import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/l10n/l10n.dart';
@@ -218,24 +219,7 @@ class _BackupTiles extends StatelessWidget {
                 : context.l10n.backupProOnly,
           ),
           enabled: !busy,
-          onTap: busy
-              ? null
-              : () {
-                  if (!hasPremium) {
-                    AppAnalytics.trackEvent(
-                      AppAnalytics.viewPaywallFromBackup,
-                    );
-                    context.read<PremiumSubscriptionCubit>().presentPaywall();
-                    return;
-                  }
-                  final box = context.findRenderObject() as RenderBox?;
-                  final origin = box != null
-                      ? box.localToGlobal(Offset.zero) & box.size
-                      : null;
-                  context.read<BackupCubit>().exportAndShare(
-                    sharePositionOrigin: origin,
-                  );
-                },
+          onTap: busy ? null : () => _handleExportTap(context, hasPremium),
         ),
         ListTile(
           leading: importing
@@ -270,6 +254,30 @@ class _BackupTiles extends StatelessWidget {
                 },
         ),
       ],
+    );
+  }
+
+  Future<void> _handleExportTap(BuildContext context, bool hasPremium) async {
+    if (!hasPremium) {
+      AppAnalytics.trackEvent(AppAnalytics.viewPaywallFromBackup);
+      context.read<PremiumSubscriptionCubit>().presentPaywall();
+      return;
+    }
+
+    // Capture the share-sheet anchor BEFORE awaiting the picker — the bottom
+    // sheet's own render box would otherwise become the anchor and dismiss
+    // when the user picks an app to share to.
+    final box = context.findRenderObject() as RenderBox?;
+    final origin = box != null
+        ? box.localToGlobal(Offset.zero) & box.size
+        : null;
+
+    final options = await showBackupExportOptionsSheet(context);
+    if (options == null || !context.mounted) return;
+
+    await context.read<BackupCubit>().exportAndShare(
+      sharePositionOrigin: origin,
+      options: options,
     );
   }
 

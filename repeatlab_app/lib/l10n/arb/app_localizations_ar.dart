@@ -703,6 +703,40 @@ class AppLocalizationsAr extends AppLocalizations {
       'Save all songs and loops to a single file you can transfer to another device.';
 
   @override
+  String get backupExportSheetTitle => 'ماذا تريد تصدير؟';
+
+  @override
+  String get backupExportOptionAudios => 'أغاني صوتية';
+
+  @override
+  String get backupExportOptionAudiosSubtitle =>
+      'تضمين ملفات الصوت (MP3, WAV, …)';
+
+  @override
+  String get backupExportOptionVideos => 'أغاني فيديو';
+
+  @override
+  String get backupExportOptionVideosSubtitle =>
+      'تضمين ملفات الفيديو (MP4, MOV, …)';
+
+  @override
+  String get backupExportOptionLoopsAndSettings => 'الحلقات وإعدادات الأغنية';
+
+  @override
+  String get backupExportOptionLoopsAndSettingsSubtitle =>
+      'تضمين الحلقات، BPM، ترتيب الفرز وحجم معاينة الفيديو';
+
+  @override
+  String get backupExportSheetExport => 'تصدير';
+
+  @override
+  String get backupExportSheetCancel => 'إلغاء';
+
+  @override
+  String get backupExportSheetNoMediaSelected =>
+      'اختر صوتًا أو فيديو على الأقل.';
+
+  @override
   String get backupImport => 'Import backup';
 
   @override

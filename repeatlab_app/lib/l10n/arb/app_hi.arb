@@ -330,5 +330,15 @@
     "editSongArtist": "कलाकार",
     "editSongTitleRequired": "शीर्षक खाली नहीं हो सकता",
     "addVideo": "वीडियो जोड़ें",
-    "betaLabel": "बीटा"
+    "betaLabel": "बीटा",
+    "backupExportSheetTitle": "आप क्या एक्सपोर्ट करना चाहते हैं?",
+    "backupExportOptionAudios": "ऑडियो गीत",
+    "backupExportOptionAudiosSubtitle": "ऑडियो फ़ाइलें शामिल करें (MP3, WAV, …)",
+    "backupExportOptionVideos": "वीडियो गीत",
+    "backupExportOptionVideosSubtitle": "वीडियो फ़ाइलें शामिल करें (MP4, MOV, …)",
+    "backupExportOptionLoopsAndSettings": "लूप और गीत सेटिंग्स",
+    "backupExportOptionLoopsAndSettingsSubtitle": "लूप, BPM, सॉर्ट क्रम और वीडियो प्रीव्यू साइज़ शामिल करें",
+    "backupExportSheetExport": "एक्सपोर्ट",
+    "backupExportSheetCancel": "रद्द करें",
+    "backupExportSheetNoMediaSelected": "कम से कम ऑडियो या वीडियो में से एक चुनें।"
 }

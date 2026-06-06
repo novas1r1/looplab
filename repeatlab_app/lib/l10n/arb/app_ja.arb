@@ -329,5 +329,15 @@
     "editSongArtist": "アーティスト",
     "editSongTitleRequired": "タイトルは空にできません",
     "addVideo": "動画を追加",
-    "betaLabel": "ベータ"
+    "betaLabel": "ベータ",
+    "backupExportSheetTitle": "何をエクスポートしますか？",
+    "backupExportOptionAudios": "オーディオ曲",
+    "backupExportOptionAudiosSubtitle": "オーディオファイルを含める (MP3, WAV, …)",
+    "backupExportOptionVideos": "動画曲",
+    "backupExportOptionVideosSubtitle": "動画ファイルを含める (MP4, MOV, …)",
+    "backupExportOptionLoopsAndSettings": "ループと曲の設定",
+    "backupExportOptionLoopsAndSettingsSubtitle": "ループ、BPM、並び順、動画プレビューサイズを含める",
+    "backupExportSheetExport": "エクスポート",
+    "backupExportSheetCancel": "キャンセル",
+    "backupExportSheetNoMediaSelected": "オーディオまたは動画を少なくとも1つ選択してください。"
 }

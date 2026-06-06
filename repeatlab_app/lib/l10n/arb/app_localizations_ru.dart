@@ -713,6 +713,40 @@ class AppLocalizationsRu extends AppLocalizations {
       'Save all songs and loops to a single file you can transfer to another device.';
 
   @override
+  String get backupExportSheetTitle => 'Что вы хотите экспортировать?';
+
+  @override
+  String get backupExportOptionAudios => 'Аудиопесни';
+
+  @override
+  String get backupExportOptionAudiosSubtitle =>
+      'Включить аудиофайлы (MP3, WAV, …)';
+
+  @override
+  String get backupExportOptionVideos => 'Видеопесни';
+
+  @override
+  String get backupExportOptionVideosSubtitle =>
+      'Включить видеофайлы (MP4, MOV, …)';
+
+  @override
+  String get backupExportOptionLoopsAndSettings => 'Лупы и настройки песни';
+
+  @override
+  String get backupExportOptionLoopsAndSettingsSubtitle =>
+      'Включить лупы, BPM, порядок сортировки и размер превью видео';
+
+  @override
+  String get backupExportSheetExport => 'Экспорт';
+
+  @override
+  String get backupExportSheetCancel => 'Отмена';
+
+  @override
+  String get backupExportSheetNoMediaSelected =>
+      'Выберите хотя бы аудио или видео.';
+
+  @override
   String get backupImport => 'Import backup';
 
   @override

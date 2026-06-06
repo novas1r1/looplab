@@ -3,28 +3,6 @@
 Tracked items the team has decided to defer. Each entry should record what the
 issue is, why it's not blocking, and what would unblock fixing it.
 
-## Backup export holds entire library in RAM
-
-**Where:** `lib/data/repositories/backup/backup_repository.dart` — `exportToFile()`
-
-`exportToFile` reads every audio file's bytes into a `Map<String, Uint8List>`,
-then ships the whole map to a background isolate that builds and zips the
-archive. The isolate makes its own copy of the buffers, so peak memory is
-~2–3× the total audio size on disk. For libraries ≥ 500 MB (the top
-`_sizeBucket`) this can OOM on lower-end Android and iOS devices.
-
-**Why deferred:** No customer reports yet; the typical library size is well
-under the danger zone.
-
-**Possible fixes:**
-- Stream into the archive from disk inside the isolate (pass paths, not bytes).
-- Investigate `package:archive`'s file-streaming API or write the zip
-  incrementally to a temp file.
-- As a stop-gap: cap export size and surface a friendly error above the
-  threshold instead of crashing.
-
----
-
 ## `BackupRepository.exportToFile` round-trips songs through `Map`
 
 **Where:** `lib/data/repositories/backup/backup_repository.dart:99-108`
