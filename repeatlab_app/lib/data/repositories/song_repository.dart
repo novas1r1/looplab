@@ -136,7 +136,6 @@ class SongRepository {
       artist: metadata?.artist ?? 'Unknown Artist',
       fileName: fileName,
       duration: duration,
-      mediaType: MediaType.audio,
     );
 
     // Shift existing songs down so the new song appears at the top
@@ -191,7 +190,7 @@ class SongRepository {
   /// `null` if duration can't be determined within a small timeout. Adds
   /// ~100–500 ms one-time at import; acceptable for a non-hot path.
   Future<Duration?> _probeVideoDuration(File file) async {
-    final probe = Player(configuration: const PlayerConfiguration());
+    final probe = Player();
     try {
       await probe.open(Media(file.path), play: false);
       // Wait for libmpv to report a non-zero duration. Bail after 5s to avoid
@@ -218,14 +217,12 @@ class SongRepository {
     final ext = file.path.toLowerCase().split('.').last;
 
     // Build the output path by replacing the original extension with .wav
-    final outputPath =
-        '${file.path.substring(0, file.path.length - ext.length)}wav';
+    final outputPath = '${file.path.substring(0, file.path.length - ext.length)}wav';
 
     // FFmpeg command to convert the audio. "-y" overwrites existing files,
     // "-vn" drops any (unlikely) video track, and we encode the audio stream
     // using 16-bit PCM which is supported by SoLoud.
-    final ffmpegCommand =
-        '-y -i "${file.path}" -vn -c:a pcm_s16le "$outputPath"';
+    final ffmpegCommand = '-y -i "${file.path}" -vn -c:a pcm_s16le "$outputPath"';
 
     log(
       'Starting $ext→wav conversion using FFmpeg: $ffmpegCommand',
@@ -302,9 +299,7 @@ class SongRepository {
     log('UPDATING LOOP: ${loop.toMap()}');
 
     // update the loop in the song
-    final updatedLoops = song.loops
-        .map((e) => e.id == loop.id ? loop : e)
-        .toList();
+    final updatedLoops = song.loops.map((e) => e.id == loop.id ? loop : e).toList();
     final updatedSong = song.copyWith(loops: updatedLoops);
 
     await _store.update(

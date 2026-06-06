@@ -430,14 +430,14 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get changelog201Description =>
-      'Importez des vidéos et mettez-les en boucle exactement comme des chansons audio — ou modifiez la vitesse — parfait pour s\'entraîner avec des tutoriels ou des performances live. Cette fonctionnalité est actuellement en Beta ; envoie-moi ton feedback si tu rencontres des problèmes.';
+      'Importez des vidéos et mettez-les en boucle exactement comme des chansons audio - ou modifiez la vitesse - parfait pour s\'entraîner avec des tutoriels ou des performances live. Cette fonctionnalité est actuellement en Beta ; envoie-moi ton feedback si tu rencontres des problèmes.';
 
   @override
   String get changelog180Title => 'Réorganisez vos chansons';
 
   @override
   String get changelog180Description =>
-      'Organisez votre liste de chansons comme vous le souhaitez — appuyez longuement sur n\'importe quelle chanson et faites-la glisser vers une nouvelle position. Votre ordre personnalisé est enregistré automatiquement.';
+      'Organisez votre liste de chansons comme vous le souhaitez - appuyez longuement sur n\'importe quelle chanson et faites-la glisser vers une nouvelle position. Votre ordre personnalisé est enregistré automatiquement.';
 
   @override
   String get changelog170Title => 'Sauvegarder et déplacer votre bibliothèque';
@@ -451,7 +451,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get changelog170LanguageDescription =>
-      'Changez la langue de l\'application depuis le menu — choisissez parmi 16 langues prises en charge ou suivez la langue par défaut de votre appareil.';
+      'Changez la langue de l\'application depuis le menu - choisissez parmi 16 langues prises en charge ou suivez la langue par défaut de votre appareil.';
 
   @override
   String get changelog1601Title =>

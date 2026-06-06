@@ -423,28 +423,28 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get changelog201Description =>
-      'Importera videor och loopa dem precis som ljudlåtar — eller ändra hastigheten — perfekt för att öva med tutorials eller liveframträdanden. Den här funktionen är just nu i Beta; skicka gärna din feedback om du stöter på problem.';
+      'Importera videor och loopa dem precis som ljudlåtar - eller ändra hastigheten - perfekt för att öva med tutorials eller liveframträdanden. Den här funktionen är just nu i Beta; skicka gärna din feedback om du stöter på problem.';
 
   @override
   String get changelog180Title => 'Ändra ordningen på dina låtar';
 
   @override
   String get changelog180Description =>
-      'Organisera din låtlista som du vill — håll in en låt länge och dra den till en ny position. Din anpassade ordning sparas automatiskt.';
+      'Organisera din låtlista som du vill - håll in en låt länge och dra den till en ny position. Din anpassade ordning sparas automatiskt.';
 
   @override
   String get changelog170Title => 'Backup och flytta din bibliotek';
 
   @override
   String get changelog170Description =>
-      'Exportera din hela bibliotek — låtar, loopar och ljud — till en enda fil, och återställ den på ett annat enhet med Pro. Välj \'Sammanfoga\' för att lägga till nya låtar bredvid de befintliga, eller \'Ersätt\' för att börja från början.';
+      'Exportera din hela bibliotek - låtar, loopar och ljud - till en enda fil, och återställ den på ett annat enhet med Pro. Välj \'Sammanfoga\' för att lägga till nya låtar bredvid de befintliga, eller \'Ersätt\' för att börja från början.';
 
   @override
   String get changelog170LanguageTitle => 'Välj ditt språk';
 
   @override
   String get changelog170LanguageDescription =>
-      'Byt appens språk från menyn — välj bland 16 språk som stöds eller följ enhetens systemstandard.';
+      'Byt appens språk från menyn - välj bland 16 språk som stöds eller följ enhetens systemstandard.';
 
   @override
   String get changelog1601Title =>

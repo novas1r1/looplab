@@ -422,28 +422,28 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get changelog201Description =>
-      'Importuj filmy wideo i twórz z nich pętle tak jak z utworów audio — lub zmieniaj prędkość — idealne do ćwiczeń z tutorialami lub występami na żywo. Ta funkcja jest obecnie w wersji Beta; wyślij mi swoją opinię, jeśli napotkasz jakieś problemy.';
+      'Importuj filmy wideo i twórz z nich pętle tak jak z utworów audio - lub zmieniaj prędkość - idealne do ćwiczeń z tutorialami lub występami na żywo. Ta funkcja jest obecnie w wersji Beta; wyślij mi swoją opinię, jeśli napotkasz jakieś problemy.';
 
   @override
   String get changelog180Title => 'Zmień kolejność piosenek';
 
   @override
   String get changelog180Description =>
-      'Organizuj listę piosenek według własnych upodobań — naciśnij i przytrzymaj dowolną piosenkę, a następnie przeciągnij ją na nowe miejsce. Twoja niestandardowa kolejność jest zapisywana automatycznie.';
+      'Organizuj listę piosenek według własnych upodobań - naciśnij i przytrzymaj dowolną piosenkę, a następnie przeciągnij ją na nowe miejsce. Twoja niestandardowa kolejność jest zapisywana automatycznie.';
 
   @override
   String get changelog170Title => 'Backup i przeniesienie swojej biblioteki';
 
   @override
   String get changelog170Description =>
-      'Eksportuj swoją całą bibliotekę — utwory, pętle i audio — do jednego pliku, a następnie przywróć ją na innym urządzeniu za pomocą Pro. Wybierz \'Scal\' aby dodać nowe utwory obok istniejących, lub \'Zastąp\' aby zacząć od nowa.';
+      'Eksportuj swoją całą bibliotekę - utwory, pętle i audio - do jednego pliku, a następnie przywróć ją na innym urządzeniu za pomocą Pro. Wybierz \'Scal\' aby dodać nowe utwory obok istniejących, lub \'Zastąp\' aby zacząć od nowa.';
 
   @override
   String get changelog170LanguageTitle => 'Wybierz swój język';
 
   @override
   String get changelog170LanguageDescription =>
-      'Zmień język aplikacji z menu — wybierz spośród 16 obsługiwanych języków lub użyj domyślnego ustawienia systemu urządzenia.';
+      'Zmień język aplikacji z menu - wybierz spośród 16 obsługiwanych języków lub użyj domyślnego ustawienia systemu urządzenia.';
 
   @override
   String get changelog1601Title =>

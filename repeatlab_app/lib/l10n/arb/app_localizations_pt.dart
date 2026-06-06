@@ -427,28 +427,28 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get changelog201Description =>
-      'Importe vídeos e coloque-os em loop assim como músicas de áudio — ou mude a velocidade — perfeito para praticar com tutoriais ou apresentações ao vivo. Esta funcionalidade está atualmente em Beta; manda-me o teu feedback se encontrares algum problema.';
+      'Importe vídeos e coloque-os em loop assim como músicas de áudio - ou mude a velocidade - perfeito para praticar com tutoriais ou apresentações ao vivo. Esta funcionalidade está atualmente em Beta; manda-me o teu feedback se encontrares algum problema.';
 
   @override
   String get changelog180Title => 'Reordene suas músicas';
 
   @override
   String get changelog180Description =>
-      'Organize sua lista de músicas do jeito que quiser — pressione e segure qualquer música e arraste-a para uma nova posição. Sua ordem personalizada é salva automaticamente.';
+      'Organize sua lista de músicas do jeito que quiser - pressione e segure qualquer música e arraste-a para uma nova posição. Sua ordem personalizada é salva automaticamente.';
 
   @override
   String get changelog170Title => 'Backup e mover sua biblioteca';
 
   @override
   String get changelog170Description =>
-      'Exporte sua biblioteca completa — músicas, loops e áudio — para um único arquivo, e restaure-o em outro dispositivo com Pro. Escolha \'Mesclar\' para adicionar novas músicas junto às existentes, ou \'Substituir\' para começar do zero.';
+      'Exporte sua biblioteca completa - músicas, loops e áudio - para um único arquivo, e restaure-o em outro dispositivo com Pro. Escolha \'Mesclar\' para adicionar novas músicas junto às existentes, ou \'Substituir\' para começar do zero.';
 
   @override
   String get changelog170LanguageTitle => 'Escolha seu idioma';
 
   @override
   String get changelog170LanguageDescription =>
-      'Altere o idioma do app a partir do menu — escolha entre 16 idiomas compatíveis ou siga o padrão do sistema do seu dispositivo.';
+      'Altere o idioma do app a partir do menu - escolha entre 16 idiomas compatíveis ou siga o padrão do sistema do seu dispositivo.';
 
   @override
   String get changelog1601Title =>

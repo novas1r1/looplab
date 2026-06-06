@@ -424,14 +424,14 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get changelog201Description =>
-      'Videoları içe aktarıp tıpkı ses şarkıları gibi döngüye al — ya da hızı değiştir — eğitim videoları veya canlı performanslarla pratik yapmak için mükemmel. Bu özellik şu an Beta aşamasında; sorunla karşılaşırsan bana geri bildirimini gönder.';
+      'Videoları içe aktarıp tıpkı ses şarkıları gibi döngüye al - ya da hızı değiştir - eğitim videoları veya canlı performanslarla pratik yapmak için mükemmel. Bu özellik şu an Beta aşamasında; sorunla karşılaşırsan bana geri bildirimini gönder.';
 
   @override
   String get changelog180Title => 'Şarkılarınızı yeniden sıralayın';
 
   @override
   String get changelog180Description =>
-      'Şarkı listenizi istediğiniz şekilde düzenleyin — herhangi bir şarkıya uzun basın ve yeni bir konuma sürükleyin. Özel sıranız otomatik olarak kaydedilir.';
+      'Şarkı listenizi istediğiniz şekilde düzenleyin - herhangi bir şarkıya uzun basın ve yeni bir konuma sürükleyin. Özel sıranız otomatik olarak kaydedilir.';
 
   @override
   String get changelog170Title => 'Kütüphaneyi yedekle ve taşı';
@@ -445,7 +445,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get changelog170LanguageDescription =>
-      'Uygulama dilini menüden değiştirin — desteklenen 16 dil arasından seçin ya da cihazınızın sistem varsayılanını kullanın.';
+      'Uygulama dilini menüden değiştirin - desteklenen 16 dil arasından seçin ya da cihazınızın sistem varsayılanını kullanın.';
 
   @override
   String get changelog1601Title =>

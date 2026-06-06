@@ -423,28 +423,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get changelog201Description =>
-      'Import videos and loop them just like audio songs — or change the speed — perfect for practicing along to tutorials or live performances. This feature is currently in Beta; please send me your feedback if you run into any issues.';
+      'Import videos and loop them just like audio songs - or change the speed - perfect for practicing along to tutorials or live performances. This feature is currently in Beta; please send me your feedback if you run into any issues.';
 
   @override
   String get changelog180Title => 'Reorder your songs';
 
   @override
   String get changelog180Description =>
-      'Organize your song list the way you want — long-press any song and drag it to a new position. Your custom order is saved automatically.';
+      'Organize your song list the way you want - long-press any song and drag it to a new position. Your custom order is saved automatically.';
 
   @override
   String get changelog170Title => 'Back up and move your library';
 
   @override
   String get changelog170Description =>
-      'Export your entire library — songs, loops, and audio — to a single file, then restore it on another device with Pro. Choose Merge to add new songs alongside your existing ones, or Replace to start fresh.';
+      'Export your entire library - songs, loops, and audio - to a single file, then restore it on another device with Pro. Choose Merge to add new songs alongside your existing ones, or Replace to start fresh.';
 
   @override
   String get changelog170LanguageTitle => 'Choose your language';
 
   @override
   String get changelog170LanguageDescription =>
-      'Switch the app language from the drawer — pick from 16 supported languages or follow your device\'s system default.';
+      'Switch the app language from the drawer - pick from 16 supported languages or follow your device\'s system default.';
 
   @override
   String get changelog1601Title =>

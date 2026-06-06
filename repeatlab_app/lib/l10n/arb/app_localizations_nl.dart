@@ -425,28 +425,28 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get changelog201Description =>
-      'Importeer video\'s en loop ze net zoals audio-nummers — of pas de snelheid aan — perfect om te oefenen met tutorials of live-optredens. Deze functie is momenteel in Beta; stuur me je feedback als je problemen ondervindt.';
+      'Importeer video\'s en loop ze net zoals audio-nummers - of pas de snelheid aan - perfect om te oefenen met tutorials of live-optredens. Deze functie is momenteel in Beta; stuur me je feedback als je problemen ondervindt.';
 
   @override
   String get changelog180Title => 'Nummers herordenen';
 
   @override
   String get changelog180Description =>
-      'Organiseer je nummerslijst zoals je wilt — houd een nummer lang ingedrukt en sleep het naar een nieuwe positie. Jouw aangepaste volgorde wordt automatisch opgeslagen.';
+      'Organiseer je nummerslijst zoals je wilt - houd een nummer lang ingedrukt en sleep het naar een nieuwe positie. Jouw aangepaste volgorde wordt automatisch opgeslagen.';
 
   @override
   String get changelog170Title => 'Back up en verplaats je bibliotheek';
 
   @override
   String get changelog170Description =>
-      'Exporteer je hele bibliotheek — nummers, loops en audio — naar een enkel bestand, en herstel het op een ander apparaat met Pro. Kies \'Samenvoegen\' om nieuwe nummers naast je bestaande toe te voegen, of \'Vervangen\' om vanaf nul te beginnen.';
+      'Exporteer je hele bibliotheek - nummers, loops en audio - naar een enkel bestand, en herstel het op een ander apparaat met Pro. Kies \'Samenvoegen\' om nieuwe nummers naast je bestaande toe te voegen, of \'Vervangen\' om vanaf nul te beginnen.';
 
   @override
   String get changelog170LanguageTitle => 'Kies je taal';
 
   @override
   String get changelog170LanguageDescription =>
-      'Wijzig de app-taal via het menu — kies uit 16 ondersteunde talen of volg de systeemstandaard van je apparaat.';
+      'Wijzig de app-taal via het menu - kies uit 16 ondersteunde talen of volg de systeemstandaard van je apparaat.';
 
   @override
   String get changelog1601Title =>

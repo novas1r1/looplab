@@ -185,7 +185,7 @@
     "@changelog201Title": {
         "description": "Changelog entry title for the 2.0.1 video support feature"
     },
-    "changelog201Description": "Import videos and loop them just like audio songs — or change the speed — perfect for practicing along to tutorials or live performances. This feature is currently in Beta; please send me your feedback if you run into any issues.",
+    "changelog201Description": "Import videos and loop them just like audio songs - or change the speed - perfect for practicing along to tutorials or live performances. This feature is currently in Beta; please send me your feedback if you run into any issues.",
     "@changelog201Description": {
         "description": "Changelog entry description for the 2.0.1 video support feature"
     },
@@ -193,17 +193,17 @@
     "@changelog180Title": {
         "description": "Changelog entry title for the 1.8.0 song reorder feature"
     },
-    "changelog180Description": "Organize your song list the way you want — long-press any song and drag it to a new position. Your custom order is saved automatically.",
+    "changelog180Description": "Organize your song list the way you want - long-press any song and drag it to a new position. Your custom order is saved automatically.",
     "@changelog180Description": {
         "description": "Changelog entry description for the 1.8.0 song reorder feature"
     },
     "changelog170Title": "Back up and move your library",
-    "changelog170Description": "Export your entire library — songs, loops, and audio — to a single file, then restore it on another device with Pro. Choose Merge to add new songs alongside your existing ones, or Replace to start fresh.",
+    "changelog170Description": "Export your entire library - songs, loops, and audio - to a single file, then restore it on another device with Pro. Choose Merge to add new songs alongside your existing ones, or Replace to start fresh.",
     "changelog170LanguageTitle": "Choose your language",
     "@changelog170LanguageTitle": {
         "description": "Changelog entry title for the 1.7.0 language switcher feature"
     },
-    "changelog170LanguageDescription": "Switch the app language from the drawer — pick from 16 supported languages or follow your device's system default.",
+    "changelog170LanguageDescription": "Switch the app language from the drawer - pick from 16 supported languages or follow your device's system default.",
     "@changelog170LanguageDescription": {
         "description": "Changelog entry description for the 1.7.0 language switcher feature"
     },

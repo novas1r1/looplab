@@ -408,14 +408,14 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get changelog201Description =>
-      '동영상을 가져와 오디오 곡처럼 루프하세요 — 또는 속도를 변경하세요 — 튜토리얼이나 라이브 공연을 따라 연습하기에 완벽합니다. 이 기능은 현재 베타 버전입니다. 문제가 생기면 피드백을 보내주세요.';
+      '동영상을 가져와 오디오 곡처럼 루프하세요 - 또는 속도를 변경하세요 - 튜토리얼이나 라이브 공연을 따라 연습하기에 완벽합니다. 이 기능은 현재 베타 버전입니다. 문제가 생기면 피드백을 보내주세요.';
 
   @override
   String get changelog180Title => '노래 순서 재정렬';
 
   @override
   String get changelog180Description =>
-      '원하는 대로 노래 목록을 정리하세요 — 아무 노래나 길게 누른 후 새 위치로 드래그하면 됩니다. 사용자 지정 순서는 자동으로 저장됩니다.';
+      '원하는 대로 노래 목록을 정리하세요 - 아무 노래나 길게 누른 후 새 위치로 드래그하면 됩니다. 사용자 지정 순서는 자동으로 저장됩니다.';
 
   @override
   String get changelog170Title => '라이브러리 백업 및 이동';

@@ -425,28 +425,28 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get changelog201Description =>
-      'Importiere Videos und loope sie genau wie Audio-Songs oder ändere die Geschwindigkeit — perfekt zum Üben mit Tutorials oder Live-Auftritten. Diese Funktion ist aktuell in der Beta; bitte schicke mir dein Feedback wenn du auf Probleme stößt.';
+      'Importiere Videos und loope sie genau wie Audio-Songs oder ändere die Geschwindigkeit - perfekt zum Üben mit Tutorials oder Live-Auftritten. Diese Funktion ist aktuell in der Beta; bitte schicke mir dein Feedback wenn du auf Probleme stößt.';
 
   @override
   String get changelog180Title => 'Songs neu anordnen';
 
   @override
   String get changelog180Description =>
-      'Organisiere deine Songliste nach deinen Wünschen — halte einen Song gedrückt und ziehe ihn an eine neue Position. Deine individuelle Reihenfolge wird automatisch gespeichert.';
+      'Organisiere deine Songliste nach deinen Wünschen - halte einen Song gedrückt und ziehe ihn an eine neue Position. Deine individuelle Reihenfolge wird automatisch gespeichert.';
 
   @override
   String get changelog170Title => 'Deine Bibliothek sichern und verschieben';
 
   @override
   String get changelog170Description =>
-      'Exportiere deine gesamte Bibliothek — Songs, Loops und Audio — in eine einzige Datei, um sie auf einem anderen Gerät wiederherzustellen. Wähle Zusammenführen, um neue Songs neben deinen bestehenden zu hinzufügen, oder Ersetzen, um neu zu starten.';
+      'Exportiere deine gesamte Bibliothek - Songs, Loops und Audio - in eine einzige Datei, um sie auf einem anderen Gerät wiederherzustellen. Wähle Zusammenführen, um neue Songs neben deinen bestehenden zu hinzufügen, oder Ersetzen, um neu zu starten.';
 
   @override
   String get changelog170LanguageTitle => 'Wähle deine Sprache';
 
   @override
   String get changelog170LanguageDescription =>
-      'Wechsle die App-Sprache direkt im Menü — 16 Sprachen stehen zur Auswahl, oder folge der Systemsprache deines Geräts.';
+      'Wechsle die App-Sprache direkt im Menü - 16 Sprachen stehen zur Auswahl, oder folge der Systemsprache deines Geräts.';
 
   @override
   String get changelog1601Title =>

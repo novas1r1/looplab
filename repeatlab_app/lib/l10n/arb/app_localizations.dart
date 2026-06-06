@@ -861,7 +861,7 @@ abstract class AppLocalizations {
   /// Changelog entry description for the 2.0.1 video support feature
   ///
   /// In en, this message translates to:
-  /// **'Import videos and loop them just like audio songs — or change the speed — perfect for practicing along to tutorials or live performances. This feature is currently in Beta; please send me your feedback if you run into any issues.'**
+  /// **'Import videos and loop them just like audio songs - or change the speed - perfect for practicing along to tutorials or live performances. This feature is currently in Beta; please send me your feedback if you run into any issues.'**
   String get changelog201Description;
 
   /// Changelog entry title for the 1.8.0 song reorder feature
@@ -873,7 +873,7 @@ abstract class AppLocalizations {
   /// Changelog entry description for the 1.8.0 song reorder feature
   ///
   /// In en, this message translates to:
-  /// **'Organize your song list the way you want — long-press any song and drag it to a new position. Your custom order is saved automatically.'**
+  /// **'Organize your song list the way you want - long-press any song and drag it to a new position. Your custom order is saved automatically.'**
   String get changelog180Description;
 
   /// No description provided for @changelog170Title.
@@ -885,7 +885,7 @@ abstract class AppLocalizations {
   /// No description provided for @changelog170Description.
   ///
   /// In en, this message translates to:
-  /// **'Export your entire library — songs, loops, and audio — to a single file, then restore it on another device with Pro. Choose Merge to add new songs alongside your existing ones, or Replace to start fresh.'**
+  /// **'Export your entire library - songs, loops, and audio - to a single file, then restore it on another device with Pro. Choose Merge to add new songs alongside your existing ones, or Replace to start fresh.'**
   String get changelog170Description;
 
   /// Changelog entry title for the 1.7.0 language switcher feature
@@ -897,7 +897,7 @@ abstract class AppLocalizations {
   /// Changelog entry description for the 1.7.0 language switcher feature
   ///
   /// In en, this message translates to:
-  /// **'Switch the app language from the drawer — pick from 16 supported languages or follow your device\'s system default.'**
+  /// **'Switch the app language from the drawer - pick from 16 supported languages or follow your device\'s system default.'**
   String get changelog170LanguageDescription;
 
   /// No description provided for @changelog1601Title.

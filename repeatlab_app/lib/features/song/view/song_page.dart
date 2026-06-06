@@ -444,114 +444,137 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                                 return SizedBox(
                                   height:
                                       MediaQuery.of(context).size.height * 0.4,
-                                  child: ReorderableListView.builder(
-                                    onReorder: (oldIndex, newIndex) {
-                                      if (oldIndex < newIndex) {
-                                        newIndex -= 1;
-                                      }
-
-                                      AppAnalytics.trackEvent(
-                                        AppAnalytics.clickReorderLoops,
-                                      );
-
-                                      final List<Loop> newLoops =
-                                          List<Loop>.from(loops);
-                                      final Loop item = newLoops.removeAt(
-                                        oldIndex,
-                                      );
-                                      newLoops.insert(newIndex, item);
-
-                                      // Update order numbers
-                                      for (
-                                        var i = 0;
-                                        i < newLoops.length;
-                                        i++
-                                      ) {
-                                        newLoops[i] = newLoops[i].copyWith(
-                                          orderNumber: i,
-                                        );
-                                      }
-
-                                      context.read<SongCubit>().updateLoopOrder(
-                                        newLoops,
-                                      );
-                                    },
-                                    scrollController: _loopListController,
-                                    padding: const EdgeInsets.only(bottom: 174),
-                                    itemBuilder: (context, index) => Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 4,
-                                      ),
-                                      key: ValueKey(loops[index].id),
-                                      child:
-                                          BlocSelector<
-                                            PremiumSubscriptionCubit,
-                                            PremiumSubscriptionState,
-                                            bool
-                                          >(
-                                            selector: (state) =>
-                                                state.hasWeeklySubscription ||
-                                                state.hasYearlySubscription ||
-                                                state.hasLifetimePurchase,
-                                            builder: (context, hasPremium) {
-                                              return LoopTile(
-                                                index: index,
-                                                loop: loops[index],
-                                                isSelected:
-                                                    loops[index] ==
+                                  child:
+                                      BlocSelector<
+                                        PremiumSubscriptionCubit,
+                                        PremiumSubscriptionState,
+                                        bool
+                                      >(
+                                        selector: (state) =>
+                                            state.hasWeeklySubscription ||
+                                            state.hasYearlySubscription ||
+                                            state.hasLifetimePurchase,
+                                        builder: (context, hasPremium) {
+                                          Widget buildItem(int index) =>
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      vertical: 4,
+                                                    ),
+                                                key: ValueKey(loops[index].id),
+                                                child: LoopTile(
+                                                  index: index,
+                                                  loop: loops[index],
+                                                  isSelected:
+                                                      loops[index] ==
+                                                      context
+                                                          .read<SongCubit>()
+                                                          .state
+                                                          .activeLoop,
+                                                  isLocked:
+                                                      !hasPremium && index > 0,
+                                                  onTap: (loop) => context
+                                                      .read<SongCubit>()
+                                                      .selectLoop(loop),
+                                                  onDelete: (loop) {
+                                                    AppAnalytics.trackEvent(
+                                                      AppAnalytics
+                                                          .clickDeleteLoop,
+                                                    );
                                                     context
                                                         .read<SongCubit>()
-                                                        .state
-                                                        .activeLoop,
-                                                isLocked:
-                                                    !hasPremium && index > 0,
-                                                onTap: (loop) => context
-                                                    .read<SongCubit>()
-                                                    .selectLoop(loop),
-                                                onDelete: (loop) {
-                                                  AppAnalytics.trackEvent(
-                                                    AppAnalytics
-                                                        .clickDeleteLoop,
-                                                  );
-                                                  context
-                                                      .read<SongCubit>()
-                                                      .deleteLoop(loop);
-                                                },
-                                                onPlay: (loop) {
-                                                  AppAnalytics.trackEvent(
-                                                    AppAnalytics.clickPlayLoop,
-                                                  );
-                                                  context
-                                                      .read<SongCubit>()
-                                                      .togglePlayLoop(loop);
-                                                },
-                                                onPause: (loop) {
-                                                  AppAnalytics.trackEvent(
-                                                    AppAnalytics.clickStopLoop,
-                                                  );
-                                                  context
-                                                      .read<SongCubit>()
-                                                      .pauseLoop();
-                                                },
-                                                onUpdate: (loop) {
-                                                  AppAnalytics.trackEvent(
-                                                    AppAnalytics
-                                                        .clickUpdateLoop,
-                                                  );
-                                                  context
-                                                      .read<SongCubit>()
-                                                      .updateLoop(loop);
-                                                },
-                                                onLockedTap: () =>
-                                                    _presentLoopPaywall(
-                                                      context,
-                                                    ),
+                                                        .deleteLoop(loop);
+                                                  },
+                                                  onPlay: (loop) {
+                                                    AppAnalytics.trackEvent(
+                                                      AppAnalytics
+                                                          .clickPlayLoop,
+                                                    );
+                                                    context
+                                                        .read<SongCubit>()
+                                                        .togglePlayLoop(loop);
+                                                  },
+                                                  onPause: (loop) {
+                                                    AppAnalytics.trackEvent(
+                                                      AppAnalytics
+                                                          .clickStopLoop,
+                                                    );
+                                                    context
+                                                        .read<SongCubit>()
+                                                        .pauseLoop();
+                                                  },
+                                                  onUpdate: (loop) {
+                                                    AppAnalytics.trackEvent(
+                                                      AppAnalytics
+                                                          .clickUpdateLoop,
+                                                    );
+                                                    context
+                                                        .read<SongCubit>()
+                                                        .updateLoop(loop);
+                                                  },
+                                                  onLockedTap: () =>
+                                                      _presentLoopPaywall(
+                                                        context,
+                                                      ),
+                                                ),
                                               );
+
+                                          if (!hasPremium) {
+                                            // Drag-to-reorder is a premium
+                                            // feature — non-premium users only
+                                            // have access to loop #0 anyway,
+                                            // so reordering is meaningless.
+                                            return ListView.builder(
+                                              controller: _loopListController,
+                                              padding: const EdgeInsets.only(
+                                                bottom: 174,
+                                              ),
+                                              itemBuilder: (context, index) =>
+                                                  buildItem(index),
+                                              itemCount: loops.length,
+                                            );
+                                          }
+
+                                          return ReorderableListView.builder(
+                                            onReorder: (oldIndex, newIndex) {
+                                              if (oldIndex < newIndex) {
+                                                newIndex -= 1;
+                                              }
+
+                                              AppAnalytics.trackEvent(
+                                                AppAnalytics.clickReorderLoops,
+                                              );
+
+                                              final List<Loop> newLoops =
+                                                  List<Loop>.from(loops);
+                                              final Loop item = newLoops
+                                                  .removeAt(oldIndex);
+                                              newLoops.insert(newIndex, item);
+
+                                              for (
+                                                var i = 0;
+                                                i < newLoops.length;
+                                                i++
+                                              ) {
+                                                newLoops[i] = newLoops[i]
+                                                    .copyWith(orderNumber: i);
+                                              }
+
+                                              context
+                                                  .read<SongCubit>()
+                                                  .updateLoopOrder(newLoops);
                                             },
-                                          ),
-                                    ),
-                                    itemCount: loops.length,
-                                  ),
+                                            scrollController:
+                                                _loopListController,
+                                            padding: const EdgeInsets.only(
+                                              bottom: 174,
+                                            ),
+                                            itemBuilder: (context, index) =>
+                                                buildItem(index),
+                                            itemCount: loops.length,
+                                          );
+                                        },
+                                      ),
                                 );
                               },
                             );
