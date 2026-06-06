@@ -15,6 +15,8 @@ import 'package:repeatlab/features/home/dataprotection_page.dart';
 import 'package:repeatlab/features/home/legal_notices_page.dart';
 import 'package:repeatlab/features/home/settings_page.dart';
 import 'package:repeatlab/features/home/terms_of_service_page.dart';
+import 'package:repeatlab/features/locale/cubit/locale_cubit.dart';
+import 'package:repeatlab/features/locale/widgets/language_picker_dialog.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -133,6 +135,19 @@ class CustomDrawer extends StatelessWidget {
             leading: const Icon(Icons.settings),
             title: Text(context.l10n.settings),
             onTap: () => _onSettings(context),
+          ),
+          BlocBuilder<LocaleCubit, Locale?>(
+            builder: (context, selectedLocale) {
+              final subtitle = selectedLocale == null
+                  ? context.l10n.systemDefault
+                  : nativeLanguageNameOf(selectedLocale);
+              return ListTile(
+                leading: const Icon(Icons.language),
+                title: Text(context.l10n.language),
+                subtitle: Text(subtitle),
+                onTap: () => _onLanguage(context),
+              );
+            },
           ),
 
           Padding(
@@ -378,6 +393,18 @@ class CustomDrawer extends StatelessWidget {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const SettingsPage(),
+      ),
+    );
+  }
+
+  Future<void> _onLanguage(BuildContext context) async {
+    AppAnalytics.trackEvent(AppAnalytics.clickChangeLanguage);
+    final localeCubit = context.read<LocaleCubit>();
+    await showDialog<void>(
+      context: context,
+      builder: (dialogContext) => BlocProvider.value(
+        value: localeCubit,
+        child: const LanguagePickerDialog(),
       ),
     );
   }

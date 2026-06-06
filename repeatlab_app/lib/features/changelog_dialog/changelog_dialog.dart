@@ -14,8 +14,7 @@ class ChangelogDialog extends StatefulWidget {
   State<ChangelogDialog> createState() => _ChangelogDialogState();
 }
 
-class _ChangelogDialogState extends State<ChangelogDialog>
-    with TickerProviderStateMixin {
+class _ChangelogDialogState extends State<ChangelogDialog> with TickerProviderStateMixin {
   late final AnimationController _animationController;
 
   @override
@@ -36,6 +35,24 @@ class _ChangelogDialogState extends State<ChangelogDialog>
   @override
   Widget build(BuildContext context) {
     final versions = [
+      ChangelogVersion(
+        version: '1.7.3',
+        releaseDate: DateTime(2026, 4, 24),
+        updates: [
+          ChangelogElement(
+            title: context.l10n.changelog180Title,
+            description: context.l10n.changelog180Description,
+          ),
+          ChangelogElement(
+            title: context.l10n.changelog170LanguageTitle,
+            description: context.l10n.changelog170LanguageDescription,
+          ),
+          ChangelogElement(
+            title: context.l10n.changelog170Title,
+            description: context.l10n.changelog170Description,
+          ),
+        ],
+      ),
       ChangelogVersion(
         version: '1.6.0',
         releaseDate: DateTime(2025, 12, 27),

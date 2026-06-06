@@ -15,6 +15,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get userSettings => 'Kullanıcı Ayarları';
 
   @override
+  String get language => 'Dil';
+
+  @override
+  String get systemDefault => 'Sistem varsayılanı';
+
+  @override
   String get cancelSubscription => 'Aboneliği İptal Et';
 
   @override
@@ -414,6 +420,27 @@ class AppLocalizationsTr extends AppLocalizations {
   String get changelogTitle => 'Değişiklik Günlüğü';
 
   @override
+  String get changelog180Title => 'Şarkılarınızı yeniden sıralayın';
+
+  @override
+  String get changelog180Description =>
+      'Şarkı listenizi istediğiniz şekilde düzenleyin — herhangi bir şarkıya uzun basın ve yeni bir konuma sürükleyin. Özel sıranız otomatik olarak kaydedilir.';
+
+  @override
+  String get changelog170Title => 'Kütüphaneyi yedekle ve taşı';
+
+  @override
+  String get changelog170Description =>
+      'Kütüphanenizi tamamen dışa aktarın - şarkılar, döngüler ve ses dosyaları - tek bir dosyaya, ardından Pro ile başka bir cihazda geri yükleyin. Mevcut şarkıların yanına yeni şarkılar eklemek için Birleştir\'i seçin, ya da sıfırdan başlamak için Değiştir\'i seçin.';
+
+  @override
+  String get changelog170LanguageTitle => 'Dilinizi seçin';
+
+  @override
+  String get changelog170LanguageDescription =>
+      'Uygulama dilini menüden değiştirin — desteklenen 16 dil arasından seçin ya da cihazınızın sistem varsayılanını kullanın.';
+
+  @override
   String get changelog1601Title =>
       '1/3 Döngüleri Seçtiğinizde veya aralarında gezinirken otomatik oynatma';
 
@@ -662,6 +689,84 @@ class AppLocalizationsTr extends AppLocalizations {
   String get deleteAllDataError => 'Tüm verileri silme başarısız oldu';
 
   @override
+  String get backupAndRestore => 'Backup & Restore';
+
+  @override
+  String get backupExport => 'Export my library';
+
+  @override
+  String get backupExportSubtitle =>
+      'Save all songs and loops to a single file you can transfer to another device.';
+
+  @override
+  String get backupImport => 'Import backup';
+
+  @override
+  String get backupImportSubtitle =>
+      'Restore songs and loops from a previously exported file.';
+
+  @override
+  String get backupProOnly => 'Pro feature';
+
+  @override
+  String get backupExporting => 'Preparing backup…';
+
+  @override
+  String get backupImporting => 'Importing…';
+
+  @override
+  String backupExportFailed(String message) {
+    return 'Export failed: $message';
+  }
+
+  @override
+  String backupImportFailed(String message) {
+    return 'Import failed: $message';
+  }
+
+  @override
+  String get backupImportConfirmTitle => 'Import backup';
+
+  @override
+  String backupImportConfirmMessage(int songCount, String exportedAt) {
+    return 'This backup contains $songCount songs (exported $exportedAt).';
+  }
+
+  @override
+  String get backupImportModeMerge => 'Merge';
+
+  @override
+  String get backupImportModeMergeDescription =>
+      'Add new songs, keep existing ones.';
+
+  @override
+  String get backupImportModeReplace => 'Replace';
+
+  @override
+  String get backupImportModeReplaceDescription =>
+      'Delete everything and import from scratch.';
+
+  @override
+  String get backupImportReplaceConfirmTitle => 'Replace entire library?';
+
+  @override
+  String get backupImportReplaceConfirmMessage =>
+      'This will permanently delete all current songs and loops before importing. This cannot be undone.';
+
+  @override
+  String backupImportSuccess(int imported, int skipped, int renamed) {
+    return 'Imported $imported songs. $skipped skipped, $renamed renamed.';
+  }
+
+  @override
+  String get backupImportSchemaTooNew =>
+      'This backup was created by a newer version of RepeatLab. Please update the app to import it.';
+
+  @override
+  String get backupImportMalformed =>
+      'This file isn\'t a valid RepeatLab backup.';
+
+  @override
   String get errorOpeningStore =>
       'Uygulama mağazası menüsü açılamadı. Lütfen Play veya Apple mağazası üzerinden doğrudan değerlendirme yapmayı deneyin. Teşekkür ederim!';
 
@@ -775,4 +880,16 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get copyToClipboard => 'Panoya kopyala';
+
+  @override
+  String get editSong => 'Şarkıyı düzenle';
+
+  @override
+  String get editSongTitle => 'Başlık';
+
+  @override
+  String get editSongArtist => 'Sanatçı';
+
+  @override
+  String get editSongTitleRequired => 'Başlık boş olamaz';
 }

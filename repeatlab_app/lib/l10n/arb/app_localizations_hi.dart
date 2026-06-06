@@ -15,6 +15,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String get userSettings => 'उपयोगकर्ता सेटिंग्स';
 
   @override
+  String get language => 'भाषा';
+
+  @override
+  String get systemDefault => 'सिस्टम डिफ़ॉल्ट';
+
+  @override
   String get cancelSubscription => 'सदस्यता रद्द करें';
 
   @override
@@ -412,6 +418,28 @@ class AppLocalizationsHi extends AppLocalizations {
   String get changelogTitle => 'परिवर्तन लॉग';
 
   @override
+  String get changelog180Title => 'अपने गाने पुनः व्यवस्थित करें';
+
+  @override
+  String get changelog180Description =>
+      'अपनी गाने की सूची जैसे चाहें व्यवस्थित करें — किसी भी गाने को लंबे समय तक दबाएं और उसे नई स्थिति में खींचें। आपका कस्टम क्रम स्वचालित रूप से सहेजा जाता है।';
+
+  @override
+  String get changelog170Title =>
+      'अपनी लाइब्रेरी बैकअप करें और स्थानांतरित करें';
+
+  @override
+  String get changelog170Description =>
+      'अपनी पूरी लाइब्रेरी — गीत, लूप और ऑडियो — एक ही फ़ाइल में निर्यात करें, फिर दूसरे डिवाइस पर पुनर्स्थापित करें जिसमें Pro चुनें। मर्ज करने का चुनाव करें जो नई गीत अपने मौजूदा गीतों के साथ जोड़ता है, या रीप्लेस करने का चुनाव करें जो नई लाइब्रेरी शुरू करता है।';
+
+  @override
+  String get changelog170LanguageTitle => 'अपनी भाषा चुनें';
+
+  @override
+  String get changelog170LanguageDescription =>
+      'ड्रॉअर से ऐप की भाषा बदलें — 16 समर्थित भाषाओं में से चुनें या अपने डिवाइस की डिफ़ॉल्ट सेटिंग का पालन करें।';
+
+  @override
   String get changelog1601Title =>
       '1/3 लूप चुनते हैं या अगले या पिछले लूप पर नेविगेट करते हैं तो स्वचालित रूप से लूप चलाएं';
 
@@ -659,6 +687,84 @@ class AppLocalizationsHi extends AppLocalizations {
   String get deleteAllDataError => 'सभी डेटा हटाने में विफल';
 
   @override
+  String get backupAndRestore => 'Backup & Restore';
+
+  @override
+  String get backupExport => 'Export my library';
+
+  @override
+  String get backupExportSubtitle =>
+      'Save all songs and loops to a single file you can transfer to another device.';
+
+  @override
+  String get backupImport => 'Import backup';
+
+  @override
+  String get backupImportSubtitle =>
+      'Restore songs and loops from a previously exported file.';
+
+  @override
+  String get backupProOnly => 'Pro feature';
+
+  @override
+  String get backupExporting => 'Preparing backup…';
+
+  @override
+  String get backupImporting => 'Importing…';
+
+  @override
+  String backupExportFailed(String message) {
+    return 'Export failed: $message';
+  }
+
+  @override
+  String backupImportFailed(String message) {
+    return 'Import failed: $message';
+  }
+
+  @override
+  String get backupImportConfirmTitle => 'Import backup';
+
+  @override
+  String backupImportConfirmMessage(int songCount, String exportedAt) {
+    return 'This backup contains $songCount songs (exported $exportedAt).';
+  }
+
+  @override
+  String get backupImportModeMerge => 'Merge';
+
+  @override
+  String get backupImportModeMergeDescription =>
+      'Add new songs, keep existing ones.';
+
+  @override
+  String get backupImportModeReplace => 'Replace';
+
+  @override
+  String get backupImportModeReplaceDescription =>
+      'Delete everything and import from scratch.';
+
+  @override
+  String get backupImportReplaceConfirmTitle => 'Replace entire library?';
+
+  @override
+  String get backupImportReplaceConfirmMessage =>
+      'This will permanently delete all current songs and loops before importing. This cannot be undone.';
+
+  @override
+  String backupImportSuccess(int imported, int skipped, int renamed) {
+    return 'Imported $imported songs. $skipped skipped, $renamed renamed.';
+  }
+
+  @override
+  String get backupImportSchemaTooNew =>
+      'This backup was created by a newer version of RepeatLab. Please update the app to import it.';
+
+  @override
+  String get backupImportMalformed =>
+      'This file isn\'t a valid RepeatLab backup.';
+
+  @override
   String get errorOpeningStore =>
       'ऐप स्टोर मेनू खोलने में विफल। कृपया Play या Apple स्टोर के माध्यम से सीधे रेटिंग देने का प्रयास करें। धन्यवाद!';
 
@@ -772,4 +878,16 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get copyToClipboard => 'क्लिपबोर्ड पर कॉपी करें';
+
+  @override
+  String get editSong => 'गाना संपादित करें';
+
+  @override
+  String get editSongTitle => 'शीर्षक';
+
+  @override
+  String get editSongArtist => 'कलाकार';
+
+  @override
+  String get editSongTitleRequired => 'शीर्षक खाली नहीं हो सकता';
 }

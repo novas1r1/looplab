@@ -14,6 +14,7 @@ import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:repeatlab/features/changelog_dialog/cubits/changelog_dialog_cubit.dart';
 import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
 import 'package:repeatlab/features/home/home_page.dart';
+import 'package:repeatlab/features/locale/cubit/locale_cubit.dart';
 import 'package:repeatlab/features/onboarding/view/onboarding_page.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/l10n/arb/app_localizations.dart';
@@ -74,6 +75,12 @@ class App extends StatelessWidget {
               packageInfo: context.read<PackageInfo>(),
             ),
           ),
+          BlocProvider(
+            lazy: false,
+            create: (context) => LocaleCubit(
+              localConfigRepository: context.read<LocalConfigRepository>(),
+            ),
+          ),
         ],
         child: Wiredash(
           projectId: 'repeatlab-vvi4662',
@@ -83,9 +90,10 @@ class App extends StatelessWidget {
               final introShown = context
                   .watch<LocalConfigRepository>()
                   .introShown;
+              final locale = context.watch<LocaleCubit>().state;
 
               return MaterialApp(
-                // locale: DevicePreview.locale(context),
+                locale: locale,
                 debugShowCheckedModeBanner: false,
                 themeMode: ThemeMode.dark,
                 theme: theme.dark(),

@@ -110,6 +110,13 @@ class SongMapper extends ClassMapperBase<Song> {
     opt: true,
     def: LoopSort.none,
   );
+  static int _$sortOrder(Song v) => v.sortOrder;
+  static const Field<Song, int> _f$sortOrder = Field(
+    'sortOrder',
+    _$sortOrder,
+    opt: true,
+    def: 0,
+  );
 
   @override
   final MappableFields<Song> fields = const {
@@ -122,6 +129,7 @@ class SongMapper extends ClassMapperBase<Song> {
     #currentBpm: _f$currentBpm,
     #loops: _f$loops,
     #loopSort: _f$loopSort,
+    #sortOrder: _f$sortOrder,
   };
 
   static Song _instantiate(DecodingData data) {
@@ -135,6 +143,7 @@ class SongMapper extends ClassMapperBase<Song> {
       currentBpm: data.dec(_f$currentBpm),
       loops: data.dec(_f$loops),
       loopSort: data.dec(_f$loopSort),
+      sortOrder: data.dec(_f$sortOrder),
     );
   }
 
@@ -195,6 +204,7 @@ abstract class SongCopyWith<$R, $In extends Song, $Out>
     int? currentBpm,
     List<Loop>? loops,
     LoopSort? loopSort,
+    int? sortOrder,
   });
   SongCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
@@ -223,6 +233,7 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
     Object? currentBpm = $none,
     List<Loop>? loops,
     LoopSort? loopSort,
+    int? sortOrder,
   }) => $apply(
     FieldCopyWithData({
       if (id != null) #id: id,
@@ -234,6 +245,7 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
       if (currentBpm != $none) #currentBpm: currentBpm,
       if (loops != null) #loops: loops,
       if (loopSort != null) #loopSort: loopSort,
+      if (sortOrder != null) #sortOrder: sortOrder,
     }),
   );
   @override
@@ -247,6 +259,7 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
     currentBpm: data.get(#currentBpm, or: $value.currentBpm),
     loops: data.get(#loops, or: $value.loops),
     loopSort: data.get(#loopSort, or: $value.loopSort),
+    sortOrder: data.get(#sortOrder, or: $value.sortOrder),
   );
 
   @override

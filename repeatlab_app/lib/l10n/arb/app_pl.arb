@@ -2,6 +2,8 @@
     "@@locale": "pl",
     "appSubtitle": "Twoja Stacja Pętli Muzycznych",
     "userSettings": "Ustawienia Użytkownika",
+    "language": "Język",
+    "systemDefault": "Systemowy domyślny",
     "buyRepeatLabPro": "Kup RepeatLab Pro",
     "improveTheApp": "Ulepsz Aplikację",
     "feedback": "Opinie/Błędy",
@@ -152,6 +154,12 @@
     "cancelSubscription": "Anuluj Subskrypcję",
     "voteForFeatures": "Głosuj na Funkcje",
     "changelogTitle": "Zmiany",
+    "changelog180Title": "Zmień kolejność piosenek",
+    "changelog180Description": "Organizuj listę piosenek według własnych upodobań — naciśnij i przytrzymaj dowolną piosenkę, a następnie przeciągnij ją na nowe miejsce. Twoja niestandardowa kolejność jest zapisywana automatycznie.",
+    "changelog170Title": "Backup i przeniesienie swojej biblioteki",
+    "changelog170Description": "Eksportuj swoją całą bibliotekę — utwory, pętle i audio — do jednego pliku, a następnie przywróć ją na innym urządzeniu za pomocą Pro. Wybierz 'Scal' aby dodać nowe utwory obok istniejących, lub 'Zastąp' aby zacząć od nowa.",
+    "changelog170LanguageTitle": "Wybierz swój język",
+    "changelog170LanguageDescription": "Zmień język aplikacji z menu — wybierz spośród 16 obsługiwanych języków lub użyj domyślnego ustawienia systemu urządzenia.",
     "changelog1601Title": "1/3 Automatyczne odtwarzanie pętli lub nawigacja między nimi",
     "changelog1601Description": "W ustawieniach utworu możesz teraz włączyć lub wyłączyć automatyczne odtwarzanie pętli i całego utworu.",
     "changelog1602Title": "2/3 Poprawiona kontrola pętli",
@@ -299,5 +307,9 @@
     "playbackSettings": "Odtwarzanie",
     "actions": "Akcje",
     "speedChangeFailed": "Zmiana tempa nie powiodła się. Proszę spróbować ponownie.",
-    "copyToClipboard": "Skopiuj do schowka"
+    "copyToClipboard": "Skopiuj do schowka",
+    "editSong": "Edytuj utwór",
+    "editSongTitle": "Tytuł",
+    "editSongArtist": "Artysta",
+    "editSongTitleRequired": "Tytuł nie może być pusty"
 }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:repeatlab/data/repositories/backup/backup_repository.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/file_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
@@ -56,6 +57,13 @@ class RepositoryWrapper extends StatelessWidget {
           create: (context) => const PurchasesRepository(),
         ),
         RepositoryProvider.value(value: localConfigRepository),
+        RepositoryProvider(
+          create: (context) => BackupRepository(
+            db: db,
+            songRepository: context.read<SongRepository>(),
+            packageInfo: packageInfo,
+          ),
+        ),
         // RepositoryProvider(
         //   create: (context) => audioPlayer,
         // ),

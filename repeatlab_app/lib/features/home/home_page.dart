@@ -126,26 +126,41 @@ class _HomePageState extends State<HomePage> {
                         const SizedBox(height: 8),
                         Text(
                           context.l10n.tapToAddSong,
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(
-                                color: AppColors.onSurface.withValues(
-                                  alpha: 0.6,
-                                ),
-                              ),
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: AppColors.onSurface.withValues(
+                              alpha: 0.6,
+                            ),
+                          ),
                         ),
                       ],
                     ),
                   );
                 }
-                return ListView.separated(
+                return ReorderableListView.builder(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 92),
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 8),
                   itemCount: state.songs.length,
+                  onReorder: (int oldIndex, int newIndex) {
+                    context.read<AllSongsCubit>().reorderSongs(
+                      oldIndex,
+                      newIndex,
+                    );
+                  },
+                  onReorderEnd: (_) {
+                    AppAnalytics.trackEvent(AppAnalytics.reorderSongs);
+                  },
+                  proxyDecorator: (Widget child, int index, Animation<double> animation) {
+                    return Material(
+                      color: Colors.transparent,
+                      child: child,
+                    );
+                  },
                   itemBuilder: (context, index) {
                     final song = state.songs[index];
-
-                    return HomeTile(song: song);
+                    return Padding(
+                      key: ValueKey(song.id),
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: HomeTile(song: song),
+                    );
                   },
                 );
             }

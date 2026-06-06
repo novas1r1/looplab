@@ -5,6 +5,8 @@
         "description": "Text shown in the AppDrawer"
     },
     "userSettings": "Kullanıcı Ayarları",
+    "language": "Dil",
+    "systemDefault": "Sistem varsayılanı",
     "cancelSubscription": "Aboneliği İptal Et",
     "buyRepeatLabPro": "RepeatLab Pro Satın Al",
     "improveTheApp": "Uygulamayı İyileştir",
@@ -152,6 +154,12 @@
     },
     "purchasedAlready": "Zaten satın alındı",
     "purchaseSuccess": "Başarıyla satın alındı. Geliştiriciyi desteklediğiniz için teşekkür ederiz ❤️!",
+    "changelog180Title": "Şarkılarınızı yeniden sıralayın",
+    "changelog180Description": "Şarkı listenizi istediğiniz şekilde düzenleyin — herhangi bir şarkıya uzun basın ve yeni bir konuma sürükleyin. Özel sıranız otomatik olarak kaydedilir.",
+    "changelog170Title": "Kütüphaneyi yedekle ve taşı",
+    "changelog170Description": "Kütüphanenizi tamamen dışa aktarın - şarkılar, döngüler ve ses dosyaları - tek bir dosyaya, ardından Pro ile başka bir cihazda geri yükleyin. Mevcut şarkıların yanına yeni şarkılar eklemek için Birleştir'i seçin, ya da sıfırdan başlamak için Değiştir'i seçin.",
+    "changelog170LanguageTitle": "Dilinizi seçin",
+    "changelog170LanguageDescription": "Uygulama dilini menüden değiştirin — desteklenen 16 dil arasından seçin ya da cihazınızın sistem varsayılanını kullanın.",
     "changelog1601Title": "1/3 Döngüleri Seçtiğinizde veya aralarında gezinirken otomatik oynatma",
     "changelog1601Description": "Şarkı ayarlarında artık döngüleri ve tüm şarkıyı otomatik olarak oynatmayı etkinleştirebilir veya devre dışı bırakabilirsiniz.",
     "changelog1602Title": "2/3 Döngü kontrolünün iyileştirilmesi",
@@ -302,5 +310,9 @@
     "playbackSettings": "Oynatma",
     "actions": "Eylemler",
     "speedChangeFailed": "Hız değişikliği başarısız oldu. Lütfen tekrar deneyin.",
-    "copyToClipboard": "Panoya kopyala"
+    "copyToClipboard": "Panoya kopyala",
+    "editSong": "Şarkıyı düzenle",
+    "editSongTitle": "Başlık",
+    "editSongArtist": "Sanatçı",
+    "editSongTitleRequired": "Başlık boş olamaz"
 }

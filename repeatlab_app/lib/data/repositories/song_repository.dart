@@ -28,11 +28,36 @@ class SongRepository {
   Stream<List<Song>> get songs => _songController.stream;
 
   Future<List<Song>> getAllSongs() async {
-    final records = await _store.find(db);
+    final records = await _store.find(
+      db,
+      finder: Finder(sortOrders: [SortOrder('sortOrder')]),
+    );
     final songs = records.map((e) => SongMapper.fromMap(e.value)).toList();
     _songController.add(songs);
 
     return songs;
+  }
+
+  Future<void> incrementExistingSortOrders() async {
+    final records = await _store.find(db);
+    for (final record in records) {
+      final song = SongMapper.fromMap(record.value);
+      await record.ref.update(
+        db,
+        song.copyWith(sortOrder: song.sortOrder + 1).toMap(),
+      );
+    }
+  }
+
+  Future<void> reorderSongs(List<Song> songs) async {
+    for (final song in songs) {
+      await _store.update(
+        db,
+        song.toMap(),
+        finder: Finder(filter: Filter.equals('id', song.id)),
+      );
+    }
+    await getAllSongs();
   }
 
   /// File extensions natively supported by SoLoud (via miniaudio).
@@ -98,6 +123,8 @@ class SongRepository {
       duration: duration,
     );
 
+    // Shift existing songs down so the new song appears at the top
+    await incrementExistingSortOrders();
     await _store.add(db, song.toMap());
     await getAllSongs();
   }

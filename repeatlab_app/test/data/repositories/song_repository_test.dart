@@ -258,6 +258,54 @@ void main() {
       });
     });
 
+    group('song ordering', () {
+      test('getAllSongs returns songs sorted by sortOrder ascending', () async {
+        final store = StoreRef<String, Map<String, dynamic>>('songs');
+        await store.add(db, MockData.songShort.copyWith(sortOrder: 2).toMap());
+        await store.add(db, MockData.songMedium.copyWith(sortOrder: 0).toMap());
+        await store.add(db, MockData.songLong.copyWith(sortOrder: 1).toMap());
+
+        final songs = await songRepository.getAllSongs();
+        expect(songs[0].id, MockData.songMedium.id);
+        expect(songs[1].id, MockData.songLong.id);
+        expect(songs[2].id, MockData.songShort.id);
+      });
+
+      test('new songs are inserted with sortOrder 0 and existing songs shift down', () async {
+        final store = StoreRef<String, Map<String, dynamic>>('songs');
+        await store.add(db, MockData.songShort.copyWith(sortOrder: 0).toMap());
+        await store.add(db, MockData.songMedium.copyWith(sortOrder: 1).toMap());
+
+        // Simulate adding a new song by calling the internal insert logic
+        await songRepository.incrementExistingSortOrders();
+
+        final songs = await songRepository.getAllSongs();
+        // Existing songs should have shifted: 0->1, 1->2
+        expect(songs[0].sortOrder, 1);
+        expect(songs[1].sortOrder, 2);
+      });
+
+      test('reorderSongs updates sortOrder for all songs', () async {
+        final store = StoreRef<String, Map<String, dynamic>>('songs');
+        await store.add(db, MockData.songShort.copyWith(sortOrder: 0).toMap());
+        await store.add(db, MockData.songMedium.copyWith(sortOrder: 1).toMap());
+        await store.add(db, MockData.songLong.copyWith(sortOrder: 2).toMap());
+
+        // Reorder: move song at index 2 to index 0
+        final reordered = [
+          MockData.songLong.copyWith(sortOrder: 0),
+          MockData.songShort.copyWith(sortOrder: 1),
+          MockData.songMedium.copyWith(sortOrder: 2),
+        ];
+        await songRepository.reorderSongs(reordered);
+
+        final songs = await songRepository.getAllSongs();
+        expect(songs[0].id, MockData.songLong.id);
+        expect(songs[1].id, MockData.songShort.id);
+        expect(songs[2].id, MockData.songMedium.id);
+      });
+    });
+
     group('clearDb', () {
       test('removes all songs from database', () async {
         final store = StoreRef<String, Map<String, dynamic>>('songs');

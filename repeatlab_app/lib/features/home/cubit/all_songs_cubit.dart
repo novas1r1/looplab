@@ -103,6 +103,40 @@ class AllSongsCubit extends Cubit<AllSongsState> {
     }
   }
 
+  Future<void> reorderSongs(int oldIndex, int newIndex) async {
+    final songs = List<Song>.from(state.songs);
+
+    // ReorderableListView adjusts newIndex when moving down
+    var adjustedNewIndex = newIndex;
+    if (oldIndex < adjustedNewIndex) {
+      adjustedNewIndex -= 1;
+    }
+
+    final song = songs.removeAt(oldIndex);
+    songs.insert(adjustedNewIndex, song);
+
+    // Reassign sortOrder based on new positions
+    final reordered = [
+      for (int i = 0; i < songs.length; i++)
+        songs[i].copyWith(sortOrder: i),
+    ];
+
+    // Optimistic update
+    emit(state.copyWith(songs: reordered));
+
+    try {
+      await songRepository.reorderSongs(reordered);
+    } catch (ex, stack) {
+      crashReportingRepository.reportError(ex, stack);
+      emit(
+        state.copyWith(
+          status: AllSongsStatus.error,
+          errorMessage: ex.toString(),
+        ),
+      );
+    }
+  }
+
   Future<void> deleteSong(Song song) async {
     try {
       await songRepository.deleteSong(song);

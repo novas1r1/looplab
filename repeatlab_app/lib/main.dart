@@ -28,7 +28,6 @@ Future<void> main() async {
       options.dsn =
           'https://2ca5460258f78d3ad8694f64123da2e1@o4508596905050112.ingest.de.sentry.io/4508596929167440';
       options.tracesSampleRate = 1.0;
-      options.profilesSampleRate = 1.0;
       options.sendDefaultPii = false;
       options.attachScreenshot = true;
       options.environment = kDebugMode ? 'dev' : 'prod';

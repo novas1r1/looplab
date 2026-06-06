@@ -64,8 +64,10 @@ abstract final class AppAnalytics {
   static const clickTempoModeBpm = 'click_tempo_mode_bpm';
   static const clickToggleFullSongRepeat = 'click_toggle_full_song_repeat';
   static const clickToggleAutoPlay = 'click_toggle_auto_play';
+  static const clickEditSong = 'click_edit_song';
   static const clickToggleLoopMode = 'click_toggle_loop_mode';
   static const clickReorderLoops = 'click_reorder_loops';
+  static const reorderSongs = 'reorder_songs';
   static const clickUpdateLoop = 'click_update_loop';
 
   // export
@@ -82,6 +84,18 @@ abstract final class AppAnalytics {
   // paywall
   static const showPaywallSongLoops = 'show_paywall_song_loops';
   static const showPaywallSongSpeed = 'show_paywall_song_speed';
+  static const viewPaywallFromBackup = 'view_paywall_from_backup';
+
+  // backup & restore
+  static const clickBackupExport = 'click_backup_export';
+  static const backupExportSuccess = 'backup_export_success';
+  static const backupExportFailure = 'backup_export_failure';
+  static const backupExportShareCanceled = 'backup_export_share_canceled';
+  static const clickBackupImport = 'click_backup_import';
+  static const backupImportPicked = 'backup_import_picked';
+  static const backupImportCanceled = 'backup_import_canceled';
+  static const backupImportSuccess = 'backup_import_success';
+  static const backupImportFailure = 'backup_import_failure';
 
   // subscription
   static const clickCancelSubscriptionAndroid =
@@ -89,6 +103,10 @@ abstract final class AppAnalytics {
   static const clickCancelSubscriptionIos = 'click_cancel_subscription_ios';
   static const restoreSubscriptionSuccess = 'restore_subscription_success';
   static const restoreSubscriptionFailure = 'restore_subscription_failure';
+
+  // language
+  static const clickChangeLanguage = 'click_change_language';
+  static const changeLanguage = 'change_language';
 
   // onboarding
   static const onboardingCompleted = 'onboarding_completed';

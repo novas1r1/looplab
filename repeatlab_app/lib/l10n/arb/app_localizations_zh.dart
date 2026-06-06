@@ -15,6 +15,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get userSettings => '用户设置';
 
   @override
+  String get language => '语言';
+
+  @override
+  String get systemDefault => '系统默认';
+
+  @override
   String get cancelSubscription => '取消订阅';
 
   @override
@@ -392,6 +398,27 @@ class AppLocalizationsZh extends AppLocalizations {
   String get changelogTitle => '更新日志';
 
   @override
+  String get changelog180Title => '重新排列您的歌曲';
+
+  @override
+  String get changelog180Description =>
+      '按照您的喜好整理歌曲列表——长按任意歌曲并将其拖动到新位置。您的自定义顺序将自动保存。';
+
+  @override
+  String get changelog170Title => '备份和移动您的库';
+
+  @override
+  String get changelog170Description =>
+      '将您的整个库（歌曲、循环和音频）导出到一个文件中，然后在另一个设备上使用 Pro 恢复。选择合并以在现有歌曲旁边添加新歌曲，或选择替换以从头开始。';
+
+  @override
+  String get changelog170LanguageTitle => '选择您的语言';
+
+  @override
+  String get changelog170LanguageDescription =>
+      '从抽屉菜单切换应用语言——从 16 种支持的语言中选择，或使用设备的系统默认设置。';
+
+  @override
   String get changelog1601Title => '1/3 选择循环或导航之间自动播放';
 
   @override
@@ -620,6 +647,84 @@ class AppLocalizationsZh extends AppLocalizations {
   String get deleteAllDataError => '删除所有数据失败';
 
   @override
+  String get backupAndRestore => 'Backup & Restore';
+
+  @override
+  String get backupExport => 'Export my library';
+
+  @override
+  String get backupExportSubtitle =>
+      'Save all songs and loops to a single file you can transfer to another device.';
+
+  @override
+  String get backupImport => 'Import backup';
+
+  @override
+  String get backupImportSubtitle =>
+      'Restore songs and loops from a previously exported file.';
+
+  @override
+  String get backupProOnly => 'Pro feature';
+
+  @override
+  String get backupExporting => 'Preparing backup…';
+
+  @override
+  String get backupImporting => 'Importing…';
+
+  @override
+  String backupExportFailed(String message) {
+    return 'Export failed: $message';
+  }
+
+  @override
+  String backupImportFailed(String message) {
+    return 'Import failed: $message';
+  }
+
+  @override
+  String get backupImportConfirmTitle => 'Import backup';
+
+  @override
+  String backupImportConfirmMessage(int songCount, String exportedAt) {
+    return 'This backup contains $songCount songs (exported $exportedAt).';
+  }
+
+  @override
+  String get backupImportModeMerge => 'Merge';
+
+  @override
+  String get backupImportModeMergeDescription =>
+      'Add new songs, keep existing ones.';
+
+  @override
+  String get backupImportModeReplace => 'Replace';
+
+  @override
+  String get backupImportModeReplaceDescription =>
+      'Delete everything and import from scratch.';
+
+  @override
+  String get backupImportReplaceConfirmTitle => 'Replace entire library?';
+
+  @override
+  String get backupImportReplaceConfirmMessage =>
+      'This will permanently delete all current songs and loops before importing. This cannot be undone.';
+
+  @override
+  String backupImportSuccess(int imported, int skipped, int renamed) {
+    return 'Imported $imported songs. $skipped skipped, $renamed renamed.';
+  }
+
+  @override
+  String get backupImportSchemaTooNew =>
+      'This backup was created by a newer version of RepeatLab. Please update the app to import it.';
+
+  @override
+  String get backupImportMalformed =>
+      'This file isn\'t a valid RepeatLab backup.';
+
+  @override
   String get errorOpeningStore =>
       '无法打开应用商店列表。请尝试直接通过 Play 或 Apple Store 提交评论。谢谢！';
 
@@ -729,4 +834,16 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get copyToClipboard => '复制到剪贴板';
+
+  @override
+  String get editSong => '编辑歌曲';
+
+  @override
+  String get editSongTitle => '标题';
+
+  @override
+  String get editSongArtist => '艺术家';
+
+  @override
+  String get editSongTitleRequired => '标题不能为空';
 }

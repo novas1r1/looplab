@@ -20,7 +20,11 @@
       "Bash(git ls-tree:*)",
       "Bash(python3:*)",
       "Bash(dart analyze:*)",
-      "Bash(dart test:*)"
+      "Bash(dart test:*)",
+      "Bash(flutter pub *)",
+      "Bash(git stash *)",
+      "Bash(git checkout *)",
+      "Bash(fvm flutter:*)"
     ]
   }
 }

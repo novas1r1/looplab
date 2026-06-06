@@ -138,6 +138,18 @@ abstract class AppLocalizations {
   /// **'User Settings'**
   String get userSettings;
 
+  /// Label for the language selector in the drawer
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// Option in the language picker to follow the device language
+  ///
+  /// In en, this message translates to:
+  /// **'System default'**
+  String get systemDefault;
+
   /// No description provided for @cancelSubscription.
   ///
   /// In en, this message translates to:
@@ -840,6 +852,42 @@ abstract class AppLocalizations {
   /// **'Changelog'**
   String get changelogTitle;
 
+  /// Changelog entry title for the 1.8.0 song reorder feature
+  ///
+  /// In en, this message translates to:
+  /// **'Reorder your songs'**
+  String get changelog180Title;
+
+  /// Changelog entry description for the 1.8.0 song reorder feature
+  ///
+  /// In en, this message translates to:
+  /// **'Organize your song list the way you want — long-press any song and drag it to a new position. Your custom order is saved automatically.'**
+  String get changelog180Description;
+
+  /// No description provided for @changelog170Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Back up and move your library'**
+  String get changelog170Title;
+
+  /// No description provided for @changelog170Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Export your entire library — songs, loops, and audio — to a single file, then restore it on another device with Pro. Choose Merge to add new songs alongside your existing ones, or Replace to start fresh.'**
+  String get changelog170Description;
+
+  /// Changelog entry title for the 1.7.0 language switcher feature
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your language'**
+  String get changelog170LanguageTitle;
+
+  /// Changelog entry description for the 1.7.0 language switcher feature
+  ///
+  /// In en, this message translates to:
+  /// **'Switch the app language from the drawer — pick from 16 supported languages or follow your device\'s system default.'**
+  String get changelog170LanguageDescription;
+
   /// No description provided for @changelog1601Title.
   ///
   /// In en, this message translates to:
@@ -1272,6 +1320,132 @@ abstract class AppLocalizations {
   /// **'Failed to delete all data'**
   String get deleteAllDataError;
 
+  /// No description provided for @backupAndRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup & Restore'**
+  String get backupAndRestore;
+
+  /// No description provided for @backupExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export my library'**
+  String get backupExport;
+
+  /// No description provided for @backupExportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Save all songs and loops to a single file you can transfer to another device.'**
+  String get backupExportSubtitle;
+
+  /// No description provided for @backupImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Import backup'**
+  String get backupImport;
+
+  /// No description provided for @backupImportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore songs and loops from a previously exported file.'**
+  String get backupImportSubtitle;
+
+  /// No description provided for @backupProOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro feature'**
+  String get backupProOnly;
+
+  /// No description provided for @backupExporting.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing backup…'**
+  String get backupExporting;
+
+  /// No description provided for @backupImporting.
+  ///
+  /// In en, this message translates to:
+  /// **'Importing…'**
+  String get backupImporting;
+
+  /// No description provided for @backupExportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Export failed: {message}'**
+  String backupExportFailed(String message);
+
+  /// No description provided for @backupImportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Import failed: {message}'**
+  String backupImportFailed(String message);
+
+  /// No description provided for @backupImportConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import backup'**
+  String get backupImportConfirmTitle;
+
+  /// No description provided for @backupImportConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This backup contains {songCount} songs (exported {exportedAt}).'**
+  String backupImportConfirmMessage(int songCount, String exportedAt);
+
+  /// No description provided for @backupImportModeMerge.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge'**
+  String get backupImportModeMerge;
+
+  /// No description provided for @backupImportModeMergeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Add new songs, keep existing ones.'**
+  String get backupImportModeMergeDescription;
+
+  /// No description provided for @backupImportModeReplace.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace'**
+  String get backupImportModeReplace;
+
+  /// No description provided for @backupImportModeReplaceDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete everything and import from scratch.'**
+  String get backupImportModeReplaceDescription;
+
+  /// No description provided for @backupImportReplaceConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace entire library?'**
+  String get backupImportReplaceConfirmTitle;
+
+  /// No description provided for @backupImportReplaceConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This will permanently delete all current songs and loops before importing. This cannot be undone.'**
+  String get backupImportReplaceConfirmMessage;
+
+  /// No description provided for @backupImportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Imported {imported} songs. {skipped} skipped, {renamed} renamed.'**
+  String backupImportSuccess(int imported, int skipped, int renamed);
+
+  /// No description provided for @backupImportSchemaTooNew.
+  ///
+  /// In en, this message translates to:
+  /// **'This backup was created by a newer version of RepeatLab. Please update the app to import it.'**
+  String get backupImportSchemaTooNew;
+
+  /// No description provided for @backupImportMalformed.
+  ///
+  /// In en, this message translates to:
+  /// **'This file isn\'t a valid RepeatLab backup.'**
+  String get backupImportMalformed;
+
   /// No description provided for @errorOpeningStore.
   ///
   /// In en, this message translates to:
@@ -1481,6 +1655,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Copy to Clipboard'**
   String get copyToClipboard;
+
+  /// No description provided for @editSong.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Song'**
+  String get editSong;
+
+  /// No description provided for @editSongTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get editSongTitle;
+
+  /// No description provided for @editSongArtist.
+  ///
+  /// In en, this message translates to:
+  /// **'Artist'**
+  String get editSongArtist;
+
+  /// No description provided for @editSongTitleRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Title cannot be empty'**
+  String get editSongTitleRequired;
 }
 
 class _AppLocalizationsDelegate

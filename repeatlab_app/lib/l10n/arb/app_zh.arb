@@ -5,6 +5,8 @@
         "description": "Text shown in the AppDrawer"
     },
     "userSettings": "用户设置",
+    "language": "语言",
+    "systemDefault": "系统默认",
     "cancelSubscription": "取消订阅",
     "buyRepeatLabPro": "购买 RepeatLab Pro",
     "improveTheApp": "改进应用",
@@ -155,6 +157,12 @@
     "purchaseSuccess": "购买成功。感谢您支持开发者 ❤️！",
     "voteForFeatures": "功能投票",
     "changelogTitle": "更新日志",
+    "changelog180Title": "重新排列您的歌曲",
+    "changelog180Description": "按照您的喜好整理歌曲列表——长按任意歌曲并将其拖动到新位置。您的自定义顺序将自动保存。",
+    "changelog170Title": "备份和移动您的库",
+    "changelog170Description": "将您的整个库（歌曲、循环和音频）导出到一个文件中，然后在另一个设备上使用 Pro 恢复。选择合并以在现有歌曲旁边添加新歌曲，或选择替换以从头开始。",
+    "changelog170LanguageTitle": "选择您的语言",
+    "changelog170LanguageDescription": "从抽屉菜单切换应用语言——从 16 种支持的语言中选择，或使用设备的系统默认设置。",
     "changelog1601Title": "1/3 选择循环或导航之间自动播放",
     "changelog1601Description": "在歌曲设置中，您现在可以启用或禁用循环和整个歌曲的自动播放。",
     "changelog1602Title": "2/3 改进循环控制",
@@ -303,5 +311,9 @@
     "playbackSettings": "播放设置",
     "actions": "操作",
     "speedChangeFailed": "速度变化失败。请再试一次。",
-    "copyToClipboard": "复制到剪贴板"
+    "copyToClipboard": "复制到剪贴板",
+    "editSong": "编辑歌曲",
+    "editSongTitle": "标题",
+    "editSongArtist": "艺术家",
+    "editSongTitleRequired": "标题不能为空"
 }

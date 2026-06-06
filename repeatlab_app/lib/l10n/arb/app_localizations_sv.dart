@@ -15,6 +15,12 @@ class AppLocalizationsSv extends AppLocalizations {
   String get userSettings => 'Användarinställningar';
 
   @override
+  String get language => 'Språk';
+
+  @override
+  String get systemDefault => 'Systemstandard';
+
+  @override
   String get cancelSubscription => 'Avbryt Prenumeration';
 
   @override
@@ -413,6 +419,27 @@ class AppLocalizationsSv extends AppLocalizations {
   String get changelogTitle => 'Ändringar';
 
   @override
+  String get changelog180Title => 'Ändra ordningen på dina låtar';
+
+  @override
+  String get changelog180Description =>
+      'Organisera din låtlista som du vill — håll in en låt länge och dra den till en ny position. Din anpassade ordning sparas automatiskt.';
+
+  @override
+  String get changelog170Title => 'Backup och flytta din bibliotek';
+
+  @override
+  String get changelog170Description =>
+      'Exportera din hela bibliotek — låtar, loopar och ljud — till en enda fil, och återställ den på ett annat enhet med Pro. Välj \'Sammanfoga\' för att lägga till nya låtar bredvid de befintliga, eller \'Ersätt\' för att börja från början.';
+
+  @override
+  String get changelog170LanguageTitle => 'Välj ditt språk';
+
+  @override
+  String get changelog170LanguageDescription =>
+      'Byt appens språk från menyn — välj bland 16 språk som stöds eller följ enhetens systemstandard.';
+
+  @override
   String get changelog1601Title =>
       '1/3 Automatisk Spelning vid Loop-val eller Navigering mellan loopar';
 
@@ -659,6 +686,84 @@ class AppLocalizationsSv extends AppLocalizations {
   String get deleteAllDataError => 'Fel vid radering av data';
 
   @override
+  String get backupAndRestore => 'Backup & Restore';
+
+  @override
+  String get backupExport => 'Export my library';
+
+  @override
+  String get backupExportSubtitle =>
+      'Save all songs and loops to a single file you can transfer to another device.';
+
+  @override
+  String get backupImport => 'Import backup';
+
+  @override
+  String get backupImportSubtitle =>
+      'Restore songs and loops from a previously exported file.';
+
+  @override
+  String get backupProOnly => 'Pro feature';
+
+  @override
+  String get backupExporting => 'Preparing backup…';
+
+  @override
+  String get backupImporting => 'Importing…';
+
+  @override
+  String backupExportFailed(String message) {
+    return 'Export failed: $message';
+  }
+
+  @override
+  String backupImportFailed(String message) {
+    return 'Import failed: $message';
+  }
+
+  @override
+  String get backupImportConfirmTitle => 'Import backup';
+
+  @override
+  String backupImportConfirmMessage(int songCount, String exportedAt) {
+    return 'This backup contains $songCount songs (exported $exportedAt).';
+  }
+
+  @override
+  String get backupImportModeMerge => 'Merge';
+
+  @override
+  String get backupImportModeMergeDescription =>
+      'Add new songs, keep existing ones.';
+
+  @override
+  String get backupImportModeReplace => 'Replace';
+
+  @override
+  String get backupImportModeReplaceDescription =>
+      'Delete everything and import from scratch.';
+
+  @override
+  String get backupImportReplaceConfirmTitle => 'Replace entire library?';
+
+  @override
+  String get backupImportReplaceConfirmMessage =>
+      'This will permanently delete all current songs and loops before importing. This cannot be undone.';
+
+  @override
+  String backupImportSuccess(int imported, int skipped, int renamed) {
+    return 'Imported $imported songs. $skipped skipped, $renamed renamed.';
+  }
+
+  @override
+  String get backupImportSchemaTooNew =>
+      'This backup was created by a newer version of RepeatLab. Please update the app to import it.';
+
+  @override
+  String get backupImportMalformed =>
+      'This file isn\'t a valid RepeatLab backup.';
+
+  @override
   String get errorOpeningStore =>
       'Fel vid öppning av app store listing. Vänligen försök att skicka in en recension direkt via Play eller Apple Store. Tack!';
 
@@ -772,4 +877,16 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get copyToClipboard => 'Kopiera till urklipp';
+
+  @override
+  String get editSong => 'Redigera låt';
+
+  @override
+  String get editSongTitle => 'Titel';
+
+  @override
+  String get editSongArtist => 'Artist';
+
+  @override
+  String get editSongTitleRequired => 'Titeln får inte vara tom';
 }

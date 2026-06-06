@@ -270,10 +270,11 @@ class SongCubit extends Cubit<SongState> {
         return;
       }
 
-      // Initialize audio player with the file but keep it paused
-      // Note: playSong automatically resets speed to 1.0 for each new song
-      await audioHandler.playSong(state.song);
-      await audioHandler.pause();
+      // Initialize audio player with the file but keep it paused.
+      // autoStart: false loads the source without starting playback, so the
+      // user doesn't hear a brief blip when opening a song.
+      // Note: playSong automatically resets speed to 1.0 for each new song.
+      await audioHandler.playSong(state.song, autoStart: false);
 
       // check if tutorial is completed
       final isTutorialCompleted = localConfigRepository.hasCompletedTutorial;
@@ -829,6 +830,56 @@ class SongCubit extends Cubit<SongState> {
         state.copyWith(
           status: SongStatus.error,
           error: 'Failed to delete song: $ex',
+        ),
+      );
+    }
+  }
+
+  Future<void> updateSongDetails({
+    required String title,
+    required String artist,
+    required int? bpm,
+  }) async {
+    final bpmChanged = bpm != state.song.bpm;
+
+    emit(state.copyWith(status: SongStatus.updating));
+
+    try {
+      // Build the updated song. For BPM we must construct a new Song directly
+      // because dart_mappable's copyWith cannot distinguish null (clear) from
+      // not-provided when the field is nullable.
+      final updatedSong = Song(
+        id: state.song.id,
+        title: title,
+        artist: artist,
+        fileName: state.song.fileName,
+        duration: state.song.duration,
+        bpm: bpm,
+        currentBpm: state.song.currentBpm,
+        loops: state.song.loops,
+        loopSort: state.song.loopSort,
+        sortOrder: state.song.sortOrder,
+      );
+      await songRepository.updateSong(updatedSong);
+
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          song: updatedSong,
+          error: null,
+        ),
+      );
+
+      // Update BPM-related speed state if BPM changed
+      if (bpmChanged) {
+        await setOriginalBpm(bpm);
+      }
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to update song details: $ex',
         ),
       );
     }
