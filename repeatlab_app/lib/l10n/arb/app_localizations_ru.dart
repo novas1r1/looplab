@@ -703,14 +703,14 @@ class AppLocalizationsRu extends AppLocalizations {
   String get deleteAllDataError => 'Ошибка при удалении данных';
 
   @override
-  String get backupAndRestore => 'Backup & Restore';
+  String get backupAndRestore => 'Резервное копирование и восстановление';
 
   @override
-  String get backupExport => 'Export my library';
+  String get backupExport => 'Экспортировать мою библиотеку';
 
   @override
   String get backupExportSubtitle =>
-      'Save all songs and loops to a single file you can transfer to another device.';
+      'Сохраните все песни и лупы в одном файле, который можно перенести на другое устройство.';
 
   @override
   String get backupExportSheetTitle => 'Что вы хотите экспортировать?';
@@ -747,72 +747,72 @@ class AppLocalizationsRu extends AppLocalizations {
       'Выберите хотя бы аудио или видео.';
 
   @override
-  String get backupImport => 'Import backup';
+  String get backupImport => 'Импортировать резервную копию';
 
   @override
   String get backupImportSubtitle =>
-      'Restore songs and loops from a previously exported file.';
+      'Восстановите песни и лупы из ранее экспортированного файла.';
 
   @override
-  String get backupProOnly => 'Pro feature';
+  String get backupProOnly => 'Функция Pro';
 
   @override
-  String get backupExporting => 'Preparing backup…';
+  String get backupExporting => 'Подготовка резервной копии…';
 
   @override
-  String get backupImporting => 'Importing…';
+  String get backupImporting => 'Импортирование…';
 
   @override
   String backupExportFailed(String message) {
-    return 'Export failed: $message';
+    return 'Экспорт не удался: $message';
   }
 
   @override
   String backupImportFailed(String message) {
-    return 'Import failed: $message';
+    return 'Импорт не удался: $message';
   }
 
   @override
-  String get backupImportConfirmTitle => 'Import backup';
+  String get backupImportConfirmTitle => 'Импортировать резервную копию';
 
   @override
   String backupImportConfirmMessage(int songCount, String exportedAt) {
-    return 'This backup contains $songCount songs (exported $exportedAt).';
+    return 'Эта резервная копия содержит $songCount песен (экспортировано $exportedAt).';
   }
 
   @override
-  String get backupImportModeMerge => 'Merge';
+  String get backupImportModeMerge => 'Объединить';
 
   @override
   String get backupImportModeMergeDescription =>
-      'Add new songs, keep existing ones.';
+      'Добавить новые песни, сохранить существующие.';
 
   @override
-  String get backupImportModeReplace => 'Replace';
+  String get backupImportModeReplace => 'Заменить';
 
   @override
   String get backupImportModeReplaceDescription =>
-      'Delete everything and import from scratch.';
+      'Удалить всё и импортировать с нуля.';
 
   @override
-  String get backupImportReplaceConfirmTitle => 'Replace entire library?';
+  String get backupImportReplaceConfirmTitle => 'Заменить всю библиотеку?';
 
   @override
   String get backupImportReplaceConfirmMessage =>
-      'This will permanently delete all current songs and loops before importing. This cannot be undone.';
+      'Все текущие песни и лупы будут безвозвратно удалены перед импортом. Это действие нельзя отменить.';
 
   @override
   String backupImportSuccess(int imported, int skipped, int renamed) {
-    return 'Imported $imported songs. $skipped skipped, $renamed renamed.';
+    return 'Импортировано $imported песен. $skipped пропущено, $renamed переименовано.';
   }
 
   @override
   String get backupImportSchemaTooNew =>
-      'This backup was created by a newer version of RepeatLab. Please update the app to import it.';
+      'Эта резервная копия создана более новой версией RepeatLab. Обновите приложение, чтобы импортировать её.';
 
   @override
   String get backupImportMalformed =>
-      'This file isn\'t a valid RepeatLab backup.';
+      'Этот файл не является допустимой резервной копией RepeatLab.';
 
   @override
   String get errorOpeningStore =>

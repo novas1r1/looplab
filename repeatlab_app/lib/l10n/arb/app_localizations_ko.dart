@@ -671,14 +671,14 @@ class AppLocalizationsKo extends AppLocalizations {
   String get deleteAllDataError => '모든 데이터 삭제에 실패했습니다';
 
   @override
-  String get backupAndRestore => 'Backup & Restore';
+  String get backupAndRestore => '백업 및 복원';
 
   @override
-  String get backupExport => 'Export my library';
+  String get backupExport => '내 라이브러리 내보내기';
 
   @override
   String get backupExportSubtitle =>
-      'Save all songs and loops to a single file you can transfer to another device.';
+      '모든 곡과 루프를 하나의 파일에 저장하여 다른 기기로 전송할 수 있습니다.';
 
   @override
   String get backupExportSheetTitle => '무엇을 내보내시겠습니까?';
@@ -712,72 +712,68 @@ class AppLocalizationsKo extends AppLocalizations {
   String get backupExportSheetNoMediaSelected => '오디오 또는 동영상 중 하나 이상을 선택하세요.';
 
   @override
-  String get backupImport => 'Import backup';
+  String get backupImport => '백업 가져오기';
 
   @override
-  String get backupImportSubtitle =>
-      'Restore songs and loops from a previously exported file.';
+  String get backupImportSubtitle => '이전에 내보낸 파일에서 곡과 루프를 복원합니다.';
 
   @override
-  String get backupProOnly => 'Pro feature';
+  String get backupProOnly => 'Pro 기능';
 
   @override
-  String get backupExporting => 'Preparing backup…';
+  String get backupExporting => '백업 준비 중…';
 
   @override
-  String get backupImporting => 'Importing…';
+  String get backupImporting => '가져오는 중…';
 
   @override
   String backupExportFailed(String message) {
-    return 'Export failed: $message';
+    return '내보내기 실패: $message';
   }
 
   @override
   String backupImportFailed(String message) {
-    return 'Import failed: $message';
+    return '가져오기 실패: $message';
   }
 
   @override
-  String get backupImportConfirmTitle => 'Import backup';
+  String get backupImportConfirmTitle => '백업 가져오기';
 
   @override
   String backupImportConfirmMessage(int songCount, String exportedAt) {
-    return 'This backup contains $songCount songs (exported $exportedAt).';
+    return '이 백업에는 $songCount곡이 포함되어 있습니다 ($exportedAt에 내보냄).';
   }
 
   @override
-  String get backupImportModeMerge => 'Merge';
+  String get backupImportModeMerge => '병합';
 
   @override
-  String get backupImportModeMergeDescription =>
-      'Add new songs, keep existing ones.';
+  String get backupImportModeMergeDescription => '새 곡을 추가하고 기존 곡을 유지합니다.';
 
   @override
-  String get backupImportModeReplace => 'Replace';
+  String get backupImportModeReplace => '교체';
 
   @override
-  String get backupImportModeReplaceDescription =>
-      'Delete everything and import from scratch.';
+  String get backupImportModeReplaceDescription => '모두 삭제하고 처음부터 가져옵니다.';
 
   @override
-  String get backupImportReplaceConfirmTitle => 'Replace entire library?';
+  String get backupImportReplaceConfirmTitle => '전체 라이브러리를 교체하시겠습니까?';
 
   @override
   String get backupImportReplaceConfirmMessage =>
-      'This will permanently delete all current songs and loops before importing. This cannot be undone.';
+      '가져오기 전에 현재의 모든 곡과 루프가 영구적으로 삭제됩니다. 이 작업은 취소할 수 없습니다.';
 
   @override
   String backupImportSuccess(int imported, int skipped, int renamed) {
-    return 'Imported $imported songs. $skipped skipped, $renamed renamed.';
+    return '$imported곡을 가져왔습니다. $skipped곡 건너뜀, $renamed곡 이름 변경됨.';
   }
 
   @override
   String get backupImportSchemaTooNew =>
-      'This backup was created by a newer version of RepeatLab. Please update the app to import it.';
+      '이 백업은 더 새로운 버전의 RepeatLab으로 만들어졌습니다. 가져오려면 앱을 업데이트하세요.';
 
   @override
-  String get backupImportMalformed =>
-      'This file isn\'t a valid RepeatLab backup.';
+  String get backupImportMalformed => '이 파일은 유효한 RepeatLab 백업이 아닙니다.';
 
   @override
   String get errorOpeningStore =>

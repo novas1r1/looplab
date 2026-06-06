@@ -336,5 +336,49 @@
     "backupExportOptionLoopsAndSettingsSubtitle": "Dołącz pętle, BPM, kolejność sortowania i rozmiar podglądu wideo",
     "backupExportSheetExport": "Eksportuj",
     "backupExportSheetCancel": "Anuluj",
-    "backupExportSheetNoMediaSelected": "Wybierz co najmniej audio lub wideo."
+    "backupExportSheetNoMediaSelected": "Wybierz co najmniej audio lub wideo.",
+    "backupAndRestore": "Kopia zapasowa i przywracanie",
+    "backupExport": "Eksportuj moją bibliotekę",
+    "backupExportSubtitle": "Zapisz wszystkie utwory i pętle w jednym pliku, który możesz przenieść na inne urządzenie.",
+    "backupImport": "Importuj kopię zapasową",
+    "backupImportSubtitle": "Przywróć utwory i pętle z wcześniej wyeksportowanego pliku.",
+    "backupProOnly": "Funkcja Pro",
+    "backupExporting": "Przygotowywanie kopii zapasowej…",
+    "backupImporting": "Importowanie…",
+    "backupExportFailed": "Eksport nie powiódł się: {message}",
+    "@backupExportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportFailed": "Import nie powiódł się: {message}",
+    "@backupImportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportMalformed": "Ten plik nie jest prawidłową kopią zapasową RepeatLab.",
+    "backupImportSchemaTooNew": "Ta kopia zapasowa została utworzona przez nowszą wersję RepeatLab. Zaktualizuj aplikację, aby ją zaimportować.",
+    "backupImportConfirmTitle": "Importuj kopię zapasową",
+    "backupImportConfirmMessage": "Ta kopia zapasowa zawiera {songCount} utworów (wyeksportowana {exportedAt}).",
+    "@backupImportConfirmMessage": {
+        "placeholders": {
+            "songCount": { "type": "int" },
+            "exportedAt": { "type": "String" }
+        }
+    },
+    "backupImportModeMerge": "Scal",
+    "backupImportModeMergeDescription": "Dodaj nowe utwory, zachowaj istniejące.",
+    "backupImportModeReplace": "Zastąp",
+    "backupImportModeReplaceDescription": "Usuń wszystko i importuj od zera.",
+    "backupImportReplaceConfirmTitle": "Zastąpić całą bibliotekę?",
+    "backupImportReplaceConfirmMessage": "Spowoduje to trwałe usunięcie wszystkich aktualnych utworów i pętli przed importem. Tej operacji nie można cofnąć.",
+    "backupImportSuccess": "Zaimportowano {imported} utworów. {skipped} pominięto, {renamed} zmieniono nazwy.",
+    "@backupImportSuccess": {
+        "placeholders": {
+            "imported": { "type": "int" },
+            "skipped": { "type": "int" },
+            "renamed": { "type": "int" }
+        }
+    }
 }

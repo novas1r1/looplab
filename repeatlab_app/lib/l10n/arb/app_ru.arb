@@ -336,5 +336,49 @@
     "backupExportOptionLoopsAndSettingsSubtitle": "Включить лупы, BPM, порядок сортировки и размер превью видео",
     "backupExportSheetExport": "Экспорт",
     "backupExportSheetCancel": "Отмена",
-    "backupExportSheetNoMediaSelected": "Выберите хотя бы аудио или видео."
+    "backupExportSheetNoMediaSelected": "Выберите хотя бы аудио или видео.",
+    "backupAndRestore": "Резервное копирование и восстановление",
+    "backupExport": "Экспортировать мою библиотеку",
+    "backupExportSubtitle": "Сохраните все песни и лупы в одном файле, который можно перенести на другое устройство.",
+    "backupImport": "Импортировать резервную копию",
+    "backupImportSubtitle": "Восстановите песни и лупы из ранее экспортированного файла.",
+    "backupProOnly": "Функция Pro",
+    "backupExporting": "Подготовка резервной копии…",
+    "backupImporting": "Импортирование…",
+    "backupExportFailed": "Экспорт не удался: {message}",
+    "@backupExportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportFailed": "Импорт не удался: {message}",
+    "@backupImportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportMalformed": "Этот файл не является допустимой резервной копией RepeatLab.",
+    "backupImportSchemaTooNew": "Эта резервная копия создана более новой версией RepeatLab. Обновите приложение, чтобы импортировать её.",
+    "backupImportConfirmTitle": "Импортировать резервную копию",
+    "backupImportConfirmMessage": "Эта резервная копия содержит {songCount} песен (экспортировано {exportedAt}).",
+    "@backupImportConfirmMessage": {
+        "placeholders": {
+            "songCount": { "type": "int" },
+            "exportedAt": { "type": "String" }
+        }
+    },
+    "backupImportModeMerge": "Объединить",
+    "backupImportModeMergeDescription": "Добавить новые песни, сохранить существующие.",
+    "backupImportModeReplace": "Заменить",
+    "backupImportModeReplaceDescription": "Удалить всё и импортировать с нуля.",
+    "backupImportReplaceConfirmTitle": "Заменить всю библиотеку?",
+    "backupImportReplaceConfirmMessage": "Все текущие песни и лупы будут безвозвратно удалены перед импортом. Это действие нельзя отменить.",
+    "backupImportSuccess": "Импортировано {imported} песен. {skipped} пропущено, {renamed} переименовано.",
+    "@backupImportSuccess": {
+        "placeholders": {
+            "imported": { "type": "int" },
+            "skipped": { "type": "int" },
+            "renamed": { "type": "int" }
+        }
+    }
 }

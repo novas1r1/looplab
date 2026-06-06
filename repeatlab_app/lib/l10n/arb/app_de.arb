@@ -337,5 +337,49 @@
     "backupExportOptionLoopsAndSettingsSubtitle": "Loops, BPM, Sortierreihenfolge und Video-Vorschaugröße einschließen",
     "backupExportSheetExport": "Exportieren",
     "backupExportSheetCancel": "Abbrechen",
-    "backupExportSheetNoMediaSelected": "Wähle mindestens Audio oder Video aus."
+    "backupExportSheetNoMediaSelected": "Wähle mindestens Audio oder Video aus.",
+    "backupAndRestore": "Backup & Wiederherstellen",
+    "backupExport": "Meine Bibliothek exportieren",
+    "backupExportSubtitle": "Speichere alle Songs und Loops in einer einzigen Datei, die du auf ein anderes Gerät übertragen kannst.",
+    "backupImport": "Backup importieren",
+    "backupImportSubtitle": "Stelle Songs und Loops aus einer zuvor exportierten Datei wieder her.",
+    "backupProOnly": "Pro-Funktion",
+    "backupExporting": "Backup wird vorbereitet…",
+    "backupImporting": "Importieren…",
+    "backupExportFailed": "Export fehlgeschlagen: {message}",
+    "@backupExportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportFailed": "Import fehlgeschlagen: {message}",
+    "@backupImportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportMalformed": "Diese Datei ist kein gültiges RepeatLab-Backup.",
+    "backupImportSchemaTooNew": "Dieses Backup wurde mit einer neueren Version von RepeatLab erstellt. Bitte aktualisiere die App, um es zu importieren.",
+    "backupImportConfirmTitle": "Backup importieren",
+    "backupImportConfirmMessage": "Dieses Backup enthält {songCount} Songs (exportiert am {exportedAt}).",
+    "@backupImportConfirmMessage": {
+        "placeholders": {
+            "songCount": { "type": "int" },
+            "exportedAt": { "type": "String" }
+        }
+    },
+    "backupImportModeMerge": "Zusammenführen",
+    "backupImportModeMergeDescription": "Neue Songs hinzufügen, bestehende behalten.",
+    "backupImportModeReplace": "Ersetzen",
+    "backupImportModeReplaceDescription": "Alles löschen und neu importieren.",
+    "backupImportReplaceConfirmTitle": "Gesamte Bibliothek ersetzen?",
+    "backupImportReplaceConfirmMessage": "Dadurch werden alle aktuellen Songs und Loops dauerhaft gelöscht, bevor der Import beginnt. Dies kann nicht rückgängig gemacht werden.",
+    "backupImportSuccess": "{imported} Songs importiert. {skipped} übersprungen, {renamed} umbenannt.",
+    "@backupImportSuccess": {
+        "placeholders": {
+            "imported": { "type": "int" },
+            "skipped": { "type": "int" },
+            "renamed": { "type": "int" }
+        }
+    }
 }

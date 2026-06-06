@@ -340,5 +340,49 @@
     "backupExportOptionLoopsAndSettingsSubtitle": "包含循环、BPM、排序顺序和视频预览大小",
     "backupExportSheetExport": "导出",
     "backupExportSheetCancel": "取消",
-    "backupExportSheetNoMediaSelected": "请至少选择音频或视频之一。"
+    "backupExportSheetNoMediaSelected": "请至少选择音频或视频之一。",
+    "backupAndRestore": "备份与恢复",
+    "backupExport": "导出我的资料库",
+    "backupExportSubtitle": "将所有歌曲和循环保存到一个文件中，您可以将其传输到另一台设备。",
+    "backupImport": "导入备份",
+    "backupImportSubtitle": "从之前导出的文件中恢复歌曲和循环。",
+    "backupProOnly": "Pro 功能",
+    "backupExporting": "正在准备备份…",
+    "backupImporting": "正在导入…",
+    "backupExportFailed": "导出失败：{message}",
+    "@backupExportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportFailed": "导入失败：{message}",
+    "@backupImportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportMalformed": "此文件不是有效的 RepeatLab 备份。",
+    "backupImportSchemaTooNew": "此备份由更新版本的 RepeatLab 创建。请更新应用以导入它。",
+    "backupImportConfirmTitle": "导入备份",
+    "backupImportConfirmMessage": "此备份包含 {songCount} 首歌曲（导出于 {exportedAt}）。",
+    "@backupImportConfirmMessage": {
+        "placeholders": {
+            "songCount": { "type": "int" },
+            "exportedAt": { "type": "String" }
+        }
+    },
+    "backupImportModeMerge": "合并",
+    "backupImportModeMergeDescription": "添加新歌曲，保留现有歌曲。",
+    "backupImportModeReplace": "替换",
+    "backupImportModeReplaceDescription": "删除所有内容并从头导入。",
+    "backupImportReplaceConfirmTitle": "替换整个资料库？",
+    "backupImportReplaceConfirmMessage": "导入前将永久删除所有当前歌曲和循环。此操作无法撤销。",
+    "backupImportSuccess": "已导入 {imported} 首歌曲。{skipped} 首已跳过，{renamed} 首已重命名。",
+    "@backupImportSuccess": {
+        "placeholders": {
+            "imported": { "type": "int" },
+            "skipped": { "type": "int" },
+            "renamed": { "type": "int" }
+        }
+    }
 }

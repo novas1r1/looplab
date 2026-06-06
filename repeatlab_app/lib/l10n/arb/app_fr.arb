@@ -336,5 +336,49 @@
     "backupExportOptionLoopsAndSettingsSubtitle": "Inclure les boucles, le BPM, l'ordre de tri et la taille d'aperçu vidéo",
     "backupExportSheetExport": "Exporter",
     "backupExportSheetCancel": "Annuler",
-    "backupExportSheetNoMediaSelected": "Sélectionnez au moins l'audio ou la vidéo."
+    "backupExportSheetNoMediaSelected": "Sélectionnez au moins l'audio ou la vidéo.",
+    "backupAndRestore": "Sauvegarde et restauration",
+    "backupExport": "Exporter ma bibliothèque",
+    "backupExportSubtitle": "Enregistrez toutes les chansons et boucles dans un seul fichier que vous pouvez transférer vers un autre appareil.",
+    "backupImport": "Importer une sauvegarde",
+    "backupImportSubtitle": "Restaurez les chansons et boucles à partir d'un fichier exporté précédemment.",
+    "backupProOnly": "Fonctionnalité Pro",
+    "backupExporting": "Préparation de la sauvegarde…",
+    "backupImporting": "Importation…",
+    "backupExportFailed": "Exportation échouée : {message}",
+    "@backupExportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportFailed": "Importation échouée : {message}",
+    "@backupImportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportMalformed": "Ce fichier n'est pas une sauvegarde RepeatLab valide.",
+    "backupImportSchemaTooNew": "Cette sauvegarde a été créée avec une version plus récente de RepeatLab. Veuillez mettre à jour l'application pour l'importer.",
+    "backupImportConfirmTitle": "Importer une sauvegarde",
+    "backupImportConfirmMessage": "Cette sauvegarde contient {songCount} chansons (exportées le {exportedAt}).",
+    "@backupImportConfirmMessage": {
+        "placeholders": {
+            "songCount": { "type": "int" },
+            "exportedAt": { "type": "String" }
+        }
+    },
+    "backupImportModeMerge": "Fusionner",
+    "backupImportModeMergeDescription": "Ajouter de nouvelles chansons, conserver les existantes.",
+    "backupImportModeReplace": "Remplacer",
+    "backupImportModeReplaceDescription": "Tout supprimer et importer depuis zéro.",
+    "backupImportReplaceConfirmTitle": "Remplacer toute la bibliothèque ?",
+    "backupImportReplaceConfirmMessage": "Cela supprimera définitivement toutes les chansons et boucles actuelles avant l'importation. Cette action ne peut pas être annulée.",
+    "backupImportSuccess": "{imported} chansons importées. {skipped} ignorées, {renamed} renommées.",
+    "@backupImportSuccess": {
+        "placeholders": {
+            "imported": { "type": "int" },
+            "skipped": { "type": "int" },
+            "renamed": { "type": "int" }
+        }
+    }
 }

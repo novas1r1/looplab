@@ -339,5 +339,49 @@
     "backupExportOptionLoopsAndSettingsSubtitle": "ループ、BPM、並び順、動画プレビューサイズを含める",
     "backupExportSheetExport": "エクスポート",
     "backupExportSheetCancel": "キャンセル",
-    "backupExportSheetNoMediaSelected": "オーディオまたは動画を少なくとも1つ選択してください。"
+    "backupExportSheetNoMediaSelected": "オーディオまたは動画を少なくとも1つ選択してください。",
+    "backupAndRestore": "バックアップと復元",
+    "backupExport": "ライブラリをエクスポート",
+    "backupExportSubtitle": "すべての曲とループを1つのファイルに保存して、別のデバイスに転送できます。",
+    "backupImport": "バックアップをインポート",
+    "backupImportSubtitle": "以前にエクスポートしたファイルから曲とループを復元します。",
+    "backupProOnly": "Pro機能",
+    "backupExporting": "バックアップを準備中…",
+    "backupImporting": "インポート中…",
+    "backupExportFailed": "エクスポート失敗: {message}",
+    "@backupExportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportFailed": "インポート失敗: {message}",
+    "@backupImportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportMalformed": "このファイルは有効なRepeatLabバックアップではありません。",
+    "backupImportSchemaTooNew": "このバックアップはより新しいバージョンのRepeatLabで作成されました。インポートするにはアプリを更新してください。",
+    "backupImportConfirmTitle": "バックアップをインポート",
+    "backupImportConfirmMessage": "このバックアップには{songCount}曲が含まれています（エクスポート日: {exportedAt}）。",
+    "@backupImportConfirmMessage": {
+        "placeholders": {
+            "songCount": { "type": "int" },
+            "exportedAt": { "type": "String" }
+        }
+    },
+    "backupImportModeMerge": "マージ",
+    "backupImportModeMergeDescription": "新しい曲を追加し、既存の曲を保持します。",
+    "backupImportModeReplace": "置き換え",
+    "backupImportModeReplaceDescription": "すべてを削除してゼロからインポートします。",
+    "backupImportReplaceConfirmTitle": "ライブラリ全体を置き換えますか？",
+    "backupImportReplaceConfirmMessage": "インポート前に現在のすべての曲とループが完全に削除されます。この操作は元に戻せません。",
+    "backupImportSuccess": "{imported}曲をインポートしました。{skipped}曲をスキップ、{renamed}曲をリネームしました。",
+    "@backupImportSuccess": {
+        "placeholders": {
+            "imported": { "type": "int" },
+            "skipped": { "type": "int" },
+            "renamed": { "type": "int" }
+        }
+    }
 }

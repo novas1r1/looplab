@@ -336,5 +336,49 @@
     "backupExportOptionLoopsAndSettingsSubtitle": "Inkludera loopar, BPM, sorteringsordning och videominiatyrformat",
     "backupExportSheetExport": "Exportera",
     "backupExportSheetCancel": "Avbryt",
-    "backupExportSheetNoMediaSelected": "Välj minst ljud eller video."
+    "backupExportSheetNoMediaSelected": "Välj minst ljud eller video.",
+    "backupAndRestore": "Säkerhetskopiering och återställning",
+    "backupExport": "Exportera mitt bibliotek",
+    "backupExportSubtitle": "Spara alla låtar och loopar i en enda fil som du kan överföra till en annan enhet.",
+    "backupImport": "Importera säkerhetskopia",
+    "backupImportSubtitle": "Återställ låtar och loopar från en tidigare exporterad fil.",
+    "backupProOnly": "Pro-funktion",
+    "backupExporting": "Förbereder säkerhetskopia…",
+    "backupImporting": "Importerar…",
+    "backupExportFailed": "Export misslyckades: {message}",
+    "@backupExportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportFailed": "Import misslyckades: {message}",
+    "@backupImportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportMalformed": "Den här filen är inte en giltig RepeatLab-säkerhetskopia.",
+    "backupImportSchemaTooNew": "Den här säkerhetskopian skapades av en nyare version av RepeatLab. Uppdatera appen för att importera den.",
+    "backupImportConfirmTitle": "Importera säkerhetskopia",
+    "backupImportConfirmMessage": "Den här säkerhetskopian innehåller {songCount} låtar (exporterades {exportedAt}).",
+    "@backupImportConfirmMessage": {
+        "placeholders": {
+            "songCount": { "type": "int" },
+            "exportedAt": { "type": "String" }
+        }
+    },
+    "backupImportModeMerge": "Slå samman",
+    "backupImportModeMergeDescription": "Lägg till nya låtar, behåll befintliga.",
+    "backupImportModeReplace": "Ersätt",
+    "backupImportModeReplaceDescription": "Radera allt och importera från grunden.",
+    "backupImportReplaceConfirmTitle": "Ersätta hela biblioteket?",
+    "backupImportReplaceConfirmMessage": "Detta raderar permanent alla nuvarande låtar och loopar innan importen. Åtgärden kan inte ångras.",
+    "backupImportSuccess": "{imported} låtar importerade. {skipped} hoppades över, {renamed} omdöpta.",
+    "@backupImportSuccess": {
+        "placeholders": {
+            "imported": { "type": "int" },
+            "skipped": { "type": "int" },
+            "renamed": { "type": "int" }
+        }
+    }
 }

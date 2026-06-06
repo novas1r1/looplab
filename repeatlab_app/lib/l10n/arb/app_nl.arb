@@ -336,5 +336,49 @@
     "backupExportOptionLoopsAndSettingsSubtitle": "Loops, BPM, sorteervolgorde en videovoorbeeldformaat opnemen",
     "backupExportSheetExport": "Exporteren",
     "backupExportSheetCancel": "Annuleren",
-    "backupExportSheetNoMediaSelected": "Selecteer minimaal audio of video."
+    "backupExportSheetNoMediaSelected": "Selecteer minimaal audio of video.",
+    "backupAndRestore": "Back-up en herstel",
+    "backupExport": "Mijn bibliotheek exporteren",
+    "backupExportSubtitle": "Sla alle nummers en loops op in één bestand dat je naar een ander apparaat kunt overbrengen.",
+    "backupImport": "Back-up importeren",
+    "backupImportSubtitle": "Herstel nummers en loops vanuit een eerder geëxporteerd bestand.",
+    "backupProOnly": "Pro-functie",
+    "backupExporting": "Back-up voorbereiden…",
+    "backupImporting": "Importeren…",
+    "backupExportFailed": "Export mislukt: {message}",
+    "@backupExportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportFailed": "Import mislukt: {message}",
+    "@backupImportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportMalformed": "Dit bestand is geen geldige RepeatLab-back-up.",
+    "backupImportSchemaTooNew": "Deze back-up is gemaakt met een nieuwere versie van RepeatLab. Werk de app bij om hem te importeren.",
+    "backupImportConfirmTitle": "Back-up importeren",
+    "backupImportConfirmMessage": "Deze back-up bevat {songCount} nummers (geëxporteerd op {exportedAt}).",
+    "@backupImportConfirmMessage": {
+        "placeholders": {
+            "songCount": { "type": "int" },
+            "exportedAt": { "type": "String" }
+        }
+    },
+    "backupImportModeMerge": "Samenvoegen",
+    "backupImportModeMergeDescription": "Nieuwe nummers toevoegen, bestaande bewaren.",
+    "backupImportModeReplace": "Vervangen",
+    "backupImportModeReplaceDescription": "Alles verwijderen en opnieuw importeren.",
+    "backupImportReplaceConfirmTitle": "Gehele bibliotheek vervangen?",
+    "backupImportReplaceConfirmMessage": "Hiermee worden alle huidige nummers en loops permanent verwijderd vóór het importeren. Dit kan niet ongedaan worden gemaakt.",
+    "backupImportSuccess": "{imported} nummers geïmporteerd. {skipped} overgeslagen, {renamed} hernoemd.",
+    "@backupImportSuccess": {
+        "placeholders": {
+            "imported": { "type": "int" },
+            "skipped": { "type": "int" },
+            "renamed": { "type": "int" }
+        }
+    }
 }

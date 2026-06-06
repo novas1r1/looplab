@@ -340,5 +340,49 @@
     "backupExportOptionLoopsAndSettingsSubtitle": "تضمين الحلقات، BPM، ترتيب الفرز وحجم معاينة الفيديو",
     "backupExportSheetExport": "تصدير",
     "backupExportSheetCancel": "إلغاء",
-    "backupExportSheetNoMediaSelected": "اختر صوتًا أو فيديو على الأقل."
+    "backupExportSheetNoMediaSelected": "اختر صوتًا أو فيديو على الأقل.",
+    "backupAndRestore": "النسخ الاحتياطي والاستعادة",
+    "backupExport": "تصدير مكتبتي",
+    "backupExportSubtitle": "احفظ جميع الأغاني والحلقات في ملف واحد يمكنك نقله إلى جهاز آخر.",
+    "backupImport": "استيراد نسخة احتياطية",
+    "backupImportSubtitle": "استعد الأغاني والحلقات من ملف تم تصديره مسبقًا.",
+    "backupProOnly": "ميزة Pro",
+    "backupExporting": "جارٍ تحضير النسخة الاحتياطية…",
+    "backupImporting": "جارٍ الاستيراد…",
+    "backupExportFailed": "فشل التصدير: {message}",
+    "@backupExportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportFailed": "فشل الاستيراد: {message}",
+    "@backupImportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportMalformed": "هذا الملف ليس نسخة احتياطية صالحة لـ RepeatLab.",
+    "backupImportSchemaTooNew": "تم إنشاء هذه النسخة الاحتياطية بإصدار أحدث من RepeatLab. يرجى تحديث التطبيق لاستيرادها.",
+    "backupImportConfirmTitle": "استيراد نسخة احتياطية",
+    "backupImportConfirmMessage": "تحتوي هذه النسخة الاحتياطية على {songCount} أغنية (تم التصدير في {exportedAt}).",
+    "@backupImportConfirmMessage": {
+        "placeholders": {
+            "songCount": { "type": "int" },
+            "exportedAt": { "type": "String" }
+        }
+    },
+    "backupImportModeMerge": "دمج",
+    "backupImportModeMergeDescription": "إضافة أغانٍ جديدة مع الاحتفاظ بالموجودة.",
+    "backupImportModeReplace": "استبدال",
+    "backupImportModeReplaceDescription": "حذف كل شيء والاستيراد من الصفر.",
+    "backupImportReplaceConfirmTitle": "استبدال المكتبة بالكامل؟",
+    "backupImportReplaceConfirmMessage": "سيؤدي هذا إلى حذف جميع الأغاني والحلقات الحالية نهائيًا قبل الاستيراد. لا يمكن التراجع عن هذا الإجراء.",
+    "backupImportSuccess": "تم استيراد {imported} أغنية. تم تخطي {skipped}، وإعادة تسمية {renamed}.",
+    "@backupImportSuccess": {
+        "placeholders": {
+            "imported": { "type": "int" },
+            "skipped": { "type": "int" },
+            "renamed": { "type": "int" }
+        }
+    }
 }

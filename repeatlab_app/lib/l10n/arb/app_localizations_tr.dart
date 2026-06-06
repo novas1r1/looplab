@@ -701,14 +701,14 @@ class AppLocalizationsTr extends AppLocalizations {
   String get deleteAllDataError => 'Tüm verileri silme başarısız oldu';
 
   @override
-  String get backupAndRestore => 'Backup & Restore';
+  String get backupAndRestore => 'Yedekleme ve Geri Yükleme';
 
   @override
-  String get backupExport => 'Export my library';
+  String get backupExport => 'Kitaplığımı dışa aktar';
 
   @override
   String get backupExportSubtitle =>
-      'Save all songs and loops to a single file you can transfer to another device.';
+      'Tüm şarkıları ve döngüleri başka bir cihaza aktarabileceğiniz tek bir dosyaya kaydedin.';
 
   @override
   String get backupExportSheetTitle => 'Ne dışa aktarmak istiyorsunuz?';
@@ -745,72 +745,73 @@ class AppLocalizationsTr extends AppLocalizations {
       'En az bir ses veya video seçin.';
 
   @override
-  String get backupImport => 'Import backup';
+  String get backupImport => 'Yedeği içe aktar';
 
   @override
   String get backupImportSubtitle =>
-      'Restore songs and loops from a previously exported file.';
+      'Daha önce dışa aktarılan bir dosyadan şarkıları ve döngüleri geri yükleyin.';
 
   @override
-  String get backupProOnly => 'Pro feature';
+  String get backupProOnly => 'Pro özelliği';
 
   @override
-  String get backupExporting => 'Preparing backup…';
+  String get backupExporting => 'Yedek hazırlanıyor…';
 
   @override
-  String get backupImporting => 'Importing…';
+  String get backupImporting => 'İçe aktarılıyor…';
 
   @override
   String backupExportFailed(String message) {
-    return 'Export failed: $message';
+    return 'Dışa aktarma başarısız: $message';
   }
 
   @override
   String backupImportFailed(String message) {
-    return 'Import failed: $message';
+    return 'İçe aktarma başarısız: $message';
   }
 
   @override
-  String get backupImportConfirmTitle => 'Import backup';
+  String get backupImportConfirmTitle => 'Yedeği içe aktar';
 
   @override
   String backupImportConfirmMessage(int songCount, String exportedAt) {
-    return 'This backup contains $songCount songs (exported $exportedAt).';
+    return 'Bu yedek $songCount şarkı içeriyor ($exportedAt tarihinde dışa aktarıldı).';
   }
 
   @override
-  String get backupImportModeMerge => 'Merge';
+  String get backupImportModeMerge => 'Birleştir';
 
   @override
   String get backupImportModeMergeDescription =>
-      'Add new songs, keep existing ones.';
+      'Yeni şarkılar ekle, mevcut olanları koru.';
 
   @override
-  String get backupImportModeReplace => 'Replace';
+  String get backupImportModeReplace => 'Değiştir';
 
   @override
   String get backupImportModeReplaceDescription =>
-      'Delete everything and import from scratch.';
+      'Her şeyi sil ve sıfırdan içe aktar.';
 
   @override
-  String get backupImportReplaceConfirmTitle => 'Replace entire library?';
+  String get backupImportReplaceConfirmTitle =>
+      'Tüm kitaplık değiştirilsin mi?';
 
   @override
   String get backupImportReplaceConfirmMessage =>
-      'This will permanently delete all current songs and loops before importing. This cannot be undone.';
+      'Bu işlem, içe aktarmadan önce tüm mevcut şarkıları ve döngüleri kalıcı olarak siler. Bu işlem geri alınamaz.';
 
   @override
   String backupImportSuccess(int imported, int skipped, int renamed) {
-    return 'Imported $imported songs. $skipped skipped, $renamed renamed.';
+    return '$imported şarkı içe aktarıldı. $skipped atlandı, $renamed yeniden adlandırıldı.';
   }
 
   @override
   String get backupImportSchemaTooNew =>
-      'This backup was created by a newer version of RepeatLab. Please update the app to import it.';
+      'Bu yedek, RepeatLab\'ın daha yeni bir sürümüyle oluşturulmuş. İçe aktarmak için uygulamayı güncelleyin.';
 
   @override
   String get backupImportMalformed =>
-      'This file isn\'t a valid RepeatLab backup.';
+      'Bu dosya geçerli bir RepeatLab yedeği değil.';
 
   @override
   String get errorOpeningStore =>

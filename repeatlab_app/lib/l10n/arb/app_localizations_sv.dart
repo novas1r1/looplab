@@ -698,14 +698,14 @@ class AppLocalizationsSv extends AppLocalizations {
   String get deleteAllDataError => 'Fel vid radering av data';
 
   @override
-  String get backupAndRestore => 'Backup & Restore';
+  String get backupAndRestore => 'Säkerhetskopiering och återställning';
 
   @override
-  String get backupExport => 'Export my library';
+  String get backupExport => 'Exportera mitt bibliotek';
 
   @override
   String get backupExportSubtitle =>
-      'Save all songs and loops to a single file you can transfer to another device.';
+      'Spara alla låtar och loopar i en enda fil som du kan överföra till en annan enhet.';
 
   @override
   String get backupExportSheetTitle => 'Vad vill du exportera?';
@@ -742,72 +742,72 @@ class AppLocalizationsSv extends AppLocalizations {
   String get backupExportSheetNoMediaSelected => 'Välj minst ljud eller video.';
 
   @override
-  String get backupImport => 'Import backup';
+  String get backupImport => 'Importera säkerhetskopia';
 
   @override
   String get backupImportSubtitle =>
-      'Restore songs and loops from a previously exported file.';
+      'Återställ låtar och loopar från en tidigare exporterad fil.';
 
   @override
-  String get backupProOnly => 'Pro feature';
+  String get backupProOnly => 'Pro-funktion';
 
   @override
-  String get backupExporting => 'Preparing backup…';
+  String get backupExporting => 'Förbereder säkerhetskopia…';
 
   @override
-  String get backupImporting => 'Importing…';
+  String get backupImporting => 'Importerar…';
 
   @override
   String backupExportFailed(String message) {
-    return 'Export failed: $message';
+    return 'Export misslyckades: $message';
   }
 
   @override
   String backupImportFailed(String message) {
-    return 'Import failed: $message';
+    return 'Import misslyckades: $message';
   }
 
   @override
-  String get backupImportConfirmTitle => 'Import backup';
+  String get backupImportConfirmTitle => 'Importera säkerhetskopia';
 
   @override
   String backupImportConfirmMessage(int songCount, String exportedAt) {
-    return 'This backup contains $songCount songs (exported $exportedAt).';
+    return 'Den här säkerhetskopian innehåller $songCount låtar (exporterades $exportedAt).';
   }
 
   @override
-  String get backupImportModeMerge => 'Merge';
+  String get backupImportModeMerge => 'Slå samman';
 
   @override
   String get backupImportModeMergeDescription =>
-      'Add new songs, keep existing ones.';
+      'Lägg till nya låtar, behåll befintliga.';
 
   @override
-  String get backupImportModeReplace => 'Replace';
+  String get backupImportModeReplace => 'Ersätt';
 
   @override
   String get backupImportModeReplaceDescription =>
-      'Delete everything and import from scratch.';
+      'Radera allt och importera från grunden.';
 
   @override
-  String get backupImportReplaceConfirmTitle => 'Replace entire library?';
+  String get backupImportReplaceConfirmTitle => 'Ersätta hela biblioteket?';
 
   @override
   String get backupImportReplaceConfirmMessage =>
-      'This will permanently delete all current songs and loops before importing. This cannot be undone.';
+      'Detta raderar permanent alla nuvarande låtar och loopar innan importen. Åtgärden kan inte ångras.';
 
   @override
   String backupImportSuccess(int imported, int skipped, int renamed) {
-    return 'Imported $imported songs. $skipped skipped, $renamed renamed.';
+    return '$imported låtar importerade. $skipped hoppades över, $renamed omdöpta.';
   }
 
   @override
   String get backupImportSchemaTooNew =>
-      'This backup was created by a newer version of RepeatLab. Please update the app to import it.';
+      'Den här säkerhetskopian skapades av en nyare version av RepeatLab. Uppdatera appen för att importera den.';
 
   @override
   String get backupImportMalformed =>
-      'This file isn\'t a valid RepeatLab backup.';
+      'Den här filen är inte en giltig RepeatLab-säkerhetskopia.';
 
   @override
   String get errorOpeningStore =>

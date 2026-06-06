@@ -339,5 +339,49 @@
     "backupExportOptionLoopsAndSettingsSubtitle": "Döngüleri, BPM'yi, sıralama düzenini ve video önizleme boyutunu dahil et",
     "backupExportSheetExport": "Dışa Aktar",
     "backupExportSheetCancel": "İptal",
-    "backupExportSheetNoMediaSelected": "En az bir ses veya video seçin."
+    "backupExportSheetNoMediaSelected": "En az bir ses veya video seçin.",
+    "backupAndRestore": "Yedekleme ve Geri Yükleme",
+    "backupExport": "Kitaplığımı dışa aktar",
+    "backupExportSubtitle": "Tüm şarkıları ve döngüleri başka bir cihaza aktarabileceğiniz tek bir dosyaya kaydedin.",
+    "backupImport": "Yedeği içe aktar",
+    "backupImportSubtitle": "Daha önce dışa aktarılan bir dosyadan şarkıları ve döngüleri geri yükleyin.",
+    "backupProOnly": "Pro özelliği",
+    "backupExporting": "Yedek hazırlanıyor…",
+    "backupImporting": "İçe aktarılıyor…",
+    "backupExportFailed": "Dışa aktarma başarısız: {message}",
+    "@backupExportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportFailed": "İçe aktarma başarısız: {message}",
+    "@backupImportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportMalformed": "Bu dosya geçerli bir RepeatLab yedeği değil.",
+    "backupImportSchemaTooNew": "Bu yedek, RepeatLab'ın daha yeni bir sürümüyle oluşturulmuş. İçe aktarmak için uygulamayı güncelleyin.",
+    "backupImportConfirmTitle": "Yedeği içe aktar",
+    "backupImportConfirmMessage": "Bu yedek {songCount} şarkı içeriyor ({exportedAt} tarihinde dışa aktarıldı).",
+    "@backupImportConfirmMessage": {
+        "placeholders": {
+            "songCount": { "type": "int" },
+            "exportedAt": { "type": "String" }
+        }
+    },
+    "backupImportModeMerge": "Birleştir",
+    "backupImportModeMergeDescription": "Yeni şarkılar ekle, mevcut olanları koru.",
+    "backupImportModeReplace": "Değiştir",
+    "backupImportModeReplaceDescription": "Her şeyi sil ve sıfırdan içe aktar.",
+    "backupImportReplaceConfirmTitle": "Tüm kitaplık değiştirilsin mi?",
+    "backupImportReplaceConfirmMessage": "Bu işlem, içe aktarmadan önce tüm mevcut şarkıları ve döngüleri kalıcı olarak siler. Bu işlem geri alınamaz.",
+    "backupImportSuccess": "{imported} şarkı içe aktarıldı. {skipped} atlandı, {renamed} yeniden adlandırıldı.",
+    "@backupImportSuccess": {
+        "placeholders": {
+            "imported": { "type": "int" },
+            "skipped": { "type": "int" },
+            "renamed": { "type": "int" }
+        }
+    }
 }
