@@ -63,6 +63,9 @@ class _ChangelogDialogState extends State<ChangelogDialog> with TickerProviderSt
           ChangelogElement(
             title: context.l10n.changelog170Title,
             description: context.l10n.changelog170Description,
+            imagePaths: const [
+              'assets/images/update_export_settings.jpg',
+            ],
           ),
         ],
       ),
