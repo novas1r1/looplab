@@ -418,6 +418,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get changelogTitle => 'परिवर्तन लॉग';
 
   @override
+  String get changelog201Title => 'वीडियो लूप करें और स्पीड बदलें (Beta)';
+
+  @override
+  String get changelog201Description =>
+      'वीडियो इम्पोर्ट करें और उन्हें ऑडियो गानों की तरह लूप करें — या स्पीड बदलें — ट्यूटोरियल या लाइव परफॉर्मेंस के साथ अभ्यास के लिए बिल्कुल सही। यह फीचर अभी Beta में है; अगर कोई समस्या आए तो मुझे अपना फीडबैक भेजें।';
+
+  @override
   String get changelog180Title => 'अपने गाने पुनः व्यवस्थित करें';
 
   @override

@@ -417,6 +417,14 @@ class AppLocalizationsAr extends AppLocalizations {
   String get changelogTitle => 'سجل التغييرات';
 
   @override
+  String get changelog201Title =>
+      'تشغيل الفيديو على شكل حلقات وتغيير السرعة (Beta)';
+
+  @override
+  String get changelog201Description =>
+      'استورد مقاطع الفيديو وكرّرها تمامًا كالأغاني الصوتية — أو غيّر السرعة — مثالي للتدرب مع الشروحات أو العروض الحية. هذه الميزة في مرحلة البيتا حاليًا؛ أرسل لي ملاحظاتك إذا واجهت أي مشكلة.';
+
+  @override
   String get changelog180Title => 'إعادة ترتيب أغانيك';
 
   @override

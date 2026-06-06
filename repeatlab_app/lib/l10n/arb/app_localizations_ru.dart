@@ -422,6 +422,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get changelogTitle => 'Изменения';
 
   @override
+  String get changelog201Title => 'Лупы для видео и изменение скорости (Beta)';
+
+  @override
+  String get changelog201Description =>
+      'Импортируй видео и делай из них лупы так же, как с аудиопеснями — или изменяй скорость — идеально для тренировок с туториалами или живыми выступлениями. Функция сейчас в стадии бета-тестирования; отправь мне свой отзыв, если столкнёшься с проблемами.';
+
+  @override
   String get changelog180Title => 'Изменение порядка песен';
 
   @override

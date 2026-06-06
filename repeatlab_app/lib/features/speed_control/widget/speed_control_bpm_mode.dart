@@ -21,6 +21,7 @@ class SpeedControlBpmMode extends StatefulWidget {
 
 class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
   final _originalBpmController = TextEditingController();
+  bool _paywallShowing = false;
 
   @override
   void dispose() {
@@ -212,8 +213,9 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
                                 );
                               },
                             )
-                          : GestureDetector(
-                              onTap: () => _showPremiumDialog(context),
+                          : Listener(
+                              behavior: HitTestBehavior.opaque,
+                              onPointerDown: (_) => _showPremiumDialog(context),
                               child: AbsorbPointer(
                                 child: CustomSlider(
                                   value: currentBpm.toDouble().clamp(
@@ -252,12 +254,21 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
   }
 
   Future<void> _showPremiumDialog(BuildContext context) async {
+    if (_paywallShowing) return;
+    _paywallShowing = true;
+
     AppAnalytics.trackEvent(
       AppAnalytics.showPaywallSongSpeed,
       data: {'from': 'speed_control_bpm'},
     );
 
-    await context.read<PremiumSubscriptionCubit>().presentPaywall();
+    try {
+      await context.read<PremiumSubscriptionCubit>().presentPaywall();
+    } finally {
+      if (mounted) {
+        _paywallShowing = false;
+      }
+    }
   }
 
   Future<void> _showTapBpmDialog(BuildContext context) async {

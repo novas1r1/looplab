@@ -418,6 +418,13 @@ class AppLocalizationsPl extends AppLocalizations {
   String get changelogTitle => 'Zmiany';
 
   @override
+  String get changelog201Title => 'Pętle wideo i zmiana prędkości (Beta)';
+
+  @override
+  String get changelog201Description =>
+      'Importuj filmy wideo i twórz z nich pętle tak jak z utworów audio — lub zmieniaj prędkość — idealne do ćwiczeń z tutorialami lub występami na żywo. Ta funkcja jest obecnie w wersji Beta; wyślij mi swoją opinię, jeśli napotkasz jakieś problemy.';
+
+  @override
   String get changelog180Title => 'Zmień kolejność piosenek';
 
   @override

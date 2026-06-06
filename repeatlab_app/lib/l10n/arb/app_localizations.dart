@@ -852,6 +852,18 @@ abstract class AppLocalizations {
   /// **'Changelog'**
   String get changelogTitle;
 
+  /// Changelog entry title for the 2.0.1 video support feature
+  ///
+  /// In en, this message translates to:
+  /// **'Loop and speed-change videos (Beta)'**
+  String get changelog201Title;
+
+  /// Changelog entry description for the 2.0.1 video support feature
+  ///
+  /// In en, this message translates to:
+  /// **'Import videos and loop them just like audio songs — or change the speed — perfect for practicing along to tutorials or live performances. This feature is currently in Beta; please send me your feedback if you run into any issues.'**
+  String get changelog201Description;
+
   /// Changelog entry title for the 1.8.0 song reorder feature
   ///
   /// In en, this message translates to:

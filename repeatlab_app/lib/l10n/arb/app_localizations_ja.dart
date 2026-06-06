@@ -405,6 +405,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get changelogTitle => '変更履歴';
 
   @override
+  String get changelog201Title => '動画をループして速度変更（Beta）';
+
+  @override
+  String get changelog201Description =>
+      '動画をインポートして、オーディオ曲と同じようにループできます — または速度を変更できます — チュートリアルやライブパフォーマンスに合わせて練習するのに最適です。この機能は現在ベータ版です。問題があればフィードバックを送ってください。';
+
+  @override
   String get changelog180Title => '曲を並べ替える';
 
   @override

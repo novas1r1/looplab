@@ -154,6 +154,8 @@
     "cancelSubscription": "Annulla Abbonamento",
     "voteForFeatures": "Vota per le Funzionalità",
     "changelogTitle": "Changelog",
+    "changelog201Title": "Metti video in loop e cambia la velocità (Beta)",
+    "changelog201Description": "Importa video e mettili in loop esattamente come le canzoni audio — o cambia la velocità — perfetto per esercitarti con tutorial o esibizioni dal vivo. Questa funzione è attualmente in Beta; mandami il tuo feedback se riscontri problemi.",
     "changelog180Title": "Riordina le tue canzoni",
     "changelog180Description": "Organizza la tua lista di canzoni come preferisci — tieni premuta qualsiasi canzone e trascinala in una nuova posizione. Il tuo ordine personalizzato viene salvato automaticamente.",
     "changelog170Title": "Backup e sposta la tua libreria",

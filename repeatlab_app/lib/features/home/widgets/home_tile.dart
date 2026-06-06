@@ -49,20 +49,25 @@ class HomeTile extends StatelessWidget {
           child: ListTile(
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
-              vertical: 16,
+              vertical: 4,
             ),
+            dense: true,
+            visualDensity: VisualDensity.compact,
+            minLeadingWidth: 36,
             leading: Container(
-              padding: const EdgeInsets.all(12),
+              width: 36,
+              height: 36,
               decoration: const BoxDecoration(
                 color: AppColors.primary,
                 shape: BoxShape.circle,
               ),
-              child: Text(
-                '${song.loops.length}',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: AppColors.onPrimary,
-                  fontWeight: FontWeight.bold,
-                ),
+              alignment: Alignment.center,
+              child: Icon(
+                song.mediaType == MediaType.video
+                    ? Icons.videocam
+                    : Icons.music_note,
+                color: AppColors.onPrimary,
+                size: 20,
               ),
             ),
             onTap: () => _onTapSong(context, song),
@@ -78,22 +83,40 @@ class HomeTile extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            trailing: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12,
-                vertical: 6,
-              ),
-              decoration: BoxDecoration(
-                color: AppColors.primaryContainer,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Text(
-                song.duration.toFormattedStringWithoutMilliseconds(),
-                style: const TextStyle(
-                  color: AppColors.onPrimaryContainer,
-                  fontWeight: FontWeight.w500,
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _MetaChip(
+                  child: Text(
+                    song.duration.toFormattedStringWithoutMilliseconds(),
+                    style: const TextStyle(
+                      color: AppColors.onPrimaryContainer,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ),
-              ),
+                const SizedBox(width: 6),
+                _MetaChip(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.repeat,
+                        size: 14,
+                        color: AppColors.onPrimaryContainer,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        '${song.loops.length}',
+                        style: const TextStyle(
+                          color: AppColors.onPrimaryContainer,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -138,6 +161,24 @@ class HomeTile extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+class _MetaChip extends StatelessWidget {
+  final Widget child;
+
+  const _MetaChip({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: AppColors.primaryContainer,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: child,
     );
   }
 }

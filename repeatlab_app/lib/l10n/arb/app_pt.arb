@@ -154,6 +154,8 @@
     "cancelSubscription": "Cancelar Assinatura",
     "voteForFeatures": "Votar por Recursos",
     "changelogTitle": "Changelog",
+    "changelog201Title": "Loop de vídeos e mudança de velocidade (Beta)",
+    "changelog201Description": "Importe vídeos e coloque-os em loop assim como músicas de áudio — ou mude a velocidade — perfeito para praticar com tutoriais ou apresentações ao vivo. Esta funcionalidade está atualmente em Beta; manda-me o teu feedback se encontrares algum problema.",
     "changelog180Title": "Reordene suas músicas",
     "changelog180Description": "Organize sua lista de músicas do jeito que quiser — pressione e segure qualquer música e arraste-a para uma nova posição. Sua ordem personalizada é salva automaticamente.",
     "changelog170Title": "Backup e mover sua biblioteca",

@@ -9,7 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Known gaps
 - Skip-next/prev (both UI and media-session controls) can still auto-advance into a locked loop.
-- `ReorderableListView` still allows non-premium users to drag a locked loop to position 0, promoting it to the accessible slot.
+- On iOS, the file picker can't show `.avi` files: iOS's document picker requires every custom extension to map to a Uniform Type Identifier (UTI), and `.avi` has no UTI registered in `ios/Runner/Info.plist`. Fixing means declaring `public.avi` (or an imported type) in `CFBundleDocumentTypes` / `UTImportedTypeDeclarations` and adding `'avi'` to the allowlist in `pickSingleVideoFile`. Skipped for now — libmpv plays `.avi` once a file is in by other means, and `.avi` is rare on mobile. Android isn't affected (its picker uses `FileType.video`, no extension allowlist) though end-to-end `.avi` playback there hasn't been verified yet.
+
+## [2.0.1]
+
+### Added
+- **Video song support (Beta).** Import video files (mp4, mov, m4v, mkv, webm) and loop them with the same loop / BPM / speed controls as audio songs. Available on iOS and Android. The "Add" flow on the home page now lets you pick Audio or Video.
+- **Adjustable video preview size.** Three steps (small / medium / large) via a `+ / −` overlay on the video frame. The chosen size persists per song.
+- **Landscape full-height video.** In landscape, the size steps go larger and `large` fills the visible viewport (below the app bar); the timeline and controls stay reachable by scrolling.
+
+### Fixed
+- Tapping `×` or `BPM` in the speed-control row when the panel was collapsed now expands the panel so the slider you switched to is visible.
+- The BPM slider now opens the paywall on first touch for non-premium users — previously a drag did nothing because only a clean tap was being detected. Guarded against opening the paywall multiple times from one touch.
+- The multiplier slider (`×` mode) gets the same paywall-on-touch fix.
+- Loop drag-and-drop reordering is now disabled for non-premium users — they only have access to the first loop anyway, so reordering was meaningless and the half-recognised long-press gesture was confusing.
+- iOS video playback (texture stayed black on first iOS build).
+
+### Changed
+- Changelog dialog gets a "Video support (Beta)" entry at the top, translated to all 16 supported locales.
 
 ## [1.8.0]
 

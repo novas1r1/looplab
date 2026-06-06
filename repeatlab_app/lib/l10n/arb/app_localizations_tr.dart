@@ -420,6 +420,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get changelogTitle => 'Değişiklik Günlüğü';
 
   @override
+  String get changelog201Title => 'Videoları döngüye al ve hız değiştir (Beta)';
+
+  @override
+  String get changelog201Description =>
+      'Videoları içe aktarıp tıpkı ses şarkıları gibi döngüye al — ya da hızı değiştir — eğitim videoları veya canlı performanslarla pratik yapmak için mükemmel. Bu özellik şu an Beta aşamasında; sorunla karşılaşırsan bana geri bildirimini gönder.';
+
+  @override
   String get changelog180Title => 'Şarkılarınızı yeniden sıralayın';
 
   @override

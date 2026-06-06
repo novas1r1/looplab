@@ -32,13 +32,20 @@ class _VideoPreviewState extends State<VideoPreview> {
   int? _knownWidth;
   int? _knownHeight;
 
-  // Fraction of screen height the video may occupy, per size mode. The frame
-  // is centered horizontally so portrait videos shrink to fit instead of
-  // dominating the screen.
-  static const Map<VideoSizeMode, double> _heightFractions = {
+  // Fraction of available height the video may occupy, per size mode. The
+  // frame is centered horizontally so portrait videos shrink to fit instead of
+  // dominating the screen. Landscape uses higher fractions (and a smaller
+  // base — viewport minus app bar) so `large` can fill the visible area on
+  // phones held sideways.
+  static const Map<VideoSizeMode, double> _portraitFractions = {
     VideoSizeMode.small: 0.22,
     VideoSizeMode.medium: 0.40,
     VideoSizeMode.large: 0.65,
+  };
+  static const Map<VideoSizeMode, double> _landscapeFractions = {
+    VideoSizeMode.small: 0.45,
+    VideoSizeMode.medium: 0.75,
+    VideoSizeMode.large: 1.0,
   };
 
   @override
@@ -107,12 +114,19 @@ class _VideoPreviewState extends State<VideoPreview> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
+    final mediaQuery = MediaQuery.of(context);
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
+    // In landscape, base the size on the space actually below the app bar so
+    // `large` (1.0) fills the viewport instead of overflowing behind it.
+    final availableHeight = isLandscape
+        ? mediaQuery.size.height - mediaQuery.padding.top - kToolbarHeight
+        : mediaQuery.size.height;
+    final fractions = isLandscape ? _landscapeFractions : _portraitFractions;
 
     return BlocSelector<SongCubit, SongState, VideoSizeMode>(
       selector: (state) => state.song.videoSizeMode,
       builder: (context, mode) {
-        final maxHeight = screenHeight * (_heightFractions[mode] ?? 0.40);
+        final maxHeight = availableHeight * (fractions[mode] ?? 0.40);
         return Center(
           child: ConstrainedBox(
             constraints: BoxConstraints(maxHeight: maxHeight),

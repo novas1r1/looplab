@@ -420,6 +420,14 @@ class AppLocalizationsNl extends AppLocalizations {
   String get changelogTitle => 'Wijzigingen';
 
   @override
+  String get changelog201Title =>
+      'Video\'s loopen en snelheid aanpassen (Beta)';
+
+  @override
+  String get changelog201Description =>
+      'Importeer video\'s en loop ze net zoals audio-nummers — of pas de snelheid aan — perfect om te oefenen met tutorials of live-optredens. Deze functie is momenteel in Beta; stuur me je feedback als je problemen ondervindt.';
+
+  @override
   String get changelog180Title => 'Nummers herordenen';
 
   @override

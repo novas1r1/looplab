@@ -140,12 +140,11 @@ class _HomePageState extends State<HomePage> {
                         const SizedBox(height: 8),
                         Text(
                           context.l10n.tapToAddSong,
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(
-                                color: AppColors.onSurface.withValues(
-                                  alpha: 0.6,
-                                ),
-                              ),
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: AppColors.onSurface.withValues(
+                              alpha: 0.6,
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -160,24 +159,17 @@ class _HomePageState extends State<HomePage> {
                       newIndex,
                     );
                   },
-                  onReorderEnd: (_) {
-                    AppAnalytics.trackEvent(AppAnalytics.reorderSongs);
-                  },
-                  proxyDecorator:
-                      (Widget child, int index, Animation<double> animation) {
-                        return Material(
-                          color: Colors.transparent,
-                          child: child,
-                        );
-                      },
-                  itemBuilder: (context, index) {
-                    final song = state.songs[index];
-                    return Padding(
-                      key: ValueKey(song.id),
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: HomeTile(song: song),
+                  onReorderEnd: (_) => AppAnalytics.trackEvent(AppAnalytics.reorderSongs),
+                  proxyDecorator: (Widget child, int index, Animation<double> animation) {
+                    return Material(
+                      color: Colors.transparent,
+                      child: child,
                     );
                   },
+                  itemBuilder: (context, index) => HomeTile(
+                    key: ValueKey(state.songs[index].id),
+                    song: state.songs[index],
+                  ),
                 );
             }
           },
@@ -231,8 +223,7 @@ class _HomePageState extends State<HomePage> {
                 leading: const Icon(Icons.audiotrack),
                 title: Text(context.l10n.addSong),
                 subtitle: const Text(SongRepository.supportedFormatsLabel),
-                onTap: () =>
-                    Navigator.of(sheetContext).pop(_AddMediaChoice.audio),
+                onTap: () => Navigator.of(sheetContext).pop(_AddMediaChoice.audio),
               ),
               ListTile(
                 leading: const Icon(Icons.movie),
@@ -267,8 +258,7 @@ class _HomePageState extends State<HomePage> {
                 subtitle: const Text(
                   SongRepository.supportedVideoFormatsLabel,
                 ),
-                onTap: () =>
-                    Navigator.of(sheetContext).pop(_AddMediaChoice.video),
+                onTap: () => Navigator.of(sheetContext).pop(_AddMediaChoice.video),
               ),
               const SizedBox(height: 8),
             ],

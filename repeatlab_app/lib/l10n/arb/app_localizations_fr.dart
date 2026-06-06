@@ -425,6 +425,14 @@ class AppLocalizationsFr extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
+  String get changelog201Title =>
+      'Mettre des vidéos en boucle et modifier la vitesse (Beta)';
+
+  @override
+  String get changelog201Description =>
+      'Importez des vidéos et mettez-les en boucle exactement comme des chansons audio — ou modifiez la vitesse — parfait pour s\'entraîner avec des tutoriels ou des performances live. Cette fonctionnalité est actuellement en Beta ; envoie-moi ton feedback si tu rencontres des problèmes.';
+
+  @override
   String get changelog180Title => 'Réorganisez vos chansons';
 
   @override

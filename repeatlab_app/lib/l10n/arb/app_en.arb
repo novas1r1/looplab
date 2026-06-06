@@ -181,6 +181,14 @@
     "purchaseSuccess": "Purchase successful. Thank you for supporting the developer ❤️!",
     "voteForFeatures": "Vote for Features",
     "changelogTitle": "Changelog",
+    "changelog201Title": "Loop and speed-change videos (Beta)",
+    "@changelog201Title": {
+        "description": "Changelog entry title for the 2.0.1 video support feature"
+    },
+    "changelog201Description": "Import videos and loop them just like audio songs — or change the speed — perfect for practicing along to tutorials or live performances. This feature is currently in Beta; please send me your feedback if you run into any issues.",
+    "@changelog201Description": {
+        "description": "Changelog entry description for the 2.0.1 video support feature"
+    },
     "changelog180Title": "Reorder your songs",
     "@changelog180Title": {
         "description": "Changelog entry title for the 1.8.0 song reorder feature"

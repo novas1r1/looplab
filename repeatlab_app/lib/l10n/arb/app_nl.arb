@@ -154,6 +154,8 @@
     "cancelSubscription": "Abonnement Opzeggen",
     "voteForFeatures": "Functies Voorstellen",
     "changelogTitle": "Wijzigingen",
+    "changelog201Title": "Video's loopen en snelheid aanpassen (Beta)",
+    "changelog201Description": "Importeer video's en loop ze net zoals audio-nummers — of pas de snelheid aan — perfect om te oefenen met tutorials of live-optredens. Deze functie is momenteel in Beta; stuur me je feedback als je problemen ondervindt.",
     "changelog180Title": "Nummers herordenen",
     "changelog180Description": "Organiseer je nummerslijst zoals je wilt — houd een nummer lang ingedrukt en sleep het naar een nieuwe positie. Jouw aangepaste volgorde wordt automatisch opgeslagen.",
     "changelog170Title": "Back up en verplaats je bibliotheek",

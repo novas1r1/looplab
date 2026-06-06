@@ -154,6 +154,8 @@
     "cancelSubscription": "Avbryt Prenumeration",
     "voteForFeatures": "Funktioner förfråga",
     "changelogTitle": "Ändringar",
+    "changelog201Title": "Loopa videor och ändra hastighet (Beta)",
+    "changelog201Description": "Importera videor och loopa dem precis som ljudlåtar — eller ändra hastigheten — perfekt för att öva med tutorials eller liveframträdanden. Den här funktionen är just nu i Beta; skicka gärna din feedback om du stöter på problem.",
     "changelog180Title": "Ändra ordningen på dina låtar",
     "changelog180Description": "Organisera din låtlista som du vill — håll in en låt länge och dra den till en ny position. Din anpassade ordning sparas automatiskt.",
     "changelog170Title": "Backup och flytta din bibliotek",

@@ -398,6 +398,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get changelogTitle => '更新日志';
 
   @override
+  String get changelog201Title => '视频循环与速度调节（Beta）';
+
+  @override
+  String get changelog201Description =>
+      '导入视频并像音频歌曲一样循环播放 — 或调节速度 — 非常适合跟随教程或现场表演练习。此功能目前处于 Beta 阶段；如遇到问题，请把你的反馈发给我。';
+
+  @override
   String get changelog180Title => '重新排列您的歌曲';
 
   @override

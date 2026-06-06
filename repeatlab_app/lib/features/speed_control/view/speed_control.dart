@@ -151,6 +151,12 @@ class _SpeedControlState extends State<SpeedControl> {
     final newMode = index == 0 ? TempoMode.multiplier : TempoMode.bpm;
     context.read<SongCubit>().setTempoMode(newMode);
 
+    if (!_isExpanded) {
+      setState(() {
+        _isExpanded = true;
+      });
+    }
+
     if (index == 0) {
       AppAnalytics.trackEvent(AppAnalytics.clickTempoModeMultiplier);
     } else {

@@ -155,6 +155,8 @@
     "cancelSubscription": "Annuler l'Abonnement",
     "voteForFeatures": "Voter pour les Fonctionnalités",
     "changelogTitle": "Changelog",
+    "changelog201Title": "Mettre des vidéos en boucle et modifier la vitesse (Beta)",
+    "changelog201Description": "Importez des vidéos et mettez-les en boucle exactement comme des chansons audio — ou modifiez la vitesse — parfait pour s'entraîner avec des tutoriels ou des performances live. Cette fonctionnalité est actuellement en Beta ; envoie-moi ton feedback si tu rencontres des problèmes.",
     "changelog180Title": "Réorganisez vos chansons",
     "changelog180Description": "Organisez votre liste de chansons comme vous le souhaitez — appuyez longuement sur n'importe quelle chanson et faites-la glisser vers une nouvelle position. Votre ordre personnalisé est enregistré automatiquement.",
     "changelog170Title": "Sauvegarder et déplacer votre bibliothèque",

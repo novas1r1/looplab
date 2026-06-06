@@ -156,6 +156,8 @@
     "cancelSubscription": "Cancelar Suscripción",
     "voteForFeatures": "Vota por Funciones",
     "changelogTitle": "Cambios",
+    "changelog201Title": "Pon videos en loop y cambia la velocidad (Beta)",
+    "changelog201Description": "Importa vídeos y ponlos en loop igual que las canciones de audio — o cambia la velocidad — perfecto para practicar con tutoriales o actuaciones en directo. Esta función está actualmente en Beta; mándame tu feedback si encuentras algún problema.",
     "changelog180Title": "Reordena tus canciones",
     "changelog180Description": "Organiza tu lista de canciones como quieras — mantén pulsada cualquier canción y arrástrala a una nueva posición. Tu orden personalizado se guarda automáticamente.",
     "changelog170Title": "Backup y mover tu biblioteca",

@@ -154,6 +154,8 @@
     },
     "purchasedAlready": "Zaten satın alındı",
     "purchaseSuccess": "Başarıyla satın alındı. Geliştiriciyi desteklediğiniz için teşekkür ederiz ❤️!",
+    "changelog201Title": "Videoları döngüye al ve hız değiştir (Beta)",
+    "changelog201Description": "Videoları içe aktarıp tıpkı ses şarkıları gibi döngüye al — ya da hızı değiştir — eğitim videoları veya canlı performanslarla pratik yapmak için mükemmel. Bu özellik şu an Beta aşamasında; sorunla karşılaşırsan bana geri bildirimini gönder.",
     "changelog180Title": "Şarkılarınızı yeniden sıralayın",
     "changelog180Description": "Şarkı listenizi istediğiniz şekilde düzenleyin — herhangi bir şarkıya uzun basın ve yeni bir konuma sürükleyin. Özel sıranız otomatik olarak kaydedilir.",
     "changelog170Title": "Kütüphaneyi yedekle ve taşı",

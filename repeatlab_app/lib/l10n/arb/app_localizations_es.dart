@@ -422,6 +422,14 @@ class AppLocalizationsEs extends AppLocalizations {
   String get changelogTitle => 'Cambios';
 
   @override
+  String get changelog201Title =>
+      'Pon videos en loop y cambia la velocidad (Beta)';
+
+  @override
+  String get changelog201Description =>
+      'Importa vídeos y ponlos en loop igual que las canciones de audio — o cambia la velocidad — perfecto para practicar con tutoriales o actuaciones en directo. Esta función está actualmente en Beta; mándame tu feedback si encuentras algún problema.';
+
+  @override
   String get changelog180Title => 'Reordena tus canciones';
 
   @override

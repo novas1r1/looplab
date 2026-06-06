@@ -154,6 +154,8 @@
     "cancelSubscription": "Anuluj Subskrypcję",
     "voteForFeatures": "Głosuj na Funkcje",
     "changelogTitle": "Zmiany",
+    "changelog201Title": "Pętle wideo i zmiana prędkości (Beta)",
+    "changelog201Description": "Importuj filmy wideo i twórz z nich pętle tak jak z utworów audio — lub zmieniaj prędkość — idealne do ćwiczeń z tutorialami lub występami na żywo. Ta funkcja jest obecnie w wersji Beta; wyślij mi swoją opinię, jeśli napotkasz jakieś problemy.",
     "changelog180Title": "Zmień kolejność piosenek",
     "changelog180Description": "Organizuj listę piosenek według własnych upodobań — naciśnij i przytrzymaj dowolną piosenkę, a następnie przeciągnij ją na nowe miejsce. Twoja niestandardowa kolejność jest zapisywana automatycznie.",
     "changelog170Title": "Backup i przeniesienie swojej biblioteki",

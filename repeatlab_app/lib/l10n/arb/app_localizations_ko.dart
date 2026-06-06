@@ -404,6 +404,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get changelogTitle => '변경 사항';
 
   @override
+  String get changelog201Title => '동영상 루프 및 속도 변경 (Beta)';
+
+  @override
+  String get changelog201Description =>
+      '동영상을 가져와 오디오 곡처럼 루프하세요 — 또는 속도를 변경하세요 — 튜토리얼이나 라이브 공연을 따라 연습하기에 완벽합니다. 이 기능은 현재 베타 버전입니다. 문제가 생기면 피드백을 보내주세요.';
+
+  @override
   String get changelog180Title => '노래 순서 재정렬';
 
   @override
