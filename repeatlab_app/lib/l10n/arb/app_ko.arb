@@ -205,6 +205,17 @@
             }
         }
     },
+    "unsupportedVideoFormatError": "동영상 형식 \".{format}\"은(는) 지원되지 않습니다. 지원되는 형식: {supportedFormats}.",
+    "@unsupportedVideoFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
     "loopAdded": "루프가 추가되고 활성화되었습니다",
     "loopModeEnabled": "루프 모드가 활성화되었습니다",
     "loopModeDisabled": "루프 모드가 비활성화되었습니다",

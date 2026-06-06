@@ -538,7 +538,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String unsupportedVideoFormatError(String format, String supportedFormats) {
-    return 'The video format \".$format\" is not supported. Supported formats: $supportedFormats.';
+    return '동영상 형식 \".$format\"은(는) 지원되지 않습니다. 지원되는 형식: $supportedFormats.';
   }
 
   @override

@@ -567,7 +567,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String unsupportedVideoFormatError(String format, String supportedFormats) {
-    return 'The video format \".$format\" is not supported. Supported formats: $supportedFormats.';
+    return 'O formato de vídeo \".$format\" não é suportado. Formatos suportados: $supportedFormats.';
   }
 
   @override

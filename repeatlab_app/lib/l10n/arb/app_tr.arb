@@ -205,6 +205,17 @@
             }
         }
     },
+    "unsupportedVideoFormatError": "Video formatı \".{format}\" desteklenmiyor. Desteklenen formatlar: {supportedFormats}.",
+    "@unsupportedVideoFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
     "loopAdded": "Döngü eklendi ve etkinleştirildi",
     "loopModeEnabled": "Döngü modu etkinleştirildi",
     "loopModeDisabled": "Döngü modu devre dışı bırakıldı",

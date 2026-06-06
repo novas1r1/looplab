@@ -203,6 +203,17 @@
             }
         }
     },
+    "unsupportedVideoFormatError": "वीडियो प्रारूप \".{format}\" समर्थित नहीं है। समर्थित प्रारूप: {supportedFormats}।",
+    "@unsupportedVideoFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
     "loopAdded": "लूप जोड़ा गया और सक्रिय किया गया",
     "loopModeEnabled": "लूप मोड सक्रिय किया गया",
     "loopModeDisabled": "लूप मोड अक्षम किया गया",

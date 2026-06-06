@@ -205,6 +205,17 @@
             }
         }
     },
+    "unsupportedVideoFormatError": "動画形式「.{format}」はサポートされていません。サポートされている形式：{supportedFormats}。",
+    "@unsupportedVideoFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
     "loopAdded": "ループが追加され、有効化されました",
     "loopModeEnabled": "ループモードが有効になりました",
     "loopModeDisabled": "ループモードが無効になりました",

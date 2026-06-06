@@ -105,12 +105,12 @@ class _HomePageState extends State<HomePage> {
                 AppAnalytics.songAddUnsupportedFormat,
                 data: {'format': format, 'kind': 'video'},
               );
-              // No dedicated l10n key yet; surface a clear English message.
               SnackbarHelper.showError(
                 context,
-                'The video format ".$format" is not supported. '
-                'Supported formats: '
-                '${SongRepository.supportedVideoFormatsLabel}.',
+                context.l10n.unsupportedVideoFormatError(
+                  format,
+                  SongRepository.supportedVideoFormatsLabel,
+                ),
               );
             }
           },

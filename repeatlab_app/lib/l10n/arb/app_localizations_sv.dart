@@ -561,7 +561,7 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String unsupportedVideoFormatError(String format, String supportedFormats) {
-    return 'The video format \".$format\" is not supported. Supported formats: $supportedFormats.';
+    return 'Videoformatet \".$format\" stöds inte. Format som stöds: $supportedFormats.';
   }
 
   @override

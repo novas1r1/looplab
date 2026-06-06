@@ -527,7 +527,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String unsupportedVideoFormatError(String format, String supportedFormats) {
-    return 'The video format \".$format\" is not supported. Supported formats: $supportedFormats.';
+    return '视频格式 \".$format\" 不受支持。支持的格式：$supportedFormats。';
   }
 
   @override
