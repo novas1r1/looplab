@@ -874,6 +874,7 @@ class SongCubit extends Cubit<SongState> {
         loopSort: state.song.loopSort,
         sortOrder: state.song.sortOrder,
         mediaType: state.song.mediaType,
+        videoSizeMode: state.song.videoSizeMode,
       );
       await songRepository.updateSong(updatedSong);
 

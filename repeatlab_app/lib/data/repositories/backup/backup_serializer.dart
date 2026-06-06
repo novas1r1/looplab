@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:archive/archive.dart';
-import 'package:crypto/crypto.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/backup/backup_exceptions.dart';
 import 'package:repeatlab/data/repositories/backup/backup_manifest.dart';
@@ -10,7 +9,9 @@ import 'package:repeatlab/data/repositories/backup/backup_manifest.dart';
 /// Pure, in-memory serializer for the `.rlbackup` format.
 ///
 /// Layout:
-///   manifest.json   — schema version, app version, exported timestamp, file hashes
+///   manifest.json   — schema version, app version, exported timestamp,
+///                     per-file sizes (and, in legacy 1.7.x–2.0.1 exports,
+///                     SHA-256 hashes — no longer written or verified).
 ///   songs.json      — dart_mappable JSON list of Song (loops embedded)
 ///   audio/`name`    — raw audio bytes, one per song, keyed by [Song.fileName]
 class BackupSerializer {
@@ -37,10 +38,7 @@ class BackupSerializer {
       songCount: songs.length,
       audioFiles: {
         for (final entry in audioFiles.entries)
-          entry.key: BackupFileInfo(
-            sha256: sha256.convert(entry.value).toString(),
-            size: entry.value.length,
-          ),
+          entry.key: BackupFileInfo(size: entry.value.length),
       },
     );
 
@@ -104,6 +102,9 @@ class BackupSerializer {
         .map((e) => SongMapper.fromMap(e as Map<String, dynamic>))
         .toList();
 
+    // Zip CRC32 (validated by ZipDecoder) covers accidental corruption.
+    // We don't recompute SHA-256 even when older 1.7.x–2.0.1 exports include
+    // it on the manifest — see BackupManifest.currentSchemaVersion docs.
     final audioFiles = <String, Uint8List>{};
     for (final entry in manifest.audioFiles.entries) {
       final archiveFile = archive.findFile('$audioDirectory/${entry.key}');
@@ -112,12 +113,9 @@ class BackupSerializer {
           'audio file "${entry.key}" listed in manifest is missing',
         );
       }
-      final content = Uint8List.fromList(archiveFile.content as List<int>);
-      final actualHash = sha256.convert(content).toString();
-      if (actualHash != entry.value.sha256) {
-        throw BackupHashMismatchException(entry.key);
-      }
-      audioFiles[entry.key] = content;
+      audioFiles[entry.key] = Uint8List.fromList(
+        archiveFile.content as List<int>,
+      );
     }
 
     return BackupPayload(

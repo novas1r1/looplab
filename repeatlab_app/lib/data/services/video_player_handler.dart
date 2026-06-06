@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:audioplayers/audioplayers.dart' show PlayerState;
+import 'package:flutter/foundation.dart';
 // media_kit also exports a `PlayerState` type; hide it so `PlayerState` in
 // this file unambiguously refers to the audioplayers enum we use as the
 // lingua franca across handlers + cubit + widgets.
@@ -84,11 +85,11 @@ class VideoPlayerHandler implements MediaPlayerHandler {
     : player =
           player ??
           Player(
-            // Crank libmpv verbosity so file-open / decoder / audio-device
-            // failures surface in the logs instead of failing silently.
-            // Drop back to MPVLogLevel.error once iOS playback is confirmed.
+            // Verbose libmpv logs in debug builds surface file-open / decoder /
+            // audio-device failures that would otherwise be silent. Release
+            // builds use `error` to keep logs and Sentry breadcrumbs quiet.
             configuration: const PlayerConfiguration(
-              logLevel: MPVLogLevel.debug,
+              logLevel: kDebugMode ? MPVLogLevel.debug : MPVLogLevel.error,
             ),
           ) {
     log('VideoPlayerHandler constructor');
@@ -175,7 +176,7 @@ class VideoPlayerHandler implements MediaPlayerHandler {
 
   @override
   Future<void> pause() async {
-    log('VideoPlayerHandler.pause\n${StackTrace.current}');
+    log('VideoPlayerHandler.pause');
     await player.pause();
   }
 

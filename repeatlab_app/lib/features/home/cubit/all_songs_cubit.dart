@@ -106,7 +106,10 @@ class AllSongsCubit extends Cubit<AllSongsState> {
       }
 
       await songRepository.addVideoFile(file);
-      AppAnalytics.trackEvent(AppAnalytics.songAddSuccess);
+      AppAnalytics.trackEvent(
+        AppAnalytics.songAddSuccess,
+        data: {'kind': 'video'},
+      );
       await loadSongs();
     } on UnsupportedVideoFormatException catch (ex, stack) {
       crashReportingRepository.reportError(

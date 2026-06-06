@@ -29,6 +29,12 @@ class VideoSongCubit extends SongCubit {
   /// iOS/macOS/Windows/Linux.
   late final VideoController videoController;
 
+  /// Guards against double-initialization: `_videoHandler` and
+  /// `videoController` are `late final`, so a second `initVideo` call would
+  /// throw `LateInitializationError`. The flag lets the cubit no-op instead
+  /// if init is accidentally re-entered (e.g. after a transient failure).
+  bool _initialized = false;
+
   VideoSongCubit({
     required super.song,
     required super.songRepository,
@@ -41,6 +47,8 @@ class VideoSongCubit extends SongCubit {
   /// Replacement for [SongCubit.initSong] for video songs — the audio version
   /// requires an [AudioPlayer], which we don't have for video.
   Future<void> initVideo() async {
+    if (_initialized) return;
+    _initialized = true;
     _videoHandler = VideoPlayerHandler();
     videoController = VideoController(_videoHandler.player);
     await initWithHandler(_videoHandler);

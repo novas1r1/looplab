@@ -59,7 +59,9 @@ void main() {
         expect(manifest.audioFiles.keys, [MockData.songShort.fileName]);
         final info = manifest.audioFiles[MockData.songShort.fileName]!;
         expect(info.size, audioBytesFor('short').length);
-        expect(info.sha256, hasLength(64));
+        // 2.0.2+ exports no longer include sha256; old backups in the wild
+        // still do and continue to parse via the optional field.
+        expect(info.sha256, isNull);
       });
 
       test('handles empty library', () {
@@ -217,48 +219,6 @@ void main() {
       );
 
       test(
-        'throws BackupHashMismatchException when audio content is tampered',
-        () {
-          final audio = {
-            MockData.songShort.fileName: audioBytesFor('original'),
-          };
-          final bytes = serializer.encode(
-            songs: [MockData.songShort],
-            audioFiles: audio,
-            appVersion: '1.6.11',
-          );
-
-          // Swap the audio payload inside the zip, keep the manifest intact.
-          final archive = ZipDecoder().decodeBytes(bytes);
-          final tampered = Archive();
-          for (final file in archive.files) {
-            if (file.name ==
-                '${BackupSerializer.audioDirectory}/${MockData.songShort.fileName}') {
-              final replacement = audioBytesFor('tampered');
-              tampered.addFile(
-                ArchiveFile(file.name, replacement.length, replacement),
-              );
-            } else {
-              tampered.addFile(file);
-            }
-          }
-          final tamperedBytes =
-              Uint8List.fromList(ZipEncoder().encode(tampered));
-
-          expect(
-            () => serializer.decode(tamperedBytes),
-            throwsA(
-              isA<BackupHashMismatchException>().having(
-                (e) => e.fileName,
-                'fileName',
-                MockData.songShort.fileName,
-              ),
-            ),
-          );
-        },
-      );
-
-      test(
         'throws BackupFormatException when manifest lists audio not in archive',
         () {
           // Encode normally, then delete the audio entry from the archive.
@@ -296,36 +256,35 @@ void main() {
     });
 
     group('peekManifest', () {
-      test('returns manifest without verifying audio hashes', () {
-        // Produce a zip whose audio content is broken, but whose manifest is
-        // valid. peekManifest should not care.
+      test('returns manifest without touching audio entries', () {
+        // peekManifest is meant to be cheap — used by the import confirmation
+        // dialog before the user commits. It should read only the manifest
+        // entry, not iterate over audio payloads.
         final bytes = serializer.encode(
           songs: [MockData.songShort],
           audioFiles: {MockData.songShort.fileName: audioBytesFor('v1')},
           appVersion: '1.6.11',
         );
 
+        // Strip the audio entry from the archive — peek should still succeed.
         final archive = ZipDecoder().decodeBytes(bytes);
-        final tampered = Archive();
+        final stripped = Archive();
         for (final file in archive.files) {
-          if (file.name.startsWith('${BackupSerializer.audioDirectory}/')) {
-            final replacement = audioBytesFor('different');
-            tampered.addFile(
-              ArchiveFile(file.name, replacement.length, replacement),
-            );
-          } else {
-            tampered.addFile(file);
+          if (!file.name.startsWith('${BackupSerializer.audioDirectory}/')) {
+            stripped.addFile(file);
           }
         }
-        final tamperedBytes =
-            Uint8List.fromList(ZipEncoder().encode(tampered));
+        final strippedBytes =
+            Uint8List.fromList(ZipEncoder().encode(stripped));
 
-        final manifest = serializer.peekManifest(tamperedBytes);
+        final manifest = serializer.peekManifest(strippedBytes);
         expect(manifest.songCount, 1);
-        // decode() would throw BackupHashMismatchException here — peek doesn't.
+        expect(manifest.audioFiles.keys, [MockData.songShort.fileName]);
+        // decode() still throws because the manifest references a file that
+        // isn't in the archive — that check remains.
         expect(
-          () => serializer.decode(tamperedBytes),
-          throwsA(isA<BackupHashMismatchException>()),
+          () => serializer.decode(strippedBytes),
+          throwsA(isA<BackupFormatException>()),
         );
       });
     });
