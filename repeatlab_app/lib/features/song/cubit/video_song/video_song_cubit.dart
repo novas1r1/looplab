@@ -1,4 +1,5 @@
 import 'package:media_kit/media_kit.dart';
+import 'package:media_kit_video/media_kit_video.dart';
 import 'package:repeatlab/data/services/video_player_handler.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 
@@ -20,6 +21,14 @@ class VideoSongCubit extends SongCubit {
   /// [VideoController] to this for rendering frames.
   Player get player => _videoHandler.player;
 
+  /// The [VideoController] is created eagerly in [initVideo] — before
+  /// `player.open()` runs — so that media_kit's `isVideoControllerAttached`
+  /// flag is set in time. Otherwise `player.open()` skips
+  /// `waitForVideoControllerInitializationIfAttached`, libmpv loads the file
+  /// with no video output, and the texture stays at id 0 / size 0×0 on
+  /// iOS/macOS/Windows/Linux.
+  late final VideoController videoController;
+
   VideoSongCubit({
     required super.song,
     required super.songRepository,
@@ -33,6 +42,7 @@ class VideoSongCubit extends SongCubit {
   /// requires an [AudioPlayer], which we don't have for video.
   Future<void> initVideo() async {
     _videoHandler = VideoPlayerHandler();
+    videoController = VideoController(_videoHandler.player);
     await initWithHandler(_videoHandler);
   }
 }

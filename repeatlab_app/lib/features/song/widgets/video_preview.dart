@@ -46,10 +46,12 @@ class _VideoPreviewState extends State<VideoPreview> {
     super.initState();
     // The BlocProvider in SongPage registers VideoSongCubit under the
     // SongCubit base type so shared widgets reading `context.read<SongCubit>()`
-    // resolve to it. Cast back to the concrete type to reach the Player.
-    // Safe: this widget is only ever built for video songs.
+    // resolve to it. Cast back to the concrete type to reach the player +
+    // pre-attached controller. Safe: this widget is only ever built for video
+    // songs. The controller is created in VideoSongCubit.initVideo() before
+    // player.open() runs, so libmpv has a video output target ready.
     final cubit = context.read<SongCubit>() as VideoSongCubit;
-    _controller = VideoController(cubit.player);
+    _controller = cubit.videoController;
 
     _widthSubscription = cubit.player.stream.width.listen((w) {
       if (w == null || w == 0) return;
