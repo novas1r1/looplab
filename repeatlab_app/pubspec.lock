@@ -103,7 +103,7 @@ packages:
       path: "../../packages/audioplayers/packages/audioplayers"
       relative: true
     source: path
-    version: "6.6.0"
+    version: "6.5.1"
   audioplayers_android:
     dependency: transitive
     description:
@@ -118,7 +118,7 @@ packages:
       path: "../../packages/audioplayers/packages/audioplayers_android_exo"
       relative: true
     source: path
-    version: "0.1.3"
+    version: "0.1.2+1"
   audioplayers_darwin:
     dependency: transitive
     description:
