@@ -255,7 +255,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                subtitle: const Text(
+                subtitle: Text(
                   SongRepository.supportedVideoFormatsLabel,
                 ),
                 onTap: () => Navigator.of(sheetContext).pop(_AddMediaChoice.video),

@@ -27,7 +27,8 @@
       "Bash(fvm flutter:*)",
       "Read(//c/Users/vry/.claude/plans/**)",
       "Read(//c/Users/vry/.claude/**)",
-      "Bash(fvm dart *)"
+      "Bash(fvm dart *)",
+      "PowerShell(flutter analyze *)"
     ]
   }
 }

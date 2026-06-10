@@ -36,8 +36,8 @@ class _ChangelogDialogState extends State<ChangelogDialog> with TickerProviderSt
   Widget build(BuildContext context) {
     final versions = [
       ChangelogVersion(
-        version: '2.0.1',
-        releaseDate: DateTime(2026, 6, 6),
+        version: '2.0.2',
+        releaseDate: DateTime(2026, 6, 10),
         updates: [
           ChangelogElement(
             title: context.l10n.changelog201Title,

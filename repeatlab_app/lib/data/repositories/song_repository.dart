@@ -69,6 +69,8 @@ class SongRepository {
   static const supportedFormatsLabel = 'MP3, WAV, OGG, FLAC, M4A, AAC';
 
   /// File extensions imported as videos (played via media_kit / libmpv).
+  /// Superset across platforms — videos restored from a backup may use any
+  /// of these, regardless of what the local picker offers.
   static const _videoSupportedExtensions = {
     '.mp4',
     '.mov',
@@ -78,8 +80,37 @@ class SongRepository {
     '.avi',
   };
 
-  /// Human-readable list of supported video formats shown in error messages.
-  static const supportedVideoFormatsLabel = 'MP4, MOV, M4V, MKV, WEBM, AVI';
+  /// Video formats users can pick on each platform. Currently identical,
+  /// but kept separate because the pickers filter differently: Android
+  /// filters via MIME types, iOS via UTIs. mkv/webm have no system UTI on
+  /// iOS and only resolve because they are declared under
+  /// UTImportedTypeDeclarations in ios/Runner/Info.plist — keep that
+  /// declaration in sync with [videoPickerExtensionsIos].
+  static const videoPickerExtensionsAndroid = [
+    'mp4',
+    'mov',
+    'm4v',
+    'mkv',
+    'webm',
+    'avi',
+  ];
+  static const videoPickerExtensionsIos = [
+    'mp4',
+    'mov',
+    'm4v',
+    'mkv',
+    'webm',
+    'avi',
+  ];
+
+  /// Video formats pickable on the current platform.
+  static List<String> get videoPickerExtensions =>
+      Platform.isIOS ? videoPickerExtensionsIos : videoPickerExtensionsAndroid;
+
+  /// Human-readable list of supported video formats shown in error messages
+  /// and pick dialogs; derived from the platform's picker extensions.
+  static String get supportedVideoFormatsLabel =>
+      videoPickerExtensions.map((e) => e.toUpperCase()).join(', ');
 
   Future<void> addSongFile(File file) async {
     File fileToUse = file;

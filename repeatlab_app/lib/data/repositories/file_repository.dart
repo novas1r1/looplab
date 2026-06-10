@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:repeatlab/app/view/repository_wrapper.dart';
+import 'package:repeatlab/data/repositories/song_repository.dart';
 
 class FileRepository {
   final FilePickerWrapper filePicker;
@@ -81,22 +82,19 @@ class FileRepository {
   /// Pick a single video file and copy it into the app documents directory.
   ///
   /// Mirrors [pickSingleAudioFile] for video formats supported by media_kit
-  /// (libmpv): mp4, mov, m4v, mkv, webm. `.avi` works in the underlying
-  /// player but isn't reliably surfaced by iOS's `FileType.custom`; users on
-  /// iOS may not see `.avi` files in the picker.
+  /// (libmpv), see [SongRepository.videoPickerExtensions].
+  ///
+  /// iOS must use `FileType.custom` with explicit extensions: `FileType.video`
+  /// would open the Photos library picker instead of the Files browser.
+  /// Android must use `FileType.video`: with `FileType.custom`, files whose
+  /// document provider reports an unexpected MIME type would be greyed out.
   Future<File?> pickSingleVideoFile() async {
     FilePickerResult? result;
 
     if (Platform.isIOS) {
       result = await filePicker.pickFiles(
         type: FileType.custom,
-        allowedExtensions: [
-          'mp4',
-          'mov',
-          'm4v',
-          'mkv',
-          'webm',
-        ],
+        allowedExtensions: SongRepository.videoPickerExtensionsIos,
       );
     } else {
       try {
@@ -141,11 +139,7 @@ class FileRepository {
       return [];
     }
 
-    return result.paths
-        .whereType<String>()
-        .map(_normalizePickedPath)
-        .map(File.new)
-        .toList();
+    return result.paths.whereType<String>().map(_normalizePickedPath).map(File.new).toList();
   }
 }
 
