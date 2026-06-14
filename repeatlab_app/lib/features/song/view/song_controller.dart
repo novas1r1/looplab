@@ -48,6 +48,7 @@ class SongController extends StatelessWidget {
                 height: 32,
                 child: Center(
                   child: IconButton(
+                    key: const Key('song.back10'),
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
                     onPressed: () {
@@ -67,6 +68,7 @@ class SongController extends StatelessWidget {
                   return SizedBox(
                     height: 32,
                     child: IconButton(
+                      key: const Key('song.play'),
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
                       onPressed: () => _onTapPlay(context),
@@ -83,6 +85,7 @@ class SongController extends StatelessWidget {
               SizedBox(
                 height: 32,
                 child: IconButton(
+                  key: const Key('song.forward10'),
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                   onPressed: () {

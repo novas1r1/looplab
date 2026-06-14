@@ -51,6 +51,7 @@ class _HomePageState extends State<HomePage> {
           elevation: 0,
           backgroundColor: Colors.transparent,
           leading: IconButton(
+            key: const Key('home.drawer'),
             icon: const Icon(Icons.menu),
             onPressed: () => _scaffoldKey.currentState?.openDrawer(),
           ),
@@ -124,6 +125,7 @@ class _HomePageState extends State<HomePage> {
               case AllSongsStatus.errorVideoFormat:
                 if (state.songs.isEmpty) {
                   return Center(
+                    key: const Key('home.empty'),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -175,6 +177,7 @@ class _HomePageState extends State<HomePage> {
           },
         ),
         floatingActionButton: FloatingActionButton.extended(
+          key: const Key('home.fab'),
           heroTag: 'addMedia',
           onPressed: () => _showAddMediaSheet(context, songCount),
           icon: const Icon(Icons.add),
@@ -220,12 +223,14 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 16),
               ListTile(
+                key: const Key('home.addAudio'),
                 leading: const Icon(Icons.audiotrack),
                 title: Text(context.l10n.addSong),
                 subtitle: const Text(SongRepository.supportedFormatsLabel),
                 onTap: () => Navigator.of(sheetContext).pop(_AddMediaChoice.audio),
               ),
               ListTile(
+                key: const Key('home.addVideo'),
                 leading: const Icon(Icons.movie),
                 title: Row(
                   mainAxisSize: MainAxisSize.min,

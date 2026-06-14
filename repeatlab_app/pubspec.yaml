@@ -80,9 +80,19 @@ dev_dependencies:
   dart_mappable_builder: ^4.7.0
   flutter_test:
     sdk: flutter
+  integration_test:
+    sdk: flutter
   mocktail: ^1.0.5
+  patrol: ^4.6.1
   # flutter_launcher_icons: ^0.14.3
   # flutter_native_splash: ^2.4.4
+patrol:
+  app_name: RepeatLab
+  test_directory: integration_test
+  android:
+    package_name: com.repeatlab.app
+  ios:
+    bundle_id: com.repeatlab.app
 
 flutter:
   uses-material-design: true

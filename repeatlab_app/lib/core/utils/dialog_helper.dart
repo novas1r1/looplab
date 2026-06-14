@@ -40,10 +40,12 @@ abstract class DialogHelper {
         content: Text(message),
         actions: [
           TextButton(
+            key: const Key('dialog.delete.cancel'),
             onPressed: () => Navigator.of(context).pop(false),
             child: Text(context.l10n.cancel),
           ),
           TextButton(
+            key: const Key('dialog.delete.confirm'),
             onPressed: () => Navigator.of(context).pop(true),
             child: Text(context.l10n.delete),
           ),

@@ -34,6 +34,16 @@ android {
         targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        // Patrol E2E (integration_test) native harness.
+        testInstrumentationRunner = "pl.leancode.patrol.PatrolJUnitRunner"
+        testInstrumentationRunnerArguments["clearPackageData"] = "true"
+    }
+
+    // Patrol requires the AndroidX test orchestrator so each test runs in its
+    // own instrumentation instance with cleared state.
+    testOptions {
+        execution = "ANDROIDX_TEST_ORCHESTRATOR"
     }
 
     // https://docs.codemagic.io/flutter-code-signing/android-code-signing/
@@ -69,4 +79,10 @@ android {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    // Patrol E2E (integration_test) native harness.
+    androidTestUtil("androidx.test:orchestrator:1.5.1")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
 }

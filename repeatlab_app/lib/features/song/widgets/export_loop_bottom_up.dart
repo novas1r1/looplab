@@ -177,6 +177,7 @@ class _ExportLoopBottomUpState extends State<ExportLoopBottomUp> {
                   ),
                   Expanded(
                     child: ElevatedButton(
+                      key: const Key('exportLoop.confirm'),
                       onPressed: _onExportLoop,
                       child: Text(context.l10n.loopExportConfirm),
                     ),

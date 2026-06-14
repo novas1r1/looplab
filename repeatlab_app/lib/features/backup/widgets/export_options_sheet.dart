@@ -125,6 +125,7 @@ class _BackupExportOptionsSheetState extends State<_BackupExportOptionsSheet> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: FilledButton(
+                      key: const Key('backupExport.confirm'),
                       onPressed: canExport
                           ? () => Navigator.of(context).pop(_current)
                           : null,

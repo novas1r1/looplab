@@ -91,6 +91,7 @@ class _SettingsViewState extends State<_SettingsView> {
               child: Text(context.l10n.localData, style: context.titleLarge),
             ),
             ListTile(
+              key: const Key('settings.deleteAll'),
               leading: const Icon(Icons.delete_forever),
               title: Text(context.l10n.deleteAllLocalData),
               onTap: () => _onDeleteAllData(context),
@@ -201,6 +202,7 @@ class _BackupTiles extends StatelessWidget {
     return Column(
       children: [
         ListTile(
+          key: const Key('settings.backupExport'),
           leading: exporting
               ? const SizedBox(
                   width: 24,
@@ -222,6 +224,7 @@ class _BackupTiles extends StatelessWidget {
           onTap: busy ? null : () => _handleExportTap(context, hasPremium),
         ),
         ListTile(
+          key: const Key('settings.backupImport'),
           leading: importing
               ? const SizedBox(
                   width: 24,

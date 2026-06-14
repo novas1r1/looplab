@@ -19,6 +19,13 @@ class RepositoryWrapper extends StatelessWidget {
   final SoLoud soLoud;
   final PackageInfo packageInfo;
   final LocalConfigRepository localConfigRepository;
+
+  /// File-picker wrapper for media import / export. Injectable for E2E tests;
+  /// defaults to the real wrapper.
+  final FilePickerWrapper filePicker;
+
+  /// RevenueCat repository. Injectable for E2E tests; defaults to the real one.
+  final PurchasesRepository purchases;
   // final AudioPlayer audioPlayer;
 
   const RepositoryWrapper({
@@ -27,6 +34,8 @@ class RepositoryWrapper extends StatelessWidget {
     required this.soLoud,
     required this.packageInfo,
     required this.localConfigRepository,
+    this.filePicker = const FilePickerWrapper(),
+    this.purchases = const PurchasesRepository(),
     // required this.audioPlayer,
     super.key,
   });
@@ -37,7 +46,7 @@ class RepositoryWrapper extends StatelessWidget {
       providers: [
         RepositoryProvider(
           create: (context) => FileRepository(
-            filePicker: FilePickerWrapper(),
+            filePicker: filePicker,
           ),
         ),
         RepositoryProvider(
@@ -54,7 +63,7 @@ class RepositoryWrapper extends StatelessWidget {
           create: (context) => const CrashReportingRepository(),
         ),
         RepositoryProvider(
-          create: (context) => const PurchasesRepository(),
+          create: (context) => purchases,
         ),
         RepositoryProvider.value(value: localConfigRepository),
         RepositoryProvider(
@@ -74,6 +83,8 @@ class RepositoryWrapper extends StatelessWidget {
 }
 
 class FilePickerWrapper {
+  const FilePickerWrapper();
+
   Future<FilePickerResult?> pickFiles({
     required FileType type,
     List<String>? allowedExtensions,

@@ -94,6 +94,7 @@ class _LoopTileState extends State<LoopTile> {
                   width: 32,
                   height: 32,
                   child: IconButton(
+                    key: Key('song.loop.export.${widget.loop.id}'),
                     constraints: const BoxConstraints(),
                     padding: EdgeInsets.zero,
                     onPressed: () =>
@@ -105,6 +106,7 @@ class _LoopTileState extends State<LoopTile> {
                   width: 32,
                   height: 32,
                   child: IconButton(
+                    key: Key('song.loop.edit.${widget.loop.id}'),
                     constraints: const BoxConstraints(),
                     padding: EdgeInsets.zero,
                     onPressed: () =>

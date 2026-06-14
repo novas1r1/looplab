@@ -537,8 +537,12 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
 
                                           return ReorderableListView.builder(
                                             onReorder: (oldIndex, newIndex) {
-                                              if (oldIndex < newIndex) {
-                                                newIndex -= 1;
+                                              // ReorderableListView reports an
+                                              // insertion index that is offset
+                                              // by one when moving an item down.
+                                              var targetIndex = newIndex;
+                                              if (oldIndex < targetIndex) {
+                                                targetIndex -= 1;
                                               }
 
                                               AppAnalytics.trackEvent(
@@ -549,7 +553,7 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                                                   List<Loop>.from(loops);
                                               final Loop item = newLoops
                                                   .removeAt(oldIndex);
-                                              newLoops.insert(newIndex, item);
+                                              newLoops.insert(targetIndex, item);
 
                                               for (
                                                 var i = 0;

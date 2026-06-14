@@ -135,6 +135,7 @@ class CustomDrawer extends StatelessWidget {
             },
           ),
           ListTile(
+            key: const Key('drawer.settings'),
             leading: const Icon(Icons.settings),
             title: Text(context.l10n.settings),
             onTap: () => _onSettings(context),
@@ -145,6 +146,7 @@ class CustomDrawer extends StatelessWidget {
                   ? context.l10n.systemDefault
                   : nativeLanguageNameOf(selectedLocale);
               return ListTile(
+                key: const Key('drawer.language'),
                 leading: const Icon(Icons.language),
                 title: Text(context.l10n.language),
                 subtitle: Text(subtitle),

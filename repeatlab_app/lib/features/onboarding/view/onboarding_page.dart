@@ -90,6 +90,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     Row(
                       children: [
                         Checkbox(
+                          key: const Key('onboarding.analytics'),
                           value: _analyticsAccepted,
                           onChanged: (value) {
                             setState(() {
@@ -117,6 +118,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     Row(
                       children: [
                         Checkbox(
+                          key: const Key('onboarding.privacy'),
                           value: _privacyAccepted,
                           onChanged: (value) {
                             setState(() {
@@ -170,6 +172,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   SizedBox(
                     width: double.infinity,
                     child: FilledButton(
+                      key: const Key('onboarding.next'),
                       onPressed: _currentPage == _slides.length - 1
                           ? (_privacyAccepted ? _finishOnboarding : null)
                           : () {

@@ -72,6 +72,7 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
                   Expanded(
                     flex: 2,
                     child: TextField(
+                      key: const Key('song.speed.bpmOriginal'),
                       controller: _originalBpmController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
@@ -83,6 +84,7 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
                     ),
                   ),
                   TextButton(
+                    key: const Key('song.speed.bpmSet'),
                     onPressed: () => _onSetOriginalBpm(context),
                     child: AutoSizeText(
                       context.l10n.setBpm,

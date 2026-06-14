@@ -26,6 +26,14 @@ class App extends StatelessWidget {
   final SoLoud soloud;
   final PackageInfo packageInfo;
   final LocalConfigRepository localConfigRepository;
+
+  /// File-picker wrapper used for media import / export. Injectable so E2E
+  /// tests can fake the native picker; defaults to the real wrapper.
+  final FilePickerWrapper filePicker;
+
+  /// RevenueCat repository. Injectable so E2E tests can fake the Pro
+  /// entitlement; defaults to the real repository.
+  final PurchasesRepository purchases;
   // final AudioPlayer audioPlayer;
 
   const App({
@@ -33,6 +41,8 @@ class App extends StatelessWidget {
     required this.soloud,
     required this.packageInfo,
     required this.localConfigRepository,
+    this.filePicker = const FilePickerWrapper(),
+    this.purchases = const PurchasesRepository(),
     // required this.audioPlayer,
     super.key,
   });
@@ -49,6 +59,8 @@ class App extends StatelessWidget {
       soLoud: soloud,
       packageInfo: packageInfo,
       localConfigRepository: localConfigRepository,
+      filePicker: filePicker,
+      purchases: purchases,
       // audioPlayer: audioPlayer,
       child: MultiBlocProvider(
         providers: [

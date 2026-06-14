@@ -28,7 +28,8 @@
       "Read(//c/Users/vry/.claude/plans/**)",
       "Read(//c/Users/vry/.claude/**)",
       "Bash(fvm dart *)",
-      "PowerShell(flutter analyze *)"
+      "PowerShell(flutter analyze *)",
+      "mcp__claude_ai_PostHog__exec"
     ]
   }
 }
