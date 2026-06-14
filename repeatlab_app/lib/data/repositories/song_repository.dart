@@ -141,7 +141,29 @@ class SongRepository {
     AudioSource source;
     try {
       source = await soLoud.loadFile(fileToUse.path);
-    } on SoLoudFileLoadFailedException {
+    } on SoLoudFileLoadFailedException catch (ex) {
+      // SoLoud failed to load the file. For natively-supported formats
+      // (mp3/wav/ogg/flac) this is NOT a format problem — it's a genuine
+      // load failure (missing/stale path, truncated or malformed file, …).
+      // Reporting it as "unsupported format" produced the misleading Sentry
+      // issue FLUTTER-D7 (".mp3 is not supported"). Surface an honest error
+      // with enough context to diagnose the real cause.
+      final exists = await fileToUse.exists();
+      final sizeBytes = exists ? await fileToUse.length() : 0;
+      log(
+        'SoLoud failed to load "$fileName" '
+        '(ext=.$extension, exists=$exists, size=$sizeBytes): $ex',
+        name: 'AddSongFile',
+      );
+      if (_soloudSupportedExtensions.contains('.$extension')) {
+        throw AudioFileLoadException(
+          fileName: fileName,
+          extension: extension,
+          exists: exists,
+          sizeBytes: sizeBytes,
+          cause: ex.toString(),
+        );
+      }
       throw UnsupportedAudioFormatException(extension);
     }
 
@@ -381,6 +403,33 @@ class UnsupportedAudioFormatException implements Exception {
   String toString() =>
       'The audio format ".$format" is not supported. '
       'Supported formats: ${SongRepository.supportedFormatsLabel}.';
+}
+
+/// Thrown when a file whose format IS supported (mp3/wav/ogg/flac) still
+/// fails to load in SoLoud. Distinct from [UnsupportedAudioFormatException]
+/// so we don't tell users a supported format is unsupported. Carries enough
+/// context (path existence, size, underlying error) to diagnose the cause
+/// from crash reports.
+class AudioFileLoadException implements Exception {
+  final String fileName;
+  final String extension;
+  final bool exists;
+  final int sizeBytes;
+  final String cause;
+
+  const AudioFileLoadException({
+    required this.fileName,
+    required this.extension,
+    required this.exists,
+    required this.sizeBytes,
+    required this.cause,
+  });
+
+  @override
+  String toString() =>
+      'Failed to load audio file "$fileName" '
+      '(ext=.$extension, exists=$exists, size=$sizeBytes bytes). '
+      'Underlying error: $cause';
 }
 
 /// Thrown when a user picks a video file whose format cannot be loaded.

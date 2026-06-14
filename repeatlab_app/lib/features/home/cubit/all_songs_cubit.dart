@@ -75,6 +75,27 @@ class AllSongsCubit extends Cubit<AllSongsState> {
           errorMessage: ex.format,
         ),
       );
+    } on AudioFileLoadException catch (ex, stack) {
+      // A supported format that still failed to load — report the diagnostic
+      // context as structured properties so we can pin down the cause.
+      crashReportingRepository.reportError(
+        ex,
+        stack,
+        properties: {
+          'file': file?.path,
+          'fileName': ex.fileName,
+          'extension': ex.extension,
+          'exists': ex.exists,
+          'sizeBytes': ex.sizeBytes,
+          'cause': ex.cause,
+        },
+      );
+      emit(
+        state.copyWith(
+          status: AllSongsStatus.error,
+          errorMessage: ex.toString(),
+        ),
+      );
     } catch (ex, stack) {
       crashReportingRepository.reportError(
         ex,
