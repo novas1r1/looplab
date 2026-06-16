@@ -294,7 +294,7 @@
     "deleteSongConfirmationTitle": "곡 삭제",
     "settings": "설정",
     "analytics": "분석",
-    "analyticsDescription": "Microsoft Clarity를 사용하여 사용 데이터를 수집하고 앱을 개선합니다. 이 데이터는 제3자와 공유되지 않습니다.",
+    "analyticsDescription": "Microsoft Clarity와 PostHog를 사용하여 익명 사용 데이터를 수집하고 앱을 개선합니다. 귀하의 데이터는 EU에서 처리되며 제3자에게 절대 판매되지 않습니다.",
     "enterSongBpm": "곡의 BPM",
     "enterSongBpmDescription": "곡의 원래 BPM을 입력하여 템포를 변경합니다. 이는 다른 템포로 곡을 연습할 때 유용합니다. BPM은 곡에 할당되고 저장됩니다.",
     "enterSongBpmHint": "예: 120",

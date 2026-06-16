@@ -810,7 +810,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get analyticsDescription =>
-      'Microsoft Clarity를 사용하여 사용 데이터를 수집하고 앱을 개선합니다. 이 데이터는 제3자와 공유되지 않습니다.';
+      'Microsoft Clarity와 PostHog를 사용하여 익명 사용 데이터를 수집하고 앱을 개선합니다. 귀하의 데이터는 EU에서 처리되며 제3자에게 절대 판매되지 않습니다.';
 
   @override
   String get enterSongBpm => '곡의 BPM';

@@ -291,7 +291,7 @@
     "deleteSongConfirmationTitle": "Usuń Utwór",
     "settings": "Ustawienia",
     "analytics": "Analiza",
-    "analyticsDescription": "Używamy Microsoft Clarity do zbierania danych użytkowania i poprawiania aplikacji. Te dane nie są udostępniane innym stronom.",
+    "analyticsDescription": "Używamy Microsoft Clarity i PostHog do zbierania anonimowych danych o użytkowaniu i ulepszania aplikacji. Twoje dane są przetwarzane w UE i nigdy nie są sprzedawane stronom trzecim.",
     "enterSongBpm": "BPM utworu",
     "enterSongBpmDescription": "Wprowadź oryginalny BPM utworu, aby zmienić tempo. To przydatne, gdy ćwiczysz utwór z innym tempem. BPM zostanie przypisany do utworu i zapisany.",
     "enterSongBpmHint": "np. 120",

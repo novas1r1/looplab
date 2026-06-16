@@ -795,7 +795,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get analyticsDescription =>
-      '我们使用 Microsoft Clarity 收集使用数据并改进应用程序。这些数据不会与第三方共享。';
+      '我们使用 Microsoft Clarity 和 PostHog 收集匿名使用数据并改进应用程序。您的数据在欧盟处理，绝不会出售给第三方。';
 
   @override
   String get enterSongBpm => '歌曲 BPM';

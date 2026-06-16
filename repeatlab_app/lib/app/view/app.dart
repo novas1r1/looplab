@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:repeatlab/app/router.dart';
 import 'package:repeatlab/app/view/repository_wrapper.dart';
 import 'package:repeatlab/core/ui/theme.dart';
@@ -112,6 +113,9 @@ class App extends StatelessWidget {
                 localizationsDelegates: AppLocalizations.localizationsDelegates,
                 supportedLocales: AppLocalizations.supportedLocales,
                 onGenerateRoute: AppRouter.generateRoute,
+                // Auto-captures `$screen` for named routes. Gated by the SDK's
+                // opt-out state, so it only sends when analytics consent is on.
+                navigatorObservers: [PosthogObserver()],
                 home: introShown ? const HomePage() : const OnboardingPage(),
               );
             },

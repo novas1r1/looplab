@@ -294,7 +294,7 @@
     "deleteSongConfirmationTitle": "曲を削除",
     "settings": "設定",
     "analytics": "分析",
-    "analyticsDescription": "Microsoft Clarityを使用して使用データを収集し、アプリを改善します。これらのデータは第三者と共有されません。",
+    "analyticsDescription": "Microsoft ClarityとPostHogを使用して匿名の使用データを収集し、アプリを改善します。データはEUで処理され、第三者に販売されることはありません。",
     "enterSongBpm": "曲のBPM",
     "enterSongBpmDescription": "曲の元のBPMを入力してテンポを変更します。これは、異なるテンポで曲を練習する場合に便利です。BPMは曲に割り当てられ、保存されます。",
     "enterSongBpmHint": "例：120",

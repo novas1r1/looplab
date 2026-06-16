@@ -261,7 +261,7 @@ abstract class AppLocalizations {
   /// No description provided for @howWeUseYourInformationDescription.
   ///
   /// In en, this message translates to:
-  /// **'We use the information we collect for the following purposes:\n\n• To process in-app purchases and manage subscriptions through RevenueCat.\n• To gather feedback and improve the App using Wiredash.\n• To monitor and fix issues using Sentry crash logging.\n• To improve user experience and enhance App features.\n• To improve the app through Microsoft Clarity.'**
+  /// **'We use the information we collect for the following purposes:\n\n• To process in-app purchases and manage subscriptions through RevenueCat.\n• To gather feedback and improve the App using Wiredash.\n• To monitor and fix issues using Sentry crash logging.\n• To improve user experience and enhance App features.\n• To improve the app through Microsoft Clarity.\n• To understand feature usage through PostHog (anonymous product analytics).'**
   String get howWeUseYourInformationDescription;
 
   /// No description provided for @yourRights.
@@ -285,7 +285,7 @@ abstract class AppLocalizations {
   /// No description provided for @thirdPartyServicesDescription.
   ///
   /// In en, this message translates to:
-  /// **'We use third-party services to enhance our App:\n\n• Wiredash: Used to collect user feedback.\n• RevenueCat: Used to process in-app purchases and subscriptions.\n• Sentry: Used for error monitoring and crash reporting.\n• Microsoft Clarity: Used for analytics and user experience improvement.'**
+  /// **'We use third-party services to enhance our App:\n\n• Wiredash: Used to collect user feedback.\n• RevenueCat: Used to process in-app purchases and subscriptions.\n• Sentry: Used for error monitoring and crash reporting.\n• Microsoft Clarity: Used for analytics and user experience improvement.\n• PostHog: Used for anonymous product analytics, hosted in the EU.'**
   String get thirdPartyServicesDescription;
 
   /// No description provided for @contactUs.
@@ -1587,7 +1587,7 @@ abstract class AppLocalizations {
   /// No description provided for @analyticsDescription.
   ///
   /// In en, this message translates to:
-  /// **'We use Microsoft Clarity to collect usage data and improve the app. This data is not shared with third parties.'**
+  /// **'We use Microsoft Clarity and PostHog to collect anonymous usage data and improve the app. Your data is processed in the EU and never sold to third parties.'**
   String get analyticsDescription;
 
   /// No description provided for @enterSongBpm.

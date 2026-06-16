@@ -94,7 +94,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get thirdPartyServicesDescription =>
-      'Wir nutzen Drittanbieterdienste zur Verbesserung unserer App:\n\n• Wiredash: Zur Sammlung von Benutzerfeedback.\n• RevenueCat: Zur Verarbeitung von In-App-Käufen und Abonnements.\n• Sentry: Zur Fehlerverfolgung und Absturzberichterstattung.';
+      'Wir nutzen Drittanbieterdienste zur Verbesserung unserer App:\n\n• Wiredash: Zur Sammlung von Benutzerfeedback.\n• RevenueCat: Zur Verarbeitung von In-App-Käufen und Abonnements.\n• Sentry: Zur Fehlerverfolgung und Absturzberichterstattung.\n• Microsoft Clarity: Zur Analyse und Verbesserung der Nutzererfahrung.\n• PostHog: Für anonyme Produktanalysen, gehostet in der EU.';
 
   @override
   String get contactUs => 'Kontakt';
@@ -848,7 +848,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get analyticsDescription =>
-      'Wir verwenden Microsoft Clarity, um Nutzungsdaten zu sammeln und die App zu verbessern. Diese Daten werden nicht mit Drittanbietern geteilt.';
+      'Wir verwenden Microsoft Clarity und PostHog, um anonyme Nutzungsdaten zu sammeln und die App zu verbessern. Deine Daten werden in der EU verarbeitet und niemals an Dritte verkauft.';
 
   @override
   String get enterSongBpm => 'Song BPM';

@@ -294,7 +294,7 @@
     "deleteSongConfirmationTitle": "Şarkıyı Sil",
     "settings": "Ayarlar",
     "analytics": "Analytics",
-    "analyticsDescription": "Microsoft Clarity kullanarak kullanım verilerini topluyor ve uygulamayı iyileştiriyoruz. Bu veriler üçüncü taraflarla paylaşılmaz.",
+    "analyticsDescription": "Kullanım verilerini anonim olarak toplamak ve uygulamayı geliştirmek için Microsoft Clarity ve PostHog kullanıyoruz. Verileriniz AB'de işlenir ve asla üçüncü taraflara satılmaz.",
     "enterSongBpm": "Şarkı BPM'si",
     "enterSongBpmDescription": "Şarkının orijinal BPM'sini girin ve tempo'yu değiştirin. Bu, farklı bir tempo ile şarkıyı çalarken yararlıdır. BPM şarkıya atanır ve kaydedilir.",
     "enterSongBpmHint": "örn. 120",

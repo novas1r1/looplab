@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:clarity_flutter/clarity_flutter.dart';
 import 'package:flutter/foundation.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalConfigRepository {
@@ -47,11 +48,13 @@ class LocalConfigRepository {
     await sharedPreferences.setBool(kAnalyticsEnabled, isEnabled);
 
     if (isEnabled && !kDebugMode) {
-      log('Resuming Clarity');
+      log('Resuming Clarity & PostHog');
       Clarity.resume();
+      await Posthog().enable();
     } else {
-      log('Pausing Clarity');
+      log('Pausing Clarity & PostHog');
       Clarity.pause();
+      await Posthog().disable();
     }
   }
 

@@ -112,6 +112,10 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
       } else {
         emit(state.copyWith(status: PremiumSubscriptionStatus.noPremium));
       }
+
+      // Keep the `is_premium` analytics super property in sync so every event
+      // is segmentable by subscription state.
+      AppAnalytics.setPremium(isPremium: hasPremium);
     } catch (ex, stackTrace) {
       crashReportingRepository.reportError(ex, stackTrace);
       emit(
@@ -134,12 +138,32 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
       return;
     }
 
+    final wasPremium = hasPremium;
+
     if (ifNeeded) {
       await RevenueCatUI.presentPaywallIfNeeded("Pro");
     } else {
       await RevenueCatUI.presentPaywall();
     }
     await checkStatus();
+
+    // A non-premium -> premium transition right after the paywall is a
+    // purchase. This is the step 2 of the monetization funnel (step 1 being
+    // the various `view_paywall_from_*` / `show_paywall_*` open events).
+    if (!wasPremium && hasPremium) {
+      AppAnalytics.trackEvent(
+        AppAnalytics.purchaseSuccess,
+        data: {
+          'tier': state.hasLifetimePurchase
+              ? 'lifetime'
+              : state.hasWeeklySubscription
+              ? 'weekly'
+              : state.hasYearlySubscription
+              ? 'yearly'
+              : 'unknown',
+        },
+      );
+    }
   }
 
   Future<void> restore() async {
@@ -202,6 +226,8 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
         );
         emit(state.copyWith(status: PremiumSubscriptionStatus.noPremium));
       }
+
+      AppAnalytics.setPremium(isPremium: hasPremium);
     } catch (ex, stackTrace) {
       AppAnalytics.trackEvent(
         AppAnalytics.restoreSubscriptionFailure,

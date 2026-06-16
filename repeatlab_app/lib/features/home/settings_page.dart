@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/core/utils/dialog_helper.dart';
@@ -159,6 +162,10 @@ class _SettingsViewState extends State<_SettingsView> {
     if (context.mounted) {
       success = await context.read<LocalConfigRepository>().clear();
     }
+
+    // Rotate the anonymous PostHog distinct id so the wiped local identity is
+    // no longer linked to future events (GDPR right-to-erasure for the device).
+    unawaited(Posthog().reset());
 
     if (!context.mounted) return;
 

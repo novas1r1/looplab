@@ -291,7 +291,7 @@
     "deleteSongConfirmationTitle": "Nummer Verwijderen",
     "settings": "Instellingen",
     "analytics": "Analytics",
-    "analyticsDescription": "We gebruiken Microsoft Clarity om gebruiksgegevens te verzamelen en de app te verbeteren. Deze gegevens worden niet gedeeld met derden.",
+    "analyticsDescription": "We gebruiken Microsoft Clarity en PostHog om anonieme gebruiksgegevens te verzamelen en de app te verbeteren. Je gegevens worden in de EU verwerkt en nooit aan derden verkocht.",
     "enterSongBpm": "BPM nummer",
     "enterSongBpmDescription": "Voer het originele BPM van het nummer in om het tempo te wijzigen. Dit is handig wanneer je een nummer oefent met een ander tempo. Het BPM wordt aan het nummer gekoppeld en opgeslagen.",
     "enterSongBpmHint": "bijvoorbeeld 120",

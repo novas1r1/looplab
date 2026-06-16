@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
-import 'package:wiredash/wiredash.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 
 abstract final class AppAnalytics {
   const AppAnalytics._();
@@ -113,6 +113,9 @@ abstract final class AppAnalytics {
   static const onboardingAnalyticsAccepted = 'onboarding_analytics_accepted';
   static const onboardingAnalyticsDeclined = 'onboarding_analytics_declined';
 
+  // monetization
+  static const purchaseSuccess = 'purchase_success';
+
   static void trackEvent(
     String event, {
     Map<String, dynamic>? data,
@@ -124,7 +127,10 @@ abstract final class AppAnalytics {
     // analytics SDK can never bubble up into the user-facing call site.
     runZonedGuarded(
       () {
-        final future = Wiredash.trackEvent(event, data: data);
+        final future = Posthog().capture(
+          eventName: event,
+          properties: _toProperties(data),
+        );
         unawaited(
           future.catchError(
             (Object error, StackTrace stack) {
@@ -137,5 +143,36 @@ abstract final class AppAnalytics {
         log('Error tracking event "$event": $error');
       },
     );
+  }
+
+  /// Registers `is_premium` as a super property so every captured event is
+  /// segmentable by subscription state without identifying the user.
+  static void setPremium({required bool isPremium}) {
+    if (kDebugMode) return;
+
+    runZonedGuarded(
+      () {
+        unawaited(
+          Posthog().register('is_premium', isPremium).catchError(
+            (Object error, StackTrace stack) {
+              log('Error registering is_premium: $error');
+            },
+          ),
+        );
+      },
+      (error, stack) {
+        log('Error registering is_premium: $error');
+      },
+    );
+  }
+
+  /// PostHog's `capture` expects `Map<String, Object>` (non-null values), but
+  /// call sites pass `Map<String, dynamic>`. Convert, dropping null values.
+  static Map<String, Object>? _toProperties(Map<String, dynamic>? data) {
+    if (data == null) return null;
+    return {
+      for (final entry in data.entries)
+        if (entry.value != null) entry.key: entry.value as Object,
+    };
   }
 }

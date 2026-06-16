@@ -812,7 +812,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get analyticsDescription =>
-      'Microsoft Clarityを使用して使用データを収集し、アプリを改善します。これらのデータは第三者と共有されません。';
+      'Microsoft ClarityとPostHogを使用して匿名の使用データを収集し、アプリを改善します。データはEUで処理され、第三者に販売されることはありません。';
 
   @override
   String get enterSongBpm => '曲のBPM';

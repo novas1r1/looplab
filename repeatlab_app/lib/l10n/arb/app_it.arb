@@ -291,7 +291,7 @@
     "deleteSongConfirmationTitle": "Elimina Canzone",
     "settings": "Impostazioni",
     "analytics": "Analytics",
-    "analyticsDescription": "Utilizziamo Microsoft Clarity per raccogliere dati di utilizzo e migliorare l'app. Questi dati non vengono condivisi con terze parti.",
+    "analyticsDescription": "Utilizziamo Microsoft Clarity e PostHog per raccogliere dati di utilizzo anonimi e migliorare l'app. I tuoi dati vengono elaborati nell'UE e non vengono mai venduti a terze parti.",
     "enterSongBpm": "BPM canzone",
     "enterSongBpmDescription": "Inserisci il BPM originale della canzone per cambiare il tempo. Questo è utile quando pratichi una canzone con un tempo diverso. Il BPM verrà assegnato alla canzone e salvato.",
     "enterSongBpmHint": "es. 120",

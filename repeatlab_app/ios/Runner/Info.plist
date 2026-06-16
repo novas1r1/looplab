@@ -1,157 +1,168 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>CFBundleDisplayName</key>
-	<string>RepeatLab</string>
-	<key>CFBundleExecutable</key>
-	<string>$(EXECUTABLE_NAME)</string>
-	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundleLocalizations</key>
-	<array>
-		<string>de</string>
-		<string>en</string>
-		<string>es</string>
-		<string>fr</string>
-		<string>it</string>
-		<string>nl</string>
-		<string>pl</string>
-		<string>pt</string>
-		<string>ru</string>
-		<string>sv</string>
-	</array>
-	<key>CFBundleName</key>
-	<string>repeatlab</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
-	<string>$(FLUTTER_BUILD_NAME)</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
-	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSAllowsArbitraryLoads</key>
+		<key>CADisableMinimumFrameDurationOnPhone</key>
 		<true/>
-	</dict>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>This app needs access to your music library to pick audio files.</string>
-	<key>NSCameraUsageDescription</key>
-	<string>This app needs camera access to allow users to take photos when selecting files through the file picker and attach photos to the song.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>The microphone is used to record audio for the app.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app needs access to files in your file system to pick audio files.</string>
-	<key>UIApplicationSceneManifest</key>
-	<dict>
-		<key>UIApplicationSupportsMultipleScenes</key>
+		<key>CFBundleDevelopmentRegion</key>
+		<string>$(DEVELOPMENT_LANGUAGE)</string>
+		<key>CFBundleDisplayName</key>
+		<string>RepeatLab</string>
+		<key>CFBundleExecutable</key>
+		<string>$(EXECUTABLE_NAME)</string>
+		<key>CFBundleIdentifier</key>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+		<key>CFBundleInfoDictionaryVersion</key>
+		<string>6.0</string>
+		<key>CFBundleLocalizations</key>
+		<array>
+			<string>de</string>
+			<string>en</string>
+			<string>es</string>
+			<string>fr</string>
+			<string>it</string>
+			<string>nl</string>
+			<string>pl</string>
+			<string>pt</string>
+			<string>ru</string>
+			<string>sv</string>
+		</array>
+		<key>CFBundleName</key>
+		<string>repeatlab</string>
+		<key>CFBundlePackageType</key>
+		<string>APPL</string>
+		<key>CFBundleShortVersionString</key>
+		<string>$(FLUTTER_BUILD_NAME)</string>
+		<key>CFBundleSignature</key>
+		<string>????</string>
+		<key>CFBundleVersion</key>
+		<string>$(FLUTTER_BUILD_NUMBER)</string>
+		<key>ITSAppUsesNonExemptEncryption</key>
 		<false/>
-		<key>UISceneConfigurations</key>
+		<key>LSRequiresIPhoneOS</key>
+		<true/>
+		<key>NSAppTransportSecurity</key>
 		<dict>
-			<key>UIWindowSceneSessionRoleApplication</key>
-			<array>
-				<dict>
-					<key>UISceneClassName</key>
-					<string>UIWindowScene</string>
-					<key>UISceneConfigurationName</key>
-					<string>flutter</string>
-					<key>UISceneDelegateClassName</key>
-					<string>FlutterSceneDelegate</string>
-					<key>UISceneStoryboardFile</key>
-					<string>Main</string>
-				</dict>
-			</array>
+			<key>NSAllowsArbitraryLoads</key>
+			<true/>
 		</dict>
-	</dict>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>fetch</string>
-		<string>remote-notification</string>
-		<string>audio</string>
-	</array>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
-	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
-	<key>UIStatusBarHidden</key>
-	<false/>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
-	<!-- iOS has no system UTI for mkv/webm; without these imported type
+		<key>NSAppleMusicUsageDescription</key>
+		<string>This app needs access to your music library to pick audio files.</string>
+		<key>NSCameraUsageDescription</key>
+		<string>This app needs camera access to allow users to take photos when selecting files through the file picker and attach photos to the song.</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>The microphone is used to record audio for the app.</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>This app needs access to files in your file system to pick audio files.</string>
+		<key>UIApplicationSceneManifest</key>
+		<dict>
+			<key>UIApplicationSupportsMultipleScenes</key>
+			<false/>
+			<key>UISceneConfigurations</key>
+			<dict>
+				<key>UIWindowSceneSessionRoleApplication</key>
+				<array>
+					<dict>
+						<key>UISceneClassName</key>
+						<string>UIWindowScene</string>
+						<key>UISceneConfigurationName</key>
+						<string>flutter</string>
+						<key>UISceneDelegateClassName</key>
+						<string>FlutterSceneDelegate</string>
+						<key>UISceneStoryboardFile</key>
+						<string>Main</string>
+					</dict>
+				</array>
+			</dict>
+		</dict>
+		<key>UIApplicationSupportsIndirectInputEvents</key>
+		<true/>
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>fetch</string>
+			<string>remote-notification</string>
+			<string>audio</string>
+		</array>
+		<key>UILaunchStoryboardName</key>
+		<string>LaunchScreen</string>
+		<key>UIMainStoryboardFile</key>
+		<string>Main</string>
+		<key>UIStatusBarHidden</key>
+		<false/>
+		<key>UISupportedInterfaceOrientations</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>UISupportedInterfaceOrientations~ipad</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationPortraitUpsideDown</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>UIViewControllerBasedStatusBarAppearance</key>
+		<false/>
+		<!-- iOS has no system UTI for mkv/webm; without these imported type
 	     declarations the file picker silently drops both extensions and the
 	     files are greyed out. Keep in sync with
 	     SongRepository.videoPickerExtensionsIos. -->
-	<key>UTImportedTypeDeclarations</key>
-	<array>
-		<dict>
-			<key>UTTypeIdentifier</key>
-			<string>org.matroska.mkv</string>
-			<key>UTTypeDescription</key>
-			<string>Matroska Video</string>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.movie</string>
-			</array>
-			<key>UTTypeTagSpecification</key>
+		<key>UTImportedTypeDeclarations</key>
+		<array>
 			<dict>
-				<key>public.filename-extension</key>
+				<key>UTTypeIdentifier</key>
+				<string>org.matroska.mkv</string>
+				<key>UTTypeDescription</key>
+				<string>Matroska Video</string>
+				<key>UTTypeConformsTo</key>
 				<array>
-					<string>mkv</string>
+					<string>public.movie</string>
 				</array>
-				<key>public.mime-type</key>
-				<array>
-					<string>video/x-matroska</string>
-				</array>
+				<key>UTTypeTagSpecification</key>
+				<dict>
+					<key>public.filename-extension</key>
+					<array>
+						<string>mkv</string>
+					</array>
+					<key>public.mime-type</key>
+					<array>
+						<string>video/x-matroska</string>
+					</array>
+				</dict>
 			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeIdentifier</key>
-			<string>org.webmproject.webm</string>
-			<key>UTTypeDescription</key>
-			<string>WebM Video</string>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.movie</string>
-			</array>
-			<key>UTTypeTagSpecification</key>
 			<dict>
-				<key>public.filename-extension</key>
+				<key>UTTypeIdentifier</key>
+				<string>org.webmproject.webm</string>
+				<key>UTTypeDescription</key>
+				<string>WebM Video</string>
+				<key>UTTypeConformsTo</key>
 				<array>
-					<string>webm</string>
+					<string>public.movie</string>
 				</array>
-				<key>public.mime-type</key>
-				<array>
-					<string>video/webm</string>
-				</array>
+				<key>UTTypeTagSpecification</key>
+				<dict>
+					<key>public.filename-extension</key>
+					<array>
+						<string>webm</string>
+					</array>
+					<key>public.mime-type</key>
+					<array>
+						<string>video/webm</string>
+					</array>
+				</dict>
 			</dict>
-		</dict>
-	</array>
-</dict>
+		</array>
+		<!-- Posthog Setup.
+		     AUTO_INIT is false so the SDK does NOT capture anything at launch:
+		     it is initialized manually from Dart (see lib/main.dart) only after
+		     checking GDPR analytics consent. Lifecycle/debug are configured via
+		     the Dart PostHogConfig, so the native flags below are no longer used. -->
+		<key>com.posthog.posthog.AUTO_INIT</key>
+		<false/>
+		<key>com.posthog.posthog.PROJECT_TOKEN</key>
+		<string>phc_Bq9ELUiqpUjZM8QvSBR5HXbDbPVzjD2tNdLwy5FkxP4n</string>
+		<key>com.posthog.posthog.POSTHOG_HOST</key>
+		<string>https://eu.i.posthog.com</string>
+	</dict>
 </plist>

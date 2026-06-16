@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:repeatlab/app_bloc_observer.dart';
 import 'package:repeatlab/bootstrap.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -84,6 +85,29 @@ Future<void> _initializeApp() async {
     Clarity.resume();
   } else {
     Clarity.pause();
+  }
+
+  // Initialize PostHog manually (native AUTO_INIT is disabled) so nothing is
+  // captured before the user has consented. `optOut` mirrors the Clarity gating
+  // above: data is only collected in release builds with analytics consent.
+  // Consent changes at runtime flip this via Posthog().enable()/disable() in
+  // LocalConfigRepository.setAnalyticsEnabled.
+  try {
+    await Posthog().setup(
+      PostHogConfig('phc_Bq9ELUiqpUjZM8QvSBR5HXbDbPVzjD2tNdLwy5FkxP4n')
+        ..host = 'https://eu.i.posthog.com'
+        ..debug = kDebugMode
+        ..captureApplicationLifecycleEvents = true
+        ..personProfiles = PostHogPersonProfiles.identifiedOnly
+        ..optOut = !(isAnalyticsEnabled && !kDebugMode),
+    );
+  } catch (error, stackTrace) {
+    await Sentry.captureException(
+      error,
+      stackTrace: stackTrace,
+      hint: Hint.withMap({'location': 'posthog_setup'}),
+    );
+    // Don't rethrow; analytics is not critical to app startup.
   }
 
   // needed if we use just_audio_background

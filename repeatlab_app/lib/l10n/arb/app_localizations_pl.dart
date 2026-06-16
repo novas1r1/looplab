@@ -845,7 +845,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get analyticsDescription =>
-      'Używamy Microsoft Clarity do zbierania danych użytkowania i poprawiania aplikacji. Te dane nie są udostępniane innym stronom.';
+      'Używamy Microsoft Clarity i PostHog do zbierania anonimowych danych o użytkowaniu i ulepszania aplikacji. Twoje dane są przetwarzane w UE i nigdy nie są sprzedawane stronom trzecim.';
 
   @override
   String get enterSongBpm => 'BPM utworu';
