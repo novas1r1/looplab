@@ -16,6 +16,7 @@ void main() {
   late MockSongRepository mockSongRepository;
   late MockFileRepository mockFileRepository;
   late MockCrashReportingRepository mockCrashReportingRepository;
+  late MockLocalConfigRepository mockLocalConfigRepository;
   late StreamController<List<Song>> songsStreamController;
 
   setUpAll(() {
@@ -28,7 +29,14 @@ void main() {
     mockSongRepository = MockSongRepository();
     mockFileRepository = MockFileRepository();
     mockCrashReportingRepository = MockCrashReportingRepository();
+    mockLocalConfigRepository = MockLocalConfigRepository();
     songsStreamController = StreamController<List<Song>>.broadcast();
+
+    // first_song_added already tracked, so the success paths don't try to
+    // mark the milestone (analytics is a no-op in debug tests regardless).
+    when(
+      () => mockLocalConfigRepository.firstSongTracked,
+    ).thenReturn(true);
 
     when(() => mockSongRepository.songs).thenAnswer(
       (_) => songsStreamController.stream,
@@ -53,6 +61,7 @@ void main() {
     songRepository: mockSongRepository,
     fileRepository: mockFileRepository,
     crashReportingRepository: mockCrashReportingRepository,
+    localConfigRepository: mockLocalConfigRepository,
   );
 
   group('AllSongsCubit', () {

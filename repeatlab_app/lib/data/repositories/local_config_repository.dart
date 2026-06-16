@@ -21,6 +21,11 @@ class LocalConfigRepository {
   static const kFullSongRepeatEnabled = 'full_song_repeat_enabled';
   static const kLanguageCode = 'language_code';
 
+  /// One-time activation milestones — used to fire `first_song_added` /
+  /// `first_loop_created` analytics exactly once per install.
+  static const kFirstSongTracked = 'first_song_tracked';
+  static const kFirstLoopTracked = 'first_loop_tracked';
+
   final SharedPreferences sharedPreferences;
 
   const LocalConfigRepository({required this.sharedPreferences});
@@ -60,6 +65,20 @@ class LocalConfigRepository {
 
   Future<void> setHasCompletedTutorial({required bool hasCompleted}) =>
       sharedPreferences.setBool(kHasCompletedTutorial, hasCompleted);
+
+  /// Whether the `first_song_added` activation event has already been sent.
+  bool get firstSongTracked =>
+      sharedPreferences.getBool(kFirstSongTracked) ?? false;
+
+  Future<void> markFirstSongTracked() =>
+      sharedPreferences.setBool(kFirstSongTracked, true);
+
+  /// Whether the `first_loop_created` activation event has already been sent.
+  bool get firstLoopTracked =>
+      sharedPreferences.getBool(kFirstLoopTracked) ?? false;
+
+  Future<void> markFirstLoopTracked() =>
+      sharedPreferences.setBool(kFirstLoopTracked, true);
 
   Future<bool> clear() => sharedPreferences.clear();
 

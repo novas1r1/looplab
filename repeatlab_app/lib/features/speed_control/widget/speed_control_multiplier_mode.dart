@@ -127,7 +127,9 @@ class _SpeedControlMultiplierModeState
     );
 
     try {
-      await context.read<PremiumSubscriptionCubit>().presentPaywall();
+      await context.read<PremiumSubscriptionCubit>().presentPaywall(
+        source: 'song_speed',
+      );
     } finally {
       if (mounted) {
         _paywallShowing = false;

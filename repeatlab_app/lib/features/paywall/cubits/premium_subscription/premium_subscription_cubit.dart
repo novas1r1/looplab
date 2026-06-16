@@ -127,7 +127,14 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
     }
   }
 
-  Future<void> presentPaywall({bool ifNeeded = true}) async {
+  /// Presents the RevenueCat paywall. [source] identifies what triggered it
+  /// (e.g. `onboarding`, `drawer`, `song_loops`, `song_speed`, `backup`) and is
+  /// attached to the `purchase_success` / `paywall_dismissed` analytics so we
+  /// can see which trigger converts best.
+  Future<void> presentPaywall({
+    bool ifNeeded = true,
+    String source = 'unknown',
+  }) async {
     if (Platform.isWindows) {
       emit(
         state.copyWith(
@@ -140,16 +147,17 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
 
     final wasPremium = hasPremium;
 
+    final PaywallResult result;
     if (ifNeeded) {
-      await RevenueCatUI.presentPaywallIfNeeded("Pro");
+      result = await RevenueCatUI.presentPaywallIfNeeded("Pro");
     } else {
-      await RevenueCatUI.presentPaywall();
+      result = await RevenueCatUI.presentPaywall();
     }
     await checkStatus();
 
     // A non-premium -> premium transition right after the paywall is a
-    // purchase. This is the step 2 of the monetization funnel (step 1 being
-    // the various `view_paywall_from_*` / `show_paywall_*` open events).
+    // purchase. This is step 2 of the monetization funnel (step 1 being the
+    // various `view_paywall_from_*` / `show_paywall_*` open events).
     if (!wasPremium && hasPremium) {
       AppAnalytics.trackEvent(
         AppAnalytics.purchaseSuccess,
@@ -161,7 +169,13 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
               : state.hasYearlySubscription
               ? 'yearly'
               : 'unknown',
+          'paywall_source': source,
         },
+      );
+    } else if (result == PaywallResult.cancelled) {
+      AppAnalytics.trackEvent(
+        AppAnalytics.paywallDismissed,
+        data: {'source': source},
       );
     }
   }

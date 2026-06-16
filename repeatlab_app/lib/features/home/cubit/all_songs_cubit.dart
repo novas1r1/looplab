@@ -7,6 +7,7 @@ import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/file_repository.dart';
+import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 
 part 'all_songs_cubit.mapper.dart';
@@ -16,6 +17,7 @@ class AllSongsCubit extends Cubit<AllSongsState> {
   final SongRepository songRepository;
   final FileRepository fileRepository;
   final CrashReportingRepository crashReportingRepository;
+  final LocalConfigRepository localConfigRepository;
 
   StreamSubscription<List<Song>>? _songSubscription;
 
@@ -23,6 +25,7 @@ class AllSongsCubit extends Cubit<AllSongsState> {
     required this.songRepository,
     required this.fileRepository,
     required this.crashReportingRepository,
+    required this.localConfigRepository,
   }) : super(const AllSongsState()) {
     _songSubscription = songRepository.songs.listen((songs) {
       emit(state.copyWith(songs: songs));
@@ -61,7 +64,11 @@ class AllSongsCubit extends Cubit<AllSongsState> {
       }
 
       await songRepository.addSongFile(file);
-      AppAnalytics.trackEvent(AppAnalytics.songAddSuccess);
+      AppAnalytics.trackEvent(
+        AppAnalytics.songAddSuccess,
+        data: {'source': 'audio_file', 'format': _fileFormat(file)},
+      );
+      await _trackFirstSongIfNeeded();
       await loadSongs();
     } on UnsupportedAudioFormatException catch (ex, stack) {
       crashReportingRepository.reportError(
@@ -129,8 +136,9 @@ class AllSongsCubit extends Cubit<AllSongsState> {
       await songRepository.addVideoFile(file);
       AppAnalytics.trackEvent(
         AppAnalytics.songAddSuccess,
-        data: {'kind': 'video'},
+        data: {'source': 'video', 'format': _fileFormat(file)},
       );
+      await _trackFirstSongIfNeeded();
       await loadSongs();
     } on UnsupportedVideoFormatException catch (ex, stack) {
       crashReportingRepository.reportError(
@@ -159,6 +167,22 @@ class AllSongsCubit extends Cubit<AllSongsState> {
         ),
       );
     }
+  }
+
+  /// Lowercased file extension (e.g. `mp3`, `mp4`) used as the `format`
+  /// property on `song_add_success`. Falls back to `unknown` when absent.
+  String _fileFormat(File file) {
+    final name = file.path;
+    final dot = name.lastIndexOf('.');
+    if (dot == -1 || dot == name.length - 1) return 'unknown';
+    return name.substring(dot + 1).toLowerCase();
+  }
+
+  /// Fires the `first_song_added` activation event exactly once per install.
+  Future<void> _trackFirstSongIfNeeded() async {
+    if (localConfigRepository.firstSongTracked) return;
+    AppAnalytics.trackEvent(AppAnalytics.firstSongAdded);
+    await localConfigRepository.markFirstSongTracked();
   }
 
   Future<bool> clearDb() async {

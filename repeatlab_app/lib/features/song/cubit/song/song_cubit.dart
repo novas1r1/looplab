@@ -8,6 +8,7 @@ import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/cubit_extension.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
@@ -745,6 +746,14 @@ class SongCubit extends Cubit<SongState> {
           error: null,
         ),
       );
+
+      // Activation analytics: a loop was actually created (vs. just tapping
+      // "add loop"). `loop_count` is the total loops on the song afterwards.
+      AppAnalytics.trackEvent(
+        AppAnalytics.loopCreated,
+        data: {'loop_count': updatedSong.loops.length},
+      );
+      await _trackFirstLoopIfNeeded();
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
       emit(
@@ -754,6 +763,13 @@ class SongCubit extends Cubit<SongState> {
         ),
       );
     }
+  }
+
+  /// Fires the `first_loop_created` activation event exactly once per install.
+  Future<void> _trackFirstLoopIfNeeded() async {
+    if (localConfigRepository.firstLoopTracked) return;
+    AppAnalytics.trackEvent(AppAnalytics.firstLoopCreated);
+    await localConfigRepository.markFirstLoopTracked();
   }
 
   Future<void> updateLoop(Loop updatedLoop) async {

@@ -84,6 +84,12 @@ class _PremiumLoadedState extends State<_PremiumLoaded> {
   PlanPeriod _selectedPlan = PlanPeriod.yearly;
 
   @override
+  void initState() {
+    super.initState();
+    AppAnalytics.trackEvent(AppAnalytics.viewPremiumScreen);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final bool isApple = Platform.isIOS;
 

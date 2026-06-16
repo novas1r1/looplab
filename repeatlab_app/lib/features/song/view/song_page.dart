@@ -791,7 +791,9 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
         }
       } else {
         AppAnalytics.trackEvent(AppAnalytics.showPaywallSongLoops);
-        await context.read<PremiumSubscriptionCubit>().presentPaywall();
+        await context.read<PremiumSubscriptionCubit>().presentPaywall(
+          source: 'song_loops',
+        );
       }
     } else {
       final loopEnd = activeLoop.end;
@@ -999,7 +1001,9 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
 
   Future<void> _presentLoopPaywall(BuildContext context) async {
     AppAnalytics.trackEvent(AppAnalytics.showPaywallSongLoops);
-    await context.read<PremiumSubscriptionCubit>().presentPaywall();
+    await context.read<PremiumSubscriptionCubit>().presentPaywall(
+      source: 'song_loops',
+    );
   }
 
   /// If user already has added one loop, show paywall if not already purchased
@@ -1015,7 +1019,9 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
       context.read<SongCubit>().addLoop();
     } else {
       AppAnalytics.trackEvent(AppAnalytics.showPaywallSongLoops);
-      await context.read<PremiumSubscriptionCubit>().presentPaywall();
+      await context.read<PremiumSubscriptionCubit>().presentPaywall(
+        source: 'song_loops',
+      );
     }
   }
 

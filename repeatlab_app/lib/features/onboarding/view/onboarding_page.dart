@@ -238,7 +238,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
         AppAnalytics.trackEvent(AppAnalytics.viewPaywallFromOnboarding);
 
         try {
-          await context.read<PremiumSubscriptionCubit>().presentPaywall();
+          await context.read<PremiumSubscriptionCubit>().presentPaywall(
+            source: 'onboarding',
+          );
         } catch (e) {
           log('error presenting paywall: $e');
         }

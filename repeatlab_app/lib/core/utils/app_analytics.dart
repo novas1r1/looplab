@@ -113,8 +113,14 @@ abstract final class AppAnalytics {
   static const onboardingAnalyticsAccepted = 'onboarding_analytics_accepted';
   static const onboardingAnalyticsDeclined = 'onboarding_analytics_declined';
 
+  // activation milestones
+  static const loopCreated = 'loop_created';
+  static const firstSongAdded = 'first_song_added';
+  static const firstLoopCreated = 'first_loop_created';
+
   // monetization
   static const purchaseSuccess = 'purchase_success';
+  static const paywallDismissed = 'paywall_dismissed';
 
   static void trackEvent(
     String event, {

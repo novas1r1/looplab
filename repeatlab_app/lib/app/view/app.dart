@@ -71,6 +71,7 @@ class App extends StatelessWidget {
               fileRepository: context.read<FileRepository>(),
               crashReportingRepository: context
                   .read<CrashReportingRepository>(),
+              localConfigRepository: context.read<LocalConfigRepository>(),
             )..loadSongs(),
           ),
           BlocProvider(

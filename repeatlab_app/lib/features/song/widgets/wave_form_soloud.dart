@@ -300,7 +300,9 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
       _showZoomControls();
     } else {
       if (!context.mounted) return;
-      await context.read<PremiumSubscriptionCubit>().presentPaywall();
+      await context.read<PremiumSubscriptionCubit>().presentPaywall(
+        source: 'waveform_zoom',
+      );
     }
   }
 
@@ -366,7 +368,9 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
       _showZoomControls();
     } else {
       if (!context.mounted) return;
-      await context.read<PremiumSubscriptionCubit>().presentPaywall();
+      await context.read<PremiumSubscriptionCubit>().presentPaywall(
+        source: 'waveform_zoom',
+      );
     }
   }
 

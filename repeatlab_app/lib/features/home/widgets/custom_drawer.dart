@@ -127,7 +127,7 @@ class CustomDrawer extends StatelessWidget {
                         );
                         await context
                             .read<PremiumSubscriptionCubit>()
-                            .presentPaywall();
+                            .presentPaywall(source: 'drawer');
                       },
                     ),
                 ],
@@ -319,6 +319,7 @@ class CustomDrawer extends StatelessWidget {
                                     .read<PremiumSubscriptionCubit>()
                                     .presentPaywall(
                                       ifNeeded: false,
+                                      source: 'debug_drawer',
                                     );
                               },
                               child: const Text('Open Paywall'),
