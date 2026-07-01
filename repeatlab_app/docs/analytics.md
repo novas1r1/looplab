@@ -182,7 +182,7 @@ Canonical funnel:
 ```
 Application Opened            (PostHog lifecycle autocapture)
   → first_loop_created        (activation, client)
-  → <RC paywall event>        (paywall viewed — see note)
+  → paywall_viewed            (client, with `trigger` property)
   → rc_trial_started_event    (trial, RevenueCat)
   → rc_trial_converted_event OR rc_initial_purchase_event OR
     rc_non_subscription_purchase_event   (purchase, RevenueCat)
@@ -219,10 +219,10 @@ server-side.
 | Funnel stage | Client event(s) | Key properties |
 |---|---|---|
 | App start | `Application Opened` (autocapture) | `$os`, `$app_version` |
-| Onboarding | `onboarding_completed`, `onboarding_analytics_accepted/declined` | — |
+| Onboarding | `onboarding_started`, `onboarding_completed`, `onboarding_analytics_accepted` | — |
 | Activation | `loop_created`, `first_loop_created`, `first_song_added`, `song_add_success` | `loop_count`, `source`, `format` |
 | Core usage | `click_play_song/loop`, `click_stop_loop`, `click_pause_song`, `click_update_speed` | context |
-| Paywall viewed | `view_paywall_from_drawer/onboarding/backup`, `show_paywall_song_loops/song_speed`, `view_premium_screen` | — |
+| Paywall viewed | **`paywall_viewed`** (unified) | `trigger` (`drawer`/`onboarding`/`backup`/`song_loops`/`song_speed`/`premium_screen`) |
 | Purchase (client mirror) | `purchase_success` | `tier`, `paywall_source` |
 | Restore | `restore_subscription_success/failure` | `tier`, `reason` |
 
@@ -235,15 +235,18 @@ server `rc_initial_purchase_event` / `rc_trial_converted_event`.
 - Keep `purchase_success` only for in-session `paywall_source` attribution.
 - **Never** combine both in one revenue chart — you'd double count.
 
-Similarly, "paywall viewed" has client `view_paywall_from_*` events plus RC's
-paywall event. For the purchase funnel prefer the RC paywall event; use the
-client events for gates that don't open the RC paywall.
+For "paywall viewed" use the unified **`paywall_viewed`** event (property
+`trigger`). It is emitted centrally in `PremiumSubscriptionCubit.presentPaywall`
+for every RC-paywall entry point (drawer/onboarding/backup/song_loops/song_speed)
+— only when the paywall was actually shown (`PaywallResult.notPresented` is
+skipped) — plus once for the custom `PremiumScreen` (`trigger: premium_screen`).
+The legacy `view_paywall_from_*` / `show_paywall_*` events have been removed.
 
 ---
 
 ## 8. Building insights in PostHog
 
-- **Funnel:** `Application Opened` → `first_loop_created` → `<RC paywall event>`
+- **Funnel:** `Application Opened` → `first_loop_created` → `paywall_viewed`
   → `rc_trial_started_event` → (`rc_trial_converted_event` OR
   `rc_initial_purchase_event` OR `rc_non_subscription_purchase_event`).
 - **Retention:** based on `Application Opened`, anonymous `distinct_id` (stable).
@@ -272,15 +275,12 @@ Run on a **profile/release build** with analytics consent accepted:
 
 ## 10. Known gaps / backlog
 
-- **`onboarding_started`** not tracked (only completion).
 - **Decline is unmeasurable** — a user who declines analytics stays opted out, so
   `onboarding_analytics_declined` can never be delivered. Decline rate can't be
   measured client-side under strict consent (by design). The constant remains
   but is intentionally no longer emitted (`onboarding_page.dart`).
 - **Client `purchase_success`** lacks `price`/`currency`/`product_id`/`is_trial`
   — intentionally superseded by the `rc_*` events for revenue.
-- **Fragmented `paywall_viewed`** — 6 client event names; consider a single
-  `paywall_viewed` with a `trigger` property.
 - **Dev/prod key separation** — one public key across debug & release (debug is
   opted out + early-returns, so no test traffic reaches prod).
 

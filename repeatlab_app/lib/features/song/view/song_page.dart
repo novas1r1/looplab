@@ -790,7 +790,6 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
           context.read<SongCubit>().setLoopStart();
         }
       } else {
-        AppAnalytics.trackEvent(AppAnalytics.showPaywallSongLoops);
         await context.read<PremiumSubscriptionCubit>().presentPaywall(
           source: 'song_loops',
         );
@@ -1000,7 +999,6 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
   }
 
   Future<void> _presentLoopPaywall(BuildContext context) async {
-    AppAnalytics.trackEvent(AppAnalytics.showPaywallSongLoops);
     await context.read<PremiumSubscriptionCubit>().presentPaywall(
       source: 'song_loops',
     );
@@ -1018,7 +1016,6 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
         context.read<SongCubit>().state.song.loops.isEmpty) {
       context.read<SongCubit>().addLoop();
     } else {
-      AppAnalytics.trackEvent(AppAnalytics.showPaywallSongLoops);
       await context.read<PremiumSubscriptionCubit>().presentPaywall(
         source: 'song_loops',
       );

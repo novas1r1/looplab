@@ -259,11 +259,6 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
     if (_paywallShowing) return;
     _paywallShowing = true;
 
-    AppAnalytics.trackEvent(
-      AppAnalytics.showPaywallSongSpeed,
-      data: {'from': 'speed_control_bpm'},
-    );
-
     try {
       await context.read<PremiumSubscriptionCubit>().presentPaywall(
         source: 'song_speed',

@@ -31,6 +31,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   void initState() {
     super.initState();
     AppAnalytics.trackEvent(AppAnalytics.viewOnboarding);
+    AppAnalytics.trackEvent(AppAnalytics.onboardingStarted);
   }
 
   @override
@@ -239,7 +240,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
           !hasYearlySubscription &&
           !hasLifetimePurchased) {
         log('no subscription or lifetime purchase');
-        AppAnalytics.trackEvent(AppAnalytics.viewPaywallFromOnboarding);
 
         try {
           await context.read<PremiumSubscriptionCubit>().presentPaywall(

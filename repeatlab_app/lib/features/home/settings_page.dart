@@ -259,9 +259,6 @@ class _BackupTiles extends StatelessWidget {
               ? null
               : () {
                   if (!hasPremium) {
-                    AppAnalytics.trackEvent(
-                      AppAnalytics.viewPaywallFromBackup,
-                    );
                     context.read<PremiumSubscriptionCubit>().presentPaywall(
                       source: 'backup',
                     );
@@ -276,7 +273,6 @@ class _BackupTiles extends StatelessWidget {
 
   Future<void> _handleExportTap(BuildContext context, bool hasPremium) async {
     if (!hasPremium) {
-      AppAnalytics.trackEvent(AppAnalytics.viewPaywallFromBackup);
       context.read<PremiumSubscriptionCubit>().presentPaywall(
         source: 'backup',
       );

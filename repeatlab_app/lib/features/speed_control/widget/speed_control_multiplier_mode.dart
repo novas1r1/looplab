@@ -121,11 +121,6 @@ class _SpeedControlMultiplierModeState
     if (_paywallShowing) return;
     _paywallShowing = true;
 
-    AppAnalytics.trackEvent(
-      AppAnalytics.showPaywallSongSpeed,
-      data: {'from': 'speed_control_multiplier'},
-    );
-
     try {
       await context.read<PremiumSubscriptionCubit>().presentPaywall(
         source: 'song_speed',

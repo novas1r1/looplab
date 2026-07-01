@@ -9,8 +9,6 @@ abstract final class AppAnalytics {
   // screens
   static const viewHome = 'view_home';
   static const viewSong = 'view_song';
-  static const viewPaywallFromDrawer = 'view_paywall_from_drawer';
-  static const viewPaywallFromOnboarding = 'view_paywall_from_onboarding';
   static const viewFeedback = 'view_feedback';
   static const viewRateApp = 'view_rate_app';
   static const viewDataProtection = 'view_data_protection';
@@ -82,9 +80,11 @@ abstract final class AppAnalytics {
   static const songAddUnsupportedFormat = 'song_add_unsupported_format';
 
   // paywall
-  static const showPaywallSongLoops = 'show_paywall_song_loops';
-  static const showPaywallSongSpeed = 'show_paywall_song_speed';
-  static const viewPaywallFromBackup = 'view_paywall_from_backup';
+
+  /// Unified paywall-view funnel event, carrying a `trigger` property so a
+  /// single funnel step covers every paywall entry point. Fired via
+  /// [trackPaywallViewed].
+  static const paywallViewed = 'paywall_viewed';
 
   // backup & restore
   static const clickBackupExport = 'click_backup_export';
@@ -109,6 +109,7 @@ abstract final class AppAnalytics {
   static const changeLanguage = 'change_language';
 
   // onboarding
+  static const onboardingStarted = 'onboarding_started';
   static const onboardingCompleted = 'onboarding_completed';
   static const onboardingAnalyticsAccepted = 'onboarding_analytics_accepted';
   static const onboardingAnalyticsDeclined = 'onboarding_analytics_declined';
@@ -170,6 +171,14 @@ abstract final class AppAnalytics {
         log('Error registering is_premium: $error');
       },
     );
+  }
+
+  /// Fires the unified [paywallViewed] funnel event with a `trigger` property
+  /// (e.g. `drawer`, `onboarding`, `backup`, `song_loops`, `song_speed`,
+  /// `premium_screen`), so a single funnel step covers every paywall entry
+  /// point.
+  static void trackPaywallViewed({required String trigger}) {
+    trackEvent(paywallViewed, data: {'trigger': trigger});
   }
 
   /// PostHog's `capture` expects `Map<String, Object>` (non-null values), but

@@ -122,9 +122,6 @@ class CustomDrawer extends StatelessWidget {
                       leading: const Icon(Icons.shopping_cart),
                       title: Text(context.l10n.buyRepeatLabPro),
                       onTap: () async {
-                        AppAnalytics.trackEvent(
-                          AppAnalytics.viewPaywallFromDrawer,
-                        );
                         await context
                             .read<PremiumSubscriptionCubit>()
                             .presentPaywall(source: 'drawer');

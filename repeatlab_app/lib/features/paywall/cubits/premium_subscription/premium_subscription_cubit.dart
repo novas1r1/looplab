@@ -181,9 +181,17 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
     }
     await checkStatus();
 
+    // Unified paywall-view funnel event, emitted centrally for every entry
+    // point (all sites call this with `source` as the trigger). `notPresented`
+    // means the user was already entitled and the paywall never showed, so we
+    // skip it to keep the funnel honest.
+    if (result != PaywallResult.notPresented) {
+      AppAnalytics.trackPaywallViewed(trigger: source);
+    }
+
     // A non-premium -> premium transition right after the paywall is a
     // purchase. This is step 2 of the monetization funnel (step 1 being the
-    // various `view_paywall_from_*` / `show_paywall_*` open events).
+    // unified `paywall_viewed` event emitted just above).
     if (!wasPremium && hasPremium) {
       AppAnalytics.trackEvent(
         AppAnalytics.purchaseSuccess,
