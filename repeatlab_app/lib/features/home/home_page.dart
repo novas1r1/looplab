@@ -155,7 +155,7 @@ class _HomePageState extends State<HomePage> {
                 return ReorderableListView.builder(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 92),
                   itemCount: state.songs.length,
-                  onReorder: (int oldIndex, int newIndex) {
+                  onReorderItem: (int oldIndex, int newIndex) {
                     context.read<AllSongsCubit>().reorderSongs(
                       oldIndex,
                       newIndex,

@@ -13,7 +13,9 @@ class FileRepository {
 
   const FileRepository({required this.filePicker});
 
-  Future<File?> pickSingleAudioFile() async {
+  /// Pick one or more audio files and copy each into the app documents
+  /// directory. Returns an empty list when the user cancels the picker.
+  Future<List<File>> pickAudioFiles() async {
     FilePickerResult? result;
 
     if (Platform.isIOS) {
@@ -33,6 +35,7 @@ class FileRepository {
           'opus',
           'aiff',
         ],
+        allowMultiple: true,
       );
       // this only shows files in mediathek
       // result = await filePicker.pickFiles(
@@ -45,6 +48,7 @@ class FileRepository {
         // filepicking for FileType.audio is not working. It displays all files in the system.
         result = await filePicker.pickFiles(
           type: FileType.audio,
+          allowMultiple: true,
         );
 
         /* result = await filePicker.pickFiles(
@@ -57,49 +61,33 @@ class FileRepository {
       }
     }
 
-    if (result == null || result.files.isEmpty) {
-      return null;
-    }
-
-    final pickedFile = result.files.single;
-    final rawPath = pickedFile.path;
-    if (rawPath == null || rawPath.isEmpty) {
-      return null;
-    }
-
-    final sourceFile = File(_normalizePickedPath(rawPath));
-
-    // copy file to app directory
-    final appDir = await getApplicationDocumentsDirectory();
-    final fileName = _resolveFileName(pickedFile.name, sourceFile.path);
-    final destinationPath = p.join(appDir.path, fileName);
-    final newFile = File(destinationPath);
-    await sourceFile.copy(newFile.path);
-
-    return newFile;
+    return _copyPickedFiles(result);
   }
 
-  /// Pick a single video file and copy it into the app documents directory.
+  /// Pick one or more video files and copy each into the app documents
+  /// directory. Returns an empty list when the user cancels the picker.
   ///
-  /// Mirrors [pickSingleAudioFile] for video formats supported by media_kit
+  /// Mirrors [pickAudioFiles] for video formats supported by media_kit
   /// (libmpv), see [SongRepository.videoPickerExtensions].
   ///
   /// iOS must use `FileType.custom` with explicit extensions: `FileType.video`
   /// would open the Photos library picker instead of the Files browser.
   /// Android must use `FileType.video`: with `FileType.custom`, files whose
   /// document provider reports an unexpected MIME type would be greyed out.
-  Future<File?> pickSingleVideoFile() async {
+  Future<List<File>> pickVideoFiles() async {
     FilePickerResult? result;
 
     if (Platform.isIOS) {
       result = await filePicker.pickFiles(
         type: FileType.custom,
         allowedExtensions: SongRepository.videoPickerExtensionsIos,
+        allowMultiple: true,
       );
     } else {
       try {
         result = await filePicker.pickFiles(
           type: FileType.video,
+          allowMultiple: true,
         );
       } on PlatformException catch (e) {
         log('Error picking video file: $e');
@@ -107,39 +95,35 @@ class FileRepository {
       }
     }
 
-    if (result == null || result.files.isEmpty) {
-      return null;
-    }
-
-    final pickedFile = result.files.single;
-    final rawPath = pickedFile.path;
-    if (rawPath == null || rawPath.isEmpty) {
-      return null;
-    }
-
-    final sourceFile = File(_normalizePickedPath(rawPath));
-
-    // copy file to app directory
-    final appDir = await getApplicationDocumentsDirectory();
-    final fileName = _resolveFileName(pickedFile.name, sourceFile.path);
-    final destinationPath = p.join(appDir.path, fileName);
-    final newFile = File(destinationPath);
-    await sourceFile.copy(newFile.path);
-
-    return newFile;
+    return _copyPickedFiles(result);
   }
 
-  Future<List<File>> pickMultipleAudioFiles() async {
-    final result = await filePicker.pickFiles(
-      type: FileType.audio,
-      allowMultiple: true,
-    );
-
-    if (result == null) {
+  /// Copy every picked file into the app documents directory, preserving the
+  /// original file name. Files without a resolvable path are skipped.
+  Future<List<File>> _copyPickedFiles(FilePickerResult? result) async {
+    if (result == null || result.files.isEmpty) {
       return [];
     }
 
-    return result.paths.whereType<String>().map(_normalizePickedPath).map(File.new).toList();
+    final appDir = await getApplicationDocumentsDirectory();
+    final copiedFiles = <File>[];
+
+    for (final pickedFile in result.files) {
+      final rawPath = pickedFile.path;
+      if (rawPath == null || rawPath.isEmpty) {
+        continue;
+      }
+
+      final sourceFile = File(_normalizePickedPath(rawPath));
+      final fileName = _resolveFileName(pickedFile.name, sourceFile.path);
+      final destinationPath = p.join(appDir.path, fileName);
+      final newFile = File(destinationPath);
+      await sourceFile.copy(newFile.path);
+
+      copiedFiles.add(newFile);
+    }
+
+    return copiedFiles;
   }
 }
 

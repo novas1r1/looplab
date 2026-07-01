@@ -52,120 +52,162 @@ class AllSongsCubit extends Cubit<AllSongsState> {
   Future<void> addSong() async {
     emit(state.copyWith(status: AllSongsStatus.loading));
 
-    File? file;
-
+    List<File> files;
     try {
-      file = await fileRepository.pickSingleAudioFile();
-
-      if (file == null) {
-        emit(state.copyWith(status: AllSongsStatus.initial));
-
-        return;
-      }
-
-      await songRepository.addSongFile(file);
-      AppAnalytics.trackEvent(
-        AppAnalytics.songAddSuccess,
-        data: {'source': 'audio_file', 'format': _fileFormat(file)},
-      );
-      await _trackFirstSongIfNeeded();
-      await loadSongs();
-    } on UnsupportedAudioFormatException catch (ex, stack) {
-      crashReportingRepository.reportError(
-        ex,
-        stack,
-        properties: {'file': file?.path},
-      );
-      emit(
-        state.copyWith(
-          status: AllSongsStatus.error,
-          errorMessage: ex.format,
-        ),
-      );
-    } on AudioFileLoadException catch (ex, stack) {
-      // A supported format that still failed to load — report the diagnostic
-      // context as structured properties so we can pin down the cause.
-      crashReportingRepository.reportError(
-        ex,
-        stack,
-        properties: {
-          'file': file?.path,
-          'fileName': ex.fileName,
-          'extension': ex.extension,
-          'exists': ex.exists,
-          'sizeBytes': ex.sizeBytes,
-          'cause': ex.cause,
-        },
-      );
-      emit(
-        state.copyWith(
-          status: AllSongsStatus.error,
-          errorMessage: ex.toString(),
-        ),
-      );
+      files = await fileRepository.pickAudioFiles();
     } catch (ex, stack) {
-      crashReportingRepository.reportError(
-        ex,
-        stack,
-        properties: {
-          'file': file?.path,
-        },
-      );
-      emit(
-        state.copyWith(
-          status: AllSongsStatus.error,
-          errorMessage: ex.toString(),
-        ),
-      );
+      crashReportingRepository.reportError(ex, stack);
+      emit(state.copyWith(status: AllSongsStatus.error));
+      return;
     }
+
+    if (files.isEmpty) {
+      emit(state.copyWith(status: AllSongsStatus.initial));
+      return;
+    }
+
+    var addedAny = false;
+    // First failure encountered across the batch. Successfully added files are
+    // still imported; the failure is surfaced after the whole batch is done.
+    AllSongsStatus? failureStatus;
+    String? failureMessage;
+
+    for (final file in files) {
+      try {
+        await songRepository.addSongFile(file);
+        addedAny = true;
+        AppAnalytics.trackEvent(
+          AppAnalytics.songAddSuccess,
+          data: {'source': 'audio_file', 'format': _fileFormat(file)},
+        );
+      } on UnsupportedAudioFormatException catch (ex, stack) {
+        crashReportingRepository.reportError(
+          ex,
+          stack,
+          properties: {'file': file.path},
+        );
+        failureStatus ??= AllSongsStatus.error;
+        failureMessage ??= ex.format;
+      } on AudioFileLoadException catch (ex, stack) {
+        // A supported format that still failed to load — report the diagnostic
+        // context as structured properties so we can pin down the cause.
+        crashReportingRepository.reportError(
+          ex,
+          stack,
+          properties: {
+            'file': file.path,
+            'fileName': ex.fileName,
+            'extension': ex.extension,
+            'exists': ex.exists,
+            'sizeBytes': ex.sizeBytes,
+            'cause': ex.cause,
+          },
+        );
+        failureStatus ??= AllSongsStatus.error;
+        failureMessage ??= ex.toString();
+      } catch (ex, stack) {
+        crashReportingRepository.reportError(
+          ex,
+          stack,
+          properties: {'file': file.path},
+        );
+        failureStatus ??= AllSongsStatus.error;
+        failureMessage ??= ex.toString();
+      }
+    }
+
+    if (addedAny) {
+      await _trackFirstSongIfNeeded();
+    }
+
+    await _finishBatch(failureStatus, failureMessage);
   }
 
   Future<void> addVideo() async {
     emit(state.copyWith(status: AllSongsStatus.loading));
 
-    File? file;
-
+    List<File> files;
     try {
-      file = await fileRepository.pickSingleVideoFile();
-
-      if (file == null) {
-        emit(state.copyWith(status: AllSongsStatus.initial));
-        return;
-      }
-
-      await songRepository.addVideoFile(file);
-      AppAnalytics.trackEvent(
-        AppAnalytics.songAddSuccess,
-        data: {'source': 'video', 'format': _fileFormat(file)},
-      );
-      await _trackFirstSongIfNeeded();
-      await loadSongs();
-    } on UnsupportedVideoFormatException catch (ex, stack) {
-      crashReportingRepository.reportError(
-        ex,
-        stack,
-        properties: {'file': file?.path},
-      );
-      emit(
-        state.copyWith(
-          status: AllSongsStatus.errorVideoFormat,
-          errorMessage: ex.format,
-        ),
-      );
+      files = await fileRepository.pickVideoFiles();
     } catch (ex, stack) {
-      crashReportingRepository.reportError(
-        ex,
-        stack,
-        properties: {
-          'file': file?.path,
-        },
-      );
+      crashReportingRepository.reportError(ex, stack);
+      emit(state.copyWith(status: AllSongsStatus.error));
+      return;
+    }
+
+    if (files.isEmpty) {
+      emit(state.copyWith(status: AllSongsStatus.initial));
+      return;
+    }
+
+    var addedAny = false;
+    AllSongsStatus? failureStatus;
+    String? failureMessage;
+
+    for (final file in files) {
+      try {
+        await songRepository.addVideoFile(file);
+        addedAny = true;
+        AppAnalytics.trackEvent(
+          AppAnalytics.songAddSuccess,
+          data: {'source': 'video', 'format': _fileFormat(file)},
+        );
+      } on UnsupportedVideoFormatException catch (ex, stack) {
+        crashReportingRepository.reportError(
+          ex,
+          stack,
+          properties: {'file': file.path},
+        );
+        failureStatus ??= AllSongsStatus.errorVideoFormat;
+        failureMessage ??= ex.format;
+      } catch (ex, stack) {
+        crashReportingRepository.reportError(
+          ex,
+          stack,
+          properties: {'file': file.path},
+        );
+        failureStatus ??= AllSongsStatus.error;
+        failureMessage ??= ex.toString();
+      }
+    }
+
+    if (addedAny) {
+      await _trackFirstSongIfNeeded();
+    }
+
+    await _finishBatch(failureStatus, failureMessage);
+  }
+
+  /// Refresh the song list, then emit either the first failure encountered
+  /// during the batch or a clean `loaded` state when everything succeeded.
+  Future<void> _finishBatch(
+    AllSongsStatus? failureStatus,
+    String? failureMessage,
+  ) async {
+    List<Song> songs;
+    try {
+      songs = await songRepository.getAllSongs();
+    } catch (ex, stack) {
+      crashReportingRepository.reportError(ex, stack);
       emit(
         state.copyWith(
           status: AllSongsStatus.error,
           errorMessage: ex.toString(),
         ),
       );
+      return;
+    }
+
+    if (failureStatus != null) {
+      emit(
+        state.copyWith(
+          status: failureStatus,
+          songs: songs,
+          errorMessage: failureMessage,
+        ),
+      );
+    } else {
+      emit(state.copyWith(status: AllSongsStatus.loaded, songs: songs));
     }
   }
 

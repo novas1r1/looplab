@@ -49,8 +49,7 @@ class SongPage extends StatelessWidget {
             create: (context) => VideoSongCubit(
               songRepository: context.read<SongRepository>(),
               localConfigRepository: context.read<LocalConfigRepository>(),
-              crashReportingRepository: context
-                  .read<CrashReportingRepository>(),
+              crashReportingRepository: context.read<CrashReportingRepository>(),
               song: song,
             )..initVideo(),
           )
@@ -59,8 +58,7 @@ class SongPage extends StatelessWidget {
             create: (context) => SongCubit(
               songRepository: context.read<SongRepository>(),
               localConfigRepository: context.read<LocalConfigRepository>(),
-              crashReportingRepository: context
-                  .read<CrashReportingRepository>(),
+              crashReportingRepository: context.read<CrashReportingRepository>(),
               song: song,
             )..initSong(AudioPlayer()),
           ),
@@ -132,8 +130,7 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
     // NOT inactive — that fires on transient focus changes (e.g. clicking
     // a button on Windows, control-center swipe on iOS) while the app is
     // still visible; pausing on it would defeat user-initiated playback.
-    if (state == AppLifecycleState.paused ||
-        state == AppLifecycleState.hidden) {
+    if (state == AppLifecycleState.paused || state == AppLifecycleState.hidden) {
       context.read<SongCubit>().pauseSong();
     }
   }
@@ -262,11 +259,7 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                               song: widget.song,
                             ),
                           const SizedBox(height: 8),
-                          BlocSelector<
-                            PremiumSubscriptionCubit,
-                            PremiumSubscriptionState,
-                            bool
-                          >(
+                          BlocSelector<PremiumSubscriptionCubit, PremiumSubscriptionState, bool>(
                             selector: (state) =>
                                 state.hasWeeklySubscription ||
                                 state.hasYearlySubscription ||
@@ -274,24 +267,15 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                             builder: (context, hasPremium) {
                               return LoopTimeline(
                                 key: tutorialKeyLoopTimeline,
-                                onLoopTap: (loop) =>
-                                    context.read<SongCubit>().selectLoop(loop),
-                                onSkipPrevious: () => context
-                                    .read<SongCubit>()
-                                    .skipToPreviousOrRestart(),
-                                onSkipNext: () =>
-                                    context.read<SongCubit>().skipToNextLoop(),
-                                onSeek: (position) => context
-                                    .read<SongCubit>()
-                                    .seekSong(position),
+                                onLoopTap: (loop) => context.read<SongCubit>().selectLoop(loop),
+                                onSkipPrevious: () =>
+                                    context.read<SongCubit>().skipToPreviousOrRestart(),
+                                onSkipNext: () => context.read<SongCubit>().skipToNextLoop(),
+                                onSeek: (position) => context.read<SongCubit>().seekSong(position),
                                 duration: widget.song.duration,
                                 isLoopLocked: (loop) {
                                   if (hasPremium) return false;
-                                  final loops = context
-                                      .read<SongCubit>()
-                                      .state
-                                      .song
-                                      .loops;
+                                  final loops = context.read<SongCubit>().state.song.loops;
                                   if (loops.isEmpty) return false;
                                   return loop.id != loops.first.id;
                                 },
@@ -324,33 +308,26 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                                     style: context.bodySmall,
                                   ),
                                   BlocSelector<SongCubit, SongState, bool>(
-                                    selector: (state) =>
-                                        state.isLoopModeEnabled,
+                                    selector: (state) => state.isLoopModeEnabled,
                                     builder: (context, isLoopModeEnabled) {
                                       return CupertinoSwitch(
                                         key: tutorialKeyLoopActivate,
-                                        thumbIcon:
-                                            WidgetStateProperty.resolveWith<
-                                              Icon?
-                                            >((
-                                              Set<WidgetState> states,
-                                            ) {
-                                              if (states.contains(
-                                                WidgetState.disabled,
-                                              )) {
-                                                return const Icon(Icons.close);
-                                              }
-                                              return const Icon(
-                                                Icons.loop_rounded,
-                                              );
-                                            }),
-                                        activeTrackColor:
-                                            AppColors.primaryContainer,
-                                        inactiveTrackColor:
-                                            AppColors.secondaryContainer,
+                                        thumbIcon: WidgetStateProperty.resolveWith<Icon?>((
+                                          Set<WidgetState> states,
+                                        ) {
+                                          if (states.contains(
+                                            WidgetState.disabled,
+                                          )) {
+                                            return const Icon(Icons.close);
+                                          }
+                                          return const Icon(
+                                            Icons.loop_rounded,
+                                          );
+                                        }),
+                                        activeTrackColor: AppColors.primaryContainer,
+                                        inactiveTrackColor: AppColors.secondaryContainer,
                                         value: isLoopModeEnabled,
-                                        onChanged: (value) =>
-                                            _onToggleLoopMode(context),
+                                        onChanged: (value) => _onToggleLoopMode(context),
                                       );
                                     },
                                   ),
@@ -376,8 +353,7 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                                       horizontal: 8,
                                     ),
                                     minimumSize: const Size(0, 36),
-                                    tapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
+                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                   ),
                                   child: AutoSizeText(
                                     context.l10n.setLoopStart,
@@ -390,39 +366,37 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                               ),
                               const SizedBox(width: 8),
                               Expanded(
-                                child:
-                                    BlocSelector<SongCubit, SongState, Loop?>(
-                                      selector: (state) => state.activeLoop,
-                                      builder: (context, activeLoop) {
-                                        return ElevatedButton(
-                                          key: tutorialKeyLoopEnd,
-                                          onPressed: (activeLoop != null)
-                                              ? () => _onSetLoopEnd(context)
-                                              : null,
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: Theme.of(
-                                              context,
-                                            ).colorScheme.primaryContainer,
-                                            foregroundColor: Theme.of(
-                                              context,
-                                            ).colorScheme.onPrimaryContainer,
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 8,
-                                            ),
-                                            minimumSize: const Size(0, 36),
-                                            tapTargetSize: MaterialTapTargetSize
-                                                .shrinkWrap,
-                                          ),
-                                          child: AutoSizeText(
-                                            context.l10n.setLoopEnd,
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
-                                            minFontSize: 12,
-                                            maxFontSize: 24,
-                                          ),
-                                        );
-                                      },
-                                    ),
+                                child: BlocSelector<SongCubit, SongState, Loop?>(
+                                  selector: (state) => state.activeLoop,
+                                  builder: (context, activeLoop) {
+                                    return ElevatedButton(
+                                      key: tutorialKeyLoopEnd,
+                                      onPressed: (activeLoop != null)
+                                          ? () => _onSetLoopEnd(context)
+                                          : null,
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Theme.of(
+                                          context,
+                                        ).colorScheme.primaryContainer,
+                                        foregroundColor: Theme.of(
+                                          context,
+                                        ).colorScheme.onPrimaryContainer,
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 8,
+                                        ),
+                                        minimumSize: const Size(0, 36),
+                                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                      ),
+                                      child: AutoSizeText(
+                                        context.l10n.setLoopEnd,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        minFontSize: 12,
+                                        maxFontSize: 24,
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
                             ],
                           ),
@@ -434,16 +408,11 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                       sliver: SliverList(
                         delegate: SliverChildBuilderDelegate(
                           (context, index) {
-                            return BlocSelector<
-                              SongCubit,
-                              SongState,
-                              List<Loop>
-                            >(
+                            return BlocSelector<SongCubit, SongState, List<Loop>>(
                               selector: (state) => state.song.loops,
                               builder: (context, loops) {
                                 return SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.4,
+                                  height: MediaQuery.of(context).size.height * 0.4,
                                   child:
                                       BlocSelector<
                                         PremiumSubscriptionCubit,
@@ -455,69 +424,49 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                                             state.hasYearlySubscription ||
                                             state.hasLifetimePurchase,
                                         builder: (context, hasPremium) {
-                                          Widget buildItem(int index) =>
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                      vertical: 4,
-                                                    ),
-                                                key: ValueKey(loops[index].id),
-                                                child: LoopTile(
-                                                  index: index,
-                                                  loop: loops[index],
-                                                  isSelected:
-                                                      loops[index] ==
-                                                      context
-                                                          .read<SongCubit>()
-                                                          .state
-                                                          .activeLoop,
-                                                  isLocked:
-                                                      !hasPremium && index > 0,
-                                                  onTap: (loop) => context
-                                                      .read<SongCubit>()
-                                                      .selectLoop(loop),
-                                                  onDelete: (loop) {
-                                                    AppAnalytics.trackEvent(
-                                                      AppAnalytics
-                                                          .clickDeleteLoop,
-                                                    );
-                                                    context
-                                                        .read<SongCubit>()
-                                                        .deleteLoop(loop);
-                                                  },
-                                                  onPlay: (loop) {
-                                                    AppAnalytics.trackEvent(
-                                                      AppAnalytics
-                                                          .clickPlayLoop,
-                                                    );
-                                                    context
-                                                        .read<SongCubit>()
-                                                        .togglePlayLoop(loop);
-                                                  },
-                                                  onPause: (loop) {
-                                                    AppAnalytics.trackEvent(
-                                                      AppAnalytics
-                                                          .clickStopLoop,
-                                                    );
-                                                    context
-                                                        .read<SongCubit>()
-                                                        .pauseLoop();
-                                                  },
-                                                  onUpdate: (loop) {
-                                                    AppAnalytics.trackEvent(
-                                                      AppAnalytics
-                                                          .clickUpdateLoop,
-                                                    );
-                                                    context
-                                                        .read<SongCubit>()
-                                                        .updateLoop(loop);
-                                                  },
-                                                  onLockedTap: () =>
-                                                      _presentLoopPaywall(
-                                                        context,
-                                                      ),
-                                                ),
-                                              );
+                                          Widget buildItem(int index) => Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 4,
+                                            ),
+                                            key: ValueKey(loops[index].id),
+                                            child: LoopTile(
+                                              index: index,
+                                              loop: loops[index],
+                                              isSelected:
+                                                  loops[index] ==
+                                                  context.read<SongCubit>().state.activeLoop,
+                                              isLocked: !hasPremium && index > 0,
+                                              onTap: (loop) =>
+                                                  context.read<SongCubit>().selectLoop(loop),
+                                              onDelete: (loop) {
+                                                AppAnalytics.trackEvent(
+                                                  AppAnalytics.clickDeleteLoop,
+                                                );
+                                                context.read<SongCubit>().deleteLoop(loop);
+                                              },
+                                              onPlay: (loop) {
+                                                AppAnalytics.trackEvent(
+                                                  AppAnalytics.clickPlayLoop,
+                                                );
+                                                context.read<SongCubit>().togglePlayLoop(loop);
+                                              },
+                                              onPause: (loop) {
+                                                AppAnalytics.trackEvent(
+                                                  AppAnalytics.clickStopLoop,
+                                                );
+                                                context.read<SongCubit>().pauseLoop();
+                                              },
+                                              onUpdate: (loop) {
+                                                AppAnalytics.trackEvent(
+                                                  AppAnalytics.clickUpdateLoop,
+                                                );
+                                                context.read<SongCubit>().updateLoop(loop);
+                                              },
+                                              onLockedTap: () => _presentLoopPaywall(
+                                                context,
+                                              ),
+                                            ),
+                                          );
 
                                           if (!hasPremium) {
                                             // Drag-to-reorder is a premium
@@ -529,14 +478,13 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                                               padding: const EdgeInsets.only(
                                                 bottom: 174,
                                               ),
-                                              itemBuilder: (context, index) =>
-                                                  buildItem(index),
+                                              itemBuilder: (context, index) => buildItem(index),
                                               itemCount: loops.length,
                                             );
                                           }
 
                                           return ReorderableListView.builder(
-                                            onReorder: (oldIndex, newIndex) {
+                                            onReorderItem: (oldIndex, newIndex) {
                                               // ReorderableListView reports an
                                               // insertion index that is offset
                                               // by one when moving an item down.
@@ -549,32 +497,21 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                                                 AppAnalytics.clickReorderLoops,
                                               );
 
-                                              final List<Loop> newLoops =
-                                                  List<Loop>.from(loops);
-                                              final Loop item = newLoops
-                                                  .removeAt(oldIndex);
+                                              final List<Loop> newLoops = List<Loop>.from(loops);
+                                              final Loop item = newLoops.removeAt(oldIndex);
                                               newLoops.insert(targetIndex, item);
 
-                                              for (
-                                                var i = 0;
-                                                i < newLoops.length;
-                                                i++
-                                              ) {
-                                                newLoops[i] = newLoops[i]
-                                                    .copyWith(orderNumber: i);
+                                              for (var i = 0; i < newLoops.length; i++) {
+                                                newLoops[i] = newLoops[i].copyWith(orderNumber: i);
                                               }
 
-                                              context
-                                                  .read<SongCubit>()
-                                                  .updateLoopOrder(newLoops);
+                                              context.read<SongCubit>().updateLoopOrder(newLoops);
                                             },
-                                            scrollController:
-                                                _loopListController,
+                                            scrollController: _loopListController,
                                             padding: const EdgeInsets.only(
                                               bottom: 174,
                                             ),
-                                            itemBuilder: (context, index) =>
-                                                buildItem(index),
+                                            itemBuilder: (context, index) => buildItem(index),
                                             itemCount: loops.length,
                                           );
                                         },
@@ -744,9 +681,7 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                       ? null
                       : () {
                           final bpmText = bpmController.text.trim();
-                          final bpm = bpmText.isEmpty
-                              ? null
-                              : int.tryParse(bpmText);
+                          final bpm = bpmText.isEmpty ? null : int.tryParse(bpmText);
                           Navigator.of(dialogContext).pop((
                             title: titleController.text.trim(),
                             artist: artistController.text.trim(),
@@ -1012,8 +947,7 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
 
     if (!context.mounted) return;
 
-    if (premiumSubscriptionCubit.hasPremium ||
-        context.read<SongCubit>().state.song.loops.isEmpty) {
+    if (premiumSubscriptionCubit.hasPremium || context.read<SongCubit>().state.song.loops.isEmpty) {
       context.read<SongCubit>().addLoop();
     } else {
       await context.read<PremiumSubscriptionCubit>().presentPaywall(

@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Known gaps
 - Skip-next/prev (both UI and media-session controls) can still auto-advance into a locked loop.
-- On iOS, the file picker can't show `.avi` files: iOS's document picker requires every custom extension to map to a Uniform Type Identifier (UTI), and `.avi` has no UTI registered in `ios/Runner/Info.plist`. Fixing means declaring `public.avi` (or an imported type) in `CFBundleDocumentTypes` / `UTImportedTypeDeclarations` and adding `'avi'` to the allowlist in `pickSingleVideoFile`. Skipped for now — libmpv plays `.avi` once a file is in by other means, and `.avi` is rare on mobile. Android isn't affected (its picker uses `FileType.video`, no extension allowlist) though end-to-end `.avi` playback there hasn't been verified yet.
+- On iOS, the file picker can't show `.avi` files: iOS's document picker requires every custom extension to map to a Uniform Type Identifier (UTI), and `.avi` has no UTI registered in `ios/Runner/Info.plist`. Fixing means declaring `public.avi` (or an imported type) in `CFBundleDocumentTypes` / `UTImportedTypeDeclarations` and adding `'avi'` to the allowlist in `pickVideoFiles`. Skipped for now — libmpv plays `.avi` once a file is in by other means, and `.avi` is rare on mobile. Android isn't affected (its picker uses `FileType.video`, no extension allowlist) though end-to-end `.avi` playback there hasn't been verified yet.
 
 ## [2.0.1]
 

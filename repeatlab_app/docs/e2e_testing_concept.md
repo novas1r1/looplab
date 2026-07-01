@@ -168,7 +168,7 @@ already a constructor dependency of `FileRepository`
    `pickFiles` returns a `FilePickerResult` pointing at a **bundled test asset**
    (`test_audio.mp3` / `test_video.mp4`) copied to a temp path. `FileRepository`'s
    real "copy into app documents dir" logic
-   (`pickSingleAudioFile` / `pickSingleVideoFile`) then runs **unchanged** on the
+   (`pickAudioFiles` / `pickVideoFiles`) then runs **unchanged** on the
    real file, so `SongRepository.addSongFile` / `addVideoFile` and playback work
    end-to-end. `saveFile` returns a canned temp path for the export flow.
 

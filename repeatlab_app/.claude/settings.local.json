@@ -32,7 +32,8 @@
       "mcp__claude_ai_PostHog__exec",
       "Read(//c/Development/packages/**)",
       "WebFetch(domain:www.revenuecat.com)",
-      "Read(//c/Users/vry/AppData/Local/Pub/Cache/hosted/pub.dev/**)"
+      "Read(//c/Users/vry/AppData/Local/Pub/Cache/hosted/pub.dev/**)",
+      "PowerShell(fvm flutter *)"
     ]
   }
 }

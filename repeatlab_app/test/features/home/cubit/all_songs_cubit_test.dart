@@ -5,6 +5,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:repeatlab/data/models/song.dart';
+import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
 
 import '../../../helpers/mock_data.dart';
@@ -23,6 +24,7 @@ void main() {
     registerFallbackValue(MockData.songShort);
     registerFallbackValue(StackTrace.empty);
     registerFallbackValue(<Song>[]);
+    registerFallbackValue(MockFile());
   });
 
   setUp(() {
@@ -142,8 +144,8 @@ void main() {
       blocTest<AllSongsCubit, AllSongsState>(
         'emits [loading, initial] when user cancels file picker',
         build: () {
-          when(() => mockFileRepository.pickSingleAudioFile()).thenAnswer(
-            (_) async => null,
+          when(() => mockFileRepository.pickAudioFiles()).thenAnswer(
+            (_) async => [],
           );
           return buildCubit();
         },
@@ -159,8 +161,8 @@ void main() {
         build: () {
           final mockFile = MockFile();
           when(() => mockFile.path).thenReturn('/path/to/song.mp3');
-          when(() => mockFileRepository.pickSingleAudioFile()).thenAnswer(
-            (_) async => mockFile,
+          when(() => mockFileRepository.pickAudioFiles()).thenAnswer(
+            (_) async => [mockFile],
           );
           when(() => mockSongRepository.addSongFile(mockFile)).thenAnswer(
             (_) async {},
@@ -182,15 +184,90 @@ void main() {
       );
 
       blocTest<AllSongsCubit, AllSongsState>(
+        'adds every file when multiple files are picked',
+        build: () {
+          final firstFile = MockFile();
+          when(() => firstFile.path).thenReturn('/path/to/one.mp3');
+          final secondFile = MockFile();
+          when(() => secondFile.path).thenReturn('/path/to/two.mp3');
+          when(() => mockFileRepository.pickAudioFiles()).thenAnswer(
+            (_) async => [firstFile, secondFile],
+          );
+          when(() => mockSongRepository.addSongFile(any())).thenAnswer(
+            (_) async {},
+          );
+          when(() => mockSongRepository.getAllSongs()).thenAnswer(
+            (_) async => [MockData.songShort, MockData.songMedium],
+          );
+          return buildCubit();
+        },
+        act: (cubit) => cubit.addSong(),
+        expect: () => [
+          isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.loading),
+          isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.loaded).having(
+            (s) => s.songs,
+            'songs',
+            [MockData.songShort, MockData.songMedium],
+          ),
+        ],
+        verify: (_) {
+          verify(() => mockSongRepository.addSongFile(any())).called(2);
+        },
+      );
+
+      blocTest<AllSongsCubit, AllSongsState>(
+        'imports the good files and surfaces the error when one file fails',
+        build: () {
+          final goodFile = MockFile();
+          when(() => goodFile.path).thenReturn('/path/to/good.mp3');
+          final badFile = MockFile();
+          when(() => badFile.path).thenReturn('/path/to/bad.xyz');
+          when(() => mockFileRepository.pickAudioFiles()).thenAnswer(
+            (_) async => [goodFile, badFile],
+          );
+          when(() => mockSongRepository.addSongFile(goodFile)).thenAnswer(
+            (_) async {},
+          );
+          when(() => mockSongRepository.addSongFile(badFile)).thenThrow(
+            const UnsupportedAudioFormatException('xyz'),
+          );
+          when(() => mockSongRepository.getAllSongs()).thenAnswer(
+            (_) async => [MockData.songShort],
+          );
+          return buildCubit();
+        },
+        act: (cubit) => cubit.addSong(),
+        expect: () => [
+          isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.loading),
+          isA<AllSongsState>()
+              .having((s) => s.status, 'status', AllSongsStatus.error)
+              .having((s) => s.songs, 'songs', [MockData.songShort])
+              .having((s) => s.errorMessage, 'errorMessage', 'xyz'),
+        ],
+        verify: (_) {
+          verify(
+            () => mockCrashReportingRepository.reportError(
+              any(),
+              any(),
+              properties: any(named: 'properties'),
+            ),
+          ).called(1);
+        },
+      );
+
+      blocTest<AllSongsCubit, AllSongsState>(
         'emits [loading, error] when addSongFile throws',
         build: () {
           final mockFile = MockFile();
           when(() => mockFile.path).thenReturn('/path/to/song.mp3');
-          when(() => mockFileRepository.pickSingleAudioFile()).thenAnswer(
-            (_) async => mockFile,
+          when(() => mockFileRepository.pickAudioFiles()).thenAnswer(
+            (_) async => [mockFile],
           );
           when(() => mockSongRepository.addSongFile(mockFile)).thenThrow(
             Exception('Failed to add song'),
+          );
+          when(() => mockSongRepository.getAllSongs()).thenAnswer(
+            (_) async => [],
           );
           return buildCubit();
         },
@@ -202,7 +279,7 @@ void main() {
               .having(
                 (s) => s.errorMessage,
                 'errorMessage',
-                isNull,
+                contains('Failed to add song'),
               ),
         ],
         verify: (_) {
