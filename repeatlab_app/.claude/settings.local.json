@@ -29,7 +29,10 @@
       "Read(//c/Users/vry/.claude/**)",
       "Bash(fvm dart *)",
       "PowerShell(flutter analyze *)",
-      "mcp__claude_ai_PostHog__exec"
+      "mcp__claude_ai_PostHog__exec",
+      "Read(//c/Development/packages/**)",
+      "WebFetch(domain:www.revenuecat.com)",
+      "Read(//c/Users/vry/AppData/Local/Pub/Cache/hosted/pub.dev/**)"
     ]
   }
 }

@@ -80,6 +80,7 @@ class App extends StatelessWidget {
               purchasesRepository: context.read<PurchasesRepository>(),
               crashReportingRepository: context
                   .read<CrashReportingRepository>(),
+              localConfigRepository: context.read<LocalConfigRepository>(),
             )..init(),
           ),
           BlocProvider(

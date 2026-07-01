@@ -1,16 +1,21 @@
-<p>Dernière mise à jour : 19 juillet 2025</p>
+<p>Dernière mise à jour : 1 juillet 2026</p>
 <h2>Informations que nous collectons</h2>
 <p>Votre vie privée est importante pour nous. Cette Politique de Confidentialité décrit comment nous collectons,
     utilisons et protégeons vos informations lorsque vous utilisez notre application mobile (l'« App »), qui est
     disponible sur les plateformes iOS et Android. Cette politique est conforme au Règlement Général sur la Protection
     des Données (RGPD).</p>
-<p><strong>Date d'effet :</strong> 17 juillet 2025</p>
+<p><strong>Date d'effet :</strong> 1 juillet 2026</p>
 <p>Nous collectons les types d'informations suivants :</p>
 <ul>
     <li><strong>Informations personnelles :</strong> Informations que vous nous fournissez, telles que votre adresse
         e-mail lors de l'envoi de commentaires via Wiredash.</li>
     <li><strong>Informations de paiement :</strong> Données relatives aux achats intégrés à l'application et aux
         abonnements, traitées par RevenueCat.</li>
+    <li><strong>Événements d'abonnement et d'achat :</strong> Lorsque vous consentez aux analyses, les événements du
+        cycle de vie de votre abonnement (tels que le démarrage d'un essai, un achat, un renouvellement ou une
+        résiliation) sont partagés par RevenueCat avec PostHog via une intégration côté serveur, liés à votre
+        identifiant d'analyse anonyme afin que nous puissions mesurer les tunnels de conversion et de revenus. Aucune
+        donnée de carte de paiement n'est partagée.</li>
     <li><strong>Journaux de plantage :</strong> Informations sur les erreurs et les plantages de l'application,
         collectées via Sentry.</li>
     <li><strong>Statistiques d'utilisation :</strong> Données d'utilisation pour nous aider à améliorer l'application.
@@ -21,8 +26,12 @@
         fonctionnalités ou de la soumission de propositions de fonctionnalités via UserOrient, y compris la version de
         l'application, le numéro de build et le statut d'abonnement.</li>
     <li><strong>Analyses d'utilisation de l'application :</strong> Analyses détaillées sur la façon dont vous
-        interagissez avec l'application, y compris les vues d'écran, les clics sur les boutons et les modèles
-        d'utilisation des fonctionnalités.</li>
+        interagissez avec l'application, y compris les vues d'écran, les clics sur les boutons, les modèles
+        d'utilisation des fonctionnalités et les étapes clés d'activation, collectées via PostHog (hébergé dans l'Union
+        européenne). Ces analyses sont liées à un identifiant anonyme généré par l'appareil plutôt qu'à votre nom ou à
+        votre compte, et incluent votre statut d'abonnement (par exemple, si vous disposez d'un abonnement premium
+        actif) afin que nous puissions comprendre comment les fonctionnalités sont utilisées par les utilisateurs
+        gratuits et premium.</li>
     <li><strong>Informations sur l'appareil :</strong> Informations techniques sur votre appareil, système
         d'exploitation et version de l'application à des fins de débogage et d'optimisation.</li>
     <li><strong>Données de stockage local :</strong> Chansons, boucles et préférences utilisateur stockées localement
@@ -46,6 +55,7 @@
     <li>Votre consentement pour le vote de fonctionnalités et l'amélioration de l'expérience utilisateur via UserOrient.
     </li>
     <li>Votre consentement pour la collecte détaillée d'analyses via Microsoft Clarity.</li>
+    <li>Votre consentement pour la collecte d'analyses de produit anonymes via PostHog.</li>
 </ul>
 <h2>Comment nous utilisons vos informations</h2>
 <p>Nous utilisons les informations que nous collectons aux fins suivantes :</p>
@@ -55,6 +65,10 @@
     <li>Pour surveiller et résoudre les problèmes en utilisant la journalisation des plantages Sentry.</li>
     <li>Pour améliorer l'expérience utilisateur et améliorer les fonctionnalités de l'application.</li>
     <li>Pour améliorer l'application grâce aux analyses Microsoft Clarity.</li>
+    <li>Pour comprendre l'utilisation des fonctionnalités et améliorer l'application grâce aux analyses de produit
+        PostHog.</li>
+    <li>Pour mesurer les tunnels d'activation, de conversion et d'abonnement en combinant des analyses de produit
+        anonymes avec des événements d'abonnement (PostHog associé à RevenueCat), sur la base de votre consentement.</li>
     <li>Pour collecter et traiter les demandes de fonctionnalités et les votes via UserOrient.</li>
     <li>Pour fournir des expériences d'application personnalisées et des recommandations.</li>
     <li>Pour assurer la stabilité et les performances de l'application sur différents appareils et plateformes.</li>
@@ -91,7 +105,10 @@
 <p>Vous pouvez gérer vos préférences de consentement à tout moment :</p>
 <ul>
     <li><strong>Consentement aux analyses :</strong> Vous pouvez activer ou désactiver la collecte d'analyses dans les
-        paramètres de l'application. Lorsqu'elle est désactivée, les analyses Microsoft Clarity et PostHog seront suspendues.</li>
+        paramètres de l'application. Lorsqu'elle est désactivée, les analyses Microsoft Clarity et PostHog sont
+        suspendues et le lien qui partage vos événements d'abonnement RevenueCat avec PostHog est supprimé, de sorte que
+        vos événements d'achat ne sont plus reliés à votre identifiant d'analyse. L'utilisation de la fonctionnalité
+        « Supprimer toutes les données » réinitialise en outre votre identifiant d'analyse anonyme.</li>
     <li><strong>Rapports de plantage :</strong> Les rapports de plantage via Sentry fonctionnent sur la base de notre
         intérêt légitime à la stabilité de l'application, mais vous pouvez nous contacter pour demander sa limitation.
     </li>
@@ -106,13 +123,19 @@
     <li><strong>Wiredash :</strong> Utilisé pour collecter les commentaires des utilisateurs et les rapports de bugs.
         Les données sont traitées selon la politique de confidentialité de Wiredash.</li>
     <li><strong>RevenueCat :</strong> Utilisé pour traiter les achats intégrés à l'application et les abonnements. Les
-        données de paiement sont traitées selon la politique de confidentialité de RevenueCat.</li>
+        données de paiement sont traitées selon la politique de confidentialité de RevenueCat. Avec votre consentement
+        aux analyses, RevenueCat partage également les événements d'abonnement (essais, achats, renouvellements et
+        résiliations) avec PostHog via une intégration côté serveur, liés à votre identifiant d'analyse anonyme afin que
+        nous puissions analyser la conversion et les revenus. Ce partage cesse lorsque vous retirez votre consentement
+        aux analyses.</li>
     <li><strong>Sentry :</strong> Utilisé pour la surveillance des erreurs et les rapports de plantage. Les données
         techniques sont traitées selon la politique de confidentialité de Sentry.</li>
     <li><strong>Microsoft Clarity :</strong> Utilisé pour les analyses et l'amélioration de l'expérience utilisateur.
         Les données d'utilisation sont traitées selon la politique de confidentialité de Microsoft.</li>
-    <li><strong>PostHog :</strong> Utilisé pour des analyses de produit anonymes, y compris les vues d'écran et
-        l'utilisation des fonctionnalités. Les données sont hébergées dans l'Union européenne (eu.i.posthog.com) et
+    <li><strong>PostHog :</strong> Utilisé pour des analyses de produit anonymes, y compris les vues d'écran,
+        l'utilisation des fonctionnalités et les étapes clés d'activation, liées à un identifiant anonyme d'appareil.
+        Avec votre consentement, il reçoit également les événements d'abonnement de RevenueCat pour construire les
+        tunnels de conversion et de revenus. Les données sont hébergées dans l'Union européenne (eu.i.posthog.com) et
         traitées selon la politique de confidentialité de PostHog.</li>
     <li><strong>UserOrient :</strong> Utilisé pour le vote de fonctionnalités et la collecte de commentaires
         utilisateurs. Les données de vote de fonctionnalités sont traitées selon la politique de confidentialité de
@@ -153,4 +176,4 @@
 <p>Pour les demandes de protection des données, vous pouvez également contacter l'autorité de contrôle compétente dans
     votre pays.</p>
 <p>Merci d'utiliser notre application !</p>
-<p style="text-align:center; margin-top:3rem;">© 2025 RepeatLab. Tous droits réservés.</p>
+<p style="text-align:center; margin-top:3rem;">© 2026 RepeatLab. Tous droits réservés.</p>

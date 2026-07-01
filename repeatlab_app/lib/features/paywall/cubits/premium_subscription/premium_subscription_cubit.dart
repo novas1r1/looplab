@@ -3,11 +3,13 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
+import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/purchases_repository.dart';
 
 part 'premium_subscription_cubit.mapper.dart';
@@ -17,9 +19,15 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
   final CrashReportingRepository crashReportingRepository;
   final PurchasesRepository purchasesRepository;
 
+  /// Optional so tests can construct the cubit without preferences. When
+  /// provided, [init] uses it to consent-gate the RevenueCat → PostHog
+  /// identity link.
+  final LocalConfigRepository? localConfigRepository;
+
   PremiumSubscriptionCubit({
     required this.crashReportingRepository,
     required this.purchasesRepository,
+    this.localConfigRepository,
   }) : super(const PremiumSubscriptionState());
 
   bool get hasPremium =>
@@ -50,6 +58,17 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
       // emit(state.copyWith(isConnected: isConnected));
 
       await checkStatus();
+
+      // Align RevenueCat's server-side PostHog identity with the client so the
+      // rc_* purchase/trial/renewal events attribute to the same person as the
+      // in-app events. Consent-gated; release-only (native SDKs absent in
+      // tests, so localConfigRepository is left null there).
+      final config = localConfigRepository;
+      if (!kDebugMode && config != null) {
+        await PurchasesRepository.linkPostHogIdentity(
+          consented: config.acceptedAnalytics,
+        );
+      }
 
       /* purchases.addPurchaserInfoUpdateListener((purchaserInfo) {
         if (purchaserInfo.activeSubscriptions.isNotEmpty) {
@@ -146,6 +165,13 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
     }
 
     final wasPremium = hasPremium;
+
+    // Record the trigger on RevenueCat so it appears on the server-side rc_*
+    // events (which carry no client context). Mirrors the `paywall_source`
+    // property on the client `purchase_success` event.
+    if (!kDebugMode) {
+      await PurchasesRepository.setPaywallSource(source);
+    }
 
     final PaywallResult result;
     if (ifNeeded) {

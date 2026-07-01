@@ -1,10 +1,58 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 class PurchasesRepository {
   const PurchasesRepository();
+
+  /// Reserved RevenueCat subscriber attribute the RevenueCat → PostHog
+  /// integration reads to align identities. See [linkPostHogIdentity].
+  static const kPostHogUserIdAttribute = r'$posthogUserId';
+
+  /// Custom subscriber attribute carrying the paywall trigger so it rides
+  /// along on the server-side `rc_*` events. See [setPaywallSource].
+  static const kPaywallSourceAttribute = 'last_paywall_source';
+
+  /// Aligns RevenueCat's identity with PostHog so the server-side
+  /// RevenueCat → PostHog integration attributes purchase / trial / renewal
+  /// events to the SAME person as the in-app client events.
+  ///
+  /// RevenueCat sends events keyed on the [kPostHogUserIdAttribute] subscriber
+  /// attribute, falling back to its own anonymous app-user-id when unset. We
+  /// configure RevenueCat anonymously (no `appUserID`) and never call PostHog
+  /// `identify()`, so without this the two anonymous ids diverge and the
+  /// monetization funnel can't connect paywall views to purchases.
+  ///
+  /// Consent-gated: when [consented] is false the attribute is CLEARED (an
+  /// empty string deletes it in RevenueCat) so opted-out users' server events
+  /// fall back to an unlinked anonymous id and never build a PostHog person.
+  static Future<void> linkPostHogIdentity({required bool consented}) async {
+    try {
+      if (consented) {
+        final distinctId = await Posthog().getDistinctId();
+        await Purchases.setAttributes({kPostHogUserIdAttribute: distinctId});
+      } else {
+        await Purchases.setAttributes({kPostHogUserIdAttribute: ''});
+      }
+    } catch (error) {
+      // Best-effort; analytics wiring must never break purchases or startup.
+      log('Failed to sync PostHog identity to RevenueCat: $error');
+    }
+  }
+
+  /// Records the trigger that opened the paywall as a RevenueCat subscriber
+  /// attribute so it appears on the server-side `rc_*` events (which otherwise
+  /// carry no client context). Keeps "which trigger converts" answerable once
+  /// the purchase funnel is built on the RevenueCat events.
+  static Future<void> setPaywallSource(String source) async {
+    try {
+      await Purchases.setAttributes({kPaywallSourceAttribute: source});
+    } catch (error) {
+      log('Failed to set last_paywall_source on RevenueCat: $error');
+    }
+  }
 
   Future<void> setup() async {
     await Purchases.setLogLevel(LogLevel.debug);

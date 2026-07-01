@@ -206,15 +206,19 @@ class _OnboardingPageState extends State<OnboardingPage> {
   Future<void> _finishOnboarding() async {
     final localConfig = context.read<LocalConfigRepository>();
 
-    AppAnalytics.trackEvent(AppAnalytics.onboardingCompleted);
-    AppAnalytics.trackEvent(
-      _analyticsAccepted
-          ? AppAnalytics.onboardingAnalyticsAccepted
-          : AppAnalytics.onboardingAnalyticsDeclined,
-    );
-
+    // Apply consent FIRST so PostHog is opted in before we emit the onboarding
+    // funnel events. Otherwise they're captured while still opted out (the
+    // default until consent) and silently dropped for every new user.
     await localConfig.setIntroShown(wasShown: true);
     await localConfig.setAnalyticsEnabled(isEnabled: _analyticsAccepted);
+
+    AppAnalytics.trackEvent(AppAnalytics.onboardingCompleted);
+    if (_analyticsAccepted) {
+      AppAnalytics.trackEvent(AppAnalytics.onboardingAnalyticsAccepted);
+    }
+    // On decline PostHog stays opted out, so an `onboarding_analytics_declined`
+    // event could never be delivered anyway — decline is unmeasurable
+    // client-side under strict consent, by design.
 
     if (mounted) {
       // show paywall, after paywall is dismissed, navigate to home

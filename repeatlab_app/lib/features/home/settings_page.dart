@@ -9,6 +9,7 @@ import 'package:repeatlab/core/utils/dialog_helper.dart';
 import 'package:repeatlab/data/repositories/backup/backup_repository.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
+import 'package:repeatlab/data/repositories/purchases_repository.dart';
 import 'package:repeatlab/features/backup/cubit/backup_cubit.dart';
 import 'package:repeatlab/features/backup/widgets/export_options_sheet.dart';
 import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
@@ -166,6 +167,10 @@ class _SettingsViewState extends State<_SettingsView> {
     // Rotate the anonymous PostHog distinct id so the wiped local identity is
     // no longer linked to future events (GDPR right-to-erasure for the device).
     unawaited(Posthog().reset());
+    // Detach the erased identity from RevenueCat too, so future server-side
+    // rc_* events don't attribute to the wiped PostHog person. Consent was
+    // just cleared by clear(), so this unlinks (clears $posthogUserId).
+    unawaited(PurchasesRepository.linkPostHogIdentity(consented: false));
 
     if (!context.mounted) return;
 

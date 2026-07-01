@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:clarity_flutter/clarity_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:posthog_flutter/posthog_flutter.dart';
+import 'package:repeatlab/data/repositories/purchases_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalConfigRepository {
@@ -60,6 +61,14 @@ class LocalConfigRepository {
       log('Pausing Clarity & PostHog');
       Clarity.pause();
       await Posthog().disable();
+    }
+
+    // Keep RevenueCat's server-side PostHog identity in sync with consent, so
+    // rc_* purchase events either link to the same person (opt-in) or fall back
+    // to an unlinked anonymous id (opt-out). Release-only: the native
+    // RevenueCat SDK isn't configured under unit tests / debug.
+    if (!kDebugMode) {
+      await PurchasesRepository.linkPostHogIdentity(consented: isEnabled);
     }
   }
 

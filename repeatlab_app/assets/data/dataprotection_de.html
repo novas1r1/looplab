@@ -1,15 +1,20 @@
-<p>Zuletzt aktualisiert: 19. Juli 2025</p>
+<p>Zuletzt aktualisiert: 1. Juli 2026</p>
 <h2>Informationen, die wir sammeln</h2>
 <p>Ihre Privatsphäre ist uns wichtig. Diese Datenschutzerklärung beschreibt, wie wir Ihre Informationen sammeln,
     verwenden und schützen, wenn Sie unsere mobile Anwendung (die 'App') nutzen, die auf iOS- und Android-Plattformen
     verfügbar ist. Diese Richtlinie ist konform mit der Allgemeinen Datenschutzverordnung (DSGVO).</p>
-<p><strong>Gültigkeitsdatum:</strong> 17. Juli 2025</p>
+<p><strong>Gültigkeitsdatum:</strong> 1. Juli 2026</p>
 <p>Wir sammeln folgende Arten von Informationen:</p>
 <ul>
     <li><strong>Persönliche Informationen:</strong> Informationen, die Sie uns zur Verfügung stellen, wie Ihre
         E-Mail-Adresse beim Einreichen von Feedback über Wiredash.</li>
     <li><strong>Zahlungsinformationen:</strong> Daten zu In-App-Käufen und Abonnements, verarbeitet durch RevenueCat.
     </li>
+    <li><strong>Abonnement- &amp; Kaufereignisse:</strong> Wenn Sie in die Analyse einwilligen, werden
+        Abonnement-Lebenszyklusereignisse (wie das Starten einer Testphase, ein Kauf, eine Verlängerung oder eine
+        Kündigung) über eine serverseitige Integration von RevenueCat an PostHog übermittelt und mit Ihrer anonymen
+        Analyse-Kennung verknüpft, damit wir Konversions- und Umsatz-Funnels messen können. Es werden keine
+        Zahlungskartendaten weitergegeben.</li>
     <li><strong>Absturzprotokolle:</strong> Informationen über App-Fehler und Abstürze, gesammelt über Sentry.</li>
     <li><strong>Nutzungsstatistiken:</strong> Nutzungsdaten, um uns bei der Verbesserung der App zu helfen.</li>
     <li><strong>Heatmaps & Sitzungsaufzeichnung:</strong> Analysedaten, um uns bei der Verbesserung Ihrer Erfahrung
@@ -18,7 +23,11 @@
         Einreichen von Feature-Vorschlägen über UserOrient bereitstellen, einschließlich App-Version, Build-Nummer und
         Abonnementstatus.</li>
     <li><strong>App-Nutzungsanalysen:</strong> Detaillierte Analysen darüber, wie Sie mit der App interagieren,
-        einschließlich Bildschirmansichten, Button-Klicks und Feature-Nutzungsmuster.</li>
+        einschließlich Bildschirmansichten, Button-Klicks, Feature-Nutzungsmuster und Aktivierungsmeilensteine, erfasst
+        über PostHog (gehostet in der Europäischen Union). Diese Analysen sind mit einer anonymen, gerätegenerierten
+        Kennung verknüpft und nicht mit Ihrem Namen oder Konto, und umfassen Ihren Abonnementstatus (zum Beispiel, ob Sie
+        ein aktives Premium-Abonnement haben), damit wir verstehen können, wie Funktionen von kostenlosen und
+        Premium-Nutzern verwendet werden.</li>
     <li><strong>Geräteinformationen:</strong> Technische Informationen über Ihr Gerät, Betriebssystem und App-Version
         für Debugging- und Optimierungszwecke.</li>
     <li><strong>Lokale Speicherdaten:</strong> Songs, Loops und Benutzereinstellungen, die lokal auf Ihrem Gerät
@@ -42,6 +51,7 @@
         Absturzberichte.</li>
     <li>Ihre Einwilligung für Feature-Abstimmungen und Verbesserung der Benutzererfahrung über UserOrient.</li>
     <li>Ihre Einwilligung für detaillierte Analysedatensammlung über Microsoft Clarity.</li>
+    <li>Ihre Einwilligung für die Sammlung anonymer Produktanalysen über PostHog.</li>
 </ul>
 <h2>Wie wir Ihre Informationen verwenden</h2>
 <p>Wir verwenden die gesammelten Informationen für folgende Zwecke:</p>
@@ -51,6 +61,9 @@
     <li>Zur Überwachung und Behebung von Problemen mit Sentry-Absturzprotokollierung.</li>
     <li>Zur Verbesserung der Benutzererfahrung und Erweiterung der App-Features.</li>
     <li>Zur Verbesserung der App durch Microsoft Clarity-Analysen.</li>
+    <li>Um die Feature-Nutzung zu verstehen und die App durch PostHog-Produktanalysen zu verbessern.</li>
+    <li>Um Aktivierungs-, Konversions- und Abonnement-Funnels zu messen, indem anonyme Produktanalysen mit
+        Abonnementereignissen kombiniert werden (PostHog zusammen mit RevenueCat), auf Grundlage Ihrer Einwilligung.</li>
     <li>Zur Sammlung und Verarbeitung von Feature-Anfragen und Abstimmungen über UserOrient.</li>
     <li>Zur Bereitstellung personalisierter App-Erfahrungen und Empfehlungen.</li>
     <li>Zur Gewährleistung der App-Stabilität und -Leistung auf verschiedenen Geräten und Plattformen.</li>
@@ -87,7 +100,10 @@
 <p>Sie können Ihre Einwilligungspräferenzen jederzeit verwalten:</p>
 <ul>
     <li><strong>Analysen-Einwilligung:</strong> Sie können die Sammlung von Analysen in den App-Einstellungen aktivieren
-        oder deaktivieren. Wenn deaktiviert, werden Microsoft Clarity- und PostHog-Analysen pausiert.</li>
+        oder deaktivieren. Wenn deaktiviert, werden Microsoft Clarity- und PostHog-Analysen pausiert und die Verknüpfung,
+        über die Ihre RevenueCat-Abonnementereignisse mit PostHog geteilt werden, wird entfernt, sodass Ihre
+        Kaufereignisse nicht mehr mit Ihrer Analyse-Kennung verbunden sind. Über die Funktion "Alle Daten löschen" wird
+        zusätzlich Ihre anonyme Analyse-Kennung zurückgesetzt.</li>
     <li><strong>Absturzberichterstattung:</strong> Absturzberichterstattung über Sentry funktioniert auf Grundlage
         unseres berechtigten Interesses an der App-Stabilität, aber Sie können uns kontaktieren, um deren Einschränkung
         zu beantragen.</li>
@@ -102,14 +118,19 @@
     <li><strong>Wiredash:</strong> Wird zur Sammlung von Benutzer-Feedback und Fehlerberichten verwendet. Daten werden
         gemäß der Datenschutzerklärung von Wiredash verarbeitet.</li>
     <li><strong>RevenueCat:</strong> Wird zur Verarbeitung von In-App-Käufen und Abonnements verwendet. Zahlungsdaten
-        werden gemäß der Datenschutzerklärung von RevenueCat verarbeitet.</li>
+        werden gemäß der Datenschutzerklärung von RevenueCat verarbeitet. Mit Ihrer Analyse-Einwilligung übermittelt
+        RevenueCat außerdem Abonnementereignisse (Testphasen, Käufe, Verlängerungen und Kündigungen) über eine
+        serverseitige Integration an PostHog, verknüpft mit Ihrer anonymen Analyse-Kennung, damit wir Konversion und
+        Umsatz auswerten können. Diese Weitergabe endet, wenn Sie Ihre Analyse-Einwilligung widerrufen.</li>
     <li><strong>Sentry:</strong> Wird für Fehlerüberwachung und Absturzberichterstattung verwendet. Technische Daten
         werden gemäß der Datenschutzerklärung von Sentry verarbeitet.</li>
     <li><strong>Microsoft Clarity:</strong> Wird für Analysen und Verbesserung der Benutzererfahrung verwendet.
         Nutzungsdaten werden gemäß der Datenschutzerklärung von Microsoft verarbeitet.</li>
-    <li><strong>PostHog:</strong> Wird für anonyme Produktanalysen verwendet, einschließlich Bildschirmaufrufe und
-        Funktionsnutzung. Die Daten werden in der Europäischen Union (eu.i.posthog.com) gehostet und gemäß der
-        Datenschutzerklärung von PostHog verarbeitet.</li>
+    <li><strong>PostHog:</strong> Wird für anonyme Produktanalysen verwendet, einschließlich Bildschirmaufrufe,
+        Funktionsnutzung und Aktivierungsmeilensteine, verknüpft mit einer anonymen Gerätekennung. Mit Ihrer Einwilligung
+        empfängt PostHog außerdem Abonnementereignisse von RevenueCat, um Konversions- und Umsatz-Funnels zu erstellen.
+        Die Daten werden in der Europäischen Union (eu.i.posthog.com) gehostet und gemäß der Datenschutzerklärung von
+        PostHog verarbeitet.</li>
     <li><strong>UserOrient:</strong> Wird für Feature-Abstimmungen und Sammlung von Benutzer-Feedback verwendet.
         Feature-Abstimmungsdaten werden gemäß der Datenschutzerklärung von UserOrient verarbeitet.</li>
 </ul>
@@ -147,4 +168,4 @@
     möchten, kontaktieren Sie uns bitte unter support@repeatlab.de</p>
 <p>Für Datenschutzanfragen können Sie sich auch an die zuständige Aufsichtsbehörde in Ihrem Land wenden.</p>
 <p>Vielen Dank für die Nutzung unserer App!</p>
-<p style="text-align:center; margin-top:3rem;">© 2025 RepeatLab. Alle Rechte vorbehalten.</p>
+<p style="text-align:center; margin-top:3rem;">© 2026 RepeatLab. Alle Rechte vorbehalten.</p>
