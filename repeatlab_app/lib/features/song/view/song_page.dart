@@ -780,17 +780,24 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
   }
 
   void createTutorial(BuildContext context) {
+    // Capture the cubit while the context is still valid. The tutorial is shown
+    // via an overlay that outlives this call, so its skip/finish callbacks must
+    // not read from `context` later — by then the element may be unmounted and
+    // the Provider lookup would throw a null-check error.
+    final songCubit = context.read<SongCubit>();
     tutorialCoachMark = TutorialCoachMark(
       targets: _createTargets(context),
       colorShadow: AppColors.primaryContainer,
       opacityShadow: 0.95,
-      onFinish: () => context.read<SongCubit>().updateTutorialCompleted(),
+      onFinish: () {
+        if (mounted) songCubit.updateTutorialCompleted();
+      },
       onClickTarget: (target) {},
       onClickTargetWithTapPosition: (target, tapDetails) {},
       onClickOverlay: (target) {},
       onSkip: () {
         AppAnalytics.trackEvent(AppAnalytics.clickSkipTutorial);
-        context.read<SongCubit>().updateTutorialCompleted();
+        if (mounted) songCubit.updateTutorialCompleted();
         return true;
       },
     );
