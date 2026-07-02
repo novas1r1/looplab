@@ -15,10 +15,10 @@ dependencies:
   audio_session: ^0.2.3
   # audioplayers: ^6.4.0
   audioplayers:
-    path: ../../packages/audioplayers/packages/audioplayers
+    path: ../ap/packages/audioplayers
 
   audioplayers_android_exo:
-    path: ../../packages/audioplayers/packages/audioplayers_android_exo
+    path: ../ap/packages/audioplayers_android_exo
 
   # audiotags:
   #   git:

@@ -33,6 +33,12 @@ class SongCubit extends Cubit<SongState> {
   static const double _minPlaybackSpeed = 0.5;
   static const double _maxPlaybackSpeed = 2.0;
 
+  /// Highest BPM the speed controls support. Values above this (e.g. from the
+  /// free-form BPM field) must be capped: otherwise the min/max bound
+  /// calculation would pass an inverted range to `clamp`, throwing
+  /// ArgumentError. See FLUTTER-B8.
+  static const int _maxSupportedBpm = 400;
+
   /// Active media handler. Concretely a [RepeatlabAudioplayersServiceHandler]
   /// for audio songs (set in [initSong]) or a [VideoPlayerHandler] for video
   /// songs (set in `VideoSongCubit.initVideo`). All cubit/widget code goes
@@ -317,13 +323,18 @@ class SongCubit extends Cubit<SongState> {
         _handleNavigationEvent,
       );
 
-      // Initialize speed control state - always reset to 1.0 on song open
-      final songBpm = state.song.bpm;
+      // Initialize speed control state - always reset to 1.0 on song open.
+      // Cap a persisted BPM to the supported range; older songs may have stored
+      // an out-of-range value that would make the bound calculation throw.
+      final rawBpm = state.song.bpm;
+      final songBpm = (rawBpm != null && rawBpm > _maxSupportedBpm)
+          ? _maxSupportedBpm
+          : rawBpm;
       int? initialMinBpm;
       int? initialMaxBpm;
       if (songBpm != null && songBpm > 0) {
         initialMinBpm = (songBpm * 0.5).round().clamp(1, songBpm);
-        initialMaxBpm = (songBpm * 2.0).round().clamp(songBpm, 400);
+        initialMaxBpm = (songBpm * 2.0).round().clamp(songBpm, _maxSupportedBpm);
       }
 
       emit(
@@ -1138,22 +1149,30 @@ class SongCubit extends Cubit<SongState> {
   Future<void> setOriginalBpm(int? bpm) async {
     dev.log('setOriginalBpm: $bpm', name: 'SongCubit');
 
+    // Cap to the supported range. The free-form BPM field can yield values far
+    // above what the speed controls support; without capping, the min/max bound
+    // calculation below would pass an inverted range to clamp and throw
+    // (FLUTTER-B8).
+    final effectiveBpm =
+        (bpm != null && bpm > _maxSupportedBpm) ? _maxSupportedBpm : bpm;
+
     try {
       // Persist to song model
-      final updatedSong = state.song.copyWith(bpm: bpm);
+      final updatedSong = state.song.copyWith(bpm: effectiveBpm);
       await songRepository.updateSong(updatedSong);
 
-      if (bpm != null && bpm > 0) {
+      if (effectiveBpm != null && effectiveBpm > 0) {
         // Calculate BPM bounds (0.5x to 2.0x of original)
-        final minBpm = (bpm * 0.5).round().clamp(1, bpm);
-        final maxBpm = (bpm * 2.0).round().clamp(bpm, 400);
+        final minBpm = (effectiveBpm * 0.5).round().clamp(1, effectiveBpm);
+        final maxBpm =
+            (effectiveBpm * 2.0).round().clamp(effectiveBpm, _maxSupportedBpm);
 
         emit(
           state.copyWith(
             status: SongStatus.updated,
             song: updatedSong,
-            originalBpm: bpm,
-            currentBpm: bpm,
+            originalBpm: effectiveBpm,
+            currentBpm: effectiveBpm,
             minBpm: minBpm,
             maxBpm: maxBpm,
             speed: 1.0, // Reset speed to 1.0 when setting original BPM

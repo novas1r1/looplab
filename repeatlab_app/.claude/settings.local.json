@@ -36,7 +36,10 @@
       "PowerShell(fvm flutter *)",
       "mcp__sentry__find_organizations",
       "mcp__sentry__search_issues",
-      "mcp__sentry__get_sentry_resource"
+      "mcp__sentry__get_sentry_resource",
+      "Read(//c/Development/repeatlab/**)",
+      "Bash(ls -la packages/)",
+      "Bash(ls -la packages/audioplayers/)"
     ]
   }
 }
