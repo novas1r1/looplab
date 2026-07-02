@@ -53,4 +53,16 @@ class VideoSongCubit extends SongCubit {
     videoController = VideoController(_videoHandler.player);
     await initWithHandler(_videoHandler);
   }
+
+  /// Unlike the audio handler (an app-lifetime singleton that only gets
+  /// stopped), the video handler is created per page and owns a native libmpv
+  /// player — it must be fully disposed here or every video page visit leaks
+  /// a player instance and its stream subscriptions.
+  @override
+  Future<void> close() async {
+    await super.close();
+    if (_initialized) {
+      await _videoHandler.close();
+    }
+  }
 }

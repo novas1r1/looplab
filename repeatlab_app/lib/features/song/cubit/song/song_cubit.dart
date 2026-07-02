@@ -43,7 +43,12 @@ class SongCubit extends Cubit<SongState> {
   /// for audio songs (set in [initSong]) or a [VideoPlayerHandler] for video
   /// songs (set in `VideoSongCubit.initVideo`). All cubit/widget code goes
   /// through the [MediaPlayerHandler] interface.
-  late final MediaPlayerHandler audioHandler;
+  ///
+  /// Nullable backing field: the cubit can be closed before init assigns the
+  /// handler (user pops the page while `AudioService.init` is still awaiting),
+  /// so [close] must be able to tell whether a handler exists at all.
+  MediaPlayerHandler? _audioHandler;
+  MediaPlayerHandler get audioHandler => _audioHandler!;
   StreamSubscription<List<Song>>? _songSubscription;
 
   Stream<PlayerState>? playerStateStream;
@@ -81,17 +86,25 @@ class SongCubit extends Cubit<SongState> {
 
   @override
   Future<void> close() async {
-    if (state.playerState == PlayerState.playing) {
+    // The handler may not exist yet if the page was popped mid-init.
+    final handler = _audioHandler;
+
+    if (handler != null && state.playerState == PlayerState.playing) {
       await stopSong();
     }
 
     await _songSubscription?.cancel();
     await _loopsSubscription?.cancel();
     await _navigationSubscription?.cancel();
+    // For audio songs the handler is an app-lifetime singleton with broadcast
+    // streams — without cancelling, this page's listeners keep firing after
+    // close (emit-after-close StateError, stray stopSong on the next song).
+    await _playerStateSubscription?.cancel();
+    await _positionSubscription?.cancel();
+    await _durationSubscription?.cancel();
 
     // Clean up audio service if available
-    await audioHandler.stop();
-    // dispose loop stream
+    await handler?.stop();
 
     return super.close();
   }
@@ -214,8 +227,20 @@ class SongCubit extends Cubit<SongState> {
   }
 
   Future<void> initSong(AudioPlayer audioPlayer) async {
-    final handler = await AudioServiceProvider.init(audioPlayer);
-    await initWithHandler(handler);
+    try {
+      final handler = await AudioServiceProvider.init(audioPlayer);
+      await initWithHandler(handler);
+    } catch (ex, stack) {
+      // Without this catch an AudioService.init failure is an unhandled
+      // exception and no state is emitted — the page spins forever.
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      maybeEmit(
+        state.copyWith(
+          status: SongStatus.loadError,
+          error: 'Failed to initialize audio service: $ex',
+        ),
+      );
+    }
   }
 
   /// Shared init body used by both audio (via [initSong]) and video (via
@@ -232,8 +257,8 @@ class SongCubit extends Cubit<SongState> {
       await _positionSubscription?.cancel();
       await _durationSubscription?.cancel();
 
-      // Assign the media handler (late final — assigned exactly once).
-      audioHandler = handler;
+      // Assign the media handler.
+      _audioHandler = handler;
 
       // Initialize subscriptions before any other operations
       playerStateStream = audioHandler.playerStateStream;
@@ -725,16 +750,25 @@ class SongCubit extends Cubit<SongState> {
     final startPosition = await position;
 
     try {
+      // Loop ids must be unique per song: update/delete match by id, so a
+      // duplicate id would corrupt other loops. `loops.length` is not unique
+      // once a loop has been deleted — use max(id) + 1 instead.
+      final nextId = state.song.loops.isEmpty
+          ? 0
+          : state.song.loops
+                    .map((l) => l.id)
+                    .reduce((a, b) => a > b ? a : b) +
+                1;
+
       // create a new loop
       final loop = Loop(
-        id: state.song.loops.length,
-        name: 'Loop ${state.song.loops.length + 1}',
+        id: nextId,
+        name: 'Loop ${nextId + 1}',
         songId: state.song.id,
         // for each new loop assign a color based on LoopColor.values
         // for the first loop, first color, for the second loop, second color, etc.
         // if the number of loops is greater than the number of colors, start again from the first color
-        color:
-            LoopColor.values[state.song.loops.length % LoopColor.values.length],
+        color: LoopColor.values[nextId % LoopColor.values.length],
         start: startPosition,
       );
 

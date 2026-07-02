@@ -171,6 +171,44 @@ void main() {
     await sourceDir.delete(recursive: true);
   });
 
+  test('pickAudioFiles renames the copy when a file with the same name already exists', () async {
+    // A previously imported song's audio already lives in the app dir.
+    final existing = File(p.join(tempAppDir.path, 'track01.mp3'));
+    await existing.writeAsString('existing song audio');
+
+    final sourceDir = await Directory.systemTemp.createTemp('file_repo_collision');
+    final sourceFile = File(p.join(sourceDir.path, 'track01.mp3'));
+    await sourceFile.writeAsString('different incoming audio');
+
+    when(
+      () => filePicker.pickFiles(
+        type: any(named: 'type'),
+        allowedExtensions: any(named: 'allowedExtensions'),
+        allowMultiple: any(named: 'allowMultiple'),
+      ),
+    ).thenAnswer(
+      (_) async => FilePickerResult([
+        PlatformFile(
+          name: 'track01.mp3',
+          path: sourceFile.path,
+          size: await sourceFile.length(),
+        ),
+      ]),
+    );
+
+    final repository = FileRepository(filePicker: filePicker);
+
+    final copiedFiles = await repository.pickAudioFiles();
+
+    expect(copiedFiles, hasLength(1));
+    expect(p.basename(copiedFiles.single.path), 'track01 (1).mp3');
+    expect(await copiedFiles.single.readAsString(), 'different incoming audio');
+    // The pre-existing file was not overwritten.
+    expect(await existing.readAsString(), 'existing song audio');
+
+    await sourceDir.delete(recursive: true);
+  });
+
   test('pickAudioFiles returns empty list when user cancels', () async {
     when(
       () => filePicker.pickFiles(

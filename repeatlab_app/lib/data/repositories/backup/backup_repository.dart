@@ -202,8 +202,9 @@ class BackupRepository {
   /// Imports a backup into the local DB and documents directory.
   ///
   /// Merge behavior: songs whose `id` already exists in the DB are skipped.
-  /// Replace behavior: the existing songs store is cleared first, then the
-  /// backup is merged into the empty DB.
+  /// Replace behavior: the backup is decoded and its files written to disk
+  /// first; only then is the existing songs store cleared and the backup
+  /// persisted — a corrupt or failing backup never destroys the library.
   ///
   /// Filename collisions (same name, different content) trigger a rename of
   /// the incoming file to `<stem>-imported-<shortuuid>.<ext>`.
@@ -218,12 +219,6 @@ class BackupRepository {
     final docsDir = await _getDocumentsDirectory();
     await docsDir.create(recursive: true);
 
-    var replaced = false;
-    if (mode == BackupImportMode.replace) {
-      await songRepository.clearDb();
-      replaced = true;
-    }
-
     final existingRecords = await _store.find(db);
     final existingIds = existingRecords
         .map((r) => r.value['id'] as String)
@@ -232,9 +227,14 @@ class BackupRepository {
     // Stream-decode in a background isolate. The isolate writes audio entries
     // straight to the docs dir and returns the song maps to persist; the DB
     // writes happen on the main isolate afterwards.
+    //
+    // In replace mode no ids are "existing" — the whole library is replaced,
+    // so every song in the backup should be imported, none skipped.
     final archivePath = file.path;
     final docsPath = docsDir.path;
-    final knownIds = existingIds.toList();
+    final knownIds = mode == BackupImportMode.replace
+        ? <String>[]
+        : existingIds.toList();
     final result = await Isolate.run(
       () => _streamImportInIsolate(
         archivePath: archivePath,
@@ -242,6 +242,17 @@ class BackupRepository {
         existingIds: knownIds,
       ),
     );
+
+    // Only wipe the existing library once the archive has decoded and its
+    // audio entries are safely on disk. Clearing before that point would
+    // destroy the user's library when the backup turns out to be corrupt or
+    // the import fails midway.
+    var replaced = false;
+    if (mode == BackupImportMode.replace) {
+      await songRepository.clearDb();
+      replaced = true;
+      existingIds.clear();
+    }
 
     for (final songMap in result.songMapsToPersist) {
       final id = songMap['id'] as String;
@@ -314,6 +325,18 @@ Future<_StreamImportResult> _streamImportInIsolate({
         continue;
       }
 
+      // Zip-slip guard: fileName comes straight from the backup's songs.json
+      // and is joined onto the docs dir below. A crafted backup with a name
+      // like "../../evil" could otherwise write outside the sandbox.
+      if (!_isSafeFileName(song.fileName)) {
+        log(
+          'BackupRepository: unsafe fileName in backup for '
+          'song "${song.title}" ("${song.fileName}"); skipping',
+        );
+        skipped++;
+        continue;
+      }
+
       final entry = archive.findFile(
         '${BackupSerializer.audioDirectory}/${song.fileName}',
       );
@@ -353,6 +376,16 @@ Future<_StreamImportResult> _streamImportInIsolate({
   } finally {
     await input.close();
   }
+}
+
+/// True when [fileName] is a plain file name that stays inside the directory
+/// it is joined onto: non-empty, no path separators (either flavor — backups
+/// may be crafted on any OS), and not a dot-segment.
+bool _isSafeFileName(String fileName) {
+  if (fileName.isEmpty) return false;
+  if (fileName.contains('/') || fileName.contains('\\')) return false;
+  if (fileName == '.' || fileName == '..') return false;
+  return true;
 }
 
 /// Streams a single archive entry to a temp file in [docsPath], then resolves

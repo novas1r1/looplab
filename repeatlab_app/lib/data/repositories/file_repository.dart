@@ -99,7 +99,11 @@ class FileRepository {
   }
 
   /// Copy every picked file into the app documents directory, preserving the
-  /// original file name. Files without a resolvable path are skipped.
+  /// original file name where possible. When a file with the same name is
+  /// already in the documents directory (an earlier import, possibly with
+  /// different content and loops pointing into it), the incoming copy is
+  /// renamed to `<stem> (n).<ext>` instead of overwriting it. Files without
+  /// a resolvable path are skipped.
   Future<List<File>> _copyPickedFiles(FilePickerResult? result) async {
     if (result == null || result.files.isEmpty) {
       return [];
@@ -116,7 +120,7 @@ class FileRepository {
 
       final sourceFile = File(_normalizePickedPath(rawPath));
       final fileName = _resolveFileName(pickedFile.name, sourceFile.path);
-      final destinationPath = p.join(appDir.path, fileName);
+      final destinationPath = await _uniqueDestinationPath(appDir, fileName);
       final newFile = File(destinationPath);
       await sourceFile.copy(newFile.path);
 
@@ -124,6 +128,27 @@ class FileRepository {
     }
 
     return copiedFiles;
+  }
+}
+
+/// Returns a path in [dir] for [fileName] that doesn't collide with an
+/// existing file: the name itself if free, otherwise `<stem> (n).<ext>` with
+/// the smallest free `n`.
+Future<String> _uniqueDestinationPath(Directory dir, String fileName) async {
+  final direct = p.join(dir.path, fileName);
+  if (!await File(direct).exists()) {
+    return direct;
+  }
+
+  final stem = p.basenameWithoutExtension(fileName);
+  final ext = p.extension(fileName);
+  var counter = 1;
+  while (true) {
+    final candidate = p.join(dir.path, '$stem ($counter)$ext');
+    if (!await File(candidate).exists()) {
+      return candidate;
+    }
+    counter++;
   }
 }
 

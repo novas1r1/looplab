@@ -7,6 +7,7 @@ import 'package:dart_mappable/dart_mappable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
+import 'package:repeatlab/core/utils/cubit_extension.dart';
 import 'package:repeatlab/data/repositories/backup/backup_exceptions.dart';
 import 'package:repeatlab/data/repositories/backup/backup_manifest.dart';
 import 'package:repeatlab/data/repositories/backup/backup_repository.dart';
@@ -69,7 +70,10 @@ class BackupCubit extends Cubit<BackupState> {
               ex.osError?.errorCode == _errNoSpaceOnDevice
           ? 'Not enough storage space on your device. Free up some space and try again.'
           : ex.toString();
-      emit(
+      // maybeEmit: the cubit is scoped to the settings page and these emits
+      // sit after long awaits (exporting a multi-GB library, the share sheet,
+      // importing) — the user may have navigated away by the time they run.
+      maybeEmit(
         state.copyWith(
           status: BackupStatus.failure,
           errorMessage: message,
@@ -104,7 +108,7 @@ class BackupCubit extends Cubit<BackupState> {
         'loops_settings': options.includeLoopsAndSettings,
       },
     );
-    emit(state.copyWith(status: BackupStatus.exportSuccess));
+    maybeEmit(state.copyWith(status: BackupStatus.exportSuccess));
   }
 
   /// Lets the user pick a backup file and returns its manifest so the UI can
@@ -119,7 +123,7 @@ class BackupCubit extends Cubit<BackupState> {
     } catch (ex, stack) {
       log('BackupCubit.pickBackupForImport: file pick failed: $ex');
       crashReportingRepository.reportError(ex, stack);
-      emit(
+      maybeEmit(
         state.copyWith(
           status: BackupStatus.failure,
           errorMessage: ex.toString(),
@@ -143,7 +147,7 @@ class BackupCubit extends Cubit<BackupState> {
     } on BackupSchemaVersionException catch (ex, stack) {
       log('BackupCubit.pickBackupForImport: schema newer than app: $ex');
       crashReportingRepository.reportError(ex, stack);
-      emit(
+      maybeEmit(
         state.copyWith(
           status: BackupStatus.failure,
           errorMessage: ex.toString(),
@@ -153,7 +157,7 @@ class BackupCubit extends Cubit<BackupState> {
     } on BackupFormatException catch (ex, stack) {
       log('BackupCubit.pickBackupForImport: malformed backup: $ex');
       crashReportingRepository.reportError(ex, stack);
-      emit(
+      maybeEmit(
         state.copyWith(
           status: BackupStatus.failure,
           errorMessage: ex.toString(),
@@ -163,7 +167,7 @@ class BackupCubit extends Cubit<BackupState> {
     } catch (ex, stack) {
       log('BackupCubit.pickBackupForImport: unexpected: $ex');
       crashReportingRepository.reportError(ex, stack);
-      emit(
+      maybeEmit(
         state.copyWith(
           status: BackupStatus.failure,
           errorMessage: ex.toString(),
@@ -190,7 +194,7 @@ class BackupCubit extends Cubit<BackupState> {
           'renamed': summary.filesRenamed,
         },
       );
-      emit(
+      maybeEmit(
         state.copyWith(
           status: BackupStatus.importSuccess,
           lastImportSummary: summary,
@@ -208,7 +212,7 @@ class BackupCubit extends Cubit<BackupState> {
               ex.osError?.errorCode == _errNoSpaceOnDevice
           ? 'Not enough storage space on your device. Free up some space and try again.'
           : ex.toString();
-      emit(
+      maybeEmit(
         state.copyWith(
           status: BackupStatus.failure,
           errorMessage: message,

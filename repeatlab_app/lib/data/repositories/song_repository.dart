@@ -269,8 +269,19 @@ class SongRepository {
   Future<File?> _convertToWav(File file) async {
     final ext = file.path.toLowerCase().split('.').last;
 
-    // Build the output path by replacing the original extension with .wav
-    final outputPath = '${file.path.substring(0, file.path.length - ext.length)}wav';
+    // Build the output path by replacing the original extension with .wav.
+    // If that name is already taken (a previously imported song — its loops
+    // point into that audio), pick `<stem> (n).wav` instead of overwriting.
+    var outputPath = '${file.path.substring(0, file.path.length - ext.length)}wav';
+    if (await File(outputPath).exists()) {
+      final dir = p.dirname(outputPath);
+      final stem = p.basenameWithoutExtension(outputPath);
+      var counter = 1;
+      while (await File(p.join(dir, '$stem ($counter).wav')).exists()) {
+        counter++;
+      }
+      outputPath = p.join(dir, '$stem ($counter).wav');
+    }
 
     // FFmpeg command to convert the audio. "-y" overwrites existing files,
     // "-vn" drops any (unlikely) video track, and we encode the audio stream
