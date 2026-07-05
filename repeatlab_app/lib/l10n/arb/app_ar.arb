@@ -330,6 +330,8 @@
     "editSongArtist": "الفنان",
     "editSongTitleRequired": "لا يمكن أن يكون العنوان فارغًا",
     "addVideo": "إضافة فيديو",
+    "importingMedia": "جارٍ الاستيراد… قد تستغرق الملفات الكبيرة بعض الوقت.",
+    "importingMediaProgress": "الملف {current} من {total}",
     "betaLabel": "تجريبي",
     "backupExportSheetTitle": "ماذا تريد تصدير؟",
     "backupExportOptionAudios": "أغاني صوتية",

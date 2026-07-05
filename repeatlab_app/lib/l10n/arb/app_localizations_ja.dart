@@ -906,5 +906,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get addVideo => '動画を追加';
 
   @override
+  String get importingMedia => 'インポート中… 大きなファイルは時間がかかることがあります。';
+
+  @override
+  String importingMediaProgress(int current, int total) {
+    return 'ファイル $current / $total';
+  }
+
+  @override
   String get betaLabel => 'ベータ';
 }

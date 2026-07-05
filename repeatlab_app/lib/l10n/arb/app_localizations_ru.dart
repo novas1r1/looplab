@@ -945,5 +945,14 @@ class AppLocalizationsRu extends AppLocalizations {
   String get addVideo => 'Добавить видео';
 
   @override
+  String get importingMedia =>
+      'Импорт… Большие файлы могут занять некоторое время.';
+
+  @override
+  String importingMediaProgress(int current, int total) {
+    return 'Файл $current из $total';
+  }
+
+  @override
   String get betaLabel => 'БЕТА';
 }

@@ -37,7 +37,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final songCount = context.watch<AllSongsCubit>().state.songs.length;
+    final allSongsState = context.watch<AllSongsCubit>().state;
+    final songCount = allSongsState.songs.length;
+    // Block a second import while one is running (or the list is loading);
+    // large videos can take a while to copy and probe.
+    final isBusy = allSongsState.status == AllSongsStatus.loading ||
+        allSongsState.status == AllSongsStatus.importing;
 
     return BlocListener<ChangelogDialogCubit, ChangelogDialogState>(
       listener: (context, state) {
@@ -119,6 +124,37 @@ class _HomePageState extends State<HomePage> {
             switch (state.status) {
               case AllSongsStatus.loading:
                 return const Center(child: Loading());
+              case AllSongsStatus.importing:
+                return Center(
+                  key: const Key('home.importing'),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Loading(),
+                      const SizedBox(height: 16),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 32),
+                        child: Text(
+                          context.l10n.importingMedia,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ),
+                      if (state.importCurrent != null && state.importTotal != null) ...[
+                        const SizedBox(height: 8),
+                        Text(
+                          context.l10n.importingMediaProgress(
+                            state.importCurrent!,
+                            state.importTotal!,
+                          ),
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: AppColors.onSurface.withValues(alpha: 0.6),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                );
               case AllSongsStatus.initial:
               case AllSongsStatus.loaded:
               case AllSongsStatus.error:
@@ -179,7 +215,10 @@ class _HomePageState extends State<HomePage> {
         floatingActionButton: FloatingActionButton.extended(
           key: const Key('home.fab'),
           heroTag: 'addMedia',
-          onPressed: () => _showAddMediaSheet(context, songCount),
+          onPressed: isBusy ? null : () => _showAddMediaSheet(context, songCount),
+          backgroundColor: isBusy
+              ? Theme.of(context).disabledColor
+              : null,
           icon: const Icon(Icons.add),
           label: Text(
             context.l10n.addSong,

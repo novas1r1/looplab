@@ -940,5 +940,13 @@ class AppLocalizationsSv extends AppLocalizations {
   String get addVideo => 'Lägg till video';
 
   @override
+  String get importingMedia => 'Importerar… Stora filer kan ta en stund.';
+
+  @override
+  String importingMediaProgress(int current, int total) {
+    return 'Fil $current av $total';
+  }
+
+  @override
   String get betaLabel => 'BETA';
 }

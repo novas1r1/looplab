@@ -330,6 +330,8 @@
     "editSongArtist": "कलाकार",
     "editSongTitleRequired": "शीर्षक खाली नहीं हो सकता",
     "addVideo": "वीडियो जोड़ें",
+    "importingMedia": "आयात हो रहा है… बड़ी फ़ाइलों में कुछ समय लग सकता है।",
+    "importingMediaProgress": "फ़ाइल {current} / {total}",
     "betaLabel": "बीटा",
     "backupExportSheetTitle": "आप क्या एक्सपोर्ट करना चाहते हैं?",
     "backupExportOptionAudios": "ऑडियो गीत",

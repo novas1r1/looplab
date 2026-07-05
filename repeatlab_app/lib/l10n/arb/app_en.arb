@@ -427,6 +427,22 @@
     "@addVideo": {
         "description": "Title of the \"Add video\" option in the add-media bottom sheet on the home page. Used as a button-style label."
     },
+    "importingMedia": "Importing… Large files can take a while.",
+    "@importingMedia": {
+        "description": "Waiting text shown on the home page while picked audio/video files are being copied into the app and analyzed. Shown next to a loading indicator."
+    },
+    "importingMediaProgress": "File {current} of {total}",
+    "@importingMediaProgress": {
+        "description": "Progress line below the import waiting text when multiple files are imported, e.g. 'File 2 of 5'.",
+        "placeholders": {
+            "current": {
+                "type": "int"
+            },
+            "total": {
+                "type": "int"
+            }
+        }
+    },
     "betaLabel": "BETA",
     "@betaLabel": {
         "description": "Short pill/badge label shown next to features that are in beta. Should remain very short (3-6 chars) and uppercase where appropriate for the locale."

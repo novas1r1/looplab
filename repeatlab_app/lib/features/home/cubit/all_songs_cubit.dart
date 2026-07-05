@@ -50,7 +50,7 @@ class AllSongsCubit extends Cubit<AllSongsState> {
   }
 
   Future<void> addSong() async {
-    emit(state.copyWith(status: AllSongsStatus.loading));
+    emit(state.copyWith(status: AllSongsStatus.importing));
 
     List<File> files;
     try {
@@ -72,7 +72,10 @@ class AllSongsCubit extends Cubit<AllSongsState> {
     AllSongsStatus? failureStatus;
     String? failureMessage;
 
-    for (final file in files) {
+    for (final (index, file) in files.indexed) {
+      emit(
+        state.copyWith(importCurrent: index + 1, importTotal: files.length),
+      );
       try {
         await songRepository.addSongFile(file);
         addedAny = true;
@@ -124,7 +127,7 @@ class AllSongsCubit extends Cubit<AllSongsState> {
   }
 
   Future<void> addVideo() async {
-    emit(state.copyWith(status: AllSongsStatus.loading));
+    emit(state.copyWith(status: AllSongsStatus.importing));
 
     List<File> files;
     try {
@@ -144,7 +147,10 @@ class AllSongsCubit extends Cubit<AllSongsState> {
     AllSongsStatus? failureStatus;
     String? failureMessage;
 
-    for (final file in files) {
+    for (final (index, file) in files.indexed) {
+      emit(
+        state.copyWith(importCurrent: index + 1, importTotal: files.length),
+      );
       try {
         await songRepository.addVideoFile(file);
         addedAny = true;
@@ -204,10 +210,19 @@ class AllSongsCubit extends Cubit<AllSongsState> {
           status: failureStatus,
           songs: songs,
           errorMessage: failureMessage,
+          importCurrent: null,
+          importTotal: null,
         ),
       );
     } else {
-      emit(state.copyWith(status: AllSongsStatus.loaded, songs: songs));
+      emit(
+        state.copyWith(
+          status: AllSongsStatus.loaded,
+          songs: songs,
+          importCurrent: null,
+          importTotal: null,
+        ),
+      );
     }
   }
 

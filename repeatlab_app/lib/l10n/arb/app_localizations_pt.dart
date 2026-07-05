@@ -948,5 +948,14 @@ class AppLocalizationsPt extends AppLocalizations {
   String get addVideo => 'Adicionar vídeo';
 
   @override
+  String get importingMedia =>
+      'Importando… Arquivos grandes podem demorar um pouco.';
+
+  @override
+  String importingMediaProgress(int current, int total) {
+    return 'Arquivo $current de $total';
+  }
+
+  @override
   String get betaLabel => 'BETA';
 }

@@ -98,12 +98,17 @@ class FileRepository {
     return _copyPickedFiles(result);
   }
 
-  /// Copy every picked file into the app documents directory, preserving the
+  /// Move every picked file into the app documents directory, preserving the
   /// original file name where possible. When a file with the same name is
   /// already in the documents directory (an earlier import, possibly with
-  /// different content and loops pointing into it), the incoming copy is
+  /// different content and loops pointing into it), the incoming file is
   /// renamed to `<stem> (n).<ext>` instead of overwriting it. Files without
   /// a resolvable path are skipped.
+  ///
+  /// The picker already materializes a throwaway copy in the app cache, so a
+  /// rename is enough — it is near-instant and avoids duplicating multi-hundred
+  /// MB videos. Falls back to a full copy when the source sits on another
+  /// volume (e.g. iOS security-scoped paths outside the cache dir).
   Future<List<File>> _copyPickedFiles(FilePickerResult? result) async {
     if (result == null || result.files.isEmpty) {
       return [];
@@ -122,7 +127,11 @@ class FileRepository {
       final fileName = _resolveFileName(pickedFile.name, sourceFile.path);
       final destinationPath = await _uniqueDestinationPath(appDir, fileName);
       final newFile = File(destinationPath);
-      await sourceFile.copy(newFile.path);
+      try {
+        await sourceFile.rename(newFile.path);
+      } on FileSystemException {
+        await sourceFile.copy(newFile.path);
+      }
 
       copiedFiles.add(newFile);
     }

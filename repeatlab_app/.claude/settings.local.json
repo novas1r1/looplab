@@ -39,7 +39,8 @@
       "mcp__sentry__get_sentry_resource",
       "Read(//c/Development/repeatlab/**)",
       "Bash(ls -la packages/)",
-      "Bash(ls -la packages/audioplayers/)"
+      "Bash(ls -la packages/audioplayers/)",
+      "PowerShell(fvm dart *)"
     ]
   }
 }

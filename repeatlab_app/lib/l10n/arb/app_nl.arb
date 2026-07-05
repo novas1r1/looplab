@@ -326,6 +326,8 @@
     "editSongArtist": "Artiest",
     "editSongTitleRequired": "Titel mag niet leeg zijn",
     "addVideo": "Video toevoegen",
+    "importingMedia": "Importeren… Grote bestanden kunnen even duren.",
+    "importingMediaProgress": "Bestand {current} van {total}",
     "betaLabel": "BETA",
     "backupExportSheetTitle": "Wat wil je exporteren?",
     "backupExportOptionAudios": "Audionummers",

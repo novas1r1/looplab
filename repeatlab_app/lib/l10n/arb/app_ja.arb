@@ -329,6 +329,8 @@
     "editSongArtist": "アーティスト",
     "editSongTitleRequired": "タイトルは空にできません",
     "addVideo": "動画を追加",
+    "importingMedia": "インポート中… 大きなファイルは時間がかかることがあります。",
+    "importingMediaProgress": "ファイル {current} / {total}",
     "betaLabel": "ベータ",
     "backupExportSheetTitle": "何をエクスポートしますか？",
     "backupExportOptionAudios": "オーディオ曲",

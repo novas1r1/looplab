@@ -932,5 +932,14 @@ class AppLocalizationsAr extends AppLocalizations {
   String get addVideo => 'إضافة فيديو';
 
   @override
+  String get importingMedia =>
+      'جارٍ الاستيراد… قد تستغرق الملفات الكبيرة بعض الوقت.';
+
+  @override
+  String importingMediaProgress(int current, int total) {
+    return 'الملف $current من $total';
+  }
+
+  @override
   String get betaLabel => 'تجريبي';
 }

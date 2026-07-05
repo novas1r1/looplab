@@ -329,6 +329,8 @@
     "editSongArtist": "Sanatçı",
     "editSongTitleRequired": "Başlık boş olamaz",
     "addVideo": "Video ekle",
+    "importingMedia": "İçe aktarılıyor… Büyük dosyalar biraz zaman alabilir.",
+    "importingMediaProgress": "Dosya {current} / {total}",
     "betaLabel": "BETA",
     "backupExportSheetTitle": "Ne dışa aktarmak istiyorsunuz?",
     "backupExportOptionAudios": "Ses şarkıları",

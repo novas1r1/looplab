@@ -6,12 +6,20 @@ class AllSongsState with AllSongsStateMappable {
   final List<Song> songs;
   final String? errorMessage;
 
+  /// 1-based index of the media file currently being imported, set together
+  /// with [importTotal] once the batch size is known (after picking); both
+  /// are `null` otherwise.
+  final int? importCurrent;
+  final int? importTotal;
+
   const AllSongsState({
     this.status = AllSongsStatus.initial,
     this.songs = const [],
     this.errorMessage,
+    this.importCurrent,
+    this.importTotal,
   });
 }
 
 @MappableEnum()
-enum AllSongsStatus { initial, loading, loaded, error, errorVideoFormat }
+enum AllSongsStatus { initial, loading, importing, loaded, error, errorVideoFormat }

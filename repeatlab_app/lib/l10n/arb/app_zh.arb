@@ -330,6 +330,8 @@
     "editSongArtist": "艺术家",
     "editSongTitleRequired": "标题不能为空",
     "addVideo": "添加视频",
+    "importingMedia": "正在导入… 大文件可能需要一些时间。",
+    "importingMediaProgress": "第 {current} 个，共 {total} 个",
     "betaLabel": "测试版",
     "backupExportSheetTitle": "您想导出什么？",
     "backupExportOptionAudios": "音频歌曲",

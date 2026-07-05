@@ -327,6 +327,8 @@
     "editSongArtist": "Artista",
     "editSongTitleRequired": "El título no puede estar vacío",
     "addVideo": "Agregar video",
+    "importingMedia": "Importando… Los archivos grandes pueden tardar un poco.",
+    "importingMediaProgress": "Archivo {current} de {total}",
     "betaLabel": "BETA",
     "backupExportSheetTitle": "¿Qué quieres exportar?",
     "backupExportOptionAudios": "Canciones de audio",

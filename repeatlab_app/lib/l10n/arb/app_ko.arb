@@ -329,6 +329,8 @@
     "editSongArtist": "아티스트",
     "editSongTitleRequired": "제목은 비워 둘 수 없습니다",
     "addVideo": "동영상 추가",
+    "importingMedia": "가져오는 중… 큰 파일은 시간이 걸릴 수 있습니다.",
+    "importingMediaProgress": "파일 {current} / {total}",
     "betaLabel": "베타",
     "backupExportSheetTitle": "무엇을 내보내시겠습니까?",
     "backupExportOptionAudios": "오디오 곡",

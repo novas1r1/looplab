@@ -326,6 +326,8 @@
     "editSongArtist": "Исполнитель",
     "editSongTitleRequired": "Название не может быть пустым",
     "addVideo": "Добавить видео",
+    "importingMedia": "Импорт… Большие файлы могут занять некоторое время.",
+    "importingMediaProgress": "Файл {current} из {total}",
     "betaLabel": "БЕТА",
     "backupExportSheetTitle": "Что вы хотите экспортировать?",
     "backupExportOptionAudios": "Аудиопесни",

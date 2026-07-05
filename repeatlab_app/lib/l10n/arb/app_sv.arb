@@ -326,6 +326,8 @@
     "editSongArtist": "Artist",
     "editSongTitleRequired": "Titeln får inte vara tom",
     "addVideo": "Lägg till video",
+    "importingMedia": "Importerar… Stora filer kan ta en stund.",
+    "importingMediaProgress": "Fil {current} av {total}",
     "betaLabel": "BETA",
     "backupExportSheetTitle": "Vad vill du exportera?",
     "backupExportOptionAudios": "Ljudlåtar",

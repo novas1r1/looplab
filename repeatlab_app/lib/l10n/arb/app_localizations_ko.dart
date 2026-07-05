@@ -904,5 +904,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get addVideo => '동영상 추가';
 
   @override
+  String get importingMedia => '가져오는 중… 큰 파일은 시간이 걸릴 수 있습니다.';
+
+  @override
+  String importingMediaProgress(int current, int total) {
+    return '파일 $current / $total';
+  }
+
+  @override
   String get betaLabel => '베타';
 }

@@ -142,7 +142,7 @@ void main() {
 
     group('addSong', () {
       blocTest<AllSongsCubit, AllSongsState>(
-        'emits [loading, initial] when user cancels file picker',
+        'emits [importing, initial] when user cancels file picker',
         build: () {
           when(() => mockFileRepository.pickAudioFiles()).thenAnswer(
             (_) async => [],
@@ -151,13 +151,13 @@ void main() {
         },
         act: (cubit) => cubit.addSong(),
         expect: () => [
-          isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.loading),
+          isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.importing),
           isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.initial),
         ],
       );
 
       blocTest<AllSongsCubit, AllSongsState>(
-        'emits [loading, loaded] when file is picked and added successfully',
+        'emits [importing, progress, loaded] when file is picked and added successfully',
         build: () {
           final mockFile = MockFile();
           when(() => mockFile.path).thenReturn('/path/to/song.mp3');
@@ -174,12 +174,19 @@ void main() {
         },
         act: (cubit) => cubit.addSong(),
         expect: () => [
-          isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.loading),
-          isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.loaded).having(
-            (s) => s.songs,
-            'songs',
-            [MockData.songShort],
-          ),
+          isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.importing),
+          isA<AllSongsState>()
+              .having((s) => s.status, 'status', AllSongsStatus.importing)
+              .having((s) => s.importCurrent, 'importCurrent', 1)
+              .having((s) => s.importTotal, 'importTotal', 1),
+          isA<AllSongsState>()
+              .having((s) => s.status, 'status', AllSongsStatus.loaded)
+              .having((s) => s.importTotal, 'importTotal', isNull)
+              .having(
+                (s) => s.songs,
+                'songs',
+                [MockData.songShort],
+              ),
         ],
       );
 
@@ -203,7 +210,13 @@ void main() {
         },
         act: (cubit) => cubit.addSong(),
         expect: () => [
-          isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.loading),
+          isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.importing),
+          isA<AllSongsState>()
+              .having((s) => s.importCurrent, 'importCurrent', 1)
+              .having((s) => s.importTotal, 'importTotal', 2),
+          isA<AllSongsState>()
+              .having((s) => s.importCurrent, 'importCurrent', 2)
+              .having((s) => s.importTotal, 'importTotal', 2),
           isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.loaded).having(
             (s) => s.songs,
             'songs',
@@ -238,7 +251,13 @@ void main() {
         },
         act: (cubit) => cubit.addSong(),
         expect: () => [
-          isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.loading),
+          isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.importing),
+          isA<AllSongsState>()
+              .having((s) => s.importCurrent, 'importCurrent', 1)
+              .having((s) => s.importTotal, 'importTotal', 2),
+          isA<AllSongsState>()
+              .having((s) => s.importCurrent, 'importCurrent', 2)
+              .having((s) => s.importTotal, 'importTotal', 2),
           isA<AllSongsState>()
               .having((s) => s.status, 'status', AllSongsStatus.error)
               .having((s) => s.songs, 'songs', [MockData.songShort])
@@ -256,7 +275,7 @@ void main() {
       );
 
       blocTest<AllSongsCubit, AllSongsState>(
-        'emits [loading, error] when addSongFile throws',
+        'emits [importing, error] when addSongFile throws',
         build: () {
           final mockFile = MockFile();
           when(() => mockFile.path).thenReturn('/path/to/song.mp3');
@@ -273,7 +292,10 @@ void main() {
         },
         act: (cubit) => cubit.addSong(),
         expect: () => [
-          isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.loading),
+          isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.importing),
+          isA<AllSongsState>()
+              .having((s) => s.importCurrent, 'importCurrent', 1)
+              .having((s) => s.importTotal, 'importTotal', 1),
           isA<AllSongsState>()
               .having((s) => s.status, 'status', AllSongsStatus.error)
               .having(

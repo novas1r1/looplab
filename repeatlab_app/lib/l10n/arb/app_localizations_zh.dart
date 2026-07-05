@@ -887,5 +887,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get addVideo => '添加视频';
 
   @override
+  String get importingMedia => '正在导入… 大文件可能需要一些时间。';
+
+  @override
+  String importingMediaProgress(int current, int total) {
+    return '第 $current 个，共 $total 个';
+  }
+
+  @override
   String get betaLabel => '测试版';
 }

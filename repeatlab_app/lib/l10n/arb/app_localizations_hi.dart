@@ -941,5 +941,14 @@ class AppLocalizationsHi extends AppLocalizations {
   String get addVideo => 'वीडियो जोड़ें';
 
   @override
+  String get importingMedia =>
+      'आयात हो रहा है… बड़ी फ़ाइलों में कुछ समय लग सकता है।';
+
+  @override
+  String importingMediaProgress(int current, int total) {
+    return 'फ़ाइल $current / $total';
+  }
+
+  @override
   String get betaLabel => 'बीटा';
 }

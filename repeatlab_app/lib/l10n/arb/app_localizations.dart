@@ -1764,6 +1764,18 @@ abstract class AppLocalizations {
   /// **'Add video'**
   String get addVideo;
 
+  /// Waiting text shown on the home page while picked audio/video files are being copied into the app and analyzed. Shown next to a loading indicator.
+  ///
+  /// In en, this message translates to:
+  /// **'Importing… Large files can take a while.'**
+  String get importingMedia;
+
+  /// Progress line below the import waiting text when multiple files are imported, e.g. 'File 2 of 5'.
+  ///
+  /// In en, this message translates to:
+  /// **'File {current} of {total}'**
+  String importingMediaProgress(int current, int total);
+
   /// Short pill/badge label shown next to features that are in beta. Should remain very short (3-6 chars) and uppercase where appropriate for the locale.
   ///
   /// In en, this message translates to:
