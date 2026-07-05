@@ -158,12 +158,14 @@
     "purchaseSuccess": "تم الشراء بنجاح. شكرًا لدعم المطور ❤️!",
     "voteForFeatures": "التصويت على الميزات",
     "changelogTitle": "سجل التغييرات",
+    "changelog201Title": "تشغيل الفيديو على شكل حلقات وتغيير السرعة (Beta)",
+    "changelog201Description": "استورد مقاطع الفيديو وكرّرها تمامًا كالأغاني الصوتية - أو غيّر السرعة - مثالي للتدرب مع الشروحات أو العروض الحية. هذه الميزة في مرحلة البيتا حاليًا؛ أرسل لي ملاحظاتك إذا واجهت أي مشكلة.",
     "changelog180Title": "إعادة ترتيب أغانيك",
-    "changelog180Description": "نظّم قائمة أغانيك كما تريد — اضغط مطولاً على أي أغنية واسحبها إلى موضع جديد. يُحفظ ترتيبك المخصص تلقائياً.",
+    "changelog180Description": "نظّم قائمة أغانيك كما تريد - اضغط مطولاً على أي أغنية واسحبها إلى موضع جديد. يُحفظ ترتيبك المخصص تلقائياً.",
     "changelog170Title": "حفظ ونقل مكتبتك",
     "changelog170Description": "تصدير مكتبتك كاملة - الأغاني والحلقات والصوت - إلى ملف واحد، ثم استعادته على جهاز آخر باستخدام Pro. اختر الجمع بينها لإضافة أغاني جديدة بجانب الأغاني الموجودة، أو استبدالها لبدء من جديد.",
     "changelog170LanguageTitle": "اختر لغتك",
-    "changelog170LanguageDescription": "بدّل لغة التطبيق من القائمة — اختر من بين 16 لغة مدعومة أو اتبع الإعدادات الافتراضية لجهازك.",
+    "changelog170LanguageDescription": "بدّل لغة التطبيق من القائمة - اختر من بين 16 لغة مدعومة أو اتبع الإعدادات الافتراضية لجهازك.",
     "changelog1601Title": "1/3 تشغيل تلقائي عند تحديد حلقات أو التنقل بينهم",
     "changelog1601Description": "في إعدادات الأغنية، يمكنك الآن تمكين أو تعطيل التشغيل التلقائي للحلقات والأغنية بأكملها.",
     "changelog1602Title": "2/3 تحسين تحكم الحلقات",
@@ -198,6 +200,17 @@
     "songAddError": "فشل في إضافة الأغنية. قد يكون هذا بسبب مشكلة في تنسيق الملف. يرجى محاولة تحويل الملف إلى تنسيق مدعوم مثل mp3 أو wav.",
     "unsupportedAudioFormatError": "تنسيق الصوت \".{format}\" غير مدعوم. التنسيقات المدعومة: {supportedFormats}.",
     "@unsupportedAudioFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
+    "unsupportedVideoFormatError": "تنسيق الفيديو \".{format}\" غير مدعوم. التنسيقات المدعومة: {supportedFormats}.",
+    "@unsupportedVideoFormatError": {
         "placeholders": {
             "format": {
                 "type": "String"
@@ -283,7 +296,7 @@
     "deleteSongConfirmationTitle": "حذف الأغنية",
     "settings": "الإعدادات",
     "analytics": "التحليلات",
-    "analyticsDescription": "نحن نستخدم Microsoft Clarity لجمع بيانات الاستخدام وتحسين التطبيق. لا يتم مشاركة هذه البيانات مع الأطراف الثالثة.",
+    "analyticsDescription": "نستخدم Microsoft Clarity وPostHog لجمع بيانات استخدام مجهولة المصدر وتحسين التطبيق. تتم معالجة بياناتك في الاتحاد الأوروبي ولا تُباع أبدًا لأطراف ثالثة.",
     "enterSongBpm": "BPM الأغنية",
     "enterSongBpmDescription": "أدخل BPM الأغنية",
     "enterSongBpmHint": "مثل 120",
@@ -315,5 +328,63 @@
     "editSong": "تعديل الأغنية",
     "editSongTitle": "العنوان",
     "editSongArtist": "الفنان",
-    "editSongTitleRequired": "لا يمكن أن يكون العنوان فارغًا"
+    "editSongTitleRequired": "لا يمكن أن يكون العنوان فارغًا",
+    "addVideo": "إضافة فيديو",
+    "importingMedia": "جارٍ الاستيراد… قد تستغرق الملفات الكبيرة بعض الوقت.",
+    "importingMediaProgress": "الملف {current} من {total}",
+    "betaLabel": "تجريبي",
+    "backupExportSheetTitle": "ماذا تريد تصدير؟",
+    "backupExportOptionAudios": "أغاني صوتية",
+    "backupExportOptionAudiosSubtitle": "تضمين ملفات الصوت (MP3, WAV, …)",
+    "backupExportOptionVideos": "أغاني فيديو",
+    "backupExportOptionVideosSubtitle": "تضمين ملفات الفيديو (MP4, MOV, …)",
+    "backupExportOptionLoopsAndSettings": "الحلقات وإعدادات الأغنية",
+    "backupExportOptionLoopsAndSettingsSubtitle": "تضمين الحلقات، BPM، ترتيب الفرز وحجم معاينة الفيديو",
+    "backupExportSheetExport": "تصدير",
+    "backupExportSheetCancel": "إلغاء",
+    "backupExportSheetNoMediaSelected": "اختر صوتًا أو فيديو على الأقل.",
+    "backupAndRestore": "النسخ الاحتياطي والاستعادة",
+    "backupExport": "تصدير مكتبتي",
+    "backupExportSubtitle": "احفظ جميع الأغاني والحلقات في ملف واحد يمكنك نقله إلى جهاز آخر.",
+    "backupImport": "استيراد نسخة احتياطية",
+    "backupImportSubtitle": "استعد الأغاني والحلقات من ملف تم تصديره مسبقًا.",
+    "backupProOnly": "ميزة Pro",
+    "backupExporting": "جارٍ تحضير النسخة الاحتياطية…",
+    "backupImporting": "جارٍ الاستيراد…",
+    "backupExportFailed": "فشل التصدير: {message}",
+    "@backupExportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportFailed": "فشل الاستيراد: {message}",
+    "@backupImportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportMalformed": "هذا الملف ليس نسخة احتياطية صالحة لـ RepeatLab.",
+    "backupImportSchemaTooNew": "تم إنشاء هذه النسخة الاحتياطية بإصدار أحدث من RepeatLab. يرجى تحديث التطبيق لاستيرادها.",
+    "backupImportConfirmTitle": "استيراد نسخة احتياطية",
+    "backupImportConfirmMessage": "تحتوي هذه النسخة الاحتياطية على {songCount} أغنية (تم التصدير في {exportedAt}).",
+    "@backupImportConfirmMessage": {
+        "placeholders": {
+            "songCount": { "type": "int" },
+            "exportedAt": { "type": "String" }
+        }
+    },
+    "backupImportModeMerge": "دمج",
+    "backupImportModeMergeDescription": "إضافة أغانٍ جديدة مع الاحتفاظ بالموجودة.",
+    "backupImportModeReplace": "استبدال",
+    "backupImportModeReplaceDescription": "حذف كل شيء والاستيراد من الصفر.",
+    "backupImportReplaceConfirmTitle": "استبدال المكتبة بالكامل؟",
+    "backupImportReplaceConfirmMessage": "سيؤدي هذا إلى حذف جميع الأغاني والحلقات الحالية نهائيًا قبل الاستيراد. لا يمكن التراجع عن هذا الإجراء.",
+    "backupImportSuccess": "تم استيراد {imported} أغنية. تم تخطي {skipped}، وإعادة تسمية {renamed}.",
+    "@backupImportSuccess": {
+        "placeholders": {
+            "imported": { "type": "int" },
+            "skipped": { "type": "int" },
+            "renamed": { "type": "int" }
+        }
+    }
 }

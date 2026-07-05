@@ -157,6 +157,8 @@
     "purchaseSuccess": "购买成功。感谢您支持开发者 ❤️！",
     "voteForFeatures": "功能投票",
     "changelogTitle": "更新日志",
+    "changelog201Title": "视频循环与速度调节（Beta）",
+    "changelog201Description": "导入视频并像音频歌曲一样循环播放 - 或调节速度 - 非常适合跟随教程或现场表演练习。此功能目前处于 Beta 阶段；如遇到问题，请把你的反馈发给我。",
     "changelog180Title": "重新排列您的歌曲",
     "changelog180Description": "按照您的喜好整理歌曲列表——长按任意歌曲并将其拖动到新位置。您的自定义顺序将自动保存。",
     "changelog170Title": "备份和移动您的库",
@@ -197,6 +199,17 @@
     "songAddError": "添加歌曲失败。这可能是由于文件格式问题。请尝试将文件转换为支持的格式，如 mp3 或 wav。",
     "unsupportedAudioFormatError": "音频格式 \".{format}\" 不受支持。支持的格式：{supportedFormats}。",
     "@unsupportedAudioFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
+    "unsupportedVideoFormatError": "视频格式 \".{format}\" 不受支持。支持的格式：{supportedFormats}。",
+    "@unsupportedVideoFormatError": {
         "placeholders": {
             "format": {
                 "type": "String"
@@ -282,7 +295,7 @@
     "deleteSongConfirmationTitle": "删除歌曲",
     "settings": "设置",
     "analytics": "分析",
-    "analyticsDescription": "我们使用 Microsoft Clarity 收集使用数据并改进应用程序。这些数据不会与第三方共享。",
+    "analyticsDescription": "我们使用 Microsoft Clarity 和 PostHog 收集匿名使用数据并改进应用程序。您的数据在欧盟处理，绝不会出售给第三方。",
     "enterSongBpm": "歌曲 BPM",
     "enterSongBpmDescription": "输入歌曲的原始 BPM 以更改速度。这在练习不同速度的歌曲时很有用。BPM 将分配给歌曲并保存。",
     "enterSongBpmHint": "例如 120",
@@ -315,5 +328,63 @@
     "editSong": "编辑歌曲",
     "editSongTitle": "标题",
     "editSongArtist": "艺术家",
-    "editSongTitleRequired": "标题不能为空"
+    "editSongTitleRequired": "标题不能为空",
+    "addVideo": "添加视频",
+    "importingMedia": "正在导入… 大文件可能需要一些时间。",
+    "importingMediaProgress": "第 {current} 个，共 {total} 个",
+    "betaLabel": "测试版",
+    "backupExportSheetTitle": "您想导出什么？",
+    "backupExportOptionAudios": "音频歌曲",
+    "backupExportOptionAudiosSubtitle": "包含音频文件 (MP3, WAV, …)",
+    "backupExportOptionVideos": "视频歌曲",
+    "backupExportOptionVideosSubtitle": "包含视频文件 (MP4, MOV, …)",
+    "backupExportOptionLoopsAndSettings": "循环与歌曲设置",
+    "backupExportOptionLoopsAndSettingsSubtitle": "包含循环、BPM、排序顺序和视频预览大小",
+    "backupExportSheetExport": "导出",
+    "backupExportSheetCancel": "取消",
+    "backupExportSheetNoMediaSelected": "请至少选择音频或视频之一。",
+    "backupAndRestore": "备份与恢复",
+    "backupExport": "导出我的资料库",
+    "backupExportSubtitle": "将所有歌曲和循环保存到一个文件中，您可以将其传输到另一台设备。",
+    "backupImport": "导入备份",
+    "backupImportSubtitle": "从之前导出的文件中恢复歌曲和循环。",
+    "backupProOnly": "Pro 功能",
+    "backupExporting": "正在准备备份…",
+    "backupImporting": "正在导入…",
+    "backupExportFailed": "导出失败：{message}",
+    "@backupExportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportFailed": "导入失败：{message}",
+    "@backupImportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportMalformed": "此文件不是有效的 RepeatLab 备份。",
+    "backupImportSchemaTooNew": "此备份由更新版本的 RepeatLab 创建。请更新应用以导入它。",
+    "backupImportConfirmTitle": "导入备份",
+    "backupImportConfirmMessage": "此备份包含 {songCount} 首歌曲（导出于 {exportedAt}）。",
+    "@backupImportConfirmMessage": {
+        "placeholders": {
+            "songCount": { "type": "int" },
+            "exportedAt": { "type": "String" }
+        }
+    },
+    "backupImportModeMerge": "合并",
+    "backupImportModeMergeDescription": "添加新歌曲，保留现有歌曲。",
+    "backupImportModeReplace": "替换",
+    "backupImportModeReplaceDescription": "删除所有内容并从头导入。",
+    "backupImportReplaceConfirmTitle": "替换整个资料库？",
+    "backupImportReplaceConfirmMessage": "导入前将永久删除所有当前歌曲和循环。此操作无法撤销。",
+    "backupImportSuccess": "已导入 {imported} 首歌曲。{skipped} 首已跳过，{renamed} 首已重命名。",
+    "@backupImportSuccess": {
+        "placeholders": {
+            "imported": { "type": "int" },
+            "skipped": { "type": "int" },
+            "renamed": { "type": "int" }
+        }
+    }
 }

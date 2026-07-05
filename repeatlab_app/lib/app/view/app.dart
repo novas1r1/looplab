@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:repeatlab/app/router.dart';
 import 'package:repeatlab/app/view/repository_wrapper.dart';
 import 'package:repeatlab/core/ui/theme.dart';
@@ -26,6 +27,14 @@ class App extends StatelessWidget {
   final SoLoud soloud;
   final PackageInfo packageInfo;
   final LocalConfigRepository localConfigRepository;
+
+  /// File-picker wrapper used for media import / export. Injectable so E2E
+  /// tests can fake the native picker; defaults to the real wrapper.
+  final FilePickerWrapper filePicker;
+
+  /// RevenueCat repository. Injectable so E2E tests can fake the Pro
+  /// entitlement; defaults to the real repository.
+  final PurchasesRepository purchases;
   // final AudioPlayer audioPlayer;
 
   const App({
@@ -33,6 +42,8 @@ class App extends StatelessWidget {
     required this.soloud,
     required this.packageInfo,
     required this.localConfigRepository,
+    this.filePicker = const FilePickerWrapper(),
+    this.purchases = const PurchasesRepository(),
     // required this.audioPlayer,
     super.key,
   });
@@ -49,6 +60,8 @@ class App extends StatelessWidget {
       soLoud: soloud,
       packageInfo: packageInfo,
       localConfigRepository: localConfigRepository,
+      filePicker: filePicker,
+      purchases: purchases,
       // audioPlayer: audioPlayer,
       child: MultiBlocProvider(
         providers: [
@@ -58,6 +71,7 @@ class App extends StatelessWidget {
               fileRepository: context.read<FileRepository>(),
               crashReportingRepository: context
                   .read<CrashReportingRepository>(),
+              localConfigRepository: context.read<LocalConfigRepository>(),
             )..loadSongs(),
           ),
           BlocProvider(
@@ -66,6 +80,7 @@ class App extends StatelessWidget {
               purchasesRepository: context.read<PurchasesRepository>(),
               crashReportingRepository: context
                   .read<CrashReportingRepository>(),
+              localConfigRepository: context.read<LocalConfigRepository>(),
             )..init(),
           ),
           BlocProvider(
@@ -100,6 +115,9 @@ class App extends StatelessWidget {
                 localizationsDelegates: AppLocalizations.localizationsDelegates,
                 supportedLocales: AppLocalizations.supportedLocales,
                 onGenerateRoute: AppRouter.generateRoute,
+                // Auto-captures `$screen` for named routes. Gated by the SDK's
+                // opt-out state, so it only sends when analytics consent is on.
+                navigatorObservers: [PosthogObserver()],
                 home: introShown ? const HomePage() : const OnboardingPage(),
               );
             },

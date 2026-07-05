@@ -1,15 +1,20 @@
-<p>Última actualización: 19 de julio de 2025</p>
+<p>Última actualización: 1 de julio de 2026</p>
 <h2>Información que recopilamos</h2>
 <p>Su privacidad es importante para nosotros. Esta Política de Privacidad describe cómo recopilamos, usamos y protegemos
     su información cuando utiliza nuestra aplicación móvil (la 'App'), que está disponible en plataformas iOS y Android.
     Esta política cumple con el Reglamento General de Protección de Datos (RGPD).</p>
-<p><strong>Fecha de vigencia:</strong> 17 de julio de 2025</p>
+<p><strong>Fecha de vigencia:</strong> 1 de julio de 2026</p>
 <p>Recopilamos los siguientes tipos de información:</p>
 <ul>
     <li><strong>Información personal:</strong> Información que nos proporciona, como su dirección de correo electrónico
         al enviar comentarios a través de Wiredash.</li>
     <li><strong>Información de pago:</strong> Datos relacionados con compras dentro de la aplicación y suscripciones,
         procesados por RevenueCat.</li>
+    <li><strong>Eventos de suscripción y compra:</strong> Cuando usted da su consentimiento para las analíticas, los
+        eventos del ciclo de vida de la suscripción (como iniciar una prueba, comprar, renovar o cancelar) son
+        compartidos por RevenueCat con PostHog a través de una integración del lado del servidor, vinculados a su
+        identificador de analíticas anónimo para que podamos medir los embudos de conversión e ingresos. No se comparten
+        los datos de la tarjeta de pago.</li>
     <li><strong>Registros de errores:</strong> Información sobre errores y fallos de la aplicación, recopilada a través
         de Sentry.</li>
     <li><strong>Estadísticas de uso:</strong> Datos de uso para ayudarnos a mejorar la aplicación.</li>
@@ -19,7 +24,11 @@
         propuestas de funciones a través de UserOrient, incluyendo versión de la aplicación, número de compilación y
         estado de suscripción.</li>
     <li><strong>Analíticas de uso de la aplicación:</strong> Analíticas detalladas sobre cómo interactúa con la
-        aplicación, incluyendo vistas de pantalla, clics en botones y patrones de uso de funciones.</li>
+        aplicación, incluyendo vistas de pantalla, clics en botones, patrones de uso de funciones e hitos de activación,
+        recopiladas a través de PostHog (alojado en la Unión Europea). Estas analíticas están vinculadas a un
+        identificador anónimo generado por el dispositivo en lugar de a su nombre o cuenta, e incluyen su estado de
+        suscripción (por ejemplo, si tiene una suscripción premium activa) para que podamos entender cómo se usan las
+        funciones entre usuarios gratuitos y premium.</li>
     <li><strong>Información del dispositivo:</strong> Información técnica sobre su dispositivo, sistema operativo y
         versión de la aplicación para propósitos de depuración y optimización.</li>
     <li><strong>Datos de almacenamiento local:</strong> Canciones, bucles y preferencias del usuario almacenadas
@@ -42,6 +51,7 @@
         informes de errores.</li>
     <li>Su consentimiento para votación de funciones y mejora de la experiencia del usuario a través de UserOrient.</li>
     <li>Su consentimiento para la recopilación detallada de analíticas a través de Microsoft Clarity.</li>
+    <li>Su consentimiento para la recopilación de analíticas de producto anónimas a través de PostHog.</li>
 </ul>
 <h2>Cómo usamos su información</h2>
 <p>Utilizamos la información que recopilamos para los siguientes propósitos:</p>
@@ -51,6 +61,9 @@
     <li>Para monitorear y solucionar problemas usando el registro de errores de Sentry.</li>
     <li>Para mejorar la experiencia del usuario y mejorar las funciones de la aplicación.</li>
     <li>Para mejorar la aplicación a través de analíticas de Microsoft Clarity.</li>
+    <li>Para entender el uso de las funciones y mejorar la aplicación a través de las analíticas de producto de PostHog.</li>
+    <li>Para medir los embudos de activación, conversión y suscripción combinando analíticas de producto anónimas con
+        eventos de suscripción (PostHog junto con RevenueCat), basándonos en su consentimiento.</li>
     <li>Para recopilar y procesar solicitudes de funciones y votos a través de UserOrient.</li>
     <li>Para proporcionar experiencias de aplicación personalizadas y recomendaciones.</li>
     <li>Para asegurar la estabilidad y rendimiento de la aplicación en diferentes dispositivos y plataformas.</li>
@@ -86,7 +99,10 @@
 <p>Puede gestionar sus preferencias de consentimiento en cualquier momento:</p>
 <ul>
     <li><strong>Consentimiento de analíticas:</strong> Puede habilitar o deshabilitar la recopilación de analíticas en
-        la configuración de la aplicación. Cuando está deshabilitado, las analíticas de Microsoft Clarity se pausarán.
+        la configuración de la aplicación. Cuando está deshabilitado, las analíticas de Microsoft Clarity y PostHog se
+        pausarán y se elimina el vínculo que comparte sus eventos de suscripción de RevenueCat con PostHog, de modo que
+        sus eventos de compra ya no estarán conectados a su identificador de analíticas. Al usar la función "Eliminar
+        todos los datos", además se restablece su identificador de analíticas anónimo.
     </li>
     <li><strong>Informes de errores:</strong> Los informes de errores a través de Sentry operan basándose en nuestro
         interés legítimo en la estabilidad de la aplicación, pero puede contactarnos para solicitar su limitación.</li>
@@ -101,11 +117,19 @@
     <li><strong>Wiredash:</strong> Se utiliza para recopilar comentarios de usuarios y reportes de errores. Los datos se
         procesan según la política de privacidad de Wiredash.</li>
     <li><strong>RevenueCat:</strong> Se utiliza para procesar compras dentro de la aplicación y suscripciones. Los datos
-        de pago se procesan según la política de privacidad de RevenueCat.</li>
+        de pago se procesan según la política de privacidad de RevenueCat. Con su consentimiento para las analíticas,
+        RevenueCat también comparte los eventos de suscripción (pruebas, compras, renovaciones y cancelaciones) con
+        PostHog a través de una integración del lado del servidor, vinculados a su identificador de analíticas anónimo
+        para que podamos analizar la conversión y los ingresos. Este intercambio se detiene cuando usted retira el
+        consentimiento para las analíticas.</li>
     <li><strong>Sentry:</strong> Se utiliza para monitoreo de errores e informes de fallos. Los datos técnicos se
         procesan según la política de privacidad de Sentry.</li>
     <li><strong>Microsoft Clarity:</strong> Se utiliza para analíticas y mejora de la experiencia del usuario. Los datos
         de uso se procesan según la política de privacidad de Microsoft.</li>
+    <li><strong>PostHog:</strong> Se utiliza para analíticas de producto anónimas, incluyendo vistas de pantalla, uso
+        de funciones e hitos de activación, vinculados a un identificador de dispositivo anónimo. Con su consentimiento,
+        también recibe eventos de suscripción de RevenueCat para construir embudos de conversión e ingresos. Los datos
+        se alojan en la Unión Europea (eu.i.posthog.com) y se procesan según la política de privacidad de PostHog.</li>
     <li><strong>UserOrient:</strong> Se utiliza para votación de funciones y recopilación de comentarios de usuarios.
         Los datos de votación de funciones se procesan según la política de privacidad de UserOrient.</li>
 </ul>
@@ -143,4 +167,4 @@
 <p>Para consultas sobre protección de datos, también puede contactar a la autoridad de supervisión correspondiente en su
     país.</p>
 <p>¡Gracias por usar nuestra aplicación!</p>
-<p style="text-align:center; margin-top:3rem;">© 2025 RepeatLab. Todos los derechos reservados.</p>
+<p style="text-align:center; margin-top:3rem;">© 2026 RepeatLab. Todos los derechos reservados.</p>

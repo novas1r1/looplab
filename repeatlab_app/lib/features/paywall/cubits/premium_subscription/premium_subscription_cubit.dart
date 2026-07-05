@@ -1,48 +1,55 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
+import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/purchases_repository.dart';
 
 part 'premium_subscription_cubit.mapper.dart';
 part 'premium_subscription_state.dart';
 
 class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
-  // final AuthRepository authRepository;
   final CrashReportingRepository crashReportingRepository;
   final PurchasesRepository purchasesRepository;
 
-  // StreamSubscription<bool>? _internetSubscription;
+  /// Optional so tests can construct the cubit without preferences. When
+  /// provided, [init] uses it to consent-gate the RevenueCat → PostHog
+  /// identity link.
+  final LocalConfigRepository? localConfigRepository;
 
   PremiumSubscriptionCubit({
-    // required this.authRepository,
     required this.crashReportingRepository,
     required this.purchasesRepository,
-  }) : super(const PremiumSubscriptionState()) {
-    /*  _internetSubscription = purchaseRepository.internetSubscription.listen((isConnected) {
-      emit(state.copyWith(isConnected: isConnected));
-    }); */
-  }
-
-  @override
-  Future<void> close() async {
-    // _internetSubscription?.cancel();
-    super.close();
-  }
+    this.localConfigRepository,
+  }) : super(const PremiumSubscriptionState());
 
   bool get hasPremium =>
-      state.hasWeeklySubscription || state.hasYearlySubscription || state.hasLifetimePurchase;
+      state.hasWeeklySubscription ||
+      state.hasYearlySubscription ||
+      state.hasLifetimePurchase;
 
   /// Initializes the [Purchases] SDK.
   /// Checks if the user is subscribed to the premium plan.
   /// Checks if the user has an internet connection.
   Future<void> init() async {
     log('--- REVENUECAT: init()');
+
+    if (Platform.isWindows) {
+      emit(
+        state.copyWith(
+          status: PremiumSubscriptionStatus.premium,
+          hasLifetimePurchase: true,
+        ),
+      );
+      return;
+    }
 
     try {
       await purchasesRepository.setup();
@@ -51,6 +58,17 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
       // emit(state.copyWith(isConnected: isConnected));
 
       await checkStatus();
+
+      // Align RevenueCat's server-side PostHog identity with the client so the
+      // rc_* purchase/trial/renewal events attribute to the same person as the
+      // in-app events. Consent-gated; release-only (native SDKs absent in
+      // tests, so localConfigRepository is left null there).
+      final config = localConfigRepository;
+      if (!kDebugMode && config != null) {
+        await PurchasesRepository.linkPostHogIdentity(
+          consented: config.acceptedAnalytics,
+        );
+      }
 
       /* purchases.addPurchaserInfoUpdateListener((purchaserInfo) {
         if (purchaserInfo.activeSubscriptions.isNotEmpty) {
@@ -71,6 +89,16 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
   }
 
   Future<void> checkStatus() async {
+    if (Platform.isWindows) {
+      emit(
+        state.copyWith(
+          status: PremiumSubscriptionStatus.premium,
+          hasLifetimePurchase: true,
+        ),
+      );
+      return;
+    }
+
     /*     if (kDebugMode) {
       emit(state.copyWith(status: PremiumSubscriptionStatus.premium));
 
@@ -78,8 +106,10 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
     } */
 
     try {
-      final hasWeeklySubscription = await purchasesRepository.hasWeeklySubscription;
-      final hasYearlySubscription = await purchasesRepository.hasYearlySubscription;
+      final hasWeeklySubscription =
+          await purchasesRepository.hasWeeklySubscription;
+      final hasYearlySubscription =
+          await purchasesRepository.hasYearlySubscription;
 
       final hasLifetimePurchase = await purchasesRepository.hasLifetimePurchase;
 
@@ -87,7 +117,9 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
       log('--- REVENUECAT: hasYearlySubscription: $hasYearlySubscription');
       log('--- REVENUECAT: hasLifetimePurchase: $hasLifetimePurchase');
 
-      if (hasWeeklySubscription || hasYearlySubscription || hasLifetimePurchase) {
+      if (hasWeeklySubscription ||
+          hasYearlySubscription ||
+          hasLifetimePurchase) {
         emit(
           state.copyWith(
             status: PremiumSubscriptionStatus.premium,
@@ -99,6 +131,10 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
       } else {
         emit(state.copyWith(status: PremiumSubscriptionStatus.noPremium));
       }
+
+      // Keep the `is_premium` analytics super property in sync so every event
+      // is segmentable by subscription state.
+      AppAnalytics.setPremium(isPremium: hasPremium);
     } catch (ex, stackTrace) {
       crashReportingRepository.reportError(ex, stackTrace);
       emit(
@@ -110,13 +146,72 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
     }
   }
 
-  Future<void> presentPaywall({bool ifNeeded = true}) async {
+  /// Presents the RevenueCat paywall. [source] identifies what triggered it
+  /// (e.g. `onboarding`, `drawer`, `song_loops`, `song_speed`, `backup`) and is
+  /// attached to the `purchase_success` / `paywall_dismissed` analytics so we
+  /// can see which trigger converts best.
+  Future<void> presentPaywall({
+    bool ifNeeded = true,
+    String source = 'unknown',
+  }) async {
+    if (Platform.isWindows) {
+      emit(
+        state.copyWith(
+          status: PremiumSubscriptionStatus.premium,
+          hasLifetimePurchase: true,
+        ),
+      );
+      return;
+    }
+
+    final wasPremium = hasPremium;
+
+    // Record the trigger on RevenueCat so it appears on the server-side rc_*
+    // events (which carry no client context). Mirrors the `paywall_source`
+    // property on the client `purchase_success` event.
+    if (!kDebugMode) {
+      await PurchasesRepository.setPaywallSource(source);
+    }
+
+    final PaywallResult result;
     if (ifNeeded) {
-      await RevenueCatUI.presentPaywallIfNeeded("Pro");
+      result = await RevenueCatUI.presentPaywallIfNeeded("Pro");
     } else {
-      await RevenueCatUI.presentPaywall();
+      result = await RevenueCatUI.presentPaywall();
     }
     await checkStatus();
+
+    // Unified paywall-view funnel event, emitted centrally for every entry
+    // point (all sites call this with `source` as the trigger). `notPresented`
+    // means the user was already entitled and the paywall never showed, so we
+    // skip it to keep the funnel honest.
+    if (result != PaywallResult.notPresented) {
+      AppAnalytics.trackPaywallViewed(trigger: source);
+    }
+
+    // A non-premium -> premium transition right after the paywall is a
+    // purchase. This is step 2 of the monetization funnel (step 1 being the
+    // unified `paywall_viewed` event emitted just above).
+    if (!wasPremium && hasPremium) {
+      AppAnalytics.trackEvent(
+        AppAnalytics.purchaseSuccess,
+        data: {
+          'tier': state.hasLifetimePurchase
+              ? 'lifetime'
+              : state.hasWeeklySubscription
+              ? 'weekly'
+              : state.hasYearlySubscription
+              ? 'yearly'
+              : 'unknown',
+          'paywall_source': source,
+        },
+      );
+    } else if (result == PaywallResult.cancelled) {
+      AppAnalytics.trackEvent(
+        AppAnalytics.paywallDismissed,
+        data: {'source': source},
+      );
+    }
   }
 
   Future<void> restore() async {
@@ -159,8 +254,8 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
               'tier': isWeekly
                   ? 'weekly'
                   : isYearly
-                      ? 'yearly'
-                      : 'unknown',
+                  ? 'yearly'
+                  : 'unknown',
             },
           );
           emit(
@@ -179,6 +274,8 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
         );
         emit(state.copyWith(status: PremiumSubscriptionStatus.noPremium));
       }
+
+      AppAnalytics.setPremium(isPremium: hasPremium);
     } catch (ex, stackTrace) {
       AppAnalytics.trackEvent(
         AppAnalytics.restoreSubscriptionFailure,

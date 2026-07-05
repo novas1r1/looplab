@@ -34,11 +34,11 @@
     "legalBasisForProcessing": "Legal Basis for Processing",
     "legalBasisForProcessingDescription": "We process your data based on the following legal bases:\n\n• Your consent for feedback submissions via Wiredash and app analytics.\n• Performance of a contract for processing payments and managing subscriptions through RevenueCat.\n• Our legitimate interest in ensuring the App operates effectively by using Sentry for crash reporting.",
     "howWeUseYourInformation": "How We Use Your Information",
-    "howWeUseYourInformationDescription": "We use the information we collect for the following purposes:\n\n• To process in-app purchases and manage subscriptions through RevenueCat.\n• To gather feedback and improve the App using Wiredash.\n• To monitor and fix issues using Sentry crash logging.\n• To improve user experience and enhance App features.\n• To improve the app through Microsoft Clarity.",
+    "howWeUseYourInformationDescription": "We use the information we collect for the following purposes:\n\n• To process in-app purchases and manage subscriptions through RevenueCat.\n• To gather feedback and improve the App using Wiredash.\n• To monitor and fix issues using Sentry crash logging.\n• To improve user experience and enhance App features.\n• To improve the app through Microsoft Clarity.\n• To understand feature usage through PostHog (anonymous product analytics).",
     "yourRights": "Your Rights",
     "yourRightsDescription": "Under the GDPR, you have the following rights:\n\n• The right to access the personal information we hold about you.\n• The right to request corrections to your personal information.\n• The right to request deletion of your personal information ('right to be forgotten').\n• The right to data portability.\n• The right to object to processing based on our legitimate interests.\n• The right to withdraw consent at any time.\n• The right to lodge a complaint with a supervisory authority.",
     "thirdPartyServices": "Third-Party Services",
-    "thirdPartyServicesDescription": "We use third-party services to enhance our App:\n\n• Wiredash: Used to collect user feedback.\n• RevenueCat: Used to process in-app purchases and subscriptions.\n• Sentry: Used for error monitoring and crash reporting.\n• Microsoft Clarity: Used for analytics and user experience improvement.",
+    "thirdPartyServicesDescription": "We use third-party services to enhance our App:\n\n• Wiredash: Used to collect user feedback.\n• RevenueCat: Used to process in-app purchases and subscriptions.\n• Sentry: Used for error monitoring and crash reporting.\n• Microsoft Clarity: Used for analytics and user experience improvement.\n• PostHog: Used for anonymous product analytics, hosted in the EU.",
     "contactUs": "Contact Us",
     "contactUsDescription": "If you have any questions or concerns about this Privacy Policy, or if you wish to exercise your rights under GDPR, please contact us at support@repeatlab.de\n\nThank you for using our App!",
     "crashLogs": "Crash Logs",
@@ -181,21 +181,29 @@
     "purchaseSuccess": "Purchase successful. Thank you for supporting the developer ❤️!",
     "voteForFeatures": "Vote for Features",
     "changelogTitle": "Changelog",
+    "changelog201Title": "Loop and speed-change videos (Beta)",
+    "@changelog201Title": {
+        "description": "Changelog entry title for the 2.0.1 video support feature"
+    },
+    "changelog201Description": "Import videos and loop them just like audio songs - or change the speed - perfect for practicing along to tutorials or live performances. This feature is currently in Beta; please send me your feedback if you run into any issues.",
+    "@changelog201Description": {
+        "description": "Changelog entry description for the 2.0.1 video support feature"
+    },
     "changelog180Title": "Reorder your songs",
     "@changelog180Title": {
         "description": "Changelog entry title for the 1.8.0 song reorder feature"
     },
-    "changelog180Description": "Organize your song list the way you want — long-press any song and drag it to a new position. Your custom order is saved automatically.",
+    "changelog180Description": "Organize your song list the way you want - long-press any song and drag it to a new position. Your custom order is saved automatically.",
     "@changelog180Description": {
         "description": "Changelog entry description for the 1.8.0 song reorder feature"
     },
     "changelog170Title": "Back up and move your library",
-    "changelog170Description": "Export your entire library — songs, loops, and audio — to a single file, then restore it on another device with Pro. Choose Merge to add new songs alongside your existing ones, or Replace to start fresh.",
+    "changelog170Description": "Export your entire library - songs, loops, and audio - to a single file, then restore it on another device with Pro. Choose Merge to add new songs alongside your existing ones, or Replace to start fresh.",
     "changelog170LanguageTitle": "Choose your language",
     "@changelog170LanguageTitle": {
         "description": "Changelog entry title for the 1.7.0 language switcher feature"
     },
-    "changelog170LanguageDescription": "Switch the app language from the drawer — pick from 16 supported languages or follow your device's system default.",
+    "changelog170LanguageDescription": "Switch the app language from the drawer - pick from 16 supported languages or follow your device's system default.",
     "@changelog170LanguageDescription": {
         "description": "Changelog entry description for the 1.7.0 language switcher feature"
     },
@@ -233,6 +241,18 @@
     "songAddError": "Failed to add song. This could be due to a problem with the file format. Please try to convert the file to a supported format like mp3 or wav.",
     "unsupportedAudioFormatError": "The audio format \".{format}\" is not supported. Supported formats: {supportedFormats}.",
     "@unsupportedAudioFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
+    "unsupportedVideoFormatError": "The video format \".{format}\" is not supported. Supported formats: {supportedFormats}.",
+    "@unsupportedVideoFormatError": {
+        "description": "Snackbar error shown when the user picks a video file whose extension is not in the supported list. {format} is the file extension without the leading dot; {supportedFormats} is a comma-separated list of supported extensions.",
         "placeholders": {
             "format": {
                 "type": "String"
@@ -303,6 +323,16 @@
     "backupAndRestore": "Backup & Restore",
     "backupExport": "Export my library",
     "backupExportSubtitle": "Save all songs and loops to a single file you can transfer to another device.",
+    "backupExportSheetTitle": "What do you want to export?",
+    "backupExportOptionAudios": "Audio songs",
+    "backupExportOptionAudiosSubtitle": "Include audio files (MP3, WAV, …)",
+    "backupExportOptionVideos": "Video songs",
+    "backupExportOptionVideosSubtitle": "Include video files (MP4, MOV, …)",
+    "backupExportOptionLoopsAndSettings": "Loops & song settings",
+    "backupExportOptionLoopsAndSettingsSubtitle": "Include loops, BPM, sort order, and video preview size",
+    "backupExportSheetExport": "Export",
+    "backupExportSheetCancel": "Cancel",
+    "backupExportSheetNoMediaSelected": "Select at least one of audio or video.",
     "backupImport": "Import backup",
     "backupImportSubtitle": "Restore songs and loops from a previously exported file.",
     "backupProOnly": "Pro feature",
@@ -361,7 +391,7 @@
     "deleteSongConfirmationTitle": "Delete Song",
     "settings": "Settings",
     "analytics": "Analytics",
-    "analyticsDescription": "We use Microsoft Clarity to collect usage data and improve the app. This data is not shared with third parties.",
+    "analyticsDescription": "We use Microsoft Clarity and PostHog to collect anonymous usage data and improve the app. Your data is processed in the EU and never sold to third parties.",
     "enterSongBpm": "Song BPM",
     "enterSongBpmDescription": "Enter the original BPM of the song to change the tempo. This is useful when practicing a song with a different tempo. The BPM will be assigned to the song and saved.",
     "enterSongBpmHint": "e.g. 120",
@@ -392,5 +422,29 @@
     "editSong": "Edit Song",
     "editSongTitle": "Title",
     "editSongArtist": "Artist",
-    "editSongTitleRequired": "Title cannot be empty"
+    "editSongTitleRequired": "Title cannot be empty",
+    "addVideo": "Add video",
+    "@addVideo": {
+        "description": "Title of the \"Add video\" option in the add-media bottom sheet on the home page. Used as a button-style label."
+    },
+    "importingMedia": "Importing… Large files can take a while.",
+    "@importingMedia": {
+        "description": "Waiting text shown on the home page while picked audio/video files are being copied into the app and analyzed. Shown next to a loading indicator."
+    },
+    "importingMediaProgress": "File {current} of {total}",
+    "@importingMediaProgress": {
+        "description": "Progress line below the import waiting text when multiple files are imported, e.g. 'File 2 of 5'.",
+        "placeholders": {
+            "current": {
+                "type": "int"
+            },
+            "total": {
+                "type": "int"
+            }
+        }
+    },
+    "betaLabel": "BETA",
+    "@betaLabel": {
+        "description": "Short pill/badge label shown next to features that are in beta. Should remain very short (3-6 chars) and uppercase where appropriate for the locale."
+    }
 }

@@ -37,7 +37,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final songCount = context.watch<AllSongsCubit>().state.songs.length;
+    final allSongsState = context.watch<AllSongsCubit>().state;
+    final songCount = allSongsState.songs.length;
+    // Block a second import while one is running (or the list is loading);
+    // large videos can take a while to copy and probe.
+    final isBusy = allSongsState.status == AllSongsStatus.loading ||
+        allSongsState.status == AllSongsStatus.importing;
 
     return BlocListener<ChangelogDialogCubit, ChangelogDialogState>(
       listener: (context, state) {
@@ -51,6 +56,7 @@ class _HomePageState extends State<HomePage> {
           elevation: 0,
           backgroundColor: Colors.transparent,
           leading: IconButton(
+            key: const Key('home.drawer'),
             icon: const Icon(Icons.menu),
             onPressed: () => _scaffoldKey.currentState?.openDrawer(),
           ),
@@ -99,17 +105,63 @@ class _HomePageState extends State<HomePage> {
                 AppAnalytics.trackEvent(AppAnalytics.songAddError);
                 SnackbarHelper.showError(context, context.l10n.songAddError);
               }
+            } else if (state.status == AllSongsStatus.errorVideoFormat) {
+              final format = state.errorMessage ?? '';
+              AppAnalytics.trackEvent(
+                AppAnalytics.songAddUnsupportedFormat,
+                data: {'format': format, 'kind': 'video'},
+              );
+              SnackbarHelper.showError(
+                context,
+                context.l10n.unsupportedVideoFormatError(
+                  format,
+                  SongRepository.supportedVideoFormatsLabel,
+                ),
+              );
             }
           },
           builder: (context, state) {
             switch (state.status) {
               case AllSongsStatus.loading:
                 return const Center(child: Loading());
+              case AllSongsStatus.importing:
+                return Center(
+                  key: const Key('home.importing'),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Loading(),
+                      const SizedBox(height: 16),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 32),
+                        child: Text(
+                          context.l10n.importingMedia,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ),
+                      if (state.importCurrent != null && state.importTotal != null) ...[
+                        const SizedBox(height: 8),
+                        Text(
+                          context.l10n.importingMediaProgress(
+                            state.importCurrent!,
+                            state.importTotal!,
+                          ),
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: AppColors.onSurface.withValues(alpha: 0.6),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                );
               case AllSongsStatus.initial:
               case AllSongsStatus.loaded:
               case AllSongsStatus.error:
+              case AllSongsStatus.errorVideoFormat:
                 if (state.songs.isEmpty) {
                   return Center(
+                    key: const Key('home.empty'),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -139,36 +191,34 @@ class _HomePageState extends State<HomePage> {
                 return ReorderableListView.builder(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 92),
                   itemCount: state.songs.length,
-                  onReorder: (int oldIndex, int newIndex) {
+                  onReorderItem: (int oldIndex, int newIndex) {
                     context.read<AllSongsCubit>().reorderSongs(
                       oldIndex,
                       newIndex,
                     );
                   },
-                  onReorderEnd: (_) {
-                    AppAnalytics.trackEvent(AppAnalytics.reorderSongs);
-                  },
+                  onReorderEnd: (_) => AppAnalytics.trackEvent(AppAnalytics.reorderSongs),
                   proxyDecorator: (Widget child, int index, Animation<double> animation) {
                     return Material(
                       color: Colors.transparent,
                       child: child,
                     );
                   },
-                  itemBuilder: (context, index) {
-                    final song = state.songs[index];
-                    return Padding(
-                      key: ValueKey(song.id),
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: HomeTile(song: song),
-                    );
-                  },
+                  itemBuilder: (context, index) => HomeTile(
+                    key: ValueKey(state.songs[index].id),
+                    song: state.songs[index],
+                  ),
                 );
             }
           },
         ),
         floatingActionButton: FloatingActionButton.extended(
-          heroTag: 'addSong',
-          onPressed: () => _onAddSong(context, songCount),
+          key: const Key('home.fab'),
+          heroTag: 'addMedia',
+          onPressed: isBusy ? null : () => _showAddMediaSheet(context, songCount),
+          backgroundColor: isBusy
+              ? Theme.of(context).disabledColor
+              : null,
           icon: const Icon(Icons.add),
           label: Text(
             context.l10n.addSong,
@@ -179,17 +229,110 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> _onAddSong(BuildContext context, int numberOfSongs) async {
+  /// Show a bottom sheet that lets the user choose between adding an audio
+  /// file or a video file. Both flows share the same rate-app prompt.
+  Future<void> _showAddMediaSheet(
+    BuildContext context,
+    int numberOfSongs,
+  ) async {
     AppAnalytics.trackEvent(AppAnalytics.clickAddSong);
-    // check if user already added 2 songs. If yes, show rating dialog
-    final hasRatedAlready = context.read<LocalConfigRepository>().hasRatedApp;
 
+    final choice = await showModalBottomSheet<_AddMediaChoice>(
+      context: context,
+      backgroundColor: AppColors.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(24),
+          topRight: Radius.circular(24),
+        ),
+      ),
+      builder: (sheetContext) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 8),
+              Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: AppColors.onSurface.withValues(alpha: 0.3),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(height: 16),
+              ListTile(
+                key: const Key('home.addAudio'),
+                leading: const Icon(Icons.audiotrack),
+                title: Text(context.l10n.addSong),
+                subtitle: const Text(SongRepository.supportedFormatsLabel),
+                onTap: () => Navigator.of(sheetContext).pop(_AddMediaChoice.audio),
+              ),
+              ListTile(
+                key: const Key('home.addVideo'),
+                leading: const Icon(Icons.movie),
+                title: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(context.l10n.addVideo),
+                    const SizedBox(width: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(4),
+                        border: Border.all(
+                          color: AppColors.primary.withValues(alpha: 0.5),
+                        ),
+                      ),
+                      child: Text(
+                        context.l10n.betaLabel,
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                subtitle: Text(
+                  SongRepository.supportedVideoFormatsLabel,
+                ),
+                onTap: () => Navigator.of(sheetContext).pop(_AddMediaChoice.video),
+              ),
+              const SizedBox(height: 8),
+            ],
+          ),
+        );
+      },
+    );
+
+    if (choice == null || !context.mounted) return;
+
+    await _promptRateAppIfDue(context, numberOfSongs);
+    if (!context.mounted) return;
+
+    switch (choice) {
+      case _AddMediaChoice.audio:
+        context.read<AllSongsCubit>().addSong();
+      case _AddMediaChoice.video:
+        context.read<AllSongsCubit>().addVideo();
+    }
+  }
+
+  /// Show the rate-app dialog if the user has 2+ songs and hasn't rated yet.
+  /// Shared between audio and video add flows.
+  Future<void> _promptRateAppIfDue(
+    BuildContext context,
+    int numberOfSongs,
+  ) async {
+    final hasRatedAlready = context.read<LocalConfigRepository>().hasRatedApp;
     if (numberOfSongs >= 2 && !hasRatedAlready) {
       await DialogHelper.displayRateAppDialog(context);
-    }
-
-    if (context.mounted) {
-      context.read<AllSongsCubit>().addSong();
     }
   }
 
@@ -227,3 +370,6 @@ class _HomePageState extends State<HomePage> {
     context.read<ChangelogDialogCubit>().setChangelogDialogSeen();
   }
 }
+
+/// User choice from the add-media bottom sheet.
+enum _AddMediaChoice { audio, video }

@@ -211,7 +211,7 @@ void main() {
         when(() => mockBackup.importFromFile(
               any(),
               mode: any(named: 'mode'),
-            )).thenThrow(const BackupHashMismatchException('song.mp3'));
+            )).thenThrow(const BackupFormatException('song.mp3 corrupted'));
       },
       build: buildCubit,
       act: (cubit) async {

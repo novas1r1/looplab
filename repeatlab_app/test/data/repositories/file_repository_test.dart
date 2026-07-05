@@ -30,6 +30,10 @@ class _FakePathProviderPlatform extends PathProviderPlatform {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
+  setUpAll(() {
+    registerFallbackValue(FileType.any);
+  });
+
   late _MockFilePicker filePicker;
   late Directory tempAppDir;
   late PathProviderPlatform originalPathProvider;
@@ -48,7 +52,7 @@ void main() {
     await tempAppDir.delete(recursive: true);
   });
 
-  test('pickSingleAudioFile copies file when path contains percent-encoded whitespace', () async {
+  test('pickAudioFiles copies file when path contains percent-encoded whitespace', () async {
     final sourceDir = await Directory.systemTemp.createTemp('file_repo_source_whitespace');
     final sourceFile = File(p.join(sourceDir.path, 'Butterfly by night.mp3'));
     await sourceFile.writeAsString('content');
@@ -57,8 +61,9 @@ void main() {
 
     when(
       () => filePicker.pickFiles(
-        type: FileType.custom,
+        type: any(named: 'type'),
         allowedExtensions: any(named: 'allowedExtensions'),
+        allowMultiple: any(named: 'allowMultiple'),
       ),
     ).thenAnswer(
       (_) async => FilePickerResult([
@@ -72,17 +77,18 @@ void main() {
 
     final repository = FileRepository(filePicker: filePicker);
 
-    final copiedFile = await repository.pickSingleAudioFile();
+    final copiedFiles = await repository.pickAudioFiles();
 
-    expect(copiedFile, isNotNull);
-    expect(p.basename(copiedFile!.path), 'Butterfly by night.mp3');
+    expect(copiedFiles, hasLength(1));
+    final copiedFile = copiedFiles.single;
+    expect(p.basename(copiedFile.path), 'Butterfly by night.mp3');
     expect(await copiedFile.exists(), isTrue);
     expect(await copiedFile.readAsString(), 'content');
 
     await sourceDir.delete(recursive: true);
   });
 
-  test('pickSingleAudioFile copies file when percent character is percent-encoded', () async {
+  test('pickAudioFiles copies file when percent character is percent-encoded', () async {
     final sourceDir = await Directory.systemTemp.createTemp('file_repo_source_percent');
     const originalName = 'Butterfly%by%night.mp3';
     final sourceFile = File(p.join(sourceDir.path, originalName));
@@ -92,8 +98,9 @@ void main() {
 
     when(
       () => filePicker.pickFiles(
-        type: FileType.custom,
+        type: any(named: 'type'),
         allowedExtensions: any(named: 'allowedExtensions'),
+        allowMultiple: any(named: 'allowMultiple'),
       ),
     ).thenAnswer(
       (_) async => FilePickerResult([
@@ -107,17 +114,18 @@ void main() {
 
     final repository = FileRepository(filePicker: filePicker);
 
-    final copiedFile = await repository.pickSingleAudioFile();
+    final copiedFiles = await repository.pickAudioFiles();
 
-    expect(copiedFile, isNotNull);
-    expect(p.basename(copiedFile!.path), originalName);
+    expect(copiedFiles, hasLength(1));
+    final copiedFile = copiedFiles.single;
+    expect(p.basename(copiedFile.path), originalName);
     expect(await copiedFile.exists(), isTrue);
     expect(await copiedFile.readAsString(), 'content-%');
 
     await sourceDir.delete(recursive: true);
   });
 
-  test('pickMultipleAudioFiles normalizes provided paths', () async {
+  test('pickAudioFiles copies every file when multiple files are picked', () async {
     final sourceDir = await Directory.systemTemp.createTemp('file_repo_multiple');
     final first = File(p.join(sourceDir.path, 'One more night.mp3'));
     await first.writeAsString('first');
@@ -131,8 +139,9 @@ void main() {
 
     when(
       () => filePicker.pickFiles(
-        type: FileType.audio,
-        allowMultiple: true,
+        type: any(named: 'type'),
+        allowedExtensions: any(named: 'allowedExtensions'),
+        allowMultiple: any(named: 'allowMultiple'),
       ),
     ).thenAnswer(
       (_) async => FilePickerResult([
@@ -151,12 +160,66 @@ void main() {
 
     final repository = FileRepository(filePicker: filePicker);
 
-    final files = await repository.pickMultipleAudioFiles();
+    final files = await repository.pickAudioFiles();
 
     expect(files, hasLength(2));
-    expect(files[0].path, first.path);
-    expect(files[1].path, second.path);
+    expect(p.basename(files[0].path), 'One more night.mp3');
+    expect(await files[0].readAsString(), 'first');
+    expect(p.basename(files[1].path), 'Butterfly%by%night.mp3');
+    expect(await files[1].readAsString(), 'second');
 
     await sourceDir.delete(recursive: true);
+  });
+
+  test('pickAudioFiles renames the copy when a file with the same name already exists', () async {
+    // A previously imported song's audio already lives in the app dir.
+    final existing = File(p.join(tempAppDir.path, 'track01.mp3'));
+    await existing.writeAsString('existing song audio');
+
+    final sourceDir = await Directory.systemTemp.createTemp('file_repo_collision');
+    final sourceFile = File(p.join(sourceDir.path, 'track01.mp3'));
+    await sourceFile.writeAsString('different incoming audio');
+
+    when(
+      () => filePicker.pickFiles(
+        type: any(named: 'type'),
+        allowedExtensions: any(named: 'allowedExtensions'),
+        allowMultiple: any(named: 'allowMultiple'),
+      ),
+    ).thenAnswer(
+      (_) async => FilePickerResult([
+        PlatformFile(
+          name: 'track01.mp3',
+          path: sourceFile.path,
+          size: await sourceFile.length(),
+        ),
+      ]),
+    );
+
+    final repository = FileRepository(filePicker: filePicker);
+
+    final copiedFiles = await repository.pickAudioFiles();
+
+    expect(copiedFiles, hasLength(1));
+    expect(p.basename(copiedFiles.single.path), 'track01 (1).mp3');
+    expect(await copiedFiles.single.readAsString(), 'different incoming audio');
+    // The pre-existing file was not overwritten.
+    expect(await existing.readAsString(), 'existing song audio');
+
+    await sourceDir.delete(recursive: true);
+  });
+
+  test('pickAudioFiles returns empty list when user cancels', () async {
+    when(
+      () => filePicker.pickFiles(
+        type: any(named: 'type'),
+        allowedExtensions: any(named: 'allowedExtensions'),
+        allowMultiple: any(named: 'allowMultiple'),
+      ),
+    ).thenAnswer((_) async => null);
+
+    final repository = FileRepository(filePicker: filePicker);
+
+    expect(await repository.pickAudioFiles(), isEmpty);
   });
 }

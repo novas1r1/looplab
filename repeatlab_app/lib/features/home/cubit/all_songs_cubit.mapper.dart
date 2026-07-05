@@ -31,10 +31,14 @@ class AllSongsStatusMapper extends EnumMapper<AllSongsStatus> {
         return AllSongsStatus.initial;
       case r'loading':
         return AllSongsStatus.loading;
+      case r'importing':
+        return AllSongsStatus.importing;
       case r'loaded':
         return AllSongsStatus.loaded;
       case r'error':
         return AllSongsStatus.error;
+      case r'errorVideoFormat':
+        return AllSongsStatus.errorVideoFormat;
       default:
         throw MapperException.unknownEnumValue(value);
     }
@@ -47,10 +51,14 @@ class AllSongsStatusMapper extends EnumMapper<AllSongsStatus> {
         return r'initial';
       case AllSongsStatus.loading:
         return r'loading';
+      case AllSongsStatus.importing:
+        return r'importing';
       case AllSongsStatus.loaded:
         return r'loaded';
       case AllSongsStatus.error:
         return r'error';
+      case AllSongsStatus.errorVideoFormat:
+        return r'errorVideoFormat';
     }
   }
 }
@@ -98,12 +106,26 @@ class AllSongsStateMapper extends ClassMapperBase<AllSongsState> {
     _$errorMessage,
     opt: true,
   );
+  static int? _$importCurrent(AllSongsState v) => v.importCurrent;
+  static const Field<AllSongsState, int> _f$importCurrent = Field(
+    'importCurrent',
+    _$importCurrent,
+    opt: true,
+  );
+  static int? _$importTotal(AllSongsState v) => v.importTotal;
+  static const Field<AllSongsState, int> _f$importTotal = Field(
+    'importTotal',
+    _$importTotal,
+    opt: true,
+  );
 
   @override
   final MappableFields<AllSongsState> fields = const {
     #status: _f$status,
     #songs: _f$songs,
     #errorMessage: _f$errorMessage,
+    #importCurrent: _f$importCurrent,
+    #importTotal: _f$importTotal,
   };
 
   static AllSongsState _instantiate(DecodingData data) {
@@ -111,6 +133,8 @@ class AllSongsStateMapper extends ClassMapperBase<AllSongsState> {
       status: data.dec(_f$status),
       songs: data.dec(_f$songs),
       errorMessage: data.dec(_f$errorMessage),
+      importCurrent: data.dec(_f$importCurrent),
+      importTotal: data.dec(_f$importTotal),
     );
   }
 
@@ -177,7 +201,13 @@ extension AllSongsStateValueCopy<$R, $Out>
 abstract class AllSongsStateCopyWith<$R, $In extends AllSongsState, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   ListCopyWith<$R, Song, SongCopyWith<$R, Song, Song>> get songs;
-  $R call({AllSongsStatus? status, List<Song>? songs, String? errorMessage});
+  $R call({
+    AllSongsStatus? status,
+    List<Song>? songs,
+    String? errorMessage,
+    int? importCurrent,
+    int? importTotal,
+  });
   AllSongsStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -201,11 +231,15 @@ class _AllSongsStateCopyWithImpl<$R, $Out>
     AllSongsStatus? status,
     List<Song>? songs,
     Object? errorMessage = $none,
+    Object? importCurrent = $none,
+    Object? importTotal = $none,
   }) => $apply(
     FieldCopyWithData({
       if (status != null) #status: status,
       if (songs != null) #songs: songs,
       if (errorMessage != $none) #errorMessage: errorMessage,
+      if (importCurrent != $none) #importCurrent: importCurrent,
+      if (importTotal != $none) #importTotal: importTotal,
     }),
   );
   @override
@@ -213,6 +247,8 @@ class _AllSongsStateCopyWithImpl<$R, $Out>
     status: data.get(#status, or: $value.status),
     songs: data.get(#songs, or: $value.songs),
     errorMessage: data.get(#errorMessage, or: $value.errorMessage),
+    importCurrent: data.get(#importCurrent, or: $value.importCurrent),
+    importTotal: data.get(#importTotal, or: $value.importTotal),
   );
 
   @override

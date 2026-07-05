@@ -19,11 +19,13 @@ import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/features/song/cubit/song_exporter/song_exporter_cubit.dart';
+import 'package:repeatlab/features/song/cubit/video_song/video_song_cubit.dart';
 import 'package:repeatlab/features/song/view/song_controller.dart';
 import 'package:repeatlab/features/song/widgets/loop_tile.dart';
 import 'package:repeatlab/features/song/widgets/loop_timeline.dart';
 import 'package:repeatlab/features/song/widgets/song_settings_bottom_sheet.dart';
 import 'package:repeatlab/features/song/widgets/tutorial_item.dart';
+import 'package:repeatlab/features/song/widgets/video_preview.dart';
 import 'package:repeatlab/features/song/widgets/wave_form_soloud.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
@@ -35,16 +37,31 @@ class SongPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isVideo = song.mediaType == MediaType.video;
+
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => SongCubit(
-            songRepository: context.read<SongRepository>(),
-            localConfigRepository: context.read<LocalConfigRepository>(),
-            crashReportingRepository: context.read<CrashReportingRepository>(),
-            song: song,
-          )..initSong(AudioPlayer()),
-        ),
+        // For video, provide a VideoSongCubit under the SongCubit type so all
+        // shared widgets reading `context.read<SongCubit>()` resolve to it.
+        // The video cubit shares state shape + methods via inheritance.
+        if (isVideo)
+          BlocProvider<SongCubit>(
+            create: (context) => VideoSongCubit(
+              songRepository: context.read<SongRepository>(),
+              localConfigRepository: context.read<LocalConfigRepository>(),
+              crashReportingRepository: context.read<CrashReportingRepository>(),
+              song: song,
+            )..initVideo(),
+          )
+        else
+          BlocProvider<SongCubit>(
+            create: (context) => SongCubit(
+              songRepository: context.read<SongRepository>(),
+              localConfigRepository: context.read<LocalConfigRepository>(),
+              crashReportingRepository: context.read<CrashReportingRepository>(),
+              song: song,
+            )..initSong(AudioPlayer()),
+          ),
         BlocProvider(
           create: (context) => SongExporterCubit(
             crashReportingRepository: context.read<CrashReportingRepository>(),
@@ -65,7 +82,7 @@ class _SongView extends StatefulWidget {
   State<_SongView> createState() => _SongViewState();
 }
 
-class _SongViewState extends State<_SongView> {
+class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
   // final Duration _currentPlayerPosition = Duration.zero;
 
   final _loopListController = ScrollController();
@@ -81,17 +98,41 @@ class _SongViewState extends State<_SongView> {
   GlobalKey tutorialKeyLoopActivate = GlobalKey();
   GlobalKey tutorialKeyLoopAdd = GlobalKey();
 
+  bool get _isVideo => widget.song.mediaType == MediaType.video;
+
   @override
   void initState() {
     super.initState();
     AppAnalytics.trackEvent(AppAnalytics.viewSong);
+    // Video has no background-playback story (no audio_service integration);
+    // observe lifecycle so we can pause when the app is backgrounded.
+    if (_isVideo) {
+      WidgetsBinding.instance.addObserver(this);
+    }
   }
 
   @override
   void dispose() {
     // context.read<SongCubit>().close();
+    if (_isVideo) {
+      WidgetsBinding.instance.removeObserver(this);
+    }
     _loopListController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (!_isVideo) return;
+    // Only react to states that mean the user can't see the video:
+    //   * paused — true backgrounding (mobile)
+    //   * hidden — window minimized (desktop)
+    // NOT inactive — that fires on transient focus changes (e.g. clicking
+    // a button on Windows, control-center swipe on iOS) while the app is
+    // still visible; pausing on it would defeat user-initiated playback.
+    if (state == AppLifecycleState.paused || state == AppLifecycleState.hidden) {
+      context.read<SongCubit>().pauseSong();
+    }
   }
 
   @override
@@ -207,16 +248,18 @@ class _SongViewState extends State<_SongView> {
                       padding: const EdgeInsets.all(16),
                       sliver: SliverList(
                         delegate: SliverChildListDelegate([
-                          WaveFormSoLoud(
-                            key: tutorialKeyWaveform,
-                            song: widget.song,
-                          ),
+                          if (_isVideo)
+                            VideoPreview(
+                              key: tutorialKeyWaveform,
+                              song: widget.song,
+                            )
+                          else
+                            WaveFormSoLoud(
+                              key: tutorialKeyWaveform,
+                              song: widget.song,
+                            ),
                           const SizedBox(height: 8),
-                          BlocSelector<
-                            PremiumSubscriptionCubit,
-                            PremiumSubscriptionState,
-                            bool
-                          >(
+                          BlocSelector<PremiumSubscriptionCubit, PremiumSubscriptionState, bool>(
                             selector: (state) =>
                                 state.hasWeeklySubscription ||
                                 state.hasYearlySubscription ||
@@ -224,24 +267,15 @@ class _SongViewState extends State<_SongView> {
                             builder: (context, hasPremium) {
                               return LoopTimeline(
                                 key: tutorialKeyLoopTimeline,
-                                onLoopTap: (loop) =>
-                                    context.read<SongCubit>().selectLoop(loop),
-                                onSkipPrevious: () => context
-                                    .read<SongCubit>()
-                                    .skipToPreviousOrRestart(),
-                                onSkipNext: () =>
-                                    context.read<SongCubit>().skipToNextLoop(),
-                                onSeek: (position) => context
-                                    .read<SongCubit>()
-                                    .seekSong(position),
+                                onLoopTap: (loop) => context.read<SongCubit>().selectLoop(loop),
+                                onSkipPrevious: () =>
+                                    context.read<SongCubit>().skipToPreviousOrRestart(),
+                                onSkipNext: () => context.read<SongCubit>().skipToNextLoop(),
+                                onSeek: (position) => context.read<SongCubit>().seekSong(position),
                                 duration: widget.song.duration,
                                 isLoopLocked: (loop) {
                                   if (hasPremium) return false;
-                                  final loops = context
-                                      .read<SongCubit>()
-                                      .state
-                                      .song
-                                      .loops;
+                                  final loops = context.read<SongCubit>().state.song.loops;
                                   if (loops.isEmpty) return false;
                                   return loop.id != loops.first.id;
                                 },
@@ -274,33 +308,26 @@ class _SongViewState extends State<_SongView> {
                                     style: context.bodySmall,
                                   ),
                                   BlocSelector<SongCubit, SongState, bool>(
-                                    selector: (state) =>
-                                        state.isLoopModeEnabled,
+                                    selector: (state) => state.isLoopModeEnabled,
                                     builder: (context, isLoopModeEnabled) {
                                       return CupertinoSwitch(
                                         key: tutorialKeyLoopActivate,
-                                        thumbIcon:
-                                            WidgetStateProperty.resolveWith<
-                                              Icon?
-                                            >((
-                                              Set<WidgetState> states,
-                                            ) {
-                                              if (states.contains(
-                                                WidgetState.disabled,
-                                              )) {
-                                                return const Icon(Icons.close);
-                                              }
-                                              return const Icon(
-                                                Icons.loop_rounded,
-                                              );
-                                            }),
-                                        activeTrackColor:
-                                            AppColors.primaryContainer,
-                                        inactiveTrackColor:
-                                            AppColors.secondaryContainer,
+                                        thumbIcon: WidgetStateProperty.resolveWith<Icon?>((
+                                          Set<WidgetState> states,
+                                        ) {
+                                          if (states.contains(
+                                            WidgetState.disabled,
+                                          )) {
+                                            return const Icon(Icons.close);
+                                          }
+                                          return const Icon(
+                                            Icons.loop_rounded,
+                                          );
+                                        }),
+                                        activeTrackColor: AppColors.primaryContainer,
+                                        inactiveTrackColor: AppColors.secondaryContainer,
                                         value: isLoopModeEnabled,
-                                        onChanged: (value) =>
-                                            _onToggleLoopMode(context),
+                                        onChanged: (value) => _onToggleLoopMode(context),
                                       );
                                     },
                                   ),
@@ -326,8 +353,7 @@ class _SongViewState extends State<_SongView> {
                                       horizontal: 8,
                                     ),
                                     minimumSize: const Size(0, 36),
-                                    tapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
+                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                   ),
                                   child: AutoSizeText(
                                     context.l10n.setLoopStart,
@@ -340,39 +366,37 @@ class _SongViewState extends State<_SongView> {
                               ),
                               const SizedBox(width: 8),
                               Expanded(
-                                child:
-                                    BlocSelector<SongCubit, SongState, Loop?>(
-                                      selector: (state) => state.activeLoop,
-                                      builder: (context, activeLoop) {
-                                        return ElevatedButton(
-                                          key: tutorialKeyLoopEnd,
-                                          onPressed: (activeLoop != null)
-                                              ? () => _onSetLoopEnd(context)
-                                              : null,
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: Theme.of(
-                                              context,
-                                            ).colorScheme.primaryContainer,
-                                            foregroundColor: Theme.of(
-                                              context,
-                                            ).colorScheme.onPrimaryContainer,
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 8,
-                                            ),
-                                            minimumSize: const Size(0, 36),
-                                            tapTargetSize: MaterialTapTargetSize
-                                                .shrinkWrap,
-                                          ),
-                                          child: AutoSizeText(
-                                            context.l10n.setLoopEnd,
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
-                                            minFontSize: 12,
-                                            maxFontSize: 24,
-                                          ),
-                                        );
-                                      },
-                                    ),
+                                child: BlocSelector<SongCubit, SongState, Loop?>(
+                                  selector: (state) => state.activeLoop,
+                                  builder: (context, activeLoop) {
+                                    return ElevatedButton(
+                                      key: tutorialKeyLoopEnd,
+                                      onPressed: (activeLoop != null)
+                                          ? () => _onSetLoopEnd(context)
+                                          : null,
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Theme.of(
+                                          context,
+                                        ).colorScheme.primaryContainer,
+                                        foregroundColor: Theme.of(
+                                          context,
+                                        ).colorScheme.onPrimaryContainer,
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 8,
+                                        ),
+                                        minimumSize: const Size(0, 36),
+                                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                      ),
+                                      child: AutoSizeText(
+                                        context.l10n.setLoopEnd,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        minFontSize: 12,
+                                        maxFontSize: 24,
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
                             ],
                           ),
@@ -384,56 +408,13 @@ class _SongViewState extends State<_SongView> {
                       sliver: SliverList(
                         delegate: SliverChildBuilderDelegate(
                           (context, index) {
-                            return BlocSelector<
-                              SongCubit,
-                              SongState,
-                              List<Loop>
-                            >(
+                            return BlocSelector<SongCubit, SongState, List<Loop>>(
                               selector: (state) => state.song.loops,
                               builder: (context, loops) {
                                 return SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.4,
-                                  child: ReorderableListView.builder(
-                                    onReorder: (oldIndex, newIndex) {
-                                      if (oldIndex < newIndex) {
-                                        newIndex -= 1;
-                                      }
-
-                                      AppAnalytics.trackEvent(
-                                        AppAnalytics.clickReorderLoops,
-                                      );
-
-                                      final List<Loop> newLoops =
-                                          List<Loop>.from(loops);
-                                      final Loop item = newLoops.removeAt(
-                                        oldIndex,
-                                      );
-                                      newLoops.insert(newIndex, item);
-
-                                      // Update order numbers
-                                      for (
-                                        var i = 0;
-                                        i < newLoops.length;
-                                        i++
-                                      ) {
-                                        newLoops[i] = newLoops[i].copyWith(
-                                          orderNumber: i,
-                                        );
-                                      }
-
-                                      context.read<SongCubit>().updateLoopOrder(
-                                        newLoops,
-                                      );
-                                    },
-                                    scrollController: _loopListController,
-                                    padding: const EdgeInsets.only(bottom: 92),
-                                    itemBuilder: (context, index) => Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 4,
-                                      ),
-                                      key: ValueKey(loops[index].id),
-                                      child: BlocSelector<
+                                  height: MediaQuery.of(context).size.height * 0.4,
+                                  child:
+                                      BlocSelector<
                                         PremiumSubscriptionCubit,
                                         PremiumSubscriptionState,
                                         bool
@@ -443,60 +424,98 @@ class _SongViewState extends State<_SongView> {
                                             state.hasYearlySubscription ||
                                             state.hasLifetimePurchase,
                                         builder: (context, hasPremium) {
-                                          return LoopTile(
-                                            index: index,
-                                            loop: loops[index],
-                                            isSelected:
-                                                loops[index] ==
-                                                context
-                                                    .read<SongCubit>()
-                                                    .state
-                                                    .activeLoop,
-                                            isLocked:
-                                                !hasPremium && index > 0,
-                                            onTap: (loop) => context
-                                                .read<SongCubit>()
-                                                .selectLoop(loop),
-                                            onDelete: (loop) {
+                                          Widget buildItem(int index) => Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 4,
+                                            ),
+                                            key: ValueKey(loops[index].id),
+                                            child: LoopTile(
+                                              index: index,
+                                              loop: loops[index],
+                                              isSelected:
+                                                  loops[index] ==
+                                                  context.read<SongCubit>().state.activeLoop,
+                                              isLocked: !hasPremium && index > 0,
+                                              onTap: (loop) =>
+                                                  context.read<SongCubit>().selectLoop(loop),
+                                              onDelete: (loop) {
+                                                AppAnalytics.trackEvent(
+                                                  AppAnalytics.clickDeleteLoop,
+                                                );
+                                                context.read<SongCubit>().deleteLoop(loop);
+                                              },
+                                              onPlay: (loop) {
+                                                AppAnalytics.trackEvent(
+                                                  AppAnalytics.clickPlayLoop,
+                                                );
+                                                context.read<SongCubit>().togglePlayLoop(loop);
+                                              },
+                                              onPause: (loop) {
+                                                AppAnalytics.trackEvent(
+                                                  AppAnalytics.clickStopLoop,
+                                                );
+                                                context.read<SongCubit>().pauseLoop();
+                                              },
+                                              onUpdate: (loop) {
+                                                AppAnalytics.trackEvent(
+                                                  AppAnalytics.clickUpdateLoop,
+                                                );
+                                                context.read<SongCubit>().updateLoop(loop);
+                                              },
+                                              onLockedTap: () => _presentLoopPaywall(
+                                                context,
+                                              ),
+                                            ),
+                                          );
+
+                                          if (!hasPremium) {
+                                            // Drag-to-reorder is a premium
+                                            // feature — non-premium users only
+                                            // have access to loop #0 anyway,
+                                            // so reordering is meaningless.
+                                            return ListView.builder(
+                                              controller: _loopListController,
+                                              padding: const EdgeInsets.only(
+                                                bottom: 174,
+                                              ),
+                                              itemBuilder: (context, index) => buildItem(index),
+                                              itemCount: loops.length,
+                                            );
+                                          }
+
+                                          return ReorderableListView.builder(
+                                            onReorderItem: (oldIndex, newIndex) {
+                                              // ReorderableListView reports an
+                                              // insertion index that is offset
+                                              // by one when moving an item down.
+                                              var targetIndex = newIndex;
+                                              if (oldIndex < targetIndex) {
+                                                targetIndex -= 1;
+                                              }
+
                                               AppAnalytics.trackEvent(
-                                                AppAnalytics.clickDeleteLoop,
+                                                AppAnalytics.clickReorderLoops,
                                               );
-                                              context
-                                                  .read<SongCubit>()
-                                                  .deleteLoop(loop);
+
+                                              final List<Loop> newLoops = List<Loop>.from(loops);
+                                              final Loop item = newLoops.removeAt(oldIndex);
+                                              newLoops.insert(targetIndex, item);
+
+                                              for (var i = 0; i < newLoops.length; i++) {
+                                                newLoops[i] = newLoops[i].copyWith(orderNumber: i);
+                                              }
+
+                                              context.read<SongCubit>().updateLoopOrder(newLoops);
                                             },
-                                            onPlay: (loop) {
-                                              AppAnalytics.trackEvent(
-                                                AppAnalytics.clickPlayLoop,
-                                              );
-                                              context
-                                                  .read<SongCubit>()
-                                                  .togglePlayLoop(loop);
-                                            },
-                                            onPause: (loop) {
-                                              AppAnalytics.trackEvent(
-                                                AppAnalytics.clickStopLoop,
-                                              );
-                                              context
-                                                  .read<SongCubit>()
-                                                  .pauseLoop();
-                                            },
-                                            onUpdate: (loop) {
-                                              AppAnalytics.trackEvent(
-                                                AppAnalytics.clickUpdateLoop,
-                                              );
-                                              context
-                                                  .read<SongCubit>()
-                                                  .updateLoop(loop);
-                                            },
-                                            onLockedTap: () =>
-                                                _presentLoopPaywall(context),
+                                            scrollController: _loopListController,
+                                            padding: const EdgeInsets.only(
+                                              bottom: 174,
+                                            ),
+                                            itemBuilder: (context, index) => buildItem(index),
+                                            itemCount: loops.length,
                                           );
                                         },
                                       ),
-                                    ),
-                                    itemCount: loops.length,
-                                  ),
                                 );
                               },
                             );
@@ -582,14 +601,13 @@ class _SongViewState extends State<_SongView> {
     final songCubit = context.read<SongCubit>();
     final currentSong = songCubit.state.song;
 
-    final result =
-        await showDialog<({String title, String artist, int? bpm})>(
+    final result = await showDialog<({String title, String artist, int? bpm})>(
       context: context,
       builder: (dialogContext) {
-        final titleController =
-            TextEditingController(text: currentSong.title);
-        final artistController =
-            TextEditingController(text: currentSong.artist);
+        final titleController = TextEditingController(text: currentSong.title);
+        final artistController = TextEditingController(
+          text: currentSong.artist,
+        );
         final bpmController = TextEditingController(
           text: currentSong.bpm?.toString() ?? '',
         );
@@ -602,49 +620,48 @@ class _SongViewState extends State<_SongView> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
                 side: BorderSide(
-                  color: Theme.of(dialogContext)
-                      .colorScheme
-                      .outlineVariant
-                      .withValues(alpha: 0.8),
+                  color: Theme.of(
+                    dialogContext,
+                  ).colorScheme.outlineVariant.withValues(alpha: 0.8),
                   width: 1.5,
                 ),
               ),
               title: Text(dialogContext.l10n.editSong),
               content: SingleChildScrollView(
                 child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextField(
-                    controller: titleController,
-                    decoration: InputDecoration(
-                      labelText: dialogContext.l10n.editSongTitle,
-                      errorText: titleController.text.trim().isEmpty
-                          ? dialogContext.l10n.editSongTitleRequired
-                          : null,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      controller: titleController,
+                      decoration: InputDecoration(
+                        labelText: dialogContext.l10n.editSongTitle,
+                        errorText: titleController.text.trim().isEmpty
+                            ? dialogContext.l10n.editSongTitleRequired
+                            : null,
+                      ),
+                      autofocus: true,
+                      textCapitalization: TextCapitalization.words,
+                      onChanged: (_) => setState(() {}),
                     ),
-                    autofocus: true,
-                    textCapitalization: TextCapitalization.words,
-                    onChanged: (_) => setState(() {}),
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: artistController,
-                    decoration: InputDecoration(
-                      labelText: dialogContext.l10n.editSongArtist,
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: artistController,
+                      decoration: InputDecoration(
+                        labelText: dialogContext.l10n.editSongArtist,
+                      ),
+                      textCapitalization: TextCapitalization.words,
                     ),
-                    textCapitalization: TextCapitalization.words,
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: bpmController,
-                    decoration: const InputDecoration(
-                      labelText: 'BPM',
-                      hintText: '120',
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: bpmController,
+                      decoration: const InputDecoration(
+                        labelText: 'BPM',
+                        hintText: '120',
+                      ),
+                      keyboardType: TextInputType.number,
                     ),
-                    keyboardType: TextInputType.number,
-                  ),
-                ],
-              ),
+                  ],
+                ),
               ),
               actions: [
                 ElevatedButton(
@@ -652,7 +669,7 @@ class _SongViewState extends State<_SongView> {
                     backgroundColor: AppColors.primaryContainer,
                     foregroundColor: AppColors.onPrimaryContainer,
                   ),
-                  onPressed: () => Navigator.of(dialogContext).pop(null),
+                  onPressed: () => Navigator.of(dialogContext).pop(),
                   child: Text(dialogContext.l10n.cancel),
                 ),
                 ElevatedButton(
@@ -664,9 +681,7 @@ class _SongViewState extends State<_SongView> {
                       ? null
                       : () {
                           final bpmText = bpmController.text.trim();
-                          final bpm = bpmText.isEmpty
-                              ? null
-                              : int.tryParse(bpmText);
+                          final bpm = bpmText.isEmpty ? null : int.tryParse(bpmText);
                           Navigator.of(dialogContext).pop((
                             title: titleController.text.trim(),
                             artist: artistController.text.trim(),
@@ -710,8 +725,9 @@ class _SongViewState extends State<_SongView> {
           context.read<SongCubit>().setLoopStart();
         }
       } else {
-        AppAnalytics.trackEvent(AppAnalytics.showPaywallSongLoops);
-        await context.read<PremiumSubscriptionCubit>().presentPaywall();
+        await context.read<PremiumSubscriptionCubit>().presentPaywall(
+          source: 'song_loops',
+        );
       }
     } else {
       final loopEnd = activeLoop.end;
@@ -764,17 +780,24 @@ class _SongViewState extends State<_SongView> {
   }
 
   void createTutorial(BuildContext context) {
+    // Capture the cubit while the context is still valid. The tutorial is shown
+    // via an overlay that outlives this call, so its skip/finish callbacks must
+    // not read from `context` later — by then the element may be unmounted and
+    // the Provider lookup would throw a null-check error.
+    final songCubit = context.read<SongCubit>();
     tutorialCoachMark = TutorialCoachMark(
       targets: _createTargets(context),
       colorShadow: AppColors.primaryContainer,
       opacityShadow: 0.95,
-      onFinish: () => context.read<SongCubit>().updateTutorialCompleted(),
+      onFinish: () {
+        if (mounted) songCubit.updateTutorialCompleted();
+      },
       onClickTarget: (target) {},
       onClickTargetWithTapPosition: (target, tapDetails) {},
       onClickOverlay: (target) {},
       onSkip: () {
         AppAnalytics.trackEvent(AppAnalytics.clickSkipTutorial);
-        context.read<SongCubit>().updateTutorialCompleted();
+        if (mounted) songCubit.updateTutorialCompleted();
         return true;
       },
     );
@@ -918,8 +941,9 @@ class _SongViewState extends State<_SongView> {
   }
 
   Future<void> _presentLoopPaywall(BuildContext context) async {
-    AppAnalytics.trackEvent(AppAnalytics.showPaywallSongLoops);
-    await context.read<PremiumSubscriptionCubit>().presentPaywall();
+    await context.read<PremiumSubscriptionCubit>().presentPaywall(
+      source: 'song_loops',
+    );
   }
 
   /// If user already has added one loop, show paywall if not already purchased
@@ -930,12 +954,12 @@ class _SongViewState extends State<_SongView> {
 
     if (!context.mounted) return;
 
-    if (premiumSubscriptionCubit.hasPremium ||
-        context.read<SongCubit>().state.song.loops.isEmpty) {
+    if (premiumSubscriptionCubit.hasPremium || context.read<SongCubit>().state.song.loops.isEmpty) {
       context.read<SongCubit>().addLoop();
     } else {
-      AppAnalytics.trackEvent(AppAnalytics.showPaywallSongLoops);
-      await context.read<PremiumSubscriptionCubit>().presentPaywall();
+      await context.read<PremiumSubscriptionCubit>().presentPaywall(
+        source: 'song_loops',
+      );
     }
   }
 

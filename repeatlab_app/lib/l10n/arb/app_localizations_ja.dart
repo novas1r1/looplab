@@ -405,11 +405,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get changelogTitle => '変更履歴';
 
   @override
+  String get changelog201Title => '動画をループして速度変更（Beta）';
+
+  @override
+  String get changelog201Description =>
+      '動画をインポートして、オーディオ曲と同じようにループできます - または速度を変更できます - チュートリアルやライブパフォーマンスに合わせて練習するのに最適です。この機能は現在ベータ版です。問題があればフィードバックを送ってください。';
+
+  @override
   String get changelog180Title => '曲を並べ替える';
 
   @override
   String get changelog180Description =>
-      '好きな順番で曲リストを整理できます — 任意の曲を長押しして新しい位置にドラッグするだけです。カスタム順序は自動的に保存されます。';
+      '好きな順番で曲リストを整理できます - 任意の曲を長押しして新しい位置にドラッグするだけです。カスタム順序は自動的に保存されます。';
 
   @override
   String get changelog170Title => 'ライブラリをバックアップして移動';
@@ -540,6 +547,11 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String unsupportedVideoFormatError(String format, String supportedFormats) {
+    return '動画形式「.$format」はサポートされていません。サポートされている形式：$supportedFormats。';
+  }
+
+  @override
   String get loopAdded => 'ループが追加され、有効化されました';
 
   @override
@@ -662,82 +674,108 @@ class AppLocalizationsJa extends AppLocalizations {
   String get deleteAllDataError => 'すべてのデータの削除に失敗しました';
 
   @override
-  String get backupAndRestore => 'Backup & Restore';
+  String get backupAndRestore => 'バックアップと復元';
 
   @override
-  String get backupExport => 'Export my library';
+  String get backupExport => 'ライブラリをエクスポート';
 
   @override
-  String get backupExportSubtitle =>
-      'Save all songs and loops to a single file you can transfer to another device.';
+  String get backupExportSubtitle => 'すべての曲とループを1つのファイルに保存して、別のデバイスに転送できます。';
 
   @override
-  String get backupImport => 'Import backup';
+  String get backupExportSheetTitle => '何をエクスポートしますか？';
 
   @override
-  String get backupImportSubtitle =>
-      'Restore songs and loops from a previously exported file.';
+  String get backupExportOptionAudios => 'オーディオ曲';
 
   @override
-  String get backupProOnly => 'Pro feature';
+  String get backupExportOptionAudiosSubtitle => 'オーディオファイルを含める (MP3, WAV, …)';
 
   @override
-  String get backupExporting => 'Preparing backup…';
+  String get backupExportOptionVideos => '動画曲';
 
   @override
-  String get backupImporting => 'Importing…';
+  String get backupExportOptionVideosSubtitle => '動画ファイルを含める (MP4, MOV, …)';
+
+  @override
+  String get backupExportOptionLoopsAndSettings => 'ループと曲の設定';
+
+  @override
+  String get backupExportOptionLoopsAndSettingsSubtitle =>
+      'ループ、BPM、並び順、動画プレビューサイズを含める';
+
+  @override
+  String get backupExportSheetExport => 'エクスポート';
+
+  @override
+  String get backupExportSheetCancel => 'キャンセル';
+
+  @override
+  String get backupExportSheetNoMediaSelected => 'オーディオまたは動画を少なくとも1つ選択してください。';
+
+  @override
+  String get backupImport => 'バックアップをインポート';
+
+  @override
+  String get backupImportSubtitle => '以前にエクスポートしたファイルから曲とループを復元します。';
+
+  @override
+  String get backupProOnly => 'Pro機能';
+
+  @override
+  String get backupExporting => 'バックアップを準備中…';
+
+  @override
+  String get backupImporting => 'インポート中…';
 
   @override
   String backupExportFailed(String message) {
-    return 'Export failed: $message';
+    return 'エクスポート失敗: $message';
   }
 
   @override
   String backupImportFailed(String message) {
-    return 'Import failed: $message';
+    return 'インポート失敗: $message';
   }
 
   @override
-  String get backupImportConfirmTitle => 'Import backup';
+  String get backupImportConfirmTitle => 'バックアップをインポート';
 
   @override
   String backupImportConfirmMessage(int songCount, String exportedAt) {
-    return 'This backup contains $songCount songs (exported $exportedAt).';
+    return 'このバックアップには$songCount曲が含まれています（エクスポート日: $exportedAt）。';
   }
 
   @override
-  String get backupImportModeMerge => 'Merge';
+  String get backupImportModeMerge => 'マージ';
 
   @override
-  String get backupImportModeMergeDescription =>
-      'Add new songs, keep existing ones.';
+  String get backupImportModeMergeDescription => '新しい曲を追加し、既存の曲を保持します。';
 
   @override
-  String get backupImportModeReplace => 'Replace';
+  String get backupImportModeReplace => '置き換え';
 
   @override
-  String get backupImportModeReplaceDescription =>
-      'Delete everything and import from scratch.';
+  String get backupImportModeReplaceDescription => 'すべてを削除してゼロからインポートします。';
 
   @override
-  String get backupImportReplaceConfirmTitle => 'Replace entire library?';
+  String get backupImportReplaceConfirmTitle => 'ライブラリ全体を置き換えますか？';
 
   @override
   String get backupImportReplaceConfirmMessage =>
-      'This will permanently delete all current songs and loops before importing. This cannot be undone.';
+      'インポート前に現在のすべての曲とループが完全に削除されます。この操作は元に戻せません。';
 
   @override
   String backupImportSuccess(int imported, int skipped, int renamed) {
-    return 'Imported $imported songs. $skipped skipped, $renamed renamed.';
+    return '$imported曲をインポートしました。$skipped曲をスキップ、$renamed曲をリネームしました。';
   }
 
   @override
   String get backupImportSchemaTooNew =>
-      'This backup was created by a newer version of RepeatLab. Please update the app to import it.';
+      'このバックアップはより新しいバージョンのRepeatLabで作成されました。インポートするにはアプリを更新してください。';
 
   @override
-  String get backupImportMalformed =>
-      'This file isn\'t a valid RepeatLab backup.';
+  String get backupImportMalformed => 'このファイルは有効なRepeatLabバックアップではありません。';
 
   @override
   String get errorOpeningStore =>
@@ -774,7 +812,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get analyticsDescription =>
-      'Microsoft Clarityを使用して使用データを収集し、アプリを改善します。これらのデータは第三者と共有されません。';
+      'Microsoft ClarityとPostHogを使用して匿名の使用データを収集し、アプリを改善します。データはEUで処理され、第三者に販売されることはありません。';
 
   @override
   String get enterSongBpm => '曲のBPM';
@@ -863,4 +901,18 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get editSongTitleRequired => 'タイトルは空にできません';
+
+  @override
+  String get addVideo => '動画を追加';
+
+  @override
+  String get importingMedia => 'インポート中… 大きなファイルは時間がかかることがあります。';
+
+  @override
+  String importingMediaProgress(int current, int total) {
+    return 'ファイル $current / $total';
+  }
+
+  @override
+  String get betaLabel => 'ベータ';
 }

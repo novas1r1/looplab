@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(flutter analyze *)",
+      "Bash(flutter gen-l10n *)",
+      "Bash(flutter pub *)",
+      "Bash(curl -s https://pub.dev/api/packages/device_info_plus)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); [print\\(v['version']\\) for v in d['versions'][-15:]]\")",
+      "Bash(curl -s https://pub.dev/api/archives/device_info_plus-13.1.0.tar.gz -o /tmp/dip13.tgz)",
+      "Bash(mkdir -p /tmp/dip13)",
+      "Bash(tar -xzf /tmp/dip13.tgz -C /tmp/dip13)",
+      "Read(//tmp/dip13/ios/device_info_plus/Sources/device_info_plus/**)",
+      "Bash(curl -s https://pub.dev/api/archives/device_info_plus-12.3.0.tar.gz -o /tmp/dip123.tgz)",
+      "Bash(mkdir -p /tmp/dip123)",
+      "Bash(tar -xzf /tmp/dip123.tgz -C /tmp/dip123)",
+      "Read(//tmp/dip123/ios/device_info_plus/Sources/device_info_plus/**)"
+    ]
+  }
+}

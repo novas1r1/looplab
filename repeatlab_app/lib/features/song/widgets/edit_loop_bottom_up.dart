@@ -141,6 +141,7 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                 children: [
                   Expanded(
                     child: TextField(
+                      key: const Key('editLoop.name'),
                       controller: _titleController,
                       decoration: InputDecoration(
                         labelText: context.l10n.loopName,
@@ -233,6 +234,7 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                 children: [
                   Expanded(
                     child: ElevatedButton.icon(
+                      key: const Key('editLoop.delete'),
                       onPressed: () {
                         widget.onDelete(widget.loop);
                         Navigator.pop(context);
@@ -253,6 +255,7 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: ElevatedButton.icon(
+                      key: const Key('editLoop.save'),
                       onPressed: () => Navigator.pop(context, _updatedLoop),
                       icon: const Icon(Icons.save),
                       label: Text(context.l10n.save),

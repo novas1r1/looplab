@@ -67,6 +67,7 @@ class _SpeedControlState extends State<SpeedControl> {
                   SizedBox(
                     height: 36,
                     child: ToggleButtons(
+                      key: const Key('song.speed.toggleMode'),
                       borderRadius: BorderRadius.circular(10),
                       selectedColor: AppColors.onPrimaryContainer,
                       color: AppColors.secondary,
@@ -100,6 +101,7 @@ class _SpeedControlState extends State<SpeedControl> {
                         SizedBox(
                           height: 32,
                           child: IconButton(
+                            key: const Key('song.speed.reset'),
                             padding: EdgeInsets.zero,
                             constraints: const BoxConstraints(),
                             onPressed: () => _onResetSpeed(context),
@@ -112,6 +114,7 @@ class _SpeedControlState extends State<SpeedControl> {
                         SizedBox(
                           height: 32,
                           child: IconButton(
+                            key: const Key('song.speed.expand'),
                             padding: EdgeInsets.zero,
                             constraints: const BoxConstraints(),
                             onPressed: _onToggleExpand,
@@ -150,6 +153,12 @@ class _SpeedControlState extends State<SpeedControl> {
   void _onChangeTempoMode(BuildContext context, int index) {
     final newMode = index == 0 ? TempoMode.multiplier : TempoMode.bpm;
     context.read<SongCubit>().setTempoMode(newMode);
+
+    if (!_isExpanded) {
+      setState(() {
+        _isExpanded = true;
+      });
+    }
 
     if (index == 0) {
       AppAnalytics.trackEvent(AppAnalytics.clickTempoModeMultiplier);

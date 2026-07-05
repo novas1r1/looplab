@@ -25,7 +25,7 @@
     "yourRights": "Deine Rechte",
     "yourRightsDescription": "Gemäß DSGVO hast Du folgende Rechte:\n\n• Das Recht auf Zugang zu Deinen persönlichen Daten.\n• Das Recht, Korrekturen Deiner persönlichen Daten anzufordern.\n• Das Recht auf Löschung Deiner persönlichen Daten ('Recht auf Vergessenwerden').\n• Das Recht auf Datenübertragbarkeit.\n• Das Recht, der Verarbeitung aufgrund unserer berechtigten Interessen zu widersprechen.\n• Das Recht, Deine Einwilligung jederzeit zu widerrufen.\n• Das Recht, Beschwerde bei einer Aufsichtsbehörde einzureichen.",
     "thirdPartyServices": "Drittanbieterdienste",
-    "thirdPartyServicesDescription": "Wir nutzen Drittanbieterdienste zur Verbesserung unserer App:\n\n• Wiredash: Zur Sammlung von Benutzerfeedback.\n• RevenueCat: Zur Verarbeitung von In-App-Käufen und Abonnements.\n• Sentry: Zur Fehlerverfolgung und Absturzberichterstattung.",
+    "thirdPartyServicesDescription": "Wir nutzen Drittanbieterdienste zur Verbesserung unserer App:\n\n• Wiredash: Zur Sammlung von Benutzerfeedback.\n• RevenueCat: Zur Verarbeitung von In-App-Käufen und Abonnements.\n• Sentry: Zur Fehlerverfolgung und Absturzberichterstattung.\n• Microsoft Clarity: Zur Analyse und Verbesserung der Nutzererfahrung.\n• PostHog: Für anonyme Produktanalysen, gehostet in der EU.",
     "contactUs": "Kontakt",
     "contactUsDescription": "Bei Fragen oder Bedenken zu dieser Datenschutzerklärung oder wenn Du Deine Rechte gemäß DSGVO ausüben möchtest, kontaktiere uns bitte unter support@repeatlab.de\n\nVielen Dank für die Nutzung unserer App!",
     "crashLogs": "Absturzprotokolle",
@@ -155,12 +155,14 @@
     "cancelSubscription": "Abonnement kündigen",
     "voteForFeatures": "Feature Voting",
     "changelogTitle": "Changelog",
+    "changelog201Title": "Videos loopen und Geschwindigkeit ändern (Beta)",
+    "changelog201Description": "Importiere Videos und loope sie genau wie Audio-Songs oder ändere die Geschwindigkeit - perfekt zum Üben mit Tutorials oder Live-Auftritten. Diese Funktion ist aktuell in der Beta; bitte schicke mir dein Feedback wenn du auf Probleme stößt.",
     "changelog180Title": "Songs neu anordnen",
-    "changelog180Description": "Organisiere deine Songliste nach deinen Wünschen — halte einen Song gedrückt und ziehe ihn an eine neue Position. Deine individuelle Reihenfolge wird automatisch gespeichert.",
+    "changelog180Description": "Organisiere deine Songliste nach deinen Wünschen - halte einen Song gedrückt und ziehe ihn an eine neue Position. Deine individuelle Reihenfolge wird automatisch gespeichert.",
     "changelog170Title": "Deine Bibliothek sichern und verschieben",
-    "changelog170Description": "Exportiere deine gesamte Bibliothek — Songs, Loops und Audio — in eine einzige Datei, um sie auf einem anderen Gerät wiederherzustellen. Wähle Zusammenführen, um neue Songs neben deinen bestehenden zu hinzufügen, oder Ersetzen, um neu zu starten.",
+    "changelog170Description": "Exportiere deine gesamte Bibliothek - Songs, Loops und Audio - in eine einzige Datei, um sie auf einem anderen Gerät wiederherzustellen. Wähle Zusammenführen, um neue Songs neben deinen bestehenden zu hinzufügen, oder Ersetzen, um neu zu starten.",
     "changelog170LanguageTitle": "Wähle deine Sprache",
-    "changelog170LanguageDescription": "Wechsle die App-Sprache direkt im Menü — 16 Sprachen stehen zur Auswahl, oder folge der Systemsprache deines Geräts.",
+    "changelog170LanguageDescription": "Wechsle die App-Sprache direkt im Menü - 16 Sprachen stehen zur Auswahl, oder folge der Systemsprache deines Geräts.",
     "changelog1603Title": "3/3 Layout Anpassungen",
     "changelog1603Description": "Das Layout der App wurde angepasst, um die Benutzererfahrung zu verbessern.",
     "changelog1602Title": "2/3 Steuerung der Loops verbessert",
@@ -195,6 +197,17 @@
     "songAddError": "Fehler beim Hinzufügen des Songs. Dies könnte daran liegen, dass das Dateiformat nicht unterstützt wird. Bitte versuche, die Datei in ein unterstütztes Format wie mp3 oder wav umzuwandeln.",
     "unsupportedAudioFormatError": "Das Audioformat \".{format}\" wird nicht unterstützt. Unterstützte Formate: {supportedFormats}.",
     "@unsupportedAudioFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
+    "unsupportedVideoFormatError": "Das Videoformat \".{format}\" wird nicht unterstützt. Unterstützte Formate: {supportedFormats}.",
+    "@unsupportedVideoFormatError": {
         "placeholders": {
             "format": {
                 "type": "String"
@@ -279,7 +292,7 @@
     "deleteSongConfirmationTitle": "Song löschen",
     "settings": "Einstellungen",
     "analytics": "Analytics",
-    "analyticsDescription": "Wir verwenden Microsoft Clarity, um Nutzungsdaten zu sammeln und die App zu verbessern. Diese Daten werden nicht mit Drittanbietern geteilt.",
+    "analyticsDescription": "Wir verwenden Microsoft Clarity und PostHog, um anonyme Nutzungsdaten zu sammeln und die App zu verbessern. Deine Daten werden in der EU verarbeitet und niemals an Dritte verkauft.",
     "enterSongBpm": "Song BPM",
     "enterSongBpmDescription": "Gib die ursprünglichen BPM des Songs ein, um das Tempo zu ändern. Dies ist nützlich, wenn du einen Song mit einem anderen Tempo übst. Die BPM werden dem Song zugeordnet und gespeichert.",
     "enterSongBpmHint": "z.B. 120",
@@ -312,5 +325,63 @@
     "editSong": "Song bearbeiten",
     "editSongTitle": "Titel",
     "editSongArtist": "Künstler",
-    "editSongTitleRequired": "Titel darf nicht leer sein"
+    "editSongTitleRequired": "Titel darf nicht leer sein",
+    "addVideo": "Video hinzufügen",
+    "importingMedia": "Import läuft … Große Dateien können etwas dauern.",
+    "importingMediaProgress": "Datei {current} von {total}",
+    "betaLabel": "BETA",
+    "backupExportSheetTitle": "Was möchtest du exportieren?",
+    "backupExportOptionAudios": "Audio-Songs",
+    "backupExportOptionAudiosSubtitle": "Audiodateien einschließen (MP3, WAV, …)",
+    "backupExportOptionVideos": "Video-Songs",
+    "backupExportOptionVideosSubtitle": "Videodateien einschließen (MP4, MOV, …)",
+    "backupExportOptionLoopsAndSettings": "Loops & Song-Einstellungen",
+    "backupExportOptionLoopsAndSettingsSubtitle": "Loops, BPM, Sortierreihenfolge und Video-Vorschaugröße einschließen",
+    "backupExportSheetExport": "Exportieren",
+    "backupExportSheetCancel": "Abbrechen",
+    "backupExportSheetNoMediaSelected": "Wähle mindestens Audio oder Video aus.",
+    "backupAndRestore": "Backup & Wiederherstellen",
+    "backupExport": "Meine Bibliothek exportieren",
+    "backupExportSubtitle": "Speichere alle Songs und Loops in einer einzigen Datei, die du auf ein anderes Gerät übertragen kannst.",
+    "backupImport": "Backup importieren",
+    "backupImportSubtitle": "Stelle Songs und Loops aus einer zuvor exportierten Datei wieder her.",
+    "backupProOnly": "Pro-Funktion",
+    "backupExporting": "Backup wird vorbereitet…",
+    "backupImporting": "Importieren…",
+    "backupExportFailed": "Export fehlgeschlagen: {message}",
+    "@backupExportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportFailed": "Import fehlgeschlagen: {message}",
+    "@backupImportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportMalformed": "Diese Datei ist kein gültiges RepeatLab-Backup.",
+    "backupImportSchemaTooNew": "Dieses Backup wurde mit einer neueren Version von RepeatLab erstellt. Bitte aktualisiere die App, um es zu importieren.",
+    "backupImportConfirmTitle": "Backup importieren",
+    "backupImportConfirmMessage": "Dieses Backup enthält {songCount} Songs (exportiert am {exportedAt}).",
+    "@backupImportConfirmMessage": {
+        "placeholders": {
+            "songCount": { "type": "int" },
+            "exportedAt": { "type": "String" }
+        }
+    },
+    "backupImportModeMerge": "Zusammenführen",
+    "backupImportModeMergeDescription": "Neue Songs hinzufügen, bestehende behalten.",
+    "backupImportModeReplace": "Ersetzen",
+    "backupImportModeReplaceDescription": "Alles löschen und neu importieren.",
+    "backupImportReplaceConfirmTitle": "Gesamte Bibliothek ersetzen?",
+    "backupImportReplaceConfirmMessage": "Dadurch werden alle aktuellen Songs und Loops dauerhaft gelöscht, bevor der Import beginnt. Dies kann nicht rückgängig gemacht werden.",
+    "backupImportSuccess": "{imported} Songs importiert. {skipped} übersprungen, {renamed} umbenannt.",
+    "@backupImportSuccess": {
+        "placeholders": {
+            "imported": { "type": "int" },
+            "skipped": { "type": "int" },
+            "renamed": { "type": "int" }
+        }
+    }
 }

@@ -398,6 +398,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get changelogTitle => '更新日志';
 
   @override
+  String get changelog201Title => '视频循环与速度调节（Beta）';
+
+  @override
+  String get changelog201Description =>
+      '导入视频并像音频歌曲一样循环播放 - 或调节速度 - 非常适合跟随教程或现场表演练习。此功能目前处于 Beta 阶段；如遇到问题，请把你的反馈发给我。';
+
+  @override
   String get changelog180Title => '重新排列您的歌曲';
 
   @override
@@ -526,6 +533,11 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String unsupportedVideoFormatError(String format, String supportedFormats) {
+    return '视频格式 \".$format\" 不受支持。支持的格式：$supportedFormats。';
+  }
+
+  @override
   String get loopAdded => '循环已添加并激活';
 
   @override
@@ -647,82 +659,106 @@ class AppLocalizationsZh extends AppLocalizations {
   String get deleteAllDataError => '删除所有数据失败';
 
   @override
-  String get backupAndRestore => 'Backup & Restore';
+  String get backupAndRestore => '备份与恢复';
 
   @override
-  String get backupExport => 'Export my library';
+  String get backupExport => '导出我的资料库';
 
   @override
-  String get backupExportSubtitle =>
-      'Save all songs and loops to a single file you can transfer to another device.';
+  String get backupExportSubtitle => '将所有歌曲和循环保存到一个文件中，您可以将其传输到另一台设备。';
 
   @override
-  String get backupImport => 'Import backup';
+  String get backupExportSheetTitle => '您想导出什么？';
 
   @override
-  String get backupImportSubtitle =>
-      'Restore songs and loops from a previously exported file.';
+  String get backupExportOptionAudios => '音频歌曲';
 
   @override
-  String get backupProOnly => 'Pro feature';
+  String get backupExportOptionAudiosSubtitle => '包含音频文件 (MP3, WAV, …)';
 
   @override
-  String get backupExporting => 'Preparing backup…';
+  String get backupExportOptionVideos => '视频歌曲';
 
   @override
-  String get backupImporting => 'Importing…';
+  String get backupExportOptionVideosSubtitle => '包含视频文件 (MP4, MOV, …)';
+
+  @override
+  String get backupExportOptionLoopsAndSettings => '循环与歌曲设置';
+
+  @override
+  String get backupExportOptionLoopsAndSettingsSubtitle =>
+      '包含循环、BPM、排序顺序和视频预览大小';
+
+  @override
+  String get backupExportSheetExport => '导出';
+
+  @override
+  String get backupExportSheetCancel => '取消';
+
+  @override
+  String get backupExportSheetNoMediaSelected => '请至少选择音频或视频之一。';
+
+  @override
+  String get backupImport => '导入备份';
+
+  @override
+  String get backupImportSubtitle => '从之前导出的文件中恢复歌曲和循环。';
+
+  @override
+  String get backupProOnly => 'Pro 功能';
+
+  @override
+  String get backupExporting => '正在准备备份…';
+
+  @override
+  String get backupImporting => '正在导入…';
 
   @override
   String backupExportFailed(String message) {
-    return 'Export failed: $message';
+    return '导出失败：$message';
   }
 
   @override
   String backupImportFailed(String message) {
-    return 'Import failed: $message';
+    return '导入失败：$message';
   }
 
   @override
-  String get backupImportConfirmTitle => 'Import backup';
+  String get backupImportConfirmTitle => '导入备份';
 
   @override
   String backupImportConfirmMessage(int songCount, String exportedAt) {
-    return 'This backup contains $songCount songs (exported $exportedAt).';
+    return '此备份包含 $songCount 首歌曲（导出于 $exportedAt）。';
   }
 
   @override
-  String get backupImportModeMerge => 'Merge';
+  String get backupImportModeMerge => '合并';
 
   @override
-  String get backupImportModeMergeDescription =>
-      'Add new songs, keep existing ones.';
+  String get backupImportModeMergeDescription => '添加新歌曲，保留现有歌曲。';
 
   @override
-  String get backupImportModeReplace => 'Replace';
+  String get backupImportModeReplace => '替换';
 
   @override
-  String get backupImportModeReplaceDescription =>
-      'Delete everything and import from scratch.';
+  String get backupImportModeReplaceDescription => '删除所有内容并从头导入。';
 
   @override
-  String get backupImportReplaceConfirmTitle => 'Replace entire library?';
+  String get backupImportReplaceConfirmTitle => '替换整个资料库？';
 
   @override
-  String get backupImportReplaceConfirmMessage =>
-      'This will permanently delete all current songs and loops before importing. This cannot be undone.';
+  String get backupImportReplaceConfirmMessage => '导入前将永久删除所有当前歌曲和循环。此操作无法撤销。';
 
   @override
   String backupImportSuccess(int imported, int skipped, int renamed) {
-    return 'Imported $imported songs. $skipped skipped, $renamed renamed.';
+    return '已导入 $imported 首歌曲。$skipped 首已跳过，$renamed 首已重命名。';
   }
 
   @override
-  String get backupImportSchemaTooNew =>
-      'This backup was created by a newer version of RepeatLab. Please update the app to import it.';
+  String get backupImportSchemaTooNew => '此备份由更新版本的 RepeatLab 创建。请更新应用以导入它。';
 
   @override
-  String get backupImportMalformed =>
-      'This file isn\'t a valid RepeatLab backup.';
+  String get backupImportMalformed => '此文件不是有效的 RepeatLab 备份。';
 
   @override
   String get errorOpeningStore =>
@@ -759,7 +795,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get analyticsDescription =>
-      '我们使用 Microsoft Clarity 收集使用数据并改进应用程序。这些数据不会与第三方共享。';
+      '我们使用 Microsoft Clarity 和 PostHog 收集匿名使用数据并改进应用程序。您的数据在欧盟处理，绝不会出售给第三方。';
 
   @override
   String get enterSongBpm => '歌曲 BPM';
@@ -846,4 +882,18 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get editSongTitleRequired => '标题不能为空';
+
+  @override
+  String get addVideo => '添加视频';
+
+  @override
+  String get importingMedia => '正在导入… 大文件可能需要一些时间。';
+
+  @override
+  String importingMediaProgress(int current, int total) {
+    return '第 $current 个，共 $total 个';
+  }
+
+  @override
+  String get betaLabel => '测试版';
 }

@@ -1,12 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/core/utils/dialog_helper.dart';
 import 'package:repeatlab/data/repositories/backup/backup_repository.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
+import 'package:repeatlab/data/repositories/purchases_repository.dart';
 import 'package:repeatlab/features/backup/cubit/backup_cubit.dart';
+import 'package:repeatlab/features/backup/widgets/export_options_sheet.dart';
 import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/l10n/l10n.dart';
@@ -90,6 +95,7 @@ class _SettingsViewState extends State<_SettingsView> {
               child: Text(context.l10n.localData, style: context.titleLarge),
             ),
             ListTile(
+              key: const Key('settings.deleteAll'),
               leading: const Icon(Icons.delete_forever),
               title: Text(context.l10n.deleteAllLocalData),
               onTap: () => _onDeleteAllData(context),
@@ -104,8 +110,8 @@ class _SettingsViewState extends State<_SettingsView> {
     final messenger = ScaffoldMessenger.of(context);
     switch (state.status) {
       case BackupStatus.exportSuccess:
-        // Sharing is handled inside the cubit; no visible toast needed on
-        // success because the share sheet already confirms the action.
+      // Sharing is handled inside the cubit; no visible toast needed on
+      // success because the share sheet already confirms the action.
       case BackupStatus.importSuccess:
         final s = state.lastImportSummary;
         if (s != null) {
@@ -158,6 +164,14 @@ class _SettingsViewState extends State<_SettingsView> {
       success = await context.read<LocalConfigRepository>().clear();
     }
 
+    // Rotate the anonymous PostHog distinct id so the wiped local identity is
+    // no longer linked to future events (GDPR right-to-erasure for the device).
+    unawaited(Posthog().reset());
+    // Detach the erased identity from RevenueCat too, so future server-side
+    // rc_* events don't attribute to the wiped PostHog person. Consent was
+    // just cleared by clear(), so this unlinks (clears $posthogUserId).
+    unawaited(PurchasesRepository.linkPostHogIdentity(consented: false));
+
     if (!context.mounted) return;
 
     Navigator.pop(context);
@@ -200,6 +214,7 @@ class _BackupTiles extends StatelessWidget {
     return Column(
       children: [
         ListTile(
+          key: const Key('settings.backupExport'),
           leading: exporting
               ? const SizedBox(
                   width: 24,
@@ -218,26 +233,10 @@ class _BackupTiles extends StatelessWidget {
                 : context.l10n.backupProOnly,
           ),
           enabled: !busy,
-          onTap: busy
-              ? null
-              : () {
-                  if (!hasPremium) {
-                    AppAnalytics.trackEvent(
-                      AppAnalytics.viewPaywallFromBackup,
-                    );
-                    context.read<PremiumSubscriptionCubit>().presentPaywall();
-                    return;
-                  }
-                  final box = context.findRenderObject() as RenderBox?;
-                  final origin = box != null
-                      ? box.localToGlobal(Offset.zero) & box.size
-                      : null;
-                  context
-                      .read<BackupCubit>()
-                      .exportAndShare(sharePositionOrigin: origin);
-                },
+          onTap: busy ? null : () => _handleExportTap(context, hasPremium),
         ),
         ListTile(
+          key: const Key('settings.backupImport'),
           leading: importing
               ? const SizedBox(
                   width: 24,
@@ -260,16 +259,40 @@ class _BackupTiles extends StatelessWidget {
               ? null
               : () {
                   if (!hasPremium) {
-                    AppAnalytics.trackEvent(
-                      AppAnalytics.viewPaywallFromBackup,
+                    context.read<PremiumSubscriptionCubit>().presentPaywall(
+                      source: 'backup',
                     );
-                    context.read<PremiumSubscriptionCubit>().presentPaywall();
                     return;
                   }
                   _handleImportTap(context);
                 },
         ),
       ],
+    );
+  }
+
+  Future<void> _handleExportTap(BuildContext context, bool hasPremium) async {
+    if (!hasPremium) {
+      context.read<PremiumSubscriptionCubit>().presentPaywall(
+        source: 'backup',
+      );
+      return;
+    }
+
+    // Capture the share-sheet anchor BEFORE awaiting the picker — the bottom
+    // sheet's own render box would otherwise become the anchor and dismiss
+    // when the user picks an app to share to.
+    final box = context.findRenderObject() as RenderBox?;
+    final origin = box != null
+        ? box.localToGlobal(Offset.zero) & box.size
+        : null;
+
+    final options = await showBackupExportOptionsSheet(context);
+    if (options == null || !context.mounted) return;
+
+    await context.read<BackupCubit>().exportAndShare(
+      sharePositionOrigin: origin,
+      options: options,
     );
   }
 

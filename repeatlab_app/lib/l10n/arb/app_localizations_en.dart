@@ -80,7 +80,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get howWeUseYourInformationDescription =>
-      'We use the information we collect for the following purposes:\n\n• To process in-app purchases and manage subscriptions through RevenueCat.\n• To gather feedback and improve the App using Wiredash.\n• To monitor and fix issues using Sentry crash logging.\n• To improve user experience and enhance App features.\n• To improve the app through Microsoft Clarity.';
+      'We use the information we collect for the following purposes:\n\n• To process in-app purchases and manage subscriptions through RevenueCat.\n• To gather feedback and improve the App using Wiredash.\n• To monitor and fix issues using Sentry crash logging.\n• To improve user experience and enhance App features.\n• To improve the app through Microsoft Clarity.\n• To understand feature usage through PostHog (anonymous product analytics).';
 
   @override
   String get yourRights => 'Your Rights';
@@ -94,7 +94,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get thirdPartyServicesDescription =>
-      'We use third-party services to enhance our App:\n\n• Wiredash: Used to collect user feedback.\n• RevenueCat: Used to process in-app purchases and subscriptions.\n• Sentry: Used for error monitoring and crash reporting.\n• Microsoft Clarity: Used for analytics and user experience improvement.';
+      'We use third-party services to enhance our App:\n\n• Wiredash: Used to collect user feedback.\n• RevenueCat: Used to process in-app purchases and subscriptions.\n• Sentry: Used for error monitoring and crash reporting.\n• Microsoft Clarity: Used for analytics and user experience improvement.\n• PostHog: Used for anonymous product analytics, hosted in the EU.';
 
   @override
   String get contactUs => 'Contact Us';
@@ -419,25 +419,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
+  String get changelog201Title => 'Loop and speed-change videos (Beta)';
+
+  @override
+  String get changelog201Description =>
+      'Import videos and loop them just like audio songs - or change the speed - perfect for practicing along to tutorials or live performances. This feature is currently in Beta; please send me your feedback if you run into any issues.';
+
+  @override
   String get changelog180Title => 'Reorder your songs';
 
   @override
   String get changelog180Description =>
-      'Organize your song list the way you want — long-press any song and drag it to a new position. Your custom order is saved automatically.';
+      'Organize your song list the way you want - long-press any song and drag it to a new position. Your custom order is saved automatically.';
 
   @override
   String get changelog170Title => 'Back up and move your library';
 
   @override
   String get changelog170Description =>
-      'Export your entire library — songs, loops, and audio — to a single file, then restore it on another device with Pro. Choose Merge to add new songs alongside your existing ones, or Replace to start fresh.';
+      'Export your entire library - songs, loops, and audio - to a single file, then restore it on another device with Pro. Choose Merge to add new songs alongside your existing ones, or Replace to start fresh.';
 
   @override
   String get changelog170LanguageTitle => 'Choose your language';
 
   @override
   String get changelog170LanguageDescription =>
-      'Switch the app language from the drawer — pick from 16 supported languages or follow your device\'s system default.';
+      'Switch the app language from the drawer - pick from 16 supported languages or follow your device\'s system default.';
 
   @override
   String get changelog1601Title =>
@@ -557,6 +564,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
     return 'The audio format \".$format\" is not supported. Supported formats: $supportedFormats.';
+  }
+
+  @override
+  String unsupportedVideoFormatError(String format, String supportedFormats) {
+    return 'The video format \".$format\" is not supported. Supported formats: $supportedFormats.';
   }
 
   @override
@@ -695,6 +707,40 @@ class AppLocalizationsEn extends AppLocalizations {
       'Save all songs and loops to a single file you can transfer to another device.';
 
   @override
+  String get backupExportSheetTitle => 'What do you want to export?';
+
+  @override
+  String get backupExportOptionAudios => 'Audio songs';
+
+  @override
+  String get backupExportOptionAudiosSubtitle =>
+      'Include audio files (MP3, WAV, …)';
+
+  @override
+  String get backupExportOptionVideos => 'Video songs';
+
+  @override
+  String get backupExportOptionVideosSubtitle =>
+      'Include video files (MP4, MOV, …)';
+
+  @override
+  String get backupExportOptionLoopsAndSettings => 'Loops & song settings';
+
+  @override
+  String get backupExportOptionLoopsAndSettingsSubtitle =>
+      'Include loops, BPM, sort order, and video preview size';
+
+  @override
+  String get backupExportSheetExport => 'Export';
+
+  @override
+  String get backupExportSheetCancel => 'Cancel';
+
+  @override
+  String get backupExportSheetNoMediaSelected =>
+      'Select at least one of audio or video.';
+
+  @override
   String get backupImport => 'Import backup';
 
   @override
@@ -797,7 +843,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get analyticsDescription =>
-      'We use Microsoft Clarity to collect usage data and improve the app. This data is not shared with third parties.';
+      'We use Microsoft Clarity and PostHog to collect anonymous usage data and improve the app. Your data is processed in the EU and never sold to third parties.';
 
   @override
   String get enterSongBpm => 'Song BPM';
@@ -887,4 +933,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editSongTitleRequired => 'Title cannot be empty';
+
+  @override
+  String get addVideo => 'Add video';
+
+  @override
+  String get importingMedia => 'Importing… Large files can take a while.';
+
+  @override
+  String importingMediaProgress(int current, int total) {
+    return 'File $current of $total';
+  }
+
+  @override
+  String get betaLabel => 'BETA';
 }

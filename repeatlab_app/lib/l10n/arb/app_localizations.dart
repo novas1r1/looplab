@@ -261,7 +261,7 @@ abstract class AppLocalizations {
   /// No description provided for @howWeUseYourInformationDescription.
   ///
   /// In en, this message translates to:
-  /// **'We use the information we collect for the following purposes:\n\n• To process in-app purchases and manage subscriptions through RevenueCat.\n• To gather feedback and improve the App using Wiredash.\n• To monitor and fix issues using Sentry crash logging.\n• To improve user experience and enhance App features.\n• To improve the app through Microsoft Clarity.'**
+  /// **'We use the information we collect for the following purposes:\n\n• To process in-app purchases and manage subscriptions through RevenueCat.\n• To gather feedback and improve the App using Wiredash.\n• To monitor and fix issues using Sentry crash logging.\n• To improve user experience and enhance App features.\n• To improve the app through Microsoft Clarity.\n• To understand feature usage through PostHog (anonymous product analytics).'**
   String get howWeUseYourInformationDescription;
 
   /// No description provided for @yourRights.
@@ -285,7 +285,7 @@ abstract class AppLocalizations {
   /// No description provided for @thirdPartyServicesDescription.
   ///
   /// In en, this message translates to:
-  /// **'We use third-party services to enhance our App:\n\n• Wiredash: Used to collect user feedback.\n• RevenueCat: Used to process in-app purchases and subscriptions.\n• Sentry: Used for error monitoring and crash reporting.\n• Microsoft Clarity: Used for analytics and user experience improvement.'**
+  /// **'We use third-party services to enhance our App:\n\n• Wiredash: Used to collect user feedback.\n• RevenueCat: Used to process in-app purchases and subscriptions.\n• Sentry: Used for error monitoring and crash reporting.\n• Microsoft Clarity: Used for analytics and user experience improvement.\n• PostHog: Used for anonymous product analytics, hosted in the EU.'**
   String get thirdPartyServicesDescription;
 
   /// No description provided for @contactUs.
@@ -852,6 +852,18 @@ abstract class AppLocalizations {
   /// **'Changelog'**
   String get changelogTitle;
 
+  /// Changelog entry title for the 2.0.1 video support feature
+  ///
+  /// In en, this message translates to:
+  /// **'Loop and speed-change videos (Beta)'**
+  String get changelog201Title;
+
+  /// Changelog entry description for the 2.0.1 video support feature
+  ///
+  /// In en, this message translates to:
+  /// **'Import videos and loop them just like audio songs - or change the speed - perfect for practicing along to tutorials or live performances. This feature is currently in Beta; please send me your feedback if you run into any issues.'**
+  String get changelog201Description;
+
   /// Changelog entry title for the 1.8.0 song reorder feature
   ///
   /// In en, this message translates to:
@@ -861,7 +873,7 @@ abstract class AppLocalizations {
   /// Changelog entry description for the 1.8.0 song reorder feature
   ///
   /// In en, this message translates to:
-  /// **'Organize your song list the way you want — long-press any song and drag it to a new position. Your custom order is saved automatically.'**
+  /// **'Organize your song list the way you want - long-press any song and drag it to a new position. Your custom order is saved automatically.'**
   String get changelog180Description;
 
   /// No description provided for @changelog170Title.
@@ -873,7 +885,7 @@ abstract class AppLocalizations {
   /// No description provided for @changelog170Description.
   ///
   /// In en, this message translates to:
-  /// **'Export your entire library — songs, loops, and audio — to a single file, then restore it on another device with Pro. Choose Merge to add new songs alongside your existing ones, or Replace to start fresh.'**
+  /// **'Export your entire library - songs, loops, and audio - to a single file, then restore it on another device with Pro. Choose Merge to add new songs alongside your existing ones, or Replace to start fresh.'**
   String get changelog170Description;
 
   /// Changelog entry title for the 1.7.0 language switcher feature
@@ -885,7 +897,7 @@ abstract class AppLocalizations {
   /// Changelog entry description for the 1.7.0 language switcher feature
   ///
   /// In en, this message translates to:
-  /// **'Switch the app language from the drawer — pick from 16 supported languages or follow your device\'s system default.'**
+  /// **'Switch the app language from the drawer - pick from 16 supported languages or follow your device\'s system default.'**
   String get changelog170LanguageDescription;
 
   /// No description provided for @changelog1601Title.
@@ -1085,6 +1097,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The audio format \".{format}\" is not supported. Supported formats: {supportedFormats}.'**
   String unsupportedAudioFormatError(String format, String supportedFormats);
+
+  /// Snackbar error shown when the user picks a video file whose extension is not in the supported list. {format} is the file extension without the leading dot; {supportedFormats} is a comma-separated list of supported extensions.
+  ///
+  /// In en, this message translates to:
+  /// **'The video format \".{format}\" is not supported. Supported formats: {supportedFormats}.'**
+  String unsupportedVideoFormatError(String format, String supportedFormats);
 
   /// No description provided for @loopAdded.
   ///
@@ -1338,6 +1356,66 @@ abstract class AppLocalizations {
   /// **'Save all songs and loops to a single file you can transfer to another device.'**
   String get backupExportSubtitle;
 
+  /// No description provided for @backupExportSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What do you want to export?'**
+  String get backupExportSheetTitle;
+
+  /// No description provided for @backupExportOptionAudios.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio songs'**
+  String get backupExportOptionAudios;
+
+  /// No description provided for @backupExportOptionAudiosSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Include audio files (MP3, WAV, …)'**
+  String get backupExportOptionAudiosSubtitle;
+
+  /// No description provided for @backupExportOptionVideos.
+  ///
+  /// In en, this message translates to:
+  /// **'Video songs'**
+  String get backupExportOptionVideos;
+
+  /// No description provided for @backupExportOptionVideosSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Include video files (MP4, MOV, …)'**
+  String get backupExportOptionVideosSubtitle;
+
+  /// No description provided for @backupExportOptionLoopsAndSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Loops & song settings'**
+  String get backupExportOptionLoopsAndSettings;
+
+  /// No description provided for @backupExportOptionLoopsAndSettingsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Include loops, BPM, sort order, and video preview size'**
+  String get backupExportOptionLoopsAndSettingsSubtitle;
+
+  /// No description provided for @backupExportSheetExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get backupExportSheetExport;
+
+  /// No description provided for @backupExportSheetCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get backupExportSheetCancel;
+
+  /// No description provided for @backupExportSheetNoMediaSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Select at least one of audio or video.'**
+  String get backupExportSheetNoMediaSelected;
+
   /// No description provided for @backupImport.
   ///
   /// In en, this message translates to:
@@ -1509,7 +1587,7 @@ abstract class AppLocalizations {
   /// No description provided for @analyticsDescription.
   ///
   /// In en, this message translates to:
-  /// **'We use Microsoft Clarity to collect usage data and improve the app. This data is not shared with third parties.'**
+  /// **'We use Microsoft Clarity and PostHog to collect anonymous usage data and improve the app. Your data is processed in the EU and never sold to third parties.'**
   String get analyticsDescription;
 
   /// No description provided for @enterSongBpm.
@@ -1679,6 +1757,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Title cannot be empty'**
   String get editSongTitleRequired;
+
+  /// Title of the "Add video" option in the add-media bottom sheet on the home page. Used as a button-style label.
+  ///
+  /// In en, this message translates to:
+  /// **'Add video'**
+  String get addVideo;
+
+  /// Waiting text shown on the home page while picked audio/video files are being copied into the app and analyzed. Shown next to a loading indicator.
+  ///
+  /// In en, this message translates to:
+  /// **'Importing… Large files can take a while.'**
+  String get importingMedia;
+
+  /// Progress line below the import waiting text when multiple files are imported, e.g. 'File 2 of 5'.
+  ///
+  /// In en, this message translates to:
+  /// **'File {current} of {total}'**
+  String importingMediaProgress(int current, int total);
+
+  /// Short pill/badge label shown next to features that are in beta. Should remain very short (3-6 chars) and uppercase where appropriate for the locale.
+  ///
+  /// In en, this message translates to:
+  /// **'BETA'**
+  String get betaLabel;
 }
 
 class _AppLocalizationsDelegate

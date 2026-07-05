@@ -86,7 +86,8 @@ class _ExportLoopBottomUpState extends State<ExportLoopBottomUp> {
               AppAnalytics.exportLoopError,
               data: {'reason': state.errorMessage},
             );
-            final message = state.errorMessage == SongExporterCubit.invalidLoopRangeErrorKey
+            final message =
+                state.errorMessage == SongExporterCubit.invalidLoopRangeErrorKey
                 ? context.l10n.loopExportValidationError
                 : context.l10n.loopExportError(state.errorMessage!);
 
@@ -176,6 +177,7 @@ class _ExportLoopBottomUpState extends State<ExportLoopBottomUp> {
                   ),
                   Expanded(
                     child: ElevatedButton(
+                      key: const Key('exportLoop.confirm'),
                       onPressed: _onExportLoop,
                       child: Text(context.l10n.loopExportConfirm),
                     ),

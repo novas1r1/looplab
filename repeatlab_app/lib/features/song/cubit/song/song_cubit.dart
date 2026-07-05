@@ -8,6 +8,7 @@ import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/cubit_extension.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
@@ -15,6 +16,7 @@ import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:repeatlab/data/services/audio_service_provider.dart';
+import 'package:repeatlab/data/services/media_player_handler.dart';
 import 'package:repeatlab/data/services/repeatlab_audioplayers_service_handler.dart';
 
 // part 'song_cubit.mapper.dart';
@@ -31,8 +33,22 @@ class SongCubit extends Cubit<SongState> {
   static const double _minPlaybackSpeed = 0.5;
   static const double _maxPlaybackSpeed = 2.0;
 
-  // audio player subscriptions
-  late final RepeatlabAudioplayersServiceHandler audioHandler;
+  /// Highest BPM the speed controls support. Values above this (e.g. from the
+  /// free-form BPM field) must be capped: otherwise the min/max bound
+  /// calculation would pass an inverted range to `clamp`, throwing
+  /// ArgumentError. See FLUTTER-B8.
+  static const int _maxSupportedBpm = 400;
+
+  /// Active media handler. Concretely a [RepeatlabAudioplayersServiceHandler]
+  /// for audio songs (set in [initSong]) or a [VideoPlayerHandler] for video
+  /// songs (set in `VideoSongCubit.initVideo`). All cubit/widget code goes
+  /// through the [MediaPlayerHandler] interface.
+  ///
+  /// Nullable backing field: the cubit can be closed before init assigns the
+  /// handler (user pops the page while `AudioService.init` is still awaiting),
+  /// so [close] must be able to tell whether a handler exists at all.
+  MediaPlayerHandler? _audioHandler;
+  MediaPlayerHandler get audioHandler => _audioHandler!;
   StreamSubscription<List<Song>>? _songSubscription;
 
   Stream<PlayerState>? playerStateStream;
@@ -70,17 +86,25 @@ class SongCubit extends Cubit<SongState> {
 
   @override
   Future<void> close() async {
-    if (state.playerState == PlayerState.playing) {
+    // The handler may not exist yet if the page was popped mid-init.
+    final handler = _audioHandler;
+
+    if (handler != null && state.playerState == PlayerState.playing) {
       await stopSong();
     }
 
     await _songSubscription?.cancel();
     await _loopsSubscription?.cancel();
     await _navigationSubscription?.cancel();
+    // For audio songs the handler is an app-lifetime singleton with broadcast
+    // streams — without cancelling, this page's listeners keep firing after
+    // close (emit-after-close StateError, stray stopSong on the next song).
+    await _playerStateSubscription?.cancel();
+    await _positionSubscription?.cancel();
+    await _durationSubscription?.cancel();
 
     // Clean up audio service if available
-    await audioHandler.stop();
-    // dispose loop stream
+    await handler?.stop();
 
     return super.close();
   }
@@ -203,6 +227,28 @@ class SongCubit extends Cubit<SongState> {
   }
 
   Future<void> initSong(AudioPlayer audioPlayer) async {
+    try {
+      final handler = await AudioServiceProvider.init(audioPlayer);
+      await initWithHandler(handler);
+    } catch (ex, stack) {
+      // Without this catch an AudioService.init failure is an unhandled
+      // exception and no state is emitted — the page spins forever.
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      maybeEmit(
+        state.copyWith(
+          status: SongStatus.loadError,
+          error: 'Failed to initialize audio service: $ex',
+        ),
+      );
+    }
+  }
+
+  /// Shared init body used by both audio (via [initSong]) and video (via
+  /// `VideoSongCubit.initVideo`). The caller is responsible for constructing
+  /// the right [MediaPlayerHandler] implementation.
+  ///
+  /// Subclasses (e.g. `VideoSongCubit`) call this from their own init method.
+  Future<void> initWithHandler(MediaPlayerHandler handler) async {
     emit(state.copyWith(status: SongStatus.loading));
 
     try {
@@ -211,8 +257,8 @@ class SongCubit extends Cubit<SongState> {
       await _positionSubscription?.cancel();
       await _durationSubscription?.cancel();
 
-      // Initialize audio handler first
-      audioHandler = await AudioServiceProvider.init(audioPlayer);
+      // Assign the media handler.
+      _audioHandler = handler;
 
       // Initialize subscriptions before any other operations
       playerStateStream = audioHandler.playerStateStream;
@@ -302,13 +348,18 @@ class SongCubit extends Cubit<SongState> {
         _handleNavigationEvent,
       );
 
-      // Initialize speed control state - always reset to 1.0 on song open
-      final songBpm = state.song.bpm;
+      // Initialize speed control state - always reset to 1.0 on song open.
+      // Cap a persisted BPM to the supported range; older songs may have stored
+      // an out-of-range value that would make the bound calculation throw.
+      final rawBpm = state.song.bpm;
+      final songBpm = (rawBpm != null && rawBpm > _maxSupportedBpm)
+          ? _maxSupportedBpm
+          : rawBpm;
       int? initialMinBpm;
       int? initialMaxBpm;
       if (songBpm != null && songBpm > 0) {
         initialMinBpm = (songBpm * 0.5).round().clamp(1, songBpm);
-        initialMaxBpm = (songBpm * 2.0).round().clamp(songBpm, 400);
+        initialMaxBpm = (songBpm * 2.0).round().clamp(songBpm, _maxSupportedBpm);
       }
 
       emit(
@@ -699,16 +750,25 @@ class SongCubit extends Cubit<SongState> {
     final startPosition = await position;
 
     try {
+      // Loop ids must be unique per song: update/delete match by id, so a
+      // duplicate id would corrupt other loops. `loops.length` is not unique
+      // once a loop has been deleted — use max(id) + 1 instead.
+      final nextId = state.song.loops.isEmpty
+          ? 0
+          : state.song.loops
+                    .map((l) => l.id)
+                    .reduce((a, b) => a > b ? a : b) +
+                1;
+
       // create a new loop
       final loop = Loop(
-        id: state.song.loops.length,
-        name: 'Loop ${state.song.loops.length + 1}',
+        id: nextId,
+        name: 'Loop ${nextId + 1}',
         songId: state.song.id,
         // for each new loop assign a color based on LoopColor.values
         // for the first loop, first color, for the second loop, second color, etc.
         // if the number of loops is greater than the number of colors, start again from the first color
-        color:
-            LoopColor.values[state.song.loops.length % LoopColor.values.length],
+        color: LoopColor.values[nextId % LoopColor.values.length],
         start: startPosition,
       );
 
@@ -731,6 +791,14 @@ class SongCubit extends Cubit<SongState> {
           error: null,
         ),
       );
+
+      // Activation analytics: a loop was actually created (vs. just tapping
+      // "add loop"). `loop_count` is the total loops on the song afterwards.
+      AppAnalytics.trackEvent(
+        AppAnalytics.loopCreated,
+        data: {'loop_count': updatedSong.loops.length},
+      );
+      await _trackFirstLoopIfNeeded();
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
       emit(
@@ -740,6 +808,13 @@ class SongCubit extends Cubit<SongState> {
         ),
       );
     }
+  }
+
+  /// Fires the `first_loop_created` activation event exactly once per install.
+  Future<void> _trackFirstLoopIfNeeded() async {
+    if (localConfigRepository.firstLoopTracked) return;
+    AppAnalytics.trackEvent(AppAnalytics.firstLoopCreated);
+    await localConfigRepository.markFirstLoopTracked();
   }
 
   Future<void> updateLoop(Loop updatedLoop) async {
@@ -859,6 +934,8 @@ class SongCubit extends Cubit<SongState> {
         loops: state.song.loops,
         loopSort: state.song.loopSort,
         sortOrder: state.song.sortOrder,
+        mediaType: state.song.mediaType,
+        videoSizeMode: state.song.videoSizeMode,
       );
       await songRepository.updateSong(updatedSong);
 
@@ -1106,22 +1183,30 @@ class SongCubit extends Cubit<SongState> {
   Future<void> setOriginalBpm(int? bpm) async {
     dev.log('setOriginalBpm: $bpm', name: 'SongCubit');
 
+    // Cap to the supported range. The free-form BPM field can yield values far
+    // above what the speed controls support; without capping, the min/max bound
+    // calculation below would pass an inverted range to clamp and throw
+    // (FLUTTER-B8).
+    final effectiveBpm =
+        (bpm != null && bpm > _maxSupportedBpm) ? _maxSupportedBpm : bpm;
+
     try {
       // Persist to song model
-      final updatedSong = state.song.copyWith(bpm: bpm);
+      final updatedSong = state.song.copyWith(bpm: effectiveBpm);
       await songRepository.updateSong(updatedSong);
 
-      if (bpm != null && bpm > 0) {
+      if (effectiveBpm != null && effectiveBpm > 0) {
         // Calculate BPM bounds (0.5x to 2.0x of original)
-        final minBpm = (bpm * 0.5).round().clamp(1, bpm);
-        final maxBpm = (bpm * 2.0).round().clamp(bpm, 400);
+        final minBpm = (effectiveBpm * 0.5).round().clamp(1, effectiveBpm);
+        final maxBpm =
+            (effectiveBpm * 2.0).round().clamp(effectiveBpm, _maxSupportedBpm);
 
         emit(
           state.copyWith(
             status: SongStatus.updated,
             song: updatedSong,
-            originalBpm: bpm,
-            currentBpm: bpm,
+            originalBpm: effectiveBpm,
+            currentBpm: effectiveBpm,
             minBpm: minBpm,
             maxBpm: maxBpm,
             speed: 1.0, // Reset speed to 1.0 when setting original BPM
@@ -1241,6 +1326,17 @@ class SongCubit extends Cubit<SongState> {
           error: 'Failed to update loop order: $ex',
         ),
       );
+    }
+  }
+
+  Future<void> setVideoSizeMode(VideoSizeMode mode) async {
+    if (state.song.videoSizeMode == mode) return;
+    final updatedSong = state.song.copyWith(videoSizeMode: mode);
+    emit(state.copyWith(song: updatedSong, status: SongStatus.updated));
+    try {
+      await songRepository.updateSong(updatedSong);
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
     }
   }
 

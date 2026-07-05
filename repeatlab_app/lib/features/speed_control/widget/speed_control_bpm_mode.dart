@@ -21,6 +21,7 @@ class SpeedControlBpmMode extends StatefulWidget {
 
 class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
   final _originalBpmController = TextEditingController();
+  bool _paywallShowing = false;
 
   @override
   void dispose() {
@@ -71,6 +72,7 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
                   Expanded(
                     flex: 2,
                     child: TextField(
+                      key: const Key('song.speed.bpmOriginal'),
                       controller: _originalBpmController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
@@ -82,6 +84,7 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
                     ),
                   ),
                   TextButton(
+                    key: const Key('song.speed.bpmSet'),
                     onPressed: () => _onSetOriginalBpm(context),
                     child: AutoSizeText(
                       context.l10n.setBpm,
@@ -212,8 +215,9 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
                                 );
                               },
                             )
-                          : GestureDetector(
-                              onTap: () => _showPremiumDialog(context),
+                          : Listener(
+                              behavior: HitTestBehavior.opaque,
+                              onPointerDown: (_) => _showPremiumDialog(context),
                               child: AbsorbPointer(
                                 child: CustomSlider(
                                   value: currentBpm.toDouble().clamp(
@@ -252,12 +256,18 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
   }
 
   Future<void> _showPremiumDialog(BuildContext context) async {
-    AppAnalytics.trackEvent(
-      AppAnalytics.showPaywallSongSpeed,
-      data: {'from': 'speed_control_bpm'},
-    );
+    if (_paywallShowing) return;
+    _paywallShowing = true;
 
-    await context.read<PremiumSubscriptionCubit>().presentPaywall();
+    try {
+      await context.read<PremiumSubscriptionCubit>().presentPaywall(
+        source: 'song_speed',
+      );
+    } finally {
+      if (mounted) {
+        _paywallShowing = false;
+      }
+    }
   }
 
   Future<void> _showTapBpmDialog(BuildContext context) async {

@@ -404,11 +404,18 @@ class AppLocalizationsKo extends AppLocalizations {
   String get changelogTitle => '변경 사항';
 
   @override
+  String get changelog201Title => '동영상 루프 및 속도 변경 (Beta)';
+
+  @override
+  String get changelog201Description =>
+      '동영상을 가져와 오디오 곡처럼 루프하세요 - 또는 속도를 변경하세요 - 튜토리얼이나 라이브 공연을 따라 연습하기에 완벽합니다. 이 기능은 현재 베타 버전입니다. 문제가 생기면 피드백을 보내주세요.';
+
+  @override
   String get changelog180Title => '노래 순서 재정렬';
 
   @override
   String get changelog180Description =>
-      '원하는 대로 노래 목록을 정리하세요 — 아무 노래나 길게 누른 후 새 위치로 드래그하면 됩니다. 사용자 지정 순서는 자동으로 저장됩니다.';
+      '원하는 대로 노래 목록을 정리하세요 - 아무 노래나 길게 누른 후 새 위치로 드래그하면 됩니다. 사용자 지정 순서는 자동으로 저장됩니다.';
 
   @override
   String get changelog170Title => '라이브러리 백업 및 이동';
@@ -537,6 +544,11 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
+  String unsupportedVideoFormatError(String format, String supportedFormats) {
+    return '동영상 형식 \".$format\"은(는) 지원되지 않습니다. 지원되는 형식: $supportedFormats.';
+  }
+
+  @override
   String get loopAdded => '루프가 추가되고 활성화되었습니다';
 
   @override
@@ -659,82 +671,109 @@ class AppLocalizationsKo extends AppLocalizations {
   String get deleteAllDataError => '모든 데이터 삭제에 실패했습니다';
 
   @override
-  String get backupAndRestore => 'Backup & Restore';
+  String get backupAndRestore => '백업 및 복원';
 
   @override
-  String get backupExport => 'Export my library';
+  String get backupExport => '내 라이브러리 내보내기';
 
   @override
   String get backupExportSubtitle =>
-      'Save all songs and loops to a single file you can transfer to another device.';
+      '모든 곡과 루프를 하나의 파일에 저장하여 다른 기기로 전송할 수 있습니다.';
 
   @override
-  String get backupImport => 'Import backup';
+  String get backupExportSheetTitle => '무엇을 내보내시겠습니까?';
 
   @override
-  String get backupImportSubtitle =>
-      'Restore songs and loops from a previously exported file.';
+  String get backupExportOptionAudios => '오디오 곡';
 
   @override
-  String get backupProOnly => 'Pro feature';
+  String get backupExportOptionAudiosSubtitle => '오디오 파일 포함 (MP3, WAV, …)';
 
   @override
-  String get backupExporting => 'Preparing backup…';
+  String get backupExportOptionVideos => '동영상 곡';
 
   @override
-  String get backupImporting => 'Importing…';
+  String get backupExportOptionVideosSubtitle => '동영상 파일 포함 (MP4, MOV, …)';
+
+  @override
+  String get backupExportOptionLoopsAndSettings => '루프 및 곡 설정';
+
+  @override
+  String get backupExportOptionLoopsAndSettingsSubtitle =>
+      '루프, BPM, 정렬 순서 및 동영상 미리보기 크기 포함';
+
+  @override
+  String get backupExportSheetExport => '내보내기';
+
+  @override
+  String get backupExportSheetCancel => '취소';
+
+  @override
+  String get backupExportSheetNoMediaSelected => '오디오 또는 동영상 중 하나 이상을 선택하세요.';
+
+  @override
+  String get backupImport => '백업 가져오기';
+
+  @override
+  String get backupImportSubtitle => '이전에 내보낸 파일에서 곡과 루프를 복원합니다.';
+
+  @override
+  String get backupProOnly => 'Pro 기능';
+
+  @override
+  String get backupExporting => '백업 준비 중…';
+
+  @override
+  String get backupImporting => '가져오는 중…';
 
   @override
   String backupExportFailed(String message) {
-    return 'Export failed: $message';
+    return '내보내기 실패: $message';
   }
 
   @override
   String backupImportFailed(String message) {
-    return 'Import failed: $message';
+    return '가져오기 실패: $message';
   }
 
   @override
-  String get backupImportConfirmTitle => 'Import backup';
+  String get backupImportConfirmTitle => '백업 가져오기';
 
   @override
   String backupImportConfirmMessage(int songCount, String exportedAt) {
-    return 'This backup contains $songCount songs (exported $exportedAt).';
+    return '이 백업에는 $songCount곡이 포함되어 있습니다 ($exportedAt에 내보냄).';
   }
 
   @override
-  String get backupImportModeMerge => 'Merge';
+  String get backupImportModeMerge => '병합';
 
   @override
-  String get backupImportModeMergeDescription =>
-      'Add new songs, keep existing ones.';
+  String get backupImportModeMergeDescription => '새 곡을 추가하고 기존 곡을 유지합니다.';
 
   @override
-  String get backupImportModeReplace => 'Replace';
+  String get backupImportModeReplace => '교체';
 
   @override
-  String get backupImportModeReplaceDescription =>
-      'Delete everything and import from scratch.';
+  String get backupImportModeReplaceDescription => '모두 삭제하고 처음부터 가져옵니다.';
 
   @override
-  String get backupImportReplaceConfirmTitle => 'Replace entire library?';
+  String get backupImportReplaceConfirmTitle => '전체 라이브러리를 교체하시겠습니까?';
 
   @override
   String get backupImportReplaceConfirmMessage =>
-      'This will permanently delete all current songs and loops before importing. This cannot be undone.';
+      '가져오기 전에 현재의 모든 곡과 루프가 영구적으로 삭제됩니다. 이 작업은 취소할 수 없습니다.';
 
   @override
   String backupImportSuccess(int imported, int skipped, int renamed) {
-    return 'Imported $imported songs. $skipped skipped, $renamed renamed.';
+    return '$imported곡을 가져왔습니다. $skipped곡 건너뜀, $renamed곡 이름 변경됨.';
   }
 
   @override
   String get backupImportSchemaTooNew =>
-      'This backup was created by a newer version of RepeatLab. Please update the app to import it.';
+      '이 백업은 더 새로운 버전의 RepeatLab으로 만들어졌습니다. 가져오려면 앱을 업데이트하세요.';
 
   @override
-  String get backupImportMalformed =>
-      'This file isn\'t a valid RepeatLab backup.';
+  String get backupImportMalformed => '이 파일은 유효한 RepeatLab 백업이 아닙니다.';
 
   @override
   String get errorOpeningStore =>
@@ -771,7 +810,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get analyticsDescription =>
-      'Microsoft Clarity를 사용하여 사용 데이터를 수집하고 앱을 개선합니다. 이 데이터는 제3자와 공유되지 않습니다.';
+      'Microsoft Clarity와 PostHog를 사용하여 익명 사용 데이터를 수집하고 앱을 개선합니다. 귀하의 데이터는 EU에서 처리되며 제3자에게 절대 판매되지 않습니다.';
 
   @override
   String get enterSongBpm => '곡의 BPM';
@@ -860,4 +899,18 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get editSongTitleRequired => '제목은 비워 둘 수 없습니다';
+
+  @override
+  String get addVideo => '동영상 추가';
+
+  @override
+  String get importingMedia => '가져오는 중… 큰 파일은 시간이 걸릴 수 있습니다.';
+
+  @override
+  String importingMediaProgress(int current, int total) {
+    return '파일 $current / $total';
+  }
+
+  @override
+  String get betaLabel => '베타';
 }

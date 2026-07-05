@@ -23,14 +23,3 @@ class BackupSchemaVersionException implements Exception {
       'BackupSchemaVersionException: backup is v$backupVersion, '
       'app supports up to v$supportedVersion';
 }
-
-/// Thrown when an audio file's content hash doesn't match the manifest — the
-/// archive is either corrupted or was tampered with.
-class BackupHashMismatchException implements Exception {
-  final String fileName;
-  const BackupHashMismatchException(this.fileName);
-
-  @override
-  String toString() =>
-      'BackupHashMismatchException: hash mismatch for "$fileName"';
-}

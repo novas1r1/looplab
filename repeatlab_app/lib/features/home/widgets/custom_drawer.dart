@@ -103,7 +103,8 @@ class CustomDrawer extends StatelessWidget {
                   state.hasWeeklySubscription ||
                   state.hasYearlySubscription ||
                   state.hasLifetimePurchase;
-              final hasSubscription = state.hasWeeklySubscription || state.hasYearlySubscription;
+              final hasSubscription =
+                  state.hasWeeklySubscription || state.hasYearlySubscription;
 
               return Column(
                 mainAxisSize: MainAxisSize.min,
@@ -121,10 +122,9 @@ class CustomDrawer extends StatelessWidget {
                       leading: const Icon(Icons.shopping_cart),
                       title: Text(context.l10n.buyRepeatLabPro),
                       onTap: () async {
-                        AppAnalytics.trackEvent(
-                          AppAnalytics.viewPaywallFromDrawer,
-                        );
-                        await context.read<PremiumSubscriptionCubit>().presentPaywall();
+                        await context
+                            .read<PremiumSubscriptionCubit>()
+                            .presentPaywall(source: 'drawer');
                       },
                     ),
                 ],
@@ -132,6 +132,7 @@ class CustomDrawer extends StatelessWidget {
             },
           ),
           ListTile(
+            key: const Key('drawer.settings'),
             leading: const Icon(Icons.settings),
             title: Text(context.l10n.settings),
             onTap: () => _onSettings(context),
@@ -142,6 +143,7 @@ class CustomDrawer extends StatelessWidget {
                   ? context.l10n.systemDefault
                   : nativeLanguageNameOf(selectedLocale);
               return ListTile(
+                key: const Key('drawer.language'),
                 leading: const Icon(Icons.language),
                 title: Text(context.l10n.language),
                 subtitle: Text(subtitle),
@@ -251,7 +253,9 @@ class CustomDrawer extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () async {
-                    final revenueCatUser = await context.read<PurchasesRepository>().revenueCatUser;
+                    final revenueCatUser = await context
+                        .read<PurchasesRepository>()
+                        .revenueCatUser;
 
                     if (!context.mounted) return;
 
@@ -273,7 +277,8 @@ class CustomDrawer extends StatelessWidget {
                                 ),
                                 IconButton(
                                   onPressed: () async {
-                                    final purchaserInfo = await Purchases.getCustomerInfo();
+                                    final purchaserInfo =
+                                        await Purchases.getCustomerInfo();
                                     log(
                                       '--- REVENUECAT: purchaserInfo: $purchaserInfo',
                                     );
@@ -307,9 +312,12 @@ class CustomDrawer extends StatelessWidget {
                             const SizedBox(height: 16),
                             TextButton(
                               onPressed: () async {
-                                await context.read<PremiumSubscriptionCubit>().presentPaywall(
-                                  ifNeeded: false,
-                                );
+                                await context
+                                    .read<PremiumSubscriptionCubit>()
+                                    .presentPaywall(
+                                      ifNeeded: false,
+                                      source: 'debug_drawer',
+                                    );
                               },
                               child: const Text('Open Paywall'),
                             ),
@@ -375,7 +383,10 @@ class CustomDrawer extends StatelessWidget {
         .read<PremiumSubscriptionCubit>()
         .state
         .hasYearlySubscription;
-    final hasLifetimePurchased = context.read<PremiumSubscriptionCubit>().state.hasLifetimePurchase;
+    final hasLifetimePurchased = context
+        .read<PremiumSubscriptionCubit>()
+        .state
+        .hasLifetimePurchase;
 
     UserOrient.setUser(
       extra: {

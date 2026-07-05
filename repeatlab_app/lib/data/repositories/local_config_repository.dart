@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:clarity_flutter/clarity_flutter.dart';
 import 'package:flutter/foundation.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
+import 'package:repeatlab/data/repositories/purchases_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalConfigRepository {
@@ -19,6 +21,11 @@ class LocalConfigRepository {
   static const kAutoPlayOnLoopSelect = 'auto_play_on_loop_select';
   static const kFullSongRepeatEnabled = 'full_song_repeat_enabled';
   static const kLanguageCode = 'language_code';
+
+  /// One-time activation milestones — used to fire `first_song_added` /
+  /// `first_loop_created` analytics exactly once per install.
+  static const kFirstSongTracked = 'first_song_tracked';
+  static const kFirstLoopTracked = 'first_loop_tracked';
 
   final SharedPreferences sharedPreferences;
 
@@ -47,16 +54,40 @@ class LocalConfigRepository {
     await sharedPreferences.setBool(kAnalyticsEnabled, isEnabled);
 
     if (isEnabled && !kDebugMode) {
-      log('Resuming Clarity');
+      log('Resuming Clarity & PostHog');
       Clarity.resume();
+      await Posthog().enable();
     } else {
-      log('Pausing Clarity');
+      log('Pausing Clarity & PostHog');
       Clarity.pause();
+      await Posthog().disable();
+    }
+
+    // Keep RevenueCat's server-side PostHog identity in sync with consent, so
+    // rc_* purchase events either link to the same person (opt-in) or fall back
+    // to an unlinked anonymous id (opt-out). Release-only: the native
+    // RevenueCat SDK isn't configured under unit tests / debug.
+    if (!kDebugMode) {
+      await PurchasesRepository.linkPostHogIdentity(consented: isEnabled);
     }
   }
 
   Future<void> setHasCompletedTutorial({required bool hasCompleted}) =>
       sharedPreferences.setBool(kHasCompletedTutorial, hasCompleted);
+
+  /// Whether the `first_song_added` activation event has already been sent.
+  bool get firstSongTracked =>
+      sharedPreferences.getBool(kFirstSongTracked) ?? false;
+
+  Future<void> markFirstSongTracked() =>
+      sharedPreferences.setBool(kFirstSongTracked, true);
+
+  /// Whether the `first_loop_created` activation event has already been sent.
+  bool get firstLoopTracked =>
+      sharedPreferences.getBool(kFirstLoopTracked) ?? false;
+
+  Future<void> markFirstLoopTracked() =>
+      sharedPreferences.setBool(kFirstLoopTracked, true);
 
   Future<bool> clear() => sharedPreferences.clear();
 

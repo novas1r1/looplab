@@ -1,22 +1,14 @@
 import 'dart:developer';
 
 import 'package:clarity_flutter/clarity_flutter.dart';
-import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_soloud/flutter_soloud.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:repeatlab/app/app.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:repeatlab/app_bloc_observer.dart';
-import 'package:repeatlab/data/models/song.dart';
-import 'package:repeatlab/data/repositories/local_config_repository.dart';
-import 'package:sembast/sembast_io.dart';
+import 'package:repeatlab/bootstrap.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:userorient_flutter/userorient_flutter.dart';
 
 Future<void> main() async {
@@ -63,61 +55,9 @@ Future<void> _initializeApp() async {
     ),
   );
 
-  // Initialize database with error handling
-  Database? db;
-  try {
-    final dir = await getApplicationDocumentsDirectory();
-    // make sure it exists
-    await dir.create(recursive: true);
-    // build the database path
-    final dbPath = join(dir.path, 'repeatlab.db');
-    // open the database
-    db = await databaseFactoryIo.openDatabase(dbPath);
-  } catch (error, stackTrace) {
-    await Sentry.captureException(
-      error,
-      stackTrace: stackTrace,
-      hint: Hint.withMap({'location': 'database_initialization'}),
-    );
-    rethrow;
-  }
-
-  MapperContainer.globals.use(const DurationMapper());
-
-  // Initialize SoLoud with error handling
-  SoLoud? soloud;
-  try {
-    soloud = SoLoud.instance;
-    await soloud.init();
-    // SoLoud.instance.setVisualizationEnabled(true);
-  } catch (error, stackTrace) {
-    await Sentry.captureException(
-      error,
-      stackTrace: stackTrace,
-      hint: Hint.withMap({'location': 'soloud_initialization'}),
-    );
-    rethrow;
-  }
-
-  // Initialize other services with error handling
-  PackageInfo? packageInfo;
-  SharedPreferences? sharedPreferences;
-  LocalConfigRepository? localConfigRepository;
-
-  try {
-    packageInfo = await PackageInfo.fromPlatform();
-    sharedPreferences = await SharedPreferences.getInstance();
-    localConfigRepository = LocalConfigRepository(
-      sharedPreferences: sharedPreferences,
-    );
-  } catch (error, stackTrace) {
-    await Sentry.captureException(
-      error,
-      stackTrace: stackTrace,
-      hint: Hint.withMap({'location': 'package_info_shared_preferences'}),
-    );
-    rethrow;
-  }
+  // Build the app and all of its core dependencies (DB, audio/video engines,
+  // package info, preferences). Shared with E2E tests, see [bootstrap].
+  final app = await bootstrap();
 
   // get current device language
   // final deviceLanguage = Platform.localeName.split('_')[0];
@@ -139,12 +79,35 @@ Future<void> _initializeApp() async {
     logLevel: LogLevel.None,
   );
 
-  final isAnalyticsEnabled = localConfigRepository.acceptedAnalytics;
+  final isAnalyticsEnabled = app.localConfigRepository.acceptedAnalytics;
 
   if (isAnalyticsEnabled && !kDebugMode) {
     Clarity.resume();
   } else {
     Clarity.pause();
+  }
+
+  // Initialize PostHog manually (native AUTO_INIT is disabled) so nothing is
+  // captured before the user has consented. `optOut` mirrors the Clarity gating
+  // above: data is only collected in release builds with analytics consent.
+  // Consent changes at runtime flip this via Posthog().enable()/disable() in
+  // LocalConfigRepository.setAnalyticsEnabled.
+  try {
+    await Posthog().setup(
+      PostHogConfig('phc_Bq9ELUiqpUjZM8QvSBR5HXbDbPVzjD2tNdLwy5FkxP4n')
+        ..host = 'https://eu.i.posthog.com'
+        ..debug = kDebugMode
+        ..captureApplicationLifecycleEvents = true
+        ..personProfiles = PostHogPersonProfiles.identifiedOnly
+        ..optOut = !(isAnalyticsEnabled && !kDebugMode),
+    );
+  } catch (error, stackTrace) {
+    await Sentry.captureException(
+      error,
+      stackTrace: stackTrace,
+      hint: Hint.withMap({'location': 'posthog_setup'}),
+    );
+    // Don't rethrow; analytics is not critical to app startup.
   }
 
   // needed if we use just_audio_background
@@ -193,12 +156,7 @@ Future<void> _initializeApp() async {
     SentryWidget(
       child: ClarityWidget(
         app: /* DevicePreview(
-          builder: (context) =>  */ App(
-          db: db,
-          soloud: soloud,
-          packageInfo: packageInfo,
-          localConfigRepository: localConfigRepository,
-        ),
+          builder: (context) =>  */ app,
         // ),
         clarityConfig: config,
       ),

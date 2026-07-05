@@ -156,8 +156,10 @@
     "purchaseSuccess": "購入が成功しました。開発者をサポートしていただきありがとうございます❤️！",
     "voteForFeatures": "機能に投票",
     "changelogTitle": "変更履歴",
+    "changelog201Title": "動画をループして速度変更（Beta）",
+    "changelog201Description": "動画をインポートして、オーディオ曲と同じようにループできます - または速度を変更できます - チュートリアルやライブパフォーマンスに合わせて練習するのに最適です。この機能は現在ベータ版です。問題があればフィードバックを送ってください。",
     "changelog180Title": "曲を並べ替える",
-    "changelog180Description": "好きな順番で曲リストを整理できます — 任意の曲を長押しして新しい位置にドラッグするだけです。カスタム順序は自動的に保存されます。",
+    "changelog180Description": "好きな順番で曲リストを整理できます - 任意の曲を長押しして新しい位置にドラッグするだけです。カスタム順序は自動的に保存されます。",
     "changelog170Title": "ライブラリをバックアップして移動",
     "changelog170Description": "プロ機能を使用して、ライブラリ全体（曲、ループ、オーディオファイル）を単一のファイルにエクスポートし、別のデバイスに復元します。マージを選択して既存の曲に新しい曲を追加するか、リプレイスを選択して新しいライブラリを開始します。",
     "changelog170LanguageTitle": "言語を選ぶ",
@@ -196,6 +198,17 @@
     "songAddError": "曲の追加に失敗しました。ファイル形式に問題がある可能性があります。mp3やwavなどのサポートされている形式に変換してみてください。",
     "unsupportedAudioFormatError": "オーディオ形式「.{format}」はサポートされていません。サポートされている形式：{supportedFormats}。",
     "@unsupportedAudioFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
+    "unsupportedVideoFormatError": "動画形式「.{format}」はサポートされていません。サポートされている形式：{supportedFormats}。",
+    "@unsupportedVideoFormatError": {
         "placeholders": {
             "format": {
                 "type": "String"
@@ -281,7 +294,7 @@
     "deleteSongConfirmationTitle": "曲を削除",
     "settings": "設定",
     "analytics": "分析",
-    "analyticsDescription": "Microsoft Clarityを使用して使用データを収集し、アプリを改善します。これらのデータは第三者と共有されません。",
+    "analyticsDescription": "Microsoft ClarityとPostHogを使用して匿名の使用データを収集し、アプリを改善します。データはEUで処理され、第三者に販売されることはありません。",
     "enterSongBpm": "曲のBPM",
     "enterSongBpmDescription": "曲の元のBPMを入力してテンポを変更します。これは、異なるテンポで曲を練習する場合に便利です。BPMは曲に割り当てられ、保存されます。",
     "enterSongBpmHint": "例：120",
@@ -314,5 +327,63 @@
     "editSong": "曲を編集",
     "editSongTitle": "タイトル",
     "editSongArtist": "アーティスト",
-    "editSongTitleRequired": "タイトルは空にできません"
+    "editSongTitleRequired": "タイトルは空にできません",
+    "addVideo": "動画を追加",
+    "importingMedia": "インポート中… 大きなファイルは時間がかかることがあります。",
+    "importingMediaProgress": "ファイル {current} / {total}",
+    "betaLabel": "ベータ",
+    "backupExportSheetTitle": "何をエクスポートしますか？",
+    "backupExportOptionAudios": "オーディオ曲",
+    "backupExportOptionAudiosSubtitle": "オーディオファイルを含める (MP3, WAV, …)",
+    "backupExportOptionVideos": "動画曲",
+    "backupExportOptionVideosSubtitle": "動画ファイルを含める (MP4, MOV, …)",
+    "backupExportOptionLoopsAndSettings": "ループと曲の設定",
+    "backupExportOptionLoopsAndSettingsSubtitle": "ループ、BPM、並び順、動画プレビューサイズを含める",
+    "backupExportSheetExport": "エクスポート",
+    "backupExportSheetCancel": "キャンセル",
+    "backupExportSheetNoMediaSelected": "オーディオまたは動画を少なくとも1つ選択してください。",
+    "backupAndRestore": "バックアップと復元",
+    "backupExport": "ライブラリをエクスポート",
+    "backupExportSubtitle": "すべての曲とループを1つのファイルに保存して、別のデバイスに転送できます。",
+    "backupImport": "バックアップをインポート",
+    "backupImportSubtitle": "以前にエクスポートしたファイルから曲とループを復元します。",
+    "backupProOnly": "Pro機能",
+    "backupExporting": "バックアップを準備中…",
+    "backupImporting": "インポート中…",
+    "backupExportFailed": "エクスポート失敗: {message}",
+    "@backupExportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportFailed": "インポート失敗: {message}",
+    "@backupImportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportMalformed": "このファイルは有効なRepeatLabバックアップではありません。",
+    "backupImportSchemaTooNew": "このバックアップはより新しいバージョンのRepeatLabで作成されました。インポートするにはアプリを更新してください。",
+    "backupImportConfirmTitle": "バックアップをインポート",
+    "backupImportConfirmMessage": "このバックアップには{songCount}曲が含まれています（エクスポート日: {exportedAt}）。",
+    "@backupImportConfirmMessage": {
+        "placeholders": {
+            "songCount": { "type": "int" },
+            "exportedAt": { "type": "String" }
+        }
+    },
+    "backupImportModeMerge": "マージ",
+    "backupImportModeMergeDescription": "新しい曲を追加し、既存の曲を保持します。",
+    "backupImportModeReplace": "置き換え",
+    "backupImportModeReplaceDescription": "すべてを削除してゼロからインポートします。",
+    "backupImportReplaceConfirmTitle": "ライブラリ全体を置き換えますか？",
+    "backupImportReplaceConfirmMessage": "インポート前に現在のすべての曲とループが完全に削除されます。この操作は元に戻せません。",
+    "backupImportSuccess": "{imported}曲をインポートしました。{skipped}曲をスキップ、{renamed}曲をリネームしました。",
+    "@backupImportSuccess": {
+        "placeholders": {
+            "imported": { "type": "int" },
+            "skipped": { "type": "int" },
+            "renamed": { "type": "int" }
+        }
+    }
 }

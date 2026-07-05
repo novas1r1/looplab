@@ -38,6 +38,14 @@ class _LoopTimelineState extends State<LoopTimeline> {
     return box?.size.width ?? 0;
   }
 
+  /// Song duration in ms, or `null` when unknown/zero (e.g. metadata failed
+  /// to parse). Guards the position math below: dividing by zero would put
+  /// NaN into [Positioned] and crash the layout.
+  int? get _durationMs {
+    final ms = widget.duration.inMilliseconds;
+    return ms > 0 ? ms : null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocSelector<SongCubit, SongState, List<Loop>>(
@@ -77,11 +85,12 @@ class _LoopTimelineState extends State<LoopTimeline> {
                               BuildContext context,
                               AsyncSnapshot<Duration> snapshot,
                             ) {
-                              if (snapshot.hasData) {
+                              final durationMs = _durationMs;
+                              if (snapshot.hasData && durationMs != null) {
                                 return Positioned(
                                   left:
                                       (snapshot.data!.inMilliseconds /
-                                          widget.duration.inMilliseconds) *
+                                          durationMs) *
                                       _timelineWidth,
                                   top: 0,
                                   bottom: 0,
@@ -98,16 +107,17 @@ class _LoopTimelineState extends State<LoopTimeline> {
                       // Loop containers
                       ...loops.map(
                         (loop) {
-                          if (loop.start == null || loop.end == null) {
+                          final durationMs = _durationMs;
+                          if (loop.start == null ||
+                              loop.end == null ||
+                              durationMs == null) {
                             return const SizedBox.shrink();
                           }
 
                           final startPosition =
-                              loop.start!.inMilliseconds /
-                              widget.duration.inMilliseconds;
+                              loop.start!.inMilliseconds / durationMs;
                           final endPosition =
-                              loop.end!.inMilliseconds /
-                              widget.duration.inMilliseconds;
+                              loop.end!.inMilliseconds / durationMs;
 
                           final isLocked =
                               widget.isLoopLocked?.call(loop) ?? false;
@@ -179,8 +189,11 @@ class _LoopTimelineState extends State<LoopTimeline> {
   }
 
   void _handleTimelineInteraction(Offset localPosition) {
+    final width = _timelineWidth;
+    if (width <= 0) return;
+
     // Calculate position percentage (constrained between 0 and 1)
-    final percentage = (localPosition.dx / _timelineWidth).clamp(0.0, 1.0);
+    final percentage = (localPosition.dx / width).clamp(0.0, 1.0);
 
     final songDuration = context.read<SongCubit>().state.song.duration;
 

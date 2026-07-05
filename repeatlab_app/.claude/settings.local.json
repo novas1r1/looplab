@@ -24,7 +24,23 @@
       "Bash(flutter pub *)",
       "Bash(git stash *)",
       "Bash(git checkout *)",
-      "Bash(fvm flutter:*)"
+      "Bash(fvm flutter:*)",
+      "Read(//c/Users/vry/.claude/plans/**)",
+      "Read(//c/Users/vry/.claude/**)",
+      "Bash(fvm dart *)",
+      "PowerShell(flutter analyze *)",
+      "mcp__claude_ai_PostHog__exec",
+      "Read(//c/Development/packages/**)",
+      "WebFetch(domain:www.revenuecat.com)",
+      "Read(//c/Users/vry/AppData/Local/Pub/Cache/hosted/pub.dev/**)",
+      "PowerShell(fvm flutter *)",
+      "mcp__sentry__find_organizations",
+      "mcp__sentry__search_issues",
+      "mcp__sentry__get_sentry_resource",
+      "Read(//c/Development/repeatlab/**)",
+      "Bash(ls -la packages/)",
+      "Bash(ls -la packages/audioplayers/)",
+      "PowerShell(fvm dart *)"
     ]
   }
 }

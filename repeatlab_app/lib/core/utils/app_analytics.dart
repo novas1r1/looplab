@@ -2,15 +2,13 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
-import 'package:wiredash/wiredash.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 
 abstract final class AppAnalytics {
   const AppAnalytics._();
   // screens
   static const viewHome = 'view_home';
   static const viewSong = 'view_song';
-  static const viewPaywallFromDrawer = 'view_paywall_from_drawer';
-  static const viewPaywallFromOnboarding = 'view_paywall_from_onboarding';
   static const viewFeedback = 'view_feedback';
   static const viewRateApp = 'view_rate_app';
   static const viewDataProtection = 'view_data_protection';
@@ -82,9 +80,11 @@ abstract final class AppAnalytics {
   static const songAddUnsupportedFormat = 'song_add_unsupported_format';
 
   // paywall
-  static const showPaywallSongLoops = 'show_paywall_song_loops';
-  static const showPaywallSongSpeed = 'show_paywall_song_speed';
-  static const viewPaywallFromBackup = 'view_paywall_from_backup';
+
+  /// Unified paywall-view funnel event, carrying a `trigger` property so a
+  /// single funnel step covers every paywall entry point. Fired via
+  /// [trackPaywallViewed].
+  static const paywallViewed = 'paywall_viewed';
 
   // backup & restore
   static const clickBackupExport = 'click_backup_export';
@@ -109,9 +109,19 @@ abstract final class AppAnalytics {
   static const changeLanguage = 'change_language';
 
   // onboarding
+  static const onboardingStarted = 'onboarding_started';
   static const onboardingCompleted = 'onboarding_completed';
   static const onboardingAnalyticsAccepted = 'onboarding_analytics_accepted';
   static const onboardingAnalyticsDeclined = 'onboarding_analytics_declined';
+
+  // activation milestones
+  static const loopCreated = 'loop_created';
+  static const firstSongAdded = 'first_song_added';
+  static const firstLoopCreated = 'first_loop_created';
+
+  // monetization
+  static const purchaseSuccess = 'purchase_success';
+  static const paywallDismissed = 'paywall_dismissed';
 
   static void trackEvent(
     String event, {
@@ -124,7 +134,10 @@ abstract final class AppAnalytics {
     // analytics SDK can never bubble up into the user-facing call site.
     runZonedGuarded(
       () {
-        final future = Wiredash.trackEvent(event, data: data);
+        final future = Posthog().capture(
+          eventName: event,
+          properties: _toProperties(data),
+        );
         unawaited(
           future.catchError(
             (Object error, StackTrace stack) {
@@ -137,5 +150,44 @@ abstract final class AppAnalytics {
         log('Error tracking event "$event": $error');
       },
     );
+  }
+
+  /// Registers `is_premium` as a super property so every captured event is
+  /// segmentable by subscription state without identifying the user.
+  static void setPremium({required bool isPremium}) {
+    if (kDebugMode) return;
+
+    runZonedGuarded(
+      () {
+        unawaited(
+          Posthog().register('is_premium', isPremium).catchError(
+            (Object error, StackTrace stack) {
+              log('Error registering is_premium: $error');
+            },
+          ),
+        );
+      },
+      (error, stack) {
+        log('Error registering is_premium: $error');
+      },
+    );
+  }
+
+  /// Fires the unified [paywallViewed] funnel event with a `trigger` property
+  /// (e.g. `drawer`, `onboarding`, `backup`, `song_loops`, `song_speed`,
+  /// `premium_screen`), so a single funnel step covers every paywall entry
+  /// point.
+  static void trackPaywallViewed({required String trigger}) {
+    trackEvent(paywallViewed, data: {'trigger': trigger});
+  }
+
+  /// PostHog's `capture` expects `Map<String, Object>` (non-null values), but
+  /// call sites pass `Map<String, dynamic>`. Convert, dropping null values.
+  static Map<String, Object>? _toProperties(Map<String, dynamic>? data) {
+    if (data == null) return null;
+    return {
+      for (final entry in data.entries)
+        if (entry.value != null) entry.key: entry.value as Object,
+    };
   }
 }

@@ -418,11 +418,18 @@ class AppLocalizationsHi extends AppLocalizations {
   String get changelogTitle => 'परिवर्तन लॉग';
 
   @override
+  String get changelog201Title => 'वीडियो लूप करें और स्पीड बदलें (Beta)';
+
+  @override
+  String get changelog201Description =>
+      'वीडियो इम्पोर्ट करें और उन्हें ऑडियो गानों की तरह लूप करें - या स्पीड बदलें - ट्यूटोरियल या लाइव परफॉर्मेंस के साथ अभ्यास के लिए बिल्कुल सही। यह फीचर अभी Beta में है; अगर कोई समस्या आए तो मुझे अपना फीडबैक भेजें।';
+
+  @override
   String get changelog180Title => 'अपने गाने पुनः व्यवस्थित करें';
 
   @override
   String get changelog180Description =>
-      'अपनी गाने की सूची जैसे चाहें व्यवस्थित करें — किसी भी गाने को लंबे समय तक दबाएं और उसे नई स्थिति में खींचें। आपका कस्टम क्रम स्वचालित रूप से सहेजा जाता है।';
+      'अपनी गाने की सूची जैसे चाहें व्यवस्थित करें - किसी भी गाने को लंबे समय तक दबाएं और उसे नई स्थिति में खींचें। आपका कस्टम क्रम स्वचालित रूप से सहेजा जाता है।';
 
   @override
   String get changelog170Title =>
@@ -430,14 +437,14 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get changelog170Description =>
-      'अपनी पूरी लाइब्रेरी — गीत, लूप और ऑडियो — एक ही फ़ाइल में निर्यात करें, फिर दूसरे डिवाइस पर पुनर्स्थापित करें जिसमें Pro चुनें। मर्ज करने का चुनाव करें जो नई गीत अपने मौजूदा गीतों के साथ जोड़ता है, या रीप्लेस करने का चुनाव करें जो नई लाइब्रेरी शुरू करता है।';
+      'अपनी पूरी लाइब्रेरी - गीत, लूप और ऑडियो - एक ही फ़ाइल में निर्यात करें, फिर दूसरे डिवाइस पर पुनर्स्थापित करें जिसमें Pro चुनें। मर्ज करने का चुनाव करें जो नई गीत अपने मौजूदा गीतों के साथ जोड़ता है, या रीप्लेस करने का चुनाव करें जो नई लाइब्रेरी शुरू करता है।';
 
   @override
   String get changelog170LanguageTitle => 'अपनी भाषा चुनें';
 
   @override
   String get changelog170LanguageDescription =>
-      'ड्रॉअर से ऐप की भाषा बदलें — 16 समर्थित भाषाओं में से चुनें या अपने डिवाइस की डिफ़ॉल्ट सेटिंग का पालन करें।';
+      'ड्रॉअर से ऐप की भाषा बदलें - 16 समर्थित भाषाओं में से चुनें या अपने डिवाइस की डिफ़ॉल्ट सेटिंग का पालन करें।';
 
   @override
   String get changelog1601Title =>
@@ -559,6 +566,11 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
     return 'ऑडियो प्रारूप \".$format\" समर्थित नहीं है। समर्थित प्रारूप: $supportedFormats।';
+  }
+
+  @override
+  String unsupportedVideoFormatError(String format, String supportedFormats) {
+    return 'वीडियो प्रारूप \".$format\" समर्थित नहीं है। समर्थित प्रारूप: $supportedFormats।';
   }
 
   @override
@@ -687,82 +699,116 @@ class AppLocalizationsHi extends AppLocalizations {
   String get deleteAllDataError => 'सभी डेटा हटाने में विफल';
 
   @override
-  String get backupAndRestore => 'Backup & Restore';
+  String get backupAndRestore => 'बैकअप और पुनर्स्थापना';
 
   @override
-  String get backupExport => 'Export my library';
+  String get backupExport => 'मेरी लाइब्रेरी एक्सपोर्ट करें';
 
   @override
   String get backupExportSubtitle =>
-      'Save all songs and loops to a single file you can transfer to another device.';
+      'सभी गीतों और लूप को एक फ़ाइल में सहेजें जिसे आप किसी दूसरे डिवाइस पर ट्रांसफर कर सकते हैं।';
 
   @override
-  String get backupImport => 'Import backup';
+  String get backupExportSheetTitle => 'आप क्या एक्सपोर्ट करना चाहते हैं?';
+
+  @override
+  String get backupExportOptionAudios => 'ऑडियो गीत';
+
+  @override
+  String get backupExportOptionAudiosSubtitle =>
+      'ऑडियो फ़ाइलें शामिल करें (MP3, WAV, …)';
+
+  @override
+  String get backupExportOptionVideos => 'वीडियो गीत';
+
+  @override
+  String get backupExportOptionVideosSubtitle =>
+      'वीडियो फ़ाइलें शामिल करें (MP4, MOV, …)';
+
+  @override
+  String get backupExportOptionLoopsAndSettings => 'लूप और गीत सेटिंग्स';
+
+  @override
+  String get backupExportOptionLoopsAndSettingsSubtitle =>
+      'लूप, BPM, सॉर्ट क्रम और वीडियो प्रीव्यू साइज़ शामिल करें';
+
+  @override
+  String get backupExportSheetExport => 'एक्सपोर्ट';
+
+  @override
+  String get backupExportSheetCancel => 'रद्द करें';
+
+  @override
+  String get backupExportSheetNoMediaSelected =>
+      'कम से कम ऑडियो या वीडियो में से एक चुनें।';
+
+  @override
+  String get backupImport => 'बैकअप इम्पोर्ट करें';
 
   @override
   String get backupImportSubtitle =>
-      'Restore songs and loops from a previously exported file.';
+      'पहले एक्सपोर्ट की गई फ़ाइल से गीत और लूप पुनर्स्थापित करें।';
 
   @override
-  String get backupProOnly => 'Pro feature';
+  String get backupProOnly => 'Pro सुविधा';
 
   @override
-  String get backupExporting => 'Preparing backup…';
+  String get backupExporting => 'बैकअप तैयार हो रहा है…';
 
   @override
-  String get backupImporting => 'Importing…';
+  String get backupImporting => 'इम्पोर्ट हो रहा है…';
 
   @override
   String backupExportFailed(String message) {
-    return 'Export failed: $message';
+    return 'एक्सपोर्ट विफल: $message';
   }
 
   @override
   String backupImportFailed(String message) {
-    return 'Import failed: $message';
+    return 'इम्पोर्ट विफल: $message';
   }
 
   @override
-  String get backupImportConfirmTitle => 'Import backup';
+  String get backupImportConfirmTitle => 'बैकअप इम्पोर्ट करें';
 
   @override
   String backupImportConfirmMessage(int songCount, String exportedAt) {
-    return 'This backup contains $songCount songs (exported $exportedAt).';
+    return 'इस बैकअप में $songCount गीत हैं ($exportedAt को एक्सपोर्ट किए गए)।';
   }
 
   @override
-  String get backupImportModeMerge => 'Merge';
+  String get backupImportModeMerge => 'मर्ज करें';
 
   @override
   String get backupImportModeMergeDescription =>
-      'Add new songs, keep existing ones.';
+      'नए गीत जोड़ें, मौजूदा गीत रखें।';
 
   @override
-  String get backupImportModeReplace => 'Replace';
+  String get backupImportModeReplace => 'बदलें';
 
   @override
   String get backupImportModeReplaceDescription =>
-      'Delete everything and import from scratch.';
+      'सब कुछ हटाएं और शुरू से इम्पोर्ट करें।';
 
   @override
-  String get backupImportReplaceConfirmTitle => 'Replace entire library?';
+  String get backupImportReplaceConfirmTitle => 'पूरी लाइब्रेरी बदलें?';
 
   @override
   String get backupImportReplaceConfirmMessage =>
-      'This will permanently delete all current songs and loops before importing. This cannot be undone.';
+      'इम्पोर्ट से पहले सभी मौजूदा गीत और लूप स्थायी रूप से हटा दिए जाएंगे। यह क्रिया पूर्ववत नहीं की जा सकती।';
 
   @override
   String backupImportSuccess(int imported, int skipped, int renamed) {
-    return 'Imported $imported songs. $skipped skipped, $renamed renamed.';
+    return '$imported गीत इम्पोर्ट किए गए। $skipped छोड़े गए, $renamed का नाम बदला गया।';
   }
 
   @override
   String get backupImportSchemaTooNew =>
-      'This backup was created by a newer version of RepeatLab. Please update the app to import it.';
+      'यह बैकअप RepeatLab के नए संस्करण से बनाया गया है। इसे इम्पोर्ट करने के लिए कृपया ऐप अपडेट करें।';
 
   @override
   String get backupImportMalformed =>
-      'This file isn\'t a valid RepeatLab backup.';
+      'यह फ़ाइल एक वैध RepeatLab बैकअप नहीं है।';
 
   @override
   String get errorOpeningStore =>
@@ -799,7 +845,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get analyticsDescription =>
-      'हम माइक्रोसॉफ्ट क्लैरिटी का उपयोग करके उपयोग डेटा एकत्र करते हैं और ऐप को सुधारते हैं। इस डेटा को तीसरे पक्षों के साथ साझा नहीं किया जाता है।';
+      'हम ऐप को बेहतर बनाने और गुमनाम उपयोग डेटा एकत्र करने के लिए Microsoft Clarity और PostHog का उपयोग करते हैं। आपका डेटा EU में संसाधित किया जाता है और कभी भी तीसरे पक्ष को नहीं बेचा जाता।';
 
   @override
   String get enterSongBpm => 'गीत का BPM';
@@ -890,4 +936,19 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get editSongTitleRequired => 'शीर्षक खाली नहीं हो सकता';
+
+  @override
+  String get addVideo => 'वीडियो जोड़ें';
+
+  @override
+  String get importingMedia =>
+      'आयात हो रहा है… बड़ी फ़ाइलों में कुछ समय लग सकता है।';
+
+  @override
+  String importingMediaProgress(int current, int total) {
+    return 'फ़ाइल $current / $total';
+  }
+
+  @override
+  String get betaLabel => 'बीटा';
 }

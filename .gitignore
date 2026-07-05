@@ -84,3 +84,5 @@ coverage/
 .netlify
 
 repeatlab_app/test/goldens/failures/
+
+repeatlab_app/.sentry-native/

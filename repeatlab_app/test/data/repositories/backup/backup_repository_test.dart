@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as p;
 import 'package:repeatlab/data/models/song.dart';
+import 'package:repeatlab/data/repositories/backup/backup_exceptions.dart';
 import 'package:repeatlab/data/repositories/backup/backup_manifest.dart';
 import 'package:repeatlab/data/repositories/backup/backup_repository.dart';
 import 'package:repeatlab/data/repositories/backup/backup_serializer.dart';
@@ -111,6 +112,81 @@ void main() {
       expect(payload.songs, isEmpty);
       expect(payload.audioFiles, isEmpty);
     });
+
+    test('skips audio songs when includeAudioSongs is false', () async {
+      await seedSong(MockData.songShort, bytes('short'));
+      final video = MockData.songShort.copyWith(
+        id: 'video-1',
+        title: 'Sample Video',
+        fileName: 'clip.mp4',
+        mediaType: MediaType.video,
+      );
+      await seedSong(video, bytes('video'));
+
+      final file = await backupRepository.exportToFile(
+        options: const BackupExportOptions(includeAudioSongs: false),
+      );
+      final payload = const BackupSerializer().decode(await file.readAsBytes());
+
+      expect(payload.songs.map((s) => s.id), ['video-1']);
+      expect(payload.audioFiles.keys, ['clip.mp4']);
+    });
+
+    test('skips video songs when includeVideoSongs is false', () async {
+      await seedSong(MockData.songShort, bytes('short'));
+      final video = MockData.songShort.copyWith(
+        id: 'video-1',
+        title: 'Sample Video',
+        fileName: 'clip.mp4',
+        mediaType: MediaType.video,
+      );
+      await seedSong(video, bytes('video'));
+
+      final file = await backupRepository.exportToFile(
+        options: const BackupExportOptions(includeVideoSongs: false),
+      );
+      final payload = const BackupSerializer().decode(await file.readAsBytes());
+
+      expect(payload.songs.map((s) => s.id), [MockData.songShort.id]);
+      expect(payload.audioFiles.keys, [MockData.songShort.fileName]);
+    });
+
+    test(
+      'strips loops and per-song settings when includeLoopsAndSettings is false',
+      () async {
+        final richSong = MockData.songMedium.copyWith(
+          loops: [MockData.loopVerse, MockData.loopChorus],
+          loopSort: LoopSort.startTime,
+          sortOrder: 42,
+          videoSizeMode: VideoSizeMode.large,
+          bpm: 99,
+          currentBpm: 110,
+        );
+        await seedSong(richSong, bytes('rich'));
+
+        final file = await backupRepository.exportToFile(
+          options: const BackupExportOptions(includeLoopsAndSettings: false),
+        );
+        final payload = const BackupSerializer().decode(await file.readAsBytes());
+        final exported = payload.songs.single;
+
+        // Intrinsic record preserved.
+        expect(exported.id, richSong.id);
+        expect(exported.title, richSong.title);
+        expect(exported.artist, richSong.artist);
+        expect(exported.fileName, richSong.fileName);
+        expect(exported.duration, richSong.duration);
+        expect(exported.mediaType, richSong.mediaType);
+
+        // Loops + tweakable settings reset to defaults.
+        expect(exported.loops, isEmpty);
+        expect(exported.bpm, isNull);
+        expect(exported.currentBpm, isNull);
+        expect(exported.loopSort, LoopSort.none);
+        expect(exported.sortOrder, 0);
+        expect(exported.videoSizeMode, VideoSizeMode.medium);
+      },
+    );
   });
 
   group('BackupRepository.peekImport', () {
@@ -289,6 +365,75 @@ void main() {
         expect(imported.fileName, MockData.songShort.fileName);
       },
     );
+
+    test('replace preserves the existing library when the backup is corrupt', () async {
+      await seedSong(MockData.songLong, bytes('precious'));
+
+      final corrupt = File(p.join(rootTmp.path, 'corrupt.rlbackup'));
+      await corrupt.writeAsBytes(List.generate(64, (i) => i), flush: true);
+
+      await expectLater(
+        backupRepository.importFromFile(
+          corrupt,
+          mode: BackupImportMode.replace,
+        ),
+        throwsA(isA<BackupFormatException>()),
+      );
+
+      // The failed import must not have wiped the library.
+      final songs = await songRepository.getAllSongs();
+      expect(songs.map((s) => s.id), [MockData.songLong.id]);
+      expect(
+        await File(p.join(docsDir.path, MockData.songLong.fileName)).exists(),
+        isTrue,
+      );
+    });
+
+    test('replace imports songs whose ids already exist in the library', () async {
+      // The same song exists locally (older loops) and in the backup —
+      // replace must import the backup's version, not skip it as a duplicate.
+      await seedSong(MockData.songShort, bytes('old-content'));
+
+      final exported = await exportWith([
+        (MockData.songShort.copyWith(title: 'From backup'), bytes('old-content')),
+      ]);
+
+      final summary = await backupRepository.importFromFile(
+        exported,
+        mode: BackupImportMode.replace,
+      );
+
+      expect(summary.songsImported, 1);
+      expect(summary.songsSkipped, 0);
+      final songs = await songRepository.getAllSongs();
+      expect(songs.single.title, 'From backup');
+    });
+
+    test('skips songs whose fileName would escape the documents dir', () async {
+      // Craft a malicious backup directly via the serializer: the song's
+      // fileName tries to traverse out of the docs dir (zip-slip).
+      const evilName = '../evil.mp3';
+      final evilSong = MockData.songShort.copyWith(fileName: evilName);
+      final payload = const BackupSerializer().encode(
+        songs: [evilSong],
+        audioFiles: {evilName: bytes('evil')},
+        appVersion: '1.6.11',
+      );
+      final malicious = File(p.join(rootTmp.path, 'malicious.rlbackup'));
+      await malicious.writeAsBytes(payload, flush: true);
+
+      final summary = await backupRepository.importFromFile(
+        malicious,
+        mode: BackupImportMode.merge,
+      );
+
+      expect(summary.songsImported, 0);
+      expect(summary.songsSkipped, 1);
+      // Nothing escaped the docs dir (docsDir is rootTmp/docs, so ../evil.mp3
+      // would land directly in rootTmp).
+      expect(await File(p.join(rootTmp.path, 'evil.mp3')).exists(), isFalse);
+      expect(await songRepository.getAllSongs(), isEmpty);
+    });
 
     test('replace wipes the existing DB before importing', () async {
       await seedSong(MockData.songLong, bytes('to-be-wiped'));

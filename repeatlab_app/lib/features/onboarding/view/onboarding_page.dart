@@ -31,6 +31,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   void initState() {
     super.initState();
     AppAnalytics.trackEvent(AppAnalytics.viewOnboarding);
+    AppAnalytics.trackEvent(AppAnalytics.onboardingStarted);
   }
 
   @override
@@ -90,6 +91,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     Row(
                       children: [
                         Checkbox(
+                          key: const Key('onboarding.analytics'),
                           value: _analyticsAccepted,
                           onChanged: (value) {
                             setState(() {
@@ -102,7 +104,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: context.l10n.onboardingIAcceptUsageStatistics,
+                                  text: context
+                                      .l10n
+                                      .onboardingIAcceptUsageStatistics,
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                               ],
@@ -115,6 +119,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     Row(
                       children: [
                         Checkbox(
+                          key: const Key('onboarding.privacy'),
                           value: _privacyAccepted,
                           onChanged: (value) {
                             setState(() {
@@ -131,24 +136,30 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                                 TextSpan(
-                                  recognizer: TapGestureRecognizer()..onTap = _showPrivacyPolicy,
-                                  text: context.l10n.onboardingPrivacyPolicyLink,
-                                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                    decoration: TextDecoration.underline,
-                                    color: AppColors.primary,
-                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = _showPrivacyPolicy,
+                                  text:
+                                      context.l10n.onboardingPrivacyPolicyLink,
+                                  style: Theme.of(context).textTheme.bodyLarge
+                                      ?.copyWith(
+                                        decoration: TextDecoration.underline,
+                                        color: AppColors.primary,
+                                      ),
                                 ),
                                 TextSpan(
                                   text: context.l10n.and,
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                                 TextSpan(
-                                  recognizer: TapGestureRecognizer()..onTap = _showTermsOfService,
-                                  text: context.l10n.onboardingTermsOfServiceLink,
-                                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                    decoration: TextDecoration.underline,
-                                    color: AppColors.primary,
-                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = _showTermsOfService,
+                                  text:
+                                      context.l10n.onboardingTermsOfServiceLink,
+                                  style: Theme.of(context).textTheme.bodyLarge
+                                      ?.copyWith(
+                                        decoration: TextDecoration.underline,
+                                        color: AppColors.primary,
+                                      ),
                                 ),
                               ],
                             ),
@@ -162,6 +173,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   SizedBox(
                     width: double.infinity,
                     child: FilledButton(
+                      key: const Key('onboarding.next'),
                       onPressed: _currentPage == _slides.length - 1
                           ? (_privacyAccepted ? _finishOnboarding : null)
                           : () {
@@ -195,15 +207,19 @@ class _OnboardingPageState extends State<OnboardingPage> {
   Future<void> _finishOnboarding() async {
     final localConfig = context.read<LocalConfigRepository>();
 
-    AppAnalytics.trackEvent(AppAnalytics.onboardingCompleted);
-    AppAnalytics.trackEvent(
-      _analyticsAccepted
-          ? AppAnalytics.onboardingAnalyticsAccepted
-          : AppAnalytics.onboardingAnalyticsDeclined,
-    );
-
+    // Apply consent FIRST so PostHog is opted in before we emit the onboarding
+    // funnel events. Otherwise they're captured while still opted out (the
+    // default until consent) and silently dropped for every new user.
     await localConfig.setIntroShown(wasShown: true);
     await localConfig.setAnalyticsEnabled(isEnabled: _analyticsAccepted);
+
+    AppAnalytics.trackEvent(AppAnalytics.onboardingCompleted);
+    if (_analyticsAccepted) {
+      AppAnalytics.trackEvent(AppAnalytics.onboardingAnalyticsAccepted);
+    }
+    // On decline PostHog stays opted out, so an `onboarding_analytics_declined`
+    // event could never be delivered anyway — decline is unmeasurable
+    // client-side under strict consent, by design.
 
     if (mounted) {
       // show paywall, after paywall is dismissed, navigate to home
@@ -220,11 +236,18 @@ class _OnboardingPageState extends State<OnboardingPage> {
           .state
           .hasLifetimePurchase;
 
-      if (!hasWeeklySubscription && !hasYearlySubscription && !hasLifetimePurchased) {
+      if (!hasWeeklySubscription &&
+          !hasYearlySubscription &&
+          !hasLifetimePurchased) {
         log('no subscription or lifetime purchase');
-        AppAnalytics.trackEvent(AppAnalytics.viewPaywallFromOnboarding);
 
-        await context.read<PremiumSubscriptionCubit>().presentPaywall();
+        try {
+          await context.read<PremiumSubscriptionCubit>().presentPaywall(
+            source: 'onboarding',
+          );
+        } catch (e) {
+          log('error presenting paywall: $e');
+        }
       } else {
         log('has subscribed or has lifetime purchased');
       }
@@ -282,7 +305,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
       height: 8,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: _currentPage == index ? AppColors.primary : AppColors.primary.withValues(alpha: 0.2),
+        color: _currentPage == index
+            ? AppColors.primary
+            : AppColors.primary.withValues(alpha: 0.2),
       ),
     );
   }

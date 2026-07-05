@@ -213,22 +213,23 @@ class BackupFileInfoMapper extends ClassMapperBase<BackupFileInfo> {
   @override
   final String id = 'BackupFileInfo';
 
-  static String _$sha256(BackupFileInfo v) => v.sha256;
+  static int _$size(BackupFileInfo v) => v.size;
+  static const Field<BackupFileInfo, int> _f$size = Field('size', _$size);
+  static String? _$sha256(BackupFileInfo v) => v.sha256;
   static const Field<BackupFileInfo, String> _f$sha256 = Field(
     'sha256',
     _$sha256,
+    opt: true,
   );
-  static int _$size(BackupFileInfo v) => v.size;
-  static const Field<BackupFileInfo, int> _f$size = Field('size', _$size);
 
   @override
   final MappableFields<BackupFileInfo> fields = const {
-    #sha256: _f$sha256,
     #size: _f$size,
+    #sha256: _f$sha256,
   };
 
   static BackupFileInfo _instantiate(DecodingData data) {
-    return BackupFileInfo(sha256: data.dec(_f$sha256), size: data.dec(_f$size));
+    return BackupFileInfo(size: data.dec(_f$size), sha256: data.dec(_f$sha256));
   }
 
   @override
@@ -293,7 +294,7 @@ extension BackupFileInfoValueCopy<$R, $Out>
 
 abstract class BackupFileInfoCopyWith<$R, $In extends BackupFileInfo, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  $R call({String? sha256, int? size});
+  $R call({int? size, String? sha256});
   BackupFileInfoCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
   );
@@ -308,16 +309,16 @@ class _BackupFileInfoCopyWithImpl<$R, $Out>
   late final ClassMapperBase<BackupFileInfo> $mapper =
       BackupFileInfoMapper.ensureInitialized();
   @override
-  $R call({String? sha256, int? size}) => $apply(
+  $R call({int? size, Object? sha256 = $none}) => $apply(
     FieldCopyWithData({
-      if (sha256 != null) #sha256: sha256,
       if (size != null) #size: size,
+      if (sha256 != $none) #sha256: sha256,
     }),
   );
   @override
   BackupFileInfo $make(CopyWithData data) => BackupFileInfo(
-    sha256: data.get(#sha256, or: $value.sha256),
     size: data.get(#size, or: $value.size),
+    sha256: data.get(#sha256, or: $value.sha256),
   );
 
   @override

@@ -156,12 +156,14 @@
     "cancelSubscription": "Cancelar Suscripción",
     "voteForFeatures": "Vota por Funciones",
     "changelogTitle": "Cambios",
+    "changelog201Title": "Pon videos en loop y cambia la velocidad (Beta)",
+    "changelog201Description": "Importa vídeos y ponlos en loop igual que las canciones de audio - o cambia la velocidad - perfecto para practicar con tutoriales o actuaciones en directo. Esta función está actualmente en Beta; mándame tu feedback si encuentras algún problema.",
     "changelog180Title": "Reordena tus canciones",
-    "changelog180Description": "Organiza tu lista de canciones como quieras — mantén pulsada cualquier canción y arrástrala a una nueva posición. Tu orden personalizado se guarda automáticamente.",
+    "changelog180Description": "Organiza tu lista de canciones como quieras - mantén pulsada cualquier canción y arrástrala a una nueva posición. Tu orden personalizado se guarda automáticamente.",
     "changelog170Title": "Backup y mover tu biblioteca",
     "changelog170Description": "Exporta tu biblioteca completa - canciones, loops y audio - a un solo archivo, luego restauralo en otro dispositivo con Pro. Elige Fusionar para agregar nuevas canciones junto a las existentes, o Reemplazar para comenzar de cero.",
     "changelog170LanguageTitle": "Elige tu idioma",
-    "changelog170LanguageDescription": "Cambia el idioma de la app desde el menú — elige entre 16 idiomas compatibles o sigue el predeterminado de tu dispositivo.",
+    "changelog170LanguageDescription": "Cambia el idioma de la app desde el menú - elige entre 16 idiomas compatibles o sigue el predeterminado de tu dispositivo.",
     "changelog1601Title": "1/3 Reproducir loops o navegar entre ellos automáticamente",
     "changelog1601Description": "En las configuraciones de la canción, ahora puedes activar o desactivar la reproducción automática de loops y la canción completa.",
     "changelog1602Title": "2/3 Mejora en el control de loops",
@@ -196,6 +198,17 @@
     "songAddError": "Error al añadir la canción. Esto podría deberse a un problema con el formato de archivo. Por favor, intenta convertir el archivo a un formato compatible como mp3 o wav.",
     "unsupportedAudioFormatError": "El formato de audio \".{format}\" no es compatible. Formatos compatibles: {supportedFormats}.",
     "@unsupportedAudioFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
+    "unsupportedVideoFormatError": "El formato de vídeo \".{format}\" no es compatible. Formatos compatibles: {supportedFormats}.",
+    "@unsupportedVideoFormatError": {
         "placeholders": {
             "format": {
                 "type": "String"
@@ -280,7 +293,7 @@
     "deleteSongConfirmationTitle": "Eliminar Canción",
     "settings": "Ajustes",
     "analytics": "Analytics",
-    "analyticsDescription": "Usamos Microsoft Clarity para recopilar datos de uso y mejorar la app. Estos datos no se comparten con terceros.",
+    "analyticsDescription": "Usamos Microsoft Clarity y PostHog para recopilar datos de uso anónimos y mejorar la app. Tus datos se procesan en la UE y nunca se venden a terceros.",
     "enterSongBpm": "BPM canción",
     "enterSongBpmDescription": "Introduce el BPM original de la canción para cambiar el tempo. Esto es útil cuando practicas una canción con un tempo diferente. El BPM se asignará a la canción y se guardará.",
     "enterSongBpmHint": "por ejemplo, 120",
@@ -312,5 +325,63 @@
     "editSong": "Editar canción",
     "editSongTitle": "Título",
     "editSongArtist": "Artista",
-    "editSongTitleRequired": "El título no puede estar vacío"
+    "editSongTitleRequired": "El título no puede estar vacío",
+    "addVideo": "Agregar video",
+    "importingMedia": "Importando… Los archivos grandes pueden tardar un poco.",
+    "importingMediaProgress": "Archivo {current} de {total}",
+    "betaLabel": "BETA",
+    "backupExportSheetTitle": "¿Qué quieres exportar?",
+    "backupExportOptionAudios": "Canciones de audio",
+    "backupExportOptionAudiosSubtitle": "Incluir archivos de audio (MP3, WAV, …)",
+    "backupExportOptionVideos": "Canciones de vídeo",
+    "backupExportOptionVideosSubtitle": "Incluir archivos de vídeo (MP4, MOV, …)",
+    "backupExportOptionLoopsAndSettings": "Loops y ajustes de canción",
+    "backupExportOptionLoopsAndSettingsSubtitle": "Incluir loops, BPM, orden de clasificación y tamaño de vista previa de vídeo",
+    "backupExportSheetExport": "Exportar",
+    "backupExportSheetCancel": "Cancelar",
+    "backupExportSheetNoMediaSelected": "Selecciona al menos audio o vídeo.",
+    "backupAndRestore": "Copia de seguridad y restauración",
+    "backupExport": "Exportar mi biblioteca",
+    "backupExportSubtitle": "Guarda todas las canciones y loops en un único archivo que puedes transferir a otro dispositivo.",
+    "backupImport": "Importar copia de seguridad",
+    "backupImportSubtitle": "Restaura canciones y loops desde un archivo exportado anteriormente.",
+    "backupProOnly": "Función Pro",
+    "backupExporting": "Preparando copia de seguridad…",
+    "backupImporting": "Importando…",
+    "backupExportFailed": "Export fallido: {message}",
+    "@backupExportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportFailed": "Import fallido: {message}",
+    "@backupImportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportMalformed": "Este archivo no es una copia de seguridad válida de RepeatLab.",
+    "backupImportSchemaTooNew": "Esta copia de seguridad fue creada con una versión más reciente de RepeatLab. Actualiza la app para importarla.",
+    "backupImportConfirmTitle": "Importar copia de seguridad",
+    "backupImportConfirmMessage": "Esta copia de seguridad contiene {songCount} canciones (exportadas el {exportedAt}).",
+    "@backupImportConfirmMessage": {
+        "placeholders": {
+            "songCount": { "type": "int" },
+            "exportedAt": { "type": "String" }
+        }
+    },
+    "backupImportModeMerge": "Fusionar",
+    "backupImportModeMergeDescription": "Añadir canciones nuevas, conservar las existentes.",
+    "backupImportModeReplace": "Reemplazar",
+    "backupImportModeReplaceDescription": "Eliminar todo e importar desde cero.",
+    "backupImportReplaceConfirmTitle": "¿Reemplazar toda la biblioteca?",
+    "backupImportReplaceConfirmMessage": "Esto eliminará permanentemente todas las canciones y loops actuales antes de importar. Esta acción no se puede deshacer.",
+    "backupImportSuccess": "{imported} canciones importadas. {skipped} omitidas, {renamed} renombradas.",
+    "@backupImportSuccess": {
+        "placeholders": {
+            "imported": { "type": "int" },
+            "skipped": { "type": "int" },
+            "renamed": { "type": "int" }
+        }
+    }
 }

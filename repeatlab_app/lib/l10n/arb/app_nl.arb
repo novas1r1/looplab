@@ -154,12 +154,14 @@
     "cancelSubscription": "Abonnement Opzeggen",
     "voteForFeatures": "Functies Voorstellen",
     "changelogTitle": "Wijzigingen",
+    "changelog201Title": "Video's loopen en snelheid aanpassen (Beta)",
+    "changelog201Description": "Importeer video's en loop ze net zoals audio-nummers - of pas de snelheid aan - perfect om te oefenen met tutorials of live-optredens. Deze functie is momenteel in Beta; stuur me je feedback als je problemen ondervindt.",
     "changelog180Title": "Nummers herordenen",
-    "changelog180Description": "Organiseer je nummerslijst zoals je wilt — houd een nummer lang ingedrukt en sleep het naar een nieuwe positie. Jouw aangepaste volgorde wordt automatisch opgeslagen.",
+    "changelog180Description": "Organiseer je nummerslijst zoals je wilt - houd een nummer lang ingedrukt en sleep het naar een nieuwe positie. Jouw aangepaste volgorde wordt automatisch opgeslagen.",
     "changelog170Title": "Back up en verplaats je bibliotheek",
-    "changelog170Description": "Exporteer je hele bibliotheek — nummers, loops en audio — naar een enkel bestand, en herstel het op een ander apparaat met Pro. Kies 'Samenvoegen' om nieuwe nummers naast je bestaande toe te voegen, of 'Vervangen' om vanaf nul te beginnen.",
+    "changelog170Description": "Exporteer je hele bibliotheek - nummers, loops en audio - naar een enkel bestand, en herstel het op een ander apparaat met Pro. Kies 'Samenvoegen' om nieuwe nummers naast je bestaande toe te voegen, of 'Vervangen' om vanaf nul te beginnen.",
     "changelog170LanguageTitle": "Kies je taal",
-    "changelog170LanguageDescription": "Wijzig de app-taal via het menu — kies uit 16 ondersteunde talen of volg de systeemstandaard van je apparaat.",
+    "changelog170LanguageDescription": "Wijzig de app-taal via het menu - kies uit 16 ondersteunde talen of volg de systeemstandaard van je apparaat.",
     "changelog1601Title": "1/3 Loops automatisch afspelen bij selecteren of navigeren tussen loops",
     "changelog1601Description": "In de nummerinstellingen kun je nu loops en het hele nummer automatisch afspelen aanzetten of uitschakelen.",
     "changelog1602Title": "2/3 Verbeterde loop controle",
@@ -194,6 +196,17 @@
     "songAddError": "Fout bij het toevoegen van het nummer. Dit kan veroorzaakt worden door een probleem met het bestandsformaat. Probeer het bestand om te zetten in een ondersteund formaat zoals mp3 of wav.",
     "unsupportedAudioFormatError": "Het audioformaat \".{format}\" wordt niet ondersteund. Ondersteunde formaten: {supportedFormats}.",
     "@unsupportedAudioFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
+    "unsupportedVideoFormatError": "Het videoformaat \".{format}\" wordt niet ondersteund. Ondersteunde formaten: {supportedFormats}.",
+    "@unsupportedVideoFormatError": {
         "placeholders": {
             "format": {
                 "type": "String"
@@ -278,7 +291,7 @@
     "deleteSongConfirmationTitle": "Nummer Verwijderen",
     "settings": "Instellingen",
     "analytics": "Analytics",
-    "analyticsDescription": "We gebruiken Microsoft Clarity om gebruiksgegevens te verzamelen en de app te verbeteren. Deze gegevens worden niet gedeeld met derden.",
+    "analyticsDescription": "We gebruiken Microsoft Clarity en PostHog om anonieme gebruiksgegevens te verzamelen en de app te verbeteren. Je gegevens worden in de EU verwerkt en nooit aan derden verkocht.",
     "enterSongBpm": "BPM nummer",
     "enterSongBpmDescription": "Voer het originele BPM van het nummer in om het tempo te wijzigen. Dit is handig wanneer je een nummer oefent met een ander tempo. Het BPM wordt aan het nummer gekoppeld en opgeslagen.",
     "enterSongBpmHint": "bijvoorbeeld 120",
@@ -311,5 +324,63 @@
     "editSong": "Nummer bewerken",
     "editSongTitle": "Titel",
     "editSongArtist": "Artiest",
-    "editSongTitleRequired": "Titel mag niet leeg zijn"
+    "editSongTitleRequired": "Titel mag niet leeg zijn",
+    "addVideo": "Video toevoegen",
+    "importingMedia": "Importeren… Grote bestanden kunnen even duren.",
+    "importingMediaProgress": "Bestand {current} van {total}",
+    "betaLabel": "BETA",
+    "backupExportSheetTitle": "Wat wil je exporteren?",
+    "backupExportOptionAudios": "Audionummers",
+    "backupExportOptionAudiosSubtitle": "Audiobestanden opnemen (MP3, WAV, …)",
+    "backupExportOptionVideos": "Videonummers",
+    "backupExportOptionVideosSubtitle": "Videobestanden opnemen (MP4, MOV, …)",
+    "backupExportOptionLoopsAndSettings": "Loops & nummerinstellingen",
+    "backupExportOptionLoopsAndSettingsSubtitle": "Loops, BPM, sorteervolgorde en videovoorbeeldformaat opnemen",
+    "backupExportSheetExport": "Exporteren",
+    "backupExportSheetCancel": "Annuleren",
+    "backupExportSheetNoMediaSelected": "Selecteer minimaal audio of video.",
+    "backupAndRestore": "Back-up en herstel",
+    "backupExport": "Mijn bibliotheek exporteren",
+    "backupExportSubtitle": "Sla alle nummers en loops op in één bestand dat je naar een ander apparaat kunt overbrengen.",
+    "backupImport": "Back-up importeren",
+    "backupImportSubtitle": "Herstel nummers en loops vanuit een eerder geëxporteerd bestand.",
+    "backupProOnly": "Pro-functie",
+    "backupExporting": "Back-up voorbereiden…",
+    "backupImporting": "Importeren…",
+    "backupExportFailed": "Export mislukt: {message}",
+    "@backupExportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportFailed": "Import mislukt: {message}",
+    "@backupImportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportMalformed": "Dit bestand is geen geldige RepeatLab-back-up.",
+    "backupImportSchemaTooNew": "Deze back-up is gemaakt met een nieuwere versie van RepeatLab. Werk de app bij om hem te importeren.",
+    "backupImportConfirmTitle": "Back-up importeren",
+    "backupImportConfirmMessage": "Deze back-up bevat {songCount} nummers (geëxporteerd op {exportedAt}).",
+    "@backupImportConfirmMessage": {
+        "placeholders": {
+            "songCount": { "type": "int" },
+            "exportedAt": { "type": "String" }
+        }
+    },
+    "backupImportModeMerge": "Samenvoegen",
+    "backupImportModeMergeDescription": "Nieuwe nummers toevoegen, bestaande bewaren.",
+    "backupImportModeReplace": "Vervangen",
+    "backupImportModeReplaceDescription": "Alles verwijderen en opnieuw importeren.",
+    "backupImportReplaceConfirmTitle": "Gehele bibliotheek vervangen?",
+    "backupImportReplaceConfirmMessage": "Hiermee worden alle huidige nummers en loops permanent verwijderd vóór het importeren. Dit kan niet ongedaan worden gemaakt.",
+    "backupImportSuccess": "{imported} nummers geïmporteerd. {skipped} overgeslagen, {renamed} hernoemd.",
+    "@backupImportSuccess": {
+        "placeholders": {
+            "imported": { "type": "int" },
+            "skipped": { "type": "int" },
+            "renamed": { "type": "int" }
+        }
+    }
 }

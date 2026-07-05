@@ -156,8 +156,10 @@
     "purchaseSuccess": "구매가 성공적으로 완료되었습니다. 개발자를 지원해 주셔서 감사합니다 ❤️!",
     "voteForFeatures": "기능 투표",
     "changelogTitle": "변경 사항",
+    "changelog201Title": "동영상 루프 및 속도 변경 (Beta)",
+    "changelog201Description": "동영상을 가져와 오디오 곡처럼 루프하세요 - 또는 속도를 변경하세요 - 튜토리얼이나 라이브 공연을 따라 연습하기에 완벽합니다. 이 기능은 현재 베타 버전입니다. 문제가 생기면 피드백을 보내주세요.",
     "changelog180Title": "노래 순서 재정렬",
-    "changelog180Description": "원하는 대로 노래 목록을 정리하세요 — 아무 노래나 길게 누른 후 새 위치로 드래그하면 됩니다. 사용자 지정 순서는 자동으로 저장됩니다.",
+    "changelog180Description": "원하는 대로 노래 목록을 정리하세요 - 아무 노래나 길게 누른 후 새 위치로 드래그하면 됩니다. 사용자 지정 순서는 자동으로 저장됩니다.",
     "changelog170Title": "라이브러리 백업 및 이동",
     "changelog170Description": "프로 기능을 사용하여 라이브러리 전체(곡, 루프, 오디오 파일)를 단일 파일로 내보내고 다른 기기에서 복원합니다. 기존 곡에 새 곡을 추가하려면 병합을 선택하거나 새 라이브러리를 시작하려면 대체를 선택하세요.",
     "changelog170LanguageTitle": "언어 선택",
@@ -196,6 +198,17 @@
     "songAddError": "곡 추가에 실패했습니다. 파일 형식에 문제가 있을 수 있습니다. mp3나 wav와 같은 지원되는 형식으로 변환해 보세요.",
     "unsupportedAudioFormatError": "오디오 형식 \".{format}\"은(는) 지원되지 않습니다. 지원되는 형식: {supportedFormats}.",
     "@unsupportedAudioFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
+    "unsupportedVideoFormatError": "동영상 형식 \".{format}\"은(는) 지원되지 않습니다. 지원되는 형식: {supportedFormats}.",
+    "@unsupportedVideoFormatError": {
         "placeholders": {
             "format": {
                 "type": "String"
@@ -281,7 +294,7 @@
     "deleteSongConfirmationTitle": "곡 삭제",
     "settings": "설정",
     "analytics": "분석",
-    "analyticsDescription": "Microsoft Clarity를 사용하여 사용 데이터를 수집하고 앱을 개선합니다. 이 데이터는 제3자와 공유되지 않습니다.",
+    "analyticsDescription": "Microsoft Clarity와 PostHog를 사용하여 익명 사용 데이터를 수집하고 앱을 개선합니다. 귀하의 데이터는 EU에서 처리되며 제3자에게 절대 판매되지 않습니다.",
     "enterSongBpm": "곡의 BPM",
     "enterSongBpmDescription": "곡의 원래 BPM을 입력하여 템포를 변경합니다. 이는 다른 템포로 곡을 연습할 때 유용합니다. BPM은 곡에 할당되고 저장됩니다.",
     "enterSongBpmHint": "예: 120",
@@ -314,5 +327,63 @@
     "editSong": "곡 편집",
     "editSongTitle": "제목",
     "editSongArtist": "아티스트",
-    "editSongTitleRequired": "제목은 비워 둘 수 없습니다"
+    "editSongTitleRequired": "제목은 비워 둘 수 없습니다",
+    "addVideo": "동영상 추가",
+    "importingMedia": "가져오는 중… 큰 파일은 시간이 걸릴 수 있습니다.",
+    "importingMediaProgress": "파일 {current} / {total}",
+    "betaLabel": "베타",
+    "backupExportSheetTitle": "무엇을 내보내시겠습니까?",
+    "backupExportOptionAudios": "오디오 곡",
+    "backupExportOptionAudiosSubtitle": "오디오 파일 포함 (MP3, WAV, …)",
+    "backupExportOptionVideos": "동영상 곡",
+    "backupExportOptionVideosSubtitle": "동영상 파일 포함 (MP4, MOV, …)",
+    "backupExportOptionLoopsAndSettings": "루프 및 곡 설정",
+    "backupExportOptionLoopsAndSettingsSubtitle": "루프, BPM, 정렬 순서 및 동영상 미리보기 크기 포함",
+    "backupExportSheetExport": "내보내기",
+    "backupExportSheetCancel": "취소",
+    "backupExportSheetNoMediaSelected": "오디오 또는 동영상 중 하나 이상을 선택하세요.",
+    "backupAndRestore": "백업 및 복원",
+    "backupExport": "내 라이브러리 내보내기",
+    "backupExportSubtitle": "모든 곡과 루프를 하나의 파일에 저장하여 다른 기기로 전송할 수 있습니다.",
+    "backupImport": "백업 가져오기",
+    "backupImportSubtitle": "이전에 내보낸 파일에서 곡과 루프를 복원합니다.",
+    "backupProOnly": "Pro 기능",
+    "backupExporting": "백업 준비 중…",
+    "backupImporting": "가져오는 중…",
+    "backupExportFailed": "내보내기 실패: {message}",
+    "@backupExportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportFailed": "가져오기 실패: {message}",
+    "@backupImportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportMalformed": "이 파일은 유효한 RepeatLab 백업이 아닙니다.",
+    "backupImportSchemaTooNew": "이 백업은 더 새로운 버전의 RepeatLab으로 만들어졌습니다. 가져오려면 앱을 업데이트하세요.",
+    "backupImportConfirmTitle": "백업 가져오기",
+    "backupImportConfirmMessage": "이 백업에는 {songCount}곡이 포함되어 있습니다 ({exportedAt}에 내보냄).",
+    "@backupImportConfirmMessage": {
+        "placeholders": {
+            "songCount": { "type": "int" },
+            "exportedAt": { "type": "String" }
+        }
+    },
+    "backupImportModeMerge": "병합",
+    "backupImportModeMergeDescription": "새 곡을 추가하고 기존 곡을 유지합니다.",
+    "backupImportModeReplace": "교체",
+    "backupImportModeReplaceDescription": "모두 삭제하고 처음부터 가져옵니다.",
+    "backupImportReplaceConfirmTitle": "전체 라이브러리를 교체하시겠습니까?",
+    "backupImportReplaceConfirmMessage": "가져오기 전에 현재의 모든 곡과 루프가 영구적으로 삭제됩니다. 이 작업은 취소할 수 없습니다.",
+    "backupImportSuccess": "{imported}곡을 가져왔습니다. {skipped}곡 건너뜀, {renamed}곡 이름 변경됨.",
+    "@backupImportSuccess": {
+        "placeholders": {
+            "imported": { "type": "int" },
+            "skipped": { "type": "int" },
+            "renamed": { "type": "int" }
+        }
+    }
 }

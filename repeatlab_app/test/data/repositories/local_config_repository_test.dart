@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:repeatlab/data/repositories/local_config_repository.dart';
@@ -8,14 +9,27 @@ class MockSharedPreferences extends Mock implements SharedPreferences {}
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
+  // setAnalyticsEnabled toggles PostHog (Posthog().enable()/disable()), which
+  // calls the native method channel. There is no native implementation in a
+  // pure unit test, so stub the channel to a no-op to avoid MissingPluginException.
+  const posthogChannel = MethodChannel('posthog_flutter');
+
   late MockSharedPreferences mockSharedPreferences;
   late LocalConfigRepository localConfigRepository;
 
   setUp(() {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(posthogChannel, (call) async => null);
+
     mockSharedPreferences = MockSharedPreferences();
     localConfigRepository = LocalConfigRepository(
       sharedPreferences: mockSharedPreferences,
     );
+  });
+
+  tearDown(() {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(posthogChannel, null);
   });
 
   group('LocalConfigRepository', () {

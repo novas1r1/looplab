@@ -1,4 +1,5 @@
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:repeatlab/data/models/loop.dart';
 
@@ -23,6 +24,16 @@ class Song with SongMappable {
   final LoopSort loopSort;
   final int sortOrder;
 
+  /// Whether this entry is an audio file or a video file. Defaults to
+  /// [MediaType.audio] so existing sembast records (which were written before
+  /// this field existed) decode as audio without needing a migration.
+  final MediaType mediaType;
+
+  /// Display size of the video preview on the song page. Only meaningful when
+  /// [mediaType] is [MediaType.video]; ignored for audio. Defaults to
+  /// [VideoSizeMode.medium] so existing records decode without migration.
+  final VideoSizeMode videoSizeMode;
+
   const Song({
     required this.id,
     required this.title,
@@ -34,12 +45,14 @@ class Song with SongMappable {
     this.loops = const [],
     this.loopSort = LoopSort.none,
     this.sortOrder = 0,
+    this.mediaType = MediaType.audio,
+    this.videoSizeMode = VideoSizeMode.medium,
   });
 
   Future<String> get path async {
     final appDir = await getApplicationDocumentsDirectory();
 
-    return '${appDir.path}/$fileName';
+    return p.join(appDir.path, fileName);
   }
 }
 
@@ -48,6 +61,19 @@ enum LoopSort {
   manual,
   startTime,
   none,
+}
+
+@MappableEnum()
+enum MediaType {
+  audio,
+  video,
+}
+
+@MappableEnum()
+enum VideoSizeMode {
+  small,
+  medium,
+  large,
 }
 
 class DurationMapper extends SimpleMapper<Duration> {

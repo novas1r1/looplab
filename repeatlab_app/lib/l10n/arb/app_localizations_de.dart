@@ -94,7 +94,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get thirdPartyServicesDescription =>
-      'Wir nutzen Drittanbieterdienste zur Verbesserung unserer App:\n\n• Wiredash: Zur Sammlung von Benutzerfeedback.\n• RevenueCat: Zur Verarbeitung von In-App-Käufen und Abonnements.\n• Sentry: Zur Fehlerverfolgung und Absturzberichterstattung.';
+      'Wir nutzen Drittanbieterdienste zur Verbesserung unserer App:\n\n• Wiredash: Zur Sammlung von Benutzerfeedback.\n• RevenueCat: Zur Verarbeitung von In-App-Käufen und Abonnements.\n• Sentry: Zur Fehlerverfolgung und Absturzberichterstattung.\n• Microsoft Clarity: Zur Analyse und Verbesserung der Nutzererfahrung.\n• PostHog: Für anonyme Produktanalysen, gehostet in der EU.';
 
   @override
   String get contactUs => 'Kontakt';
@@ -420,25 +420,33 @@ class AppLocalizationsDe extends AppLocalizations {
   String get changelogTitle => 'Changelog';
 
   @override
+  String get changelog201Title =>
+      'Videos loopen und Geschwindigkeit ändern (Beta)';
+
+  @override
+  String get changelog201Description =>
+      'Importiere Videos und loope sie genau wie Audio-Songs oder ändere die Geschwindigkeit - perfekt zum Üben mit Tutorials oder Live-Auftritten. Diese Funktion ist aktuell in der Beta; bitte schicke mir dein Feedback wenn du auf Probleme stößt.';
+
+  @override
   String get changelog180Title => 'Songs neu anordnen';
 
   @override
   String get changelog180Description =>
-      'Organisiere deine Songliste nach deinen Wünschen — halte einen Song gedrückt und ziehe ihn an eine neue Position. Deine individuelle Reihenfolge wird automatisch gespeichert.';
+      'Organisiere deine Songliste nach deinen Wünschen - halte einen Song gedrückt und ziehe ihn an eine neue Position. Deine individuelle Reihenfolge wird automatisch gespeichert.';
 
   @override
   String get changelog170Title => 'Deine Bibliothek sichern und verschieben';
 
   @override
   String get changelog170Description =>
-      'Exportiere deine gesamte Bibliothek — Songs, Loops und Audio — in eine einzige Datei, um sie auf einem anderen Gerät wiederherzustellen. Wähle Zusammenführen, um neue Songs neben deinen bestehenden zu hinzufügen, oder Ersetzen, um neu zu starten.';
+      'Exportiere deine gesamte Bibliothek - Songs, Loops und Audio - in eine einzige Datei, um sie auf einem anderen Gerät wiederherzustellen. Wähle Zusammenführen, um neue Songs neben deinen bestehenden zu hinzufügen, oder Ersetzen, um neu zu starten.';
 
   @override
   String get changelog170LanguageTitle => 'Wähle deine Sprache';
 
   @override
   String get changelog170LanguageDescription =>
-      'Wechsle die App-Sprache direkt im Menü — 16 Sprachen stehen zur Auswahl, oder folge der Systemsprache deines Geräts.';
+      'Wechsle die App-Sprache direkt im Menü - 16 Sprachen stehen zur Auswahl, oder folge der Systemsprache deines Geräts.';
 
   @override
   String get changelog1601Title =>
@@ -560,6 +568,11 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
     return 'Das Audioformat \".$format\" wird nicht unterstützt. Unterstützte Formate: $supportedFormats.';
+  }
+
+  @override
+  String unsupportedVideoFormatError(String format, String supportedFormats) {
+    return 'Das Videoformat \".$format\" wird nicht unterstützt. Unterstützte Formate: $supportedFormats.';
   }
 
   @override
@@ -689,82 +702,116 @@ class AppLocalizationsDe extends AppLocalizations {
   String get deleteAllDataError => 'Fehler beim Löschen der Daten';
 
   @override
-  String get backupAndRestore => 'Backup & Restore';
+  String get backupAndRestore => 'Backup & Wiederherstellen';
 
   @override
-  String get backupExport => 'Export my library';
+  String get backupExport => 'Meine Bibliothek exportieren';
 
   @override
   String get backupExportSubtitle =>
-      'Save all songs and loops to a single file you can transfer to another device.';
+      'Speichere alle Songs und Loops in einer einzigen Datei, die du auf ein anderes Gerät übertragen kannst.';
 
   @override
-  String get backupImport => 'Import backup';
+  String get backupExportSheetTitle => 'Was möchtest du exportieren?';
+
+  @override
+  String get backupExportOptionAudios => 'Audio-Songs';
+
+  @override
+  String get backupExportOptionAudiosSubtitle =>
+      'Audiodateien einschließen (MP3, WAV, …)';
+
+  @override
+  String get backupExportOptionVideos => 'Video-Songs';
+
+  @override
+  String get backupExportOptionVideosSubtitle =>
+      'Videodateien einschließen (MP4, MOV, …)';
+
+  @override
+  String get backupExportOptionLoopsAndSettings => 'Loops & Song-Einstellungen';
+
+  @override
+  String get backupExportOptionLoopsAndSettingsSubtitle =>
+      'Loops, BPM, Sortierreihenfolge und Video-Vorschaugröße einschließen';
+
+  @override
+  String get backupExportSheetExport => 'Exportieren';
+
+  @override
+  String get backupExportSheetCancel => 'Abbrechen';
+
+  @override
+  String get backupExportSheetNoMediaSelected =>
+      'Wähle mindestens Audio oder Video aus.';
+
+  @override
+  String get backupImport => 'Backup importieren';
 
   @override
   String get backupImportSubtitle =>
-      'Restore songs and loops from a previously exported file.';
+      'Stelle Songs und Loops aus einer zuvor exportierten Datei wieder her.';
 
   @override
-  String get backupProOnly => 'Pro feature';
+  String get backupProOnly => 'Pro-Funktion';
 
   @override
-  String get backupExporting => 'Preparing backup…';
+  String get backupExporting => 'Backup wird vorbereitet…';
 
   @override
-  String get backupImporting => 'Importing…';
+  String get backupImporting => 'Importieren…';
 
   @override
   String backupExportFailed(String message) {
-    return 'Export failed: $message';
+    return 'Export fehlgeschlagen: $message';
   }
 
   @override
   String backupImportFailed(String message) {
-    return 'Import failed: $message';
+    return 'Import fehlgeschlagen: $message';
   }
 
   @override
-  String get backupImportConfirmTitle => 'Import backup';
+  String get backupImportConfirmTitle => 'Backup importieren';
 
   @override
   String backupImportConfirmMessage(int songCount, String exportedAt) {
-    return 'This backup contains $songCount songs (exported $exportedAt).';
+    return 'Dieses Backup enthält $songCount Songs (exportiert am $exportedAt).';
   }
 
   @override
-  String get backupImportModeMerge => 'Merge';
+  String get backupImportModeMerge => 'Zusammenführen';
 
   @override
   String get backupImportModeMergeDescription =>
-      'Add new songs, keep existing ones.';
+      'Neue Songs hinzufügen, bestehende behalten.';
 
   @override
-  String get backupImportModeReplace => 'Replace';
+  String get backupImportModeReplace => 'Ersetzen';
 
   @override
   String get backupImportModeReplaceDescription =>
-      'Delete everything and import from scratch.';
+      'Alles löschen und neu importieren.';
 
   @override
-  String get backupImportReplaceConfirmTitle => 'Replace entire library?';
+  String get backupImportReplaceConfirmTitle => 'Gesamte Bibliothek ersetzen?';
 
   @override
   String get backupImportReplaceConfirmMessage =>
-      'This will permanently delete all current songs and loops before importing. This cannot be undone.';
+      'Dadurch werden alle aktuellen Songs und Loops dauerhaft gelöscht, bevor der Import beginnt. Dies kann nicht rückgängig gemacht werden.';
 
   @override
   String backupImportSuccess(int imported, int skipped, int renamed) {
-    return 'Imported $imported songs. $skipped skipped, $renamed renamed.';
+    return '$imported Songs importiert. $skipped übersprungen, $renamed umbenannt.';
   }
 
   @override
   String get backupImportSchemaTooNew =>
-      'This backup was created by a newer version of RepeatLab. Please update the app to import it.';
+      'Dieses Backup wurde mit einer neueren Version von RepeatLab erstellt. Bitte aktualisiere die App, um es zu importieren.';
 
   @override
   String get backupImportMalformed =>
-      'This file isn\'t a valid RepeatLab backup.';
+      'Diese Datei ist kein gültiges RepeatLab-Backup.';
 
   @override
   String get errorOpeningStore =>
@@ -801,7 +848,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get analyticsDescription =>
-      'Wir verwenden Microsoft Clarity, um Nutzungsdaten zu sammeln und die App zu verbessern. Diese Daten werden nicht mit Drittanbietern geteilt.';
+      'Wir verwenden Microsoft Clarity und PostHog, um anonyme Nutzungsdaten zu sammeln und die App zu verbessern. Deine Daten werden in der EU verarbeitet und niemals an Dritte verkauft.';
 
   @override
   String get enterSongBpm => 'Song BPM';
@@ -892,4 +939,19 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get editSongTitleRequired => 'Titel darf nicht leer sein';
+
+  @override
+  String get addVideo => 'Video hinzufügen';
+
+  @override
+  String get importingMedia =>
+      'Import läuft … Große Dateien können etwas dauern.';
+
+  @override
+  String importingMediaProgress(int current, int total) {
+    return 'Datei $current von $total';
+  }
+
+  @override
+  String get betaLabel => 'BETA';
 }

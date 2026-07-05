@@ -1,12 +1,187 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const appStoreUrl =
+  'https://apps.apple.com/us/app/audio-looper-speed-changer/id6740175553';
+const googlePlayUrl =
+  'https://play.google.com/store/apps/details?id=com.repeatlab.app';
+
+const features = [
+  {
+    title: 'Precise A-B Looping',
+    tag: 'Core',
+    body: 'Tap to mark the start and end of any tricky section and loop it instantly. Fine-tune to the millisecond by typing exact times or dragging the interactive waveform. Set up multiple named, color-coded loops per song and jump between them from a visual timeline — even from your lock screen, notification, or Bluetooth controls.',
+    footnote: 'Free: 1 loop per song · Pro: unlimited loops & reordering',
+    icon: 'M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99',
+  },
+  {
+    title: 'Slow Down Without Changing the Pitch',
+    tag: 'Pro',
+    body: 'Practice at your own pace. Slow music down to 0.5× or push it to 2.0× in fine 0.1 steps — the tempo changes, the pitch stays true. Switch between a simple multiplier or exact BPM mode (up to 400 BPM), and use Tap Tempo to detect a song’s BPM by tapping along.',
+    footnote: 'Pro feature',
+    icon: 'M3 8.689c0-.864.933-1.406 1.683-.977l7.108 4.061a1.125 1.125 0 0 1 0 1.954l-7.108 4.061A1.125 1.125 0 0 1 3 16.811V8.69ZM12.75 8.689c0-.864.933-1.406 1.683-.977l7.108 4.061a1.125 1.125 0 0 1 0 1.954l-7.108 4.061a1.125 1.125 0 0 1-1.683-.977V8.69Z',
+  },
+  {
+    title: 'Now with Video Looping',
+    tag: 'NEW',
+    body: 'Learning from a video tutorial or a live performance? Import the video and loop or slow it down exactly like audio — practice along, section by section. Supports MP4, MOV, M4V, MKV, WEBM and AVI.',
+    footnote: 'Video plays in foreground; audio keeps playing in background',
+    icon: 'm15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z',
+  },
+  {
+    title: 'See Every Beat on the Waveform',
+    tag: 'Zoom is Pro',
+    body: 'A clear waveform for every song shows played vs. unplayed audio and all your loop markers. Drag to scrub precisely and zoom from 0.25× to 5× to place loop points on the exact note.',
+    footnote: 'Waveform & scrubbing free · Zoom is Pro',
+    icon: 'M3 12h2.25m3-6v12m3-9v6m3-9v12m3-6h2.25',
+  },
+  {
+    title: 'Unlimited Songs, Always Free',
+    tag: 'Free',
+    body: 'Import as many songs as you want — no limits, no paywall on your library. Batch-import multiple files at once. Supports MP3, WAV, OGG, FLAC, M4A and AAC; titles and artists are read from file tags and are editable.',
+    footnote: 'Free',
+    icon: 'm9 9 10.5-3m0 6.553v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 1 1-.99-3.467l2.31-.66a2.25 2.25 0 0 0 1.632-2.163Zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 0 1-.99-3.467l2.31-.66A2.25 2.25 0 0 0 9 15.553Z',
+  },
+  {
+    title: 'Keeps Playing, Everywhere',
+    tag: 'Free',
+    body: 'Full background playback with lock-screen and notification media controls. Skip 10 seconds, jump between loops, and control everything from your headphones or Bluetooth device.',
+    footnote: 'Free',
+    icon: 'M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3',
+  },
+  {
+    title: 'Export Your Loops',
+    tag: 'Free',
+    body: 'Save any loop as a lossless WAV file (44.1 or 48 kHz) to use wherever you like.',
+    footnote: 'Free',
+    icon: 'M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3',
+  },
+  {
+    title: 'Back Up Your Whole Library',
+    tag: 'Pro',
+    body: 'Export your entire library — songs, videos, loops, and settings — into a single backup file and restore it on another device. Local file, no cloud, no account.',
+    footnote: 'Pro feature',
+    icon: 'M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 5.625c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125',
+  },
+  {
+    title: 'Private by Design',
+    tag: 'Free',
+    body: '100% offline. Your files never leave your device. No account, no registration, no ads. Analytics are strictly opt-in.',
+    footnote: 'Free',
+    icon: 'M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z',
+  },
+  {
+    title: 'Speaks Your Language',
+    tag: 'Free',
+    body: 'Fully localized in 16 languages, with an in-app language switcher: English, German, Spanish, French, Italian, Portuguese, Dutch, Polish, Swedish, Russian, Turkish, Arabic, Hindi, Japanese, Korean and Chinese.',
+    footnote: 'Free',
+    icon: 'm10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802',
+  },
+  {
+    title: 'Built with Its Users',
+    tag: 'Community',
+    body: 'An in-app feature-voting board and quick feedback tools mean the app evolves around what musicians actually ask for. New features and improvements ship regularly.',
+    footnote: '',
+    icon: 'M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25',
+  },
+];
+
+const testimonials = [
+  {
+    quote:
+      "This app is simply amazing! I love it! I use it every day. It's really intuitive and extremely easy to use! It works flawlessly and I've never experienced any problems.",
+    source: 'App Store review',
+  },
+  {
+    quote:
+      'Absolutely helpful app. I especially love that the new version also allows you to work with videos.',
+    source: 'App Store review',
+  },
+  {
+    quote:
+      "This app works well and the developer is keen to take suggestions for improvement and act on them. That's a very progressive attitude, and it will unquestionably lead to the evolution of an excellent product over time.",
+    source: 'Google Play review',
+  },
+];
+
+const faqs = [
+  {
+    q: 'What devices does RepeatLab support?',
+    a: 'RepeatLab is currently available for iOS and Android devices.',
+  },
+  {
+    q: 'Can I import my own music?',
+    a: 'Yes, you can import your own music files — MP3, WAV, OGG, FLAC, M4A and AAC are supported, and you can import multiple files at once.',
+  },
+  {
+    q: 'Can I loop videos too?',
+    a: 'Yes! Video looping lets you import MP4, MOV, M4V, MKV, WEBM and AVI files and loop or slow them down exactly like audio — perfect for practicing along to tutorials or live performances.',
+  },
+  {
+    q: 'Can I slow down or speed up the music?',
+    a: 'Yes, with Pro you can slow music down to 0.5× or speed it up to 2× without changing the pitch — either with a simple multiplier or by setting an exact BPM, including tap tempo detection.',
+  },
+  {
+    q: 'Is there a limit to how many loops I can create?',
+    a: 'The free version includes one loop per song with unlimited songs. RepeatLab Pro unlocks unlimited loops per song.',
+  },
+  {
+    q: 'Can I import music from Spotify or Apple Music?',
+    a: 'No, this is not possible because of the limitations of the audio streaming services. RepeatLab works with your own audio and video files.',
+  },
+  {
+    q: 'Can I loop specific sections of YouTube videos?',
+    a: "Not directly yet, but I'm working on it. You can already import downloaded video files and loop them. Let me know if you want this feature!",
+  },
+  {
+    q: 'Is this app free?',
+    a: 'Yes — free forever for unlimited songs and one loop per song, with no ads and no account required. RepeatLab Pro adds unlimited loops, speed & BPM control, waveform zoom, and library backup — as a subscription or a one-time lifetime purchase.',
+  },
+  {
+    q: 'Is this app getting new features?',
+    a: "Yes, I'm working on new features and improvements — you can even vote for features directly in the app. Let me know if you want a specific feature!",
+  },
+];
+
+const pricingRows = [
+  { label: 'Unlimited songs (audio + video)', free: true, pro: true },
+  { label: 'Loops per song', free: '1', pro: 'Unlimited' },
+  { label: 'Speed & BPM control, tap tempo', free: false, pro: true },
+  { label: 'Waveform zoom', free: false, pro: true },
+  { label: 'Library backup & restore', free: false, pro: true },
+  {
+    label: 'Export loops to WAV, background playback, no ads',
+    free: true,
+    pro: true,
+  },
+];
+
+const jsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'MobileApplication',
+  name: 'RepeatLab',
+  operatingSystem: 'iOS, Android',
+  applicationCategory: 'MusicApplication',
+  description:
+    'Audio and video looper for musicians: create precise A-B loops, slow down music without changing pitch, and practice any song section by section.',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'EUR',
+  },
+  url: 'https://repeatlab.netlify.app',
+  sameAs: [appStoreUrl, googlePlayUrl],
+});
 ---
 
-<Layout title="RepeatLab - Loop your music practice">
+<Layout
+  title="RepeatLab — Slow Down Music & Loop Any Song | Audio & Video"
+  description="Loop any section of a song, slow it down without changing pitch, and now loop videos too. Free audio looper & speed trainer for musicians. iOS & Android."
+>
+  <script type="application/ld+json" set:html={jsonLd} slot="head" />
   <script
-  src="https://cdn.telemetrydeck.com/websdk/telemetrydeck.min.js"
-  data-app-id="B19DAFCB-056C-4F08-974B-ABA8F42C2E5F"
-  ></script>
+    src="https://cdn.telemetrydeck.com/websdk/telemetrydeck.min.js"
+    data-app-id="B19DAFCB-056C-4F08-974B-ABA8F42C2E5F"></script>
   <main>
     <!-- Hero Section -->
     <section class="py-20 px-4 md:px-6 lg:px-8">
@@ -14,40 +189,54 @@ import Layout from '../layouts/Layout.astro';
         <h1
           class="text-4xl md:text-6xl font-display font-bold text-primary mb-6"
         >
-          Master Your Music Practice with RepeatLab
+          Loop it. Slow it down. Nail it.
         </h1>
-        <p class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto text-secondary">
-          Create perfect practice loops, adjust music speed and improve your
-          musical skills with our intuitive looping tool.
+        <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-secondary">
+          Create precise A-B loops, change tempo <strong
+            class="text-primary">without changing pitch</strong
+          >, and now loop <strong class="text-primary">videos</strong> too.
+          Built for musicians. No account, no ads, works fully offline. iOS
+          &amp; Android.
         </p>
         <div class="flex justify-center gap-4">
           <a
-            href="https://apps.apple.com/us/app/audio-looper-speed-changer/id6740175553"
+            href={appStoreUrl}
             target="_blank"
             class="flex items-center gap-1"
+            onclick="window.telemetrydeck.send({type: 'app_store_click'})"
           >
             <img
               src="/images/app-store-badge-black.png"
-              alt="Download on App Store"
+              alt="Download RepeatLab on the App Store"
               class="h-12"
             />
           </a>
           <a
-            href="https://play.google.com/store/apps/details?id=com.repeatlab.app"
+            href={googlePlayUrl}
             target="_blank"
             class="flex items-center gap-1"
+            onclick="window.telemetrydeck.send({type: 'google_play_click'})"
           >
             <img
               src="/images/google-play-badge.png"
-              alt="Get it on Google Play"
+              alt="Get RepeatLab on Google Play"
               class="h-12"
             />
           </a>
         </div>
+        <!-- TODO: verify and update download count before publishing -->
+        <p class="mt-6 text-secondary">
+          Trusted by musicians worldwide · <span class="text-primary font-bold"
+            >35,000+ downloads</span
+          >
+        </p>
       </div>
     </section>
 
-    <!-- Screenshots Section -->
+    <!-- Screenshots / demo Section -->
+    <!-- TODO: replace static screenshots with an autoplaying, muted, looping
+         demo video showing: pick a hard section -> loop it -> slow to 0.5x ->
+         speed back up. Biggest conversion lever per marketing brief. -->
     <section class="py-12 bg-surface">
       <div class="max-w-6xl mx-auto px-4 md:px-6 lg:px-8">
         <h2
@@ -62,14 +251,14 @@ import Layout from '../layouts/Layout.astro';
           <div class="relative w-full max-w-[300px]">
             <img
               src="/images/screenshot1.png"
-              alt="RepeatLab App Screenshot"
+              alt="RepeatLab waveform with A-B loop markers"
               class="rounded-3xl shadow-lg"
             />
           </div>
           <div class="relative w-full max-w-[300px]">
             <img
               src="/images/screenshot2.png"
-              alt="RepeatLab App Interface"
+              alt="RepeatLab speed and BPM controls"
               class="rounded-3xl shadow-lg"
             />
           </div>
@@ -78,172 +267,123 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </section>
 
+    <!-- Testimonials Section -->
+    <section class="py-16 bg-surface-container">
+      <div class="max-w-6xl mx-auto px-4 md:px-6 lg:px-8">
+        <div class="grid md:grid-cols-3 gap-8">
+          {
+            testimonials.map((t) => (
+              <figure class="p-6 bg-surface-bright rounded-lg flex flex-col">
+                <div
+                  class="text-primary text-lg mb-3"
+                  aria-label="5 out of 5 stars"
+                >
+                  ★★★★★
+                </div>
+                <blockquote class="text-secondary flex-1">
+                  “{t.quote}”
+                </blockquote>
+                <figcaption class="mt-4 text-sm text-secondary opacity-70">
+                  {t.source}
+                </figcaption>
+              </figure>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
     <!-- Features Section -->
-    <section id="features" class="py-20 bg-surface-container">
+    <section id="features" class="py-20 bg-surface">
       <div class="max-w-6xl mx-auto px-4 md:px-6 lg:px-8">
         <h2
           class="text-3xl md:text-4xl font-display font-bold text-center mb-12 text-primary"
         >
           Features
         </h2>
-        <div class="grid md:grid-cols-3 gap-8">
-          <div class="text-center p-6 bg-surface-bright rounded-lg">
-            <div
-              class="w-16 h-16 bg-primary rounded-full mx-auto mb-4 flex items-center justify-center"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-8 h-8 text-surface"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
-                ></path>
-              </svg>
-            </div>
-            <h3 class="text-xl font-bold mb-2 text-secondary">
-              Precise Looping
-            </h3>
-            <p class="text-secondary">
-              Create exact loops for any section of your music with millisecond
-              precision.
-            </p>
-          </div>
-          <div class="text-center p-6 bg-surface-bright rounded-lg">
-            <div
-              class="w-16 h-16 bg-primary rounded-full mx-auto mb-4 flex items-center justify-center"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-8 h-8 text-surface"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25"
-                ></path>
-              </svg>
-            </div>
-            <h3 class="text-xl font-bold mb-2 text-secondary">
-              Multiple Loops
-            </h3>
-            <p class="text-secondary">
-              Set up multiple practice loops within the same song for efficient
-              practice sessions.
-            </p>
-          </div>
-          <div class="text-center p-6 bg-surface-bright rounded-lg">
-            <div
-              class="w-16 h-16 bg-primary rounded-full mx-auto mb-4 flex items-center justify-center"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-8 h-8 text-surface"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M3 8.689c0-.864.933-1.406 1.683-.977l7.108 4.061a1.125 1.125 0 0 1 0 1.954l-7.108 4.061A1.125 1.125 0 0 1 3 16.811V8.69ZM12.75 8.689c0-.864.933-1.406 1.683-.977l7.108 4.061a1.125 1.125 0 0 1 0 1.954l-7.108 4.061a1.125 1.125 0 0 1-1.683-.977V8.69Z"
-                ></path>
-              </svg>
-            </div>
-            <h3 class="text-xl font-bold mb-2 text-secondary">
-              Change Music Speed
-            </h3>
-            <p class="text-secondary">
-              Slow down or speed up your music to practice at a slower or faster
-              tempo.
-            </p>
-          </div>
-          <div class="text-center p-6 bg-surface-bright rounded-lg">
-            <div
-              class="w-16 h-16 bg-primary rounded-full mx-auto mb-4 flex items-center justify-center"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-8 h-8 text-surface"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M15.75 5.25v13.5m-7.5-13.5v13.5"></path>
-              </svg>
-            </div>
-            <h3 class="text-xl font-bold mb-2 text-secondary">
-              Easy Navigation
-            </h3>
-            <p class="text-secondary">
-              Jump between sections easily with our intuitive interface.
-            </p>
-          </div>
-          <div class="text-center p-6 bg-surface-bright rounded-lg">
-            <div
-              class="w-16 h-16 bg-primary rounded-full mx-auto mb-4 flex items-center justify-center"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-8 h-8 text-surface"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"
-                ></path>
-              </svg>
-            </div>
-            <h3 class="text-xl font-bold mb-2 text-secondary">
-              No Ads & Registration Required
-            </h3>
-            <p class="text-secondary">
-              No ads, no registration, instant start.
-            </p>
-          </div>
-          <div class="text-center p-6 bg-surface-bright rounded-lg">
-            <div
-              class="w-16 h-16 bg-primary rounded-full mx-auto mb-4 flex items-center justify-center"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-8 h-8 text-surface"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M3 3l8.735 8.735m0 0a.374.374 0 11.53.53m-.53-.53l.53.53m0 0L21 21M14.652 9.348a3.75 3.75 0 010 5.304m2.121-7.425a6.75 6.75 0 010 9.546m2.121-11.667c3.808 3.807 3.808 9.98 0 13.788m-9.546-4.242a3.733 3.733 0 01-1.06-2.122m-1.061 4.243a6.75 6.75 0 01-1.625-6.929m-.496 9.05c-3.068-3.067-3.664-7.67-1.79-11.334M12 12h.008v.008H12V12z"
-                ></path>
-              </svg>
-            </div>
-            <h3 class="text-xl font-bold mb-2 text-secondary">
-              No Internet Connection Required
-            </h3>
-            <p class="text-secondary">Everything stays on your device.</p>
-          </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {
+            features.map((f) => (
+              <div class="p-6 bg-surface-bright rounded-lg flex flex-col">
+                <div class="flex items-center justify-between mb-4">
+                  <div class="w-14 h-14 bg-primary rounded-full flex items-center justify-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-7 h-7 text-surface"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d={f.icon}
+                      />
+                    </svg>
+                  </div>
+                  <span class="text-xs font-bold uppercase tracking-wider text-primary border border-primary rounded-full px-3 py-1">
+                    {f.tag}
+                  </span>
+                </div>
+                <h3 class="text-xl font-bold mb-2 text-secondary">{f.title}</h3>
+                <p class="text-secondary flex-1">{f.body}</p>
+                {f.footnote && (
+                  <p class="mt-3 text-sm text-secondary opacity-70 italic">
+                    {f.footnote}
+                  </p>
+                )}
+              </div>
+            ))
+          }
         </div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 bg-surface-container">
+      <div class="max-w-4xl mx-auto px-4 md:px-6 lg:px-8">
+        <h2
+          class="text-3xl md:text-4xl font-display font-bold text-center mb-6 text-primary"
+        >
+          Pricing
+        </h2>
+        <p class="text-xl text-center mb-12 text-secondary max-w-3xl mx-auto">
+          Free forever for unlimited songs and one loop per song. Unlock
+          unlimited loops, speed &amp; BPM control, waveform zoom, and library
+          backup with Pro.
+        </p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left bg-surface-bright rounded-lg">
+            <thead>
+              <tr class="border-b border-secondary-container">
+                <th class="p-4 text-secondary"></th>
+                <th class="p-4 text-primary font-display text-lg">Free</th>
+                <th class="p-4 text-primary font-display text-lg">Pro</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                pricingRows.map((row) => (
+                  <tr class="border-b border-secondary-container last:border-b-0">
+                    <td class="p-4 text-secondary">{row.label}</td>
+                    <td class="p-4 text-secondary">
+                      {row.free === true ? '✅' : row.free === false ? '—' : row.free}
+                    </td>
+                    <td class="p-4 text-secondary">
+                      {row.pro === true ? '✅' : row.pro === false ? '—' : row.pro}
+                    </td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+        <!-- TODO: verify prices against the stores before publishing -->
+        <p class="text-center mt-6 text-secondary">
+          Pro: Weekly €0.99 · Yearly €11.99 (both with 3-day free trial) ·
+          Lifetime €35.99 one-time
+        </p>
       </div>
     </section>
 
@@ -256,78 +396,14 @@ import Layout from '../layouts/Layout.astro';
           Frequently Asked Questions
         </h2>
         <div class="space-y-6">
-          <div class="border-b border-secondary-container pb-6">
-            <h3 class="text-xl font-bold mb-2 text-secondary">
-              What devices does RepeatLab support?
-            </h3>
-            <p class="text-secondary">
-              RepeatLab is currently available for iOS and Android devices.
-            </p>
-          </div>
-          <div class="border-b border-secondary-container pb-6">
-            <h3 class="text-xl font-bold mb-2 text-secondary">
-              Can I import my own music?
-            </h3>
-            <p class="text-secondary">
-              Yes, you can import your own music files in various formats
-              including MP3 and WAV.
-            </p>
-          </div>
-          <div class="border-b border-secondary-container pb-6">
-            <h3 class="text-xl font-bold mb-2 text-secondary">
-              Is there a limit to how many loops I can create?
-            </h3>
-            <p class="text-secondary">
-              No, you can create as many loops as you need within each song.
-            </p>
-          </div>
-          <div class="border-b border-secondary-container pb-6">
-            <h3 class="text-xl font-bold mb-2 text-secondary">
-              Can I slow down or speed up the music?
-            </h3>
-            <p class="text-secondary">
-              Yes, you can slow down (until 0.5x) or speed up (until 2x) the
-              music to practice at a slower or faster tempo.
-            </p>
-          </div>
-          <div class="border-b border-secondary-container pb-6">
-            <h3 class="text-xl font-bold mb-2 text-secondary">
-              Can I import music from spotify or apple music?
-            </h3>
-            <p class="text-secondary">
-              No, this is not possible yet because of the limitations of the
-              audio streaming services.
-            </p>
-          </div>
-          <div class="border-b border-secondary-container pb-6">
-            <h3 class="text-xl font-bold mb-2 text-secondary">
-              Can I loop specific sections of YouTube videos?
-            </h3>
-            <p class="text-secondary">
-              Not yet, but I'm working on it. Let me know if you want this
-              feature!
-            </p>
-          </div>
-          <div class="border-b border-secondary-container pb-6">
-            <h3 class="text-xl font-bold mb-2 text-secondary">
-              Is this app free?
-            </h3>
-            <p class="text-secondary">
-              It's free for unlimited songs and one loop per song. If you need
-              more loops per song and want to change music speed you can buy a
-              yearly subscription or go with the lifetime license.
-            </p>
-          </div>
-
-          <div class="border-b border-secondary-container pb-6">
-            <h3 class="text-xl font-bold mb-2 text-secondary">
-              Is this app getting new features?
-            </h3>
-            <p class="text-secondary">
-              Yes, I'm working on new features and improvements. Let me know if
-              you want a specific feature!
-            </p>
-          </div>
+          {
+            faqs.map((faq) => (
+              <div class="border-b border-secondary-container pb-6">
+                <h3 class="text-xl font-bold mb-2 text-secondary">{faq.q}</h3>
+                <p class="text-secondary">{faq.a}</p>
+              </div>
+            ))
+          }
         </div>
       </div>
     </section>
@@ -344,26 +420,26 @@ import Layout from '../layouts/Layout.astro';
         </p>
         <div class="flex justify-center gap-4">
           <a
-            href="https://apps.apple.com/us/app/audio-looper-speed-changer/id6740175553"
+            href={appStoreUrl}
             target="_blank"
             class="flex items-center gap-2"
             onclick="window.telemetrydeck.send({type: 'app_store_click'})"
           >
             <img
               src="/images/app-store-badge-black.png"
-              alt="Download on App Store"
+              alt="Download RepeatLab on the App Store"
               class="h-12"
             />
           </a>
           <a
-            href="https://play.google.com/store/apps/details?id=com.repeatlab.app"
+            href={googlePlayUrl}
             target="_blank"
             class="flex items-center gap-2"
             onclick="window.telemetrydeck.send({type: 'google_play_click'})"
           >
             <img
               src="/images/google-play-badge.png"
-              alt="Get it on Google Play"
+              alt="Get RepeatLab on Google Play"
               class="h-12"
             />
           </a>
@@ -376,17 +452,23 @@ import Layout from '../layouts/Layout.astro';
     <div class="max-w-6xl mx-auto px-4 md:px-6 lg:px-8">
       <div class="flex flex-col items-center gap-4">
         <div class="flex flex-wrap justify-center gap-6">
-          <a href="/privacy" class="hover:text-primary transition-colors" 
+          <a
+            href="/privacy"
+            class="hover:text-primary transition-colors"
             onclick="window.telemetrydeck.send({type: 'privacy_policy_click'})"
             >Privacy Policy</a
           >
-          <a href="/legal" class="hover:text-primary transition-colors"
+          <a
+            href="/legal"
+            class="hover:text-primary transition-colors"
             onclick="window.telemetrydeck.send({type: 'legal_notices_click'})"
             >Legal Notices</a
           >
-          <a href="/terms" class="hover:text-primary transition-colors"
+          <a
+            href="/terms"
+            class="hover:text-primary transition-colors"
             onclick="window.telemetrydeck.send({type: 'terms_and_conditions_click'})"
-            >Terms & Conditions</a
+            >Terms &amp; Conditions</a
           >
         </div>
         <p>&copy; {new Date().getFullYear()} RepeatLab</p>

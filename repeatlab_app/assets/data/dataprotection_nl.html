@@ -1,15 +1,20 @@
-<p>Laatst bijgewerkt: 19 juli 2025</p>
+<p>Laatst bijgewerkt: 1 juli 2026</p>
 <h2>Informatie die we verzamelen</h2>
 <p>Uw privacy is belangrijk voor ons. Dit Privacybeleid beschrijft hoe we informatie verzamelen, gebruiken en beschermen
     wanneer u onze mobiele applicatie (de 'App') gebruikt, die beschikbaar is op iOS en Android platforms. Dit beleid is
     compliant met de Algemene Verordening Gegevensbescherming (AVG).</p>
-<p><strong>Ingangsdatum:</strong> 17 juli 2025</p>
+<p><strong>Ingangsdatum:</strong> 1 juli 2026</p>
 <p>We verzamelen de volgende soorten informatie:</p>
 <ul>
     <li><strong>Persoonlijke informatie:</strong> Informatie die u ons verstrekt, zoals uw e-mailadres bij het indienen
         van feedback via Wiredash.</li>
     <li><strong>Betalingsinformatie:</strong> Gegevens gerelateerd aan in-app aankopen en abonnementen, verwerkt door
         RevenueCat.</li>
+    <li><strong>Abonnements- &amp; aankoopgebeurtenissen:</strong> Wanneer u toestemming geeft voor analyses, worden
+        gebeurtenissen in de abonnementslevenscyclus (zoals het starten van een proefperiode, aankopen, verlengen of
+        opzeggen) door RevenueCat gedeeld met PostHog via een server-side integratie, gekoppeld aan uw anonieme
+        analyse-identificatie zodat we conversie- en omzettrechters kunnen meten. Er worden geen betaalkaartgegevens
+        gedeeld.</li>
     <li><strong>Crash logs:</strong> Informatie over app-fouten en crashes, verzameld via Sentry.</li>
     <li><strong>Gebruiksstatistieken:</strong> Gebruiksgegevens om ons te helpen de app te verbeteren.</li>
     <li><strong>Heatmaps & Sessie-opname:</strong> Analytische gegevens om ons te helpen uw ervaring te verbeteren via
@@ -17,7 +22,11 @@
     <li><strong>Functie-stemgegevens:</strong> Informatie die u verstrekt bij het stemmen op functies of het indienen
         van functievoorstellen via UserOrient, inclusief app-versie, build-nummer en abonnementsstatus.</li>
     <li><strong>App-gebruiksanalyse:</strong> Gedetailleerde analyses over hoe u met de app interageert, inclusief
-        schermweergaven, knopklikken en functiegebruikspatronen.</li>
+        schermweergaven, knopklikken, functiegebruikspatronen en activeringsmijlpalen, verzameld via PostHog (gehost in
+        de Europese Unie). Deze analyses zijn gekoppeld aan een anonieme, door het apparaat gegenereerde identificatie
+        in plaats van aan uw naam of account, en omvatten uw abonnementsstatus (bijvoorbeeld of u een actief
+        premium-abonnement heeft) zodat we kunnen begrijpen hoe functies worden gebruikt door gratis en
+        premium-gebruikers.</li>
     <li><strong>Apparaatinformatie:</strong> Technische informatie over uw apparaat, besturingssysteem en app-versie
         voor debug- en optimalisatiedoeleinden.</li>
     <li><strong>Lokale opslaggegevens:</strong> Liedjes, loops en gebruikersvoorkeuren lokaal opgeslagen op uw apparaat.
@@ -41,6 +50,7 @@
         crash-rapportage.</li>
     <li>Uw toestemming voor functie-stemmen en gebruikerservaringsverbetering via UserOrient.</li>
     <li>Uw toestemming voor gedetailleerde analyseverzameling via Microsoft Clarity.</li>
+    <li>Uw toestemming voor anonieme productanalyseverzameling via PostHog.</li>
 </ul>
 <h2>Hoe we uw informatie gebruiken</h2>
 <p>We gebruiken de informatie die we verzamelen voor de volgende doeleinden:</p>
@@ -50,6 +60,9 @@
     <li>Voor het monitoren en oplossen van problemen met Sentry crash-logging.</li>
     <li>Voor het verbeteren van gebruikerservaring en het verbeteren van App-functies.</li>
     <li>Voor het verbeteren van de app via Microsoft Clarity-analyses.</li>
+    <li>Voor het begrijpen van functiegebruik en het verbeteren van de app via PostHog-productanalyses.</li>
+    <li>Voor het meten van activerings-, conversie- en abonnementstrechters door anonieme productanalyses te combineren
+        met abonnementsgebeurtenissen (PostHog samen met RevenueCat), op basis van uw toestemming.</li>
     <li>Voor het verzamelen en verwerken van functieverzoeken en stemmen via UserOrient.</li>
     <li>Voor het bieden van gepersonaliseerde app-ervaringen en aanbevelingen.</li>
     <li>Voor het waarborgen van app-stabiliteit en prestaties op verschillende apparaten en platforms.</li>
@@ -85,7 +98,10 @@
 <p>U kunt uw toestemmingsvoorkeuren op elk moment beheren:</p>
 <ul>
     <li><strong>Analytische toestemming:</strong> U kunt analytische verzameling in- of uitschakelen in de
-        app-instellingen. Wanneer uitgeschakeld, worden Microsoft Clarity-analyses gepauzeerd.</li>
+        app-instellingen. Wanneer uitgeschakeld, worden Microsoft Clarity- en PostHog-analyses gepauzeerd en wordt de
+        koppeling die uw RevenueCat-abonnementsgebeurtenissen met PostHog deelt verwijderd, zodat uw aankoopgebeurtenissen
+        niet langer verbonden zijn met uw analyse-identificatie. Door de functie "Alle gegevens verwijderen" te gebruiken
+        wordt bovendien uw anonieme analyse-identificatie opnieuw ingesteld.</li>
     <li><strong>Crash-rapportage:</strong> Crash-rapportage via Sentry werkt op basis van ons gerechtvaardigd belang in
         app-stabiliteit, maar u kunt contact met ons opnemen om beperking ervan aan te vragen.</li>
     <li><strong>Functie-stemmen:</strong> Deelname aan functie-stemmen via UserOrient is optioneel en vereist uw
@@ -99,11 +115,18 @@
     <li><strong>Wiredash:</strong> Gebruikt voor het verzamelen van gebruikersfeedback en bug-rapporten. Gegevens worden
         verwerkt volgens het privacybeleid van Wiredash.</li>
     <li><strong>RevenueCat:</strong> Gebruikt voor het verwerken van in-app aankopen en abonnementen. Betalingsgegevens
-        worden verwerkt volgens het privacybeleid van RevenueCat.</li>
+        worden verwerkt volgens het privacybeleid van RevenueCat. Met uw analyse-toestemming deelt RevenueCat ook
+        abonnementsgebeurtenissen (proefperioden, aankopen, verlengingen en opzeggingen) met PostHog via een server-side
+        integratie, gekoppeld aan uw anonieme analyse-identificatie zodat we conversie en omzet kunnen analyseren. Dit
+        delen stopt wanneer u uw analyse-toestemming intrekt.</li>
     <li><strong>Sentry:</strong> Gebruikt voor foutbewaking en crash-rapportage. Technische gegevens worden verwerkt
         volgens het privacybeleid van Sentry.</li>
     <li><strong>Microsoft Clarity:</strong> Gebruikt voor analyses en gebruikerservaringsverbetering. Gebruiksgegevens
         worden verwerkt volgens het privacybeleid van Microsoft.</li>
+    <li><strong>PostHog:</strong> Gebruikt voor anonieme productanalyses, waaronder schermweergaven, functiegebruik en
+        activeringsmijlpalen, gekoppeld aan een anonieme apparaatidentificatie. Met uw toestemming ontvangt het ook
+        abonnementsgebeurtenissen van RevenueCat om conversie- en omzettrechters op te bouwen. De gegevens worden gehost
+        in de Europese Unie (eu.i.posthog.com) en verwerkt volgens het privacybeleid van PostHog.</li>
     <li><strong>UserOrient:</strong> Gebruikt voor functie-stemmen en gebruikersfeedback-verzameling.
         Functie-stemgegevens worden verwerkt volgens het privacybeleid van UserOrient.</li>
 </ul>
@@ -141,4 +164,4 @@
 <p>Voor vragen over gegevensbescherming kunt u ook contact opnemen met de relevante toezichthoudende autoriteit in uw
     land.</p>
 <p>Bedankt voor het gebruik van onze App!</p>
-<p style="text-align:center; margin-top:3rem;">© 2025 RepeatLab. Alle rechten voorbehouden.</p>
+<p style="text-align:center; margin-top:3rem;">© 2026 RepeatLab. Alle rechten voorbehouden.</p>

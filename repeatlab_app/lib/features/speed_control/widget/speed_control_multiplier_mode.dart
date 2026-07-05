@@ -28,6 +28,7 @@ class _SpeedControlMultiplierModeState
     extends State<SpeedControlMultiplierMode> {
   // Local state for smooth slider interaction
   double _localSpeed = 1.0;
+  bool _paywallShowing = false;
 
   @override
   void initState() {
@@ -95,8 +96,9 @@ class _SpeedControlMultiplierModeState
                     context.read<SongCubit>().setSpeedByMultiplier(value);
                   },
                 )
-              : GestureDetector(
-                  onTap: () => _showPremiumDialog(context),
+              : Listener(
+                  behavior: HitTestBehavior.opaque,
+                  onPointerDown: (_) => _showPremiumDialog(context),
                   child: AbsorbPointer(
                     child: CustomSlider(
                       value: _localSpeed,
@@ -116,11 +118,17 @@ class _SpeedControlMultiplierModeState
   }
 
   Future<void> _showPremiumDialog(BuildContext context) async {
-    AppAnalytics.trackEvent(
-      AppAnalytics.showPaywallSongSpeed,
-      data: {'from': 'speed_control_multiplier'},
-    );
+    if (_paywallShowing) return;
+    _paywallShowing = true;
 
-    await context.read<PremiumSubscriptionCubit>().presentPaywall();
+    try {
+      await context.read<PremiumSubscriptionCubit>().presentPaywall(
+        source: 'song_speed',
+      );
+    } finally {
+      if (mounted) {
+        _paywallShowing = false;
+      }
+    }
   }
 }

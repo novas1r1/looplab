@@ -418,25 +418,32 @@ class AppLocalizationsPl extends AppLocalizations {
   String get changelogTitle => 'Zmiany';
 
   @override
+  String get changelog201Title => 'Pętle wideo i zmiana prędkości (Beta)';
+
+  @override
+  String get changelog201Description =>
+      'Importuj filmy wideo i twórz z nich pętle tak jak z utworów audio - lub zmieniaj prędkość - idealne do ćwiczeń z tutorialami lub występami na żywo. Ta funkcja jest obecnie w wersji Beta; wyślij mi swoją opinię, jeśli napotkasz jakieś problemy.';
+
+  @override
   String get changelog180Title => 'Zmień kolejność piosenek';
 
   @override
   String get changelog180Description =>
-      'Organizuj listę piosenek według własnych upodobań — naciśnij i przytrzymaj dowolną piosenkę, a następnie przeciągnij ją na nowe miejsce. Twoja niestandardowa kolejność jest zapisywana automatycznie.';
+      'Organizuj listę piosenek według własnych upodobań - naciśnij i przytrzymaj dowolną piosenkę, a następnie przeciągnij ją na nowe miejsce. Twoja niestandardowa kolejność jest zapisywana automatycznie.';
 
   @override
   String get changelog170Title => 'Backup i przeniesienie swojej biblioteki';
 
   @override
   String get changelog170Description =>
-      'Eksportuj swoją całą bibliotekę — utwory, pętle i audio — do jednego pliku, a następnie przywróć ją na innym urządzeniu za pomocą Pro. Wybierz \'Scal\' aby dodać nowe utwory obok istniejących, lub \'Zastąp\' aby zacząć od nowa.';
+      'Eksportuj swoją całą bibliotekę - utwory, pętle i audio - do jednego pliku, a następnie przywróć ją na innym urządzeniu za pomocą Pro. Wybierz \'Scal\' aby dodać nowe utwory obok istniejących, lub \'Zastąp\' aby zacząć od nowa.';
 
   @override
   String get changelog170LanguageTitle => 'Wybierz swój język';
 
   @override
   String get changelog170LanguageDescription =>
-      'Zmień język aplikacji z menu — wybierz spośród 16 obsługiwanych języków lub użyj domyślnego ustawienia systemu urządzenia.';
+      'Zmień język aplikacji z menu - wybierz spośród 16 obsługiwanych języków lub użyj domyślnego ustawienia systemu urządzenia.';
 
   @override
   String get changelog1601Title =>
@@ -558,6 +565,11 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
     return 'Format audio \".$format\" nie jest obsługiwany. Obsługiwane formaty: $supportedFormats.';
+  }
+
+  @override
+  String unsupportedVideoFormatError(String format, String supportedFormats) {
+    return 'Format wideo \".$format\" nie jest obsługiwany. Obsługiwane formaty: $supportedFormats.';
   }
 
   @override
@@ -687,82 +699,116 @@ class AppLocalizationsPl extends AppLocalizations {
   String get deleteAllDataError => 'Wystąpił błąd podczas usuwania danych';
 
   @override
-  String get backupAndRestore => 'Backup & Restore';
+  String get backupAndRestore => 'Kopia zapasowa i przywracanie';
 
   @override
-  String get backupExport => 'Export my library';
+  String get backupExport => 'Eksportuj moją bibliotekę';
 
   @override
   String get backupExportSubtitle =>
-      'Save all songs and loops to a single file you can transfer to another device.';
+      'Zapisz wszystkie utwory i pętle w jednym pliku, który możesz przenieść na inne urządzenie.';
 
   @override
-  String get backupImport => 'Import backup';
+  String get backupExportSheetTitle => 'Co chcesz wyeksportować?';
+
+  @override
+  String get backupExportOptionAudios => 'Utwory audio';
+
+  @override
+  String get backupExportOptionAudiosSubtitle =>
+      'Dołącz pliki audio (MP3, WAV, …)';
+
+  @override
+  String get backupExportOptionVideos => 'Utwory wideo';
+
+  @override
+  String get backupExportOptionVideosSubtitle =>
+      'Dołącz pliki wideo (MP4, MOV, …)';
+
+  @override
+  String get backupExportOptionLoopsAndSettings => 'Pętle i ustawienia utworu';
+
+  @override
+  String get backupExportOptionLoopsAndSettingsSubtitle =>
+      'Dołącz pętle, BPM, kolejność sortowania i rozmiar podglądu wideo';
+
+  @override
+  String get backupExportSheetExport => 'Eksportuj';
+
+  @override
+  String get backupExportSheetCancel => 'Anuluj';
+
+  @override
+  String get backupExportSheetNoMediaSelected =>
+      'Wybierz co najmniej audio lub wideo.';
+
+  @override
+  String get backupImport => 'Importuj kopię zapasową';
 
   @override
   String get backupImportSubtitle =>
-      'Restore songs and loops from a previously exported file.';
+      'Przywróć utwory i pętle z wcześniej wyeksportowanego pliku.';
 
   @override
-  String get backupProOnly => 'Pro feature';
+  String get backupProOnly => 'Funkcja Pro';
 
   @override
-  String get backupExporting => 'Preparing backup…';
+  String get backupExporting => 'Przygotowywanie kopii zapasowej…';
 
   @override
-  String get backupImporting => 'Importing…';
+  String get backupImporting => 'Importowanie…';
 
   @override
   String backupExportFailed(String message) {
-    return 'Export failed: $message';
+    return 'Eksport nie powiódł się: $message';
   }
 
   @override
   String backupImportFailed(String message) {
-    return 'Import failed: $message';
+    return 'Import nie powiódł się: $message';
   }
 
   @override
-  String get backupImportConfirmTitle => 'Import backup';
+  String get backupImportConfirmTitle => 'Importuj kopię zapasową';
 
   @override
   String backupImportConfirmMessage(int songCount, String exportedAt) {
-    return 'This backup contains $songCount songs (exported $exportedAt).';
+    return 'Ta kopia zapasowa zawiera $songCount utworów (wyeksportowana $exportedAt).';
   }
 
   @override
-  String get backupImportModeMerge => 'Merge';
+  String get backupImportModeMerge => 'Scal';
 
   @override
   String get backupImportModeMergeDescription =>
-      'Add new songs, keep existing ones.';
+      'Dodaj nowe utwory, zachowaj istniejące.';
 
   @override
-  String get backupImportModeReplace => 'Replace';
+  String get backupImportModeReplace => 'Zastąp';
 
   @override
   String get backupImportModeReplaceDescription =>
-      'Delete everything and import from scratch.';
+      'Usuń wszystko i importuj od zera.';
 
   @override
-  String get backupImportReplaceConfirmTitle => 'Replace entire library?';
+  String get backupImportReplaceConfirmTitle => 'Zastąpić całą bibliotekę?';
 
   @override
   String get backupImportReplaceConfirmMessage =>
-      'This will permanently delete all current songs and loops before importing. This cannot be undone.';
+      'Spowoduje to trwałe usunięcie wszystkich aktualnych utworów i pętli przed importem. Tej operacji nie można cofnąć.';
 
   @override
   String backupImportSuccess(int imported, int skipped, int renamed) {
-    return 'Imported $imported songs. $skipped skipped, $renamed renamed.';
+    return 'Zaimportowano $imported utworów. $skipped pominięto, $renamed zmieniono nazwy.';
   }
 
   @override
   String get backupImportSchemaTooNew =>
-      'This backup was created by a newer version of RepeatLab. Please update the app to import it.';
+      'Ta kopia zapasowa została utworzona przez nowszą wersję RepeatLab. Zaktualizuj aplikację, aby ją zaimportować.';
 
   @override
   String get backupImportMalformed =>
-      'This file isn\'t a valid RepeatLab backup.';
+      'Ten plik nie jest prawidłową kopią zapasową RepeatLab.';
 
   @override
   String get errorOpeningStore =>
@@ -799,7 +845,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get analyticsDescription =>
-      'Używamy Microsoft Clarity do zbierania danych użytkowania i poprawiania aplikacji. Te dane nie są udostępniane innym stronom.';
+      'Używamy Microsoft Clarity i PostHog do zbierania anonimowych danych o użytkowaniu i ulepszania aplikacji. Twoje dane są przetwarzane w UE i nigdy nie są sprzedawane stronom trzecim.';
 
   @override
   String get enterSongBpm => 'BPM utworu';
@@ -890,4 +936,18 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get editSongTitleRequired => 'Tytuł nie może być pusty';
+
+  @override
+  String get addVideo => 'Dodaj wideo';
+
+  @override
+  String get importingMedia => 'Importowanie… Duże pliki mogą chwilę potrwać.';
+
+  @override
+  String importingMediaProgress(int current, int total) {
+    return 'Plik $current z $total';
+  }
+
+  @override
+  String get betaLabel => 'BETA';
 }

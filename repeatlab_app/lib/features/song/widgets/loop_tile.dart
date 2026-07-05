@@ -62,9 +62,8 @@ class _LoopTileState extends State<LoopTile> {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(8),
-        onTap: () => isLocked
-            ? widget.onLockedTap?.call()
-            : widget.onTap(widget.loop),
+        onTap: () =>
+            isLocked ? widget.onLockedTap?.call() : widget.onTap(widget.loop),
         child: Column(
           children: [
             Row(
@@ -95,6 +94,7 @@ class _LoopTileState extends State<LoopTile> {
                   width: 32,
                   height: 32,
                   child: IconButton(
+                    key: Key('song.loop.export.${widget.loop.id}'),
                     constraints: const BoxConstraints(),
                     padding: EdgeInsets.zero,
                     onPressed: () =>
@@ -106,6 +106,7 @@ class _LoopTileState extends State<LoopTile> {
                   width: 32,
                   height: 32,
                   child: IconButton(
+                    key: Key('song.loop.edit.${widget.loop.id}'),
                     constraints: const BoxConstraints(),
                     padding: EdgeInsets.zero,
                     onPressed: () =>

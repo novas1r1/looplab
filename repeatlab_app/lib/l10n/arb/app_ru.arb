@@ -154,12 +154,14 @@
     "cancelSubscription": "Отменить Подписку",
     "voteForFeatures": "Предложить Функции",
     "changelogTitle": "Изменения",
+    "changelog201Title": "Лупы для видео и изменение скорости (Beta)",
+    "changelog201Description": "Импортируй видео и делай из них лупы так же, как с аудиопеснями - или изменяй скорость - идеально для тренировок с туториалами или живыми выступлениями. Функция сейчас в стадии бета-тестирования; отправь мне свой отзыв, если столкнёшься с проблемами.",
     "changelog180Title": "Изменение порядка песен",
-    "changelog180Description": "Организуйте список песен так, как вам удобно — нажмите и удерживайте любую песню, затем перетащите её на новое место. Ваш порядок сохраняется автоматически.",
+    "changelog180Description": "Организуйте список песен так, как вам удобно - нажмите и удерживайте любую песню, затем перетащите её на новое место. Ваш порядок сохраняется автоматически.",
     "changelog170Title": "Backup и перенос вашей библиотеки",
-    "changelog170Description": "Экспортируйте свою полную библиотеку — песни, лупы и аудио — в один файл, а затем восстановите ее на другом устройстве с Pro. Выберите \"Объединить\", чтобы добавить новые песни рядом с существующими, или \"Заменить\", чтобы начать с нуля.",
+    "changelog170Description": "Экспортируйте свою полную библиотеку - песни, лупы и аудио - в один файл, а затем восстановите ее на другом устройстве с Pro. Выберите \"Объединить\", чтобы добавить новые песни рядом с существующими, или \"Заменить\", чтобы начать с нуля.",
     "changelog170LanguageTitle": "Выберите язык",
-    "changelog170LanguageDescription": "Измените язык приложения из меню — выберите из 16 поддерживаемых языков или используйте системный язык устройства.",
+    "changelog170LanguageDescription": "Измените язык приложения из меню - выберите из 16 поддерживаемых языков или используйте системный язык устройства.",
     "changelog1601Title": "1/3 Автоматическое воспроизведение лупов при выборе лупов или переходе между ними",
     "changelog1601Description": "В настройках песни вы можете теперь включить или выключить автоматическое воспроизведение лупов и всей песни.",
     "changelog1602Title": "2/3 Улучшенный контроль лупов",
@@ -194,6 +196,17 @@
     "songAddError": "Ошибка при добавлении песни. Это может быть связано с проблемой с форматом файла. Пожалуйста, попробуйте преобразовать файл в поддерживаемый формат, например mp3 или wav.",
     "unsupportedAudioFormatError": "Аудиоформат \".{format}\" не поддерживается. Поддерживаемые форматы: {supportedFormats}.",
     "@unsupportedAudioFormatError": {
+        "placeholders": {
+            "format": {
+                "type": "String"
+            },
+            "supportedFormats": {
+                "type": "String"
+            }
+        }
+    },
+    "unsupportedVideoFormatError": "Видеоформат \".{format}\" не поддерживается. Поддерживаемые форматы: {supportedFormats}.",
+    "@unsupportedVideoFormatError": {
         "placeholders": {
             "format": {
                 "type": "String"
@@ -278,7 +291,7 @@
     "deleteSongConfirmationTitle": "Удалить Песню",
     "settings": "Настройки",
     "analytics": "Аналитика",
-    "analyticsDescription": "Мы используем Microsoft Clarity для сбора данных об использовании и улучшения приложения. Эти данные не передаются третьим лицам.",
+    "analyticsDescription": "Мы используем Microsoft Clarity и PostHog для сбора анонимных данных об использовании и улучшения приложения. Ваши данные обрабатываются в ЕС и никогда не продаются третьим лицам.",
     "enterSongBpm": "BPM песни",
     "enterSongBpmDescription": "Введите оригинальный BPM песни, чтобы изменить темп. Это полезно, когда вы тренируетесь с другой скоростью. BPM будет присвоен песне и сохранен.",
     "enterSongBpmHint": "например, 120",
@@ -311,5 +324,63 @@
     "editSong": "Редактировать песню",
     "editSongTitle": "Название",
     "editSongArtist": "Исполнитель",
-    "editSongTitleRequired": "Название не может быть пустым"
+    "editSongTitleRequired": "Название не может быть пустым",
+    "addVideo": "Добавить видео",
+    "importingMedia": "Импорт… Большие файлы могут занять некоторое время.",
+    "importingMediaProgress": "Файл {current} из {total}",
+    "betaLabel": "БЕТА",
+    "backupExportSheetTitle": "Что вы хотите экспортировать?",
+    "backupExportOptionAudios": "Аудиопесни",
+    "backupExportOptionAudiosSubtitle": "Включить аудиофайлы (MP3, WAV, …)",
+    "backupExportOptionVideos": "Видеопесни",
+    "backupExportOptionVideosSubtitle": "Включить видеофайлы (MP4, MOV, …)",
+    "backupExportOptionLoopsAndSettings": "Лупы и настройки песни",
+    "backupExportOptionLoopsAndSettingsSubtitle": "Включить лупы, BPM, порядок сортировки и размер превью видео",
+    "backupExportSheetExport": "Экспорт",
+    "backupExportSheetCancel": "Отмена",
+    "backupExportSheetNoMediaSelected": "Выберите хотя бы аудио или видео.",
+    "backupAndRestore": "Резервное копирование и восстановление",
+    "backupExport": "Экспортировать мою библиотеку",
+    "backupExportSubtitle": "Сохраните все песни и лупы в одном файле, который можно перенести на другое устройство.",
+    "backupImport": "Импортировать резервную копию",
+    "backupImportSubtitle": "Восстановите песни и лупы из ранее экспортированного файла.",
+    "backupProOnly": "Функция Pro",
+    "backupExporting": "Подготовка резервной копии…",
+    "backupImporting": "Импортирование…",
+    "backupExportFailed": "Экспорт не удался: {message}",
+    "@backupExportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportFailed": "Импорт не удался: {message}",
+    "@backupImportFailed": {
+        "placeholders": {
+            "message": { "type": "String" }
+        }
+    },
+    "backupImportMalformed": "Этот файл не является допустимой резервной копией RepeatLab.",
+    "backupImportSchemaTooNew": "Эта резервная копия создана более новой версией RepeatLab. Обновите приложение, чтобы импортировать её.",
+    "backupImportConfirmTitle": "Импортировать резервную копию",
+    "backupImportConfirmMessage": "Эта резервная копия содержит {songCount} песен (экспортировано {exportedAt}).",
+    "@backupImportConfirmMessage": {
+        "placeholders": {
+            "songCount": { "type": "int" },
+            "exportedAt": { "type": "String" }
+        }
+    },
+    "backupImportModeMerge": "Объединить",
+    "backupImportModeMergeDescription": "Добавить новые песни, сохранить существующие.",
+    "backupImportModeReplace": "Заменить",
+    "backupImportModeReplaceDescription": "Удалить всё и импортировать с нуля.",
+    "backupImportReplaceConfirmTitle": "Заменить всю библиотеку?",
+    "backupImportReplaceConfirmMessage": "Все текущие песни и лупы будут безвозвратно удалены перед импортом. Это действие нельзя отменить.",
+    "backupImportSuccess": "Импортировано {imported} песен. {skipped} пропущено, {renamed} переименовано.",
+    "@backupImportSuccess": {
+        "placeholders": {
+            "imported": { "type": "int" },
+            "skipped": { "type": "int" },
+            "renamed": { "type": "int" }
+        }
+    }
 }

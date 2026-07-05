@@ -36,6 +36,15 @@
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data android:name="flutterEmbedding" android:value="2" />
+
+        <!-- Posthog Setup.
+             AUTO_INIT is false so the SDK does NOT capture anything at launch:
+             it is initialized manually from Dart (see lib/main.dart) only after
+             checking GDPR analytics consent. Lifecycle/debug are configured via
+             the Dart PostHogConfig, so the native flags below are no longer used. -->
+        <meta-data android:name="com.posthog.posthog.AUTO_INIT" android:value="false" />
+        <meta-data android:name="com.posthog.posthog.PROJECT_TOKEN" android:value="phc_Bq9ELUiqpUjZM8QvSBR5HXbDbPVzjD2tNdLwy5FkxP4n" />
+        <meta-data android:name="com.posthog.posthog.POSTHOG_HOST" android:value="https://eu.i.posthog.com" />
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

@@ -420,25 +420,33 @@ class AppLocalizationsNl extends AppLocalizations {
   String get changelogTitle => 'Wijzigingen';
 
   @override
+  String get changelog201Title =>
+      'Video\'s loopen en snelheid aanpassen (Beta)';
+
+  @override
+  String get changelog201Description =>
+      'Importeer video\'s en loop ze net zoals audio-nummers - of pas de snelheid aan - perfect om te oefenen met tutorials of live-optredens. Deze functie is momenteel in Beta; stuur me je feedback als je problemen ondervindt.';
+
+  @override
   String get changelog180Title => 'Nummers herordenen';
 
   @override
   String get changelog180Description =>
-      'Organiseer je nummerslijst zoals je wilt — houd een nummer lang ingedrukt en sleep het naar een nieuwe positie. Jouw aangepaste volgorde wordt automatisch opgeslagen.';
+      'Organiseer je nummerslijst zoals je wilt - houd een nummer lang ingedrukt en sleep het naar een nieuwe positie. Jouw aangepaste volgorde wordt automatisch opgeslagen.';
 
   @override
   String get changelog170Title => 'Back up en verplaats je bibliotheek';
 
   @override
   String get changelog170Description =>
-      'Exporteer je hele bibliotheek — nummers, loops en audio — naar een enkel bestand, en herstel het op een ander apparaat met Pro. Kies \'Samenvoegen\' om nieuwe nummers naast je bestaande toe te voegen, of \'Vervangen\' om vanaf nul te beginnen.';
+      'Exporteer je hele bibliotheek - nummers, loops en audio - naar een enkel bestand, en herstel het op een ander apparaat met Pro. Kies \'Samenvoegen\' om nieuwe nummers naast je bestaande toe te voegen, of \'Vervangen\' om vanaf nul te beginnen.';
 
   @override
   String get changelog170LanguageTitle => 'Kies je taal';
 
   @override
   String get changelog170LanguageDescription =>
-      'Wijzig de app-taal via het menu — kies uit 16 ondersteunde talen of volg de systeemstandaard van je apparaat.';
+      'Wijzig de app-taal via het menu - kies uit 16 ondersteunde talen of volg de systeemstandaard van je apparaat.';
 
   @override
   String get changelog1601Title =>
@@ -560,6 +568,11 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
     return 'Het audioformaat \".$format\" wordt niet ondersteund. Ondersteunde formaten: $supportedFormats.';
+  }
+
+  @override
+  String unsupportedVideoFormatError(String format, String supportedFormats) {
+    return 'Het videoformaat \".$format\" wordt niet ondersteund. Ondersteunde formaten: $supportedFormats.';
   }
 
   @override
@@ -690,82 +703,116 @@ class AppLocalizationsNl extends AppLocalizations {
   String get deleteAllDataError => 'Fout bij het verwijderen van alle gegevens';
 
   @override
-  String get backupAndRestore => 'Backup & Restore';
+  String get backupAndRestore => 'Back-up en herstel';
 
   @override
-  String get backupExport => 'Export my library';
+  String get backupExport => 'Mijn bibliotheek exporteren';
 
   @override
   String get backupExportSubtitle =>
-      'Save all songs and loops to a single file you can transfer to another device.';
+      'Sla alle nummers en loops op in één bestand dat je naar een ander apparaat kunt overbrengen.';
 
   @override
-  String get backupImport => 'Import backup';
+  String get backupExportSheetTitle => 'Wat wil je exporteren?';
+
+  @override
+  String get backupExportOptionAudios => 'Audionummers';
+
+  @override
+  String get backupExportOptionAudiosSubtitle =>
+      'Audiobestanden opnemen (MP3, WAV, …)';
+
+  @override
+  String get backupExportOptionVideos => 'Videonummers';
+
+  @override
+  String get backupExportOptionVideosSubtitle =>
+      'Videobestanden opnemen (MP4, MOV, …)';
+
+  @override
+  String get backupExportOptionLoopsAndSettings => 'Loops & nummerinstellingen';
+
+  @override
+  String get backupExportOptionLoopsAndSettingsSubtitle =>
+      'Loops, BPM, sorteervolgorde en videovoorbeeldformaat opnemen';
+
+  @override
+  String get backupExportSheetExport => 'Exporteren';
+
+  @override
+  String get backupExportSheetCancel => 'Annuleren';
+
+  @override
+  String get backupExportSheetNoMediaSelected =>
+      'Selecteer minimaal audio of video.';
+
+  @override
+  String get backupImport => 'Back-up importeren';
 
   @override
   String get backupImportSubtitle =>
-      'Restore songs and loops from a previously exported file.';
+      'Herstel nummers en loops vanuit een eerder geëxporteerd bestand.';
 
   @override
-  String get backupProOnly => 'Pro feature';
+  String get backupProOnly => 'Pro-functie';
 
   @override
-  String get backupExporting => 'Preparing backup…';
+  String get backupExporting => 'Back-up voorbereiden…';
 
   @override
-  String get backupImporting => 'Importing…';
+  String get backupImporting => 'Importeren…';
 
   @override
   String backupExportFailed(String message) {
-    return 'Export failed: $message';
+    return 'Export mislukt: $message';
   }
 
   @override
   String backupImportFailed(String message) {
-    return 'Import failed: $message';
+    return 'Import mislukt: $message';
   }
 
   @override
-  String get backupImportConfirmTitle => 'Import backup';
+  String get backupImportConfirmTitle => 'Back-up importeren';
 
   @override
   String backupImportConfirmMessage(int songCount, String exportedAt) {
-    return 'This backup contains $songCount songs (exported $exportedAt).';
+    return 'Deze back-up bevat $songCount nummers (geëxporteerd op $exportedAt).';
   }
 
   @override
-  String get backupImportModeMerge => 'Merge';
+  String get backupImportModeMerge => 'Samenvoegen';
 
   @override
   String get backupImportModeMergeDescription =>
-      'Add new songs, keep existing ones.';
+      'Nieuwe nummers toevoegen, bestaande bewaren.';
 
   @override
-  String get backupImportModeReplace => 'Replace';
+  String get backupImportModeReplace => 'Vervangen';
 
   @override
   String get backupImportModeReplaceDescription =>
-      'Delete everything and import from scratch.';
+      'Alles verwijderen en opnieuw importeren.';
 
   @override
-  String get backupImportReplaceConfirmTitle => 'Replace entire library?';
+  String get backupImportReplaceConfirmTitle => 'Gehele bibliotheek vervangen?';
 
   @override
   String get backupImportReplaceConfirmMessage =>
-      'This will permanently delete all current songs and loops before importing. This cannot be undone.';
+      'Hiermee worden alle huidige nummers en loops permanent verwijderd vóór het importeren. Dit kan niet ongedaan worden gemaakt.';
 
   @override
   String backupImportSuccess(int imported, int skipped, int renamed) {
-    return 'Imported $imported songs. $skipped skipped, $renamed renamed.';
+    return '$imported nummers geïmporteerd. $skipped overgeslagen, $renamed hernoemd.';
   }
 
   @override
   String get backupImportSchemaTooNew =>
-      'This backup was created by a newer version of RepeatLab. Please update the app to import it.';
+      'Deze back-up is gemaakt met een nieuwere versie van RepeatLab. Werk de app bij om hem te importeren.';
 
   @override
   String get backupImportMalformed =>
-      'This file isn\'t a valid RepeatLab backup.';
+      'Dit bestand is geen geldige RepeatLab-back-up.';
 
   @override
   String get errorOpeningStore =>
@@ -802,7 +849,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get analyticsDescription =>
-      'We gebruiken Microsoft Clarity om gebruiksgegevens te verzamelen en de app te verbeteren. Deze gegevens worden niet gedeeld met derden.';
+      'We gebruiken Microsoft Clarity en PostHog om anonieme gebruiksgegevens te verzamelen en de app te verbeteren. Je gegevens worden in de EU verwerkt en nooit aan derden verkocht.';
 
   @override
   String get enterSongBpm => 'BPM nummer';
@@ -893,4 +940,18 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get editSongTitleRequired => 'Titel mag niet leeg zijn';
+
+  @override
+  String get addVideo => 'Video toevoegen';
+
+  @override
+  String get importingMedia => 'Importeren… Grote bestanden kunnen even duren.';
+
+  @override
+  String importingMediaProgress(int current, int total) {
+    return 'Bestand $current van $total';
+  }
+
+  @override
+  String get betaLabel => 'BETA';
 }

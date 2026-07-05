@@ -31,7 +31,8 @@ enum LoopColor {
   orange(Color(0xFFFF7849)),
   pink(Color(0xFFFF3D81)),
   purple(Color(0xFFC084FC)),
-  yellow(Color(0xFFFFE933));
+  yellow(Color(0xFFFFE933))
+  ;
 
   final Color color;
 
