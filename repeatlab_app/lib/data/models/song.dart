@@ -20,6 +20,11 @@ class Song with SongMappable {
   /// for it.
   final int? bpm;
   final int? currentBpm;
+
+  /// Pitch shift in semitones (-12..+12), 0 = original pitch. Persisted per
+  /// song and reapplied on open (unlike speed, which resets to 1.0). Defaults
+  /// to 0 so existing sembast records decode without a migration.
+  final int pitchSemitones;
   final List<Loop> loops;
   final LoopSort loopSort;
   final int sortOrder;
@@ -42,6 +47,7 @@ class Song with SongMappable {
     required this.duration,
     this.bpm,
     this.currentBpm,
+    this.pitchSemitones = 0,
     this.loops = const [],
     this.loopSort = LoopSort.none,
     this.sortOrder = 0,

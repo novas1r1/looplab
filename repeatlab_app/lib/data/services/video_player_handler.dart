@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:developer';
+import 'dart:math' show pow;
 
 import 'package:audioplayers/audioplayers.dart' show PlayerState;
 import 'package:flutter/foundation.dart';
@@ -32,6 +33,9 @@ class VideoPlayerHandler implements MediaPlayerHandler {
   static const double _minPlaybackSpeed = 0.5;
   static const double _maxPlaybackSpeed = 2.0;
 
+  static const int _minPitchSemitones = -12;
+  static const int _maxPitchSemitones = 12;
+
   /// Double-tap detection threshold for skip previous, mirroring the audio
   /// handler's behavior.
   static const Duration _doubleTapThreshold = Duration(milliseconds: 400);
@@ -42,6 +46,7 @@ class VideoPlayerHandler implements MediaPlayerHandler {
   bool _fullSongRepeatEnabled = false;
 
   double _playbackSpeed = 1.0;
+  int _pitchSemitones = 0;
   bool _loopSeekInProgress = false;
 
   DateTime? _lastSkipPreviousTime;
@@ -68,6 +73,10 @@ class VideoPlayerHandler implements MediaPlayerHandler {
   /// Current internal playback speed (mirrors the audio handler API).
   @override
   double get currentPlaybackSpeed => _playbackSpeed;
+
+  /// Currently applied pitch shift in semitones (mirrors the audio handler).
+  @override
+  int get currentPitchSemitones => _pitchSemitones;
 
   bool get isFullSongRepeatEnabled => _fullSongRepeatEnabled;
 
@@ -142,6 +151,7 @@ class VideoPlayerHandler implements MediaPlayerHandler {
   Future<void> playSong(Song song, {bool autoStart = true}) async {
     final path = await song.path;
     _playbackSpeed = 1.0;
+    _pitchSemitones = 0;
 
     // iOS's bundled libmpv won't reliably open a bare POSIX path like
     // /var/mobile/.../Documents/foo.mp4 (Android's tolerates it). Hand it a
@@ -161,6 +171,7 @@ class VideoPlayerHandler implements MediaPlayerHandler {
         await player.pause();
       }
       await player.setRate(_playbackSpeed);
+      await player.setPitch(1);
     } catch (e, stack) {
       log('VideoPlayerHandler.playSong failed: $e\n$stack');
       _emitPlayerState(PlayerState.stopped);
@@ -216,6 +227,19 @@ class VideoPlayerHandler implements MediaPlayerHandler {
       return true;
     } catch (e) {
       log('VideoPlayerHandler.setSpeed failed: $e');
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> setPitchSemitones(int semitones) async {
+    final target = semitones.clamp(_minPitchSemitones, _maxPitchSemitones);
+    try {
+      await player.setPitch(pow(2.0, target / 12.0).toDouble());
+      _pitchSemitones = target;
+      return true;
+    } catch (e) {
+      log('VideoPlayerHandler.setPitchSemitones failed: $e');
       return false;
     }
   }
@@ -359,13 +383,9 @@ class VideoPlayerHandler implements MediaPlayerHandler {
         await disableLoopMode();
         return;
       case 'setPitch':
-        final pitch = extras?['pitch'] as double?;
-        if (pitch != null) {
-          try {
-            await player.setPitch(pitch);
-          } catch (e) {
-            log('VideoPlayerHandler.setPitch failed: $e');
-          }
+        final semitones = extras?['semitones'] as int?;
+        if (semitones != null) {
+          await setPitchSemitones(semitones);
         }
         return;
       case 'setLoops':

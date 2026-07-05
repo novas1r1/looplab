@@ -26,6 +26,10 @@ List<RepeatLabFeature> getPremiumFeatures(
     isPremium: true,
   ),
   RepeatLabFeature(
+    title: translator.premiumFeaturePitchControl,
+    isPremium: true,
+  ),
+  RepeatLabFeature(
     title: translator.premiumFeatureZoomInOut,
     isPremium: true,
   ),

@@ -194,6 +194,13 @@ class SongMapper extends ClassMapperBase<Song> {
     _$currentBpm,
     opt: true,
   );
+  static int _$pitchSemitones(Song v) => v.pitchSemitones;
+  static const Field<Song, int> _f$pitchSemitones = Field(
+    'pitchSemitones',
+    _$pitchSemitones,
+    opt: true,
+    def: 0,
+  );
   static List<Loop> _$loops(Song v) => v.loops;
   static const Field<Song, List<Loop>> _f$loops = Field(
     'loops',
@@ -239,6 +246,7 @@ class SongMapper extends ClassMapperBase<Song> {
     #duration: _f$duration,
     #bpm: _f$bpm,
     #currentBpm: _f$currentBpm,
+    #pitchSemitones: _f$pitchSemitones,
     #loops: _f$loops,
     #loopSort: _f$loopSort,
     #sortOrder: _f$sortOrder,
@@ -255,6 +263,7 @@ class SongMapper extends ClassMapperBase<Song> {
       duration: data.dec(_f$duration),
       bpm: data.dec(_f$bpm),
       currentBpm: data.dec(_f$currentBpm),
+      pitchSemitones: data.dec(_f$pitchSemitones),
       loops: data.dec(_f$loops),
       loopSort: data.dec(_f$loopSort),
       sortOrder: data.dec(_f$sortOrder),
@@ -318,6 +327,7 @@ abstract class SongCopyWith<$R, $In extends Song, $Out>
     Duration? duration,
     int? bpm,
     int? currentBpm,
+    int? pitchSemitones,
     List<Loop>? loops,
     LoopSort? loopSort,
     int? sortOrder,
@@ -349,6 +359,7 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
     Duration? duration,
     Object? bpm = $none,
     Object? currentBpm = $none,
+    int? pitchSemitones,
     List<Loop>? loops,
     LoopSort? loopSort,
     int? sortOrder,
@@ -363,6 +374,7 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
       if (duration != null) #duration: duration,
       if (bpm != $none) #bpm: bpm,
       if (currentBpm != $none) #currentBpm: currentBpm,
+      if (pitchSemitones != null) #pitchSemitones: pitchSemitones,
       if (loops != null) #loops: loops,
       if (loopSort != null) #loopSort: loopSort,
       if (sortOrder != null) #sortOrder: sortOrder,
@@ -379,6 +391,7 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
     duration: data.get(#duration, or: $value.duration),
     bpm: data.get(#bpm, or: $value.bpm),
     currentBpm: data.get(#currentBpm, or: $value.currentBpm),
+    pitchSemitones: data.get(#pitchSemitones, or: $value.pitchSemitones),
     loops: data.get(#loops, or: $value.loops),
     loopSort: data.get(#loopSort, or: $value.loopSort),
     sortOrder: data.get(#sortOrder, or: $value.sortOrder),

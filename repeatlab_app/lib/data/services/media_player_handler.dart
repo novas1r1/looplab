@@ -27,6 +27,11 @@ abstract class MediaPlayerHandler {
   Future<void> seek(Duration position);
   Future<bool> setSpeed(double speed);
 
+  /// Applies a pitch shift in semitones (-12..+12), independent of speed.
+  /// Returns false if the platform rejected the change (the caller should
+  /// revert its state from [currentPitchSemitones]).
+  Future<bool> setPitchSemitones(int semitones);
+
   Future<void> forward(int seconds, Loop? loop);
   Future<void> back(int seconds, Loop? loop);
 
@@ -56,6 +61,9 @@ abstract class MediaPlayerHandler {
   Stream<LoopNavigationEvent> get navigationEvents;
 
   double get currentPlaybackSpeed;
+
+  /// Currently applied pitch shift in semitones (0 = original pitch).
+  int get currentPitchSemitones;
 
   Future<void> close();
 }
