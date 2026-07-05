@@ -347,6 +347,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Use your fingers to drag and drop the whole song to the left or right and zoom in/out for better precision';
 
   @override
+  String get tutorialVideoPreview => 'Watch the video and adjust its size';
+
+  @override
+  String get tutorialVideoPreviewDescription =>
+      'Use the + and − buttons to resize the video. To navigate through the video, use the timeline and controls below';
+
+  @override
   String get tutorialPlayAndPauseSong =>
       'Play, pause or change the speed of the song';
 
@@ -420,6 +427,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get changelogTitle => 'Changelog';
+
+  @override
+  String get changelog2101Title => 'Pitch shift (Beta)';
+
+  @override
+  String get changelog2101Description =>
+      'Change the pitch of your songs in semitones without affecting the speed - perfect for transposing a song to a different key or matching your instrument\'s tuning. This feature is currently in Beta; please send me your feedback if you run into any issues.';
+
+  @override
+  String get changelog2102Title => 'Import multiple files at once';
+
+  @override
+  String get changelog2102Description =>
+      'You can now select and import multiple audio files in one go. A progress indicator keeps you updated while your songs are being added.';
+
+  @override
+  String get changelog2103Title => 'Bug fixes and stability improvements';
+
+  @override
+  String get changelog2103Description =>
+      'Several bugs were fixed and the overall stability and performance of the app improved.';
 
   @override
   String get changelog201Title => 'Loop and speed-change videos (Beta)';

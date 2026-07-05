@@ -208,8 +208,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
     final localConfig = context.read<LocalConfigRepository>();
 
     // Apply consent FIRST so PostHog is opted in before we emit the onboarding
-    // funnel events. Otherwise they're captured while still opted out (the
-    // default until consent) and silently dropped for every new user.
+    // funnel events. setAnalyticsEnabled also settles the pre-consent buffer:
+    // on opt-in it flushes view_onboarding/onboarding_started (held in memory
+    // by AppAnalytics until now), on decline it discards them.
     await localConfig.setIntroShown(wasShown: true);
     await localConfig.setAnalyticsEnabled(isEnabled: _analyticsAccepted);
 

@@ -332,6 +332,13 @@ class AppLocalizationsZh extends AppLocalizations {
       '使用手指左右拖动整个歌曲，并缩放以获得更好的精确度';
 
   @override
+  String get tutorialVideoPreview => '观看视频并调整其大小';
+
+  @override
+  String get tutorialVideoPreviewDescription =>
+      '使用 + 和 − 按钮调整视频大小。要在视频中导航，请使用下方的时间轴和控制按钮';
+
+  @override
   String get tutorialPlayAndPauseSong => '播放、暂停或改变歌曲速度';
 
   @override
@@ -399,6 +406,26 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get changelogTitle => '更新日志';
+
+  @override
+  String get changelog2101Title => '音高调整（Beta）';
+
+  @override
+  String get changelog2101Description =>
+      '以半音为单位改变歌曲的音高而不影响速度 - 非常适合将歌曲移调到其他调性，或匹配你乐器的调音。此功能目前处于 Beta 阶段；如遇到问题，请把你的反馈发给我。';
+
+  @override
+  String get changelog2102Title => '一次导入多个文件';
+
+  @override
+  String get changelog2102Description =>
+      '现在你可以一次选择并导入多个音频文件。添加歌曲时，进度指示器会随时显示进度。';
+
+  @override
+  String get changelog2103Title => '错误修复与稳定性改进';
+
+  @override
+  String get changelog2103Description => '修复了多个错误，并提升了应用的整体稳定性和性能。';
 
   @override
   String get changelog201Title => '视频循环与速度调节（Beta）';

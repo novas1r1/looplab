@@ -346,6 +346,14 @@ class AppLocalizationsDe extends AppLocalizations {
       'Verwende deine Finger, um den gesamten Song nach links oder rechts zu ziehen und zu zoomen, um eine bessere Präzision zu erhalten';
 
   @override
+  String get tutorialVideoPreview =>
+      'Sieh dir das Video an und passe die Größe an';
+
+  @override
+  String get tutorialVideoPreviewDescription =>
+      'Verwende die Buttons + und −, um die Videogröße zu ändern. Zum Navigieren durch das Video nutze die Timeline und die Steuerelemente darunter';
+
+  @override
   String get tutorialPlayAndPauseSong =>
       'Starte, pausiere oder ändere die Geschwindigkeit des Songs';
 
@@ -421,6 +429,28 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get changelogTitle => 'Changelog';
+
+  @override
+  String get changelog2101Title => 'Tonhöhe ändern (Beta)';
+
+  @override
+  String get changelog2101Description =>
+      'Ändere die Tonhöhe deiner Songs in Halbtönen, ohne die Geschwindigkeit zu beeinflussen - perfekt, um einen Song in eine andere Tonart zu transponieren oder an die Stimmung deines Instruments anzupassen. Diese Funktion ist aktuell in der Beta; bitte schicke mir dein Feedback, wenn du auf Probleme stößt.';
+
+  @override
+  String get changelog2102Title => 'Mehrere Dateien gleichzeitig importieren';
+
+  @override
+  String get changelog2102Description =>
+      'Du kannst jetzt mehrere Audiodateien auf einmal auswählen und importieren. Eine Fortschrittsanzeige hält dich auf dem Laufenden, während deine Songs hinzugefügt werden.';
+
+  @override
+  String get changelog2103Title =>
+      'Fehlerbehebungen und Stabilitätsverbesserungen';
+
+  @override
+  String get changelog2103Description =>
+      'Mehrere Fehler wurden behoben und die allgemeine Stabilität und Performance der App verbessert.';
 
   @override
   String get changelog201Title =>

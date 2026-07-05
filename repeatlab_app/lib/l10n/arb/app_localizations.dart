@@ -732,6 +732,18 @@ abstract class AppLocalizations {
   /// **'Use your fingers to drag and drop the whole song to the left or right and zoom in/out for better precision'**
   String get tutorialNavigateThroughSongDescription;
 
+  /// No description provided for @tutorialVideoPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch the video and adjust its size'**
+  String get tutorialVideoPreview;
+
+  /// No description provided for @tutorialVideoPreviewDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the + and − buttons to resize the video. To navigate through the video, use the timeline and controls below'**
+  String get tutorialVideoPreviewDescription;
+
   /// No description provided for @tutorialPlayAndPauseSong.
   ///
   /// In en, this message translates to:
@@ -857,6 +869,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Changelog'**
   String get changelogTitle;
+
+  /// Changelog entry title for the 2.1.0 pitch shift feature
+  ///
+  /// In en, this message translates to:
+  /// **'Pitch shift (Beta)'**
+  String get changelog2101Title;
+
+  /// Changelog entry description for the 2.1.0 pitch shift feature
+  ///
+  /// In en, this message translates to:
+  /// **'Change the pitch of your songs in semitones without affecting the speed - perfect for transposing a song to a different key or matching your instrument\'s tuning. This feature is currently in Beta; please send me your feedback if you run into any issues.'**
+  String get changelog2101Description;
+
+  /// Changelog entry title for the 2.1.0 multi-file import feature
+  ///
+  /// In en, this message translates to:
+  /// **'Import multiple files at once'**
+  String get changelog2102Title;
+
+  /// Changelog entry description for the 2.1.0 multi-file import feature
+  ///
+  /// In en, this message translates to:
+  /// **'You can now select and import multiple audio files in one go. A progress indicator keeps you updated while your songs are being added.'**
+  String get changelog2102Description;
+
+  /// Changelog entry title for the 2.1.0 bug fixes
+  ///
+  /// In en, this message translates to:
+  /// **'Bug fixes and stability improvements'**
+  String get changelog2103Title;
+
+  /// Changelog entry description for the 2.1.0 bug fixes
+  ///
+  /// In en, this message translates to:
+  /// **'Several bugs were fixed and the overall stability and performance of the app improved.'**
+  String get changelog2103Description;
 
   /// Changelog entry title for the 2.0.1 video support feature
   ///

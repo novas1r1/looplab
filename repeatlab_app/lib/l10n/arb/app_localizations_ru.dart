@@ -349,6 +349,13 @@ class AppLocalizationsRu extends AppLocalizations {
       'Используйте пальцы для перетаскивания всей песни влево или вправо и масштабирования для лучшей точности';
 
   @override
+  String get tutorialVideoPreview => 'Смотрите видео и настраивайте его размер';
+
+  @override
+  String get tutorialVideoPreviewDescription =>
+      'Используйте кнопки + и −, чтобы изменить размер видео. Для навигации по видео используйте таймлайн и элементы управления ниже';
+
+  @override
   String get tutorialPlayAndPauseSong =>
       'Воспроизведение, пауза или изменение скорости песни';
 
@@ -423,6 +430,28 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get changelogTitle => 'Изменения';
+
+  @override
+  String get changelog2101Title => 'Изменение тональности (Beta)';
+
+  @override
+  String get changelog2101Description =>
+      'Изменяй тональность песен по полутонам, не влияя на скорость - идеально, чтобы транспонировать песню в другую тональность или подстроиться под строй твоего инструмента. Функция сейчас в стадии бета-тестирования; отправь мне свой отзыв, если столкнёшься с проблемами.';
+
+  @override
+  String get changelog2102Title => 'Импорт нескольких файлов сразу';
+
+  @override
+  String get changelog2102Description =>
+      'Теперь можно выбрать и импортировать несколько аудиофайлов за один раз. Индикатор прогресса держит вас в курсе, пока добавляются ваши песни.';
+
+  @override
+  String get changelog2103Title =>
+      'Исправления ошибок и улучшения стабильности';
+
+  @override
+  String get changelog2103Description =>
+      'Исправлено несколько ошибок, улучшены общая стабильность и производительность приложения.';
 
   @override
   String get changelog201Title => 'Лупы для видео и изменение скорости (Beta)';

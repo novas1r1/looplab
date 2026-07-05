@@ -236,7 +236,19 @@ class SongRepository {
       throw UnsupportedVideoFormatException(extension);
     }
 
+    final sizeBytes = await file.exists() ? await file.length() : -1;
+    final stopwatch = Stopwatch()..start();
+    log(
+      'addVideoFile start: "$fileName" ($sizeBytes bytes)',
+      name: 'ImportTiming',
+    );
+
     final duration = await _probeVideoDuration(file);
+    log(
+      'Duration probe finished ($duration) '
+      'after ${stopwatch.elapsedMilliseconds} ms',
+      name: 'ImportTiming',
+    );
     if (duration == null || duration <= Duration.zero) {
       throw UnsupportedVideoFormatException(extension);
     }
@@ -250,6 +262,10 @@ class SongRepository {
     } on Exception catch (ex) {
       log('Metadata read failed for video: $ex');
     }
+    log(
+      'Metadata read finished after ${stopwatch.elapsedMilliseconds} ms',
+      name: 'ImportTiming',
+    );
 
     final song = Song(
       id: const Uuid().v4(),
@@ -264,6 +280,10 @@ class SongRepository {
     await incrementExistingSortOrders();
     await _store.add(db, song.toMap());
     await getAllSongs();
+    log(
+      'addVideoFile finished after ${stopwatch.elapsedMilliseconds} ms',
+      name: 'ImportTiming',
+    );
   }
 
   /// Probe video duration by briefly opening the file with media_kit. Returns
@@ -271,8 +291,18 @@ class SongRepository {
   /// ~100–500 ms one-time at import; acceptable for a non-hot path.
   Future<Duration?> _probeVideoDuration(File file) async {
     final probe = Player();
+    final stopwatch = Stopwatch()..start();
     try {
-      await probe.open(Media(file.path), play: false);
+      log('Probe open start: ${file.path}', name: 'ImportTiming');
+      // open() itself can hang on files libmpv struggles with — cap it so a
+      // broken file fails the import instead of freezing it forever.
+      await probe
+          .open(Media(file.path), play: false)
+          .timeout(const Duration(seconds: 15));
+      log(
+        'Probe open done after ${stopwatch.elapsedMilliseconds} ms',
+        name: 'ImportTiming',
+      );
       // Wait for libmpv to report a non-zero duration. Bail after 5s to avoid
       // hanging on truly broken files.
       final duration = await probe.stream.duration
@@ -282,11 +312,26 @@ class SongRepository {
             onTimeout: () => Duration.zero,
           );
       return duration > Duration.zero ? duration : null;
+    } on TimeoutException {
+      log(
+        'Probe open timed out after ${stopwatch.elapsedMilliseconds} ms — '
+        'treating file as unreadable',
+        name: 'ImportTiming',
+      );
+      return null;
     } on Exception catch (ex) {
       log('Failed to probe video duration: $ex', name: 'AddVideoFile');
       return null;
     } finally {
-      await probe.dispose();
+      // Not awaited: if open() hung, dispose() can hang on the same lock and
+      // would freeze the import again.
+      unawaited(
+        probe.dispose().timeout(const Duration(seconds: 5)).catchError((
+          Object ex,
+        ) {
+          log('Probe dispose failed: $ex', name: 'ImportTiming');
+        }),
+      );
     }
   }
 

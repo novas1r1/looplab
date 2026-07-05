@@ -347,6 +347,13 @@ class AppLocalizationsNl extends AppLocalizations {
       'Gebruik je vingers om het hele nummer naar links of rechts te slepen en zoom voor betere precisie';
 
   @override
+  String get tutorialVideoPreview => 'Bekijk de video en pas de grootte aan';
+
+  @override
+  String get tutorialVideoPreviewDescription =>
+      'Gebruik de knoppen + en − om de videogrootte aan te passen. Gebruik de tijdlijn en de bediening hieronder om door de video te navigeren';
+
+  @override
   String get tutorialPlayAndPauseSong =>
       'Speel, pauzeer of verander de snelheid van het nummer';
 
@@ -421,6 +428,27 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get changelogTitle => 'Wijzigingen';
+
+  @override
+  String get changelog2101Title => 'Toonhoogte wijzigen (Beta)';
+
+  @override
+  String get changelog2101Description =>
+      'Wijzig de toonhoogte van je nummers in halve tonen zonder de snelheid te beïnvloeden - perfect om een nummer naar een andere toonsoort te transponeren of aan de stemming van je instrument aan te passen. Deze functie is momenteel in Beta; stuur me je feedback als je problemen tegenkomt.';
+
+  @override
+  String get changelog2102Title => 'Meerdere bestanden tegelijk importeren';
+
+  @override
+  String get changelog2102Description =>
+      'Je kunt nu meerdere audiobestanden in één keer selecteren en importeren. Een voortgangsindicator houdt je op de hoogte terwijl je nummers worden toegevoegd.';
+
+  @override
+  String get changelog2103Title => 'Bugfixes en stabiliteitsverbeteringen';
+
+  @override
+  String get changelog2103Description =>
+      'Verschillende bugs zijn opgelost en de algemene stabiliteit en prestaties van de app zijn verbeterd.';
 
   @override
   String get changelog201Title =>

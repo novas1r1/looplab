@@ -336,6 +336,13 @@ class AppLocalizationsKo extends AppLocalizations {
       '손가락으로 곡 전체를 좌우로 드래그하고 확대/축소하여 정확도를 높일 수 있습니다';
 
   @override
+  String get tutorialVideoPreview => '동영상을 보고 크기를 조절하세요';
+
+  @override
+  String get tutorialVideoPreviewDescription =>
+      '+ 및 − 버튼으로 동영상 크기를 조절할 수 있습니다. 동영상을 탐색하려면 아래의 타임라인과 컨트롤을 사용하세요';
+
+  @override
   String get tutorialPlayAndPauseSong => '곡 재생, 일시 정지 또는 속도 변경';
 
   @override
@@ -405,6 +412,26 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get changelogTitle => '변경 사항';
+
+  @override
+  String get changelog2101Title => '음정 조절 (Beta)';
+
+  @override
+  String get changelog2101Description =>
+      '속도에 영향을 주지 않고 곡의 음정을 반음 단위로 변경하세요 - 곡을 다른 조로 이조하거나 악기의 튜닝에 맞추기에 완벽합니다. 이 기능은 현재 베타 버전입니다. 문제가 생기면 피드백을 보내주세요.';
+
+  @override
+  String get changelog2102Title => '여러 파일 한 번에 가져오기';
+
+  @override
+  String get changelog2102Description =>
+      '이제 여러 오디오 파일을 한 번에 선택하여 가져올 수 있습니다. 곡이 추가되는 동안 진행률 표시기가 상태를 알려줍니다.';
+
+  @override
+  String get changelog2103Title => '버그 수정 및 안정성 개선';
+
+  @override
+  String get changelog2103Description => '여러 버그를 수정하고 앱의 전반적인 안정성과 성능을 개선했습니다.';
 
   @override
   String get changelog201Title => '동영상 루프 및 속도 변경 (Beta)';

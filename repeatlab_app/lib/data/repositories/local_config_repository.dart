@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:clarity_flutter/clarity_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:posthog_flutter/posthog_flutter.dart';
+import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/repositories/purchases_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -62,6 +63,11 @@ class LocalConfigRepository {
       Clarity.pause();
       await Posthog().disable();
     }
+
+    // After the SDK opt-in/out is applied: on grant this flushes events
+    // buffered before the consent decision (e.g. onboarding_started); on
+    // denial it discards them.
+    AppAnalytics.onConsentDecision(granted: isEnabled);
 
     // Keep RevenueCat's server-side PostHog identity in sync with consent, so
     // rc_* purchase events either link to the same person (opt-in) or fall back

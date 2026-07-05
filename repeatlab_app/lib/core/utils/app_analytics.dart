@@ -4,8 +4,84 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:posthog_flutter/posthog_flutter.dart';
 
+/// Consent lifecycle for analytics. Before the user decides (onboarding not
+/// finished), events are buffered in memory only — nothing is persisted or
+/// transmitted. On grant the buffer is flushed to PostHog; on denial it is
+/// discarded.
+enum _ConsentState { undecided, granted, denied }
+
+class _BufferedEvent {
+  final String event;
+  final Map<String, dynamic>? data;
+  final DateTime timestamp;
+
+  _BufferedEvent(this.event, this.data) : timestamp = DateTime.now().toUtc();
+}
+
 abstract final class AppAnalytics {
   const AppAnalytics._();
+
+  /// Pre-consent events are held in memory only (GDPR: no processing before
+  /// consent — buffered data never leaves the device and dies with the
+  /// process). Bounded so a stuck onboarding can't grow it unchecked.
+  static const int _maxBufferedEvents = 50;
+  static final List<_BufferedEvent> _buffer = [];
+  static _ConsentState _consentState = _ConsentState.undecided;
+
+  /// Unit tests run in debug mode without a native PostHog implementation:
+  /// [bypassDebugGuardForTesting] disables the kDebugMode early-return and
+  /// [captureOverrideForTesting] replaces the PostHog capture call.
+  @visibleForTesting
+  static bool bypassDebugGuardForTesting = false;
+
+  @visibleForTesting
+  static Future<void> Function(
+    String eventName,
+    Map<String, Object>? properties,
+  )?
+  captureOverrideForTesting;
+
+  @visibleForTesting
+  static void resetForTesting() {
+    _consentState = _ConsentState.undecided;
+    _buffer.clear();
+    bypassDebugGuardForTesting = false;
+    captureOverrideForTesting = null;
+  }
+
+  /// Restores the consent state on app start.
+  ///
+  /// [consentDecided] is whether the user has already made a consent choice
+  /// (onboarding finished) — if not, events are buffered until
+  /// [onConsentDecision] runs. Buffering only ever happens during the first
+  /// onboarding; on later runs the stored decision applies immediately.
+  static void init({required bool consented, required bool consentDecided}) {
+    _consentState = consented
+        ? _ConsentState.granted
+        : (consentDecided ? _ConsentState.denied : _ConsentState.undecided);
+  }
+
+  /// Applies the user's consent choice. Call after PostHog itself has been
+  /// enabled/disabled so flushed events aren't dropped by the SDK's opt-out.
+  ///
+  /// Grant: flushes all buffered pre-consent events (in order, tagged with
+  /// their original timestamp). Denial: discards the buffer.
+  static void onConsentDecision({required bool granted}) {
+    if (granted) {
+      _consentState = _ConsentState.granted;
+      for (final buffered in _buffer) {
+        _capture(buffered.event, {
+          ...?buffered.data,
+          'original_timestamp': buffered.timestamp.toIso8601String(),
+        });
+      }
+      _buffer.clear();
+    } else {
+      _consentState = _ConsentState.denied;
+      _buffer.clear();
+    }
+  }
+
   // screens
   static const viewHome = 'view_home';
   static const viewSong = 'view_song';
@@ -132,16 +208,34 @@ abstract final class AppAnalytics {
     Map<String, dynamic>? data,
   }) {
     log('ANALYTICS: $event, data: $data');
-    if (kDebugMode) return;
+    if (kDebugMode && !bypassDebugGuardForTesting) return;
 
+    switch (_consentState) {
+      case _ConsentState.undecided:
+        // No consent decision yet (mid-onboarding): hold in memory so the
+        // pre-consent funnel steps survive until the user opts in.
+        if (_buffer.length < _maxBufferedEvents) {
+          _buffer.add(_BufferedEvent(event, data));
+        }
+      case _ConsentState.denied:
+        // The SDK is opted out and would drop this anyway; skip the call.
+        return;
+      case _ConsentState.granted:
+        _capture(event, data);
+    }
+  }
+
+  static void _capture(String event, Map<String, dynamic>? data) {
     // Run inside a guarded zone so any sync OR async failure inside the
     // analytics SDK can never bubble up into the user-facing call site.
     runZonedGuarded(
       () {
-        final future = Posthog().capture(
-          eventName: event,
-          properties: _toProperties(data),
-        );
+        final future =
+            captureOverrideForTesting?.call(event, _toProperties(data)) ??
+            Posthog().capture(
+              eventName: event,
+              properties: _toProperties(data),
+            );
         unawaited(
           future.catchError(
             (Object error, StackTrace stack) {

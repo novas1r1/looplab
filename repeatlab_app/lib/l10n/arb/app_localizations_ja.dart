@@ -337,6 +337,13 @@ class AppLocalizationsJa extends AppLocalizations {
       '指を使って曲全体を左右にドラッグし、ズームイン/アウトして精度を向上させることができます';
 
   @override
+  String get tutorialVideoPreview => '動画を見てサイズを調整';
+
+  @override
+  String get tutorialVideoPreviewDescription =>
+      '＋と−のボタンで動画のサイズを変更できます。動画内を移動するには、下のタイムラインとコントロールを使用してください';
+
+  @override
   String get tutorialPlayAndPauseSong => '曲の再生、一時停止、速度変更';
 
   @override
@@ -406,6 +413,26 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get changelogTitle => '変更履歴';
+
+  @override
+  String get changelog2101Title => 'ピッチシフト（Beta）';
+
+  @override
+  String get changelog2101Description =>
+      '速度を変えずに曲のピッチを半音単位で変更できます - 曲を別のキーに移調したり、楽器のチューニングに合わせたりするのに最適です。この機能は現在ベータ版です。問題があればフィードバックを送ってください。';
+
+  @override
+  String get changelog2102Title => '複数ファイルの一括インポート';
+
+  @override
+  String get changelog2102Description =>
+      '複数のオーディオファイルを一度に選択してインポートできるようになりました。曲の追加中は進行状況インジケーターで状況を確認できます。';
+
+  @override
+  String get changelog2103Title => 'バグ修正と安定性の向上';
+
+  @override
+  String get changelog2103Description => '複数のバグを修正し、アプリ全体の安定性とパフォーマンスを改善しました。';
 
   @override
   String get changelog201Title => '動画をループして速度変更（Beta）';

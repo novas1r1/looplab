@@ -22,6 +22,7 @@ class FakeFilePickerWrapper extends FilePickerWrapper {
     required FileType type,
     List<String>? allowedExtensions,
     bool allowMultiple = false,
+    Function(FilePickerStatus)? onFileLoading,
   }) async {
     final file = fileToReturn;
     if (file == null) return null;

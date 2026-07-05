@@ -40,7 +40,9 @@
       "Read(//c/Development/repeatlab/**)",
       "Bash(ls -la packages/)",
       "Bash(ls -la packages/audioplayers/)",
-      "PowerShell(fvm dart *)"
+      "PowerShell(fvm dart *)",
+      "Bash(grep -iE \"page|view|cubit\\\\.dart$\")",
+      "mcp__plugin_posthog_posthog__exec"
     ]
   }
 }

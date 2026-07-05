@@ -348,6 +348,13 @@ class AppLocalizationsTr extends AppLocalizations {
       'Daha iyi hassasiyet için parmaklarınızla tüm şarkıyı sola veya sağa sürükleyin ve yakınlaştırın/uzaklaştırın';
 
   @override
+  String get tutorialVideoPreview => 'Videoyu izleyin ve boyutunu ayarlayın';
+
+  @override
+  String get tutorialVideoPreviewDescription =>
+      'Videoyu yeniden boyutlandırmak için + ve − düğmelerini kullanın. Videoda gezinmek için aşağıdaki zaman çizelgesini ve kontrolleri kullanın';
+
+  @override
   String get tutorialPlayAndPauseSong => 'Şarkıyı çal ve duraklat';
 
   @override
@@ -421,6 +428,28 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get changelogTitle => 'Değişiklik Günlüğü';
+
+  @override
+  String get changelog2101Title => 'Perde kaydırma (Beta)';
+
+  @override
+  String get changelog2101Description =>
+      'Şarkılarının perdesini hızı etkilemeden yarım tonlar halinde değiştir - bir şarkıyı başka bir tona aktarmak veya enstrümanının akorduna uydurmak için mükemmel. Bu özellik şu an Beta aşamasında; sorunla karşılaşırsan bana geri bildirimini gönder.';
+
+  @override
+  String get changelog2102Title => 'Birden fazla dosyayı aynı anda içe aktarın';
+
+  @override
+  String get changelog2102Description =>
+      'Artık birden fazla ses dosyasını tek seferde seçip içe aktarabilirsiniz. Şarkılarınız eklenirken bir ilerleme göstergesi sizi bilgilendirir.';
+
+  @override
+  String get changelog2103Title =>
+      'Hata düzeltmeleri ve kararlılık iyileştirmeleri';
+
+  @override
+  String get changelog2103Description =>
+      'Birkaç hata düzeltildi, uygulamanın genel kararlılığı ve performansı iyileştirildi.';
 
   @override
   String get changelog201Title => 'Videoları döngüye al ve hız değiştir (Beta)';

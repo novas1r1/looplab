@@ -347,6 +347,13 @@ class AppLocalizationsAr extends AppLocalizations {
       'استخدم أصابعك لسحب الأغنية بأكملها إلى اليسار أو اليمين والتكبير/التصغير للحصول على دقة أفضل';
 
   @override
+  String get tutorialVideoPreview => 'شاهد الفيديو واضبط حجمه';
+
+  @override
+  String get tutorialVideoPreviewDescription =>
+      'استخدم زري + و − لتغيير حجم الفيديو. للتنقل عبر الفيديو، استخدم الخط الزمني وعناصر التحكم أدناه';
+
+  @override
   String get tutorialPlayAndPauseSong =>
       'تشغيل وإيقاف مؤقت وتغيير سرعة الأغنية';
 
@@ -419,6 +426,27 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get changelogTitle => 'سجل التغييرات';
+
+  @override
+  String get changelog2101Title => 'تغيير طبقة الصوت (Beta)';
+
+  @override
+  String get changelog2101Description =>
+      'غيّر طبقة صوت أغانيك بأنصاف النغمات دون التأثير على السرعة - مثالي لنقل الأغنية إلى مقام آخر أو لمطابقة دوزان آلتك الموسيقية. هذه الميزة حاليًا في مرحلة تجريبية؛ يرجى إرسال ملاحظاتك إليّ إذا واجهت أي مشاكل.';
+
+  @override
+  String get changelog2102Title => 'استيراد عدة ملفات دفعة واحدة';
+
+  @override
+  String get changelog2102Description =>
+      'يمكنك الآن تحديد واستيراد عدة ملفات صوتية دفعة واحدة. يُبقيك مؤشر التقدم على اطلاع أثناء إضافة أغانيك.';
+
+  @override
+  String get changelog2103Title => 'إصلاحات للأخطاء وتحسينات في الاستقرار';
+
+  @override
+  String get changelog2103Description =>
+      'تم إصلاح العديد من الأخطاء وتحسين الاستقرار العام وأداء التطبيق.';
 
   @override
   String get changelog201Title =>

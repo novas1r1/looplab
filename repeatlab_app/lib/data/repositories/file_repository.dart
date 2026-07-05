@@ -47,6 +47,7 @@ class FileRepository {
             'aiff',
           ],
           allowMultiple: true,
+          onFileLoading: _logPickerStatus,
         );
         // this only shows files in mediathek
         // result = await filePicker.pickFiles(
@@ -60,6 +61,7 @@ class FileRepository {
         return await filePicker.pickFiles(
           type: FileType.audio,
           allowMultiple: true,
+          onFileLoading: _logPickerStatus,
         );
 
         /* result = await filePicker.pickFiles(
@@ -93,12 +95,14 @@ class FileRepository {
           type: FileType.custom,
           allowedExtensions: SongRepository.videoPickerExtensionsIos,
           allowMultiple: true,
+          onFileLoading: _logPickerStatus,
         );
       }
       try {
         return await filePicker.pickFiles(
           type: FileType.video,
           allowMultiple: true,
+          onFileLoading: _logPickerStatus,
         );
       } on PlatformException catch (e) {
         log('Error picking video file: $e');
@@ -120,9 +124,24 @@ class FileRepository {
       throw const PickAlreadyInProgressException();
     }
     _pickInProgress = true;
+    final stopwatch = Stopwatch()..start();
     try {
+      log('Pick started', name: 'ImportTiming');
       final result = await pick();
-      return await _copyPickedFiles(result);
+      // On Android this duration includes the plugin copying every picked
+      // file from its document provider (OneDrive, Drive, …) into the app
+      // cache — usually the dominant cost for large cloud files.
+      log(
+        'Picker returned ${result?.files.length ?? 0} file(s) '
+        'after ${stopwatch.elapsedMilliseconds} ms',
+        name: 'ImportTiming',
+      );
+      final files = await _copyPickedFiles(result);
+      log(
+        'Pick + copy finished after ${stopwatch.elapsedMilliseconds} ms',
+        name: 'ImportTiming',
+      );
+      return files;
     } on PlatformException catch (e) {
       if (e.code == 'already_active') {
         throw const PickAlreadyInProgressException();
@@ -131,6 +150,14 @@ class FileRepository {
     } finally {
       _pickInProgress = false;
     }
+  }
+
+  /// The plugin reports `picking` when it starts materializing the selected
+  /// files (on Android: copying them from the document provider into the app
+  /// cache) and `done` when finished. If logcat shows `picking` and never
+  /// `done`, the freeze is inside the provider stream, not in our code.
+  void _logPickerStatus(FilePickerStatus status) {
+    log('File picker status: $status', name: 'ImportTiming');
   }
 
   /// Move every picked file into the app documents directory, preserving the
@@ -162,10 +189,25 @@ class FileRepository {
       final fileName = _resolveFileName(pickedFile.name, sourceFile.path);
       final destinationPath = await _uniqueDestinationPath(appDir, fileName);
       final newFile = File(destinationPath);
+      final stopwatch = Stopwatch()..start();
       try {
         await sourceFile.rename(newFile.path);
-      } on FileSystemException {
+        log(
+          'Renamed "$fileName" (${pickedFile.size} bytes) into app dir '
+          'in ${stopwatch.elapsedMilliseconds} ms',
+          name: 'ImportTiming',
+        );
+      } on FileSystemException catch (ex) {
+        log(
+          'Rename failed for "$fileName" ($ex), falling back to full copy',
+          name: 'ImportTiming',
+        );
         await sourceFile.copy(newFile.path);
+        log(
+          'Copied "$fileName" (${pickedFile.size} bytes) into app dir '
+          'in ${stopwatch.elapsedMilliseconds} ms',
+          name: 'ImportTiming',
+        );
       }
 
       copiedFiles.add(newFile);

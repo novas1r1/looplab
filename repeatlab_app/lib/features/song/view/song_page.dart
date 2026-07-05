@@ -851,8 +851,12 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
         contents: [
           TargetContent(
             builder: (context, controller) => TutorialItem(
-              title: context.l10n.tutorialNavigateThroughSong,
-              content: context.l10n.tutorialNavigateThroughSongDescription,
+              title: _isVideo
+                  ? context.l10n.tutorialVideoPreview
+                  : context.l10n.tutorialNavigateThroughSong,
+              content: _isVideo
+                  ? context.l10n.tutorialVideoPreviewDescription
+                  : context.l10n.tutorialNavigateThroughSongDescription,
               onNext: () => controller.next(),
             ),
           ),

@@ -71,6 +71,7 @@ void main() {
           type: any(named: 'type'),
           allowedExtensions: any(named: 'allowedExtensions'),
           allowMultiple: any(named: 'allowMultiple'),
+          onFileLoading: any(named: 'onFileLoading'),
         ),
       ).thenAnswer(
         (_) async => FilePickerResult([
@@ -113,6 +114,7 @@ void main() {
           type: any(named: 'type'),
           allowedExtensions: any(named: 'allowedExtensions'),
           allowMultiple: any(named: 'allowMultiple'),
+          onFileLoading: any(named: 'onFileLoading'),
         ),
       ).thenAnswer(
         (_) async => FilePickerResult([
@@ -159,6 +161,7 @@ void main() {
           type: any(named: 'type'),
           allowedExtensions: any(named: 'allowedExtensions'),
           allowMultiple: any(named: 'allowMultiple'),
+          onFileLoading: any(named: 'onFileLoading'),
         ),
       ).thenAnswer(
         (_) async => FilePickerResult([
@@ -207,6 +210,7 @@ void main() {
           type: any(named: 'type'),
           allowedExtensions: any(named: 'allowedExtensions'),
           allowMultiple: any(named: 'allowMultiple'),
+          onFileLoading: any(named: 'onFileLoading'),
         ),
       ).thenAnswer(
         (_) async => FilePickerResult([
@@ -241,6 +245,7 @@ void main() {
         type: any(named: 'type'),
         allowedExtensions: any(named: 'allowedExtensions'),
         allowMultiple: any(named: 'allowMultiple'),
+        onFileLoading: any(named: 'onFileLoading'),
       ),
     ).thenAnswer((_) async => null);
 
@@ -261,6 +266,7 @@ void main() {
           type: any(named: 'type'),
           allowedExtensions: any(named: 'allowedExtensions'),
           allowMultiple: any(named: 'allowMultiple'),
+          onFileLoading: any(named: 'onFileLoading'),
         ),
       ).thenAnswer((_) => firstPickCompleter.future);
 
@@ -286,6 +292,7 @@ void main() {
           type: any(named: 'type'),
           allowedExtensions: any(named: 'allowedExtensions'),
           allowMultiple: any(named: 'allowMultiple'),
+          onFileLoading: any(named: 'onFileLoading'),
         ),
       ).thenAnswer((_) async => null);
       expect(await repository.pickAudioFiles(), isEmpty);
@@ -301,6 +308,7 @@ void main() {
           type: any(named: 'type'),
           allowedExtensions: any(named: 'allowedExtensions'),
           allowMultiple: any(named: 'allowMultiple'),
+          onFileLoading: any(named: 'onFileLoading'),
         ),
       ).thenThrow(
         PlatformException(

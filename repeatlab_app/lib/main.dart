@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:repeatlab/app_bloc_observer.dart';
 import 'package:repeatlab/bootstrap.dart';
+import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:userorient_flutter/userorient_flutter.dart';
 
@@ -109,6 +110,15 @@ Future<void> _initializeApp() async {
     );
     // Don't rethrow; analytics is not critical to app startup.
   }
+
+  // Restore the consent state for the pre-consent event buffer. Until the
+  // user decides (onboarding not finished), AppAnalytics holds events in
+  // memory; they are flushed on opt-in and discarded on opt-out — see
+  // AppAnalytics.onConsentDecision, called from setAnalyticsEnabled.
+  AppAnalytics.init(
+    consented: isAnalyticsEnabled,
+    consentDecided: app.localConfigRepository.introShown,
+  );
 
   // needed if we use just_audio_background
   /* await JustAudioBackground.init(

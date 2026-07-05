@@ -144,6 +144,8 @@
     "endPositionMustBeAfterStartPosition": "End position must be after start position",
     "tutorialNavigateThroughSong": "Navigate through the song with dragging and dropping",
     "tutorialNavigateThroughSongDescription": "Use your fingers to drag and drop the whole song to the left or right and zoom in/out for better precision",
+    "tutorialVideoPreview": "Watch the video and adjust its size",
+    "tutorialVideoPreviewDescription": "Use the + and − buttons to resize the video. To navigate through the video, use the timeline and controls below",
     "tutorialPlayAndPauseSong": "Play, pause or change the speed of the song",
     "tutorialPlayAndPauseSongDescription": "Use these buttons to control the song and loops",
     "tutorialJumpToLoop": "See and jump to loops",
@@ -182,6 +184,30 @@
     "purchaseSuccess": "Purchase successful. Thank you for supporting the developer ❤️!",
     "voteForFeatures": "Vote for Features",
     "changelogTitle": "Changelog",
+    "changelog2101Title": "Pitch shift (Beta)",
+    "@changelog2101Title": {
+        "description": "Changelog entry title for the 2.1.0 pitch shift feature"
+    },
+    "changelog2101Description": "Change the pitch of your songs in semitones without affecting the speed - perfect for transposing a song to a different key or matching your instrument's tuning. This feature is currently in Beta; please send me your feedback if you run into any issues.",
+    "@changelog2101Description": {
+        "description": "Changelog entry description for the 2.1.0 pitch shift feature"
+    },
+    "changelog2102Title": "Import multiple files at once",
+    "@changelog2102Title": {
+        "description": "Changelog entry title for the 2.1.0 multi-file import feature"
+    },
+    "changelog2102Description": "You can now select and import multiple audio files in one go. A progress indicator keeps you updated while your songs are being added.",
+    "@changelog2102Description": {
+        "description": "Changelog entry description for the 2.1.0 multi-file import feature"
+    },
+    "changelog2103Title": "Bug fixes and stability improvements",
+    "@changelog2103Title": {
+        "description": "Changelog entry title for the 2.1.0 bug fixes"
+    },
+    "changelog2103Description": "Several bugs were fixed and the overall stability and performance of the app improved.",
+    "@changelog2103Description": {
+        "description": "Changelog entry description for the 2.1.0 bug fixes"
+    },
     "changelog201Title": "Loop and speed-change videos (Beta)",
     "@changelog201Title": {
         "description": "Changelog entry title for the 2.0.1 video support feature"

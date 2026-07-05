@@ -351,6 +351,13 @@ class AppLocalizationsFr extends AppLocalizations {
       'Utilisez vos doigts pour faire glisser toute la chanson vers la gauche ou la droite et zoomer pour plus de précision';
 
   @override
+  String get tutorialVideoPreview => 'Regardez la vidéo et ajustez sa taille';
+
+  @override
+  String get tutorialVideoPreviewDescription =>
+      'Utilisez les boutons + et − pour redimensionner la vidéo. Pour naviguer dans la vidéo, utilisez la timeline et les commandes ci-dessous';
+
+  @override
   String get tutorialPlayAndPauseSong =>
       'Lecture, pause ou changement de vitesse de la chanson';
 
@@ -426,6 +433,28 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get changelogTitle => 'Changelog';
+
+  @override
+  String get changelog2101Title => 'Changement de tonalité (Beta)';
+
+  @override
+  String get changelog2101Description =>
+      'Modifiez la tonalité de vos morceaux par demi-tons sans affecter la vitesse - parfait pour transposer un morceau dans une autre tonalité ou l\'adapter à l\'accordage de votre instrument. Cette fonctionnalité est actuellement en Beta ; envoie-moi ton feedback si tu rencontres des problèmes.';
+
+  @override
+  String get changelog2102Title => 'Importez plusieurs fichiers à la fois';
+
+  @override
+  String get changelog2102Description =>
+      'Vous pouvez désormais sélectionner et importer plusieurs fichiers audio en une seule fois. Un indicateur de progression vous tient informé pendant l\'ajout de vos morceaux.';
+
+  @override
+  String get changelog2103Title =>
+      'Corrections de bugs et améliorations de stabilité';
+
+  @override
+  String get changelog2103Description =>
+      'Plusieurs bugs ont été corrigés et la stabilité et les performances générales de l\'application ont été améliorées.';
 
   @override
   String get changelog201Title =>

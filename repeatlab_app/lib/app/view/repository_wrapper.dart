@@ -89,11 +89,13 @@ class FilePickerWrapper {
     required FileType type,
     List<String>? allowedExtensions,
     bool allowMultiple = false,
+    Function(FilePickerStatus)? onFileLoading,
   }) async {
     return await FilePicker.pickFiles(
       type: type,
       allowedExtensions: allowedExtensions,
       allowMultiple: allowMultiple,
+      onFileLoading: onFileLoading,
     );
   }
 

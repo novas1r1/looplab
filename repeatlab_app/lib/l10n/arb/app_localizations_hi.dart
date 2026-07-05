@@ -347,6 +347,13 @@ class AppLocalizationsHi extends AppLocalizations {
       'बेहतर सटीकता के लिए अपनी उंगलियों से पूरे गीत को बाएं या दाएं खींचें और ज़ूम इन/आउट करें';
 
   @override
+  String get tutorialVideoPreview => 'वीडियो देखें और उसका आकार समायोजित करें';
+
+  @override
+  String get tutorialVideoPreviewDescription =>
+      'वीडियो का आकार बदलने के लिए + और − बटन का उपयोग करें। वीडियो में नेविगेट करने के लिए नीचे दी गई टाइमलाइन और नियंत्रणों का उपयोग करें';
+
+  @override
   String get tutorialPlayAndPauseSong => 'गीत चलाएं और रोकें';
 
   @override
@@ -419,6 +426,27 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get changelogTitle => 'परिवर्तन लॉग';
+
+  @override
+  String get changelog2101Title => 'पिच शिफ्ट (Beta)';
+
+  @override
+  String get changelog2101Description =>
+      'स्पीड को प्रभावित किए बिना अपने गानों की पिच को सेमीटोन में बदलें - किसी गाने को दूसरी की में ट्रांसपोज़ करने या अपने वाद्य यंत्र की ट्यूनिंग से मिलाने के लिए बिल्कुल सही। यह फीचर अभी Beta में है; अगर कोई समस्या आए तो मुझे अपना फीडबैक भेजें।';
+
+  @override
+  String get changelog2102Title => 'एक साथ कई फ़ाइलें इम्पोर्ट करें';
+
+  @override
+  String get changelog2102Description =>
+      'अब आप एक ही बार में कई ऑडियो फ़ाइलें चुनकर इम्पोर्ट कर सकते हैं। आपके गाने जोड़े जाने के दौरान एक प्रगति संकेतक आपको सूचित रखता है।';
+
+  @override
+  String get changelog2103Title => 'बग फ़िक्स और स्थिरता में सुधार';
+
+  @override
+  String get changelog2103Description =>
+      'कई बग ठीक किए गए और ऐप की समग्र स्थिरता और प्रदर्शन में सुधार किया गया।';
 
   @override
   String get changelog201Title => 'वीडियो लूप करें और स्पीड बदलें (Beta)';

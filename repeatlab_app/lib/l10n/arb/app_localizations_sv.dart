@@ -347,6 +347,13 @@ class AppLocalizationsSv extends AppLocalizations {
       'Använd dina fingrar för att dra hela låten åt vänster eller höger och zooma för bättre precision';
 
   @override
+  String get tutorialVideoPreview => 'Titta på videon och justera dess storlek';
+
+  @override
+  String get tutorialVideoPreviewDescription =>
+      'Använd knapparna + och − för att ändra videons storlek. Använd tidslinjen och kontrollerna nedan för att navigera i videon';
+
+  @override
   String get tutorialPlayAndPauseSong =>
       'Spela, pausa eller ändra låtens hastighet';
 
@@ -420,6 +427,27 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get changelogTitle => 'Ändringar';
+
+  @override
+  String get changelog2101Title => 'Tonhöjdsändring (Beta)';
+
+  @override
+  String get changelog2101Description =>
+      'Ändra tonhöjden på dina låtar i halvtoner utan att påverka hastigheten - perfekt för att transponera en låt till en annan tonart eller anpassa den till ditt instruments stämning. Den här funktionen är just nu i Beta; skicka gärna din feedback om du stöter på problem.';
+
+  @override
+  String get changelog2102Title => 'Importera flera filer samtidigt';
+
+  @override
+  String get changelog2102Description =>
+      'Du kan nu välja och importera flera ljudfiler på en gång. En förloppsindikator håller dig uppdaterad medan dina låtar läggs till.';
+
+  @override
+  String get changelog2103Title => 'Buggfixar och stabilitetsförbättringar';
+
+  @override
+  String get changelog2103Description =>
+      'Flera buggar har åtgärdats och appens allmänna stabilitet och prestanda har förbättrats.';
 
   @override
   String get changelog201Title => 'Loopa videor och ändra hastighet (Beta)';

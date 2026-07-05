@@ -347,6 +347,13 @@ class AppLocalizationsPl extends AppLocalizations {
       'Użyj palców, aby przeciągnąć cały utwór w lewo lub prawo i przybliżyć dla lepszej precyzji';
 
   @override
+  String get tutorialVideoPreview => 'Oglądaj wideo i dostosuj jego rozmiar';
+
+  @override
+  String get tutorialVideoPreviewDescription =>
+      'Użyj przycisków + i −, aby zmienić rozmiar wideo. Aby nawigować po wideo, użyj osi czasu i elementów sterujących poniżej';
+
+  @override
   String get tutorialPlayAndPauseSong =>
       'Odtwarzaj, pauzuj lub zmieniaj prędkość utworu';
 
@@ -420,6 +427,27 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get changelogTitle => 'Zmiany';
+
+  @override
+  String get changelog2101Title => 'Zmiana wysokości dźwięku (Beta)';
+
+  @override
+  String get changelog2101Description =>
+      'Zmieniaj wysokość dźwięku swoich utworów o półtony bez wpływu na prędkość - idealne do transponowania utworu do innej tonacji lub dopasowania do strojenia instrumentu. Ta funkcja jest obecnie w wersji Beta; wyślij mi swoją opinię, jeśli napotkasz problemy.';
+
+  @override
+  String get changelog2102Title => 'Importuj wiele plików naraz';
+
+  @override
+  String get changelog2102Description =>
+      'Możesz teraz wybrać i zaimportować wiele plików audio za jednym razem. Wskaźnik postępu informuje Cię na bieżąco podczas dodawania utworów.';
+
+  @override
+  String get changelog2103Title => 'Poprawki błędów i ulepszenia stabilności';
+
+  @override
+  String get changelog2103Description =>
+      'Naprawiono kilka błędów oraz poprawiono ogólną stabilność i wydajność aplikacji.';
 
   @override
   String get changelog201Title => 'Pętle wideo i zmiana prędkości (Beta)';
