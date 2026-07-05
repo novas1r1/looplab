@@ -36,7 +36,9 @@ void main() {
 
   setUp(() async {
     _testDbCounter++;
-    db = await databaseFactoryMemory.openDatabase('backup_test_$_testDbCounter.db');
+    db = await databaseFactoryMemory.openDatabase(
+      'backup_test_$_testDbCounter.db',
+    );
     songRepository = SongRepository(db: db, soLoud: MockSoLoud());
 
     rootTmp = await Directory.systemTemp.createTemp('rlbackup_test_');
@@ -62,40 +64,52 @@ void main() {
 
   Future<void> seedSong(Song song, Uint8List audioBytes) async {
     await store.record(song.id).put(db, song.toMap());
-    await File(p.join(docsDir.path, song.fileName))
-        .writeAsBytes(audioBytes, flush: true);
+    await File(
+      p.join(docsDir.path, song.fileName),
+    ).writeAsBytes(audioBytes, flush: true);
   }
 
-  Uint8List bytes(String seed) =>
-      Uint8List.fromList(List.generate(32, (i) => (seed.codeUnits[i % seed.length] + i) & 0xff));
+  Uint8List bytes(String seed) => Uint8List.fromList(
+    List.generate(32, (i) => (seed.codeUnits[i % seed.length] + i) & 0xff),
+  );
 
   group('BackupRepository.exportToFile', () {
-    test('writes a roundtrippable .rlbackup file containing all songs', () async {
-      await seedSong(MockData.songShort, bytes('short'));
-      await seedSong(MockData.songMedium, bytes('medium'));
+    test(
+      'writes a roundtrippable .rlbackup file containing all songs',
+      () async {
+        await seedSong(MockData.songShort, bytes('short'));
+        await seedSong(MockData.songMedium, bytes('medium'));
 
-      final file = await backupRepository.exportToFile(
-        now: DateTime(2026, 4, 19, 12),
-      );
+        final file = await backupRepository.exportToFile(
+          now: DateTime(2026, 4, 19, 12),
+        );
 
-      expect(await file.exists(), isTrue);
-      expect(p.basename(file.path), '2026-04-19_repeatlab_export.rlbackup');
-      expect(p.dirname(file.path), tempDir.path);
+        expect(await file.exists(), isTrue);
+        expect(p.basename(file.path), '2026-04-19_repeatlab_export.rlbackup');
+        expect(p.dirname(file.path), tempDir.path);
 
-      final payload = const BackupSerializer().decode(await file.readAsBytes());
-      expect(payload.manifest.songCount, 2);
-      expect(payload.manifest.appVersion, '1.6.11');
-      expect(payload.songs.map((s) => s.id), containsAll([
-        MockData.songShort.id,
-        MockData.songMedium.id,
-      ]));
-      expect(payload.audioFiles[MockData.songShort.fileName], bytes('short'));
-    });
+        final payload = const BackupSerializer().decode(
+          await file.readAsBytes(),
+        );
+        expect(payload.manifest.songCount, 2);
+        expect(payload.manifest.appVersion, '1.6.11');
+        expect(
+          payload.songs.map((s) => s.id),
+          containsAll([
+            MockData.songShort.id,
+            MockData.songMedium.id,
+          ]),
+        );
+        expect(payload.audioFiles[MockData.songShort.fileName], bytes('short'));
+      },
+    );
 
     test('skips songs whose audio file is missing from disk', () async {
       await seedSong(MockData.songShort, bytes('short'));
       // songMedium has a DB record but no file on disk.
-      await store.record(MockData.songMedium.id).put(db, MockData.songMedium.toMap());
+      await store
+          .record(MockData.songMedium.id)
+          .put(db, MockData.songMedium.toMap());
 
       final file = await backupRepository.exportToFile();
       final payload = const BackupSerializer().decode(await file.readAsBytes());
@@ -167,7 +181,9 @@ void main() {
         final file = await backupRepository.exportToFile(
           options: const BackupExportOptions(includeLoopsAndSettings: false),
         );
-        final payload = const BackupSerializer().decode(await file.readAsBytes());
+        final payload = const BackupSerializer().decode(
+          await file.readAsBytes(),
+        );
         final exported = payload.songs.single;
 
         // Intrinsic record preserved.
@@ -190,47 +206,58 @@ void main() {
   });
 
   group('BackupRepository.peekImport', () {
-    test('returns manifest without writing anything to the documents dir', () async {
-      await seedSong(MockData.songShort, bytes('short'));
-      final exported = await backupRepository.exportToFile();
+    test(
+      'returns manifest without writing anything to the documents dir',
+      () async {
+        await seedSong(MockData.songShort, bytes('short'));
+        final exported = await backupRepository.exportToFile();
 
-      // Fresh repo so we can import into a clean state.
-      final freshDb = await databaseFactoryMemory.openDatabase('peek_fresh.db');
-      final freshSongRepo = SongRepository(db: freshDb, soLoud: MockSoLoud());
-      final freshDocs = await Directory(p.join(rootTmp.path, 'fresh_docs')).create();
-      final fresh = BackupRepository(
-        db: freshDb,
-        songRepository: freshSongRepo,
-        packageInfo: packageInfo,
-        getDocumentsDirectory: () async => freshDocs,
-        getTemporaryDirectory: () async => tempDir,
-      );
+        // Fresh repo so we can import into a clean state.
+        final freshDb = await databaseFactoryMemory.openDatabase(
+          'peek_fresh.db',
+        );
+        final freshSongRepo = SongRepository(db: freshDb, soLoud: MockSoLoud());
+        final freshDocs = await Directory(
+          p.join(rootTmp.path, 'fresh_docs'),
+        ).create();
+        final fresh = BackupRepository(
+          db: freshDb,
+          songRepository: freshSongRepo,
+          packageInfo: packageInfo,
+          getDocumentsDirectory: () async => freshDocs,
+          getTemporaryDirectory: () async => tempDir,
+        );
 
-      final manifest = await fresh.peekImport(exported);
-      expect(manifest.songCount, 1);
-      expect(manifest.schemaVersion, BackupManifest.currentSchemaVersion);
-      expect(await freshDocs.list().isEmpty, isTrue);
+        final manifest = await fresh.peekImport(exported);
+        expect(manifest.songCount, 1);
+        expect(manifest.schemaVersion, BackupManifest.currentSchemaVersion);
+        expect(await freshDocs.list().isEmpty, isTrue);
 
-      freshSongRepo.dispose();
-      await freshDb.close();
-    });
+        freshSongRepo.dispose();
+        await freshDb.close();
+      },
+    );
   });
 
   group('BackupRepository.importFromFile', () {
     Future<File> exportWith(List<(Song, Uint8List)> seeds) async {
       // Build an export from a separate sandbox DB so the "importing" DB
       // starts empty.
-      final sourceDb = await databaseFactoryMemory.openDatabase('source_${seeds.hashCode}.db');
+      final sourceDb = await databaseFactoryMemory.openDatabase(
+        'source_${seeds.hashCode}.db',
+      );
       final sourceSongRepo = SongRepository(db: sourceDb, soLoud: MockSoLoud());
-      final sourceDocs =
-          await Directory(p.join(rootTmp.path, 'source_${seeds.hashCode}_docs')).create();
+      final sourceDocs = await Directory(
+        p.join(rootTmp.path, 'source_${seeds.hashCode}_docs'),
+      ).create();
 
       for (final (song, audio) in seeds) {
-        await StoreRef<String, Map<String, dynamic>>('songs')
-            .record(song.id)
-            .put(sourceDb, song.toMap());
-        await File(p.join(sourceDocs.path, song.fileName))
-            .writeAsBytes(audio, flush: true);
+        await StoreRef<String, Map<String, dynamic>>(
+          'songs',
+        ).record(song.id).put(sourceDb, song.toMap());
+        await File(
+          p.join(sourceDocs.path, song.fileName),
+        ).writeAsBytes(audio, flush: true);
       }
 
       final source = BackupRepository(
@@ -266,8 +293,9 @@ void main() {
       final songs = await songRepository.getAllSongs();
       expect(songs, hasLength(2));
       expect(
-        await File(p.join(docsDir.path, MockData.songShort.fileName))
-            .readAsBytes(),
+        await File(
+          p.join(docsDir.path, MockData.songShort.fileName),
+        ).readAsBytes(),
         bytes('short'),
       );
     });
@@ -291,10 +319,13 @@ void main() {
       expect(summary.filesRenamed, 0);
 
       final songs = await songRepository.getAllSongs();
-      expect(songs.map((s) => s.id), containsAll([
-        MockData.songShort.id,
-        MockData.songMedium.id,
-      ]));
+      expect(
+        songs.map((s) => s.id),
+        containsAll([
+          MockData.songShort.id,
+          MockData.songMedium.id,
+        ]),
+      );
     });
 
     test(
@@ -326,8 +357,9 @@ void main() {
         expect(imported.fileName, contains('imported-'));
         // Original file untouched.
         expect(
-          await File(p.join(docsDir.path, MockData.songShort.fileName))
-              .readAsBytes(),
+          await File(
+            p.join(docsDir.path, MockData.songShort.fileName),
+          ).readAsBytes(),
           bytes('pre-existing-content'),
         );
         // Renamed file has the incoming content.
@@ -366,48 +398,57 @@ void main() {
       },
     );
 
-    test('replace preserves the existing library when the backup is corrupt', () async {
-      await seedSong(MockData.songLong, bytes('precious'));
+    test(
+      'replace preserves the existing library when the backup is corrupt',
+      () async {
+        await seedSong(MockData.songLong, bytes('precious'));
 
-      final corrupt = File(p.join(rootTmp.path, 'corrupt.rlbackup'));
-      await corrupt.writeAsBytes(List.generate(64, (i) => i), flush: true);
+        final corrupt = File(p.join(rootTmp.path, 'corrupt.rlbackup'));
+        await corrupt.writeAsBytes(List.generate(64, (i) => i), flush: true);
 
-      await expectLater(
-        backupRepository.importFromFile(
-          corrupt,
+        await expectLater(
+          backupRepository.importFromFile(
+            corrupt,
+            mode: BackupImportMode.replace,
+          ),
+          throwsA(isA<BackupFormatException>()),
+        );
+
+        // The failed import must not have wiped the library.
+        final songs = await songRepository.getAllSongs();
+        expect(songs.map((s) => s.id), [MockData.songLong.id]);
+        expect(
+          await File(p.join(docsDir.path, MockData.songLong.fileName)).exists(),
+          isTrue,
+        );
+      },
+    );
+
+    test(
+      'replace imports songs whose ids already exist in the library',
+      () async {
+        // The same song exists locally (older loops) and in the backup —
+        // replace must import the backup's version, not skip it as a duplicate.
+        await seedSong(MockData.songShort, bytes('old-content'));
+
+        final exported = await exportWith([
+          (
+            MockData.songShort.copyWith(title: 'From backup'),
+            bytes('old-content'),
+          ),
+        ]);
+
+        final summary = await backupRepository.importFromFile(
+          exported,
           mode: BackupImportMode.replace,
-        ),
-        throwsA(isA<BackupFormatException>()),
-      );
+        );
 
-      // The failed import must not have wiped the library.
-      final songs = await songRepository.getAllSongs();
-      expect(songs.map((s) => s.id), [MockData.songLong.id]);
-      expect(
-        await File(p.join(docsDir.path, MockData.songLong.fileName)).exists(),
-        isTrue,
-      );
-    });
-
-    test('replace imports songs whose ids already exist in the library', () async {
-      // The same song exists locally (older loops) and in the backup —
-      // replace must import the backup's version, not skip it as a duplicate.
-      await seedSong(MockData.songShort, bytes('old-content'));
-
-      final exported = await exportWith([
-        (MockData.songShort.copyWith(title: 'From backup'), bytes('old-content')),
-      ]);
-
-      final summary = await backupRepository.importFromFile(
-        exported,
-        mode: BackupImportMode.replace,
-      );
-
-      expect(summary.songsImported, 1);
-      expect(summary.songsSkipped, 0);
-      final songs = await songRepository.getAllSongs();
-      expect(songs.single.title, 'From backup');
-    });
+        expect(summary.songsImported, 1);
+        expect(summary.songsSkipped, 0);
+        final songs = await songRepository.getAllSongs();
+        expect(songs.single.title, 'From backup');
+      },
+    );
 
     test('skips songs whose fileName would escape the documents dir', () async {
       // Craft a malicious backup directly via the serializer: the song's

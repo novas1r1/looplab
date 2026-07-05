@@ -3,13 +3,13 @@
 import 'dart:async';
 import 'dart:developer' as dev;
 import 'dart:io';
-import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/cubit_extension.dart';
+import 'package:repeatlab/core/utils/musical_key.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
@@ -319,8 +319,22 @@ class SongCubit extends Cubit<SongState> {
       // Initialize audio player with the file but keep it paused.
       // autoStart: false loads the source without starting playback, so the
       // user doesn't hear a brief blip when opening a song.
-      // Note: playSong automatically resets speed to 1.0 for each new song.
+      // Note: playSong automatically resets speed to 1.0 and pitch to 0 for
+      // each new song.
       await audioHandler.playSong(state.song, autoStart: false);
+
+      // Restore the persisted per-song pitch (unlike speed, pitch survives
+      // song reopen). If the platform rejects it, stay at 0.
+      var appliedPitch = 0;
+      final persistedPitch = state.song.pitchSemitones.clamp(
+        minPitchSemitones,
+        maxPitchSemitones,
+      );
+      if (persistedPitch != 0 && isPitchControlSupported) {
+        if (await audioHandler.setPitchSemitones(persistedPitch)) {
+          appliedPitch = persistedPitch;
+        }
+      }
 
       // check if tutorial is completed
       final isTutorialCompleted = localConfigRepository.hasCompletedTutorial;
@@ -359,7 +373,10 @@ class SongCubit extends Cubit<SongState> {
       int? initialMaxBpm;
       if (songBpm != null && songBpm > 0) {
         initialMinBpm = (songBpm * 0.5).round().clamp(1, songBpm);
-        initialMaxBpm = (songBpm * 2.0).round().clamp(songBpm, _maxSupportedBpm);
+        initialMaxBpm = (songBpm * 2.0).round().clamp(
+          songBpm,
+          _maxSupportedBpm,
+        );
       }
 
       emit(
@@ -377,6 +394,9 @@ class SongCubit extends Cubit<SongState> {
           currentBpm: songBpm, // Start at original BPM (speed 1.0)
           minBpm: initialMinBpm,
           maxBpm: initialMaxBpm,
+          // Pitch is restored from the song, unlike speed; the mode resets
+          pitchSemitones: appliedPitch,
+          pitchMode: PitchMode.semitones,
           error: null,
         ),
       );
@@ -412,14 +432,16 @@ class SongCubit extends Cubit<SongState> {
         case PlayerState.completed:
         case PlayerState.disposed:
           // Reinitialize the audio handler if it's in a bad state
-          // This resets speed to 1.0, so sync UI state
+          // This resets speed to 1.0 and pitch to 0, so sync UI state
           await audioHandler.playSong(state.song);
           _syncSpeedStateAfterSongReload();
+          await _reapplyPitchAfterSongReload();
         case null:
           // Initialize the audio handler if it's null
-          // This resets speed to 1.0, so sync UI state
+          // This resets speed to 1.0 and pitch to 0, so sync UI state
           await audioHandler.playSong(state.song);
           _syncSpeedStateAfterSongReload();
+          await _reapplyPitchAfterSongReload();
       }
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
@@ -443,6 +465,22 @@ class SongCubit extends Cubit<SongState> {
         currentBpm: state.originalBpm, // Reset to original BPM if set
       ),
     );
+  }
+
+  /// Reapplies the current pitch after the audio handler reset it to 0 in
+  /// playSong (unlike speed, pitch should survive a song reload). Reverts the
+  /// UI state to 0 if the platform rejects the change.
+  Future<void> _reapplyPitchAfterSongReload() async {
+    if (state.pitchSemitones == 0 || !isPitchControlSupported) return;
+
+    final success = await audioHandler.setPitchSemitones(state.pitchSemitones);
+    if (!success) {
+      dev.log(
+        'Failed to reapply pitch after song reload, reverting to 0',
+        name: 'SongCubit',
+      );
+      emit(state.copyWith(pitchSemitones: 0));
+    }
   }
 
   Future<void> stopSong() async {
@@ -755,9 +793,7 @@ class SongCubit extends Cubit<SongState> {
       // once a loop has been deleted — use max(id) + 1 instead.
       final nextId = state.song.loops.isEmpty
           ? 0
-          : state.song.loops
-                    .map((l) => l.id)
-                    .reduce((a, b) => a > b ? a : b) +
+          : state.song.loops.map((l) => l.id).reduce((a, b) => a > b ? a : b) +
                 1;
 
       // create a new loop
@@ -914,15 +950,16 @@ class SongCubit extends Cubit<SongState> {
     required String title,
     required String artist,
     required int? bpm,
+    required String? musicalKey,
   }) async {
     final bpmChanged = bpm != state.song.bpm;
 
     emit(state.copyWith(status: SongStatus.updating));
 
     try {
-      // Build the updated song. For BPM we must construct a new Song directly
-      // because dart_mappable's copyWith cannot distinguish null (clear) from
-      // not-provided when the field is nullable.
+      // Build the updated song. For BPM and musical key we must construct a
+      // new Song directly because dart_mappable's copyWith cannot distinguish
+      // null (clear) from not-provided when the field is nullable.
       final updatedSong = Song(
         id: state.song.id,
         title: title,
@@ -931,6 +968,8 @@ class SongCubit extends Cubit<SongState> {
         duration: state.song.duration,
         bpm: bpm,
         currentBpm: state.song.currentBpm,
+        pitchSemitones: state.song.pitchSemitones,
+        musicalKey: musicalKey,
         loops: state.song.loops,
         loopSort: state.song.loopSort,
         sortOrder: state.song.sortOrder,
@@ -1187,8 +1226,9 @@ class SongCubit extends Cubit<SongState> {
     // above what the speed controls support; without capping, the min/max bound
     // calculation below would pass an inverted range to clamp and throw
     // (FLUTTER-B8).
-    final effectiveBpm =
-        (bpm != null && bpm > _maxSupportedBpm) ? _maxSupportedBpm : bpm;
+    final effectiveBpm = (bpm != null && bpm > _maxSupportedBpm)
+        ? _maxSupportedBpm
+        : bpm;
 
     try {
       // Persist to song model
@@ -1198,8 +1238,10 @@ class SongCubit extends Cubit<SongState> {
       if (effectiveBpm != null && effectiveBpm > 0) {
         // Calculate BPM bounds (0.5x to 2.0x of original)
         final minBpm = (effectiveBpm * 0.5).round().clamp(1, effectiveBpm);
-        final maxBpm =
-            (effectiveBpm * 2.0).round().clamp(effectiveBpm, _maxSupportedBpm);
+        final maxBpm = (effectiveBpm * 2.0).round().clamp(
+          effectiveBpm,
+          _maxSupportedBpm,
+        );
 
         emit(
           state.copyWith(
@@ -1340,28 +1382,158 @@ class SongCubit extends Cubit<SongState> {
     }
   }
 
-  Future<void> updatePitch(int semitones) async {
-    try {
-      // Convert semitones to pitch multiplier
-      // Each semitone is approximately 1.059463 multiplier
-      final pitchMultiplier = pow(2.0, semitones / 12.0);
+  // ==================== PITCH CONTROL METHODS ====================
 
-      await audioHandler.customAction('setPitch', {'pitch': pitchMultiplier});
+  static const int minPitchSemitones = -12;
+  static const int maxPitchSemitones = 12;
+
+  /// Whether pitch shifting works for the current song on this platform:
+  /// video → all platforms (media_kit/libmpv); audio → Android only
+  /// (Signalsmith processor in the audioplayers fork). The pitch card hides
+  /// itself when unsupported.
+  bool get isPitchControlSupported =>
+      state.song.mediaType == MediaType.video || Platform.isAndroid;
+
+  /// Update the pitch shift in semitones (-12 to +12) and persist it on the
+  /// song. Returns true if the pitch was applied successfully.
+  Future<bool> setPitchSemitones(int semitones) async {
+    dev.log('setPitchSemitones: $semitones', name: 'SongCubit');
+
+    try {
+      final target = semitones.clamp(minPitchSemitones, maxPitchSemitones);
+
+      final success = await audioHandler.setPitchSemitones(target);
+
+      if (!success) {
+        dev.log(
+          'Pitch change failed, reverting UI to actual pitch',
+          name: 'SongCubit',
+        );
+        emit(
+          state.copyWith(
+            status: SongStatus.pitchChangeFailed,
+            pitchSemitones: audioHandler.currentPitchSemitones,
+            error: 'Pitch change failed. Please try again.',
+          ),
+        );
+        return false;
+      }
+
+      // Persist the pitch per song. A persistence failure must not revert
+      // the already-applied audio change — report it and keep the UI state.
+      var updatedSong = state.song;
+      try {
+        updatedSong = state.song.copyWith(pitchSemitones: target);
+        await songRepository.updateSong(updatedSong);
+      } catch (ex, stack) {
+        unawaited(crashReportingRepository.reportError(ex, stack));
+        updatedSong = state.song;
+      }
 
       emit(
         state.copyWith(
           status: SongStatus.updated,
+          song: updatedSong,
+          pitchSemitones: target,
+          error: null,
+        ),
+      );
+      return true;
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      dev.log('Failed to set pitch: $ex', name: 'SongCubit');
+      emit(
+        state.copyWith(
+          status: SongStatus.pitchChangeFailed,
+          pitchSemitones: audioHandler.currentPitchSemitones,
+          error: 'Pitch change failed. Please try again.',
+        ),
+      );
+      return false;
+    }
+  }
+
+  /// Reset pitch to the original (0 semitones)
+  Future<bool> resetPitch() {
+    dev.log('resetPitch', name: 'SongCubit');
+    return setPitchSemitones(0);
+  }
+
+  /// Switch between semitone mode and key mode (mirrors [setTempoMode])
+  void setPitchMode(PitchMode mode) {
+    dev.log('setPitchMode: $mode', name: 'SongCubit');
+    emit(state.copyWith(pitchMode: mode));
+  }
+
+  /// Set or clear the song's original musical key and persist it. Resets the
+  /// pitch to 0, mirroring how [setOriginalBpm] resets speed: changing the
+  /// reference makes the previous shift meaningless.
+  Future<void> setOriginalKey(String? key) async {
+    dev.log('setOriginalKey: $key', name: 'SongCubit');
+
+    final canonical = key == null ? null : MusicalKey.canonicalize(key);
+
+    try {
+      // Build the updated song directly (not copyWith) so a null key actually
+      // clears the field — same pattern as updateSongDetails.
+      final updatedSong = Song(
+        id: state.song.id,
+        title: state.song.title,
+        artist: state.song.artist,
+        fileName: state.song.fileName,
+        duration: state.song.duration,
+        bpm: state.song.bpm,
+        currentBpm: state.song.currentBpm,
+        pitchSemitones: 0,
+        musicalKey: canonical,
+        loops: state.song.loops,
+        loopSort: state.song.loopSort,
+        sortOrder: state.song.sortOrder,
+        mediaType: state.song.mediaType,
+        videoSizeMode: state.song.videoSizeMode,
+      );
+      await songRepository.updateSong(updatedSong);
+
+      await audioHandler.setPitchSemitones(0);
+
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          song: updatedSong,
+          pitchSemitones: 0,
           error: null,
         ),
       );
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
+      dev.log('Failed to set original key: $ex', name: 'SongCubit');
       emit(
         state.copyWith(
           status: SongStatus.error,
-          error: 'Failed to update pitch: $ex',
+          error: 'Failed to set original key: $ex',
         ),
       );
     }
+  }
+
+  /// Set the pitch by choosing the key the song should sound in. Picks the
+  /// shorter transposition direction (Am → Cm is +3, not −9).
+  /// Requires the original key to be set.
+  Future<bool> setPitchByTargetKey(String targetKey) async {
+    dev.log('setPitchByTargetKey: $targetKey', name: 'SongCubit');
+
+    final originalKey = state.song.musicalKey;
+    if (originalKey == null) return false;
+
+    final offset = MusicalKey.signedOffset(originalKey, targetKey);
+    if (offset == null) {
+      dev.log(
+        'Cannot transpose from $originalKey to $targetKey',
+        name: 'SongCubit',
+      );
+      return false;
+    }
+
+    return setPitchSemitones(offset);
   }
 }

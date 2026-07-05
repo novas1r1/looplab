@@ -25,6 +25,10 @@ class Song with SongMappable {
   /// song and reapplied on open (unlike speed, which resets to 1.0). Defaults
   /// to 0 so existing sembast records decode without a migration.
   final int pitchSemitones;
+
+  /// Musical key (Tonart) of the song, e.g. "Am" or "F#", read from the
+  /// file's ID3 TKEY tag on import. `null` when the file carried no key tag.
+  final String? musicalKey;
   final List<Loop> loops;
   final LoopSort loopSort;
   final int sortOrder;
@@ -48,6 +52,7 @@ class Song with SongMappable {
     this.bpm,
     this.currentBpm,
     this.pitchSemitones = 0,
+    this.musicalKey,
     this.loops = const [],
     this.loopSort = LoopSort.none,
     this.sortOrder = 0,

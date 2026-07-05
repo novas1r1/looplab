@@ -22,4 +22,22 @@ class AllSongsState with AllSongsStateMappable {
 }
 
 @MappableEnum()
-enum AllSongsStatus { initial, loading, importing, loaded, error, errorVideoFormat }
+enum AllSongsStatus {
+  initial,
+  loading,
+  importing,
+  loaded,
+  error,
+
+  /// A picked audio file has an unsupported format; [AllSongsState.errorMessage]
+  /// carries the offending file extension.
+  errorAudioFormat,
+
+  /// A picked video file has an unsupported format; [AllSongsState.errorMessage]
+  /// carries the offending file extension.
+  errorVideoFormat,
+
+  /// A new pick was requested while a previous one is still running (e.g. a
+  /// large video still downloading from cloud storage).
+  errorImportInProgress,
+}

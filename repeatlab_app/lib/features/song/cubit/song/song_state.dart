@@ -4,6 +4,11 @@ part of 'song_cubit.dart';
 @MappableEnum()
 enum TempoMode { multiplier, bpm }
 
+/// Pitch control mode - either raw semitones or musical-key based
+/// (mirrors [TempoMode]'s multiplier/BPM split)
+@MappableEnum()
+enum PitchMode { semitones, key }
+
 @MappableClass()
 class SongState with SongStateMappable {
   final double speed;
@@ -35,6 +40,13 @@ class SongState with SongStateMappable {
   /// Maximum BPM (originalBpm * 2.0, null if originalBpm not set)
   final int? maxBpm;
 
+  /// Pitch shift in semitones (-12..+12), 0 = original pitch. Restored from
+  /// [Song.pitchSemitones] on song open.
+  final int pitchSemitones;
+
+  /// Pitch control mode (semitones or key-based)
+  final PitchMode pitchMode;
+
   const SongState({
     this.speed = 1.0,
     this.status = SongStatus.loading,
@@ -51,6 +63,8 @@ class SongState with SongStateMappable {
     this.currentBpm,
     this.minBpm,
     this.maxBpm,
+    this.pitchSemitones = 0,
+    this.pitchMode = PitchMode.semitones,
   });
 }
 
@@ -67,4 +81,5 @@ enum SongStatus {
   updating,
   songDeleted,
   speedChangeFailed,
+  pitchChangeFailed,
 }

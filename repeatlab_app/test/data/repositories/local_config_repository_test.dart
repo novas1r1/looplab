@@ -36,7 +36,8 @@ void main() {
     group('introShown', () {
       test('returns false when not set', () {
         when(
-          () => mockSharedPreferences.getBool(LocalConfigRepository.kIntroShown),
+          () =>
+              mockSharedPreferences.getBool(LocalConfigRepository.kIntroShown),
         ).thenReturn(null);
 
         expect(localConfigRepository.introShown, isFalse);
@@ -44,7 +45,8 @@ void main() {
 
       test('returns true when set to true', () {
         when(
-          () => mockSharedPreferences.getBool(LocalConfigRepository.kIntroShown),
+          () =>
+              mockSharedPreferences.getBool(LocalConfigRepository.kIntroShown),
         ).thenReturn(true);
 
         expect(localConfigRepository.introShown, isTrue);
@@ -52,7 +54,8 @@ void main() {
 
       test('returns false when set to false', () {
         when(
-          () => mockSharedPreferences.getBool(LocalConfigRepository.kIntroShown),
+          () =>
+              mockSharedPreferences.getBool(LocalConfigRepository.kIntroShown),
         ).thenReturn(false);
 
         expect(localConfigRepository.introShown, isFalse);

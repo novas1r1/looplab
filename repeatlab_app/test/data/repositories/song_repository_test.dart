@@ -15,7 +15,9 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   // Mock path_provider
-  const MethodChannel pathProviderChannel = MethodChannel('plugins.flutter.io/path_provider');
+  const MethodChannel pathProviderChannel = MethodChannel(
+    'plugins.flutter.io/path_provider',
+  );
 
   late Database db;
   late MockSoLoud mockSoLoud;
@@ -26,15 +28,16 @@ void main() {
     registerFallbackValue(MockData.loopVerse);
 
     // Setup path_provider mock
-    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
-      pathProviderChannel,
-      (MethodCall call) async {
-        if (call.method == 'getApplicationDocumentsDirectory') {
-          return '/mock/app/documents';
-        }
-        return null;
-      },
-    );
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          pathProviderChannel,
+          (MethodCall call) async {
+            if (call.method == 'getApplicationDocumentsDirectory') {
+              return '/mock/app/documents';
+            }
+            return null;
+          },
+        );
   });
 
   setUp(() async {
@@ -271,19 +274,28 @@ void main() {
         expect(songs[2].id, MockData.songShort.id);
       });
 
-      test('new songs are inserted with sortOrder 0 and existing songs shift down', () async {
-        final store = StoreRef<String, Map<String, dynamic>>('songs');
-        await store.add(db, MockData.songShort.copyWith(sortOrder: 0).toMap());
-        await store.add(db, MockData.songMedium.copyWith(sortOrder: 1).toMap());
+      test(
+        'new songs are inserted with sortOrder 0 and existing songs shift down',
+        () async {
+          final store = StoreRef<String, Map<String, dynamic>>('songs');
+          await store.add(
+            db,
+            MockData.songShort.copyWith(sortOrder: 0).toMap(),
+          );
+          await store.add(
+            db,
+            MockData.songMedium.copyWith(sortOrder: 1).toMap(),
+          );
 
-        // Simulate adding a new song by calling the internal insert logic
-        await songRepository.incrementExistingSortOrders();
+          // Simulate adding a new song by calling the internal insert logic
+          await songRepository.incrementExistingSortOrders();
 
-        final songs = await songRepository.getAllSongs();
-        // Existing songs should have shifted: 0->1, 1->2
-        expect(songs[0].sortOrder, 1);
-        expect(songs[1].sortOrder, 2);
-      });
+          final songs = await songRepository.getAllSongs();
+          // Existing songs should have shifted: 0->1, 1->2
+          expect(songs[0].sortOrder, 1);
+          expect(songs[1].sortOrder, 2);
+        },
+      );
 
       test('reorderSongs updates sortOrder for all songs', () async {
         final store = StoreRef<String, Map<String, dynamic>>('songs');
@@ -324,27 +336,30 @@ void main() {
     });
 
     group('stream behavior', () {
-      test('songs stream is broadcast and can have multiple listeners', () async {
-        final store = StoreRef<String, Map<String, dynamic>>('songs');
-        await store.add(db, MockData.songShort.toMap());
+      test(
+        'songs stream is broadcast and can have multiple listeners',
+        () async {
+          final store = StoreRef<String, Map<String, dynamic>>('songs');
+          await store.add(db, MockData.songShort.toMap());
 
-        final results1 = <List<Song>>[];
-        final results2 = <List<Song>>[];
+          final results1 = <List<Song>>[];
+          final results2 = <List<Song>>[];
 
-        final sub1 = songRepository.songs.listen(results1.add);
-        final sub2 = songRepository.songs.listen(results2.add);
+          final sub1 = songRepository.songs.listen(results1.add);
+          final sub2 = songRepository.songs.listen(results2.add);
 
-        await songRepository.getAllSongs();
-        await Future<void>.delayed(Duration.zero);
+          await songRepository.getAllSongs();
+          await Future<void>.delayed(Duration.zero);
 
-        await sub1.cancel();
-        await sub2.cancel();
+          await sub1.cancel();
+          await sub2.cancel();
 
-        expect(results1, isNotEmpty);
-        expect(results2, isNotEmpty);
-        // Compare by id since Song's hashCode involves async path getter
-        expect(results1.last.first.id, results2.last.first.id);
-      });
+          expect(results1, isNotEmpty);
+          expect(results2, isNotEmpty);
+          // Compare by id since Song's hashCode involves async path getter
+          expect(results1.last.first.id, results2.last.first.id);
+        },
+      );
     });
   });
 }

@@ -230,6 +230,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get premiumFeatureChangeMusicSpeed => '速度控制 (BPM/倍数)';
 
   @override
+  String get premiumFeaturePitchControl => '音高控制（半音）';
+
+  @override
   String get premiumFeatureZoomInOut => '波形缩放';
 
   @override
@@ -526,6 +529,10 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get songAddError => '添加歌曲失败。这可能是由于文件格式问题。请尝试将文件转换为支持的格式，如 mp3 或 wav。';
+
+  @override
+  String get importAlreadyRunningError =>
+      '另一个导入仍在进行中。来自云存储的大文件可能需要一些时间，请等待其完成。';
 
   @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
@@ -836,6 +843,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get speedControl => '速度';
 
   @override
+  String get pitchControl => '音高';
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile => '您可以在此设置音频文件的原始 BPM。';
 
   @override
@@ -867,6 +877,21 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get speedChangeFailed => '速度变化失败。请再试一次。';
+
+  @override
+  String get pitchChangeFailed => '音高变化失败。请再试一次。';
+
+  @override
+  String get editSongKey => '调性';
+
+  @override
+  String get originalKey => '原调';
+
+  @override
+  String get currentKey => '当前调';
+
+  @override
+  String get hereYouCanSetTheOriginalKeyOfTheAudioFile => '在这里您可以设置音频文件的原调。';
 
   @override
   String get copyToClipboard => '复制到剪贴板';

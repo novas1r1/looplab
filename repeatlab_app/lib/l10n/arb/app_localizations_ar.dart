@@ -238,6 +238,10 @@ class AppLocalizationsAr extends AppLocalizations {
       'تحكم في سرعة الصوت (BPM/Multiplier)';
 
   @override
+  String get premiumFeaturePitchControl =>
+      'التحكم في طبقة الصوت (أنصاف النغمات)';
+
+  @override
   String get premiumFeatureZoomInOut => 'تكبير/تصغير الموجة';
 
   @override
@@ -557,6 +561,10 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get songAddError =>
       'فشل في إضافة الأغنية. قد يكون هذا بسبب مشكلة في تنسيق الملف. يرجى محاولة تحويل الملف إلى تنسيق مدعوم مثل mp3 أو wav.';
+
+  @override
+  String get importAlreadyRunningError =>
+      'لا تزال عملية استيراد أخرى قيد التشغيل. قد تستغرق الملفات الكبيرة من التخزين السحابي بعض الوقت - يرجى الانتظار حتى تنتهي.';
 
   @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
@@ -879,6 +887,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get speedControl => 'السرعة';
 
   @override
+  String get pitchControl => 'طبقة الصوت';
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'يمكنك هنا تعيين BPM الأصلي لملف الصوت.';
 
@@ -912,6 +923,22 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get speedChangeFailed => 'فشل تغيير السرعة. يرجى إعادة المحاولة.';
+
+  @override
+  String get pitchChangeFailed => 'فشل تغيير طبقة الصوت. يرجى إعادة المحاولة.';
+
+  @override
+  String get editSongKey => 'السلم الموسيقي';
+
+  @override
+  String get originalKey => 'السلم الأصلي';
+
+  @override
+  String get currentKey => 'السلم الحالي';
+
+  @override
+  String get hereYouCanSetTheOriginalKeyOfTheAudioFile =>
+      'هنا يمكنك تعيين السلم الأصلي للملف الصوتي.';
 
   @override
   String get copyToClipboard => 'نسخ إلى الحافظة';

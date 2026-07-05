@@ -103,7 +103,7 @@ packages:
       path: "../ap/packages/audioplayers"
       relative: true
     source: path
-    version: "6.6.0"
+    version: "6.8.1"
   audioplayers_android:
     dependency: transitive
     description:
@@ -118,7 +118,7 @@ packages:
       path: "../ap/packages/audioplayers_android_exo"
       relative: true
     source: path
-    version: "0.1.3"
+    version: "0.1.4"
   audioplayers_darwin:
     dependency: transitive
     description:
@@ -136,12 +136,11 @@ packages:
     source: hosted
     version: "4.3.0"
   audioplayers_platform_interface:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: audioplayers_platform_interface
-      sha256: "765f6f0e6dca55cb471c9483fc77700564b3484d19198aca4ebb5147c6c85acb"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../ap/packages/audioplayers_platform_interface"
+      relative: true
+    source: path
     version: "7.2.0"
   audioplayers_web:
     dependency: transitive

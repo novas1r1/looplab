@@ -82,6 +82,7 @@
     "premiumHeadline": "Master Your Favorite Songs like a Pro with Tempo Control, Zoom & Unlimited Loops!",
     "premiumFeatureUnlimitedLoops": "Unlimited Loops",
     "premiumFeatureChangeMusicSpeed": "Audio Speed Control (BPM/Multiplier)",
+    "premiumFeaturePitchControl": "Pitch Control (Semitones)",
     "premiumFeatureZoomInOut": "Waveform Zoom-In/Out",
     "premiumFeatureSupportDeveloper": "Support the independent Developer",
     "freeFeatureUnlimitedSongs": "Unlimited Songs + One Loop per Song",
@@ -239,6 +240,10 @@
     "changelog1013Description": "You can now vote for new features or submit your own feature proposals in the app. Just open the menu and open the 'Vote for Features' board. Happy to hear your wishes!",
     "whatsNew": "What's New",
     "songAddError": "Failed to add song. This could be due to a problem with the file format. Please try to convert the file to a supported format like mp3 or wav.",
+    "importAlreadyRunningError": "Another import is still running. Large files from cloud storage can take a while — please wait for it to finish.",
+    "@importAlreadyRunningError": {
+        "description": "Error shown when the user starts a new import while a previous file pick is still running, e.g. a large video still downloading from cloud storage (OneDrive, Google Drive, iCloud)."
+    },
     "unsupportedAudioFormatError": "The audio format \".{format}\" is not supported. Supported formats: {supportedFormats}.",
     "@unsupportedAudioFormatError": {
         "placeholders": {
@@ -404,6 +409,7 @@
     "useBpm": "Use BPM",
     "reset": "Reset",
     "speedControl": "Speed",
+    "pitchControl": "Pitch",
     "hereYouCanSetTheOriginalBpmOfTheAudioFile": "Here you can set the original BPM of the audio file.",
     "setBpm": "SET",
     "originalBpm": "ORIGINAL BPM",
@@ -415,6 +421,11 @@
     "autoPlayOnLoopSelectDescription": "Automatically start playing when selecting a loop or navigating to next/previous loop",
     "actions": "Actions",
     "speedChangeFailed": "Speed change failed. Please try again.",
+    "pitchChangeFailed": "Pitch change failed. Please try again.",
+    "editSongKey": "Key",
+    "originalKey": "ORIGINAL KEY",
+    "currentKey": "CURRENT KEY",
+    "hereYouCanSetTheOriginalKeyOfTheAudioFile": "Here you can set the original key of the audio file.",
     "copyToClipboard": "Copy to Clipboard",
     "@copyToClipboard": {
         "description": "Button or action to copy text to the device clipboard"

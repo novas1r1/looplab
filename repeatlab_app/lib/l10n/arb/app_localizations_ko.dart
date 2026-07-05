@@ -232,6 +232,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get premiumFeatureChangeMusicSpeed => '속도 제어 (BPM/배율)';
 
   @override
+  String get premiumFeaturePitchControl => '음정 제어 (반음)';
+
+  @override
   String get premiumFeatureZoomInOut => '파형 확대/축소';
 
   @override
@@ -537,6 +540,10 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get songAddError =>
       '곡 추가에 실패했습니다. 파일 형식에 문제가 있을 수 있습니다. mp3나 wav와 같은 지원되는 형식으로 변환해 보세요.';
+
+  @override
+  String get importAlreadyRunningError =>
+      '다른 가져오기가 아직 진행 중입니다. 클라우드 저장소의 큰 파일은 시간이 걸릴 수 있습니다. 완료될 때까지 기다려 주세요.';
 
   @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
@@ -851,6 +858,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get speedControl => '속도 제어';
 
   @override
+  String get pitchControl => '음정';
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       '오디오 파일의 원래 BPM을 설정할 수 있습니다.';
 
@@ -884,6 +894,22 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get speedChangeFailed => '속도 변경에 실패했습니다. 다시 시도해 주세요.';
+
+  @override
+  String get pitchChangeFailed => '음정 변경에 실패했습니다. 다시 시도해 주세요.';
+
+  @override
+  String get editSongKey => '키';
+
+  @override
+  String get originalKey => '원래 키';
+
+  @override
+  String get currentKey => '현재 키';
+
+  @override
+  String get hereYouCanSetTheOriginalKeyOfTheAudioFile =>
+      '여기에서 오디오 파일의 원래 키를 설정할 수 있습니다.';
 
   @override
   String get copyToClipboard => '클립보드에 복사';

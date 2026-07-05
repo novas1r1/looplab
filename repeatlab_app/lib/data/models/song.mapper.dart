@@ -201,6 +201,12 @@ class SongMapper extends ClassMapperBase<Song> {
     opt: true,
     def: 0,
   );
+  static String? _$musicalKey(Song v) => v.musicalKey;
+  static const Field<Song, String> _f$musicalKey = Field(
+    'musicalKey',
+    _$musicalKey,
+    opt: true,
+  );
   static List<Loop> _$loops(Song v) => v.loops;
   static const Field<Song, List<Loop>> _f$loops = Field(
     'loops',
@@ -247,6 +253,7 @@ class SongMapper extends ClassMapperBase<Song> {
     #bpm: _f$bpm,
     #currentBpm: _f$currentBpm,
     #pitchSemitones: _f$pitchSemitones,
+    #musicalKey: _f$musicalKey,
     #loops: _f$loops,
     #loopSort: _f$loopSort,
     #sortOrder: _f$sortOrder,
@@ -264,6 +271,7 @@ class SongMapper extends ClassMapperBase<Song> {
       bpm: data.dec(_f$bpm),
       currentBpm: data.dec(_f$currentBpm),
       pitchSemitones: data.dec(_f$pitchSemitones),
+      musicalKey: data.dec(_f$musicalKey),
       loops: data.dec(_f$loops),
       loopSort: data.dec(_f$loopSort),
       sortOrder: data.dec(_f$sortOrder),
@@ -328,6 +336,7 @@ abstract class SongCopyWith<$R, $In extends Song, $Out>
     int? bpm,
     int? currentBpm,
     int? pitchSemitones,
+    String? musicalKey,
     List<Loop>? loops,
     LoopSort? loopSort,
     int? sortOrder,
@@ -360,6 +369,7 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
     Object? bpm = $none,
     Object? currentBpm = $none,
     int? pitchSemitones,
+    Object? musicalKey = $none,
     List<Loop>? loops,
     LoopSort? loopSort,
     int? sortOrder,
@@ -375,6 +385,7 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
       if (bpm != $none) #bpm: bpm,
       if (currentBpm != $none) #currentBpm: currentBpm,
       if (pitchSemitones != null) #pitchSemitones: pitchSemitones,
+      if (musicalKey != $none) #musicalKey: musicalKey,
       if (loops != null) #loops: loops,
       if (loopSort != null) #loopSort: loopSort,
       if (sortOrder != null) #sortOrder: sortOrder,
@@ -392,6 +403,7 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
     bpm: data.get(#bpm, or: $value.bpm),
     currentBpm: data.get(#currentBpm, or: $value.currentBpm),
     pitchSemitones: data.get(#pitchSemitones, or: $value.pitchSemitones),
+    musicalKey: data.get(#musicalKey, or: $value.musicalKey),
     loops: data.get(#loops, or: $value.loops),
     loopSort: data.get(#loopSort, or: $value.loopSort),
     sortOrder: data.get(#sortOrder, or: $value.sortOrder),

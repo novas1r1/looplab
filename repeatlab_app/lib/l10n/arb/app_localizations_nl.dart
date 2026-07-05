@@ -237,6 +237,9 @@ class AppLocalizationsNl extends AppLocalizations {
       'Tempo Controle (BPM/Multiplicateur)';
 
   @override
+  String get premiumFeaturePitchControl => 'Toonhoogte Controle (Halve tonen)';
+
+  @override
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';
 
   @override
@@ -566,6 +569,10 @@ class AppLocalizationsNl extends AppLocalizations {
       'Fout bij het toevoegen van het nummer. Dit kan veroorzaakt worden door een probleem met het bestandsformaat. Probeer het bestand om te zetten in een ondersteund formaat zoals mp3 of wav.';
 
   @override
+  String get importAlreadyRunningError =>
+      'Er is nog een andere import bezig. Grote bestanden uit cloudopslag kunnen even duren – wacht tot deze klaar is.';
+
+  @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
     return 'Het audioformaat \".$format\" wordt niet ondersteund. Ondersteunde formaten: $supportedFormats.';
   }
@@ -891,6 +898,9 @@ class AppLocalizationsNl extends AppLocalizations {
   String get speedControl => 'Snelheid';
 
   @override
+  String get pitchControl => 'Toonhoogte';
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'Hier kun je de originele BPM van het audio-bestand instellen.';
 
@@ -925,6 +935,23 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get speedChangeFailed =>
       'Snelheidswijziging is mislukt. Probeer het opnieuw.';
+
+  @override
+  String get pitchChangeFailed =>
+      'Toonhoogtewijziging is mislukt. Probeer het opnieuw.';
+
+  @override
+  String get editSongKey => 'Toonsoort';
+
+  @override
+  String get originalKey => 'ORIGINELE TOONSOORT';
+
+  @override
+  String get currentKey => 'HUIDIGE TOONSOORT';
+
+  @override
+  String get hereYouCanSetTheOriginalKeyOfTheAudioFile =>
+      'Hier kun je de originele toonsoort van het audiobestand instellen.';
 
   @override
   String get copyToClipboard => 'Kopiëren naar klembord';

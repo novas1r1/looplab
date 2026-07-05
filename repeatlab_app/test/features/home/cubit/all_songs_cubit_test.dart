@@ -5,6 +5,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:repeatlab/data/models/song.dart';
+import 'package:repeatlab/data/repositories/file_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
 
@@ -86,7 +87,11 @@ void main() {
         },
         act: (cubit) => cubit.loadSongs(),
         expect: () => [
-          isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.loading),
+          isA<AllSongsState>().having(
+            (s) => s.status,
+            'status',
+            AllSongsStatus.loading,
+          ),
           isA<AllSongsState>()
               .having((s) => s.status, 'status', AllSongsStatus.loaded)
               .having((s) => s.songs, 'songs', MockData.testSongs),
@@ -106,7 +111,11 @@ void main() {
         },
         act: (cubit) => cubit.loadSongs(),
         expect: () => [
-          isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.loading),
+          isA<AllSongsState>().having(
+            (s) => s.status,
+            'status',
+            AllSongsStatus.loading,
+          ),
           isA<AllSongsState>()
               .having((s) => s.status, 'status', AllSongsStatus.loaded)
               .having((s) => s.songs, 'songs', isEmpty),
@@ -123,7 +132,11 @@ void main() {
         },
         act: (cubit) => cubit.loadSongs(),
         expect: () => [
-          isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.loading),
+          isA<AllSongsState>().having(
+            (s) => s.status,
+            'status',
+            AllSongsStatus.loading,
+          ),
           isA<AllSongsState>()
               .having((s) => s.status, 'status', AllSongsStatus.error)
               .having(
@@ -151,8 +164,16 @@ void main() {
         },
         act: (cubit) => cubit.addSong(),
         expect: () => [
-          isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.importing),
-          isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.initial),
+          isA<AllSongsState>().having(
+            (s) => s.status,
+            'status',
+            AllSongsStatus.importing,
+          ),
+          isA<AllSongsState>().having(
+            (s) => s.status,
+            'status',
+            AllSongsStatus.initial,
+          ),
         ],
       );
 
@@ -174,7 +195,11 @@ void main() {
         },
         act: (cubit) => cubit.addSong(),
         expect: () => [
-          isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.importing),
+          isA<AllSongsState>().having(
+            (s) => s.status,
+            'status',
+            AllSongsStatus.importing,
+          ),
           isA<AllSongsState>()
               .having((s) => s.status, 'status', AllSongsStatus.importing)
               .having((s) => s.importCurrent, 'importCurrent', 1)
@@ -210,18 +235,24 @@ void main() {
         },
         act: (cubit) => cubit.addSong(),
         expect: () => [
-          isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.importing),
+          isA<AllSongsState>().having(
+            (s) => s.status,
+            'status',
+            AllSongsStatus.importing,
+          ),
           isA<AllSongsState>()
               .having((s) => s.importCurrent, 'importCurrent', 1)
               .having((s) => s.importTotal, 'importTotal', 2),
           isA<AllSongsState>()
               .having((s) => s.importCurrent, 'importCurrent', 2)
               .having((s) => s.importTotal, 'importTotal', 2),
-          isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.loaded).having(
-            (s) => s.songs,
-            'songs',
-            [MockData.songShort, MockData.songMedium],
-          ),
+          isA<AllSongsState>()
+              .having((s) => s.status, 'status', AllSongsStatus.loaded)
+              .having(
+                (s) => s.songs,
+                'songs',
+                [MockData.songShort, MockData.songMedium],
+              ),
         ],
         verify: (_) {
           verify(() => mockSongRepository.addSongFile(any())).called(2);
@@ -251,7 +282,11 @@ void main() {
         },
         act: (cubit) => cubit.addSong(),
         expect: () => [
-          isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.importing),
+          isA<AllSongsState>().having(
+            (s) => s.status,
+            'status',
+            AllSongsStatus.importing,
+          ),
           isA<AllSongsState>()
               .having((s) => s.importCurrent, 'importCurrent', 1)
               .having((s) => s.importTotal, 'importTotal', 2),
@@ -259,7 +294,7 @@ void main() {
               .having((s) => s.importCurrent, 'importCurrent', 2)
               .having((s) => s.importTotal, 'importTotal', 2),
           isA<AllSongsState>()
-              .having((s) => s.status, 'status', AllSongsStatus.error)
+              .having((s) => s.status, 'status', AllSongsStatus.errorAudioFormat)
               .having((s) => s.songs, 'songs', [MockData.songShort])
               .having((s) => s.errorMessage, 'errorMessage', 'xyz'),
         ],
@@ -292,7 +327,11 @@ void main() {
         },
         act: (cubit) => cubit.addSong(),
         expect: () => [
-          isA<AllSongsState>().having((s) => s.status, 'status', AllSongsStatus.importing),
+          isA<AllSongsState>().having(
+            (s) => s.status,
+            'status',
+            AllSongsStatus.importing,
+          ),
           isA<AllSongsState>()
               .having((s) => s.importCurrent, 'importCurrent', 1)
               .having((s) => s.importTotal, 'importTotal', 1),
@@ -316,16 +355,107 @@ void main() {
       );
     });
 
+    group('pick already in progress', () {
+      blocTest<AllSongsCubit, AllSongsState>(
+        'emits [importing, errorImportInProgress] without a crash report '
+        'when a previous audio pick is still running',
+        build: () {
+          when(() => mockFileRepository.pickAudioFiles()).thenThrow(
+            const PickAlreadyInProgressException(),
+          );
+          return buildCubit();
+        },
+        act: (cubit) => cubit.addSong(),
+        expect: () => [
+          isA<AllSongsState>().having(
+            (s) => s.status,
+            'status',
+            AllSongsStatus.importing,
+          ),
+          isA<AllSongsState>().having(
+            (s) => s.status,
+            'status',
+            AllSongsStatus.errorImportInProgress,
+          ),
+        ],
+        verify: (_) {
+          verifyNever(
+            () => mockCrashReportingRepository.reportError(any(), any()),
+          );
+        },
+      );
+
+      blocTest<AllSongsCubit, AllSongsState>(
+        'emits [importing, errorImportInProgress] without a crash report '
+        'when a previous video pick is still running',
+        build: () {
+          when(() => mockFileRepository.pickVideoFiles()).thenThrow(
+            const PickAlreadyInProgressException(),
+          );
+          return buildCubit();
+        },
+        act: (cubit) => cubit.addVideo(),
+        expect: () => [
+          isA<AllSongsState>().having(
+            (s) => s.status,
+            'status',
+            AllSongsStatus.importing,
+          ),
+          isA<AllSongsState>().having(
+            (s) => s.status,
+            'status',
+            AllSongsStatus.errorImportInProgress,
+          ),
+        ],
+        verify: (_) {
+          verifyNever(
+            () => mockCrashReportingRepository.reportError(any(), any()),
+          );
+        },
+      );
+    });
+
+    group('stale error message', () {
+      blocTest<AllSongsCubit, AllSongsState>(
+        'clears the previous errorMessage when a new import starts',
+        seed: () => const AllSongsState(
+          status: AllSongsStatus.errorAudioFormat,
+          errorMessage: 'xyz',
+        ),
+        build: () {
+          when(() => mockFileRepository.pickAudioFiles()).thenAnswer(
+            (_) async => [],
+          );
+          return buildCubit();
+        },
+        act: (cubit) => cubit.addSong(),
+        expect: () => [
+          isA<AllSongsState>()
+              .having((s) => s.status, 'status', AllSongsStatus.importing)
+              .having((s) => s.errorMessage, 'errorMessage', isNull),
+          isA<AllSongsState>().having(
+            (s) => s.status,
+            'status',
+            AllSongsStatus.initial,
+          ),
+        ],
+      );
+    });
+
     group('deleteSong', () {
       blocTest<AllSongsCubit, AllSongsState>(
         'calls songRepository.deleteSong when deleteSong is called',
         build: () {
-          when(() => mockSongRepository.deleteSong(MockData.songShort)).thenAnswer((_) async {});
+          when(
+            () => mockSongRepository.deleteSong(MockData.songShort),
+          ).thenAnswer((_) async {});
           return buildCubit();
         },
         act: (cubit) => cubit.deleteSong(MockData.songShort),
         verify: (_) {
-          verify(() => mockSongRepository.deleteSong(MockData.songShort)).called(1);
+          verify(
+            () => mockSongRepository.deleteSong(MockData.songShort),
+          ).called(1);
         },
       );
 
@@ -378,7 +508,9 @@ void main() {
       blocTest<AllSongsCubit, AllSongsState>(
         'returns false and reports error when clearDb throws',
         build: () {
-          when(() => mockSongRepository.clearDb()).thenThrow(Exception('Clear failed'));
+          when(
+            () => mockSongRepository.clearDb(),
+          ).thenThrow(Exception('Clear failed'));
           return buildCubit();
         },
         act: (cubit) async {
@@ -401,7 +533,9 @@ void main() {
           songs: [MockData.songShort, MockData.songMedium, MockData.songLong],
         ),
         build: () {
-          when(() => mockSongRepository.reorderSongs(any())).thenAnswer((_) async {});
+          when(
+            () => mockSongRepository.reorderSongs(any()),
+          ).thenAnswer((_) async {});
           return buildCubit();
         },
         act: (cubit) => cubit.reorderSongs(2, 0),
@@ -409,7 +543,11 @@ void main() {
           isA<AllSongsState>().having(
             (s) => s.songs.map((s) => s.id).toList(),
             'song ids',
-            [MockData.songLong.id, MockData.songShort.id, MockData.songMedium.id],
+            [
+              MockData.songLong.id,
+              MockData.songShort.id,
+              MockData.songMedium.id,
+            ],
           ),
         ],
         verify: (_) {

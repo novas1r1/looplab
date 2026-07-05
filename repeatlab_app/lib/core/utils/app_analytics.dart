@@ -50,6 +50,9 @@ abstract final class AppAnalytics {
   static const clickUpdateSpeed = 'click_update_speed';
   static const clickUpdatePitch = 'click_update_pitch';
   static const clickUpdateBpm = 'click_update_bpm';
+  static const clickPitchModeSemitones = 'click_pitch_mode_semitones';
+  static const clickPitchModeKey = 'click_pitch_mode_key';
+  static const clickSetOriginalKey = 'click_set_original_key';
   static const clickSetOriginalBpm = 'click_set_original_bpm';
   static const clickShowTutorial = 'click_show_tutorial';
   static const clickZoomIn = 'click_zoom_in';

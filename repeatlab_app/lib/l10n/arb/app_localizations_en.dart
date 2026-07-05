@@ -238,6 +238,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Audio Speed Control (BPM/Multiplier)';
 
   @override
+  String get premiumFeaturePitchControl => 'Pitch Control (Semitones)';
+
+  @override
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';
 
   @override
@@ -560,6 +563,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get songAddError =>
       'Failed to add song. This could be due to a problem with the file format. Please try to convert the file to a supported format like mp3 or wav.';
+
+  @override
+  String get importAlreadyRunningError =>
+      'Another import is still running. Large files from cloud storage can take a while — please wait for it to finish.';
 
   @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
@@ -885,6 +892,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get speedControl => 'Speed';
 
   @override
+  String get pitchControl => 'Pitch';
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'Here you can set the original BPM of the audio file.';
 
@@ -918,6 +928,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get speedChangeFailed => 'Speed change failed. Please try again.';
+
+  @override
+  String get pitchChangeFailed => 'Pitch change failed. Please try again.';
+
+  @override
+  String get editSongKey => 'Key';
+
+  @override
+  String get originalKey => 'ORIGINAL KEY';
+
+  @override
+  String get currentKey => 'CURRENT KEY';
+
+  @override
+  String get hereYouCanSetTheOriginalKeyOfTheAudioFile =>
+      'Here you can set the original key of the audio file.';
 
   @override
   String get copyToClipboard => 'Copy to Clipboard';

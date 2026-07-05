@@ -233,6 +233,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get premiumFeatureChangeMusicSpeed => 'テンポコントロール（BPM/マルチプライヤー）';
 
   @override
+  String get premiumFeaturePitchControl => 'ピッチコントロール（半音）';
+
+  @override
   String get premiumFeatureZoomInOut => '波形のズームイン/アウト';
 
   @override
@@ -540,6 +543,10 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get songAddError =>
       '曲の追加に失敗しました。ファイル形式に問題がある可能性があります。mp3やwavなどのサポートされている形式に変換してみてください。';
+
+  @override
+  String get importAlreadyRunningError =>
+      '別のインポートがまだ実行中です。クラウドストレージの大きなファイルは時間がかかることがあります。完了するまでお待ちください。';
 
   @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
@@ -853,6 +860,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get speedControl => '速度';
 
   @override
+  String get pitchControl => 'ピッチ';
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'ここでオーディオファイルの元のBPMを設定できます。';
 
@@ -886,6 +896,22 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get speedChangeFailed => '速度変更に失敗しました。もう一度お試しください。';
+
+  @override
+  String get pitchChangeFailed => 'ピッチ変更に失敗しました。もう一度お試しください。';
+
+  @override
+  String get editSongKey => 'キー';
+
+  @override
+  String get originalKey => '元のキー';
+
+  @override
+  String get currentKey => '現在のキー';
+
+  @override
+  String get hereYouCanSetTheOriginalKeyOfTheAudioFile =>
+      'ここで音声ファイルの元のキーを設定できます。';
 
   @override
   String get copyToClipboard => 'クリップボードにコピー';

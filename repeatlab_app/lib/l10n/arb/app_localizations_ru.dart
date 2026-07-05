@@ -239,6 +239,9 @@ class AppLocalizationsRu extends AppLocalizations {
       'Управление Скоростью (BPM/Множитель)';
 
   @override
+  String get premiumFeaturePitchControl => 'Управление Тональностью (Полутона)';
+
+  @override
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';
 
   @override
@@ -567,6 +570,10 @@ class AppLocalizationsRu extends AppLocalizations {
       'Ошибка при добавлении песни. Это может быть связано с проблемой с форматом файла. Пожалуйста, попробуйте преобразовать файл в поддерживаемый формат, например mp3 или wav.';
 
   @override
+  String get importAlreadyRunningError =>
+      'Другой импорт ещё выполняется. Большие файлы из облачного хранилища могут загружаться долго — дождитесь завершения.';
+
+  @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
     return 'Аудиоформат \".$format\" не поддерживается. Поддерживаемые форматы: $supportedFormats.';
   }
@@ -891,6 +898,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get speedControl => 'Темп';
 
   @override
+  String get pitchControl => 'Тональность';
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'Здесь вы можете установить оригинальный BPM аудиофайла.';
 
@@ -925,6 +935,23 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get speedChangeFailed =>
       'Изменение скорости не удалось. Пожалуйста, попробуйте еще раз.';
+
+  @override
+  String get pitchChangeFailed =>
+      'Изменение тональности не удалось. Пожалуйста, попробуйте еще раз.';
+
+  @override
+  String get editSongKey => 'Тональность';
+
+  @override
+  String get originalKey => 'ИСХОДНАЯ ТОНАЛЬНОСТЬ';
+
+  @override
+  String get currentKey => 'ТЕКУЩАЯ ТОНАЛЬНОСТЬ';
+
+  @override
+  String get hereYouCanSetTheOriginalKeyOfTheAudioFile =>
+      'Здесь вы можете установить исходную тональность аудиофайла.';
 
   @override
   String get copyToClipboard => 'Скопировать в буфер обмена';

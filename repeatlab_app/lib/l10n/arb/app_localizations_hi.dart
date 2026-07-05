@@ -241,6 +241,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get premiumFeatureChangeMusicSpeed => 'गति नियंत्रण (BPM/गुणक)';
 
   @override
+  String get premiumFeaturePitchControl => 'पिच नियंत्रण (सेमीटोन)';
+
+  @override
   String get premiumFeatureZoomInOut => 'वेवफॉर्म ज़ूम इन/आउट';
 
   @override
@@ -562,6 +565,10 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get songAddError =>
       'गीत जोड़ने में विफल। यह फाइल प्रारूप के कारण हो सकता है। कृपया फाइल को mp3 या wav जैसे समर्थित प्रारूप में कनवर्ट करने का प्रयास करें।';
+
+  @override
+  String get importAlreadyRunningError =>
+      'एक और आयात अभी भी चल रहा है। क्लाउड स्टोरेज से बड़ी फ़ाइलों में समय लग सकता है - कृपया इसके समाप्त होने की प्रतीक्षा करें।';
 
   @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
@@ -887,6 +894,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get speedControl => 'गति';
 
   @override
+  String get pitchControl => 'पिच';
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'आप यहां ऑडियो फ़ाइल का मूल BPM सेट कर सकते हैं।';
 
@@ -921,6 +931,23 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get speedChangeFailed =>
       'गति परिवर्तन विफल हो गया। कृपया पुनः प्रयास करें।';
+
+  @override
+  String get pitchChangeFailed =>
+      'पिच परिवर्तन विफल हो गया। कृपया पुनः प्रयास करें।';
+
+  @override
+  String get editSongKey => 'की';
+
+  @override
+  String get originalKey => 'मूल की';
+
+  @override
+  String get currentKey => 'वर्तमान की';
+
+  @override
+  String get hereYouCanSetTheOriginalKeyOfTheAudioFile =>
+      'यहां आप ऑडियो फ़ाइल की मूल की सेट कर सकते हैं।';
 
   @override
   String get copyToClipboard => 'क्लिपबोर्ड पर कॉपी करें';

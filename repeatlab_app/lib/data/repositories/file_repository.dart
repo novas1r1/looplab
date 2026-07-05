@@ -11,42 +11,53 @@ import 'package:repeatlab/data/repositories/song_repository.dart';
 class FileRepository {
   final FilePickerWrapper filePicker;
 
-  const FileRepository({required this.filePicker});
+  FileRepository({required this.filePicker});
+
+  /// True while a pick — including the platform-side copy of the picked
+  /// files into the app cache — is still running. On Android, picking from a
+  /// cloud document provider (OneDrive, Google Drive, …) downloads the whole
+  /// file before the pick future resolves, which can take minutes for large
+  /// videos. The platform plugin only supports one active pick, so new picks
+  /// during that window must be rejected explicitly instead of surfacing as
+  /// an opaque 'already_active' platform error.
+  bool _pickInProgress = false;
 
   /// Pick one or more audio files and copy each into the app documents
   /// directory. Returns an empty list when the user cancels the picker.
-  Future<List<File>> pickAudioFiles() async {
-    FilePickerResult? result;
+  ///
+  /// Throws [PickAlreadyInProgressException] when a previous pick (possibly
+  /// still copying a large cloud file) has not finished yet.
+  Future<List<File>> pickAudioFiles() {
+    return _pickAndCopy(() async {
+      if (Platform.isIOS) {
+        // this allows to pick any file type from every location, also iCloud
+        // result = await filePicker.pickFiles();
 
-    if (Platform.isIOS) {
-      // this allows to pick any file type from every location, also iCloud
-      // result = await filePicker.pickFiles();
-
-      result = await filePicker.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: [
-          'mp3',
-          'm4a',
-          'aac',
-          'wav',
-          'flac',
-          'ogg',
-          'wma',
-          'opus',
-          'aiff',
-        ],
-        allowMultiple: true,
-      );
-      // this only shows files in mediathek
-      // result = await filePicker.pickFiles(
-      //   type: FileType.audio,
-      // );
-    } else {
+        return filePicker.pickFiles(
+          type: FileType.custom,
+          allowedExtensions: [
+            'mp3',
+            'm4a',
+            'aac',
+            'wav',
+            'flac',
+            'ogg',
+            'wma',
+            'opus',
+            'aiff',
+          ],
+          allowMultiple: true,
+        );
+        // this only shows files in mediathek
+        // result = await filePicker.pickFiles(
+        //   type: FileType.audio,
+        // );
+      }
       try {
         // TODO: Fix this once [log] ERROR: PlatformException(invalid_format_type, Can't handle the provided file type., null, null)
         // is solved
         // filepicking for FileType.audio is not working. It displays all files in the system.
-        result = await filePicker.pickFiles(
+        return await filePicker.pickFiles(
           type: FileType.audio,
           allowMultiple: true,
         );
@@ -59,9 +70,7 @@ class FileRepository {
         log('Error picking file: $e');
         rethrow;
       }
-    }
-
-    return _copyPickedFiles(result);
+    });
   }
 
   /// Pick one or more video files and copy each into the app documents
@@ -74,18 +83,20 @@ class FileRepository {
   /// would open the Photos library picker instead of the Files browser.
   /// Android must use `FileType.video`: with `FileType.custom`, files whose
   /// document provider reports an unexpected MIME type would be greyed out.
-  Future<List<File>> pickVideoFiles() async {
-    FilePickerResult? result;
-
-    if (Platform.isIOS) {
-      result = await filePicker.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: SongRepository.videoPickerExtensionsIos,
-        allowMultiple: true,
-      );
-    } else {
+  ///
+  /// Throws [PickAlreadyInProgressException] when a previous pick (possibly
+  /// still copying a large cloud file) has not finished yet.
+  Future<List<File>> pickVideoFiles() {
+    return _pickAndCopy(() async {
+      if (Platform.isIOS) {
+        return filePicker.pickFiles(
+          type: FileType.custom,
+          allowedExtensions: SongRepository.videoPickerExtensionsIos,
+          allowMultiple: true,
+        );
+      }
       try {
-        result = await filePicker.pickFiles(
+        return await filePicker.pickFiles(
           type: FileType.video,
           allowMultiple: true,
         );
@@ -93,9 +104,33 @@ class FileRepository {
         log('Error picking video file: $e');
         rethrow;
       }
-    }
+    });
+  }
 
-    return _copyPickedFiles(result);
+  /// Runs [pick] with a re-entrancy guard, then copies the result into the
+  /// app documents directory. Rejects overlapping picks — both via the local
+  /// [_pickInProgress] flag and by translating the plugin's 'already_active'
+  /// error (a pick left pending on the platform side, e.g. after the user
+  /// backed out while a cloud file was still downloading) — as
+  /// [PickAlreadyInProgressException].
+  Future<List<File>> _pickAndCopy(
+    Future<FilePickerResult?> Function() pick,
+  ) async {
+    if (_pickInProgress) {
+      throw const PickAlreadyInProgressException();
+    }
+    _pickInProgress = true;
+    try {
+      final result = await pick();
+      return await _copyPickedFiles(result);
+    } on PlatformException catch (e) {
+      if (e.code == 'already_active') {
+        throw const PickAlreadyInProgressException();
+      }
+      rethrow;
+    } finally {
+      _pickInProgress = false;
+    }
   }
 
   /// Move every picked file into the app documents directory, preserving the
@@ -138,6 +173,16 @@ class FileRepository {
 
     return copiedFiles;
   }
+}
+
+/// Thrown when a new file pick is requested while a previous pick is still
+/// running — typically because the platform is still downloading/copying a
+/// large file from a cloud provider (OneDrive, Google Drive, iCloud, …).
+class PickAlreadyInProgressException implements Exception {
+  const PickAlreadyInProgressException();
+
+  @override
+  String toString() => 'A file pick is already in progress.';
 }
 
 /// Returns a path in [dir] for [fileName] that doesn't collide with an

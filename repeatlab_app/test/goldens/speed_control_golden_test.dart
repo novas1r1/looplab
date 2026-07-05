@@ -68,7 +68,8 @@ void main() {
     multiLocaleGoldenTest(
       'multiplier mode at 1.0x (default)',
       fileNameBase: 'speed_control_multiplier_1x',
-      pumpWidgetWithLocale: (tester, widget, locale) => tester.pumpApp(widget, locale: locale),
+      pumpWidgetWithLocale: (tester, widget, locale) =>
+          tester.pumpApp(widget, locale: locale),
       builder: () => GoldenTestDeviceScenario(
         name: 'multiplier_1x',
         builder: () => buildSpeedControl(
@@ -82,7 +83,8 @@ void main() {
     multiLocaleGoldenTest(
       'multiplier mode at 0.5x (slow)',
       fileNameBase: 'speed_control_multiplier_slow',
-      pumpWidgetWithLocale: (tester, widget, locale) => tester.pumpApp(widget, locale: locale),
+      pumpWidgetWithLocale: (tester, widget, locale) =>
+          tester.pumpApp(widget, locale: locale),
       builder: () => GoldenTestDeviceScenario(
         name: 'multiplier_slow',
         builder: () => buildSpeedControl(
@@ -97,7 +99,8 @@ void main() {
     multiLocaleGoldenTest(
       'multiplier mode at 2.0x (fast)',
       fileNameBase: 'speed_control_multiplier_fast',
-      pumpWidgetWithLocale: (tester, widget, locale) => tester.pumpApp(widget, locale: locale),
+      pumpWidgetWithLocale: (tester, widget, locale) =>
+          tester.pumpApp(widget, locale: locale),
       builder: () => GoldenTestDeviceScenario(
         name: 'multiplier_fast',
         builder: () => buildSpeedControl(
@@ -112,7 +115,8 @@ void main() {
     multiLocaleGoldenTest(
       'multiplier mode at 1.5x (medium fast)',
       fileNameBase: 'speed_control_multiplier_medium',
-      pumpWidgetWithLocale: (tester, widget, locale) => tester.pumpApp(widget, locale: locale),
+      pumpWidgetWithLocale: (tester, widget, locale) =>
+          tester.pumpApp(widget, locale: locale),
       builder: () => GoldenTestDeviceScenario(
         name: 'multiplier_medium',
         builder: () => buildSpeedControl(
@@ -129,7 +133,8 @@ void main() {
     multiLocaleGoldenTest(
       'bpm mode without original bpm set',
       fileNameBase: 'speed_control_bpm_no_original',
-      pumpWidgetWithLocale: (tester, widget, locale) => tester.pumpApp(widget, locale: locale),
+      pumpWidgetWithLocale: (tester, widget, locale) =>
+          tester.pumpApp(widget, locale: locale),
       builder: () => GoldenTestDeviceScenario(
         name: 'bpm_no_original',
         builder: () => buildSpeedControl(
@@ -144,7 +149,8 @@ void main() {
     multiLocaleGoldenTest(
       'bpm mode with original bpm (120)',
       fileNameBase: 'speed_control_bpm_with_original',
-      pumpWidgetWithLocale: (tester, widget, locale) => tester.pumpApp(widget, locale: locale),
+      pumpWidgetWithLocale: (tester, widget, locale) =>
+          tester.pumpApp(widget, locale: locale),
       builder: () => GoldenTestDeviceScenario(
         name: 'bpm_with_original',
         builder: () => buildSpeedControl(
@@ -163,7 +169,8 @@ void main() {
     multiLocaleGoldenTest(
       'bpm mode at slow speed (60 bpm)',
       fileNameBase: 'speed_control_bpm_slow',
-      pumpWidgetWithLocale: (tester, widget, locale) => tester.pumpApp(widget, locale: locale),
+      pumpWidgetWithLocale: (tester, widget, locale) =>
+          tester.pumpApp(widget, locale: locale),
       builder: () => GoldenTestDeviceScenario(
         name: 'bpm_slow',
         builder: () => buildSpeedControl(
@@ -183,7 +190,8 @@ void main() {
     multiLocaleGoldenTest(
       'bpm mode at fast speed (240 bpm)',
       fileNameBase: 'speed_control_bpm_fast',
-      pumpWidgetWithLocale: (tester, widget, locale) => tester.pumpApp(widget, locale: locale),
+      pumpWidgetWithLocale: (tester, widget, locale) =>
+          tester.pumpApp(widget, locale: locale),
       builder: () => GoldenTestDeviceScenario(
         name: 'bpm_fast',
         builder: () => buildSpeedControl(
@@ -203,7 +211,8 @@ void main() {
     multiLocaleGoldenTest(
       'bpm mode at medium speed (180 bpm)',
       fileNameBase: 'speed_control_bpm_medium',
-      pumpWidgetWithLocale: (tester, widget, locale) => tester.pumpApp(widget, locale: locale),
+      pumpWidgetWithLocale: (tester, widget, locale) =>
+          tester.pumpApp(widget, locale: locale),
       builder: () => GoldenTestDeviceScenario(
         name: 'bpm_medium',
         builder: () => buildSpeedControl(

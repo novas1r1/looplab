@@ -10,6 +10,7 @@ import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/ui/widgets/loading.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
+import 'package:repeatlab/core/utils/musical_key.dart';
 import 'package:repeatlab/core/utils/snackbar_helper.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
@@ -157,6 +158,12 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
               SnackbarHelper.showError(
                 context,
                 context.l10n.speedChangeFailed,
+              );
+            } else if (state.status == SongStatus.pitchChangeFailed) {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              SnackbarHelper.showError(
+                context,
+                context.l10n.pitchChangeFailed,
               );
             } else if (state.status == SongStatus.songDeleted) {
               Navigator.of(context).popUntil((route) => route.isFirst);
@@ -404,7 +411,7 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                       ),
                     ),
                     SliverPadding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 174),
                       sliver: SliverList(
                         delegate: SliverChildBuilderDelegate(
                           (context, index) {
@@ -424,7 +431,9 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                                             state.hasYearlySubscription ||
                                             state.hasLifetimePurchase,
                                         builder: (context, hasPremium) {
-                                          Widget buildItem(int index) => Padding(
+                                          Widget buildItem(
+                                            int index,
+                                          ) => Padding(
                                             padding: const EdgeInsets.symmetric(
                                               vertical: 4,
                                             ),
@@ -499,7 +508,10 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
 
                                               final List<Loop> newLoops = List<Loop>.from(loops);
                                               final Loop item = newLoops.removeAt(oldIndex);
-                                              newLoops.insert(targetIndex, item);
+                                              newLoops.insert(
+                                                targetIndex,
+                                                item,
+                                              );
 
                                               for (var i = 0; i < newLoops.length; i++) {
                                                 newLoops[i] = newLoops[i].copyWith(orderNumber: i);
@@ -601,7 +613,7 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
     final songCubit = context.read<SongCubit>();
     final currentSong = songCubit.state.song;
 
-    final result = await showDialog<({String title, String artist, int? bpm})>(
+    final result = await showDialog<({String title, String artist, int? bpm, String? musicalKey})>(
       context: context,
       builder: (dialogContext) {
         final titleController = TextEditingController(text: currentSong.title);
@@ -611,6 +623,11 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
         final bpmController = TextEditingController(
           text: currentSong.bpm?.toString() ?? '',
         );
+        // Empty string = no key. Stored keys may use flat spellings (e.g.
+        // "Bbm" from ID3 tags), so canonicalize to match the dropdown values.
+        var selectedKey = currentSong.musicalKey == null
+            ? ''
+            : MusicalKey.canonicalize(currentSong.musicalKey!) ?? '';
 
         return StatefulBuilder(
           builder: (dialogContext, setState) {
@@ -660,6 +677,24 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                       ),
                       keyboardType: TextInputType.number,
                     ),
+                    const SizedBox(height: 16),
+                    DropdownButtonFormField<String>(
+                      key: const Key('song.edit.key'),
+                      initialValue: selectedKey,
+                      decoration: InputDecoration(
+                        labelText: dialogContext.l10n.editSongKey,
+                      ),
+                      items: [
+                        const DropdownMenuItem(value: '', child: Text('–')),
+                        ...MusicalKey.allKeys.map(
+                          (key) => DropdownMenuItem(
+                            value: key,
+                            child: Text(MusicalKey.displayLabel(key)),
+                          ),
+                        ),
+                      ],
+                      onChanged: (value) => setState(() => selectedKey = value ?? ''),
+                    ),
                   ],
                 ),
               ),
@@ -686,6 +721,7 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                             title: titleController.text.trim(),
                             artist: artistController.text.trim(),
                             bpm: bpm,
+                            musicalKey: selectedKey.isEmpty ? null : selectedKey,
                           ));
                         },
                   child: Text(dialogContext.l10n.save),
@@ -702,6 +738,7 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
         title: result.title,
         artist: result.artist,
         bpm: result.bpm,
+        musicalKey: result.musicalKey,
       );
     }
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:repeatlab/core/ui/widgets/loading.dart';
 import 'package:repeatlab/features/legals/privacy_policy_loader.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
@@ -25,7 +26,7 @@ class _DataprotectionPageState extends State<DataprotectionPage> {
           future: getPrivacyPolicy(langCode),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(child: Loading());
             }
 
             if (snapshot.hasError) {

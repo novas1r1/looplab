@@ -240,6 +240,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get premiumFeatureChangeMusicSpeed => 'Hız Kontrolü (BPM/Çarpan)';
 
   @override
+  String get premiumFeaturePitchControl => 'Perde Kontrolü (Yarım Tonlar)';
+
+  @override
   String get premiumFeatureZoomInOut => 'Dalga formunu yakınlaştır/uzaklaştır';
 
   @override
@@ -563,6 +566,10 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get songAddError =>
       'Şarkı eklenemedi. Bu dosya formatından kaynaklanıyor olabilir. Lütfen dosyayı mp3 veya wav gibi desteklenen bir formata dönüştürmeyi deneyin.';
+
+  @override
+  String get importAlreadyRunningError =>
+      'Başka bir içe aktarma hâlâ devam ediyor. Bulut depolamadan büyük dosyalar zaman alabilir; lütfen bitmesini bekleyin.';
 
   @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
@@ -890,6 +897,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get speedControl => 'Hız';
 
   @override
+  String get pitchControl => 'Perde';
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'Burada ses dosyasının orijinal BPM\'sini ayarlayabilirsiniz.';
 
@@ -924,6 +934,23 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get speedChangeFailed =>
       'Hız değişikliği başarısız oldu. Lütfen tekrar deneyin.';
+
+  @override
+  String get pitchChangeFailed =>
+      'Perde değişikliği başarısız oldu. Lütfen tekrar deneyin.';
+
+  @override
+  String get editSongKey => 'Ton';
+
+  @override
+  String get originalKey => 'ORİJİNAL TON';
+
+  @override
+  String get currentKey => 'GÜNCEL TON';
+
+  @override
+  String get hereYouCanSetTheOriginalKeyOfTheAudioFile =>
+      'Burada ses dosyasının orijinal tonunu ayarlayabilirsiniz.';
 
   @override
   String get copyToClipboard => 'Panoya kopyala';

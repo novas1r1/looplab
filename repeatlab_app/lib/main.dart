@@ -156,7 +156,8 @@ Future<void> _initializeApp() async {
     SentryWidget(
       child: ClarityWidget(
         app: /* DevicePreview(
-          builder: (context) =>  */ app,
+          builder: (context) =>  */
+            app,
         // ),
         clarityConfig: config,
       ),

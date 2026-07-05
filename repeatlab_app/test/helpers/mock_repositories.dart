@@ -10,7 +10,8 @@ class MockLocalConfigRepository extends Mock implements LocalConfigRepository {}
 
 class MockSongRepository extends Mock implements SongRepository {}
 
-class MockCrashReportingRepository extends Mock implements CrashReportingRepository {}
+class MockCrashReportingRepository extends Mock
+    implements CrashReportingRepository {}
 
 class MockFileRepository extends Mock implements FileRepository {}
 

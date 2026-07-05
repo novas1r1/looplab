@@ -41,7 +41,8 @@ class _HomePageState extends State<HomePage> {
     final songCount = allSongsState.songs.length;
     // Block a second import while one is running (or the list is loading);
     // large videos can take a while to copy and probe.
-    final isBusy = allSongsState.status == AllSongsStatus.loading ||
+    final isBusy =
+        allSongsState.status == AllSongsStatus.loading ||
         allSongsState.status == AllSongsStatus.importing;
 
     return BlocListener<ChangelogDialogCubit, ChangelogDialogState>(
@@ -87,24 +88,22 @@ class _HomePageState extends State<HomePage> {
           listenWhen: (previous, current) => previous.status != current.status,
           listener: (context, state) {
             if (state.status == AllSongsStatus.error) {
-              final format = state.errorMessage;
-              if (format != null) {
-                AppAnalytics.trackEvent(
-                  AppAnalytics.songAddUnsupportedFormat,
-                  data: {'format': format},
-                );
-                // errorMessage contains the unsupported format extension
-                SnackbarHelper.showError(
-                  context,
-                  context.l10n.unsupportedAudioFormatError(
-                    format,
-                    SongRepository.supportedFormatsLabel,
-                  ),
-                );
-              } else {
-                AppAnalytics.trackEvent(AppAnalytics.songAddError);
-                SnackbarHelper.showError(context, context.l10n.songAddError);
-              }
+              AppAnalytics.trackEvent(AppAnalytics.songAddError);
+              SnackbarHelper.showError(context, context.l10n.songAddError);
+            } else if (state.status == AllSongsStatus.errorAudioFormat) {
+              // errorMessage contains the unsupported format extension
+              final format = state.errorMessage ?? '';
+              AppAnalytics.trackEvent(
+                AppAnalytics.songAddUnsupportedFormat,
+                data: {'format': format},
+              );
+              SnackbarHelper.showError(
+                context,
+                context.l10n.unsupportedAudioFormatError(
+                  format,
+                  SongRepository.supportedFormatsLabel,
+                ),
+              );
             } else if (state.status == AllSongsStatus.errorVideoFormat) {
               final format = state.errorMessage ?? '';
               AppAnalytics.trackEvent(
@@ -117,6 +116,11 @@ class _HomePageState extends State<HomePage> {
                   format,
                   SongRepository.supportedVideoFormatsLabel,
                 ),
+              );
+            } else if (state.status == AllSongsStatus.errorImportInProgress) {
+              SnackbarHelper.showError(
+                context,
+                context.l10n.importAlreadyRunningError,
               );
             }
           },
@@ -140,16 +144,20 @@ class _HomePageState extends State<HomePage> {
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ),
-                      if (state.importCurrent != null && state.importTotal != null) ...[
+                      if (state.importCurrent != null &&
+                          state.importTotal != null) ...[
                         const SizedBox(height: 8),
                         Text(
                           context.l10n.importingMediaProgress(
                             state.importCurrent!,
                             state.importTotal!,
                           ),
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: AppColors.onSurface.withValues(alpha: 0.6),
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                color: AppColors.onSurface.withValues(
+                                  alpha: 0.6,
+                                ),
+                              ),
                         ),
                       ],
                     ],
@@ -158,7 +166,9 @@ class _HomePageState extends State<HomePage> {
               case AllSongsStatus.initial:
               case AllSongsStatus.loaded:
               case AllSongsStatus.error:
+              case AllSongsStatus.errorAudioFormat:
               case AllSongsStatus.errorVideoFormat:
+              case AllSongsStatus.errorImportInProgress:
                 if (state.songs.isEmpty) {
                   return Center(
                     key: const Key('home.empty'),
@@ -178,11 +188,12 @@ class _HomePageState extends State<HomePage> {
                         const SizedBox(height: 8),
                         Text(
                           context.l10n.tapToAddSong,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: AppColors.onSurface.withValues(
-                              alpha: 0.6,
-                            ),
-                          ),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: AppColors.onSurface.withValues(
+                                  alpha: 0.6,
+                                ),
+                              ),
                         ),
                       ],
                     ),
@@ -197,13 +208,15 @@ class _HomePageState extends State<HomePage> {
                       newIndex,
                     );
                   },
-                  onReorderEnd: (_) => AppAnalytics.trackEvent(AppAnalytics.reorderSongs),
-                  proxyDecorator: (Widget child, int index, Animation<double> animation) {
-                    return Material(
-                      color: Colors.transparent,
-                      child: child,
-                    );
-                  },
+                  onReorderEnd: (_) =>
+                      AppAnalytics.trackEvent(AppAnalytics.reorderSongs),
+                  proxyDecorator:
+                      (Widget child, int index, Animation<double> animation) {
+                        return Material(
+                          color: Colors.transparent,
+                          child: child,
+                        );
+                      },
                   itemBuilder: (context, index) => HomeTile(
                     key: ValueKey(state.songs[index].id),
                     song: state.songs[index],
@@ -215,10 +228,10 @@ class _HomePageState extends State<HomePage> {
         floatingActionButton: FloatingActionButton.extended(
           key: const Key('home.fab'),
           heroTag: 'addMedia',
-          onPressed: isBusy ? null : () => _showAddMediaSheet(context, songCount),
-          backgroundColor: isBusy
-              ? Theme.of(context).disabledColor
-              : null,
+          onPressed: isBusy
+              ? null
+              : () => _showAddMediaSheet(context, songCount),
+          backgroundColor: isBusy ? Theme.of(context).disabledColor : null,
           icon: const Icon(Icons.add),
           label: Text(
             context.l10n.addSong,
@@ -266,7 +279,8 @@ class _HomePageState extends State<HomePage> {
                 leading: const Icon(Icons.audiotrack),
                 title: Text(context.l10n.addSong),
                 subtitle: const Text(SongRepository.supportedFormatsLabel),
-                onTap: () => Navigator.of(sheetContext).pop(_AddMediaChoice.audio),
+                onTap: () =>
+                    Navigator.of(sheetContext).pop(_AddMediaChoice.audio),
               ),
               ListTile(
                 key: const Key('home.addVideo'),
@@ -302,7 +316,8 @@ class _HomePageState extends State<HomePage> {
                 subtitle: Text(
                   SongRepository.supportedVideoFormatsLabel,
                 ),
-                onTap: () => Navigator.of(sheetContext).pop(_AddMediaChoice.video),
+                onTap: () =>
+                    Navigator.of(sheetContext).pop(_AddMediaChoice.video),
               ),
               const SizedBox(height: 8),
             ],

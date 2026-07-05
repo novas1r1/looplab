@@ -240,6 +240,9 @@ class AppLocalizationsEs extends AppLocalizations {
       'Control de Velocidad de Audio (BPM/Multiplier)';
 
   @override
+  String get premiumFeaturePitchControl => 'Control de Tono (Semitonos)';
+
+  @override
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';
 
   @override
@@ -569,6 +572,10 @@ class AppLocalizationsEs extends AppLocalizations {
       'Error al añadir la canción. Esto podría deberse a un problema con el formato de archivo. Por favor, intenta convertir el archivo a un formato compatible como mp3 o wav.';
 
   @override
+  String get importAlreadyRunningError =>
+      'Otra importación sigue en curso. Los archivos grandes desde el almacenamiento en la nube pueden tardar un poco; espera a que termine.';
+
+  @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
     return 'El formato de audio \".$format\" no es compatible. Formatos compatibles: $supportedFormats.';
   }
@@ -894,6 +901,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get speedControl => 'Velocidad';
 
   @override
+  String get pitchControl => 'Tono';
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'Aquí puedes establecer el BPM original del archivo de audio.';
 
@@ -928,6 +938,23 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get speedChangeFailed =>
       'El cambio de velocidad ha fallado. Por favor, inténtalo de nuevo.';
+
+  @override
+  String get pitchChangeFailed =>
+      'El cambio de tono ha fallado. Por favor, inténtalo de nuevo.';
+
+  @override
+  String get editSongKey => 'Tonalidad';
+
+  @override
+  String get originalKey => 'TONALIDAD ORIGINAL';
+
+  @override
+  String get currentKey => 'TONALIDAD ACTUAL';
+
+  @override
+  String get hereYouCanSetTheOriginalKeyOfTheAudioFile =>
+      'Aquí puedes establecer la tonalidad original del archivo de audio.';
 
   @override
   String get copyToClipboard => 'Copiar al portapapeles';

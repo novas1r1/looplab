@@ -41,27 +41,51 @@ void main() {
   }
 
   void stubNoSubscriptions() {
-    when(() => mockPurchasesRepository.hasWeeklySubscription).thenAnswer((_) async => false);
-    when(() => mockPurchasesRepository.hasYearlySubscription).thenAnswer((_) async => false);
-    when(() => mockPurchasesRepository.hasLifetimePurchase).thenAnswer((_) async => false);
+    when(
+      () => mockPurchasesRepository.hasWeeklySubscription,
+    ).thenAnswer((_) async => false);
+    when(
+      () => mockPurchasesRepository.hasYearlySubscription,
+    ).thenAnswer((_) async => false);
+    when(
+      () => mockPurchasesRepository.hasLifetimePurchase,
+    ).thenAnswer((_) async => false);
   }
 
   void stubWeeklySubscription() {
-    when(() => mockPurchasesRepository.hasWeeklySubscription).thenAnswer((_) async => true);
-    when(() => mockPurchasesRepository.hasYearlySubscription).thenAnswer((_) async => false);
-    when(() => mockPurchasesRepository.hasLifetimePurchase).thenAnswer((_) async => false);
+    when(
+      () => mockPurchasesRepository.hasWeeklySubscription,
+    ).thenAnswer((_) async => true);
+    when(
+      () => mockPurchasesRepository.hasYearlySubscription,
+    ).thenAnswer((_) async => false);
+    when(
+      () => mockPurchasesRepository.hasLifetimePurchase,
+    ).thenAnswer((_) async => false);
   }
 
   void stubYearlySubscription() {
-    when(() => mockPurchasesRepository.hasWeeklySubscription).thenAnswer((_) async => false);
-    when(() => mockPurchasesRepository.hasYearlySubscription).thenAnswer((_) async => true);
-    when(() => mockPurchasesRepository.hasLifetimePurchase).thenAnswer((_) async => false);
+    when(
+      () => mockPurchasesRepository.hasWeeklySubscription,
+    ).thenAnswer((_) async => false);
+    when(
+      () => mockPurchasesRepository.hasYearlySubscription,
+    ).thenAnswer((_) async => true);
+    when(
+      () => mockPurchasesRepository.hasLifetimePurchase,
+    ).thenAnswer((_) async => false);
   }
 
   void stubLifetimePurchase() {
-    when(() => mockPurchasesRepository.hasWeeklySubscription).thenAnswer((_) async => false);
-    when(() => mockPurchasesRepository.hasYearlySubscription).thenAnswer((_) async => false);
-    when(() => mockPurchasesRepository.hasLifetimePurchase).thenAnswer((_) async => true);
+    when(
+      () => mockPurchasesRepository.hasWeeklySubscription,
+    ).thenAnswer((_) async => false);
+    when(
+      () => mockPurchasesRepository.hasYearlySubscription,
+    ).thenAnswer((_) async => false);
+    when(
+      () => mockPurchasesRepository.hasLifetimePurchase,
+    ).thenAnswer((_) async => true);
   }
 
   MockCustomerInfo buildMockCustomerInfo({
@@ -75,7 +99,9 @@ void main() {
     if (hasProEntitlement) {
       final entitlementInfo = MockEntitlementInfo();
       when(() => entitlementInfo.isActive).thenReturn(isActive);
-      when(() => entitlementInfo.productIdentifier).thenReturn(productIdentifier);
+      when(
+        () => entitlementInfo.productIdentifier,
+      ).thenReturn(productIdentifier);
       when(() => entitlementInfos.all).thenReturn({'Pro': entitlementInfo});
     } else {
       when(() => entitlementInfos.all).thenReturn({});
@@ -157,14 +183,24 @@ void main() {
       blocTest<PremiumSubscriptionCubit, PremiumSubscriptionState>(
         'emits failure when setup throws',
         setUp: () {
-          when(() => mockPurchasesRepository.setup()).thenThrow(Exception('Setup failed'));
+          when(
+            () => mockPurchasesRepository.setup(),
+          ).thenThrow(Exception('Setup failed'));
         },
         build: buildCubit,
         act: (cubit) => cubit.init(),
         expect: () => [
           isA<PremiumSubscriptionState>()
-              .having((s) => s.status, 'status', PremiumSubscriptionStatus.failure)
-              .having((s) => s.errorMessage, 'errorMessage', contains('Setup failed')),
+              .having(
+                (s) => s.status,
+                'status',
+                PremiumSubscriptionStatus.failure,
+              )
+              .having(
+                (s) => s.errorMessage,
+                'errorMessage',
+                contains('Setup failed'),
+              ),
         ],
         verify: (_) {
           verify(
@@ -250,8 +286,16 @@ void main() {
         act: (cubit) => cubit.init(),
         expect: () => [
           isA<PremiumSubscriptionState>()
-              .having((s) => s.status, 'status', PremiumSubscriptionStatus.failure)
-              .having((s) => s.errorMessage, 'errorMessage', contains('Network error')),
+              .having(
+                (s) => s.status,
+                'status',
+                PremiumSubscriptionStatus.failure,
+              )
+              .having(
+                (s) => s.errorMessage,
+                'errorMessage',
+                contains('Network error'),
+              ),
         ],
       );
 
@@ -259,9 +303,15 @@ void main() {
         'emits premium with multiple subscription types active',
         setUp: () {
           stubSetup();
-          when(() => mockPurchasesRepository.hasWeeklySubscription).thenAnswer((_) async => true);
-          when(() => mockPurchasesRepository.hasYearlySubscription).thenAnswer((_) async => true);
-          when(() => mockPurchasesRepository.hasLifetimePurchase).thenAnswer((_) async => false);
+          when(
+            () => mockPurchasesRepository.hasWeeklySubscription,
+          ).thenAnswer((_) async => true);
+          when(
+            () => mockPurchasesRepository.hasYearlySubscription,
+          ).thenAnswer((_) async => true);
+          when(
+            () => mockPurchasesRepository.hasLifetimePurchase,
+          ).thenAnswer((_) async => false);
         },
         build: buildCubit,
         act: (cubit) => cubit.init(),
@@ -390,8 +440,16 @@ void main() {
         act: (cubit) => cubit.restore(),
         expect: () => [
           isA<PremiumSubscriptionState>()
-              .having((s) => s.status, 'status', PremiumSubscriptionStatus.failure)
-              .having((s) => s.errorMessage, 'errorMessage', contains('Restore failed')),
+              .having(
+                (s) => s.status,
+                'status',
+                PremiumSubscriptionStatus.failure,
+              )
+              .having(
+                (s) => s.errorMessage,
+                'errorMessage',
+                contains('Restore failed'),
+              ),
         ],
         verify: (_) {
           verify(

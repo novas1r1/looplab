@@ -97,8 +97,11 @@ class VideoPlayerHandler implements MediaPlayerHandler {
             // Verbose libmpv logs in debug builds surface file-open / decoder /
             // audio-device failures that would otherwise be silent. Release
             // builds use `error` to keep logs and Sentry breadcrumbs quiet.
+            // pitch: true enables Player.setPitch (libmpv scaletempo);
+            // without it media_kit throws on every setPitch call.
             configuration: const PlayerConfiguration(
               logLevel: kDebugMode ? MPVLogLevel.debug : MPVLogLevel.error,
+              pitch: true,
             ),
           ) {
     log('VideoPlayerHandler constructor');
@@ -111,7 +114,9 @@ class VideoPlayerHandler implements MediaPlayerHandler {
       log('VideoPlayerHandler mpv ERROR: $error');
     });
     _logSubscription = this.player.stream.log.listen((entry) {
-      log('VideoPlayerHandler mpv[${entry.level}] ${entry.prefix}: ${entry.text}');
+      log(
+        'VideoPlayerHandler mpv[${entry.level}] ${entry.prefix}: ${entry.text}',
+      );
     });
 
     _playingSubscription = this.player.stream.playing.listen((playing) {
@@ -171,11 +176,18 @@ class VideoPlayerHandler implements MediaPlayerHandler {
         await player.pause();
       }
       await player.setRate(_playbackSpeed);
-      await player.setPitch(1);
     } catch (e, stack) {
       log('VideoPlayerHandler.playSong failed: $e\n$stack');
       _emitPlayerState(PlayerState.stopped);
       rethrow;
+    }
+
+    // Reset pitch separately and non-fatally: opening a video must never
+    // fail because pitch is unsupported on some platform/build.
+    try {
+      await player.setPitch(1);
+    } catch (e) {
+      log('VideoPlayerHandler.playSong: pitch reset failed (ignored): $e');
     }
   }
 

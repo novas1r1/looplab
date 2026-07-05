@@ -546,6 +546,12 @@ abstract class AppLocalizations {
   /// **'Audio Speed Control (BPM/Multiplier)'**
   String get premiumFeatureChangeMusicSpeed;
 
+  /// No description provided for @premiumFeaturePitchControl.
+  ///
+  /// In en, this message translates to:
+  /// **'Pitch Control (Semitones)'**
+  String get premiumFeaturePitchControl;
+
   /// No description provided for @premiumFeatureZoomInOut.
   ///
   /// In en, this message translates to:
@@ -1091,6 +1097,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to add song. This could be due to a problem with the file format. Please try to convert the file to a supported format like mp3 or wav.'**
   String get songAddError;
+
+  /// Error shown when the user starts a new import while a previous file pick is still running, e.g. a large video still downloading from cloud storage (OneDrive, Google Drive, iCloud).
+  ///
+  /// In en, this message translates to:
+  /// **'Another import is still running. Large files from cloud storage can take a while — please wait for it to finish.'**
+  String get importAlreadyRunningError;
 
   /// No description provided for @unsupportedAudioFormatError.
   ///
@@ -1662,6 +1674,12 @@ abstract class AppLocalizations {
   /// **'Speed'**
   String get speedControl;
 
+  /// No description provided for @pitchControl.
+  ///
+  /// In en, this message translates to:
+  /// **'Pitch'**
+  String get pitchControl;
+
   /// No description provided for @hereYouCanSetTheOriginalBpmOfTheAudioFile.
   ///
   /// In en, this message translates to:
@@ -1727,6 +1745,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Speed change failed. Please try again.'**
   String get speedChangeFailed;
+
+  /// No description provided for @pitchChangeFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Pitch change failed. Please try again.'**
+  String get pitchChangeFailed;
+
+  /// No description provided for @editSongKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Key'**
+  String get editSongKey;
+
+  /// No description provided for @originalKey.
+  ///
+  /// In en, this message translates to:
+  /// **'ORIGINAL KEY'**
+  String get originalKey;
+
+  /// No description provided for @currentKey.
+  ///
+  /// In en, this message translates to:
+  /// **'CURRENT KEY'**
+  String get currentKey;
+
+  /// No description provided for @hereYouCanSetTheOriginalKeyOfTheAudioFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Here you can set the original key of the audio file.'**
+  String get hereYouCanSetTheOriginalKeyOfTheAudioFile;
 
   /// Button or action to copy text to the device clipboard
   ///

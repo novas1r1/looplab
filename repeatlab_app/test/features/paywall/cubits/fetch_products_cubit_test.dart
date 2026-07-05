@@ -61,15 +61,21 @@ void main() {
           final weeklyProduct = MockStoreProduct();
           final annualProduct = MockStoreProduct();
 
-          when(() => weeklyProduct.identifier).thenReturn('repeatlab_full_weekly');
-          when(() => annualProduct.identifier).thenReturn('repeatlab_full_yearly');
+          when(
+            () => weeklyProduct.identifier,
+          ).thenReturn('repeatlab_full_weekly');
+          when(
+            () => annualProduct.identifier,
+          ).thenReturn('repeatlab_full_yearly');
           when(() => weeklyPkg.storeProduct).thenReturn(weeklyProduct);
           when(() => annualPkg.storeProduct).thenReturn(annualProduct);
           when(() => offering.weekly).thenReturn(weeklyPkg);
           when(() => offering.annual).thenReturn(annualPkg);
           when(() => offering.lifetime).thenReturn(lifetimePkg);
 
-          when(() => mockPurchasesRepository.offers).thenAnswer((_) async => [offering]);
+          when(
+            () => mockPurchasesRepository.offers,
+          ).thenAnswer((_) async => [offering]);
           when(
             () => mockPurchasesRepository.checkTrialEligibility(any()),
           ).thenAnswer((_) async => true);
@@ -96,13 +102,17 @@ void main() {
           final weeklyPkg = MockPackage();
           final weeklyProduct = MockStoreProduct();
 
-          when(() => weeklyProduct.identifier).thenReturn('repeatlab_full_weekly');
+          when(
+            () => weeklyProduct.identifier,
+          ).thenReturn('repeatlab_full_weekly');
           when(() => weeklyPkg.storeProduct).thenReturn(weeklyProduct);
           when(() => offering.weekly).thenReturn(weeklyPkg);
           when(() => offering.annual).thenReturn(null);
           when(() => offering.lifetime).thenReturn(null);
 
-          when(() => mockPurchasesRepository.offers).thenAnswer((_) async => [offering]);
+          when(
+            () => mockPurchasesRepository.offers,
+          ).thenAnswer((_) async => [offering]);
           when(
             () => mockPurchasesRepository.checkTrialEligibility(any()),
           ).thenAnswer((_) async => false);
@@ -110,7 +120,11 @@ void main() {
         build: buildCubit,
         act: (cubit) => cubit.fetchProducts(),
         expect: () => [
-          isA<FetchProductsState>().having((s) => s.status, 'status', FetchProductsStatus.loading),
+          isA<FetchProductsState>().having(
+            (s) => s.status,
+            'status',
+            FetchProductsStatus.loading,
+          ),
           isA<FetchProductsState>()
               .having((s) => s.status, 'status', FetchProductsStatus.success)
               .having((s) => s.isTrialEligible, 'isTrialEligible', false),
@@ -120,12 +134,18 @@ void main() {
       blocTest<FetchProductsCubit, FetchProductsState>(
         'emits success with empty offerings',
         setUp: () {
-          when(() => mockPurchasesRepository.offers).thenAnswer((_) async => []);
+          when(
+            () => mockPurchasesRepository.offers,
+          ).thenAnswer((_) async => []);
         },
         build: buildCubit,
         act: (cubit) => cubit.fetchProducts(),
         expect: () => [
-          isA<FetchProductsState>().having((s) => s.status, 'status', FetchProductsStatus.loading),
+          isA<FetchProductsState>().having(
+            (s) => s.status,
+            'status',
+            FetchProductsStatus.loading,
+          ),
           isA<FetchProductsState>()
               .having((s) => s.status, 'status', FetchProductsStatus.success)
               .having((s) => s.weeklyPackage, 'weeklyPackage', isNull)
@@ -137,15 +157,25 @@ void main() {
       blocTest<FetchProductsCubit, FetchProductsState>(
         'emits failure when fetching offers throws',
         setUp: () {
-          when(() => mockPurchasesRepository.offers).thenThrow(Exception('Network error'));
+          when(
+            () => mockPurchasesRepository.offers,
+          ).thenThrow(Exception('Network error'));
         },
         build: buildCubit,
         act: (cubit) => cubit.fetchProducts(),
         expect: () => [
-          isA<FetchProductsState>().having((s) => s.status, 'status', FetchProductsStatus.loading),
+          isA<FetchProductsState>().having(
+            (s) => s.status,
+            'status',
+            FetchProductsStatus.loading,
+          ),
           isA<FetchProductsState>()
               .having((s) => s.status, 'status', FetchProductsStatus.failure)
-              .having((s) => s.errorMessage, 'errorMessage', contains('Network error')),
+              .having(
+                (s) => s.errorMessage,
+                'errorMessage',
+                contains('Network error'),
+              ),
         ],
         verify: (_) {
           verify(
@@ -165,7 +195,9 @@ void main() {
       blocTest<FetchProductsCubit, FetchProductsState>(
         'emits success when purchase succeeds',
         setUp: () {
-          when(() => mockPurchasesRepository.purchase(any())).thenAnswer((_) async => true);
+          when(
+            () => mockPurchasesRepository.purchase(any()),
+          ).thenAnswer((_) async => true);
         },
         build: buildCubit,
         act: (cubit) => cubit.purchase(mockPackage),
@@ -173,22 +205,36 @@ void main() {
           isA<FetchProductsState>()
               .having((s) => s.status, 'status', FetchProductsStatus.loading)
               .having((s) => s.action, 'action', FetchProductsAction.purchase),
-          isA<FetchProductsState>().having((s) => s.status, 'status', FetchProductsStatus.success),
+          isA<FetchProductsState>().having(
+            (s) => s.status,
+            'status',
+            FetchProductsStatus.success,
+          ),
         ],
       );
 
       blocTest<FetchProductsCubit, FetchProductsState>(
         'emits failure when purchase returns false',
         setUp: () {
-          when(() => mockPurchasesRepository.purchase(any())).thenAnswer((_) async => false);
+          when(
+            () => mockPurchasesRepository.purchase(any()),
+          ).thenAnswer((_) async => false);
         },
         build: buildCubit,
         act: (cubit) => cubit.purchase(mockPackage),
         expect: () => [
-          isA<FetchProductsState>().having((s) => s.status, 'status', FetchProductsStatus.loading),
+          isA<FetchProductsState>().having(
+            (s) => s.status,
+            'status',
+            FetchProductsStatus.loading,
+          ),
           isA<FetchProductsState>()
               .having((s) => s.status, 'status', FetchProductsStatus.failure)
-              .having((s) => s.errorMessage, 'errorMessage', contains('Something went wrong')),
+              .having(
+                (s) => s.errorMessage,
+                'errorMessage',
+                contains('Something went wrong'),
+              ),
         ],
         verify: (_) {
           verify(
@@ -215,7 +261,11 @@ void main() {
         build: buildCubit,
         act: (cubit) => cubit.purchase(mockPackage),
         expect: () => [
-          isA<FetchProductsState>().having((s) => s.status, 'status', FetchProductsStatus.loading),
+          isA<FetchProductsState>().having(
+            (s) => s.status,
+            'status',
+            FetchProductsStatus.loading,
+          ),
           isA<FetchProductsState>()
               .having((s) => s.status, 'status', FetchProductsStatus.success)
               .having((s) => s.action, 'action', FetchProductsAction.none),
@@ -240,7 +290,11 @@ void main() {
         build: buildCubit,
         act: (cubit) => cubit.purchase(mockPackage),
         expect: () => [
-          isA<FetchProductsState>().having((s) => s.status, 'status', FetchProductsStatus.loading),
+          isA<FetchProductsState>().having(
+            (s) => s.status,
+            'status',
+            FetchProductsStatus.loading,
+          ),
           isA<FetchProductsState>()
               .having((s) => s.status, 'status', FetchProductsStatus.success)
               .having((s) => s.action, 'action', FetchProductsAction.none),
@@ -250,15 +304,25 @@ void main() {
       blocTest<FetchProductsCubit, FetchProductsState>(
         'emits failure when purchase throws generic exception',
         setUp: () {
-          when(() => mockPurchasesRepository.purchase(any())).thenThrow(Exception('Unknown error'));
+          when(
+            () => mockPurchasesRepository.purchase(any()),
+          ).thenThrow(Exception('Unknown error'));
         },
         build: buildCubit,
         act: (cubit) => cubit.purchase(mockPackage),
         expect: () => [
-          isA<FetchProductsState>().having((s) => s.status, 'status', FetchProductsStatus.loading),
+          isA<FetchProductsState>().having(
+            (s) => s.status,
+            'status',
+            FetchProductsStatus.loading,
+          ),
           isA<FetchProductsState>()
               .having((s) => s.status, 'status', FetchProductsStatus.failure)
-              .having((s) => s.errorMessage, 'errorMessage', contains('Unknown error')),
+              .having(
+                (s) => s.errorMessage,
+                'errorMessage',
+                contains('Unknown error'),
+              ),
         ],
         verify: (_) {
           verify(
@@ -285,7 +349,11 @@ void main() {
         build: buildCubit,
         act: (cubit) => cubit.purchase(mockPackage),
         expect: () => [
-          isA<FetchProductsState>().having((s) => s.status, 'status', FetchProductsStatus.loading),
+          isA<FetchProductsState>().having(
+            (s) => s.status,
+            'status',
+            FetchProductsStatus.loading,
+          ),
           isA<FetchProductsState>()
               .having((s) => s.status, 'status', FetchProductsStatus.failure)
               .having((s) => s.errorMessage, 'errorMessage', isNotNull),

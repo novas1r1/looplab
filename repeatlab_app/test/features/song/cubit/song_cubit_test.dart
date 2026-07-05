@@ -135,8 +135,38 @@ void main() {
             SongStatus.updated,
             SongStatus.updating,
             SongStatus.songDeleted,
+            SongStatus.speedChangeFailed,
+            SongStatus.pitchChangeFailed,
           ]),
         );
+      });
+    });
+
+    group('pitch state', () {
+      test('defaults to 0 semitones', () {
+        const state = SongState(song: MockData.songMedium);
+        expect(state.pitchSemitones, 0);
+        expect(MockData.songMedium.pitchSemitones, 0);
+      });
+
+      test('copyWith updates pitchSemitones on state and song', () {
+        const state = SongState(song: MockData.songMedium);
+
+        final newState = state.copyWith(
+          pitchSemitones: 5,
+          song: state.song.copyWith(pitchSemitones: 5),
+        );
+
+        expect(newState.pitchSemitones, 5);
+        expect(newState.song.pitchSemitones, 5);
+        // Unchanged values are preserved
+        expect(newState.speed, state.speed);
+      });
+
+      test('song decoded from a map without pitchSemitones defaults to 0', () {
+        final map = MockData.songMedium.toMap()..remove('pitchSemitones');
+        final decoded = SongMapper.fromMap(map);
+        expect(decoded.pitchSemitones, 0);
       });
     });
   });

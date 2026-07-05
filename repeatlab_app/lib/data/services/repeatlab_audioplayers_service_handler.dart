@@ -533,8 +533,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
   /// unsupported outside Android; playback must not fail because of it).
   Future<void> _applyPitchShiftSafely() async {
     try {
-      await audioPlayer
-          .setPitchShift(_pitchMultiplierForSemitones(_pitchSemitones));
+      await audioPlayer.setPitchShift(
+        _pitchMultiplierForSemitones(_pitchSemitones),
+      );
     } catch (e) {
       log('Failed to apply pitch shift: $e');
     }

@@ -6,6 +6,7 @@ import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/ui/interaction/custom_slider.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
+import 'package:repeatlab/core/utils/musical_key.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 
@@ -14,9 +15,14 @@ class PitchControlSlider extends StatefulWidget {
   /// Current pitch in semitones from SongCubit state
   final int pitchSemitones;
 
+  /// Original key of the song, if known. When set, the value chip shows the
+  /// key the drag position translates to, live while dragging.
+  final String? musicalKey;
+
   const PitchControlSlider({
     super.key,
     required this.pitchSemitones,
+    this.musicalKey,
   });
 
   @override
@@ -51,6 +57,14 @@ class _PitchControlSliderState extends State<PitchControlSlider> {
     return '0 st';
   }
 
+  /// Key the current drag position translates to, tracking [_localPitch]
+  /// live while dragging. Null when the song's key is unknown/unparseable.
+  String? get _transposedKey {
+    final key = widget.musicalKey;
+    if (key == null) return null;
+    return MusicalKey.transpose(key, _localPitch);
+  }
+
   @override
   Widget build(BuildContext context) {
     final hasPremium = context.watch<PremiumSubscriptionCubit>().hasPremium;
@@ -64,12 +78,25 @@ class _PitchControlSliderState extends State<PitchControlSlider> {
             color: AppColors.primaryContainer,
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Text(
-            _formatSemitones(_localPitch),
-            style: context.titleMedium.copyWith(
-              fontWeight: FontWeight.w700,
-              color: AppColors.onPrimaryContainer,
-            ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                _formatSemitones(_localPitch),
+                style: context.titleMedium.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.onPrimaryContainer,
+                ),
+              ),
+              if (_transposedKey != null)
+                Text(
+                  _transposedKey!,
+                  style: context.labelMedium.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.onPrimaryContainer,
+                  ),
+                ),
+            ],
           ),
         ),
         const SizedBox(width: 8),
@@ -109,7 +136,8 @@ class _PitchControlSliderState extends State<PitchControlSlider> {
                       value: _localPitch.toDouble(),
                       min: SongCubit.minPitchSemitones.toDouble(),
                       max: SongCubit.maxPitchSemitones.toDouble(),
-                      divisions: SongCubit.maxPitchSemitones -
+                      divisions:
+                          SongCubit.maxPitchSemitones -
                           SongCubit.minPitchSemitones,
                       onChanged: (_) {},
                     ),

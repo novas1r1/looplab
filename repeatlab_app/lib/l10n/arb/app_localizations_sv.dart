@@ -239,6 +239,9 @@ class AppLocalizationsSv extends AppLocalizations {
       'Tempo Kontroll (BPM/Multiplicator)';
 
   @override
+  String get premiumFeaturePitchControl => 'Tonhöjdskontroll (Halvtoner)';
+
+  @override
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';
 
   @override
@@ -560,6 +563,10 @@ class AppLocalizationsSv extends AppLocalizations {
   @override
   String get songAddError =>
       'Fel vid läggning av låt. Detta kan bero på ett problem med filformatet. Försök att konvertera filen till ett understött format som mp3 eller wav.';
+
+  @override
+  String get importAlreadyRunningError =>
+      'En annan import pågår fortfarande. Stora filer från molnlagring kan ta en stund – vänta tills den är klar.';
 
   @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
@@ -886,6 +893,9 @@ class AppLocalizationsSv extends AppLocalizations {
   String get speedControl => 'Tempo';
 
   @override
+  String get pitchControl => 'Tonhöjd';
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'Här kan du ställa in den ursprungliga BPM för ljudfilen.';
 
@@ -920,6 +930,23 @@ class AppLocalizationsSv extends AppLocalizations {
   @override
   String get speedChangeFailed =>
       'Hastighetsändring misslyckades. Vänligen försök igen.';
+
+  @override
+  String get pitchChangeFailed =>
+      'Tonhöjdsändring misslyckades. Vänligen försök igen.';
+
+  @override
+  String get editSongKey => 'Tonart';
+
+  @override
+  String get originalKey => 'URSPRUNGLIG TONART';
+
+  @override
+  String get currentKey => 'NUVARANDE TONART';
+
+  @override
+  String get hereYouCanSetTheOriginalKeyOfTheAudioFile =>
+      'Här kan du ställa in ljudfilens ursprungliga tonart.';
 
   @override
   String get copyToClipboard => 'Kopiera till urklipp';

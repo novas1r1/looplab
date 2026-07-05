@@ -4,10 +4,18 @@ import 'package:audio_service/audio_service.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+// ignore: depend_on_referenced_packages
+import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:repeatlab/data/models/loop.dart';
+import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/services/repeatlab_audioplayers_service_handler.dart';
 
 class _MockAudioPlayer extends Mock implements AudioPlayer {}
+
+class _FakePathProviderPlatform extends PathProviderPlatform {
+  @override
+  Future<String?> getApplicationDocumentsPath() async => '/tmp/docs';
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +28,7 @@ void main() {
     registerFallbackValue(Duration.zero);
     registerFallbackValue(DeviceFileSource('fake.mp3'));
     registerFallbackValue(ReleaseMode.stop);
+    PathProviderPlatform.instance = _FakePathProviderPlatform();
   });
 
   setUp(() {
@@ -27,10 +36,18 @@ void main() {
     playerStateController = StreamController<PlayerState>.broadcast();
     positionController = StreamController<Duration>.broadcast();
 
-    when(() => audioPlayer.onPlayerStateChanged).thenAnswer((_) => playerStateController.stream);
-    when(() => audioPlayer.onPositionChanged).thenAnswer((_) => positionController.stream);
-    when(() => audioPlayer.getCurrentPosition()).thenAnswer((_) async => Duration.zero);
-    when(() => audioPlayer.getDuration()).thenAnswer((_) async => Duration.zero);
+    when(
+      () => audioPlayer.onPlayerStateChanged,
+    ).thenAnswer((_) => playerStateController.stream);
+    when(
+      () => audioPlayer.onPositionChanged,
+    ).thenAnswer((_) => positionController.stream);
+    when(
+      () => audioPlayer.getCurrentPosition(),
+    ).thenAnswer((_) async => Duration.zero);
+    when(
+      () => audioPlayer.getDuration(),
+    ).thenAnswer((_) async => Duration.zero);
     when(() => audioPlayer.seek(any<Duration>())).thenAnswer((_) async {});
     when(() => audioPlayer.pause()).thenAnswer((_) async {});
     when(() => audioPlayer.stop()).thenAnswer((_) async {});
@@ -40,6 +57,7 @@ void main() {
     when(() => audioPlayer.setSource(any<Source>())).thenAnswer((_) async {});
     when(() => audioPlayer.setReleaseMode(any())).thenAnswer((_) async {});
     when(() => audioPlayer.setPlaybackRate(any())).thenAnswer((_) async {});
+    when(() => audioPlayer.setPitchShift(any())).thenAnswer((_) async {});
     when(() => audioPlayer.state).thenReturn(PlayerState.stopped);
   });
 
@@ -48,90 +66,116 @@ void main() {
     await positionController.close();
   });
 
-  test('seek clamps to media item duration when platform duration unavailable', () async {
-    final handler = RepeatlabAudioplayersServiceHandler(audioPlayer: audioPlayer);
-    addTearDown(handler.close);
+  test(
+    'seek clamps to media item duration when platform duration unavailable',
+    () async {
+      final handler = RepeatlabAudioplayersServiceHandler(
+        audioPlayer: audioPlayer,
+      );
+      addTearDown(handler.close);
 
-    handler.mediaItem.add(
-      const MediaItem(
-        id: 'song-1',
-        title: 'Example Song',
-        duration: Duration(seconds: 5),
-      ),
-    );
+      handler.mediaItem.add(
+        const MediaItem(
+          id: 'song-1',
+          title: 'Example Song',
+          duration: Duration(seconds: 5),
+        ),
+      );
 
-    when(() => audioPlayer.getDuration()).thenAnswer((_) async => null);
-    when(
-      () => audioPlayer.getCurrentPosition(),
-    ).thenAnswer((_) async => const Duration(seconds: 1));
+      when(() => audioPlayer.getDuration()).thenAnswer((_) async => null);
+      when(
+        () => audioPlayer.getCurrentPosition(),
+      ).thenAnswer((_) async => const Duration(seconds: 1));
 
-    final recorded = <Duration>[];
-    when(() => audioPlayer.seek(any<Duration>())).thenAnswer((invocation) async {
-      recorded.add(invocation.positionalArguments.first as Duration);
-    });
+      final recorded = <Duration>[];
+      when(() => audioPlayer.seek(any<Duration>())).thenAnswer((
+        invocation,
+      ) async {
+        recorded.add(invocation.positionalArguments.first as Duration);
+      });
 
-    await handler.seek(const Duration(seconds: 10));
+      await handler.seek(const Duration(seconds: 10));
 
-    expect(recorded, [const Duration(seconds: 5)]);
-  });
+      expect(recorded, [const Duration(seconds: 5)]);
+    },
+  );
 
-  test('seek serializes consecutive calls and executes them in order', () async {
-    final handler = RepeatlabAudioplayersServiceHandler(audioPlayer: audioPlayer);
-    addTearDown(handler.close);
+  test(
+    'seek serializes consecutive calls and executes them in order',
+    () async {
+      final handler = RepeatlabAudioplayersServiceHandler(
+        audioPlayer: audioPlayer,
+      );
+      addTearDown(handler.close);
 
-    when(() => audioPlayer.getDuration()).thenAnswer((_) async => const Duration(seconds: 30));
+      when(
+        () => audioPlayer.getDuration(),
+      ).thenAnswer((_) async => const Duration(seconds: 30));
 
-    var positionCall = 0;
-    when(() => audioPlayer.getCurrentPosition()).thenAnswer((_) async {
-      positionCall++;
+      var positionCall = 0;
+      when(() => audioPlayer.getCurrentPosition()).thenAnswer((_) async {
+        positionCall++;
 
-      if (positionCall == 1) {
-        return Duration.zero;
-      }
+        if (positionCall == 1) {
+          return Duration.zero;
+        }
 
-      return const Duration(milliseconds: 600);
-    });
+        return const Duration(milliseconds: 600);
+      });
 
-    final callLog = <Duration>[];
-    final firstSeekCompleter = Completer<void>();
-    final secondSeekCompleter = Completer<void>();
+      final callLog = <Duration>[];
+      final firstSeekCompleter = Completer<void>();
+      final secondSeekCompleter = Completer<void>();
 
-    when(() => audioPlayer.seek(any<Duration>())).thenAnswer((invocation) {
-      final duration = invocation.positionalArguments.first as Duration;
-      callLog.add(duration);
+      when(() => audioPlayer.seek(any<Duration>())).thenAnswer((invocation) {
+        final duration = invocation.positionalArguments.first as Duration;
+        callLog.add(duration);
 
-      if (callLog.length == 1) {
-        return firstSeekCompleter.future;
-      }
+        if (callLog.length == 1) {
+          return firstSeekCompleter.future;
+        }
 
-      return secondSeekCompleter.future;
-    });
+        return secondSeekCompleter.future;
+      });
 
-    final firstSeek = handler.seek(const Duration(milliseconds: 500));
-    final secondSeek = handler.seek(const Duration(seconds: 1));
+      final firstSeek = handler.seek(const Duration(milliseconds: 500));
+      final secondSeek = handler.seek(const Duration(seconds: 1));
 
-    await Future<void>.delayed(Duration.zero);
-    expect(callLog, [const Duration(milliseconds: 500)]);
+      await Future<void>.delayed(Duration.zero);
+      expect(callLog, [const Duration(milliseconds: 500)]);
 
-    firstSeekCompleter.complete();
-    await Future<void>.delayed(Duration.zero);
-    expect(callLog, [const Duration(milliseconds: 500), const Duration(seconds: 1)]);
+      firstSeekCompleter.complete();
+      await Future<void>.delayed(Duration.zero);
+      expect(callLog, [
+        const Duration(milliseconds: 500),
+        const Duration(seconds: 1),
+      ]);
 
-    secondSeekCompleter.complete();
-    await Future.wait([firstSeek, secondSeek]);
+      secondSeekCompleter.complete();
+      await Future.wait([firstSeek, secondSeek]);
 
-    expect(callLog, [const Duration(milliseconds: 500), const Duration(seconds: 1)]);
-  });
+      expect(callLog, [
+        const Duration(milliseconds: 500),
+        const Duration(seconds: 1),
+      ]);
+    },
+  );
 
   test('seek reloads source when player completed previously', () async {
-    final handler = RepeatlabAudioplayersServiceHandler(audioPlayer: audioPlayer);
+    final handler = RepeatlabAudioplayersServiceHandler(
+      audioPlayer: audioPlayer,
+    );
     addTearDown(handler.close);
 
     handler.debugSetCurrentSource(DeviceFileSource('sample.mp3'));
 
     when(() => audioPlayer.state).thenReturn(PlayerState.completed);
-    when(() => audioPlayer.getDuration()).thenAnswer((_) async => const Duration(seconds: 20));
-    when(() => audioPlayer.getCurrentPosition()).thenAnswer((_) async => Duration.zero);
+    when(
+      () => audioPlayer.getDuration(),
+    ).thenAnswer((_) async => const Duration(seconds: 20));
+    when(
+      () => audioPlayer.getCurrentPosition(),
+    ).thenAnswer((_) async => Duration.zero);
 
     await handler.seek(const Duration(seconds: 3));
 
@@ -141,13 +185,17 @@ void main() {
   });
 
   test('loop mode restarts playback when position passes loop end', () async {
-    final handler = RepeatlabAudioplayersServiceHandler(audioPlayer: audioPlayer);
+    final handler = RepeatlabAudioplayersServiceHandler(
+      audioPlayer: audioPlayer,
+    );
     addTearDown(handler.close);
 
     when(() => audioPlayer.state).thenReturn(PlayerState.playing);
 
     final seekCalls = <Duration>[];
-    when(() => audioPlayer.seek(any<Duration>())).thenAnswer((invocation) async {
+    when(() => audioPlayer.seek(any<Duration>())).thenAnswer((
+      invocation,
+    ) async {
       seekCalls.add(invocation.positionalArguments.first as Duration);
     });
 
@@ -172,20 +220,132 @@ void main() {
     expect(seekCalls, [const Duration(seconds: 2)]);
   });
 
-  test('setSpeed normalizes invalid values before delegating to player', () async {
-    final handler = RepeatlabAudioplayersServiceHandler(audioPlayer: audioPlayer);
+  test('setPitchSemitones clamps and sends the semitone multiplier', () async {
+    final handler = RepeatlabAudioplayersServiceHandler(
+      audioPlayer: audioPlayer,
+    );
     addTearDown(handler.close);
 
-    await handler.setSpeed(double.nan);
-    await handler.setSpeed(-1);
-    await handler.setSpeed(0.1);
-    await handler.setSpeed(3.5);
+    final sent = <double>[];
+    when(() => audioPlayer.setPitchShift(any())).thenAnswer((invocation) async {
+      sent.add(invocation.positionalArguments.first as double);
+    });
 
-    verifyInOrder([
-      () => audioPlayer.setPlaybackRate(1.0),
-      () => audioPlayer.setPlaybackRate(1.0),
-      () => audioPlayer.setPlaybackRate(0.5),
-      () => audioPlayer.setPlaybackRate(2.0),
-    ]);
+    expect(await handler.setPitchSemitones(12), isTrue);
+    expect(await handler.setPitchSemitones(-12), isTrue);
+    expect(await handler.setPitchSemitones(0), isTrue);
+    expect(await handler.setPitchSemitones(30), isTrue); // clamps to +12
+    expect(handler.currentPitchSemitones, 12);
+
+    expect(sent, hasLength(4));
+    expect(sent[0], closeTo(2.0, 0.0001));
+    expect(sent[1], closeTo(0.5, 0.0001));
+    expect(sent[2], closeTo(1.0, 0.0001));
+    expect(sent[3], closeTo(2.0, 0.0001));
   });
+
+  test(
+    'setPitchSemitones returns false and keeps state when platform throws',
+    () async {
+      final handler = RepeatlabAudioplayersServiceHandler(
+        audioPlayer: audioPlayer,
+      );
+      addTearDown(handler.close);
+
+      await handler.setPitchSemitones(5);
+      expect(handler.currentPitchSemitones, 5);
+
+      when(
+        () => audioPlayer.setPitchShift(any()),
+      ).thenThrow(UnsupportedError('not supported'));
+
+      expect(await handler.setPitchSemitones(-3), isFalse);
+      expect(handler.currentPitchSemitones, 5);
+    },
+  );
+
+  test(
+    'seek reload after completion reapplies pitch alongside speed',
+    () async {
+      final handler = RepeatlabAudioplayersServiceHandler(
+        audioPlayer: audioPlayer,
+      );
+      addTearDown(handler.close);
+
+      handler.debugSetCurrentSource(DeviceFileSource('sample.mp3'));
+      await handler.setPitchSemitones(7);
+
+      when(() => audioPlayer.state).thenReturn(PlayerState.completed);
+      when(
+        () => audioPlayer.getDuration(),
+      ).thenAnswer((_) async => const Duration(seconds: 20));
+      when(
+        () => audioPlayer.getCurrentPosition(),
+      ).thenAnswer((_) async => Duration.zero);
+
+      final sent = <double>[];
+      when(() => audioPlayer.setPitchShift(any())).thenAnswer((
+        invocation,
+      ) async {
+        sent.add(invocation.positionalArguments.first as double);
+      });
+
+      await handler.seek(const Duration(seconds: 3));
+
+      verify(() => audioPlayer.setSource(any<Source>())).called(1);
+      expect(sent, hasLength(1));
+      expect(sent.single, closeTo(1.4983, 0.001)); // 2^(7/12)
+    },
+  );
+
+  test('playSong resets pitch to 0', () async {
+    final handler = RepeatlabAudioplayersServiceHandler(
+      audioPlayer: audioPlayer,
+    );
+    addTearDown(handler.close);
+
+    await handler.setPitchSemitones(4);
+    expect(handler.currentPitchSemitones, 4);
+
+    final sent = <double>[];
+    when(() => audioPlayer.setPitchShift(any())).thenAnswer((invocation) async {
+      sent.add(invocation.positionalArguments.first as double);
+    });
+
+    await handler.playSong(
+      const Song(
+        id: 'song-1',
+        title: 'Example Song',
+        artist: 'Artist',
+        fileName: 'sample.mp3',
+        duration: Duration(seconds: 30),
+      ),
+      autoStart: false,
+    );
+
+    expect(handler.currentPitchSemitones, 0);
+    expect(sent.single, closeTo(1.0, 0.0001));
+  });
+
+  test(
+    'setSpeed normalizes invalid values before delegating to player',
+    () async {
+      final handler = RepeatlabAudioplayersServiceHandler(
+        audioPlayer: audioPlayer,
+      );
+      addTearDown(handler.close);
+
+      await handler.setSpeed(double.nan);
+      await handler.setSpeed(-1);
+      await handler.setSpeed(0.1);
+      await handler.setSpeed(3.5);
+
+      verifyInOrder([
+        () => audioPlayer.setPlaybackRate(1.0),
+        () => audioPlayer.setPlaybackRate(1.0),
+        () => audioPlayer.setPlaybackRate(0.5),
+        () => audioPlayer.setPlaybackRate(2.0),
+      ]);
+    },
+  );
 }

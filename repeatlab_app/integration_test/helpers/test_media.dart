@@ -64,7 +64,9 @@ abstract final class TestMedia {
   }
 
   /// Writes a synthesised silent WAV to a temp file and returns it.
-  static Future<File> writeSilentWavToTemp({String name = 'e2e_audio.wav'}) async {
+  static Future<File> writeSilentWavToTemp({
+    String name = 'e2e_audio.wav',
+  }) async {
     final dir = await getTemporaryDirectory();
     final file = File(p.join(dir.path, name));
     await file.writeAsBytes(silentWavBytes(), flush: true);
