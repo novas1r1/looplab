@@ -5,10 +5,17 @@
 ## 🎵 Core Audio Features
 
 ### Audio File Support
-- **Supported Formats**: MP3, WAV, M4A, OGG, FLAC (audio_player) vs. MP3, WAV, OGG, and FLAC (flutter_soloud)
-- **Automatic Conversion**: M4A files are automatically converted to MP3 for compatibility
+- **Supported Formats**: MP3, WAV, OGG, FLAC (native SoLoud playback), plus M4A and AAC via conversion
+- **Automatic Conversion**: M4A/AAC files are automatically converted to MP3 for compatibility (via FFmpeg)
+- **Multi-File Import**: Select and import multiple audio files in one go, with a progress indicator
 - **Metadata Reading**: Displays audio file metadata including title and artist information
 - **Unlimited Songs**: Add as many audio files as you want to your library
+- **Song Reordering**: Long-press and drag songs to organize your library; the custom order is saved
+
+### Video Support (Beta)
+- **Video Import**: Import videos (MP4, MOV, M4V, MKV, WEBM, AVI) and practice with them like audio songs
+- **Video Looping & Speed**: Loop sections of a video and change playback speed — ideal for tutorials and live performances
+- **Video Pitch Control**: Pitch shifting also works for video playback (via media_kit/libmpv)
 
 ### Audio Playback Engine
 - **High-Quality Playback**: Powered by SoLoud and AudioPlayers for optimal audio performance
@@ -22,14 +29,16 @@
 - **One Loop per Song** (Free): Basic looping functionality for all users
 - **Precise Loop Points**: Set exact start and end positions using the waveform display
 - **Visual Loop Indicators**: See all your loops displayed on the timeline
-- **Loop Reordering**: Drag and drop loops to reorganize them
+- **Loop Reordering** (Premium): Drag and drop loops to reorganize them
 - **Loop Editing**: Fine-tune loop start/end times with precision controls
+- **Loop Export**: Export loops as audio files in MP3 (compressed) or WAV (lossless) format
 
 ### Loop Playback
 - **Seamless Looping**: Smooth transitions between loop start and end points
 - **Loop Mode Toggle**: Switch between full song and loop-only playback
-- **Jump to Loops**: Quickly navigate to any saved loop
+- **Jump to Loops**: Skip to the next or previous loop with the skip buttons — also from the notification and lock screen
 - **Loop Activation**: Select and activate specific loops for focused practice
+- **Auto-Play Setting**: Enable or disable automatic playback when selecting loops or navigating between them
 
 ## ⚡ Speed & Tempo Control (Premium)
 
@@ -58,13 +67,17 @@
 - **Pitch Preservation**: Maintain audio quality during speed changes
 - **Visual Speed Indicator**: See current playback speed at all times
 
-## 🎼 Pitch Control (Free)
+## 🎼 Pitch Control (Premium, Beta)
 
 ### Pitch Adjustment
 - **Semitone Range**: Transpose audio from -12 to +12 semitones (one octave down/up)
 - **Independent Control**: Pitch changes work independently from speed adjustments
 - **Real-time Processing**: Adjust pitch while audio is playing
-- **Musical Transposition**: Perfect for practicing songs in different keys
+- **Musical Transposition**: Perfect for practicing songs in different keys or matching your instrument's tuning
+
+### Two Pitch Modes
+- **Semitone Mode**: Adjust pitch with a slider in semitone steps
+- **Key Mode**: Set the song's original musical key, then transpose directly to a target key (e.g. Am → Cm)
 
 ### Pitch Control Features
 - **Semitone Precision**: Accurate musical interval adjustments
@@ -90,8 +103,8 @@
 
 ### Playback Controls
 - **Play/Pause**: Standard playback controls
-- **Skip Forward/Back**: Jump 10 seconds forward or backward
-- **Seek Control**: Precise position seeking
+- **Skip Forward/Back**: Jump to the next or previous loop, or restart the current position
+- **Seek Control**: Precise position seeking by dragging on the waveform
 - **Position Display**: Current time and total duration
 
 ### User Interface
@@ -104,6 +117,7 @@
 
 ### Supported Languages
 - **16 Languages**: Arabic, German, English, Spanish, French, Hindi, Italian, Japanese, Korean, Dutch, Polish, Portuguese, Russian, Swedish, Turkish, Chinese
+- **In-App Language Switching**: Pick any of the 16 languages from the drawer, or follow the device's system default
 - **Complete Localization**: All UI elements and messages translated
 - **Regional Formats**: Proper time and number formatting for each locale
 
@@ -124,15 +138,16 @@
 ## 💎 Premium Features
 
 ### Subscription Benefits
-- **Unlimited Loops**: Create as many loops as needed per song
+- **Unlimited Loops**: Create as many loops as needed per song (including drag-to-reorder)
 - **Speed Control**: Full tempo and BPM adjustment capabilities
+- **Pitch Control**: Full pitch adjustment capabilities (semitones and key mode)
 - **Waveform Zoom**: Enhanced precision with zoom functionality
+- **Backup & Restore**: Export the entire library and restore it on another device
 - **Developer Support**: Support independent development
 
 ### Free Features
 - **Unlimited Songs**: No limit on audio file imports
 - **One Loop per Song**: Basic looping functionality
-- **Pitch Control**: Full pitch adjustment capabilities (-12 to +12 semitones)
 - **No Advertisements**: Clean, ad-free experience
 - **Core Playback**: All essential audio playback features
 
@@ -142,11 +157,11 @@
 - **Local Storage**: All audio files stored locally on device
 - **Database Integration**: Efficient data management with Sembast
 - **Settings Persistence**: User preferences saved across sessions
-- **Data Export/Import**: Backup and restore capabilities
+- **Backup & Restore** (Premium): Export the entire library — songs, loops, and optionally audio files — to a single backup file and restore it on another device, with Merge or Replace mode
 
 ### Performance & Reliability
 - **Crash Reporting**: Automatic error reporting via Sentry
-- **Analytics**: Optional usage analytics via Microsoft Clarity
+- **Analytics**: Optional, consent-gated usage analytics via PostHog (EU-hosted) and Microsoft Clarity
 - **Performance Monitoring**: Optimized for smooth audio playback
 - **Memory Management**: Efficient handling of large audio files
 
@@ -187,10 +202,10 @@
 
 ## Getting Started
 
-1. **Import Audio**: Add your favorite songs in supported formats
+1. **Import Audio or Video**: Add your favorite songs (or videos) in supported formats — multiple files at once
 2. **Create Loops**: Mark sections you want to practice
-3. **Adjust Pitch**: Transpose songs to comfortable keys (Free)
-4. **Adjust Speed**: Fine-tune tempo for comfortable practice (Premium)
+3. **Adjust Speed**: Fine-tune tempo for comfortable practice (Premium)
+4. **Adjust Pitch**: Transpose songs to comfortable keys (Premium)
 5. **Practice**: Use loops to master difficult passages
 6. **Progress**: Track your improvement over time
 
@@ -199,7 +214,9 @@
 Unlock the full potential of RepeatLab with premium features:
 - Unlimited loops per song
 - Complete speed and BPM control
+- Pitch control (semitones and key mode)
 - Waveform zoom for precision editing
+- Library backup & restore
 - Support independent development
 
 ---

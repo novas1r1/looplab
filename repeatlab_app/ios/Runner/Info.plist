@@ -50,6 +50,11 @@
 		<string>This app needs access to your music library to pick audio files.</string>
 		<key>NSCameraUsageDescription</key>
 		<string>This app needs camera access to allow users to take photos when selecting files through the file picker and attach photos to the song.</string>
+		<!-- The app never requests location; this purpose string is required
+	     because a bundled third-party SDK references location APIs
+	     (App Store warning ITMS-90683). -->
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>This app does not collect or use your location. A software component references location services, but the app never requests access to your location.</string>
 		<key>NSMicrophoneUsageDescription</key>
 		<string>The microphone is used to record audio for the app.</string>
 		<key>NSPhotoLibraryUsageDescription</key>
