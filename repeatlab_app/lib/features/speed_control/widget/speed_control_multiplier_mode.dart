@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/ui/interaction/custom_slider.dart';
+import 'package:repeatlab/core/ui/motion.dart';
+import 'package:repeatlab/core/ui/motion_widgets.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
@@ -29,6 +31,7 @@ class _SpeedControlMultiplierModeState
   // Local state for smooth slider interaction
   double _localSpeed = 1.0;
   bool _paywallShowing = false;
+  final _shakeKey = GlobalKey<ShakeOnDeniedState>();
 
   @override
   void initState() {
@@ -60,11 +63,27 @@ class _SpeedControlMultiplierModeState
             color: AppColors.primaryContainer,
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Text(
-            '${_localSpeed.toStringAsFixed(1)}×',
-            style: context.titleMedium.copyWith(
-              fontWeight: FontWeight.w700,
-              color: AppColors.onPrimaryContainer,
+          child: AnimatedSwitcher(
+            duration: Motion.of(context, Motion.fast),
+            switchInCurve: Motion.enter,
+            switchOutCurve: Motion.exit,
+            transitionBuilder: (child, animation) => FadeTransition(
+              opacity: animation,
+              child: SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0, 0.3),
+                  end: Offset.zero,
+                ).animate(animation),
+                child: child,
+              ),
+            ),
+            child: Text(
+              '${_localSpeed.toStringAsFixed(1)}×',
+              key: ValueKey(_localSpeed.toStringAsFixed(1)),
+              style: context.titleMedium.copyWith(
+                fontWeight: FontWeight.w700,
+                color: AppColors.onPrimaryContainer,
+              ),
             ),
           ),
         ),
@@ -98,14 +117,20 @@ class _SpeedControlMultiplierModeState
                 )
               : Listener(
                   behavior: HitTestBehavior.opaque,
-                  onPointerDown: (_) => _showPremiumDialog(context),
+                  onPointerDown: (_) {
+                    _shakeKey.currentState?.shake();
+                    _showPremiumDialog(context);
+                  },
                   child: AbsorbPointer(
-                    child: CustomSlider(
-                      value: _localSpeed,
-                      min: 0.5,
-                      max: 2.0,
-                      divisions: 15,
-                      onChanged: (_) {},
+                    child: ShakeOnDenied(
+                      key: _shakeKey,
+                      child: CustomSlider(
+                        value: _localSpeed,
+                        min: 0.5,
+                        max: 2.0,
+                        divisions: 15,
+                        onChanged: (_) {},
+                      ),
                     ),
                   ),
                 ),

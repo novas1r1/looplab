@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/motion.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/features/song/cubit/video_song/video_song_cubit.dart';
@@ -127,40 +128,48 @@ class _VideoPreviewState extends State<VideoPreview> {
       selector: (state) => state.song.videoSizeMode,
       builder: (context, mode) {
         final maxHeight = availableHeight * (fractions[mode] ?? 0.40);
-        return Center(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: maxHeight),
-            child: AspectRatio(
-              aspectRatio: _aspectRatio,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Stack(
-                  children: [
-                    Positioned.fill(
-                      child: ColoredBox(
-                        color: AppColors.surface,
-                        child: Video(
-                          controller: _controller,
-                          // Hide media_kit_video's built-in scrub bar;
-                          // LoopTimeline + SongController already cover
-                          // playback control. The default controls would also
-                          // intercept taps we want passing through to
-                          // surrounding widgets.
-                          controls: (_) => const SizedBox.shrink(),
-                        ),
+        // Tween the height constraint so size-mode changes glide instead of
+        // jumping. GPU texture scaling keeps this cheap.
+        return TweenAnimationBuilder<double>(
+          tween: Tween(end: maxHeight),
+          duration: Motion.of(context, Motion.standard),
+          curve: Motion.emphasized,
+          builder: (context, animatedMaxHeight, child) => Center(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: animatedMaxHeight),
+              child: child,
+            ),
+          ),
+          child: AspectRatio(
+            aspectRatio: _aspectRatio,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: ColoredBox(
+                      color: AppColors.surface,
+                      child: Video(
+                        controller: _controller,
+                        // Hide media_kit_video's built-in scrub bar;
+                        // LoopTimeline + SongController already cover
+                        // playback control. The default controls would also
+                        // intercept taps we want passing through to
+                        // surrounding widgets.
+                        controls: (_) => const SizedBox.shrink(),
                       ),
                     ),
-                    Positioned(
-                      top: 4,
-                      right: 4,
-                      child: _SizeControls(
-                        mode: mode,
-                        onShrink: () => _shrink(mode),
-                        onGrow: () => _grow(mode),
-                      ),
+                  ),
+                  Positioned(
+                    top: 4,
+                    right: 4,
+                    child: _SizeControls(
+                      mode: mode,
+                      onShrink: () => _shrink(mode),
+                      onGrow: () => _grow(mode),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

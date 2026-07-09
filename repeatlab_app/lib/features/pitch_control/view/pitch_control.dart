@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auto_size_text/flutter_auto_size_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/motion.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/core/utils/musical_key.dart';
@@ -77,10 +78,29 @@ class _PitchControlState extends State<PitchControl> {
                           ),
                           if (data.musicalKey != null) ...[
                             const SizedBox(width: 8),
-                            Text(
-                              _formatKey(data.musicalKey!, pitchSemitones),
-                              style: context.labelLarge.copyWith(
-                                color: AppColors.secondary,
+                            AnimatedSwitcher(
+                              duration: Motion.of(context, Motion.fast),
+                              switchInCurve: Motion.enter,
+                              switchOutCurve: Motion.exit,
+                              transitionBuilder: (child, animation) =>
+                                  FadeTransition(
+                                    opacity: animation,
+                                    child: SlideTransition(
+                                      position: Tween<Offset>(
+                                        begin: const Offset(0, 0.3),
+                                        end: Offset.zero,
+                                      ).animate(animation),
+                                      child: child,
+                                    ),
+                                  ),
+                              child: Text(
+                                _formatKey(data.musicalKey!, pitchSemitones),
+                                key: ValueKey(
+                                  _formatKey(data.musicalKey!, pitchSemitones),
+                                ),
+                                style: context.labelLarge.copyWith(
+                                  color: AppColors.secondary,
+                                ),
                               ),
                             ),
                           ],
@@ -144,11 +164,14 @@ class _PitchControlState extends State<PitchControl> {
                               padding: EdgeInsets.zero,
                               constraints: const BoxConstraints(),
                               onPressed: _onToggleExpand,
-                              icon: Icon(
-                                _isExpanded
-                                    ? Icons.keyboard_arrow_up_rounded
-                                    : Icons.keyboard_arrow_down_rounded,
-                                color: AppColors.secondaryFixed,
+                              icon: AnimatedRotation(
+                                turns: _isExpanded ? 0.5 : 0,
+                                duration: Motion.of(context, Motion.standard),
+                                curve: Motion.emphasized,
+                                child: const Icon(
+                                  Icons.keyboard_arrow_down_rounded,
+                                  color: AppColors.secondaryFixed,
+                                ),
                               ),
                             ),
                           ),
@@ -157,13 +180,21 @@ class _PitchControlState extends State<PitchControl> {
                     ),
                   ],
                 ),
-                if (_isExpanded && pitchMode == PitchMode.semitones)
-                  PitchControlSlider(
-                    pitchSemitones: pitchSemitones,
-                    musicalKey: data.musicalKey,
-                  ),
-                if (_isExpanded && pitchMode == PitchMode.key)
-                  const PitchControlKeyMode(),
+                // AnimatedSize makes expand/collapse (and mode switches) glide
+                // instead of snapping.
+                AnimatedSize(
+                  duration: Motion.of(context, Motion.standard),
+                  curve: Motion.emphasized,
+                  alignment: Alignment.topCenter,
+                  child: !_isExpanded
+                      ? const SizedBox(width: double.infinity)
+                      : pitchMode == PitchMode.semitones
+                      ? PitchControlSlider(
+                          pitchSemitones: pitchSemitones,
+                          musicalKey: data.musicalKey,
+                        )
+                      : const PitchControlKeyMode(),
+                ),
               ],
             ),
           ),

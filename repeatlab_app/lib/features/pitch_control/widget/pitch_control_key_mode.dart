@@ -5,6 +5,7 @@ import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/ui/interaction/primary_button.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
+import 'package:repeatlab/core/utils/dialog_helper.dart';
 import 'package:repeatlab/core/utils/musical_key.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
@@ -26,8 +27,11 @@ class _PitchControlKeyModeState extends State<PitchControlKeyMode> {
   Widget build(BuildContext context) {
     final hasPremium = context.watch<PremiumSubscriptionCubit>().hasPremium;
 
-    return BlocSelector<SongCubit, SongState,
-        ({String? musicalKey, int pitchSemitones})>(
+    return BlocSelector<
+      SongCubit,
+      SongState,
+      ({String? musicalKey, int pitchSemitones})
+    >(
       selector: (state) => (
         musicalKey: state.song.musicalKey,
         pitchSemitones: state.pitchSemitones,
@@ -70,7 +74,7 @@ class _PitchControlKeyModeState extends State<PitchControlKeyMode> {
 
         final currentKey =
             MusicalKey.transpose(originalKey, data.pitchSemitones) ??
-                originalKey;
+            originalKey;
         final targetKeys = MusicalKey.sameModeKeys(originalKey);
 
         return Padding(
@@ -252,8 +256,8 @@ class _PitchControlKeyModeState extends State<PitchControlKeyMode> {
   ) async {
     final cubit = context.read<SongCubit>();
 
-    await showDialog<void>(
-      context: context,
+    await DialogHelper.showAnimated<void>(
+      context,
       builder: (dialogContext) => BlocProvider.value(
         value: cubit,
         child: EditOriginalKeyDialog(currentOriginalKey: currentOriginalKey),
@@ -283,7 +287,7 @@ class _EditOriginalKeyDialogState extends State<EditOriginalKeyDialog> {
     super.initState();
     _selectedKey =
         MusicalKey.canonicalize(widget.currentOriginalKey) ??
-            MusicalKey.allKeys.first;
+        MusicalKey.allKeys.first;
   }
 
   @override

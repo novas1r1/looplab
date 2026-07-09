@@ -1,7 +1,12 @@
+import 'dart:math' as math;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/motion.dart';
+import 'package:repeatlab/core/ui/motion_widgets.dart';
+import 'package:repeatlab/core/ui/widgets/app_bottom_sheet.dart';
 import 'package:repeatlab/core/ui/widgets/loading.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
@@ -25,6 +30,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  /// The song list staggers in once, on the first loaded frame. Rebuilds,
+  /// reorders, and later loads render instantly.
+  bool _didAnimateList = false;
 
   @override
   void initState() {
@@ -124,122 +133,165 @@ class _HomePageState extends State<HomePage> {
               );
             }
           },
-          builder: (context, state) {
-            switch (state.status) {
-              case AllSongsStatus.loading:
-                return const Center(child: Loading());
-              case AllSongsStatus.importing:
-                return Center(
-                  key: const Key('home.importing'),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Loading(),
-                      const SizedBox(height: 16),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 32),
-                        child: Text(
-                          context.l10n.importingMedia,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ),
-                      if (state.importCurrent != null &&
-                          state.importTotal != null) ...[
-                        const SizedBox(height: 8),
-                        Text(
-                          context.l10n.importingMediaProgress(
-                            state.importCurrent!,
-                            state.importTotal!,
-                          ),
-                          style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(
-                                color: AppColors.onSurface.withValues(
-                                  alpha: 0.6,
-                                ),
-                              ),
-                        ),
-                      ],
-                    ],
-                  ),
-                );
-              case AllSongsStatus.initial:
-              case AllSongsStatus.loaded:
-              case AllSongsStatus.error:
-              case AllSongsStatus.errorAudioFormat:
-              case AllSongsStatus.errorVideoFormat:
-              case AllSongsStatus.errorImportInProgress:
-                if (state.songs.isEmpty) {
-                  return Center(
-                    key: const Key('home.empty'),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.music_note,
-                          size: 64,
-                          color: AppColors.primary.withValues(alpha: 0.5),
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          context.l10n.noSongsFound,
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          context.l10n.tapToAddSong,
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(
-                                color: AppColors.onSurface.withValues(
-                                  alpha: 0.6,
-                                ),
-                              ),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-                return ReorderableListView.builder(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 92),
-                  itemCount: state.songs.length,
-                  onReorderItem: (int oldIndex, int newIndex) {
-                    context.read<AllSongsCubit>().reorderSongs(
-                      oldIndex,
-                      newIndex,
-                    );
-                  },
-                  onReorderEnd: (_) =>
-                      AppAnalytics.trackEvent(AppAnalytics.reorderSongs),
-                  proxyDecorator:
-                      (Widget child, int index, Animation<double> animation) {
-                        return Material(
-                          color: Colors.transparent,
-                          child: child,
-                        );
-                      },
-                  itemBuilder: (context, index) => HomeTile(
-                    key: ValueKey(state.songs[index].id),
-                    song: state.songs[index],
-                  ),
-                );
-            }
-          },
+          builder: (context, state) =>
+              FadeThroughSwitcher(child: _buildBody(context, state)),
         ),
-        floatingActionButton: FloatingActionButton.extended(
-          key: const Key('home.fab'),
-          heroTag: 'addMedia',
-          onPressed: isBusy
-              ? null
-              : () => _showAddMediaSheet(context, songCount),
-          backgroundColor: isBusy ? Theme.of(context).disabledColor : null,
-          icon: const Icon(Icons.add),
-          label: Text(
-            context.l10n.addSong,
-            style: context.bodyLargeDarkBold,
+        floatingActionButton: TweenAnimationBuilder<double>(
+          tween: Tween(begin: 0.9, end: 1),
+          duration: Motion.of(context, Motion.slow),
+          curve: Motion.pop,
+          builder: (context, scale, child) => Transform.scale(
+            scale: scale,
+            child: Opacity(
+              opacity: scale.clamp(0.0, 1.0),
+              child: child,
+            ),
+          ),
+          child: FloatingActionButton.extended(
+            key: const Key('home.fab'),
+            heroTag: 'addMedia',
+            onPressed: isBusy
+                ? null
+                : () => _showAddMediaSheet(context, songCount),
+            backgroundColor: isBusy ? Theme.of(context).disabledColor : null,
+            icon: AnimatedOpacity(
+              opacity: isBusy ? 0.55 : 1,
+              duration: Motion.of(context, Motion.fast),
+              child: const Icon(Icons.add),
+            ),
+            label: AnimatedOpacity(
+              opacity: isBusy ? 0.55 : 1,
+              duration: Motion.of(context, Motion.fast),
+              child: Text(
+                context.l10n.addSong,
+                style: context.bodyLargeDarkBold,
+              ),
+            ),
           ),
         ),
       ),
     );
+  }
+
+  Widget _buildBody(BuildContext context, AllSongsState state) {
+    switch (state.status) {
+      case AllSongsStatus.loading:
+        return const Center(
+          key: Key('home.loading'),
+          child: Loading(),
+        );
+      case AllSongsStatus.importing:
+        return Center(
+          key: const Key('home.importing'),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Loading(),
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Text(
+                  context.l10n.importingMedia,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ),
+              if (state.importCurrent != null && state.importTotal != null) ...[
+                const SizedBox(height: 8),
+                Text(
+                  context.l10n.importingMediaProgress(
+                    state.importCurrent!,
+                    state.importTotal!,
+                  ),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: AppColors.onSurface.withValues(
+                      alpha: 0.6,
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        );
+      case AllSongsStatus.initial:
+      case AllSongsStatus.loaded:
+      case AllSongsStatus.error:
+      case AllSongsStatus.errorAudioFormat:
+      case AllSongsStatus.errorVideoFormat:
+      case AllSongsStatus.errorImportInProgress:
+        if (state.songs.isEmpty) {
+          return Center(
+            key: const Key('home.empty'),
+            child: EntranceSlideFade(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TweenAnimationBuilder<double>(
+                    tween: Tween(begin: 0.8, end: 1),
+                    duration: Motion.of(context, Motion.slow),
+                    curve: Motion.pop,
+                    builder: (context, scale, child) =>
+                        Transform.scale(scale: scale, child: child),
+                    child: Icon(
+                      Icons.music_note,
+                      size: 64,
+                      color: AppColors.primary.withValues(alpha: 0.5),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    context.l10n.noSongsFound,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    context.l10n.tapToAddSong,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: AppColors.onSurface.withValues(
+                        alpha: 0.6,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+        final animateEntrance = !_didAnimateList;
+        if (animateEntrance) {
+          // Flip without setState: future rebuilds simply skip the stagger.
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _didAnimateList = true;
+          });
+        }
+        return ReorderableListView.builder(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 92),
+          itemCount: state.songs.length,
+          onReorderItem: (int oldIndex, int newIndex) {
+            context.read<AllSongsCubit>().reorderSongs(
+              oldIndex,
+              newIndex,
+            );
+          },
+          onReorderEnd: (_) =>
+              AppAnalytics.trackEvent(AppAnalytics.reorderSongs),
+          proxyDecorator:
+              (Widget child, int index, Animation<double> animation) {
+                return Material(
+                  color: Colors.transparent,
+                  child: child,
+                );
+              },
+          itemBuilder: (context, index) => EntranceSlideFade(
+            key: ValueKey(state.songs[index].id),
+            enabled: animateEntrance,
+            delay: Duration(milliseconds: 40 * math.min(index, 8)),
+            child: HomeTile(
+              song: state.songs[index],
+            ),
+          ),
+        );
+    }
   }
 
   /// Show a bottom sheet that lets the user choose between adding an audio
@@ -250,15 +302,8 @@ class _HomePageState extends State<HomePage> {
   ) async {
     AppAnalytics.trackEvent(AppAnalytics.clickAddSong);
 
-    final choice = await showModalBottomSheet<_AddMediaChoice>(
-      context: context,
-      backgroundColor: AppColors.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(24),
-          topRight: Radius.circular(24),
-        ),
-      ),
+    final choice = await AppBottomSheet.show<_AddMediaChoice>(
+      context,
       builder: (sheetContext) {
         return SafeArea(
           child: Column(
@@ -368,16 +413,9 @@ class _HomePageState extends State<HomePage> {
 
     AppAnalytics.trackEvent(AppAnalytics.viewChangelogDialog);
 
-    await showModalBottomSheet(
-      context: context,
+    await AppBottomSheet.show<void>(
+      context,
       isScrollControlled: true,
-      backgroundColor: AppColors.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(24),
-          topRight: Radius.circular(24),
-        ),
-      ),
       builder: (context) => const ChangelogDialog(),
     );
 

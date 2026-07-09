@@ -1,9 +1,12 @@
+import 'package:audioplayers/audioplayers.dart' show PlayerState;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/motion_widgets.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
+import 'package:repeatlab/features/song/widgets/smooth_playhead.dart';
 
 class LoopTimeline extends StatefulWidget {
   final void Function(Loop loop)? onLoopTap;
@@ -29,13 +32,54 @@ class LoopTimeline extends StatefulWidget {
   State<LoopTimeline> createState() => _LoopTimelineState();
 }
 
-class _LoopTimelineState extends State<LoopTimeline> {
+class _LoopTimelineState extends State<LoopTimeline>
+    with SingleTickerProviderStateMixin {
   final _timelineKey = GlobalKey();
+  final _shakeKey = GlobalKey<ShakeOnDeniedState>();
+
+  /// Interpolates the coarse position stream so the 2px playhead glides at
+  /// display rate instead of stepping. Consumer-side only.
+  late final SmoothPlayhead _smoothPlayhead;
+
+  /// Read by [_smoothPlayhead]; kept in sync with MediaQuery in
+  /// didChangeDependencies.
+  bool _disableAnimations = false;
 
   double get _timelineWidth {
     final RenderBox? box =
         _timelineKey.currentContext?.findRenderObject() as RenderBox?;
     return box?.size.width ?? 0;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    final songCubit = context.read<SongCubit>();
+    _smoothPlayhead = SmoothPlayhead(
+      vsync: this,
+      positionStream: songCubit.positionStream ?? const Stream.empty(),
+      isPlaying: () => songCubit.state.playerState == PlayerState.playing,
+      playbackRate: () => songCubit.state.speed,
+      totalDuration: () => widget.duration,
+      pixelsPerMs: () {
+        final durationMs = _durationMs;
+        if (durationMs == null) return 0;
+        return _timelineWidth / durationMs;
+      },
+      disableAnimations: () => _disableAnimations,
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _disableAnimations = MediaQuery.disableAnimationsOf(context);
+  }
+
+  @override
+  void dispose() {
+    _smoothPlayhead.dispose();
+    super.dispose();
   }
 
   /// Song duration in ms, or `null` when unknown/zero (e.g. metadata failed
@@ -68,109 +112,124 @@ class _LoopTimelineState extends State<LoopTimeline> {
                     _handleTimelineInteraction(details.localPosition),
                 onHorizontalDragUpdate: (details) =>
                     _handleTimelineInteraction(details.localPosition),
-                child: Container(
-                  key: _timelineKey,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: AppColors.surfaceContainerHighest,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Stack(
-                    children: [
-                      StreamBuilder<Duration>(
-                        stream: context.read<SongCubit>().positionStream,
-                        initialData: Duration.zero,
-                        builder:
-                            (
-                              BuildContext context,
-                              AsyncSnapshot<Duration> snapshot,
-                            ) {
-                              final durationMs = _durationMs;
-                              if (snapshot.hasData && durationMs != null) {
-                                return Positioned(
-                                  left:
-                                      (snapshot.data!.inMilliseconds /
-                                          durationMs) *
-                                      _timelineWidth,
-                                  top: 0,
-                                  bottom: 0,
-                                  child: Container(
-                                    width: 2,
-                                    color: AppColors.primary,
-                                  ),
+                child: ShakeOnDenied(
+                  key: _shakeKey,
+                  child: Container(
+                    key: _timelineKey,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: AppColors.surfaceContainerHighest,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Stack(
+                      children: [
+                        // Own RepaintBoundary so the 60fps playhead movement
+                        // never repaints the loop blocks behind it.
+                        Positioned.fill(
+                          child: RepaintBoundary(
+                            child: ValueListenableBuilder<Duration>(
+                              valueListenable: _smoothPlayhead,
+                              builder: (context, position, child) {
+                                final durationMs = _durationMs;
+                                if (durationMs == null) {
+                                  return const SizedBox.shrink();
+                                }
+                                return Stack(
+                                  children: [
+                                    Positioned(
+                                      left:
+                                          (position.inMilliseconds /
+                                              durationMs) *
+                                          _timelineWidth,
+                                      top: 0,
+                                      bottom: 0,
+                                      child: child!,
+                                    ),
+                                  ],
                                 );
-                              }
+                              },
+                              child: Container(
+                                width: 2,
+                                color: AppColors.primary,
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        // Loop containers
+                        ...loops.map(
+                          (loop) {
+                            final durationMs = _durationMs;
+                            if (loop.start == null ||
+                                loop.end == null ||
+                                durationMs == null) {
                               return const SizedBox.shrink();
-                            },
-                      ),
+                            }
 
-                      // Loop containers
-                      ...loops.map(
-                        (loop) {
-                          final durationMs = _durationMs;
-                          if (loop.start == null ||
-                              loop.end == null ||
-                              durationMs == null) {
-                            return const SizedBox.shrink();
-                          }
+                            final startPosition =
+                                loop.start!.inMilliseconds / durationMs;
+                            final endPosition =
+                                loop.end!.inMilliseconds / durationMs;
 
-                          final startPosition =
-                              loop.start!.inMilliseconds / durationMs;
-                          final endPosition =
-                              loop.end!.inMilliseconds / durationMs;
+                            final isLocked =
+                                widget.isLoopLocked?.call(loop) ?? false;
 
-                          final isLocked =
-                              widget.isLoopLocked?.call(loop) ?? false;
-
-                          return Positioned(
-                            left: startPosition * _timelineWidth,
-                            width:
-                                (endPosition - startPosition) * _timelineWidth,
-                            top: 8,
-                            bottom: 8,
-                            child: GestureDetector(
-                              onTap: () => isLocked
-                                  ? widget.onLockedLoopTap?.call(loop)
-                                  : widget.onLoopTap?.call(loop),
-                              child: Opacity(
-                                opacity: isLocked ? 0.4 : 1.0,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: loop.color.color.withValues(
-                                      alpha: 0.5,
+                            return Positioned(
+                              left: startPosition * _timelineWidth,
+                              width:
+                                  (endPosition - startPosition) *
+                                  _timelineWidth,
+                              top: 8,
+                              bottom: 8,
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (isLocked) {
+                                    _shakeKey.currentState?.shake();
+                                    widget.onLockedLoopTap?.call(loop);
+                                  } else {
+                                    widget.onLoopTap?.call(loop);
+                                  }
+                                },
+                                child: Opacity(
+                                  opacity: isLocked ? 0.4 : 1.0,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: loop.color.color.withValues(
+                                        alpha: 0.5,
+                                      ),
+                                      borderRadius: BorderRadius.circular(4),
+                                      border: Border.all(
+                                        color: loop.color.color,
+                                        width: 2,
+                                      ),
                                     ),
-                                    borderRadius: BorderRadius.circular(4),
-                                    border: Border.all(
-                                      color: loop.color.color,
-                                      width: 2,
+                                    child: Center(
+                                      child: isLocked
+                                          ? const Icon(
+                                              Icons.lock,
+                                              size: 14,
+                                              color: AppColors.onSurfaceVariant,
+                                            )
+                                          : Text(
+                                              loop.name,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelSmall
+                                                  ?.copyWith(
+                                                    color: AppColors
+                                                        .onSurfaceVariant,
+                                                  ),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
                                     ),
-                                  ),
-                                  child: Center(
-                                    child: isLocked
-                                        ? const Icon(
-                                            Icons.lock,
-                                            size: 14,
-                                            color: AppColors.onSurfaceVariant,
-                                          )
-                                        : Text(
-                                            loop.name,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .labelSmall
-                                                ?.copyWith(
-                                                  color: AppColors
-                                                      .onSurfaceVariant,
-                                                ),
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
                                   ),
                                 ),
                               ),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/motion_widgets.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
+import 'package:repeatlab/core/utils/dialog_helper.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
@@ -35,88 +37,90 @@ class HomeTile extends StatelessWidget {
           ),
         ],
       ),
-      child: Card(
-        color: AppColors.inversePrimary.withValues(alpha: 0.7),
-        elevation: 2,
-        child: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/waveform.png'),
-              fit: BoxFit.cover,
-              opacity: 0.2,
-            ),
-          ),
-          child: ListTile(
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 4,
-            ),
-            dense: true,
-            visualDensity: VisualDensity.compact,
-            minLeadingWidth: 36,
-            leading: Container(
-              width: 36,
-              height: 36,
-              decoration: const BoxDecoration(
-                color: AppColors.primary,
-                shape: BoxShape.circle,
-              ),
-              alignment: Alignment.center,
-              child: Icon(
-                song.mediaType == MediaType.video
-                    ? Icons.videocam
-                    : Icons.music_note,
-                color: AppColors.onPrimary,
-                size: 20,
+      child: PressableScale(
+        child: Card(
+          color: AppColors.inversePrimary.withValues(alpha: 0.7),
+          elevation: 2,
+          child: Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/waveform.png'),
+                fit: BoxFit.cover,
+                opacity: 0.2,
               ),
             ),
-            onTap: () => _onTapSong(context, song),
-            title: Text(
-              song.title,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w500,
+            child: ListTile(
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 4,
               ),
-            ),
-            subtitle: Text(
-              song.artist,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w500,
+              dense: true,
+              visualDensity: VisualDensity.compact,
+              minLeadingWidth: 36,
+              leading: Container(
+                width: 36,
+                height: 36,
+                decoration: const BoxDecoration(
+                  color: AppColors.primary,
+                  shape: BoxShape.circle,
+                ),
+                alignment: Alignment.center,
+                child: Icon(
+                  song.mediaType == MediaType.video
+                      ? Icons.videocam
+                      : Icons.music_note,
+                  color: AppColors.onPrimary,
+                  size: 20,
+                ),
               ),
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _MetaChip(
-                  child: Text(
-                    song.duration.toFormattedStringWithoutMilliseconds(),
-                    style: const TextStyle(
-                      color: AppColors.onPrimaryContainer,
-                      fontWeight: FontWeight.w500,
+              onTap: () => _onTapSong(context, song),
+              title: Text(
+                song.title,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              subtitle: Text(
+                song.artist,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _MetaChip(
+                    child: Text(
+                      song.duration.toFormattedStringWithoutMilliseconds(),
+                      style: const TextStyle(
+                        color: AppColors.onPrimaryContainer,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 6),
-                _MetaChip(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.repeat,
-                        size: 14,
-                        color: AppColors.onPrimaryContainer,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        '${song.loops.length}',
-                        style: const TextStyle(
+                  const SizedBox(width: 6),
+                  _MetaChip(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.repeat,
+                          size: 14,
                           color: AppColors.onPrimaryContainer,
-                          fontWeight: FontWeight.w500,
                         ),
-                      ),
-                    ],
+                        const SizedBox(width: 4),
+                        Text(
+                          '${song.loops.length}',
+                          style: const TextStyle(
+                            color: AppColors.onPrimaryContainer,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -137,8 +141,8 @@ class HomeTile extends StatelessWidget {
     AppAnalytics.trackEvent(AppAnalytics.clickDeleteSong);
 
     // Show confirmation dialog before deleting
-    showDialog(
-      context: context,
+    DialogHelper.showAnimated<void>(
+      context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(context.l10n.deleteSong),

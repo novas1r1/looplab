@@ -325,8 +325,8 @@ class _BackupTiles extends StatelessWidget {
     required int songCount,
     required String exportedAt,
   }) {
-    return showDialog<BackupImportMode>(
-      context: context,
+    return DialogHelper.showAnimated<BackupImportMode>(
+      context,
       builder: (dialogContext) => AlertDialog(
         title: Text(context.l10n.backupImportConfirmTitle),
         content: Column(

@@ -6,6 +6,7 @@ import 'package:repeatlab/core/ui/interaction/custom_slider.dart';
 import 'package:repeatlab/core/ui/interaction/primary_button.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
+import 'package:repeatlab/core/utils/dialog_helper.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/features/speed_control/widget/bpm_tap_dialog.dart';
@@ -275,8 +276,8 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
 
     AppAnalytics.trackEvent(AppAnalytics.viewTapBpmDialog);
 
-    await showDialog(
-      context: context,
+    await DialogHelper.showAnimated<void>(
+      context,
       builder: (dialogContext) => BlocProvider.value(
         value: cubit,
         child: const BpmTapDialog(),
@@ -292,8 +293,8 @@ class _SpeedControlBpmModeState extends State<SpeedControlBpmMode> {
 
     AppAnalytics.trackEvent(AppAnalytics.viewEditOriginalBpmDialog);
 
-    await showDialog(
-      context: context,
+    await DialogHelper.showAnimated<void>(
+      context,
       builder: (dialogContext) => BlocProvider.value(
         value: cubit,
         child: EditOriginalBpmDialog(currentOriginalBpm: currentOriginalBpm),

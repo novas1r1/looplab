@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/widgets/app_bottom_sheet.dart';
 import 'package:repeatlab/data/repositories/backup/backup_repository.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
@@ -14,16 +15,9 @@ import 'package:repeatlab/l10n/l10n.dart';
 Future<BackupExportOptions?> showBackupExportOptionsSheet(
   BuildContext context,
 ) {
-  return showModalBottomSheet<BackupExportOptions>(
-    context: context,
+  return AppBottomSheet.show<BackupExportOptions>(
+    context,
     isScrollControlled: true,
-    backgroundColor: AppColors.surface,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(24),
-        topRight: Radius.circular(24),
-      ),
-    ),
     builder: (_) => const _BackupExportOptionsSheet(),
   );
 }

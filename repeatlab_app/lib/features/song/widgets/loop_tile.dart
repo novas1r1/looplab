@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/motion.dart';
+import 'package:repeatlab/core/ui/motion_widgets.dart';
+import 'package:repeatlab/core/ui/widgets/app_bottom_sheet.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/data/models/loop.dart';
@@ -46,14 +49,27 @@ class LoopTile extends StatefulWidget {
 }
 
 class _LoopTileState extends State<LoopTile> {
+  final _shakeKey = GlobalKey<ShakeOnDeniedState>();
+
+  void _onLockedTap() {
+    _shakeKey.currentState?.shake();
+    widget.onLockedTap?.call();
+  }
+
   @override
   Widget build(BuildContext context) {
     const color = AppColors.primaryContainer;
     final isLocked = widget.isLocked;
 
-    final content = Container(
+    // AnimatedContainer glides the selection highlight (border + tint)
+    // instead of snapping.
+    final content = AnimatedContainer(
+      duration: Motion.of(context, Motion.standard),
+      curve: Motion.emphasized,
       decoration: BoxDecoration(
-        color: widget.isSelected ? color.withValues(alpha: 0.2) : null,
+        color: widget.isSelected
+            ? color.withValues(alpha: 0.2)
+            : color.withValues(alpha: 0),
         border: Border.all(
           color: widget.isSelected ? color : Colors.grey,
           width: 2,
@@ -62,8 +78,7 @@ class _LoopTileState extends State<LoopTile> {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(8),
-        onTap: () =>
-            isLocked ? widget.onLockedTap?.call() : widget.onTap(widget.loop),
+        onTap: () => isLocked ? _onLockedTap() : widget.onTap(widget.loop),
         child: Column(
           children: [
             Row(
@@ -98,7 +113,7 @@ class _LoopTileState extends State<LoopTile> {
                     constraints: const BoxConstraints(),
                     padding: EdgeInsets.zero,
                     onPressed: () =>
-                        isLocked ? widget.onLockedTap?.call() : _onExportLoop(),
+                        isLocked ? _onLockedTap() : _onExportLoop(),
                     icon: const Icon(Icons.upload_file, size: 20),
                   ),
                 ),
@@ -109,8 +124,7 @@ class _LoopTileState extends State<LoopTile> {
                     key: Key('song.loop.edit.${widget.loop.id}'),
                     constraints: const BoxConstraints(),
                     padding: EdgeInsets.zero,
-                    onPressed: () =>
-                        isLocked ? widget.onLockedTap?.call() : _onEditLoop(),
+                    onPressed: () => isLocked ? _onLockedTap() : _onEditLoop(),
                     icon: const Icon(Icons.more_vert, size: 20),
                   ),
                 ),
@@ -157,10 +171,20 @@ class _LoopTileState extends State<LoopTile> {
       ),
     );
 
-    if (isLocked) {
-      return Opacity(opacity: 0.45, child: content);
-    }
-    return content;
+    // New loops fade in on mount (paired with the auto-scroll on loop-add);
+    // the locked dim animates so a premium unlock brightens tiles smoothly.
+    return EntranceSlideFade(
+      duration: const Duration(milliseconds: 200),
+      offsetY: 8,
+      child: ShakeOnDenied(
+        key: _shakeKey,
+        child: AnimatedOpacity(
+          opacity: isLocked ? 0.45 : 1,
+          duration: Motion.of(context, Motion.standard),
+          child: content,
+        ),
+      ),
+    );
   }
 
   Future<void> _onEditLoop() async {
@@ -169,8 +193,8 @@ class _LoopTileState extends State<LoopTile> {
 
     final songDuration = context.read<SongCubit>().state.song.duration;
 
-    final updatedLoop = await showModalBottomSheet<Loop?>(
-      context: context,
+    final updatedLoop = await AppBottomSheet.show<Loop?>(
+      context,
       builder: (context) => EditLoopBottomUp(
         loop: widget.loop,
         songDuration: songDuration,
@@ -189,8 +213,8 @@ class _LoopTileState extends State<LoopTile> {
     final exporterCubit = context.read<SongExporterCubit>();
     final songCubit = context.read<SongCubit>();
 
-    await showModalBottomSheet<void>(
-      context: context,
+    await AppBottomSheet.show<void>(
+      context,
       builder: (context) => MultiBlocProvider(
         providers: [
           BlocProvider.value(

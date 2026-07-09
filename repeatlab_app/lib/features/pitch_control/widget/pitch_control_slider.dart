@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/ui/interaction/custom_slider.dart';
+import 'package:repeatlab/core/ui/motion.dart';
+import 'package:repeatlab/core/ui/motion_widgets.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/core/utils/musical_key.dart';
@@ -33,6 +35,7 @@ class _PitchControlSliderState extends State<PitchControlSlider> {
   // Local state for smooth slider interaction
   int _localPitch = 0;
   bool _paywallShowing = false;
+  final _shakeKey = GlobalKey<ShakeOnDeniedState>();
 
   @override
   void initState() {
@@ -78,25 +81,41 @@ class _PitchControlSliderState extends State<PitchControlSlider> {
             color: AppColors.primaryContainer,
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                _formatSemitones(_localPitch),
-                style: context.titleMedium.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.onPrimaryContainer,
-                ),
+          child: AnimatedSwitcher(
+            duration: Motion.of(context, Motion.fast),
+            switchInCurve: Motion.enter,
+            switchOutCurve: Motion.exit,
+            transitionBuilder: (child, animation) => FadeTransition(
+              opacity: animation,
+              child: SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0, 0.3),
+                  end: Offset.zero,
+                ).animate(animation),
+                child: child,
               ),
-              if (_transposedKey != null)
+            ),
+            child: Column(
+              key: ValueKey('$_localPitch-$_transposedKey'),
+              mainAxisSize: MainAxisSize.min,
+              children: [
                 Text(
-                  _transposedKey!,
-                  style: context.labelMedium.copyWith(
-                    fontWeight: FontWeight.w600,
+                  _formatSemitones(_localPitch),
+                  style: context.titleMedium.copyWith(
+                    fontWeight: FontWeight.w700,
                     color: AppColors.onPrimaryContainer,
                   ),
                 ),
-            ],
+                if (_transposedKey != null)
+                  Text(
+                    _transposedKey!,
+                    style: context.labelMedium.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.onPrimaryContainer,
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
         const SizedBox(width: 8),
@@ -130,16 +149,22 @@ class _PitchControlSliderState extends State<PitchControlSlider> {
                 )
               : Listener(
                   behavior: HitTestBehavior.opaque,
-                  onPointerDown: (_) => _showPremiumDialog(context),
+                  onPointerDown: (_) {
+                    _shakeKey.currentState?.shake();
+                    _showPremiumDialog(context);
+                  },
                   child: AbsorbPointer(
-                    child: CustomSlider(
-                      value: _localPitch.toDouble(),
-                      min: SongCubit.minPitchSemitones.toDouble(),
-                      max: SongCubit.maxPitchSemitones.toDouble(),
-                      divisions:
-                          SongCubit.maxPitchSemitones -
-                          SongCubit.minPitchSemitones,
-                      onChanged: (_) {},
+                    child: ShakeOnDenied(
+                      key: _shakeKey,
+                      child: CustomSlider(
+                        value: _localPitch.toDouble(),
+                        min: SongCubit.minPitchSemitones.toDouble(),
+                        max: SongCubit.maxPitchSemitones.toDouble(),
+                        divisions:
+                            SongCubit.maxPitchSemitones -
+                            SongCubit.minPitchSemitones,
+                        onChanged: (_) {},
+                      ),
                     ),
                   ),
                 ),

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auto_size_text/flutter_auto_size_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/motion.dart';
+import 'package:repeatlab/core/ui/motion_widgets.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/features/pitch_control/view/pitch_control.dart';
@@ -48,17 +50,16 @@ class SongController extends StatelessWidget {
               SizedBox(
                 height: 32,
                 child: Center(
-                  child: IconButton(
-                    key: const Key('song.back10'),
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
+                  child: _SeekButton(
+                    buttonKey: const Key('song.back10'),
+                    icon: Icons.replay_10_rounded,
+                    nudgeTurns: -0.06,
                     onPressed: () {
                       AppAnalytics.trackEvent(
                         AppAnalytics.clickBack10Seconds,
                       );
                       context.read<SongCubit>().back(10);
                     },
-                    icon: const Icon(Icons.replay_10_rounded, size: 24),
                   ),
                 ),
               ),
@@ -68,15 +69,10 @@ class SongController extends StatelessWidget {
                 builder: (context, playerState) {
                   return SizedBox(
                     height: 32,
-                    child: IconButton(
-                      key: const Key('song.play'),
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
-                      onPressed: () => _onTapPlay(context),
-                      icon: Icon(
-                        playerState == PlayerState.playing
-                            ? Icons.pause_rounded
-                            : Icons.play_arrow_rounded,
+                    child: PressableScale(
+                      child: _PlayPauseButton(
+                        isPlaying: playerState == PlayerState.playing,
+                        onPressed: () => _onTapPlay(context),
                       ),
                     ),
                   );
@@ -85,17 +81,16 @@ class SongController extends StatelessWidget {
               const SizedBox(width: 8),
               SizedBox(
                 height: 32,
-                child: IconButton(
-                  key: const Key('song.forward10'),
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
+                child: _SeekButton(
+                  buttonKey: const Key('song.forward10'),
+                  icon: Icons.forward_10_rounded,
+                  nudgeTurns: 0.06,
                   onPressed: () {
                     AppAnalytics.trackEvent(
                       AppAnalytics.clickForward10Seconds,
                     );
                     context.read<SongCubit>().forward(10);
                   },
-                  icon: const Icon(Icons.forward_10_rounded, size: 24),
                 ),
               ),
               Expanded(
@@ -142,5 +137,111 @@ class SongController extends StatelessWidget {
       );
       cubit.togglePlaySong();
     }
+  }
+}
+
+/// Play/pause button whose icon morphs between the two glyphs instead of
+/// swapping instantly.
+class _PlayPauseButton extends StatefulWidget {
+  final bool isPlaying;
+  final VoidCallback onPressed;
+
+  const _PlayPauseButton({
+    required this.isPlaying,
+    required this.onPressed,
+  });
+
+  @override
+  State<_PlayPauseButton> createState() => _PlayPauseButtonState();
+}
+
+class _PlayPauseButtonState extends State<_PlayPauseButton>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: Motion.fast,
+    value: widget.isPlaying ? 1 : 0,
+  );
+
+  @override
+  void didUpdateWidget(_PlayPauseButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.isPlaying != oldWidget.isPlaying) {
+      if (widget.isPlaying) {
+        _controller.forward();
+      } else {
+        _controller.reverse();
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      key: const Key('song.play'),
+      padding: EdgeInsets.zero,
+      constraints: const BoxConstraints(),
+      onPressed: widget.onPressed,
+      icon: AnimatedIcon(
+        icon: AnimatedIcons.play_pause,
+        progress: _controller,
+      ),
+    );
+  }
+}
+
+/// Seek button that gives a small one-shot rotation nudge on each tap.
+class _SeekButton extends StatefulWidget {
+  final Key buttonKey;
+  final IconData icon;
+  final double nudgeTurns;
+  final VoidCallback onPressed;
+
+  const _SeekButton({
+    required this.buttonKey,
+    required this.icon,
+    required this.nudgeTurns,
+    required this.onPressed,
+  });
+
+  @override
+  State<_SeekButton> createState() => _SeekButtonState();
+}
+
+class _SeekButtonState extends State<_SeekButton> {
+  int _taps = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    final icon = Icon(widget.icon, size: 24);
+    return IconButton(
+      key: widget.buttonKey,
+      padding: EdgeInsets.zero,
+      constraints: const BoxConstraints(),
+      onPressed: () {
+        setState(() => _taps++);
+        widget.onPressed();
+      },
+      icon: _taps == 0
+          ? icon
+          : TweenAnimationBuilder<double>(
+              // A new key restarts the nudge on every tap.
+              key: ValueKey(_taps),
+              tween: Tween(begin: widget.nudgeTurns, end: 0),
+              duration: Motion.of(context, Motion.fast),
+              curve: Motion.enter,
+              builder: (context, turns, child) => RotationTransition(
+                turns: AlwaysStoppedAnimation(turns),
+                child: child,
+              ),
+              child: icon,
+            ),
+    );
   }
 }

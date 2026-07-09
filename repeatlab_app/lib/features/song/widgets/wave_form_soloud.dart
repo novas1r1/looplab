@@ -1,16 +1,20 @@
 import 'dart:async';
 import 'dart:developer' as developer;
 
+import 'package:audioplayers/audioplayers.dart' show PlayerState;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/motion.dart';
+import 'package:repeatlab/core/ui/motion_widgets.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/features/song/cubit/wave_form/wave_form_cubit.dart';
+import 'package:repeatlab/features/song/widgets/smooth_playhead.dart';
 import 'package:repeatlab/features/song/widgets/wave_painter.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
@@ -49,7 +53,8 @@ class _WaveFormSoLoudView extends StatefulWidget {
   State<_WaveFormSoLoudView> createState() => _WaveFormSoLoudViewState();
 }
 
-class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
+class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView>
+    with SingleTickerProviderStateMixin {
   static const double minZoom = 0.25;
   static const double maxZoom = 5.0;
   static const double zoomStep = 0.25;
@@ -61,15 +66,50 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
 
   bool _showZoomSlider = false;
   Timer? _zoomSliderTimer;
+  final _zoomInShakeKey = GlobalKey<ShakeOnDeniedState>();
+  final _zoomOutShakeKey = GlobalKey<ShakeOnDeniedState>();
+
+  /// Interpolates the coarse position stream into a smooth playhead. Wraps
+  /// the cubit's notifier — consumer-side only, playback logic untouched.
+  late final SmoothPlayhead _smoothPlayhead;
+
+  /// Read by [_smoothPlayhead]; kept in sync with MediaQuery in build.
+  bool _disableAnimations = false;
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
+
+    final waveFormCubit = context.read<WaveFormCubit>();
+    final songCubit = context.read<SongCubit>();
+    _smoothPlayhead = SmoothPlayhead(
+      vsync: this,
+      positionListenable: waveFormCubit.playbackPositionNotifier,
+      isPlaying: () => songCubit.state.playerState == PlayerState.playing,
+      playbackRate: () => songCubit.state.speed,
+      totalDuration: () => waveFormCubit.state.duration,
+      pixelsPerMs: () {
+        final durationMs = waveFormCubit.state.duration.inMilliseconds;
+        if (durationMs <= 0) return 0;
+        final width =
+            (waveFormCubit.state.waveformData?.length.toDouble() ?? 0.0) *
+            _zoomScale;
+        return width / durationMs;
+      },
+      disableAnimations: () => _disableAnimations,
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _disableAnimations = MediaQuery.disableAnimationsOf(context);
   }
 
   @override
   void dispose() {
+    _smoothPlayhead.dispose();
     _zoomSliderTimer?.cancel();
     _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
@@ -87,9 +127,6 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
 
   @override
   Widget build(BuildContext context) {
-    final waveFormCubit = context.read<WaveFormCubit>();
-    final positionNotifier = waveFormCubit.playbackPositionNotifier;
-
     return BlocBuilder<WaveFormCubit, WaveFormState>(
       buildWhen: (previous, current) =>
           previous.status != current.status ||
@@ -173,7 +210,7 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
                                 width: waveformWidth,
                                 child: RepaintBoundary(
                                   child: ValueListenableBuilder<Duration>(
-                                    valueListenable: positionNotifier,
+                                    valueListenable: _smoothPlayhead,
                                     builder: (_, position, _) {
                                       if (!_isDragging) {
                                         _updateScrollPositionFor(
@@ -226,12 +263,15 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
                       onTap: _zoomScale < maxZoom
                           ? () => _onZoomIn(context)
                           : null,
-                      child: Icon(
-                        Icons.zoom_in,
-                        size: 24,
-                        color: _zoomScale < maxZoom
-                            ? Colors.white
-                            : Colors.grey,
+                      child: ShakeOnDenied(
+                        key: _zoomInShakeKey,
+                        child: Icon(
+                          Icons.zoom_in,
+                          size: 24,
+                          color: _zoomScale < maxZoom
+                              ? Colors.white
+                              : Colors.grey,
+                        ),
                       ),
                     ),
                   ),
@@ -241,23 +281,31 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
                     top: 0,
                     child: AnimatedOpacity(
                       opacity: _showZoomSlider ? 1.0 : 0.0,
-                      duration: const Duration(milliseconds: 200),
-                      child: IgnorePointer(
-                        ignoring: !_showZoomSlider,
-                        child: SliderTheme(
-                          data: SliderTheme.of(context).copyWith(
-                            trackHeight: 2,
-                            thumbShape: const RoundSliderThumbShape(
-                              enabledThumbRadius: 6,
+                      duration: Motion.of(context, Motion.fast),
+                      curve: Motion.enter,
+                      child: AnimatedSlide(
+                        offset: _showZoomSlider
+                            ? Offset.zero
+                            : const Offset(0, -0.2),
+                        duration: Motion.of(context, Motion.fast),
+                        curve: Motion.enter,
+                        child: IgnorePointer(
+                          ignoring: !_showZoomSlider,
+                          child: SliderTheme(
+                            data: SliderTheme.of(context).copyWith(
+                              trackHeight: 2,
+                              thumbShape: const RoundSliderThumbShape(
+                                enabledThumbRadius: 6,
+                              ),
+                              overlayShape: SliderComponentShape.noOverlay,
+                              trackShape: const RectangularSliderTrackShape(),
                             ),
-                            overlayShape: SliderComponentShape.noOverlay,
-                            trackShape: const RectangularSliderTrackShape(),
-                          ),
-                          child: Slider(
-                            value: _zoomScale,
-                            min: minZoom,
-                            max: maxZoom,
-                            onChanged: _updateZoom,
+                            child: Slider(
+                              value: _zoomScale,
+                              min: minZoom,
+                              max: maxZoom,
+                              onChanged: _updateZoom,
+                            ),
                           ),
                         ),
                       ),
@@ -270,12 +318,15 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
                       onTap: _zoomScale > minZoom
                           ? () => _onZoomOut(context)
                           : null,
-                      child: Icon(
-                        Icons.zoom_out,
-                        size: 24,
-                        color: _zoomScale > minZoom
-                            ? Colors.white
-                            : Colors.grey,
+                      child: ShakeOnDenied(
+                        key: _zoomOutShakeKey,
+                        child: Icon(
+                          Icons.zoom_out,
+                          size: 24,
+                          color: _zoomScale > minZoom
+                              ? Colors.white
+                              : Colors.grey,
+                        ),
                       ),
                     ),
                   ),
@@ -299,6 +350,7 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
       _zoomOut();
       _showZoomControls();
     } else {
+      _zoomOutShakeKey.currentState?.shake();
       if (!context.mounted) return;
       await context.read<PremiumSubscriptionCubit>().presentPaywall(
         source: 'waveform_zoom',
@@ -367,6 +419,7 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
       _zoomIn();
       _showZoomControls();
     } else {
+      _zoomInShakeKey.currentState?.shake();
       if (!context.mounted) return;
       await context.read<PremiumSubscriptionCubit>().presentPaywall(
         source: 'waveform_zoom',

@@ -8,7 +8,9 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:repeatlab/core/app_constants.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/widgets/app_bottom_sheet.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
+import 'package:repeatlab/core/utils/dialog_helper.dart';
 import 'package:repeatlab/data/repositories/purchases_repository.dart';
 import 'package:repeatlab/features/changelog_dialog/changelog_dialog.dart';
 import 'package:repeatlab/features/home/dataprotection_page.dart';
@@ -74,16 +76,9 @@ class CustomDrawer extends StatelessWidget {
               onTap: () async {
                 AppAnalytics.trackEvent(AppAnalytics.viewChangelogDialog);
 
-                await showModalBottomSheet(
-                  context: context,
+                await AppBottomSheet.show<void>(
+                  context,
                   isScrollControlled: true,
-                  backgroundColor: AppColors.surface,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(24),
-                      topRight: Radius.circular(24),
-                    ),
-                  ),
                   builder: (context) => const ChangelogDialog(),
                 );
               },
@@ -104,7 +99,8 @@ class CustomDrawer extends StatelessWidget {
                     state.hasWeeklySubscription ||
                     state.hasYearlySubscription ||
                     state.hasLifetimePurchase;
-                final hasSubscription = state.hasWeeklySubscription || state.hasYearlySubscription;
+                final hasSubscription =
+                    state.hasWeeklySubscription || state.hasYearlySubscription;
 
                 return Column(
                   mainAxisSize: MainAxisSize.min,
@@ -122,9 +118,11 @@ class CustomDrawer extends StatelessWidget {
                         leading: const Icon(Icons.shopping_cart),
                         title: Text(context.l10n.buyRepeatLabPro),
                         onTap: () async {
-                          await context.read<PremiumSubscriptionCubit>().presentPaywall(
-                            source: 'drawer',
-                          );
+                          await context
+                              .read<PremiumSubscriptionCubit>()
+                              .presentPaywall(
+                                source: 'drawer',
+                              );
                         },
                       ),
                   ],
@@ -260,8 +258,8 @@ class CustomDrawer extends StatelessWidget {
                       if (!context.mounted) return;
 
                       // display dialog to copy to clipboard
-                      await showDialog(
-                        context: context,
+                      await DialogHelper.showAnimated<void>(
+                        context,
                         builder: (context) => AlertDialog(
                           title: Text(context.l10n.copyToClipboard),
                           content: Column(
@@ -273,11 +271,14 @@ class CustomDrawer extends StatelessWidget {
                               Row(
                                 children: [
                                   Text(
-                                    revenueCatUser.activeSubscriptions.join(', '),
+                                    revenueCatUser.activeSubscriptions.join(
+                                      ', ',
+                                    ),
                                   ),
                                   IconButton(
                                     onPressed: () async {
-                                      final purchaserInfo = await Purchases.getCustomerInfo();
+                                      final purchaserInfo =
+                                          await Purchases.getCustomerInfo();
                                       log(
                                         '--- REVENUECAT: purchaserInfo: $purchaserInfo',
                                       );
@@ -311,10 +312,12 @@ class CustomDrawer extends StatelessWidget {
                               const SizedBox(height: 16),
                               TextButton(
                                 onPressed: () async {
-                                  await context.read<PremiumSubscriptionCubit>().presentPaywall(
-                                    ifNeeded: false,
-                                    source: 'debug_drawer',
-                                  );
+                                  await context
+                                      .read<PremiumSubscriptionCubit>()
+                                      .presentPaywall(
+                                        ifNeeded: false,
+                                        source: 'debug_drawer',
+                                      );
                                 },
                                 child: const Text('Open Paywall'),
                               ),
@@ -381,7 +384,10 @@ class CustomDrawer extends StatelessWidget {
         .read<PremiumSubscriptionCubit>()
         .state
         .hasYearlySubscription;
-    final hasLifetimePurchased = context.read<PremiumSubscriptionCubit>().state.hasLifetimePurchase;
+    final hasLifetimePurchased = context
+        .read<PremiumSubscriptionCubit>()
+        .state
+        .hasLifetimePurchase;
 
     UserOrient.setUser(
       extra: {
@@ -406,8 +412,8 @@ class CustomDrawer extends StatelessWidget {
   Future<void> _onLanguage(BuildContext context) async {
     AppAnalytics.trackEvent(AppAnalytics.clickChangeLanguage);
     final localeCubit = context.read<LocaleCubit>();
-    await showDialog<void>(
-      context: context,
+    await DialogHelper.showAnimated<void>(
+      context,
       builder: (dialogContext) => BlocProvider.value(
         value: localeCubit,
         child: const LanguagePickerDialog(),

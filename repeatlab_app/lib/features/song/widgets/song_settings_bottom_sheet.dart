@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/widgets/app_bottom_sheet.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
@@ -26,8 +27,8 @@ class SongSettingsBottomSheet extends StatelessWidget {
   }) {
     final songCubit = context.read<SongCubit>();
 
-    return showModalBottomSheet<void>(
-      context: context,
+    return AppBottomSheet.show<void>(
+      context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => BlocProvider.value(

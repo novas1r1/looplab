@@ -1,3 +1,5 @@
+import "package:animations/animations.dart";
+import "package:flutter/cupertino.dart" show CupertinoPageTransitionsBuilder;
 import "package:flutter/material.dart";
 
 class MaterialTheme {
@@ -68,6 +70,20 @@ class MaterialTheme {
     useMaterial3: true,
     brightness: colorScheme.brightness,
     colorScheme: colorScheme,
+    pageTransitionsTheme: const PageTransitionsTheme(
+      builders: {
+        // Horizontal shared-axis gives pushes a drill-down feel.
+        TargetPlatform.android: SharedAxisPageTransitionsBuilder(
+          transitionType: SharedAxisTransitionType.horizontal,
+        ),
+        // Native transition keeps interactive swipe-back on iOS.
+        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
+        TargetPlatform.windows: SharedAxisPageTransitionsBuilder(
+          transitionType: SharedAxisTransitionType.horizontal,
+        ),
+      },
+    ),
     textTheme: textTheme.apply(
       bodyColor: colorScheme.onSurface,
       displayColor: colorScheme.onSurface,

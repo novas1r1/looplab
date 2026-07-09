@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auto_size_text/flutter_auto_size_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/motion.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
@@ -118,11 +119,14 @@ class _SpeedControlState extends State<SpeedControl> {
                             padding: EdgeInsets.zero,
                             constraints: const BoxConstraints(),
                             onPressed: _onToggleExpand,
-                            icon: Icon(
-                              _isExpanded
-                                  ? Icons.keyboard_arrow_up_rounded
-                                  : Icons.keyboard_arrow_down_rounded,
-                              color: AppColors.secondaryFixed,
+                            icon: AnimatedRotation(
+                              turns: _isExpanded ? 0.5 : 0,
+                              duration: Motion.of(context, Motion.standard),
+                              curve: Motion.emphasized,
+                              child: const Icon(
+                                Icons.keyboard_arrow_down_rounded,
+                                color: AppColors.secondaryFixed,
+                              ),
                             ),
                           ),
                         ),
@@ -131,12 +135,20 @@ class _SpeedControlState extends State<SpeedControl> {
                   ),
                 ],
               ),
-              if (_isExpanded && tempoMode == TempoMode.multiplier)
-                SpeedControlMultiplierMode(
-                  speed: speed,
-                ),
-              if (_isExpanded && tempoMode == TempoMode.bpm)
-                const SpeedControlBpmMode(),
+              // AnimatedSize makes expand/collapse (and mode switches) glide
+              // instead of snapping.
+              AnimatedSize(
+                duration: Motion.of(context, Motion.standard),
+                curve: Motion.emphasized,
+                alignment: Alignment.topCenter,
+                child: !_isExpanded
+                    ? const SizedBox(width: double.infinity)
+                    : tempoMode == TempoMode.multiplier
+                    ? SpeedControlMultiplierMode(
+                        speed: speed,
+                      )
+                    : const SpeedControlBpmMode(),
+              ),
             ],
           ),
         );

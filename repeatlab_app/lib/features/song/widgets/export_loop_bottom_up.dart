@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path/path.dart' as p;
 import 'package:repeatlab/core/utils/app_analytics.dart';
+import 'package:repeatlab/core/utils/dialog_helper.dart';
 import 'package:repeatlab/core/utils/snackbar_helper.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
@@ -269,8 +270,8 @@ class _ExportLoopBottomUpState extends State<ExportLoopBottomUp> {
 
     _isExportDialogVisible = true;
 
-    showDialog<void>(
-      context: context,
+    DialogHelper.showAnimated<void>(
+      context,
       barrierDismissible: false,
       builder: (dialogContext) {
         _exportDialogContext = dialogContext;
