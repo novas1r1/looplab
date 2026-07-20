@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
+import 'package:repeatlab/data/services/song_metronome.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 
 import '../../../helpers/mock_data.dart';
@@ -339,4 +340,212 @@ void main() {
       ).called(1);
     });
   });
+
+  group('metronome', () {
+    late MockSongMetronome mockMetronome;
+
+    SongCubit buildCubit({Song song = MockData.songMedium}) {
+      final cubit = SongCubit(
+        song: song,
+        songRepository: mockSongRepository,
+        localConfigRepository: mockLocalConfigRepository,
+        crashReportingRepository: mockCrashReportingRepository,
+        metronome: mockMetronome,
+      )..isMetronomeSupportedOverride = true;
+      return cubit;
+    }
+
+    setUp(() {
+      mockMetronome = MockSongMetronome();
+
+      when(() => mockMetronome.isRunning).thenReturn(false);
+      when(
+        () => mockMetronome.startAligned(
+          bpm: any(named: 'bpm'),
+          offsetMs: any(named: 'offsetMs'),
+          beatsPerBar: any(named: 'beatsPerBar'),
+          beatUnit: any(named: 'beatUnit'),
+          pulsesPerBeat: any(named: 'pulsesPerBeat'),
+          volume: any(named: 'volume'),
+        ),
+      ).thenAnswer((_) async {});
+      when(() => mockMetronome.stop()).thenAnswer((_) async {});
+      when(() => mockMetronome.setTempo(any())).thenAnswer((_) async {});
+      when(() => mockMetronome.setVolume(any())).thenAnswer((_) async {});
+      when(
+        () => mockMetronome.setTimeSignature(any(), any()),
+      ).thenAnswer((_) async {});
+      when(() => mockMetronome.setSubdivision(any())).thenAnswer((_) async {});
+      when(() => mockMetronome.nudge(any())).thenAnswer((_) async {});
+      when(() => mockMetronome.dispose()).thenAnswer((_) async {});
+
+      when(
+        () => mockSongRepository.updateSong(any()),
+      ).thenAnswer((_) async {});
+      when(
+        () => mockLocalConfigRepository.setMetronomeVolume(any()),
+      ).thenAnswer((_) async {});
+      when(
+        () => mockLocalConfigRepository.setMetronomeSubdivision(any()),
+      ).thenAnswer((_) async {});
+    });
+
+    test('toggle is refused while no BPM is set', () async {
+      final cubit = buildCubit();
+
+      await cubit.toggleMetronome();
+
+      expect(cubit.state.isMetronomeEnabled, isFalse);
+      verifyZeroInteractions(mockMetronome);
+    });
+
+    test('everything no-ops on unsupported platforms', () async {
+      final cubit = buildCubit()..isMetronomeSupportedOverride = false;
+
+      await cubit.toggleMetronome();
+      await cubit.setMetronomeVolume(0.8);
+      await cubit.setMetronomeSubdivision(MetronomeSubdivision.triplets);
+      await cubit.nudgeMetronome(25);
+
+      expect(cubit.state.isMetronomeEnabled, isFalse);
+      verifyZeroInteractions(mockMetronome);
+    });
+
+    test('toggle enables with BPM but does not start while paused', () async {
+      final cubit = buildCubit();
+      await cubit.setOriginalBpm(120);
+
+      await cubit.toggleMetronome();
+
+      expect(cubit.state.isMetronomeEnabled, isTrue);
+      verifyNever(
+        () => mockMetronome.startAligned(
+          bpm: any(named: 'bpm'),
+          offsetMs: any(named: 'offsetMs'),
+          beatsPerBar: any(named: 'beatsPerBar'),
+          beatUnit: any(named: 'beatUnit'),
+          pulsesPerBeat: any(named: 'pulsesPerBeat'),
+          volume: any(named: 'volume'),
+        ),
+      );
+    });
+
+    test('toggle off stops the metronome', () async {
+      final cubit = buildCubit();
+      await cubit.setOriginalBpm(120);
+      await cubit.toggleMetronome();
+
+      await cubit.toggleMetronome();
+
+      expect(cubit.state.isMetronomeEnabled, isFalse);
+      verify(() => mockMetronome.stop()).called(1);
+    });
+
+    test('clearing the BPM force-disables the metronome', () async {
+      final cubit = buildCubit();
+      await cubit.setOriginalBpm(120);
+      await cubit.toggleMetronome();
+      expect(cubit.state.isMetronomeEnabled, isTrue);
+
+      await cubit.setOriginalBpm(null);
+
+      expect(cubit.state.isMetronomeEnabled, isFalse);
+      expect(cubit.state.currentBpm, isNull);
+      verify(() => mockMetronome.stop()).called(1);
+    });
+
+    test('volume changes apply live and persist only on request', () async {
+      final cubit = buildCubit();
+
+      await cubit.setMetronomeVolume(0.8);
+
+      expect(cubit.state.metronomeVolume, 0.8);
+      verify(() => mockMetronome.setVolume(0.8)).called(1);
+      verifyNever(() => mockLocalConfigRepository.setMetronomeVolume(any()));
+
+      await cubit.setMetronomeVolume(0.7, persist: true);
+
+      verify(() => mockLocalConfigRepository.setMetronomeVolume(0.7)).called(1);
+    });
+
+    test('subdivision persists globally and applies live', () async {
+      final cubit = buildCubit();
+
+      await cubit.setMetronomeSubdivision(MetronomeSubdivision.triplets);
+
+      expect(
+        cubit.state.metronomeSubdivision,
+        MetronomeSubdivision.triplets,
+      );
+      verify(
+        () => mockLocalConfigRepository.setMetronomeSubdivision('triplets'),
+      ).called(1);
+      verify(() => mockMetronome.setSubdivision(3)).called(1);
+    });
+
+    test('time signature persists on the song', () async {
+      final cubit = buildCubit();
+
+      await cubit.setMetronomeTimeSignature(6, 8);
+
+      expect(cubit.state.song.metronomeBeatsPerBar, 6);
+      expect(cubit.state.song.metronomeBeatUnit, 8);
+      final persisted =
+          verify(() => mockSongRepository.updateSong(captureAny()))
+              .captured
+              .last as Song;
+      expect(persisted.metronomeBeatsPerBar, 6);
+      expect(persisted.metronomeBeatUnit, 8);
+    });
+
+    test('nudges accumulate into the persisted per-song offset', () async {
+      final cubit = buildCubit();
+
+      await cubit.nudgeMetronome(25);
+      await cubit.nudgeMetronome(25);
+      await cubit.nudgeMetronome(-25);
+
+      expect(cubit.state.song.metronomeOffsetMs, 25);
+      verify(
+        () => mockMetronome.nudge(const Duration(milliseconds: 25)),
+      ).called(2);
+      verify(
+        () => mockMetronome.nudge(const Duration(milliseconds: -25)),
+      ).called(1);
+      verify(() => mockSongRepository.updateSong(any())).called(3);
+    });
+
+    test('resetMetronomeOffset nudges the accumulated offset away', () async {
+      final songWithOffset = MockData.songMedium.copyWith(
+        metronomeOffsetMs: 75,
+      );
+      final cubit = buildCubit(song: songWithOffset);
+
+      await cubit.resetMetronomeOffset();
+
+      expect(cubit.state.song.metronomeOffsetMs, 0);
+      verify(
+        () => mockMetronome.nudge(const Duration(milliseconds: -75)),
+      ).called(1);
+    });
+
+    test('resetMetronomeOffset is a no-op at zero offset', () async {
+      final cubit = buildCubit();
+
+      await cubit.resetMetronomeOffset();
+
+      verifyZeroInteractions(mockMetronome);
+      verifyNever(() => mockSongRepository.updateSong(any()));
+    });
+
+    test('close disposes the native metronome', () async {
+      final cubit = buildCubit();
+
+      await cubit.close();
+
+      verify(() => mockMetronome.dispose()).called(1);
+    });
+  });
 }
+
+class MockSongMetronome extends Mock implements SongMetronome {}

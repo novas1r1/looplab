@@ -9,6 +9,28 @@ enum TempoMode { multiplier, bpm }
 @MappableEnum()
 enum PitchMode { semitones, key }
 
+/// Why the metronome click grid is being (re)aligned. Every playback event
+/// that could move the beat grid routes through
+/// `SongCubit._realignMetronome` with one of these reasons, so future
+/// beat-grid sync only needs changes in that one switch. `seeked` and
+/// `loopJumped` are no-ops in v1 (free-run); note that native loop wraps
+/// never reach the cubit today — grid sync will need a handler-side stream.
+enum MetronomeRealignReason { playStarted, seeked, loopJumped, tempoChanged }
+
+/// Metronome subdivision — how each audible beat is split into pulses.
+/// [pulsesPerBeat] is what the native engine consumes (via SongMetronome).
+@MappableEnum()
+enum MetronomeSubdivision {
+  none(1),
+  eighths(2),
+  triplets(3),
+  sixteenths(4);
+
+  const MetronomeSubdivision(this.pulsesPerBeat);
+
+  final int pulsesPerBeat;
+}
+
 @MappableClass()
 class SongState with SongStateMappable {
   final double speed;
@@ -47,6 +69,19 @@ class SongState with SongStateMappable {
   /// Pitch control mode (semitones or key-based)
   final PitchMode pitchMode;
 
+  /// Whether the metronome clicks along while the song plays. Not persisted —
+  /// off on every song open (mirrors speed resetting to 1.0) so users never
+  /// get surprise clicks. Per-song offset/time signature live on [song].
+  final bool isMetronomeEnabled;
+
+  /// Metronome output volume (0.0..1.0). Global preference, seeded from
+  /// LocalConfigRepository on song open.
+  final double metronomeVolume;
+
+  /// Metronome subdivision. Global preference, seeded from
+  /// LocalConfigRepository on song open.
+  final MetronomeSubdivision metronomeSubdivision;
+
   const SongState({
     this.speed = 1.0,
     this.status = SongStatus.loading,
@@ -65,6 +100,9 @@ class SongState with SongStateMappable {
     this.maxBpm,
     this.pitchSemitones = 0,
     this.pitchMode = PitchMode.semitones,
+    this.isMetronomeEnabled = false,
+    this.metronomeVolume = 0.5,
+    this.metronomeSubdivision = MetronomeSubdivision.none,
   });
 }
 
