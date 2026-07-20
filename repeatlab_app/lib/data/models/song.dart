@@ -43,6 +43,17 @@ class Song with SongMappable {
   /// [VideoSizeMode.medium] so existing records decode without migration.
   final VideoSizeMode videoSizeMode;
 
+  /// Metronome start offset in milliseconds — how far the click grid is
+  /// shifted relative to playback start to line up with this song's first
+  /// beat. Adjusted by the user via the nudge control. Defaults to 0 so
+  /// existing sembast records decode without migration.
+  final int metronomeOffsetMs;
+
+  /// Metronome time signature for this song (e.g. 4/4, 6/8). Defaults keep
+  /// existing sembast records decoding without migration.
+  final int metronomeBeatsPerBar;
+  final int metronomeBeatUnit;
+
   const Song({
     required this.id,
     required this.title,
@@ -58,6 +69,9 @@ class Song with SongMappable {
     this.sortOrder = 0,
     this.mediaType = MediaType.audio,
     this.videoSizeMode = VideoSizeMode.medium,
+    this.metronomeOffsetMs = 0,
+    this.metronomeBeatsPerBar = 4,
+    this.metronomeBeatUnit = 4,
   });
 
   Future<String> get path async {

@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:archive/archive.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:repeatlab/data/models/loop.dart';
+import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/backup/backup_exceptions.dart';
 import 'package:repeatlab/data/repositories/backup/backup_manifest.dart';
 import 'package:repeatlab/data/repositories/backup/backup_serializer.dart';
@@ -124,6 +125,39 @@ void main() {
         expect(decoded.pitchSemitones, -4);
         expect(decoded.musicalKey, 'F#m');
       });
+
+      test('roundtrips metronome offset and time signature', () {
+        final song = MockData.songMedium.copyWith(
+          metronomeOffsetMs: -75,
+          metronomeBeatsPerBar: 6,
+          metronomeBeatUnit: 8,
+        );
+
+        final bytes = serializer.encode(
+          songs: [song],
+          audioFiles: {song.fileName: audioBytesFor('medium')},
+          appVersion: '2.2.0',
+        );
+        final decoded = serializer.decode(bytes).songs.single;
+
+        expect(decoded.metronomeOffsetMs, -75);
+        expect(decoded.metronomeBeatsPerBar, 6);
+        expect(decoded.metronomeBeatUnit, 8);
+      });
+
+      test(
+        'imports backups from versions without metronome fields (defaults)',
+        () {
+          final legacyMap = MockData.songMedium.toMap()
+            ..remove('metronomeOffsetMs')
+            ..remove('metronomeBeatsPerBar')
+            ..remove('metronomeBeatUnit');
+
+          expect(SongMapper.fromMap(legacyMap).metronomeOffsetMs, 0);
+          expect(SongMapper.fromMap(legacyMap).metronomeBeatsPerBar, 4);
+          expect(SongMapper.fromMap(legacyMap).metronomeBeatUnit, 4);
+        },
+      );
 
       test(
         'imports backups from versions without pitch/key fields (defaults)',

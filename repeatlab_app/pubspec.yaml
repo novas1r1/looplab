@@ -57,6 +57,13 @@ dependencies:
   path: ^1.9.1
   path_provider: ^2.1.5
   posthog_flutter: ^5.27.0
+  # Own package (github.com/novas1r1/precise_metronome). Pinned to the
+  # feat/phase-control commit that adds start(initialDelay:)/nudge();
+  # TODO: switch ref to the v0.3.0 tag once device-verified and published.
+  precise_metronome:
+    git:
+      url: https://github.com/novas1r1/precise_metronome.git
+      ref: 48a8c8e7d5f30ee763b0589c3f85b07ac76e8ba7
   purchases_flutter: ^10.2.2
   purchases_ui_flutter: ^10.2.2
   sembast: ^3.8.6

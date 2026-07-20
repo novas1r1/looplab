@@ -1049,6 +1049,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.28.0"
+  precise_metronome:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: "48a8c8e7d5f30ee763b0589c3f85b07ac76e8ba7"
+      resolved-ref: "48a8c8e7d5f30ee763b0589c3f85b07ac76e8ba7"
+      url: "https://github.com/novas1r1/precise_metronome.git"
+    source: git
+    version: "0.3.0"
   process:
     dependency: transitive
     description:

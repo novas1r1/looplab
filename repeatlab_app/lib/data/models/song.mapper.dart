@@ -242,6 +242,27 @@ class SongMapper extends ClassMapperBase<Song> {
     opt: true,
     def: VideoSizeMode.medium,
   );
+  static int _$metronomeOffsetMs(Song v) => v.metronomeOffsetMs;
+  static const Field<Song, int> _f$metronomeOffsetMs = Field(
+    'metronomeOffsetMs',
+    _$metronomeOffsetMs,
+    opt: true,
+    def: 0,
+  );
+  static int _$metronomeBeatsPerBar(Song v) => v.metronomeBeatsPerBar;
+  static const Field<Song, int> _f$metronomeBeatsPerBar = Field(
+    'metronomeBeatsPerBar',
+    _$metronomeBeatsPerBar,
+    opt: true,
+    def: 4,
+  );
+  static int _$metronomeBeatUnit(Song v) => v.metronomeBeatUnit;
+  static const Field<Song, int> _f$metronomeBeatUnit = Field(
+    'metronomeBeatUnit',
+    _$metronomeBeatUnit,
+    opt: true,
+    def: 4,
+  );
 
   @override
   final MappableFields<Song> fields = const {
@@ -259,6 +280,9 @@ class SongMapper extends ClassMapperBase<Song> {
     #sortOrder: _f$sortOrder,
     #mediaType: _f$mediaType,
     #videoSizeMode: _f$videoSizeMode,
+    #metronomeOffsetMs: _f$metronomeOffsetMs,
+    #metronomeBeatsPerBar: _f$metronomeBeatsPerBar,
+    #metronomeBeatUnit: _f$metronomeBeatUnit,
   };
 
   static Song _instantiate(DecodingData data) {
@@ -277,6 +301,9 @@ class SongMapper extends ClassMapperBase<Song> {
       sortOrder: data.dec(_f$sortOrder),
       mediaType: data.dec(_f$mediaType),
       videoSizeMode: data.dec(_f$videoSizeMode),
+      metronomeOffsetMs: data.dec(_f$metronomeOffsetMs),
+      metronomeBeatsPerBar: data.dec(_f$metronomeBeatsPerBar),
+      metronomeBeatUnit: data.dec(_f$metronomeBeatUnit),
     );
   }
 
@@ -342,6 +369,9 @@ abstract class SongCopyWith<$R, $In extends Song, $Out>
     int? sortOrder,
     MediaType? mediaType,
     VideoSizeMode? videoSizeMode,
+    int? metronomeOffsetMs,
+    int? metronomeBeatsPerBar,
+    int? metronomeBeatUnit,
   });
   SongCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
@@ -375,6 +405,9 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
     int? sortOrder,
     MediaType? mediaType,
     VideoSizeMode? videoSizeMode,
+    int? metronomeOffsetMs,
+    int? metronomeBeatsPerBar,
+    int? metronomeBeatUnit,
   }) => $apply(
     FieldCopyWithData({
       if (id != null) #id: id,
@@ -391,6 +424,10 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
       if (sortOrder != null) #sortOrder: sortOrder,
       if (mediaType != null) #mediaType: mediaType,
       if (videoSizeMode != null) #videoSizeMode: videoSizeMode,
+      if (metronomeOffsetMs != null) #metronomeOffsetMs: metronomeOffsetMs,
+      if (metronomeBeatsPerBar != null)
+        #metronomeBeatsPerBar: metronomeBeatsPerBar,
+      if (metronomeBeatUnit != null) #metronomeBeatUnit: metronomeBeatUnit,
     }),
   );
   @override
@@ -409,6 +446,18 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
     sortOrder: data.get(#sortOrder, or: $value.sortOrder),
     mediaType: data.get(#mediaType, or: $value.mediaType),
     videoSizeMode: data.get(#videoSizeMode, or: $value.videoSizeMode),
+    metronomeOffsetMs: data.get(
+      #metronomeOffsetMs,
+      or: $value.metronomeOffsetMs,
+    ),
+    metronomeBeatsPerBar: data.get(
+      #metronomeBeatsPerBar,
+      or: $value.metronomeBeatsPerBar,
+    ),
+    metronomeBeatUnit: data.get(
+      #metronomeBeatUnit,
+      or: $value.metronomeBeatUnit,
+    ),
   );
 
   @override

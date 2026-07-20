@@ -22,6 +22,8 @@ class LocalConfigRepository {
   static const kAutoPlayOnLoopSelect = 'auto_play_on_loop_select';
   static const kFullSongRepeatEnabled = 'full_song_repeat_enabled';
   static const kLanguageCode = 'language_code';
+  static const kMetronomeVolume = 'metronome_volume';
+  static const kMetronomeSubdivision = 'metronome_subdivision';
 
   /// One-time activation milestones — used to fire `first_song_added` /
   /// `first_loop_created` analytics exactly once per install.
@@ -127,6 +129,22 @@ class LocalConfigRepository {
 
   Future<void> setFullSongRepeatEnabled({required bool isEnabled}) =>
       sharedPreferences.setBool(kFullSongRepeatEnabled, isEnabled);
+
+  /// Metronome output volume (0.0..1.0). A player preference, not a song
+  /// property — shared across all songs.
+  double get metronomeVolume =>
+      sharedPreferences.getDouble(kMetronomeVolume) ?? 0.5;
+
+  Future<void> setMetronomeVolume(double volume) =>
+      sharedPreferences.setDouble(kMetronomeVolume, volume);
+
+  /// Metronome subdivision as the enum name of the app-side
+  /// `MetronomeSubdivision` (e.g. 'none', 'eighths'). Global preference.
+  String? get metronomeSubdivision =>
+      sharedPreferences.getString(kMetronomeSubdivision);
+
+  Future<void> setMetronomeSubdivision(String name) =>
+      sharedPreferences.setString(kMetronomeSubdivision, name);
 
   /// Selected app language code (e.g. 'en', 'de'). `null` means follow system.
   String? get languageCode => sharedPreferences.getString(kLanguageCode);
