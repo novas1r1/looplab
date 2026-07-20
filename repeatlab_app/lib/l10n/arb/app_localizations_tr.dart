@@ -929,6 +929,33 @@ class AppLocalizationsTr extends AppLocalizations {
   String get pitchControl => 'Perde';
 
   @override
+  String get metronome => 'Metronom';
+
+  @override
+  String get metronomeVolume => 'Ses düzeyi';
+
+  @override
+  String get metronomeTimeSignature => 'Ölçü';
+
+  @override
+  String get metronomeSubdivision => 'Alt bölme';
+
+  @override
+  String get metronomeNudge => 'Kaydırma';
+
+  @override
+  String metronomeOffsetMs(int ms) {
+    return '$ms ms';
+  }
+
+  @override
+  String get metronomeSetBpmFirst =>
+      'Metronomu kullanmak için önce şarkının BPM değerini ayarla.';
+
+  @override
+  String get metronomeGoToBpm => 'BPM ayarla';
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'Burada ses dosyasının orijinal BPM\'sini ayarlayabilirsiniz.';
 

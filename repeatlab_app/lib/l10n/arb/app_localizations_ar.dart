@@ -918,6 +918,33 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pitchControl => 'طبقة الصوت';
 
   @override
+  String get metronome => 'المترونوم';
+
+  @override
+  String get metronomeVolume => 'مستوى الصوت';
+
+  @override
+  String get metronomeTimeSignature => 'الميزان الإيقاعي';
+
+  @override
+  String get metronomeSubdivision => 'التقسيم';
+
+  @override
+  String get metronomeNudge => 'الإزاحة';
+
+  @override
+  String metronomeOffsetMs(int ms) {
+    return '$ms ms';
+  }
+
+  @override
+  String get metronomeSetBpmFirst =>
+      'حدد أولاً إيقاع الأغنية (BPM) لاستخدام المترونوم.';
+
+  @override
+  String get metronomeGoToBpm => 'تعيين BPM';
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'يمكنك هنا تعيين BPM الأصلي لملف الصوت.';
 

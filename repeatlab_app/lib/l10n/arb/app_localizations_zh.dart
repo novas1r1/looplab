@@ -873,6 +873,32 @@ class AppLocalizationsZh extends AppLocalizations {
   String get pitchControl => '音高';
 
   @override
+  String get metronome => '节拍器';
+
+  @override
+  String get metronomeVolume => '音量';
+
+  @override
+  String get metronomeTimeSignature => '拍号';
+
+  @override
+  String get metronomeSubdivision => '细分';
+
+  @override
+  String get metronomeNudge => '微调';
+
+  @override
+  String metronomeOffsetMs(int ms) {
+    return '$ms ms';
+  }
+
+  @override
+  String get metronomeSetBpmFirst => '请先设置歌曲的BPM以使用节拍器。';
+
+  @override
+  String get metronomeGoToBpm => '设置BPM';
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile => '您可以在此设置音频文件的原始 BPM。';
 
   @override

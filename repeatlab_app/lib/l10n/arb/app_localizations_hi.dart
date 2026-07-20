@@ -925,6 +925,33 @@ class AppLocalizationsHi extends AppLocalizations {
   String get pitchControl => 'पिच';
 
   @override
+  String get metronome => 'मेट्रोनोम';
+
+  @override
+  String get metronomeVolume => 'वॉल्यूम';
+
+  @override
+  String get metronomeTimeSignature => 'ताल';
+
+  @override
+  String get metronomeSubdivision => 'उपविभाजन';
+
+  @override
+  String get metronomeNudge => 'समायोजन';
+
+  @override
+  String metronomeOffsetMs(int ms) {
+    return '$ms ms';
+  }
+
+  @override
+  String get metronomeSetBpmFirst =>
+      'मेट्रोनोम का उपयोग करने के लिए पहले गाने का BPM सेट करें।';
+
+  @override
+  String get metronomeGoToBpm => 'BPM सेट करें';
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'आप यहां ऑडियो फ़ाइल का मूल BPM सेट कर सकते हैं।';
 

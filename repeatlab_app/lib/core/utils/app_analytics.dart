@@ -140,6 +140,13 @@ abstract final class AppAnalytics {
   static const clickUseTappedBpm = 'click_use_tapped_bpm';
   static const clickTempoModeMultiplier = 'click_tempo_mode_multiplier';
   static const clickTempoModeBpm = 'click_tempo_mode_bpm';
+  static const clickControlsTabSpeed = 'click_controls_tab_speed';
+  static const clickControlsTabPitch = 'click_controls_tab_pitch';
+  static const clickControlsTabMetronome = 'click_controls_tab_metronome';
+  static const clickMetronomeToggle = 'click_metronome_toggle';
+  static const clickMetronomeNudge = 'click_metronome_nudge';
+  static const clickMetronomeTimeSignature = 'click_metronome_time_signature';
+  static const clickMetronomeSubdivision = 'click_metronome_subdivision';
   static const clickToggleFullSongRepeat = 'click_toggle_full_song_repeat';
   static const clickToggleAutoPlay = 'click_toggle_auto_play';
   static const clickEditSong = 'click_edit_song';

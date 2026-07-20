@@ -933,6 +933,33 @@ class AppLocalizationsEs extends AppLocalizations {
   String get pitchControl => 'Tono';
 
   @override
+  String get metronome => 'Metrónomo';
+
+  @override
+  String get metronomeVolume => 'Volumen';
+
+  @override
+  String get metronomeTimeSignature => 'Compás';
+
+  @override
+  String get metronomeSubdivision => 'Subdivisión';
+
+  @override
+  String get metronomeNudge => 'Ajuste';
+
+  @override
+  String metronomeOffsetMs(int ms) {
+    return '$ms ms';
+  }
+
+  @override
+  String get metronomeSetBpmFirst =>
+      'Primero define los BPM de la canción para usar el metrónomo.';
+
+  @override
+  String get metronomeGoToBpm => 'Definir BPM';
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'Aquí puedes establecer el BPM original del archivo de audio.';
 

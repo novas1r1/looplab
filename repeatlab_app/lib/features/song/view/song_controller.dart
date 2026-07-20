@@ -5,9 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
-import 'package:repeatlab/features/pitch_control/view/pitch_control.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
-import 'package:repeatlab/features/speed_control/view/speed_control.dart';
+import 'package:repeatlab/features/song_controls/view/song_controls_card.dart';
 
 class SongController extends StatelessWidget {
   const SongController({
@@ -115,11 +114,9 @@ class SongController extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        // SpeedControl now reads state directly from SongCubit - no callbacks needed
-        const SpeedControl(),
-        // PitchControl hides itself (incl. its top spacing) when pitch is not
-        // supported for the current song/platform
-        const PitchControl(),
+        // Speed, pitch and metronome share one tabbed card; unavailable tabs
+        // (pitch/metronome on unsupported platforms) are dropped from it.
+        const SongControlsCard(),
       ],
     );
   }

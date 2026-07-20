@@ -6,7 +6,8 @@ import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
-import 'package:repeatlab/features/song_controls/widget/speed_panel.dart';
+import 'package:repeatlab/features/song_controls/view/song_controls_card.dart';
+import 'package:repeatlab/features/song_controls/widget/metronome_panel.dart';
 
 import '../helpers/golden_multi_locale.dart';
 import '../helpers/golden_test_device_scenario.dart';
@@ -36,6 +37,14 @@ void main() {
     bpm: 120,
   );
 
+  const stateWithBpm = SongState(
+    song: testSongWithBpm,
+    originalBpm: 120,
+    currentBpm: 120,
+    minBpm: 60,
+    maxBpm: 240,
+  );
+
   setUp(() {
     mockPremiumSubscriptionCubit = MockPremiumSubscriptionCubit();
     mockSongCubit = MockSongCubit();
@@ -44,11 +53,11 @@ void main() {
       const PremiumSubscriptionState(),
     );
     when(() => mockPremiumSubscriptionCubit.hasPremium).thenReturn(true);
+    when(() => mockSongCubit.isPitchControlSupported).thenReturn(true);
+    when(() => mockSongCubit.isMetronomeSupported).thenReturn(true);
   });
 
-  Widget buildSpeedPanel({
-    required SongState songState,
-  }) {
+  Widget wrapWithProviders(Widget child, {required SongState songState}) {
     when(() => mockSongCubit.state).thenReturn(songState);
     when(() => mockSongCubit.stream).thenAnswer((_) => Stream.value(songState));
 
@@ -61,121 +70,88 @@ void main() {
           value: mockSongCubit,
         ),
       ],
+      child: child,
+    );
+  }
+
+  Widget buildMetronomePanel({required SongState songState}) {
+    return wrapWithProviders(
       // The panel normally renders inside the SongControlsCard container;
       // recreate that chrome so the golden shows realistic contrast.
-      child: Container(
+      Container(
         decoration: BoxDecoration(
           color: AppColors.secondaryContainer,
           borderRadius: BorderRadius.circular(10),
         ),
         padding: const EdgeInsets.all(8).copyWith(right: 0),
-        child: const SpeedPanel(),
+        child: MetronomePanel(onRequestSpeedTab: () {}),
       ),
+      songState: songState,
     );
   }
 
-  group('SpeedPanel Golden Tests - Multiplier Mode', () {
+  group('SongControlsCard Golden Tests', () {
     multiLocaleGoldenTest(
-      'multiplier mode at 1.0x (default)',
-      fileNameBase: 'speed_control_multiplier_1x',
+      'collapsed card with all three tabs',
+      fileNameBase: 'song_controls_card_collapsed',
       pumpWidgetWithLocale: (tester, widget, locale) =>
           tester.pumpApp(widget, locale: locale),
       builder: () => GoldenTestDeviceScenario(
-        name: 'multiplier_1x',
-        builder: () => buildSpeedPanel(
-          songState: const SongState(
-            song: testSongWithoutBpm,
-          ),
-        ),
-      ),
-    );
-
-    multiLocaleGoldenTest(
-      'multiplier mode at 0.5x (slow)',
-      fileNameBase: 'speed_control_multiplier_slow',
-      pumpWidgetWithLocale: (tester, widget, locale) =>
-          tester.pumpApp(widget, locale: locale),
-      builder: () => GoldenTestDeviceScenario(
-        name: 'multiplier_slow',
-        builder: () => buildSpeedPanel(
-          songState: const SongState(
-            song: testSongWithoutBpm,
-            speed: 0.5,
-          ),
-        ),
-      ),
-    );
-
-    multiLocaleGoldenTest(
-      'multiplier mode at 2.0x (fast)',
-      fileNameBase: 'speed_control_multiplier_fast',
-      pumpWidgetWithLocale: (tester, widget, locale) =>
-          tester.pumpApp(widget, locale: locale),
-      builder: () => GoldenTestDeviceScenario(
-        name: 'multiplier_fast',
-        builder: () => buildSpeedPanel(
-          songState: const SongState(
-            song: testSongWithoutBpm,
-            speed: 2.0,
-          ),
+        name: 'collapsed',
+        builder: () => wrapWithProviders(
+          const SongControlsCard(),
+          songState: stateWithBpm,
         ),
       ),
     );
   });
 
-  group('SpeedPanel Golden Tests - BPM Mode', () {
+  group('MetronomePanel Golden Tests', () {
     multiLocaleGoldenTest(
-      'bpm mode without original bpm set',
-      fileNameBase: 'speed_control_bpm_no_original',
+      'no bpm set shows prompt',
+      fileNameBase: 'metronome_panel_no_bpm',
       pumpWidgetWithLocale: (tester, widget, locale) =>
           tester.pumpApp(widget, locale: locale),
       builder: () => GoldenTestDeviceScenario(
-        name: 'bpm_no_original',
-        builder: () => buildSpeedPanel(
-          songState: const SongState(
-            song: testSongWithoutBpm,
-            tempoMode: TempoMode.bpm,
-          ),
+        name: 'no_bpm',
+        builder: () => buildMetronomePanel(
+          songState: const SongState(song: testSongWithoutBpm),
         ),
       ),
     );
 
     multiLocaleGoldenTest(
-      'bpm mode with original bpm (120)',
-      fileNameBase: 'speed_control_bpm_with_original',
+      'disabled with bpm',
+      fileNameBase: 'metronome_panel_disabled',
       pumpWidgetWithLocale: (tester, widget, locale) =>
           tester.pumpApp(widget, locale: locale),
       builder: () => GoldenTestDeviceScenario(
-        name: 'bpm_with_original',
-        builder: () => buildSpeedPanel(
-          songState: const SongState(
-            song: testSongWithBpm,
-            tempoMode: TempoMode.bpm,
+        name: 'disabled',
+        builder: () => buildMetronomePanel(songState: stateWithBpm),
+      ),
+    );
+
+    multiLocaleGoldenTest(
+      'enabled with offset and subdivision',
+      fileNameBase: 'metronome_panel_enabled',
+      pumpWidgetWithLocale: (tester, widget, locale) =>
+          tester.pumpApp(widget, locale: locale),
+      builder: () => GoldenTestDeviceScenario(
+        name: 'enabled',
+        builder: () => buildMetronomePanel(
+          songState: SongState(
+            song: testSongWithBpm.copyWith(
+              metronomeOffsetMs: 50,
+              metronomeBeatsPerBar: 6,
+              metronomeBeatUnit: 8,
+            ),
             originalBpm: 120,
             currentBpm: 120,
             minBpm: 60,
             maxBpm: 240,
-          ),
-        ),
-      ),
-    );
-
-    multiLocaleGoldenTest(
-      'bpm mode at fast speed (240 bpm)',
-      fileNameBase: 'speed_control_bpm_fast',
-      pumpWidgetWithLocale: (tester, widget, locale) =>
-          tester.pumpApp(widget, locale: locale),
-      builder: () => GoldenTestDeviceScenario(
-        name: 'bpm_fast',
-        builder: () => buildSpeedPanel(
-          songState: const SongState(
-            song: testSongWithBpm,
-            speed: 2.0,
-            tempoMode: TempoMode.bpm,
-            originalBpm: 120,
-            currentBpm: 240,
-            minBpm: 60,
-            maxBpm: 240,
+            isMetronomeEnabled: true,
+            metronomeVolume: 0.8,
+            metronomeSubdivision: MetronomeSubdivision.triplets,
           ),
         ),
       ),

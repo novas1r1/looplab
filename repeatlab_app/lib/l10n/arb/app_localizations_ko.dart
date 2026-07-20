@@ -888,6 +888,32 @@ class AppLocalizationsKo extends AppLocalizations {
   String get pitchControl => '음정';
 
   @override
+  String get metronome => '메트로놈';
+
+  @override
+  String get metronomeVolume => '볼륨';
+
+  @override
+  String get metronomeTimeSignature => '박자';
+
+  @override
+  String get metronomeSubdivision => '세분';
+
+  @override
+  String get metronomeNudge => '미세 조정';
+
+  @override
+  String metronomeOffsetMs(int ms) {
+    return '$ms ms';
+  }
+
+  @override
+  String get metronomeSetBpmFirst => '메트로놈을 사용하려면 먼저 곡의 BPM을 설정하세요.';
+
+  @override
+  String get metronomeGoToBpm => 'BPM 설정';
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       '오디오 파일의 원래 BPM을 설정할 수 있습니다.';
 

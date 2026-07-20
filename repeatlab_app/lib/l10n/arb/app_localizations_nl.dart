@@ -929,6 +929,33 @@ class AppLocalizationsNl extends AppLocalizations {
   String get pitchControl => 'Toonhoogte';
 
   @override
+  String get metronome => 'Metronoom';
+
+  @override
+  String get metronomeVolume => 'Volume';
+
+  @override
+  String get metronomeTimeSignature => 'Maatsoort';
+
+  @override
+  String get metronomeSubdivision => 'Onderverdeling';
+
+  @override
+  String get metronomeNudge => 'Verschuiving';
+
+  @override
+  String metronomeOffsetMs(int ms) {
+    return '$ms ms';
+  }
+
+  @override
+  String get metronomeSetBpmFirst =>
+      'Stel eerst de BPM van het nummer in om de metronoom te gebruiken.';
+
+  @override
+  String get metronomeGoToBpm => 'BPM instellen';
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'Hier kun je de originele BPM van het audio-bestand instellen.';
 

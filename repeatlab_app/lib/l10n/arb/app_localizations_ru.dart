@@ -930,6 +930,33 @@ class AppLocalizationsRu extends AppLocalizations {
   String get pitchControl => 'Тональность';
 
   @override
+  String get metronome => 'Метроном';
+
+  @override
+  String get metronomeVolume => 'Громкость';
+
+  @override
+  String get metronomeTimeSignature => 'Размер';
+
+  @override
+  String get metronomeSubdivision => 'Дробление';
+
+  @override
+  String get metronomeNudge => 'Сдвиг';
+
+  @override
+  String metronomeOffsetMs(int ms) {
+    return '$ms мс';
+  }
+
+  @override
+  String get metronomeSetBpmFirst =>
+      'Сначала укажите BPM песни, чтобы использовать метроном.';
+
+  @override
+  String get metronomeGoToBpm => 'Указать BPM';
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'Здесь вы можете установить оригинальный BPM аудиофайла.';
 

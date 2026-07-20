@@ -436,6 +436,22 @@
     "reset": "Reset",
     "speedControl": "Speed",
     "pitchControl": "Pitch",
+    "metronome": "Metronome",
+    "metronomeVolume": "Volume",
+    "metronomeTimeSignature": "Time signature",
+    "metronomeSubdivision": "Subdivision",
+    "metronomeNudge": "Nudge",
+    "metronomeOffsetMs": "{ms} ms",
+    "@metronomeOffsetMs": {
+        "description": "Metronome click-grid offset shown next to the nudge buttons",
+        "placeholders": {
+            "ms": {
+                "type": "int"
+            }
+        }
+    },
+    "metronomeSetBpmFirst": "Set the song's BPM first to use the metronome.",
+    "metronomeGoToBpm": "Set BPM",
     "hereYouCanSetTheOriginalBpmOfTheAudioFile": "Here you can set the original BPM of the audio file.",
     "setBpm": "SET",
     "originalBpm": "ORIGINAL BPM",

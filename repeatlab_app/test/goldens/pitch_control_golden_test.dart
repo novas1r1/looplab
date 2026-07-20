@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
-import 'package:repeatlab/features/pitch_control/view/pitch_control.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
+import 'package:repeatlab/features/song_controls/widget/pitch_panel.dart';
 
 import '../helpers/golden_multi_locale.dart';
 import '../helpers/golden_test_device_scenario.dart';
@@ -34,12 +35,9 @@ void main() {
       const PremiumSubscriptionState(),
     );
     when(() => mockPremiumSubscriptionCubit.hasPremium).thenReturn(true);
-    // The card hides itself when unsupported (audio on iOS); goldens always
-    // render the supported case.
-    when(() => mockSongCubit.isPitchControlSupported).thenReturn(true);
   });
 
-  Widget buildPitchControl({
+  Widget buildPitchPanel({
     required SongState songState,
   }) {
     when(() => mockSongCubit.state).thenReturn(songState);
@@ -54,11 +52,20 @@ void main() {
           value: mockSongCubit,
         ),
       ],
-      child: const PitchControl(),
+      // The panel normally renders inside the SongControlsCard container;
+      // recreate that chrome so the golden shows realistic contrast.
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.secondaryContainer,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        padding: const EdgeInsets.all(8).copyWith(right: 0),
+        child: const PitchPanel(),
+      ),
     );
   }
 
-  group('PitchControl Golden Tests', () {
+  group('PitchPanel Golden Tests', () {
     multiLocaleGoldenTest(
       'pitch at 0 st (default)',
       fileNameBase: 'pitch_control_default',
@@ -66,7 +73,7 @@ void main() {
           tester.pumpApp(widget, locale: locale),
       builder: () => GoldenTestDeviceScenario(
         name: 'pitch_default',
-        builder: () => buildPitchControl(
+        builder: () => buildPitchPanel(
           songState: const SongState(
             song: testSong,
           ),
@@ -81,7 +88,7 @@ void main() {
           tester.pumpApp(widget, locale: locale),
       builder: () => GoldenTestDeviceScenario(
         name: 'pitch_up',
-        builder: () => buildPitchControl(
+        builder: () => buildPitchPanel(
           songState: const SongState(
             song: testSong,
             pitchSemitones: 5,
@@ -97,7 +104,7 @@ void main() {
           tester.pumpApp(widget, locale: locale),
       builder: () => GoldenTestDeviceScenario(
         name: 'pitch_with_key',
-        builder: () => buildPitchControl(
+        builder: () => buildPitchPanel(
           songState: const SongState(
             song: Song(
               id: '2',
@@ -120,7 +127,7 @@ void main() {
           tester.pumpApp(widget, locale: locale),
       builder: () => GoldenTestDeviceScenario(
         name: 'pitch_down',
-        builder: () => buildPitchControl(
+        builder: () => buildPitchPanel(
           songState: const SongState(
             song: testSong,
             pitchSemitones: -12,

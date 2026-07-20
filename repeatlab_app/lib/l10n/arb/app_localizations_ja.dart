@@ -890,6 +890,32 @@ class AppLocalizationsJa extends AppLocalizations {
   String get pitchControl => 'ピッチ';
 
   @override
+  String get metronome => 'メトロノーム';
+
+  @override
+  String get metronomeVolume => '音量';
+
+  @override
+  String get metronomeTimeSignature => '拍子';
+
+  @override
+  String get metronomeSubdivision => '細分';
+
+  @override
+  String get metronomeNudge => '微調整';
+
+  @override
+  String metronomeOffsetMs(int ms) {
+    return '$ms ms';
+  }
+
+  @override
+  String get metronomeSetBpmFirst => 'メトロノームを使うには、まず曲のBPMを設定してください。';
+
+  @override
+  String get metronomeGoToBpm => 'BPMを設定';
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'ここでオーディオファイルの元のBPMを設定できます。';
 

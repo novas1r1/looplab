@@ -1728,6 +1728,54 @@ abstract class AppLocalizations {
   /// **'Pitch'**
   String get pitchControl;
 
+  /// No description provided for @metronome.
+  ///
+  /// In en, this message translates to:
+  /// **'Metronome'**
+  String get metronome;
+
+  /// No description provided for @metronomeVolume.
+  ///
+  /// In en, this message translates to:
+  /// **'Volume'**
+  String get metronomeVolume;
+
+  /// No description provided for @metronomeTimeSignature.
+  ///
+  /// In en, this message translates to:
+  /// **'Time signature'**
+  String get metronomeTimeSignature;
+
+  /// No description provided for @metronomeSubdivision.
+  ///
+  /// In en, this message translates to:
+  /// **'Subdivision'**
+  String get metronomeSubdivision;
+
+  /// No description provided for @metronomeNudge.
+  ///
+  /// In en, this message translates to:
+  /// **'Nudge'**
+  String get metronomeNudge;
+
+  /// Metronome click-grid offset shown next to the nudge buttons
+  ///
+  /// In en, this message translates to:
+  /// **'{ms} ms'**
+  String metronomeOffsetMs(int ms);
+
+  /// No description provided for @metronomeSetBpmFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Set the song\'s BPM first to use the metronome.'**
+  String get metronomeSetBpmFirst;
+
+  /// No description provided for @metronomeGoToBpm.
+  ///
+  /// In en, this message translates to:
+  /// **'Set BPM'**
+  String get metronomeGoToBpm;
+
   /// No description provided for @hereYouCanSetTheOriginalBpmOfTheAudioFile.
   ///
   /// In en, this message translates to:
