@@ -8,6 +8,7 @@ import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
+import 'package:repeatlab/l10n/l10n.dart';
 
 /// Multiplier mode for speed control. Reads state from SongCubit.
 class SpeedControlMultiplierMode extends StatefulWidget {
@@ -51,69 +52,71 @@ class _SpeedControlMultiplierModeState
   Widget build(BuildContext context) {
     final hasPremium = context.watch<PremiumSubscriptionCubit>().hasPremium;
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
       children: [
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: AppColors.primaryContainer,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Text(
-            '${_localSpeed.toStringAsFixed(1)}×',
-            style: context.titleMedium.copyWith(
-              fontWeight: FontWeight.w700,
-              color: AppColors.onPrimaryContainer,
+        // Large centred multiplier with the "pitch unchanged" caption.
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              '${_localSpeed.toStringAsFixed(2)}×',
+              style: context.displaySmall.copyWith(
+                fontWeight: FontWeight.w700,
+                height: 1,
+                color: AppColors.primary,
+              ),
             ),
-          ),
+            const SizedBox(height: 4),
+            Text(
+              context.l10n.pitchUnchanged,
+              style: context.labelSmall.copyWith(
+                color: AppColors.onSurfaceVariant,
+              ),
+            ),
+          ],
         ),
-        const SizedBox(width: 8),
-        // Min speed label
-        Text('0.5×', style: context.labelLarge),
-        // Speed slider
-        Expanded(
-          child: hasPremium
-              ? CustomSlider(
-                  value: _localSpeed,
-                  min: 0.5,
-                  max: 2.0,
-                  divisions: 15,
-                  onChanged: (value) {
-                    setState(() {
-                      _localSpeed = value;
-                    });
-                  },
-                  onChangeEnd: (value) {
-                    dev.log(
-                      'setSpeedByMultiplier: $value',
-                      name: 'SpeedControlMultiplierMode',
-                    );
-                    AppAnalytics.trackEvent(
-                      AppAnalytics.clickUpdateSpeed,
-                      data: {'speed': value},
-                    );
-                    context.read<SongCubit>().setSpeedByMultiplier(value);
-                  },
-                )
-              : Listener(
-                  behavior: HitTestBehavior.opaque,
-                  onPointerDown: (_) => _showPremiumDialog(context),
-                  child: AbsorbPointer(
-                    child: CustomSlider(
-                      value: _localSpeed,
-                      min: 0.5,
-                      max: 2.0,
-                      divisions: 15,
-                      onChanged: (_) {},
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            Text('0.5×', style: context.labelLarge),
+            Expanded(
+              child: hasPremium
+                  ? _slider(context)
+                  : Listener(
+                      behavior: HitTestBehavior.opaque,
+                      onPointerDown: (_) => _showPremiumDialog(context),
+                      child: AbsorbPointer(child: _slider(context)),
                     ),
-                  ),
-                ),
+            ),
+            Text('2.0×', style: context.labelLarge),
+          ],
         ),
-        // Max speed label
-        Text('2.0×', style: context.labelLarge),
-        const SizedBox(width: 8),
       ],
+    );
+  }
+
+  Widget _slider(BuildContext context) {
+    return CustomSlider(
+      value: _localSpeed,
+      min: 0.5,
+      max: 2.0,
+      divisions: 15,
+      onChanged: (value) {
+        setState(() {
+          _localSpeed = value;
+        });
+      },
+      onChangeEnd: (value) {
+        dev.log(
+          'setSpeedByMultiplier: $value',
+          name: 'SpeedControlMultiplierMode',
+        );
+        AppAnalytics.trackEvent(
+          AppAnalytics.clickUpdateSpeed,
+          data: {'speed': value},
+        );
+        context.read<SongCubit>().setSpeedByMultiplier(value);
+      },
     );
   }
 

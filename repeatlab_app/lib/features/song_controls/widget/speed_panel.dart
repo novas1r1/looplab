@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auto_size_text/flutter_auto_size_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/interaction/pill_toggle.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
+import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/features/speed_control/widget/speed_control_bpm_mode.dart';
 import 'package:repeatlab/features/speed_control/widget/speed_control_multiplier_mode.dart';
+import 'package:repeatlab/l10n/l10n.dart';
 
-/// Speed tab of the SongControlsCard: the ×|BPM mode toggle plus the
-/// unchanged multiplier/BPM mode widgets (previously the SpeedControl card).
+/// Speed section of the SongControlsCard: a "Speed" label, the ×|BPM mode
+/// toggle and per-section reset, then the multiplier or BPM mode body.
 class SpeedPanel extends StatelessWidget {
   const SpeedPanel({super.key});
 
@@ -25,40 +27,47 @@ class SpeedPanel extends StatelessWidget {
       ),
       builder: (context, data) {
         return Column(
-          spacing: 4,
+          spacing: 8,
           children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: SizedBox(
-                height: 36,
-                child: ToggleButtons(
+            Row(
+              children: [
+                Text(
+                  context.l10n.speedControl,
+                  style: context.titleMedium.copyWith(
+                    color: AppColors.onSurface,
+                  ),
+                ),
+                const Spacer(),
+                PillToggle(
                   key: const Key('song.speed.toggleMode'),
-                  borderRadius: BorderRadius.circular(10),
-                  selectedColor: AppColors.onPrimaryContainer,
-                  color: AppColors.secondary,
-                  fillColor: AppColors.primaryContainer,
-                  disabledColor: AppColors.secondary,
-                  isSelected: [
-                    data.tempoMode == TempoMode.multiplier,
-                    data.tempoMode == TempoMode.bpm,
-                  ],
-                  onPressed: (index) => _onChangeTempoMode(context, index),
-                  children: const [
-                    AutoSizeText(
-                      '×',
-                      minFontSize: 20,
-                      maxFontSize: 24,
-                      style: TextStyle(fontWeight: FontWeight.w600),
-                    ),
-                    AutoSizeText(
-                      'BPM',
+                  selectedIndex: data.tempoMode == TempoMode.multiplier ? 0 : 1,
+                  onChanged: (index) => _onChangeTempoMode(context, index),
+                  segments: const [
+                    PillSegment(
+                      label: '×',
+                      key: Key('song.speed.toggleMode.multiplier'),
                       minFontSize: 16,
-                      maxFontSize: 24,
-                      style: TextStyle(fontWeight: FontWeight.w600),
+                      maxFontSize: 22,
+                    ),
+                    PillSegment(
+                      label: 'BPM',
+                      key: Key('song.speed.toggleMode.bpm'),
+                      minFontSize: 14,
                     ),
                   ],
                 ),
-              ),
+                const SizedBox(width: 4),
+                IconButton(
+                  key: const Key('song.speed.reset'),
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+                  onPressed: () => context.read<SongCubit>().resetSpeed(),
+                  icon: const Icon(
+                    Icons.refresh_rounded,
+                    color: AppColors.secondaryFixed,
+                  ),
+                ),
+              ],
             ),
             if (data.tempoMode == TempoMode.multiplier)
               SpeedControlMultiplierMode(speed: data.speed)

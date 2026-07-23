@@ -8,21 +8,17 @@ import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
+import 'package:repeatlab/features/song_controls/widget/metronome_beat_dots.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
-/// Metronome tab of the SongControlsCard.
+/// Metronome section shown at the bottom of the Tempo tab (below a divider).
 ///
-/// Free: on/off toggle + volume. Premium: time signature, subdivision and
-/// the ±ms nudge that aligns the click grid with the song. Clicks only play
-/// while the song plays; tempo follows `currentBpm` (originalBpm × speed).
-/// When no BPM is set the panel shows a prompt that jumps to the Speed tab's
-/// BPM mode instead of the controls.
+/// Off: a compact row with a button that enables + expands it. On: current
+/// tempo, beat indicator, time signature and volume, with the power-user
+/// controls (subdivision, tap-align, ±ms nudge) tucked behind a gear toggle.
+/// Clicks only play while the song plays; tempo follows `currentBpm`.
 class MetronomePanel extends StatefulWidget {
-  /// Switches the parent card to the Speed tab (used by the "set BPM first"
-  /// prompt so the user lands directly on the BPM entry UI).
-  final VoidCallback onRequestSpeedTab;
-
-  const MetronomePanel({super.key, required this.onRequestSpeedTab});
+  const MetronomePanel({super.key});
 
   @override
   State<MetronomePanel> createState() => _MetronomePanelState();
@@ -46,6 +42,7 @@ class _MetronomePanelState extends State<MetronomePanel> {
   // speed slider).
   double? _draggedVolume;
   bool _paywallShowing = false;
+  bool _advancedExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -82,238 +79,463 @@ class _MetronomePanelState extends State<MetronomePanel> {
         isGenerating: state.isMetronomeGenerating,
       ),
       builder: (context, data) {
-        if (data.currentBpm == null) {
-          return _buildSetBpmPrompt(context);
-        }
+        final hasBpm = data.currentBpm != null && data.currentBpm! > 0;
 
         return Column(
-          spacing: 8,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // On/off + current BPM
-            Row(
-              children: [
-                CupertinoSwitch(
-                  key: const Key('song.metronome.toggle'),
-                  value: data.isEnabled,
-                  activeTrackColor: AppColors.primaryContainer,
-                  onChanged: (_) => _onToggle(context),
-                ),
-                const SizedBox(width: 8),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryContainer,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Text(
-                    '${data.currentBpm} BPM',
-                    style: context.titleMedium.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.onPrimaryContainer,
-                    ),
-                  ),
-                ),
-                const Spacer(),
-                // The baked click track mixes on first enable and after
-                // settings changes — show that work instead of appearing hung.
-                if (data.isGenerating)
-                  const SizedBox(
-                    width: 18,
-                    height: 18,
-                    child: CircularProgressIndicator(
-                      key: Key('song.metronome.generating'),
-                      strokeWidth: 2,
-                      color: AppColors.secondaryFixed,
-                    ),
-                  ),
-              ],
-            ),
-            // Volume
-            Row(
-              children: [
-                const Icon(
-                  Icons.volume_up_rounded,
-                  color: AppColors.secondaryFixed,
-                ),
-                Expanded(
-                  child: CustomSlider(
-                    value: _draggedVolume ?? data.volume,
-                    min: 0,
-                    max: 1,
-                    divisions: 20,
-                    onChanged: (value) {
-                      setState(() => _draggedVolume = value);
-                      context.read<SongCubit>().setMetronomeVolume(value);
-                    },
-                    onChangeEnd: (value) {
-                      setState(() => _draggedVolume = null);
-                      context.read<SongCubit>().setMetronomeVolume(
-                        value,
-                        persist: true,
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-            // Premium extras: time signature + subdivision, nudge
-            _premiumGate(
-              hasPremium: hasPremium,
-              child: Row(
-                children: [
-                  DropdownButton<(int, int)>(
-                    key: const Key('song.metronome.timeSignature'),
-                    value: _timeSignatures.contains(
-                      (data.beatsPerBar, data.beatUnit),
-                    )
-                        ? (data.beatsPerBar, data.beatUnit)
-                        : (4, 4),
-                    dropdownColor: AppColors.secondaryContainer,
-                    style: context.labelLarge.copyWith(
-                      color: AppColors.secondaryFixed,
-                    ),
-                    underline: const SizedBox.shrink(),
-                    items: [
-                      for (final (beats, unit) in _timeSignatures)
-                        DropdownMenuItem(
-                          value: (beats, unit),
-                          child: Text('$beats/$unit'),
-                        ),
-                    ],
-                    onChanged: (value) => _onTimeSignature(context, value),
-                  ),
-                  const Spacer(),
-                  SizedBox(
-                    height: 36,
-                    child: ToggleButtons(
-                      key: const Key('song.metronome.subdivision'),
-                      borderRadius: BorderRadius.circular(10),
-                      selectedColor: AppColors.onPrimaryContainer,
-                      color: AppColors.secondary,
-                      fillColor: AppColors.primaryContainer,
-                      disabledColor: AppColors.secondary,
-                      isSelected: [
-                        for (final s in MetronomeSubdivision.values)
-                          s == data.subdivision,
-                      ],
-                      onPressed: (index) => _onSubdivision(
-                        context,
-                        MetronomeSubdivision.values[index],
-                      ),
-                      children: const [
-                        Text('♩', style: TextStyle(fontWeight: FontWeight.w600)),
-                        Text('♪', style: TextStyle(fontWeight: FontWeight.w600)),
-                        Text('³', style: TextStyle(fontWeight: FontWeight.w600)),
-                        Text('♬', style: TextStyle(fontWeight: FontWeight.w600)),
-                      ],
-                    ),
-                  ),
-                ],
+            const Divider(height: 24, color: AppColors.outlineVariant),
+            _header(context, data, hasBpm: hasBpm),
+            if (data.isEnabled && hasBpm) ...[
+              const SizedBox(height: 12),
+              MetronomeBeatDots(
+                beatsPerBar: data.beatsPerBar,
+                bpm: data.currentBpm!,
+                isRunning: data.isPlaying,
               ),
-            ),
-            // Alignment: tap-to-align (sets the persistent beat anchor) and
-            // the half-beat flip for off-beat clicking. Tapping requires the
-            // song to be playing — the button disables itself otherwise.
-            _premiumGate(
-              hasPremium: hasPremium,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton.icon(
-                      key: const Key('song.metronome.tapBeat'),
-                      onPressed: data.isPlaying
-                          ? () => _onTapBeat(context, data.tapCount)
-                          : null,
-                      icon: Icon(
-                        data.hasAnchor && data.tapCount == 0
-                            ? Icons.check_circle_outline_rounded
-                            : Icons.touch_app_rounded,
-                        size: 18,
-                      ),
-                      label: Text(
-                        data.tapCount > 0
-                            ? '${context.l10n.metronomeTapBeat} '
-                                  '(${data.tapCount})'
-                            : context.l10n.metronomeTapBeat,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Tooltip(
-                    message: context.l10n.metronomeShiftHalfBeat,
-                    child: OutlinedButton(
-                      key: const Key('song.metronome.halfBeat'),
-                      onPressed: () => _onHalfBeat(context),
-                      child: const Text('½'),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            _premiumGate(
-              hasPremium: hasPremium,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    context.l10n.metronomeNudge,
-                    style: context.labelLarge.copyWith(
-                      color: AppColors.secondary,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  IconButton(
-                    key: const Key('song.metronome.nudgeEarlier'),
-                    onPressed: () => _onNudge(context, -_nudgeStepMs),
-                    icon: const Icon(
-                      Icons.remove_circle_outline_rounded,
-                      color: AppColors.secondaryFixed,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 64,
-                    child: Text(
-                      context.l10n.metronomeOffsetMs(data.offsetMs),
-                      textAlign: TextAlign.center,
-                      style: context.labelLarge.copyWith(
-                        color: AppColors.secondaryFixed,
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    key: const Key('song.metronome.nudgeLater'),
-                    onPressed: () => _onNudge(context, _nudgeStepMs),
-                    icon: const Icon(
-                      Icons.add_circle_outline_rounded,
-                      color: AppColors.secondaryFixed,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+              const SizedBox(height: 12),
+              _timeSignatureRow(context, data),
+              const SizedBox(height: 8),
+              _volumeRow(context, data),
+              _advancedSection(context, data, hasPremium: hasPremium),
+            ],
           ],
         );
       },
     );
   }
 
-  Widget _buildSetBpmPrompt(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8).copyWith(left: 0),
-      child: Column(
-        spacing: 8,
+  Widget _header(
+    BuildContext context,
+    ({
+      bool isEnabled,
+      double volume,
+      MetronomeSubdivision subdivision,
+      int? currentBpm,
+      int offsetMs,
+      int beatsPerBar,
+      int beatUnit,
+      bool isPlaying,
+      bool hasAnchor,
+      int tapCount,
+      bool isGenerating,
+    }) data, {
+    required bool hasBpm,
+  }) {
+    final status = data.isEnabled && hasBpm
+        ? '${data.currentBpm} BPM · ${data.beatsPerBar}/${data.beatUnit}'
+        : context.l10n.off;
+
+    return Row(
+      children: [
+        Text(
+          context.l10n.metronome,
+          style: context.titleMedium.copyWith(color: AppColors.onSurface),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            status,
+            style: context.labelMedium.copyWith(
+              color: AppColors.onSurfaceVariant,
+            ),
+          ),
+        ),
+        if (data.isGenerating)
+          const Padding(
+            padding: EdgeInsets.only(right: 8),
+            child: SizedBox(
+              width: 18,
+              height: 18,
+              child: CircularProgressIndicator(
+                key: Key('song.metronome.generating'),
+                strokeWidth: 2,
+                color: AppColors.secondaryFixed,
+              ),
+            ),
+          ),
+        if (data.isEnabled && hasBpm)
+          CupertinoSwitch(
+            key: const Key('song.metronome.toggle'),
+            value: data.isEnabled,
+            activeTrackColor: AppColors.primaryContainer,
+            onChanged: (_) => _onToggle(context),
+          )
+        else
+          _enableButton(context, enabled: hasBpm),
+      ],
+    );
+  }
+
+  /// Compact "turn on" affordance shown when the metronome is off. Disabled
+  /// until a BPM exists (the BPM entry sits directly above in the same tab).
+  Widget _enableButton(BuildContext context, {required bool enabled}) {
+    return Material(
+      color: enabled
+          ? AppColors.surfaceContainerHigh
+          : AppColors.surfaceContainerLow,
+      borderRadius: BorderRadius.circular(10),
+      child: InkWell(
+        key: const Key('song.metronome.toggle'),
+        borderRadius: BorderRadius.circular(10),
+        onTap: enabled ? () => _onToggle(context) : null,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          child: Icon(
+            Icons.graphic_eq_rounded,
+            size: 18,
+            color: enabled ? AppColors.secondaryFixed : AppColors.outline,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _timeSignatureRow(
+    BuildContext context,
+    ({
+      bool isEnabled,
+      double volume,
+      MetronomeSubdivision subdivision,
+      int? currentBpm,
+      int offsetMs,
+      int beatsPerBar,
+      int beatUnit,
+      bool isPlaying,
+      bool hasAnchor,
+      int tapCount,
+      bool isGenerating,
+    }) data,
+  ) {
+    final hasPremium = context.watch<PremiumSubscriptionCubit>().hasPremium;
+
+    return Row(
+      children: [
+        Text(
+          context.l10n.metronomeTimeSignature,
+          style: context.labelLarge.copyWith(color: AppColors.onSurfaceVariant),
+        ),
+        const Spacer(),
+        _premiumGate(
+          hasPremium: hasPremium,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            decoration: BoxDecoration(
+              color: AppColors.surfaceContainerHigh,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton<(int, int)>(
+                key: const Key('song.metronome.timeSignature'),
+                value: _timeSignatures.contains(
+                  (data.beatsPerBar, data.beatUnit),
+                )
+                    ? (data.beatsPerBar, data.beatUnit)
+                    : (4, 4),
+                dropdownColor: AppColors.surfaceContainerHigh,
+                borderRadius: BorderRadius.circular(10),
+                icon: const Icon(
+                  Icons.expand_more_rounded,
+                  color: AppColors.secondaryFixed,
+                ),
+                style: context.labelLarge.copyWith(
+                  color: AppColors.secondaryFixed,
+                ),
+                items: [
+                  for (final (beats, unit) in _timeSignatures)
+                    DropdownMenuItem(
+                      value: (beats, unit),
+                      child: Text('$beats/$unit'),
+                    ),
+                ],
+                onChanged: (value) => _onTimeSignature(context, value),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _volumeRow(
+    BuildContext context,
+    ({
+      bool isEnabled,
+      double volume,
+      MetronomeSubdivision subdivision,
+      int? currentBpm,
+      int offsetMs,
+      int beatsPerBar,
+      int beatUnit,
+      bool isPlaying,
+      bool hasAnchor,
+      int tapCount,
+      bool isGenerating,
+    }) data,
+  ) {
+    final volume = _draggedVolume ?? data.volume;
+
+    return Row(
+      children: [
+        const Icon(
+          Icons.volume_up_rounded,
+          size: 20,
+          color: AppColors.secondaryFixed,
+        ),
+        const SizedBox(width: 8),
+        SizedBox(
+          width: 28,
+          child: Text(
+            '${(volume * 100).round()}',
+            style: context.labelLarge.copyWith(color: AppColors.onSurface),
+          ),
+        ),
+        Expanded(
+          child: CustomSlider(
+            value: volume,
+            min: 0,
+            max: 1,
+            divisions: 20,
+            onChanged: (value) {
+              setState(() => _draggedVolume = value);
+              context.read<SongCubit>().setMetronomeVolume(value);
+            },
+            onChangeEnd: (value) {
+              setState(() => _draggedVolume = null);
+              context.read<SongCubit>().setMetronomeVolume(
+                value,
+                persist: true,
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Gear-toggled "advanced" block: subdivision, tap-align + half-beat, and the
+  /// ±ms nudge — all premium-gated, all hidden by default so the section
+  /// matches the design at a glance.
+  Widget _advancedSection(
+    BuildContext context,
+    ({
+      bool isEnabled,
+      double volume,
+      MetronomeSubdivision subdivision,
+      int? currentBpm,
+      int offsetMs,
+      int beatsPerBar,
+      int beatUnit,
+      bool isPlaying,
+      bool hasAnchor,
+      int tapCount,
+      bool isGenerating,
+    }) data, {
+    required bool hasPremium,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Align(
+          alignment: Alignment.centerRight,
+          child: IconButton(
+            key: const Key('song.metronome.advancedToggle'),
+            visualDensity: VisualDensity.compact,
+            onPressed: () =>
+                setState(() => _advancedExpanded = !_advancedExpanded),
+            icon: Icon(
+              _advancedExpanded
+                  ? Icons.settings_rounded
+                  : Icons.settings_outlined,
+              size: 20,
+              color: _advancedExpanded
+                  ? AppColors.primary
+                  : AppColors.secondaryFixed,
+            ),
+            tooltip: context.l10n.metronomeAdvanced,
+          ),
+        ),
+        AnimatedCrossFade(
+          duration: const Duration(milliseconds: 180),
+          crossFadeState: _advancedExpanded
+              ? CrossFadeState.showSecond
+              : CrossFadeState.showFirst,
+          firstChild: const SizedBox(width: double.infinity),
+          secondChild: Column(
+            spacing: 8,
+            children: [
+              _subdivisionRow(context, data, hasPremium: hasPremium),
+              _alignmentRow(context, data, hasPremium: hasPremium),
+              _nudgeRow(context, data, hasPremium: hasPremium),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _subdivisionRow(
+    BuildContext context,
+    ({
+      bool isEnabled,
+      double volume,
+      MetronomeSubdivision subdivision,
+      int? currentBpm,
+      int offsetMs,
+      int beatsPerBar,
+      int beatUnit,
+      bool isPlaying,
+      bool hasAnchor,
+      int tapCount,
+      bool isGenerating,
+    }) data, {
+    required bool hasPremium,
+  }) {
+    return Row(
+      children: [
+        Text(
+          context.l10n.metronomeSubdivision,
+          style: context.labelLarge.copyWith(color: AppColors.onSurfaceVariant),
+        ),
+        const Spacer(),
+        _premiumGate(
+          hasPremium: hasPremium,
+          child: SizedBox(
+            height: 36,
+            child: ToggleButtons(
+              key: const Key('song.metronome.subdivision'),
+              borderRadius: BorderRadius.circular(10),
+              selectedColor: AppColors.onPrimaryContainer,
+              color: AppColors.secondary,
+              fillColor: AppColors.primaryContainer,
+              disabledColor: AppColors.secondary,
+              isSelected: [
+                for (final s in MetronomeSubdivision.values)
+                  s == data.subdivision,
+              ],
+              onPressed: (index) => _onSubdivision(
+                context,
+                MetronomeSubdivision.values[index],
+              ),
+              children: const [
+                Text('♩', style: TextStyle(fontWeight: FontWeight.w600)),
+                Text('♪', style: TextStyle(fontWeight: FontWeight.w600)),
+                Text('³', style: TextStyle(fontWeight: FontWeight.w600)),
+                Text('♬', style: TextStyle(fontWeight: FontWeight.w600)),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _alignmentRow(
+    BuildContext context,
+    ({
+      bool isEnabled,
+      double volume,
+      MetronomeSubdivision subdivision,
+      int? currentBpm,
+      int offsetMs,
+      int beatsPerBar,
+      int beatUnit,
+      bool isPlaying,
+      bool hasAnchor,
+      int tapCount,
+      bool isGenerating,
+    }) data, {
+    required bool hasPremium,
+  }) {
+    return _premiumGate(
+      hasPremium: hasPremium,
+      child: Row(
+        children: [
+          Expanded(
+            child: OutlinedButton.icon(
+              key: const Key('song.metronome.tapBeat'),
+              onPressed: data.isPlaying
+                  ? () => _onTapBeat(context, data.tapCount)
+                  : null,
+              icon: Icon(
+                data.hasAnchor && data.tapCount == 0
+                    ? Icons.check_circle_outline_rounded
+                    : Icons.touch_app_rounded,
+                size: 18,
+              ),
+              label: Text(
+                data.tapCount > 0
+                    ? '${context.l10n.metronomeTapBeat} (${data.tapCount})'
+                    : context.l10n.metronomeTapBeat,
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+          Tooltip(
+            message: context.l10n.metronomeShiftHalfBeat,
+            child: OutlinedButton(
+              key: const Key('song.metronome.halfBeat'),
+              onPressed: () => _onHalfBeat(context),
+              child: const Text('½'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _nudgeRow(
+    BuildContext context,
+    ({
+      bool isEnabled,
+      double volume,
+      MetronomeSubdivision subdivision,
+      int? currentBpm,
+      int offsetMs,
+      int beatsPerBar,
+      int beatUnit,
+      bool isPlaying,
+      bool hasAnchor,
+      int tapCount,
+      bool isGenerating,
+    }) data, {
+    required bool hasPremium,
+  }) {
+    return _premiumGate(
+      hasPremium: hasPremium,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            context.l10n.metronomeSetBpmFirst,
+            context.l10n.metronomeNudge,
             style: context.labelLarge.copyWith(color: AppColors.secondary),
           ),
-          OutlinedButton(
-            key: const Key('song.metronome.goToBpm'),
-            onPressed: () {
-              context.read<SongCubit>().setTempoMode(TempoMode.bpm);
-              widget.onRequestSpeedTab();
-            },
-            child: Text(context.l10n.metronomeGoToBpm),
+          const SizedBox(width: 8),
+          IconButton(
+            key: const Key('song.metronome.nudgeEarlier'),
+            onPressed: () => _onNudge(context, -_nudgeStepMs),
+            icon: const Icon(
+              Icons.remove_circle_outline_rounded,
+              color: AppColors.secondaryFixed,
+            ),
+          ),
+          SizedBox(
+            width: 64,
+            child: Text(
+              context.l10n.metronomeOffsetMs(data.offsetMs),
+              textAlign: TextAlign.center,
+              style: context.labelLarge.copyWith(
+                color: AppColors.secondaryFixed,
+              ),
+            ),
+          ),
+          IconButton(
+            key: const Key('song.metronome.nudgeLater'),
+            onPressed: () => _onNudge(context, _nudgeStepMs),
+            icon: const Icon(
+              Icons.add_circle_outline_rounded,
+              color: AppColors.secondaryFixed,
+            ),
           ),
         ],
       ),
@@ -321,7 +543,7 @@ class _MetronomePanelState extends State<MetronomePanel> {
   }
 
   /// Free users see the control but any touch opens the paywall — the same
-  /// Listener+AbsorbPointer pattern as the speed/pitch sliders.
+  /// Listener+AbsorbPointer pattern as the speed/pitch controls.
   Widget _premiumGate({required bool hasPremium, required Widget child}) {
     if (hasPremium) return child;
     return Listener(

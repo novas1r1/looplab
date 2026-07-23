@@ -262,7 +262,7 @@ class _PitchControlKeyModeState extends State<PitchControlKeyMode> {
   }
 }
 
-/// Dialog for editing the original key (mirrors [EditOriginalBpmDialog])
+/// Dialog for editing the original key
 class EditOriginalKeyDialog extends StatefulWidget {
   const EditOriginalKeyDialog({
     required this.currentOriginalKey,

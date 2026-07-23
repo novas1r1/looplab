@@ -454,6 +454,68 @@
     },
     "metronomeSetBpmFirst": "Set the song's BPM first to use the metronome.",
     "metronomeGoToBpm": "Set BPM",
+    "metronomeAdvanced": "Advanced",
+    "@metronomeAdvanced": {
+        "description": "Toggle label for the collapsible advanced metronome controls (subdivision, tap-align, nudge)"
+    },
+    "off": "off",
+    "@off": {
+        "description": "Status label shown next to the metronome heading when it is disabled"
+    },
+    "pitchSemitone": "Semitone",
+    "@pitchSemitone": {
+        "description": "Label for the semitone mode of the pitch control toggle"
+    },
+    "semitones": "Semitones",
+    "@semitones": {
+        "description": "Unit shown under the pitch stepper value, e.g. 'Semitones · A#'"
+    },
+    "pitchUnchanged": "pitch unchanged",
+    "@pitchUnchanged": {
+        "description": "Caption under the speed multiplier value noting the pitch stays the same"
+    },
+    "tapTempo": "Tap Tempo",
+    "@tapTempo": {
+        "description": "Button that opens the tap-tempo dialog to detect the song BPM"
+    },
+    "songBpmValue": "Song BPM {bpm}",
+    "@songBpmValue": {
+        "description": "Reference to the song's original BPM shown under the BPM stepper",
+        "placeholders": {
+            "bpm": {
+                "type": "int"
+            }
+        }
+    },
+    "retap": "retap",
+    "@retap": {
+        "description": "Small link next to the song BPM to re-open the tap-tempo dialog"
+    },
+    "edit": "Edit",
+    "@edit": {
+        "description": "Small link next to the song BPM that returns to the set-or-tap entry to change it"
+    },
+    "setSongTempoHint": "Set the song's tempo to adjust playback by beats per minute.",
+    "@setSongTempoHint": {
+        "description": "Helper text shown in BPM mode before an original BPM is set"
+    },
+    "bpmTapHint": "Tap the pad in time with the beat",
+    "@bpmTapHint": {
+        "description": "Instruction under the tap-tempo dialog title"
+    },
+    "bpmTapUnit": "BPM · tap",
+    "@bpmTapUnit": {
+        "description": "Unit label under the live BPM value on the tap-tempo pad"
+    },
+    "useBpmValue": "Use {bpm}",
+    "@useBpmValue": {
+        "description": "Confirm button on the tap-tempo dialog, e.g. 'Use 120'",
+        "placeholders": {
+            "bpm": {
+                "type": "int"
+            }
+        }
+    },
     "hereYouCanSetTheOriginalBpmOfTheAudioFile": "Here you can set the original BPM of the audio file.",
     "setBpm": "SET",
     "originalBpm": "ORIGINAL BPM",

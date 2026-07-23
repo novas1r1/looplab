@@ -962,6 +962,50 @@ class AppLocalizationsNl extends AppLocalizations {
   String get metronomeGoToBpm => 'BPM instellen';
 
   @override
+  String get metronomeAdvanced => 'Advanced';
+
+  @override
+  String get off => 'off';
+
+  @override
+  String get pitchSemitone => 'Semitone';
+
+  @override
+  String get semitones => 'Semitones';
+
+  @override
+  String get pitchUnchanged => 'pitch unchanged';
+
+  @override
+  String get tapTempo => 'Tap Tempo';
+
+  @override
+  String songBpmValue(int bpm) {
+    return 'Song BPM $bpm';
+  }
+
+  @override
+  String get retap => 'retap';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get setSongTempoHint =>
+      'Set the song\'s tempo to adjust playback by beats per minute.';
+
+  @override
+  String get bpmTapHint => 'Tap the pad in time with the beat';
+
+  @override
+  String get bpmTapUnit => 'BPM · tap';
+
+  @override
+  String useBpmValue(int bpm) {
+    return 'Use $bpm';
+  }
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'Hier kun je de originele BPM van het audio-bestand instellen.';
 

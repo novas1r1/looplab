@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auto_size_text/flutter_auto_size_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/interaction/pill_toggle.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
-import 'package:repeatlab/core/utils/musical_key.dart';
 import 'package:repeatlab/features/pitch_control/widget/pitch_control_key_mode.dart';
 import 'package:repeatlab/features/pitch_control/widget/pitch_control_slider.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
-/// Pitch tab of the SongControlsCard: the st|key mode toggle, the key label
-/// ("Am → Cm" when shifted) and the unchanged slider/key mode widgets
-/// (previously the PitchControl card). Only reachable when
-/// `SongCubit.isPitchControlSupported` — the card drops the tab otherwise.
+/// Pitch section of the SongControlsCard: a "Pitch" label, the Semitone|Key
+/// mode toggle and per-section reset, then the semitone stepper or key mode.
 class PitchPanel extends StatelessWidget {
   const PitchPanel({super.key});
 
@@ -31,49 +28,43 @@ class PitchPanel extends StatelessWidget {
       ),
       builder: (context, data) {
         return Column(
-          spacing: 4,
+          spacing: 8,
           children: [
             Row(
               children: [
-                SizedBox(
-                  height: 36,
-                  child: ToggleButtons(
-                    key: const Key('song.pitch.toggleMode'),
-                    borderRadius: BorderRadius.circular(10),
-                    selectedColor: AppColors.onPrimaryContainer,
-                    color: AppColors.secondary,
-                    fillColor: AppColors.primaryContainer,
-                    disabledColor: AppColors.secondary,
-                    isSelected: [
-                      data.pitchMode == PitchMode.semitones,
-                      data.pitchMode == PitchMode.key,
-                    ],
-                    onPressed: (index) => _onChangePitchMode(context, index),
-                    children: [
-                      const AutoSizeText(
-                        'st',
-                        minFontSize: 16,
-                        maxFontSize: 24,
-                        style: TextStyle(fontWeight: FontWeight.w600),
-                      ),
-                      AutoSizeText(
-                        context.l10n.editSongKey,
-                        minFontSize: 12,
-                        maxFontSize: 24,
-                        style: const TextStyle(fontWeight: FontWeight.w600),
-                      ),
-                    ],
+                Text(
+                  context.l10n.pitchControl,
+                  style: context.titleMedium.copyWith(
+                    color: AppColors.onSurface,
                   ),
                 ),
-                if (data.musicalKey != null) ...[
-                  const SizedBox(width: 8),
-                  Text(
-                    _formatKey(data.musicalKey!, data.pitchSemitones),
-                    style: context.labelLarge.copyWith(
-                      color: AppColors.secondary,
+                const Spacer(),
+                PillToggle(
+                  key: const Key('song.pitch.toggleMode'),
+                  selectedIndex: data.pitchMode == PitchMode.semitones ? 0 : 1,
+                  onChanged: (index) => _onChangePitchMode(context, index),
+                  segments: [
+                    PillSegment(
+                      label: context.l10n.pitchSemitone,
+                      key: const Key('song.pitch.toggleMode.semitones'),
                     ),
+                    PillSegment(
+                      label: context.l10n.editSongKey,
+                      key: const Key('song.pitch.toggleMode.key'),
+                    ),
+                  ],
+                ),
+                const SizedBox(width: 4),
+                IconButton(
+                  key: const Key('song.pitch.reset'),
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+                  onPressed: () => context.read<SongCubit>().resetPitch(),
+                  icon: const Icon(
+                    Icons.refresh_rounded,
+                    color: AppColors.secondaryFixed,
                   ),
-                ],
+                ),
               ],
             ),
             if (data.pitchMode == PitchMode.semitones)
@@ -87,15 +78,6 @@ class PitchPanel extends StatelessWidget {
         );
       },
     );
-  }
-
-  /// "Am" at 0 st; "Am → Cm" when shifted. Falls back to the raw tag value
-  /// when the key isn't in a transposable format.
-  String _formatKey(String musicalKey, int pitchSemitones) {
-    if (pitchSemitones == 0) return musicalKey;
-    final transposed = MusicalKey.transpose(musicalKey, pitchSemitones);
-    if (transposed == null) return musicalKey;
-    return '$musicalKey → $transposed';
   }
 
   void _onChangePitchMode(BuildContext context, int index) {

@@ -1788,6 +1788,84 @@ abstract class AppLocalizations {
   /// **'Set BPM'**
   String get metronomeGoToBpm;
 
+  /// Toggle label for the collapsible advanced metronome controls (subdivision, tap-align, nudge)
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced'**
+  String get metronomeAdvanced;
+
+  /// Status label shown next to the metronome heading when it is disabled
+  ///
+  /// In en, this message translates to:
+  /// **'off'**
+  String get off;
+
+  /// Label for the semitone mode of the pitch control toggle
+  ///
+  /// In en, this message translates to:
+  /// **'Semitone'**
+  String get pitchSemitone;
+
+  /// Unit shown under the pitch stepper value, e.g. 'Semitones · A#'
+  ///
+  /// In en, this message translates to:
+  /// **'Semitones'**
+  String get semitones;
+
+  /// Caption under the speed multiplier value noting the pitch stays the same
+  ///
+  /// In en, this message translates to:
+  /// **'pitch unchanged'**
+  String get pitchUnchanged;
+
+  /// Button that opens the tap-tempo dialog to detect the song BPM
+  ///
+  /// In en, this message translates to:
+  /// **'Tap Tempo'**
+  String get tapTempo;
+
+  /// Reference to the song's original BPM shown under the BPM stepper
+  ///
+  /// In en, this message translates to:
+  /// **'Song BPM {bpm}'**
+  String songBpmValue(int bpm);
+
+  /// Small link next to the song BPM to re-open the tap-tempo dialog
+  ///
+  /// In en, this message translates to:
+  /// **'retap'**
+  String get retap;
+
+  /// Small link next to the song BPM that returns to the set-or-tap entry to change it
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
+  /// Helper text shown in BPM mode before an original BPM is set
+  ///
+  /// In en, this message translates to:
+  /// **'Set the song\'s tempo to adjust playback by beats per minute.'**
+  String get setSongTempoHint;
+
+  /// Instruction under the tap-tempo dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the pad in time with the beat'**
+  String get bpmTapHint;
+
+  /// Unit label under the live BPM value on the tap-tempo pad
+  ///
+  /// In en, this message translates to:
+  /// **'BPM · tap'**
+  String get bpmTapUnit;
+
+  /// Confirm button on the tap-tempo dialog, e.g. 'Use 120'
+  ///
+  /// In en, this message translates to:
+  /// **'Use {bpm}'**
+  String useBpmValue(int bpm);
+
   /// No description provided for @hereYouCanSetTheOriginalBpmOfTheAudioFile.
   ///
   /// In en, this message translates to:
