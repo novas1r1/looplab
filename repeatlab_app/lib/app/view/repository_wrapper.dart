@@ -85,16 +85,26 @@ class RepositoryWrapper extends StatelessWidget {
 class FilePickerWrapper {
   const FilePickerWrapper();
 
+  Future<PlatformFile?> pickFile({
+    required FileType type,
+    List<String>? allowedExtensions,
+    Function(FilePickerStatus)? onFileLoading,
+  }) async {
+    return await FilePicker.pickFile(
+      type: type,
+      allowedExtensions: allowedExtensions,
+      onFileLoading: onFileLoading,
+    );
+  }
+
   Future<FilePickerResult?> pickFiles({
     required FileType type,
     List<String>? allowedExtensions,
-    bool allowMultiple = false,
     Function(FilePickerStatus)? onFileLoading,
   }) async {
     return await FilePicker.pickFiles(
       type: type,
       allowedExtensions: allowedExtensions,
-      allowMultiple: allowMultiple,
       onFileLoading: onFileLoading,
     );
   }
@@ -107,6 +117,9 @@ class FilePickerWrapper {
   }) async {
     return await FilePicker.saveFile(
       fileName: fileName,
+      bytes: bytes,
+      type: type,
+      allowedExtensions: allowedExtensions,
     );
   }
 }

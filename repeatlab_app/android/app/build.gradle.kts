@@ -30,7 +30,7 @@ android {
 
     defaultConfig {
         applicationId = "com.repeatlab.app"
-        minSdk = 24
+        minSdk = 28
         targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName

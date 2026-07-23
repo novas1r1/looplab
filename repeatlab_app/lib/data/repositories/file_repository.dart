@@ -46,7 +46,6 @@ class FileRepository {
             'opus',
             'aiff',
           ],
-          allowMultiple: true,
           onFileLoading: _logPickerStatus,
         );
         // this only shows files in mediathek
@@ -60,7 +59,6 @@ class FileRepository {
         // filepicking for FileType.audio is not working. It displays all files in the system.
         return await filePicker.pickFiles(
           type: FileType.audio,
-          allowMultiple: true,
           onFileLoading: _logPickerStatus,
         );
 
@@ -94,14 +92,12 @@ class FileRepository {
         return filePicker.pickFiles(
           type: FileType.custom,
           allowedExtensions: SongRepository.videoPickerExtensionsIos,
-          allowMultiple: true,
           onFileLoading: _logPickerStatus,
         );
       }
       try {
         return await filePicker.pickFiles(
           type: FileType.video,
-          allowMultiple: true,
           onFileLoading: _logPickerStatus,
         );
       } on PlatformException catch (e) {

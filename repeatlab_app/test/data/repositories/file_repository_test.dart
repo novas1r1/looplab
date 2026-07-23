@@ -23,8 +23,7 @@ class _FakePathProviderPlatform extends PathProviderPlatform {
   final String _temporaryPath;
 
   @override
-  Future<String?> getApplicationDocumentsPath() async =>
-      applicationDocumentsPath;
+  Future<String?> getApplicationDocumentsPath() async => applicationDocumentsPath;
 
   @override
   Future<String?> getTemporaryPath() async => _temporaryPath;
@@ -70,7 +69,6 @@ void main() {
         () => filePicker.pickFiles(
           type: any(named: 'type'),
           allowedExtensions: any(named: 'allowedExtensions'),
-          allowMultiple: any(named: 'allowMultiple'),
           onFileLoading: any(named: 'onFileLoading'),
         ),
       ).thenAnswer(
@@ -113,7 +111,6 @@ void main() {
         () => filePicker.pickFiles(
           type: any(named: 'type'),
           allowedExtensions: any(named: 'allowedExtensions'),
-          allowMultiple: any(named: 'allowMultiple'),
           onFileLoading: any(named: 'onFileLoading'),
         ),
       ).thenAnswer(
@@ -160,7 +157,6 @@ void main() {
         () => filePicker.pickFiles(
           type: any(named: 'type'),
           allowedExtensions: any(named: 'allowedExtensions'),
-          allowMultiple: any(named: 'allowMultiple'),
           onFileLoading: any(named: 'onFileLoading'),
         ),
       ).thenAnswer(
@@ -209,7 +205,6 @@ void main() {
         () => filePicker.pickFiles(
           type: any(named: 'type'),
           allowedExtensions: any(named: 'allowedExtensions'),
-          allowMultiple: any(named: 'allowMultiple'),
           onFileLoading: any(named: 'onFileLoading'),
         ),
       ).thenAnswer(
@@ -244,7 +239,6 @@ void main() {
       () => filePicker.pickFiles(
         type: any(named: 'type'),
         allowedExtensions: any(named: 'allowedExtensions'),
-        allowMultiple: any(named: 'allowMultiple'),
         onFileLoading: any(named: 'onFileLoading'),
       ),
     ).thenAnswer((_) async => null);
@@ -265,7 +259,6 @@ void main() {
         () => filePicker.pickFiles(
           type: any(named: 'type'),
           allowedExtensions: any(named: 'allowedExtensions'),
-          allowMultiple: any(named: 'allowMultiple'),
           onFileLoading: any(named: 'onFileLoading'),
         ),
       ).thenAnswer((_) => firstPickCompleter.future);
@@ -291,7 +284,6 @@ void main() {
         () => filePicker.pickFiles(
           type: any(named: 'type'),
           allowedExtensions: any(named: 'allowedExtensions'),
-          allowMultiple: any(named: 'allowMultiple'),
           onFileLoading: any(named: 'onFileLoading'),
         ),
       ).thenAnswer((_) async => null);
@@ -307,7 +299,6 @@ void main() {
         () => filePicker.pickFiles(
           type: any(named: 'type'),
           allowedExtensions: any(named: 'allowedExtensions'),
-          allowMultiple: any(named: 'allowMultiple'),
           onFileLoading: any(named: 'onFileLoading'),
         ),
       ).thenThrow(
