@@ -10,6 +10,8 @@ import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/services/repeatlab_audioplayers_service_handler.dart';
 
+import '../../helpers/mock_data.dart';
+
 class _MockAudioPlayer extends Mock implements AudioPlayer {}
 
 class _FakePathProviderPlatform extends PathProviderPlatform {
@@ -58,12 +60,99 @@ void main() {
     when(() => audioPlayer.setReleaseMode(any())).thenAnswer((_) async {});
     when(() => audioPlayer.setPlaybackRate(any())).thenAnswer((_) async {});
     when(() => audioPlayer.setPitchShift(any())).thenAnswer((_) async {});
+    when(
+      () => audioPlayer.setClickTrack(
+        enabled: any(named: 'enabled'),
+        bpm: any(named: 'bpm'),
+        anchorMs: any(named: 'anchorMs'),
+        offsetMs: any(named: 'offsetMs'),
+        beatsPerBar: any(named: 'beatsPerBar'),
+        pulsesPerBeat: any(named: 'pulsesPerBeat'),
+        volume: any(named: 'volume'),
+      ),
+    ).thenAnswer((_) async {});
     when(() => audioPlayer.state).thenReturn(PlayerState.stopped);
   });
 
   tearDown(() async {
     await playerStateController.close();
     await positionController.close();
+  });
+
+  group('setNativeClickTrack', () {
+    test('forwards the full config to the player', () async {
+      final handler = RepeatlabAudioplayersServiceHandler(
+        audioPlayer: audioPlayer,
+      );
+      addTearDown(handler.close);
+
+      await handler.setNativeClickTrack(
+        enabled: true,
+        bpm: 120,
+        anchorMs: 130,
+        offsetMs: 25,
+        beatsPerBar: 3,
+        pulsesPerBeat: 2,
+        volume: 0.6,
+      );
+
+      verify(
+        () => audioPlayer.setClickTrack(
+          enabled: true,
+          bpm: 120,
+          anchorMs: 130,
+          offsetMs: 25,
+          beatsPerBar: 3,
+          pulsesPerBeat: 2,
+          volume: 0.6,
+        ),
+      ).called(1);
+    });
+
+    test('playSong clears the native click grid for the new song', () async {
+      final handler = RepeatlabAudioplayersServiceHandler(
+        audioPlayer: audioPlayer,
+      );
+      addTearDown(handler.close);
+
+      await handler.playSong(MockData.songMedium, autoStart: false);
+
+      verify(
+        () => audioPlayer.setClickTrack(
+          enabled: false,
+          bpm: any(named: 'bpm'),
+          anchorMs: any(named: 'anchorMs'),
+          offsetMs: any(named: 'offsetMs'),
+          beatsPerBar: any(named: 'beatsPerBar'),
+          pulsesPerBeat: any(named: 'pulsesPerBeat'),
+          volume: any(named: 'volume'),
+        ),
+      ).called(1);
+    });
+
+    test('playSong survives platforms without a native click track', () async {
+      when(
+        () => audioPlayer.setClickTrack(
+          enabled: any(named: 'enabled'),
+          bpm: any(named: 'bpm'),
+          anchorMs: any(named: 'anchorMs'),
+          offsetMs: any(named: 'offsetMs'),
+          beatsPerBar: any(named: 'beatsPerBar'),
+          pulsesPerBeat: any(named: 'pulsesPerBeat'),
+          volume: any(named: 'volume'),
+        ),
+      ).thenAnswer(
+        (_) async => throw UnsupportedError('not on this platform'),
+      );
+      final handler = RepeatlabAudioplayersServiceHandler(
+        audioPlayer: audioPlayer,
+      );
+      addTearDown(handler.close);
+
+      await handler.playSong(MockData.songMedium, autoStart: false);
+
+      verify(() => audioPlayer.setSource(any())).called(1);
+    });
   });
 
   group('swapSourceFile', () {

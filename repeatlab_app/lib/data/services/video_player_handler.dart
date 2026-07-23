@@ -254,6 +254,23 @@ class VideoPlayerHandler implements MediaPlayerHandler {
     throw UnsupportedError('swapSourceFile is not supported for video songs');
   }
 
+  /// Video playback runs on media_kit — there is no click-injection
+  /// pipeline; the cubit never routes video songs here.
+  @override
+  Future<void> setNativeClickTrack({
+    required bool enabled,
+    int? bpm,
+    int? anchorMs,
+    int offsetMs = 0,
+    int beatsPerBar = 4,
+    int pulsesPerBeat = 1,
+    double volume = 1.0,
+  }) {
+    throw UnsupportedError(
+      'setNativeClickTrack is not supported for video songs',
+    );
+  }
+
   @override
   Future<bool> setSpeed(double speed) async {
     final target = _normalizePlaybackSpeed(speed);

@@ -17,6 +17,11 @@ import 'package:repeatlab/core/utils/beat_grid.dart';
 /// The click is a short sine burst with an exponential decay rather than a
 /// sharp tick: soft transients survive the time-stretcher at extreme
 /// slowdowns much better.
+///
+/// The synthesis constants and grid math are mirrored in the Android-native
+/// pipeline (`ap/packages/audioplayers_android_exo/.../ClickSynth.kt` and
+/// `ClickGrid.kt`) — keep both sides in sync so the baked (iOS) and native
+/// (Android) metronomes sound identical.
 abstract final class ClickTrackRenderer {
   static const int sampleRate = 44100;
 

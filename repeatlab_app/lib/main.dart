@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:clarity_flutter/clarity_flutter.dart';
 import 'package:flutter/foundation.dart';
@@ -9,6 +11,7 @@ import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:repeatlab/app_bloc_observer.dart';
 import 'package:repeatlab/bootstrap.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
+import 'package:repeatlab/data/services/metronome_track_service.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:userorient_flutter/userorient_flutter.dart';
 
@@ -59,6 +62,17 @@ Future<void> _initializeApp() async {
   // Build the app and all of its core dependencies (DB, audio/video engines,
   // package info, preferences). Shared with E2E tests, see [bootstrap].
   final app = await bootstrap();
+
+  // Android's metronome runs natively in the playback pipeline; any baked
+  // click-track mixes cached by earlier versions are full-song-sized dead
+  // weight there. (iOS still uses the baked track and keeps its cache.)
+  if (Platform.isAndroid) {
+    unawaited(
+      MetronomeTrackService().clearAll().catchError((Object error, StackTrace stack) {
+        log('Failed to clear metronome mix cache: $error', stackTrace: stack);
+      }),
+    );
+  }
 
   // get current device language
   // final deviceLanguage = Platform.localeName.split('_')[0];

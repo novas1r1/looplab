@@ -242,6 +242,19 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
       // so a previous song's pitch would leak into the next song otherwise.
       // The cubit reapplies the persisted per-song pitch afterwards.
       _pitchSemitones = 0;
+      // Same for the native click processor: clear its grid so a new song
+      // never inherits the previous song's clicks. The cubit re-sends the
+      // config when the metronome is (re)enabled. Non-Android platforms
+      // throw UnsupportedError — nothing to clear there.
+      try {
+        await audioPlayer.setClickTrack(enabled: false);
+        // The platform interface signals "not implemented here" via
+        // UnsupportedError by design (same pattern as setPitchShift) —
+        // catching it is the intended cross-platform usage.
+        // ignore: avoid_catching_errors
+      } on UnsupportedError {
+        // Native click track not available on this platform.
+      }
 
       await audioPlayer.setReleaseMode(ReleaseMode.stop);
       if (autoStart) {
@@ -432,6 +445,27 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     _pendingSeekTarget = position;
     _seekQueue ??= _processSeekQueue();
     return _seekQueue!;
+  }
+
+  @override
+  Future<void> setNativeClickTrack({
+    required bool enabled,
+    int? bpm,
+    int? anchorMs,
+    int offsetMs = 0,
+    int beatsPerBar = 4,
+    int pulsesPerBeat = 1,
+    double volume = 1.0,
+  }) {
+    return audioPlayer.setClickTrack(
+      enabled: enabled,
+      bpm: bpm,
+      anchorMs: anchorMs,
+      offsetMs: offsetMs,
+      beatsPerBar: beatsPerBar,
+      pulsesPerBeat: pulsesPerBeat,
+      volume: volume,
+    );
   }
 
   @override

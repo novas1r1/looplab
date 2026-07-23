@@ -138,6 +138,16 @@ class MetronomeTrackService {
     }
   }
 
+  /// Removes the entire mix cache. Called once at startup on Android, where
+  /// the native in-pipeline metronome replaced the baked track and the
+  /// cached full-song mixes are dead weight.
+  Future<void> clearAll() async {
+    final cacheRoot = await _cacheDirProvider();
+    if (cacheRoot.existsSync()) {
+      await cacheRoot.delete(recursive: true);
+    }
+  }
+
   /// Removes all cached mixes for a song (e.g. when the song is deleted).
   Future<void> clearForSong(String songId) async {
     final cacheRoot = await _cacheDirProvider();

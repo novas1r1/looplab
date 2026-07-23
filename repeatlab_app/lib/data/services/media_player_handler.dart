@@ -28,11 +28,26 @@ abstract class MediaPlayerHandler {
   Future<bool> setSpeed(double speed);
 
   /// Swaps the underlying audio file while preserving position, playing
-  /// state, speed and pitch. Used by the baked-click-track metronome to
-  /// switch between the original song and the song+click mix mid-session.
-  /// Video handlers may throw [UnsupportedError] — the cubit only routes
-  /// audio songs here.
+  /// state, speed and pitch. Used by the baked-click-track metronome (iOS)
+  /// to switch between the original song and the song+click mix
+  /// mid-session. Video handlers may throw [UnsupportedError] — the cubit
+  /// only routes audio songs here.
   Future<void> swapSourceFile(String path);
+
+  /// Configures the native in-pipeline metronome click track (clicks
+  /// synthesized inside the playback pipeline on the media-time beat grid,
+  /// sample-locked across seeks/loops/speed changes). Android audio only —
+  /// other handlers/platforms throw [UnsupportedError]; the cubit gates
+  /// callers accordingly. Pass `enabled: false` to silence the clicks.
+  Future<void> setNativeClickTrack({
+    required bool enabled,
+    int? bpm,
+    int? anchorMs,
+    int offsetMs,
+    int beatsPerBar,
+    int pulsesPerBeat,
+    double volume,
+  });
 
   /// Applies a pitch shift in semitones (-12..+12), independent of speed.
   /// Returns false if the platform rejected the change (the caller should

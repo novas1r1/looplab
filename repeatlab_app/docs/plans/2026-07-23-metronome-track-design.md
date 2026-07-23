@@ -1,9 +1,44 @@
 # Metronome track design (grid-locked clicks)
 
 **Date:** 2026-07-23
-**Status:** Option A implemented (same day). Option B stays a future
-candidate if toggle latency or stretched-click quality bothers real users.
+**Status:** Option A implemented (same day). Option B (native in-pipeline
+clicks) implemented for **Android** the same day — see below; iOS keeps
+Option A until an MTAudioProcessingTap follow-up.
 **Branch context:** `feat/metronome`
+
+## Option B implementation notes (Android, as built)
+
+Clicks are synthesized inside the playback pipeline by a new
+`ClickTrackAudioProcessor` in the audioplayers fork
+(`ap/packages/audioplayers_android_exo`), inserted **first** in the
+DefaultAudioSink processor chain — before the Signalsmith stretcher, where
+frames are pure media time at natural rate (ExoPlayer is pinned to 1.0×;
+speed lives in Signalsmith). A frame counter anchored by the wrapper on
+every seek/stop/setSource places clicks sample-exactly, independent of
+playback speed. Grid + synthesis math live in pure-Kotlin `ClickGrid` /
+`ClickSynth` (JVM unit tested), mirroring `ClickTrackRenderer`'s constants.
+
+Plumbing mirrors `setPitchShift`: `AudioPlayer.setClickTrack(...)` →
+platform interface (UnsupportedError default) → method channel →
+`WrappedPlayer.clickTrack` → `ExoPlayerWrapper` → processor (@Volatile
+immutable config; toggle/volume are instant, within one audio buffer).
+
+App side: `MediaPlayerHandler.setNativeClickTrack`, and `SongCubit` routes
+audio songs per platform — Android → native pipeline (live volume, ~50 ms
+coalesce on config resends, seeks/loops/speed are no-ops by construction),
+iOS → baked ffmpeg track (unchanged), video → live `precise_metronome`.
+`playSong` clears the processor grid so a new song never inherits the old
+one; the Android startup purges the now-dead baked-mix cache
+(`MetronomeTrackService.clearAll`).
+
+Known bounded imprecision: ExoPlayer resumes at the codec frame at/before a
+seek target (≤ ~26 ms constant per seek for AAC/MP3, 0 for WAV). If audible,
+the refinement is a ForwardingAudioSink feeding `presentationTimeUs` into
+the processor. `REPEAT_MODE_ONE` (gapless internal looping) is unsupported —
+the app loops via Dart-side seeks, which re-anchor correctly.
+
+Deferred: iOS MTAudioProcessingTap; post-stretch click placement (crisp
+clicks at extreme slowdown); ForwardingAudioSink precision fix.
 
 ## Implementation notes (Option A, as built)
 

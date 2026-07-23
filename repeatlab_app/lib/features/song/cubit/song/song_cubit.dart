@@ -162,6 +162,14 @@ class SongCubit extends Cubit<SongState> {
     _clickTrackRefreshTimer?.cancel();
     _clickTrackGeneration++;
 
+    // The audio handler is an app-lifetime singleton — silence the native
+    // click processor so it cannot outlive this song page.
+    if (handler != null &&
+        _usesNativeClickPipeline &&
+        state.isMetronomeEnabled) {
+      unawaited(_disableNativeClickTrack());
+    }
+
     // Clean up audio service if available
     await handler?.stop();
 
@@ -1388,7 +1396,11 @@ class SongCubit extends Cubit<SongState> {
         if (_usesClickTrack) {
           _clickTrackGeneration++;
           _clickTrackRefreshTimer?.cancel();
-          await _restoreOriginalSource();
+          if (_usesNativeClickPipeline) {
+            await _disableNativeClickTrack();
+          } else {
+            await _restoreOriginalSource();
+          }
         }
       }
     } catch (ex, stack) {
@@ -1515,11 +1527,24 @@ class SongCubit extends Cubit<SongState> {
   bool get isMetronomeSupported =>
       isMetronomeSupportedOverride ?? (Platform.isAndroid || Platform.isIOS);
 
-  /// Audio songs use the baked click track (clicks mixed into the audio
-  /// file, sample-locked across loops/seeks/speed changes); video songs
-  /// keep the live native metronome because their file cannot be swapped.
-  /// See docs/plans/2026-07-23-metronome-track-design.md.
+  /// Audio songs use a click track locked to the media timeline (instead of
+  /// the live free-running metronome, which video songs keep because their
+  /// file cannot be processed). See
+  /// docs/plans/2026-07-23-metronome-track-design.md.
   bool get _usesClickTrack => state.song.mediaType == MediaType.audio;
+
+  /// Test hook: forces the native-vs-baked click-track split, which is
+  /// platform-dependent (`Platform.isAndroid`) in production.
+  @visibleForTesting
+  bool? isNativeClickTrackSupportedOverride;
+
+  /// Android audio songs get the *native in-pipeline* click (synthesized in
+  /// the audioplayers fork's ExoPlayer processor — instant toggle/volume,
+  /// no mixing, no source swap). iOS audio songs keep the baked ffmpeg
+  /// click track until the MTAudioProcessingTap follow-up lands.
+  bool get _usesNativeClickPipeline =>
+      _usesClickTrack &&
+      (isNativeClickTrackSupportedOverride ?? Platform.isAndroid);
 
   /// Toggle the metronome on/off. Requires a BPM (the metronome panel shows
   /// a "set BPM first" prompt otherwise).
@@ -1544,6 +1569,16 @@ class SongCubit extends Cubit<SongState> {
     );
 
     try {
+      if (_usesNativeClickPipeline) {
+        if (enable) {
+          await _applyNativeClickTrack();
+        } else {
+          _clickTrackRefreshTimer?.cancel();
+          await _disableNativeClickTrack();
+        }
+        return;
+      }
+
       if (_usesClickTrack) {
         if (enable) {
           await _applyClickTrack();
@@ -1586,6 +1621,10 @@ class SongCubit extends Cubit<SongState> {
     try {
       if (!_usesClickTrack) {
         await _metronome.setVolume(clamped);
+      } else if (_usesNativeClickPipeline) {
+        // Native clicks change volume live while dragging (coalesced);
+        // baked clicks only re-mix on the settled value below.
+        _scheduleClickTrackRefresh();
       }
       if (persist) {
         await localConfigRepository.setMetronomeVolume(clamped);
@@ -2077,32 +2116,83 @@ class SongCubit extends Cubit<SongState> {
     });
   }
 
-  // ==================== BAKED CLICK TRACK (audio songs) ====================
+  // ==================== CLICK TRACK (audio songs) ====================
 
-  /// Debounce for click-track re-mixes after settings changes.
+  /// Debounce for baked-click-track re-mixes after settings changes.
   static const int _clickTrackRefreshDebounceMs = 600;
+
+  /// Coalesce window for native click-config resends (no mixing involved —
+  /// this only limits method-channel chatter from slider drags).
+  static const int _nativeClickRefreshDebounceMs = 50;
 
   /// Test hook shortening the click-track refresh debounce.
   @visibleForTesting
   int? clickTrackDebounceMsOverride;
 
-  /// Schedules a debounced re-mix + source swap after a grid/volume change.
+  /// Schedules a debounced refresh after a grid/volume change: a re-mix +
+  /// source swap on the baked path, a config resend on the native path.
   /// No-op unless the metronome is enabled in click-track mode.
   void _scheduleClickTrackRefresh() {
     if (!isMetronomeSupported || !_usesClickTrack || !state.isMetronomeEnabled) {
       return;
     }
 
+    final debounceMs = clickTrackDebounceMsOverride ??
+        (_usesNativeClickPipeline
+            ? _nativeClickRefreshDebounceMs
+            : _clickTrackRefreshDebounceMs);
     _clickTrackRefreshTimer?.cancel();
     _clickTrackRefreshTimer = Timer(
-      Duration(
-        milliseconds: clickTrackDebounceMsOverride ?? _clickTrackRefreshDebounceMs,
-      ),
+      Duration(milliseconds: debounceMs),
       () {
         if (isClosed || !state.isMetronomeEnabled) return;
-        unawaited(_applyClickTrack());
+        if (_usesNativeClickPipeline) {
+          unawaited(_applyNativeClickTrack());
+        } else {
+          unawaited(_applyClickTrack());
+        }
       },
     );
+  }
+
+  /// Sends the full grid config to the native in-pipeline click processor.
+  /// Instant: no mixing, no source swap — the processor picks the new
+  /// config up within one audio buffer.
+  Future<void> _applyNativeClickTrack() async {
+    final originalBpm = state.originalBpm;
+    if (originalBpm == null || originalBpm <= 0) return;
+
+    try {
+      await audioHandler.setNativeClickTrack(
+        enabled: state.isMetronomeEnabled,
+        bpm: originalBpm,
+        anchorMs: state.song.metronomeBeatAnchorMs,
+        offsetMs: state.song.metronomeOffsetMs,
+        beatsPerBar: state.song.metronomeBeatsPerBar,
+        pulsesPerBeat: state.metronomeSubdivision.pulsesPerBeat,
+        volume: state.metronomeVolume,
+      );
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      maybeEmit(
+        state.copyWith(
+          status: SongStatus.error,
+          isMetronomeEnabled: false,
+          error: 'Failed to configure metronome: $ex',
+        ),
+      );
+    }
+  }
+
+  /// Silences the native click processor (config cleared on the platform
+  /// side). Failures are reported but never surface — disabling must not
+  /// error the UI.
+  Future<void> _disableNativeClickTrack() async {
+    try {
+      await audioHandler.setNativeClickTrack(enabled: false);
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+    }
   }
 
   /// Mixes (or fetches from cache) the song+click file for the current
@@ -2162,9 +2252,16 @@ class SongCubit extends Cubit<SongState> {
     }
   }
 
-  /// `playSong` reloads the *original* file, silently dropping the click
-  /// mix — re-apply it (cache hit, so this is just a source swap).
+  /// `playSong` drops the click state: on the native path the handler
+  /// clears the processor's grid, on the baked path the original file is
+  /// reloaded. Re-apply whichever the song uses.
   void _reapplyClickTrackAfterSongReload() {
+    if (_usesNativeClickPipeline) {
+      if (state.isMetronomeEnabled) {
+        unawaited(_applyNativeClickTrack());
+      }
+      return;
+    }
     if (!_isClickTrackSourceActive) return;
     _isClickTrackSourceActive = false;
     if (_usesClickTrack && state.isMetronomeEnabled) {
