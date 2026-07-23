@@ -66,8 +66,8 @@ class _SongControlsCardState extends State<SongControlsCard> {
               ),
               const SizedBox(width: 8),
               SizedBox(
-                height: 32,
-                width: 32,
+                height: 40,
+                width: 40,
                 child: IconButton(
                   key: const Key('song.controls.expand'),
                   padding: EdgeInsets.zero,

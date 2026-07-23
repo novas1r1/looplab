@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/musical_key.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
@@ -57,7 +56,6 @@ class _PitchControlSliderState extends State<PitchControlSlider> {
     return ControlStepper(
       value: _formatSemitones(pitch),
       subtitle: _subtitle(context),
-      valueColor: AppColors.primary,
       decrementKey: const Key('song.pitch.semitoneMinus'),
       incrementKey: const Key('song.pitch.semitonePlus'),
       onDecrement: pitch > min

@@ -63,7 +63,7 @@ class _SpeedControlMultiplierModeState
               style: context.displaySmall.copyWith(
                 fontWeight: FontWeight.w700,
                 height: 1,
-                color: AppColors.primary,
+                color: AppColors.onSurface,
               ),
             ),
             const SizedBox(height: 4),

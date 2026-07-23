@@ -60,7 +60,7 @@ class SpeedPanel extends StatelessWidget {
                 IconButton(
                   key: const Key('song.speed.reset'),
                   padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+                  constraints: const BoxConstraints(minWidth: 40, minHeight: 40),
                   onPressed: () => context.read<SongCubit>().resetSpeed(),
                   icon: const Icon(
                     Icons.refresh_rounded,

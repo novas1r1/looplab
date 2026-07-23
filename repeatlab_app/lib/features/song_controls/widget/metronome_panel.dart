@@ -8,7 +8,6 @@ import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
-import 'package:repeatlab/features/song_controls/widget/metronome_beat_dots.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
 /// Metronome section shown at the bottom of the Tempo tab (below a divider).
@@ -87,12 +86,6 @@ class _MetronomePanelState extends State<MetronomePanel> {
             const Divider(height: 24, color: AppColors.outlineVariant),
             _header(context, data, hasBpm: hasBpm),
             if (data.isEnabled && hasBpm) ...[
-              const SizedBox(height: 12),
-              MetronomeBeatDots(
-                beatsPerBar: data.beatsPerBar,
-                bpm: data.currentBpm!,
-                isRunning: data.isPlaying,
-              ),
               const SizedBox(height: 12),
               _timeSignatureRow(context, data),
               const SizedBox(height: 8),

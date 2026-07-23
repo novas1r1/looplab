@@ -46,23 +46,20 @@ class _PitchControlKeyModeState extends State<PitchControlKeyMode> {
                 maxFontSize: 20,
                 style: context.labelLarge.copyWith(fontStyle: FontStyle.italic),
               ),
-              Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: DropdownButtonFormField<String>(
-                  key: const Key('song.pitch.keyOriginal'),
-                  decoration: InputDecoration(
-                    labelText: context.l10n.originalKey,
-                  ),
-                  items: MusicalKey.allKeys
-                      .map(
-                        (key) => DropdownMenuItem(
-                          value: key,
-                          child: Text(MusicalKey.displayLabel(key)),
-                        ),
-                      )
-                      .toList(),
-                  onChanged: (value) => _onSetOriginalKey(context, value),
+              DropdownButtonFormField<String>(
+                key: const Key('song.pitch.keyOriginal'),
+                decoration: InputDecoration(
+                  labelText: context.l10n.originalKey,
                 ),
+                items: MusicalKey.allKeys
+                    .map(
+                      (key) => DropdownMenuItem(
+                        value: key,
+                        child: Text(MusicalKey.displayLabel(key)),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (value) => _onSetOriginalKey(context, value),
               ),
             ],
           );
@@ -74,7 +71,7 @@ class _PitchControlKeyModeState extends State<PitchControlKeyMode> {
         final targetKeys = MusicalKey.sameModeKeys(originalKey);
 
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8).copyWith(right: 8),
+          padding: const EdgeInsets.symmetric(vertical: 8),
           child: Column(
             children: [
               Row(
