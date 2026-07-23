@@ -353,6 +353,125 @@ void main() {
     expect(seekCalls, [const Duration(seconds: 2)]);
   });
 
+  test(
+    'loop mode does not restart while paused so the loop end stays editable',
+    () async {
+      final handler = RepeatlabAudioplayersServiceHandler(
+        audioPlayer: audioPlayer,
+      );
+      addTearDown(handler.close);
+
+      // Paused: the user is dragging the playhead to set a new loop end.
+      when(() => audioPlayer.state).thenReturn(PlayerState.paused);
+
+      final seekCalls = <Duration>[];
+      when(() => audioPlayer.seek(any<Duration>())).thenAnswer((
+        invocation,
+      ) async {
+        seekCalls.add(invocation.positionalArguments.first as Duration);
+      });
+
+      const loop = Loop(
+        id: 1,
+        name: 'Loop 1',
+        songId: 'song-1',
+        color: LoopColor.green,
+        start: Duration(seconds: 2),
+        end: Duration(seconds: 4),
+      );
+
+      await handler.enableLoopMode(loop);
+      await Future<void>.delayed(Duration.zero);
+      seekCalls.clear();
+
+      // Dragging the playhead past the loop end emits a position update. While
+      // paused it must NOT snap back to start — otherwise the playhead can never
+      // be parked past the end to set a new one.
+      positionController.add(const Duration(seconds: 5));
+      await Future<void>.delayed(Duration.zero);
+
+      expect(seekCalls, isEmpty);
+    },
+  );
+
+  test(
+    'enabling a loop while paused does not force the playhead into bounds',
+    () async {
+      final handler = RepeatlabAudioplayersServiceHandler(
+        audioPlayer: audioPlayer,
+      );
+      addTearDown(handler.close);
+
+      // Paused with the playhead sitting at the freshly-set loop end — this is
+      // exactly the setLoopEnd re-sync path. It must not yank back to start.
+      when(() => audioPlayer.state).thenReturn(PlayerState.paused);
+      when(
+        () => audioPlayer.getCurrentPosition(),
+      ).thenAnswer((_) async => const Duration(seconds: 4));
+
+      final seekCalls = <Duration>[];
+      when(() => audioPlayer.seek(any<Duration>())).thenAnswer((
+        invocation,
+      ) async {
+        seekCalls.add(invocation.positionalArguments.first as Duration);
+      });
+
+      const loop = Loop(
+        id: 1,
+        name: 'Loop 1',
+        songId: 'song-1',
+        color: LoopColor.green,
+        start: Duration(seconds: 2),
+        end: Duration(seconds: 4),
+      );
+
+      await handler.enableLoopMode(loop);
+      await Future<void>.delayed(Duration.zero);
+
+      expect(seekCalls, isEmpty);
+    },
+  );
+
+  test('loop mode resumes wrapping once playback restarts', () async {
+    final handler = RepeatlabAudioplayersServiceHandler(
+      audioPlayer: audioPlayer,
+    );
+    addTearDown(handler.close);
+
+    when(() => audioPlayer.state).thenReturn(PlayerState.paused);
+
+    final seekCalls = <Duration>[];
+    when(() => audioPlayer.seek(any<Duration>())).thenAnswer((
+      invocation,
+    ) async {
+      seekCalls.add(invocation.positionalArguments.first as Duration);
+    });
+
+    const loop = Loop(
+      id: 1,
+      name: 'Loop 1',
+      songId: 'song-1',
+      color: LoopColor.green,
+      start: Duration(seconds: 2),
+      end: Duration(seconds: 4),
+    );
+
+    await handler.enableLoopMode(loop);
+    await Future<void>.delayed(Duration.zero);
+    seekCalls.clear();
+
+    // Guard is state-based, not permanent: crossing the end while paused is
+    // ignored, but the same event while playing wraps back to the loop start.
+    positionController.add(const Duration(seconds: 5));
+    await Future<void>.delayed(Duration.zero);
+    expect(seekCalls, isEmpty);
+
+    when(() => audioPlayer.state).thenReturn(PlayerState.playing);
+    positionController.add(const Duration(seconds: 5));
+    await Future<void>.delayed(Duration.zero);
+    expect(seekCalls, [const Duration(seconds: 2)]);
+  });
+
   test('setPitchSemitones clamps and sends the semitone multiplier', () async {
     final handler = RepeatlabAudioplayersServiceHandler(
       audioPlayer: audioPlayer,

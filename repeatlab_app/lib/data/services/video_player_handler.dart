@@ -479,6 +479,12 @@ class VideoPlayerHandler implements MediaPlayerHandler {
     final end = loop.end;
     if (start == null || end == null) return;
 
+    // Only enforce the loop wrap during active playback — see the audio handler
+    // for the rationale. While paused the user must be able to drag the playhead
+    // outside the loop to move its start/end; resume() handles jumping back into
+    // the loop when playback starts.
+    if (!player.state.playing) return;
+
     if (position >= end) {
       if (_loopSeekInProgress) return;
       _loopSeekInProgress = true;
@@ -520,6 +526,11 @@ class VideoPlayerHandler implements MediaPlayerHandler {
     final start = loop.start;
     final end = loop.end;
     if (start == null || end == null) return;
+
+    // Only pull the playhead into the loop while playing — see the audio
+    // handler for the rationale. Paused editing must leave the playhead where
+    // the user put it; resume() jumps into the loop when playback starts.
+    if (!player.state.playing) return;
 
     final pos = player.state.position;
     if (pos >= end || pos < start) {

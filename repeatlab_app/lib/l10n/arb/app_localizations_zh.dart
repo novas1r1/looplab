@@ -905,47 +905,46 @@ class AppLocalizationsZh extends AppLocalizations {
   String get metronomeGoToBpm => '设置BPM';
 
   @override
-  String get metronomeAdvanced => 'Advanced';
+  String get metronomeAdvanced => '高级';
 
   @override
-  String get off => 'off';
+  String get off => '关闭';
 
   @override
-  String get pitchSemitone => 'Semitone';
+  String get pitchSemitone => '半音';
 
   @override
-  String get semitones => 'Semitones';
+  String get semitones => '半音';
 
   @override
-  String get pitchUnchanged => 'pitch unchanged';
+  String get pitchUnchanged => '音高不变';
 
   @override
-  String get tapTempo => 'Tap Tempo';
+  String get tapTempo => '点击速度';
 
   @override
   String songBpmValue(int bpm) {
-    return 'Song BPM $bpm';
+    return '歌曲 BPM $bpm';
   }
 
   @override
-  String get retap => 'retap';
+  String get retap => '重新点击';
 
   @override
-  String get edit => 'Edit';
+  String get edit => '编辑';
 
   @override
-  String get setSongTempoHint =>
-      'Set the song\'s tempo to adjust playback by beats per minute.';
+  String get setSongTempoHint => '设置歌曲的速度，以每分钟节拍数调整播放。';
 
   @override
-  String get bpmTapHint => 'Tap the pad in time with the beat';
+  String get bpmTapHint => '跟着节拍点击';
 
   @override
-  String get bpmTapUnit => 'BPM · tap';
+  String get bpmTapUnit => 'BPM · 点击';
 
   @override
   String useBpmValue(int bpm) {
-    return 'Use $bpm';
+    return '使用 $bpm';
   }
 
   @override

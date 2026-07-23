@@ -963,47 +963,47 @@ class AppLocalizationsRu extends AppLocalizations {
   String get metronomeGoToBpm => 'Указать BPM';
 
   @override
-  String get metronomeAdvanced => 'Advanced';
+  String get metronomeAdvanced => 'Дополнительно';
 
   @override
-  String get off => 'off';
+  String get off => 'выкл.';
 
   @override
-  String get pitchSemitone => 'Semitone';
+  String get pitchSemitone => 'Полутон';
 
   @override
-  String get semitones => 'Semitones';
+  String get semitones => 'Полутоны';
 
   @override
-  String get pitchUnchanged => 'pitch unchanged';
+  String get pitchUnchanged => 'высота без изменений';
 
   @override
-  String get tapTempo => 'Tap Tempo';
+  String get tapTempo => 'Отстучать темп';
 
   @override
   String songBpmValue(int bpm) {
-    return 'Song BPM $bpm';
+    return 'BPM песни $bpm';
   }
 
   @override
-  String get retap => 'retap';
+  String get retap => 'отстучать заново';
 
   @override
-  String get edit => 'Edit';
+  String get edit => 'Изменить';
 
   @override
   String get setSongTempoHint =>
-      'Set the song\'s tempo to adjust playback by beats per minute.';
+      'Задайте темп песни, чтобы регулировать воспроизведение в ударах в минуту.';
 
   @override
-  String get bpmTapHint => 'Tap the pad in time with the beat';
+  String get bpmTapHint => 'Стучите по площадке в ритм';
 
   @override
-  String get bpmTapUnit => 'BPM · tap';
+  String get bpmTapUnit => 'BPM · стук';
 
   @override
   String useBpmValue(int bpm) {
-    return 'Use $bpm';
+    return 'Исп. $bpm';
   }
 
   @override

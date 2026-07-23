@@ -147,16 +147,33 @@ class _MetronomePanelState extends State<MetronomePanel> {
               ),
             ),
           ),
-        if (data.isEnabled && hasBpm)
+        if (data.isEnabled && hasBpm) ...[
+          _advancedButton(context),
+          const SizedBox(width: 4),
           CupertinoSwitch(
             key: const Key('song.metronome.toggle'),
             value: data.isEnabled,
             activeTrackColor: AppColors.primaryContainer,
             onChanged: (_) => _onToggle(context),
-          )
-        else
+          ),
+        ] else
           _enableButton(context, enabled: hasBpm),
       ],
+    );
+  }
+
+  /// Gear toggle for the advanced controls, shown beside the on/off switch.
+  Widget _advancedButton(BuildContext context) {
+    return IconButton(
+      key: const Key('song.metronome.advancedToggle'),
+      visualDensity: VisualDensity.compact,
+      onPressed: () => setState(() => _advancedExpanded = !_advancedExpanded),
+      icon: Icon(
+        _advancedExpanded ? Icons.settings_rounded : Icons.settings_outlined,
+        size: 20,
+        color: _advancedExpanded ? AppColors.primary : AppColors.secondaryFixed,
+      ),
+      tooltip: context.l10n.metronomeAdvanced,
     );
   }
 
@@ -326,44 +343,21 @@ class _MetronomePanelState extends State<MetronomePanel> {
     }) data, {
     required bool hasPremium,
   }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Align(
-          alignment: Alignment.centerRight,
-          child: IconButton(
-            key: const Key('song.metronome.advancedToggle'),
-            visualDensity: VisualDensity.compact,
-            onPressed: () =>
-                setState(() => _advancedExpanded = !_advancedExpanded),
-            icon: Icon(
-              _advancedExpanded
-                  ? Icons.settings_rounded
-                  : Icons.settings_outlined,
-              size: 20,
-              color: _advancedExpanded
-                  ? AppColors.primary
-                  : AppColors.secondaryFixed,
-            ),
-            tooltip: context.l10n.metronomeAdvanced,
-          ),
-        ),
-        AnimatedCrossFade(
-          duration: const Duration(milliseconds: 180),
-          crossFadeState: _advancedExpanded
-              ? CrossFadeState.showSecond
-              : CrossFadeState.showFirst,
-          firstChild: const SizedBox(width: double.infinity),
-          secondChild: Column(
-            spacing: 8,
-            children: [
-              _subdivisionRow(context, data, hasPremium: hasPremium),
-              _alignmentRow(context, data, hasPremium: hasPremium),
-              _nudgeRow(context, data, hasPremium: hasPremium),
-            ],
-          ),
-        ),
-      ],
+    return AnimatedCrossFade(
+      duration: const Duration(milliseconds: 180),
+      crossFadeState: _advancedExpanded
+          ? CrossFadeState.showSecond
+          : CrossFadeState.showFirst,
+      firstChild: const SizedBox(width: double.infinity),
+      secondChild: Column(
+        spacing: 8,
+        children: [
+          const SizedBox(height: 4),
+          _subdivisionRow(context, data, hasPremium: hasPremium),
+          _alignmentRow(context, data, hasPremium: hasPremium),
+          _nudgeRow(context, data, hasPremium: hasPremium),
+        ],
+      ),
     );
   }
 

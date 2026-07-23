@@ -805,6 +805,12 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     final end = loop.end;
     if (start == null || end == null) return;
 
+    // Only enforce the loop wrap during active playback. While paused, the user
+    // may drag the playhead past the loop end to set a new end — snapping back
+    // to start here would make the loop impossible to edit. (The play button
+    // handles jumping back into the loop via resume().)
+    if (audioPlayer.state != PlayerState.playing) return;
+
     if (position >= end) {
       if (_loopSeekInProgress) {
         return;
@@ -930,6 +936,12 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     final start = loop.start;
     final end = loop.end;
     if (start == null || end == null) return;
+
+    // Only pull the playhead into the loop while playing. When paused — e.g.
+    // right after the user parks the playhead at a new end via setLoopEnd — a
+    // forced seek to start would fight editing. resume() handles jumping into
+    // the loop when playback actually starts.
+    if (audioPlayer.state != PlayerState.playing) return;
 
     final currentPosition =
         await audioPlayer.getCurrentPosition() ?? Duration.zero;

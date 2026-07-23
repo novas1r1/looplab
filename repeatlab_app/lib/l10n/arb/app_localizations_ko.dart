@@ -920,47 +920,46 @@ class AppLocalizationsKo extends AppLocalizations {
   String get metronomeGoToBpm => 'BPM 설정';
 
   @override
-  String get metronomeAdvanced => 'Advanced';
+  String get metronomeAdvanced => '고급';
 
   @override
-  String get off => 'off';
+  String get off => '꺼짐';
 
   @override
-  String get pitchSemitone => 'Semitone';
+  String get pitchSemitone => '반음';
 
   @override
-  String get semitones => 'Semitones';
+  String get semitones => '반음';
 
   @override
-  String get pitchUnchanged => 'pitch unchanged';
+  String get pitchUnchanged => '피치 변경 없음';
 
   @override
-  String get tapTempo => 'Tap Tempo';
+  String get tapTempo => '탭 템포';
 
   @override
   String songBpmValue(int bpm) {
-    return 'Song BPM $bpm';
+    return '곡 BPM $bpm';
   }
 
   @override
-  String get retap => 'retap';
+  String get retap => '다시 탭';
 
   @override
-  String get edit => 'Edit';
+  String get edit => '편집';
 
   @override
-  String get setSongTempoHint =>
-      'Set the song\'s tempo to adjust playback by beats per minute.';
+  String get setSongTempoHint => '곡의 템포를 설정하여 분당 박자 수로 재생을 조정하세요.';
 
   @override
-  String get bpmTapHint => 'Tap the pad in time with the beat';
+  String get bpmTapHint => '박자에 맞춰 패드를 탭하세요';
 
   @override
-  String get bpmTapUnit => 'BPM · tap';
+  String get bpmTapUnit => 'BPM · 탭';
 
   @override
   String useBpmValue(int bpm) {
-    return 'Use $bpm';
+    return '$bpm 사용';
   }
 
   @override

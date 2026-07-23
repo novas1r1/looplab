@@ -641,6 +641,14 @@ class SongCubit extends Cubit<SongState> {
 
     dev.log('setLoopStart to $currentPosition');
 
+    // Push the new bounds to the handler immediately (mirrors setLoopEnd) so a
+    // subsequent play resumes from the new start rather than the stale one.
+    if (state.isLoopModeEnabled) {
+      audioHandler.customAction('enableLoop', {
+        'loop': activeLoop.copyWith(start: currentPosition),
+      });
+    }
+
     await updateLoop(activeLoop.copyWith(start: currentPosition));
   }
 

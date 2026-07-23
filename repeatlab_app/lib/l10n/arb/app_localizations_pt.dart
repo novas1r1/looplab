@@ -966,47 +966,47 @@ class AppLocalizationsPt extends AppLocalizations {
   String get metronomeGoToBpm => 'Definir BPM';
 
   @override
-  String get metronomeAdvanced => 'Advanced';
+  String get metronomeAdvanced => 'Avançado';
 
   @override
-  String get off => 'off';
+  String get off => 'desligado';
 
   @override
-  String get pitchSemitone => 'Semitone';
+  String get pitchSemitone => 'Semitom';
 
   @override
-  String get semitones => 'Semitones';
+  String get semitones => 'Semitons';
 
   @override
-  String get pitchUnchanged => 'pitch unchanged';
+  String get pitchUnchanged => 'tom inalterado';
 
   @override
-  String get tapTempo => 'Tap Tempo';
+  String get tapTempo => 'Marcar tempo';
 
   @override
   String songBpmValue(int bpm) {
-    return 'Song BPM $bpm';
+    return 'BPM da música $bpm';
   }
 
   @override
-  String get retap => 'retap';
+  String get retap => 'marcar de novo';
 
   @override
-  String get edit => 'Edit';
+  String get edit => 'Editar';
 
   @override
   String get setSongTempoHint =>
-      'Set the song\'s tempo to adjust playback by beats per minute.';
+      'Defina o tempo da música para ajustar a reprodução em batidas por minuto.';
 
   @override
-  String get bpmTapHint => 'Tap the pad in time with the beat';
+  String get bpmTapHint => 'Toque no painel no ritmo da batida';
 
   @override
-  String get bpmTapUnit => 'BPM · tap';
+  String get bpmTapUnit => 'BPM · toque';
 
   @override
   String useBpmValue(int bpm) {
-    return 'Use $bpm';
+    return 'Usar $bpm';
   }
 
   @override
