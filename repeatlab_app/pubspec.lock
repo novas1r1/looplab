@@ -1062,10 +1062,10 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: dbb0f6e78ac821ea1c8eb3e170f42e3a5ad0ba6c
+      resolved-ref: "32401e0e625829b3fbdffdc5846458785e55e6cc"
       url: "https://github.com/novas1r1/precise_metronome.git"
     source: git
-    version: "0.3.0"
+    version: "0.3.1"
   process:
     dependency: transitive
     description:
