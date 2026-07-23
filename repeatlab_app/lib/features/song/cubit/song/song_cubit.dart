@@ -20,6 +20,7 @@ import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:repeatlab/data/services/audio_service_provider.dart';
 import 'package:repeatlab/data/services/media_player_handler.dart';
+import 'package:repeatlab/data/services/metronome_track_service.dart';
 import 'package:repeatlab/data/services/repeatlab_audioplayers_service_handler.dart';
 import 'package:repeatlab/data/services/song_metronome.dart';
 
@@ -35,8 +36,13 @@ class SongCubit extends Cubit<SongState> {
   final CrashReportingRepository crashReportingRepository;
 
   /// Native metronome wrapper. Injected in tests; lazily initialized on first
-  /// use, so unsupported platforms never touch the plugin.
+  /// use, so unsupported platforms never touch the plugin. Only used for
+  /// video songs — audio songs use the baked click track instead.
   final SongMetronome _metronome;
+
+  /// Renders + mixes the baked click track for audio songs. Injected in
+  /// tests so no ffmpeg/path_provider plugins are touched.
+  final MetronomeTrackService _trackService;
 
   static const double _minPlaybackSpeed = 0.5;
   static const double _maxPlaybackSpeed = 2.0;
@@ -88,6 +94,28 @@ class SongCubit extends Cubit<SongState> {
   final List<int> _tapPositionsMs = [];
   Timer? _tapSettleTimer;
 
+  /// Serializes metronome start/stop against each other. An aligned start
+  /// awaits the player position mid-flight; without ordering, a stop
+  /// (pause/completed) issued during that await could be overtaken by the
+  /// stale start — leaving the click running over silence.
+  Future<void> _metronomeCommandQueue = Future<void>.value();
+
+  /// Bumped on every stop/dispose; an in-flight aligned start aborts when
+  /// its captured generation is stale.
+  int _metronomeGeneration = 0;
+
+  /// Debounces click-track re-mixes so a burst of settings changes (nudge
+  /// taps, volume slider) mixes once, not per tap.
+  Timer? _clickTrackRefreshTimer;
+
+  /// Bumped whenever the click track must not be applied anymore (toggle
+  /// off, close); an in-flight mix aborts when its generation is stale.
+  int _clickTrackGeneration = 0;
+
+  /// Whether the player is currently fed the song+click mix instead of the
+  /// original file — the flag that tells disable to swap back.
+  bool _isClickTrackSourceActive = false;
+
   Duration? positionToSeek;
 
   Future<Duration> get position async => await audioHandler.position;
@@ -98,7 +126,9 @@ class SongCubit extends Cubit<SongState> {
     required this.localConfigRepository,
     required this.crashReportingRepository,
     SongMetronome? metronome,
+    MetronomeTrackService? trackService,
   }) : _metronome = metronome ?? SongMetronome(),
+       _trackService = trackService ?? MetronomeTrackService(),
        super(SongState(song: song)) {
     loopsStreamController = StreamController<List<Loop>>.broadcast();
     // clear the stream
@@ -129,11 +159,17 @@ class SongCubit extends Cubit<SongState> {
     await _seekEventsSubscription?.cancel();
     _gridRealignTimer?.cancel();
     _tapSettleTimer?.cancel();
+    _clickTrackRefreshTimer?.cancel();
+    _clickTrackGeneration++;
 
     // Clean up audio service if available
     await handler?.stop();
 
-    await _metronome.dispose();
+    // Serialized behind any in-flight metronome command; the generation
+    // bump aborts a pending aligned start so it cannot resurrect the
+    // engine after dispose.
+    _metronomeGeneration++;
+    await _enqueueMetronomeCommand(_metronome.dispose);
 
     return super.close();
   }
@@ -487,12 +523,14 @@ class SongCubit extends Cubit<SongState> {
           await audioHandler.playSong(state.song);
           _syncSpeedStateAfterSongReload();
           await _reapplyPitchAfterSongReload();
+          _reapplyClickTrackAfterSongReload();
         case null:
           // Initialize the audio handler if it's null
           // This resets speed to 1.0 and pitch to 0, so sync UI state
           await audioHandler.playSong(state.song);
           _syncSpeedStateAfterSongReload();
           await _reapplyPitchAfterSongReload();
+          _reapplyClickTrackAfterSongReload();
       }
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
@@ -984,6 +1022,10 @@ class SongCubit extends Cubit<SongState> {
 
     try {
       await songRepository.deleteSong(state.song);
+      // Cached click mixes for a deleted song are dead weight.
+      unawaited(
+        _trackService.clearForSong(state.song.id).catchError((Object _) {}),
+      );
       loopsStreamController?.close();
       emit(
         state.copyWith(
@@ -1325,6 +1367,8 @@ class SongCubit extends Cubit<SongState> {
         await audioHandler.setSpeed(1.0);
 
         unawaited(_realignMetronome(MetronomeRealignReason.tempoChanged));
+        // A new original BPM changes the baked beat grid entirely.
+        _scheduleClickTrackRefresh();
       } else {
         // Clear all BPM-related state. Without a BPM the metronome has no
         // tempo to click at — force it off.
@@ -1340,7 +1384,12 @@ class SongCubit extends Cubit<SongState> {
             error: null,
           ),
         );
-        await _metronome.stop();
+        await _stopMetronome();
+        if (_usesClickTrack) {
+          _clickTrackGeneration++;
+          _clickTrackRefreshTimer?.cancel();
+          await _restoreOriginalSource();
+        }
       }
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
@@ -1460,15 +1509,24 @@ class SongCubit extends Cubit<SongState> {
   @visibleForTesting
   bool? isMetronomeSupportedOverride;
 
-  /// Whether the metronome works on this platform. `precise_metronome` ships
-  /// iOS + Android implementations only; the metronome tab hides itself
-  /// elsewhere (mirrors [isPitchControlSupported]).
+  /// Whether the metronome works on this platform. `precise_metronome` and
+  /// `ffmpeg_kit` ship iOS + Android implementations only; the metronome tab
+  /// hides itself elsewhere (mirrors [isPitchControlSupported]).
   bool get isMetronomeSupported =>
       isMetronomeSupportedOverride ?? (Platform.isAndroid || Platform.isIOS);
 
+  /// Audio songs use the baked click track (clicks mixed into the audio
+  /// file, sample-locked across loops/seeks/speed changes); video songs
+  /// keep the live native metronome because their file cannot be swapped.
+  /// See docs/plans/2026-07-23-metronome-track-design.md.
+  bool get _usesClickTrack => state.song.mediaType == MediaType.audio;
+
   /// Toggle the metronome on/off. Requires a BPM (the metronome panel shows
-  /// a "set BPM first" prompt otherwise). When enabled mid-playback the
-  /// click starts immediately; otherwise it starts with the next play.
+  /// a "set BPM first" prompt otherwise).
+  ///
+  /// Audio songs: swaps the player source to the song+click mix (mixing it
+  /// first if not cached — [SongState.isMetronomeGenerating] covers the
+  /// wait). Video songs: starts/stops the live click.
   Future<void> toggleMetronome() async {
     if (!isMetronomeSupported) return;
 
@@ -1486,10 +1544,21 @@ class SongCubit extends Cubit<SongState> {
     );
 
     try {
+      if (_usesClickTrack) {
+        if (enable) {
+          await _applyClickTrack();
+        } else {
+          _clickTrackGeneration++;
+          _clickTrackRefreshTimer?.cancel();
+          await _restoreOriginalSource();
+        }
+        return;
+      }
+
       if (enable && state.playerState == PlayerState.playing) {
         await _realignMetronome(MetronomeRealignReason.playStarted);
       } else if (!enable) {
-        await _metronome.stop();
+        await _stopMetronome();
       }
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
@@ -1505,6 +1574,9 @@ class SongCubit extends Cubit<SongState> {
 
   /// Live volume change while dragging. Pass [persist] true (e.g. from the
   /// slider's onChangeEnd) to write the global preference.
+  ///
+  /// Click-track mode: the click gain is baked into the mix, so only the
+  /// settled value (persist) triggers a re-mix — dragging just updates state.
   Future<void> setMetronomeVolume(double volume, {bool persist = false}) async {
     if (!isMetronomeSupported) return;
 
@@ -1512,9 +1584,12 @@ class SongCubit extends Cubit<SongState> {
     emit(state.copyWith(metronomeVolume: clamped));
 
     try {
-      await _metronome.setVolume(clamped);
+      if (!_usesClickTrack) {
+        await _metronome.setVolume(clamped);
+      }
       if (persist) {
         await localConfigRepository.setMetronomeVolume(clamped);
+        _scheduleClickTrackRefresh();
       }
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
@@ -1540,7 +1615,9 @@ class SongCubit extends Cubit<SongState> {
         ),
       );
 
-      if (_metronome.isRunning) {
+      if (_usesClickTrack) {
+        _scheduleClickTrackRefresh();
+      } else if (_metronome.isRunning) {
         await _realignMetronome(MetronomeRealignReason.playStarted);
       }
     } catch (ex, stack) {
@@ -1562,15 +1639,20 @@ class SongCubit extends Cubit<SongState> {
 
     try {
       await localConfigRepository.setMetronomeSubdivision(subdivision.name);
-      await _metronome.setSubdivision(subdivision.pulsesPerBeat);
+      if (_usesClickTrack) {
+        _scheduleClickTrackRefresh();
+      } else {
+        await _metronome.setSubdivision(subdivision.pulsesPerBeat);
+      }
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
     }
   }
 
-  /// Nudge the click grid by [deltaMs] (negative = earlier). Applied live
-  /// while running and accumulated into the song's persisted offset so the
-  /// alignment survives reopening the song.
+  /// Nudge the click grid by [deltaMs] (negative = earlier), accumulated
+  /// into the song's persisted offset so the alignment survives reopening
+  /// the song. Live path: applied to the running click. Click-track path:
+  /// the grid shift is baked into a (debounced) re-mix.
   Future<void> nudgeMetronome(int deltaMs) async {
     if (!isMetronomeSupported) return;
 
@@ -1587,7 +1669,11 @@ class SongCubit extends Cubit<SongState> {
         ),
       );
 
-      await _metronome.nudge(Duration(milliseconds: deltaMs));
+      if (_usesClickTrack) {
+        _scheduleClickTrackRefresh();
+      } else {
+        await _metronome.nudge(Duration(milliseconds: deltaMs));
+      }
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
       emit(
@@ -1632,7 +1718,11 @@ class SongCubit extends Cubit<SongState> {
         ),
       );
 
-      await _metronome.nudge(Duration(milliseconds: halfBeatWallMs));
+      if (_usesClickTrack) {
+        _scheduleClickTrackRefresh();
+      } else {
+        await _metronome.nudge(Duration(milliseconds: halfBeatWallMs));
+      }
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
       emit(
@@ -1742,7 +1832,9 @@ class SongCubit extends Cubit<SongState> {
         data: {'tap_count': taps.length},
       );
 
-      if (state.isMetronomeEnabled &&
+      if (_usesClickTrack) {
+        _scheduleClickTrackRefresh();
+      } else if (state.isMetronomeEnabled &&
           state.playerState == PlayerState.playing) {
         await _startMetronomeAligned();
       }
@@ -1800,7 +1892,9 @@ class SongCubit extends Cubit<SongState> {
         ),
       );
 
-      if (_metronome.isRunning) {
+      if (_usesClickTrack) {
+        _scheduleClickTrackRefresh();
+      } else if (_metronome.isRunning) {
         await _startMetronomeAligned();
       }
     } catch (ex, stack) {
@@ -1815,15 +1909,17 @@ class SongCubit extends Cubit<SongState> {
   }
 
   /// Follows playback state — the metronome only clicks while the song
-  /// plays (no standalone mode in v1).
+  /// plays (no standalone mode in v1). Click-track mode needs none of this:
+  /// the clicks live inside the audio stream and pause/resume with it.
   Future<void> _syncMetronomeToPlayback(PlayerState playerState) async {
     if (!isMetronomeSupported || !state.isMetronomeEnabled) return;
+    if (_usesClickTrack) return;
 
     try {
       if (playerState == PlayerState.playing) {
         await _realignMetronome(MetronomeRealignReason.playStarted);
       } else {
-        await _metronome.stop();
+        await _stopMetronome();
       }
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
@@ -1845,10 +1941,12 @@ class SongCubit extends Cubit<SongState> {
   /// phase-preserving setTempo and realigns once afterwards.
   static const int _tempoRealignSettleMs = 400;
 
-  /// Single code path for (re)aligning the click grid to playback. All
-  /// playback events that could move the beat grid route through here.
+  /// Single code path for (re)aligning the live click grid to playback
+  /// (video songs only). Click-track mode is immune to seeks/loops/tempo by
+  /// construction, so all realign reasons are no-ops there.
   Future<void> _realignMetronome(MetronomeRealignReason reason) async {
     if (!isMetronomeSupported || !state.isMetronomeEnabled) return;
+    if (_usesClickTrack) return;
 
     final bpm = state.currentBpm;
     if (bpm == null || bpm <= 0) return;
@@ -1900,43 +1998,192 @@ class SongCubit extends Cubit<SongState> {
     );
   }
 
+  /// Appends [command] to the serial metronome queue. A failed command is
+  /// surfaced to its caller but never blocks later commands.
+  Future<void> _enqueueMetronomeCommand(Future<void> Function() command) {
+    final next = _metronomeCommandQueue.then((_) => command());
+    _metronomeCommandQueue = next.then<void>(
+      (_) {},
+      onError: (Object _) {},
+    );
+    return next;
+  }
+
+  /// Stops the click. Always routed through the command queue and always
+  /// invalidates any in-flight aligned start — a stop must win every race
+  /// against a start, or the click keeps running over paused music.
+  Future<void> _stopMetronome() {
+    _metronomeGeneration++;
+    _gridRealignTimer?.cancel();
+    return _enqueueMetronomeCommand(_metronome.stop);
+  }
+
+  /// Whether an aligned start captured at [generation] must abort: the
+  /// cubit closed, a stop was issued after it was scheduled, or playback
+  /// is no longer running. Checked when the queued command runs AND again
+  /// after awaiting the player position.
+  bool _isStaleAlignedStart(int generation) =>
+      isClosed ||
+      generation != _metronomeGeneration ||
+      !state.isMetronomeEnabled ||
+      state.playerState != PlayerState.playing;
+
   /// Starts (or restarts) the click. With a beat anchor the first click is
   /// scheduled onto the song's beat grid based on the *fresh* player
   /// position (never the throttled position stream); without one it keeps
   /// the v1 free-run behavior of offsetting from "now".
-  Future<void> _startMetronomeAligned() async {
-    final bpm = state.currentBpm;
-    if (bpm == null || bpm <= 0) return;
+  Future<void> _startMetronomeAligned() {
+    final generation = _metronomeGeneration;
 
-    final anchor = state.song.metronomeBeatAnchorMs;
-    final originalBpm = state.originalBpm;
+    return _enqueueMetronomeCommand(() async {
+      if (_isStaleAlignedStart(generation)) return;
 
-    var offsetMs = state.song.metronomeOffsetMs;
-    if (anchor != null && originalBpm != null && originalBpm > 0) {
-      final positionMs = (await audioHandler.position).inMilliseconds;
-      final speed = state.speed > 0 ? state.speed : 1.0;
-      final songMsToBeat = BeatGrid.songMsToNextBeat(
-        positionMs: positionMs,
-        anchorMs: anchor,
-        periodMs: BeatGrid.beatPeriodMs(originalBpm),
+      final bpm = state.currentBpm;
+      if (bpm == null || bpm <= 0) return;
+
+      final anchor = state.song.metronomeBeatAnchorMs;
+      final originalBpm = state.originalBpm;
+
+      var offsetMs = state.song.metronomeOffsetMs;
+      if (anchor != null && originalBpm != null && originalBpm > 0) {
+        final positionMs = (await audioHandler.position).inMilliseconds;
+        // The position read is a platform-channel round trip — a pause may
+        // have stopped the metronome in the meantime.
+        if (_isStaleAlignedStart(generation)) return;
+
+        final speed = state.speed > 0 ? state.speed : 1.0;
+        final songMsToBeat = BeatGrid.songMsToNextBeat(
+          positionMs: positionMs,
+          anchorMs: anchor,
+          periodMs: BeatGrid.beatPeriodMs(originalBpm),
+        );
+        // Wall-clock delay until that beat, plus the user's trim, minus the
+        // engine's fixed start anchor. startAligned normalizes the result
+        // into one beat period, so negative values roll to the next beat.
+        offsetMs =
+            (songMsToBeat / speed).round() +
+            state.song.metronomeOffsetMs -
+            _metronomeStartAnchorMs;
+      }
+
+      await _metronome.startAligned(
+        bpm: bpm,
+        offsetMs: offsetMs,
+        beatsPerBar: state.song.metronomeBeatsPerBar,
+        beatUnit: state.song.metronomeBeatUnit,
+        pulsesPerBeat: state.metronomeSubdivision.pulsesPerBeat,
+        volume: state.metronomeVolume,
       );
-      // Wall-clock delay until that beat, plus the user's trim, minus the
-      // engine's fixed start anchor. startAligned normalizes the result
-      // into one beat period, so negative values roll to the next beat.
-      offsetMs =
-          (songMsToBeat / speed).round() +
-          state.song.metronomeOffsetMs -
-          _metronomeStartAnchorMs;
+    });
+  }
+
+  // ==================== BAKED CLICK TRACK (audio songs) ====================
+
+  /// Debounce for click-track re-mixes after settings changes.
+  static const int _clickTrackRefreshDebounceMs = 600;
+
+  /// Test hook shortening the click-track refresh debounce.
+  @visibleForTesting
+  int? clickTrackDebounceMsOverride;
+
+  /// Schedules a debounced re-mix + source swap after a grid/volume change.
+  /// No-op unless the metronome is enabled in click-track mode.
+  void _scheduleClickTrackRefresh() {
+    if (!isMetronomeSupported || !_usesClickTrack || !state.isMetronomeEnabled) {
+      return;
     }
 
-    await _metronome.startAligned(
-      bpm: bpm,
-      offsetMs: offsetMs,
-      beatsPerBar: state.song.metronomeBeatsPerBar,
-      beatUnit: state.song.metronomeBeatUnit,
-      pulsesPerBeat: state.metronomeSubdivision.pulsesPerBeat,
-      volume: state.metronomeVolume,
+    _clickTrackRefreshTimer?.cancel();
+    _clickTrackRefreshTimer = Timer(
+      Duration(
+        milliseconds: clickTrackDebounceMsOverride ?? _clickTrackRefreshDebounceMs,
+      ),
+      () {
+        if (isClosed || !state.isMetronomeEnabled) return;
+        unawaited(_applyClickTrack());
+      },
     );
+  }
+
+  /// Mixes (or fetches from cache) the song+click file for the current
+  /// settings and swaps the player onto it, preserving position and playing
+  /// state. On failure the metronome turns itself off and the original
+  /// source is restored — a stale mix must never keep playing silently.
+  Future<void> _applyClickTrack() async {
+    final originalBpm = state.originalBpm;
+    if (originalBpm == null || originalBpm <= 0) return;
+
+    final generation = ++_clickTrackGeneration;
+    maybeEmit(state.copyWith(isMetronomeGenerating: true));
+
+    try {
+      final songPath = await state.song.path;
+      final config = ClickTrackConfig(
+        durationMs: state.song.duration.inMilliseconds,
+        bpm: originalBpm,
+        anchorMs: state.song.metronomeBeatAnchorMs,
+        offsetMs: state.song.metronomeOffsetMs,
+        beatsPerBar: state.song.metronomeBeatsPerBar,
+        beatUnit: state.song.metronomeBeatUnit,
+        pulsesPerBeat: state.metronomeSubdivision.pulsesPerBeat,
+        volume: state.metronomeVolume,
+      );
+
+      final mixedPath = await _trackService.ensureMixedTrack(
+        songId: state.song.id,
+        songPath: songPath,
+        config: config,
+      );
+
+      // The mix ran async — the user may have toggled off or closed the
+      // page meanwhile; a stale apply must not hijack the source.
+      if (isClosed ||
+          generation != _clickTrackGeneration ||
+          !state.isMetronomeEnabled) {
+        return;
+      }
+
+      await audioHandler.swapSourceFile(mixedPath);
+      _isClickTrackSourceActive = true;
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      if (!isClosed && generation == _clickTrackGeneration) {
+        maybeEmit(
+          state.copyWith(
+            status: SongStatus.error,
+            isMetronomeEnabled: false,
+            error: 'Failed to prepare metronome track: $ex',
+          ),
+        );
+        await _restoreOriginalSource();
+      }
+    } finally {
+      maybeEmit(state.copyWith(isMetronomeGenerating: false));
+    }
+  }
+
+  /// `playSong` reloads the *original* file, silently dropping the click
+  /// mix — re-apply it (cache hit, so this is just a source swap).
+  void _reapplyClickTrackAfterSongReload() {
+    if (!_isClickTrackSourceActive) return;
+    _isClickTrackSourceActive = false;
+    if (_usesClickTrack && state.isMetronomeEnabled) {
+      unawaited(_applyClickTrack());
+    }
+  }
+
+  /// Swaps the player back onto the original song file (no-op when it is
+  /// already playing the original).
+  Future<void> _restoreOriginalSource() async {
+    if (!_isClickTrackSourceActive) return;
+
+    try {
+      final songPath = await state.song.path;
+      await audioHandler.swapSourceFile(songPath);
+      _isClickTrackSourceActive = false;
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+    }
   }
 
   MetronomeSubdivision _readMetronomeSubdivisionPref() {

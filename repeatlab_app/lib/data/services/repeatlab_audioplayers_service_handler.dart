@@ -435,6 +435,29 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
   }
 
   @override
+  Future<void> swapSourceFile(String path) async {
+    await _awaitActiveSeek();
+
+    final wasPlaying = audioPlayer.state == PlayerState.playing;
+    final currentPosition =
+        await audioPlayer.getCurrentPosition() ?? Duration.zero;
+
+    final source = DeviceFileSource(path);
+    _currentSource = source;
+
+    // setSource resets the platform player, so speed and pitch must be
+    // reapplied — same as _reloadSourceIfNeeded.
+    await audioPlayer.setSource(source);
+    await audioPlayer.setPlaybackRate(_playbackSpeed);
+    await _applyPitchShiftSafely();
+
+    await audioPlayer.seek(currentPosition);
+    if (wasPlaying) {
+      await audioPlayer.resume();
+    }
+  }
+
+  @override
   Future<void> skipToPrevious() async {
     log(
       'skipToPrevious called, currentLoopIndex: $_currentLoopIndex, loops: ${_loops.length}',

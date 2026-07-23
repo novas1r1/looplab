@@ -65,6 +65,7 @@ class _MetronomePanelState extends State<MetronomePanel> {
         bool isPlaying,
         bool hasAnchor,
         int tapCount,
+        bool isGenerating,
       })
     >(
       selector: (state) => (
@@ -78,6 +79,7 @@ class _MetronomePanelState extends State<MetronomePanel> {
         isPlaying: state.playerState == PlayerState.playing,
         hasAnchor: state.song.metronomeBeatAnchorMs != null,
         tapCount: state.metronomeTapCount,
+        isGenerating: state.isMetronomeGenerating,
       ),
       builder: (context, data) {
         if (data.currentBpm == null) {
@@ -112,6 +114,18 @@ class _MetronomePanelState extends State<MetronomePanel> {
                   ),
                 ),
                 const Spacer(),
+                // The baked click track mixes on first enable and after
+                // settings changes — show that work instead of appearing hung.
+                if (data.isGenerating)
+                  const SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(
+                      key: Key('song.metronome.generating'),
+                      strokeWidth: 2,
+                      color: AppColors.secondaryFixed,
+                    ),
+                  ),
               ],
             ),
             // Volume

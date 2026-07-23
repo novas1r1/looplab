@@ -42,7 +42,8 @@
       "Bash(ls -la packages/audioplayers/)",
       "PowerShell(fvm dart *)",
       "Bash(grep -iE \"page|view|cubit\\\\.dart$\")",
-      "mcp__plugin_posthog_posthog__exec"
+      "mcp__plugin_posthog_posthog__exec",
+      "PowerShell(Set-Content *)"
     ]
   }
 }

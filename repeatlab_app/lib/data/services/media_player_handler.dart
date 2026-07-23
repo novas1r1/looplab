@@ -27,6 +27,13 @@ abstract class MediaPlayerHandler {
   Future<void> seek(Duration position);
   Future<bool> setSpeed(double speed);
 
+  /// Swaps the underlying audio file while preserving position, playing
+  /// state, speed and pitch. Used by the baked-click-track metronome to
+  /// switch between the original song and the song+click mix mid-session.
+  /// Video handlers may throw [UnsupportedError] — the cubit only routes
+  /// audio songs here.
+  Future<void> swapSourceFile(String path);
+
   /// Applies a pitch shift in semitones (-12..+12), independent of speed.
   /// Returns false if the platform rejected the change (the caller should
   /// revert its state from [currentPitchSemitones]).
