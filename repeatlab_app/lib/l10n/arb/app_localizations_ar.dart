@@ -933,6 +933,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get metronomeNudge => 'الإزاحة';
 
   @override
+  String get metronomeTapBeat => 'انقر مع الإيقاع';
+
+  @override
+  String get metronomeShiftHalfBeat => 'إزاحة نصف نبضة';
+
+  @override
   String metronomeOffsetMs(int ms) {
     return '$ms ms';
   }

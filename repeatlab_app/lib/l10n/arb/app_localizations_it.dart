@@ -950,6 +950,12 @@ class AppLocalizationsIt extends AppLocalizations {
   String get metronomeNudge => 'Regolazione';
 
   @override
+  String get metronomeTapBeat => 'Tocca a tempo';
+
+  @override
+  String get metronomeShiftHalfBeat => 'Sposta di mezzo battito';
+
+  @override
   String metronomeOffsetMs(int ms) {
     return '$ms ms';
   }

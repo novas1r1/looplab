@@ -43,11 +43,19 @@ class Song with SongMappable {
   /// [VideoSizeMode.medium] so existing records decode without migration.
   final VideoSizeMode videoSizeMode;
 
-  /// Metronome start offset in milliseconds — how far the click grid is
-  /// shifted relative to playback start to line up with this song's first
-  /// beat. Adjusted by the user via the nudge control. Defaults to 0 so
-  /// existing sembast records decode without migration.
+  /// Metronome trim in wall-clock milliseconds. Without a beat anchor it
+  /// shifts the free-running click grid relative to playback start; with an
+  /// anchor set it is a fine trim applied on top of the grid (absorbs
+  /// device-specific output latency). Adjusted via the nudge control.
+  /// Defaults to 0 so existing sembast records decode without migration.
   final int metronomeOffsetMs;
+
+  /// Song-time position (ms into the recording) of a beat, captured via
+  /// tap-to-align. When set, the metronome aligns its click grid to
+  /// `anchor + n * beatPeriod(bpm)` on every play/seek/loop wrap instead of
+  /// free-running. `null` (the default, so old records decode without
+  /// migration) means no anchor — v1 free-run behavior.
+  final int? metronomeBeatAnchorMs;
 
   /// Metronome time signature for this song (e.g. 4/4, 6/8). Defaults keep
   /// existing sembast records decoding without migration.
@@ -70,6 +78,7 @@ class Song with SongMappable {
     this.mediaType = MediaType.audio,
     this.videoSizeMode = VideoSizeMode.medium,
     this.metronomeOffsetMs = 0,
+    this.metronomeBeatAnchorMs,
     this.metronomeBeatsPerBar = 4,
     this.metronomeBeatUnit = 4,
   });

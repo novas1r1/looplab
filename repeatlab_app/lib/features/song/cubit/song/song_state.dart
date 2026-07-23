@@ -11,10 +11,10 @@ enum PitchMode { semitones, key }
 
 /// Why the metronome click grid is being (re)aligned. Every playback event
 /// that could move the beat grid routes through
-/// `SongCubit._realignMetronome` with one of these reasons, so future
-/// beat-grid sync only needs changes in that one switch. `seeked` and
-/// `loopJumped` are no-ops in v1 (free-run); note that native loop wraps
-/// never reach the cubit today — grid sync will need a handler-side stream.
+/// `SongCubit._realignMetronome` with one of these reasons. Without a beat
+/// anchor, `seeked`/`loopJumped` are no-ops (free-run); with an anchor the
+/// grid restarts on them. `loopJumped` events arrive via the handler's
+/// `seekEvents` stream, which also reports native loop wraps.
 enum MetronomeRealignReason { playStarted, seeked, loopJumped, tempoChanged }
 
 /// Metronome subdivision — how each audible beat is split into pulses.
@@ -82,6 +82,11 @@ class SongState with SongStateMappable {
   /// LocalConfigRepository on song open.
   final MetronomeSubdivision metronomeSubdivision;
 
+  /// Number of taps collected so far by the tap-to-align capture (0 when no
+  /// capture is in progress). Purely for UI feedback on the tap button; the
+  /// tap buffer itself lives in the cubit.
+  final int metronomeTapCount;
+
   const SongState({
     this.speed = 1.0,
     this.status = SongStatus.loading,
@@ -103,6 +108,7 @@ class SongState with SongStateMappable {
     this.isMetronomeEnabled = false,
     this.metronomeVolume = 0.5,
     this.metronomeSubdivision = MetronomeSubdivision.none,
+    this.metronomeTapCount = 0,
   });
 }
 

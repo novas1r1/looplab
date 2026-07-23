@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart' show PlayerState;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,6 +62,9 @@ class _MetronomePanelState extends State<MetronomePanel> {
         int offsetMs,
         int beatsPerBar,
         int beatUnit,
+        bool isPlaying,
+        bool hasAnchor,
+        int tapCount,
       })
     >(
       selector: (state) => (
@@ -71,6 +75,9 @@ class _MetronomePanelState extends State<MetronomePanel> {
         offsetMs: state.song.metronomeOffsetMs,
         beatsPerBar: state.song.metronomeBeatsPerBar,
         beatUnit: state.song.metronomeBeatUnit,
+        isPlaying: state.playerState == PlayerState.playing,
+        hasAnchor: state.song.metronomeBeatAnchorMs != null,
+        tapCount: state.metronomeTapCount,
       ),
       builder: (context, data) {
         if (data.currentBpm == null) {
@@ -190,6 +197,45 @@ class _MetronomePanelState extends State<MetronomePanel> {
                 ],
               ),
             ),
+            // Alignment: tap-to-align (sets the persistent beat anchor) and
+            // the half-beat flip for off-beat clicking. Tapping requires the
+            // song to be playing — the button disables itself otherwise.
+            _premiumGate(
+              hasPremium: hasPremium,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      key: const Key('song.metronome.tapBeat'),
+                      onPressed: data.isPlaying
+                          ? () => _onTapBeat(context, data.tapCount)
+                          : null,
+                      icon: Icon(
+                        data.hasAnchor && data.tapCount == 0
+                            ? Icons.check_circle_outline_rounded
+                            : Icons.touch_app_rounded,
+                        size: 18,
+                      ),
+                      label: Text(
+                        data.tapCount > 0
+                            ? '${context.l10n.metronomeTapBeat} '
+                                  '(${data.tapCount})'
+                            : context.l10n.metronomeTapBeat,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Tooltip(
+                    message: context.l10n.metronomeShiftHalfBeat,
+                    child: OutlinedButton(
+                      key: const Key('song.metronome.halfBeat'),
+                      onPressed: () => _onHalfBeat(context),
+                      child: const Text('½'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             _premiumGate(
               hasPremium: hasPremium,
               child: Row(
@@ -291,6 +337,19 @@ class _MetronomePanelState extends State<MetronomePanel> {
       data: {'subdivision': subdivision.name},
     );
     context.read<SongCubit>().setMetronomeSubdivision(subdivision);
+  }
+
+  void _onTapBeat(BuildContext context, int tapCount) {
+    // Track only the first tap of a capture, not every beat tapped.
+    if (tapCount == 0) {
+      AppAnalytics.trackEvent(AppAnalytics.clickMetronomeTapBeat);
+    }
+    context.read<SongCubit>().tapMetronomeBeat();
+  }
+
+  void _onHalfBeat(BuildContext context) {
+    AppAnalytics.trackEvent(AppAnalytics.clickMetronomeHalfBeat);
+    context.read<SongCubit>().flipMetronomeHalfBeat();
   }
 
   void _onNudge(BuildContext context, int deltaMs) {

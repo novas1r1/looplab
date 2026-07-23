@@ -322,6 +322,8 @@
     "metronomeTimeSignature": "Metrum",
     "metronomeSubdivision": "Podział",
     "metronomeNudge": "Przesunięcie",
+    "metronomeTapBeat": "Stukaj w rytm",
+    "metronomeShiftHalfBeat": "Przesuń o pół uderzenia",
     "metronomeOffsetMs": "{ms} ms",
     "metronomeSetBpmFirst": "Najpierw ustaw BPM utworu, aby użyć metronomu.",
     "metronomeGoToBpm": "Ustaw BPM",

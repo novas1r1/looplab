@@ -325,6 +325,8 @@
     "metronomeTimeSignature": "Ölçü",
     "metronomeSubdivision": "Alt bölme",
     "metronomeNudge": "Kaydırma",
+    "metronomeTapBeat": "Vuruşa dokun",
+    "metronomeShiftHalfBeat": "Yarım vuruş kaydır",
     "metronomeOffsetMs": "{ms} ms",
     "metronomeSetBpmFirst": "Metronomu kullanmak için önce şarkının BPM değerini ayarla.",
     "metronomeGoToBpm": "BPM ayarla",

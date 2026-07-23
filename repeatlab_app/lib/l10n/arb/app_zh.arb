@@ -326,6 +326,8 @@
     "metronomeTimeSignature": "拍号",
     "metronomeSubdivision": "细分",
     "metronomeNudge": "微调",
+    "metronomeTapBeat": "跟着节拍点击",
+    "metronomeShiftHalfBeat": "移动半拍",
     "metronomeOffsetMs": "{ms} ms",
     "metronomeSetBpmFirst": "请先设置歌曲的BPM以使用节拍器。",
     "metronomeGoToBpm": "设置BPM",

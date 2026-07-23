@@ -903,6 +903,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get metronomeNudge => '미세 조정';
 
   @override
+  String get metronomeTapBeat => '박자에 맞춰 탭';
+
+  @override
+  String get metronomeShiftHalfBeat => '반 박자 이동';
+
+  @override
   String metronomeOffsetMs(int ms) {
     return '$ms ms';
   }

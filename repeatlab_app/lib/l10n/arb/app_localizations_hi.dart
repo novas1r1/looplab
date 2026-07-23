@@ -940,6 +940,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String get metronomeNudge => 'समायोजन';
 
   @override
+  String get metronomeTapBeat => 'बीट पर टैप करें';
+
+  @override
+  String get metronomeShiftHalfBeat => 'आधी बीट खिसकाएँ';
+
+  @override
   String metronomeOffsetMs(int ms) {
     return '$ms ms';
   }

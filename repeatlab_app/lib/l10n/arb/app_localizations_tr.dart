@@ -944,6 +944,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get metronomeNudge => 'Kaydırma';
 
   @override
+  String get metronomeTapBeat => 'Vuruşa dokun';
+
+  @override
+  String get metronomeShiftHalfBeat => 'Yarım vuruş kaydır';
+
+  @override
   String metronomeOffsetMs(int ms) {
     return '$ms ms';
   }

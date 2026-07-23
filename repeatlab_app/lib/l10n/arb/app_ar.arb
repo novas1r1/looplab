@@ -326,6 +326,8 @@
     "metronomeTimeSignature": "الميزان الإيقاعي",
     "metronomeSubdivision": "التقسيم",
     "metronomeNudge": "الإزاحة",
+    "metronomeTapBeat": "انقر مع الإيقاع",
+    "metronomeShiftHalfBeat": "إزاحة نصف نبضة",
     "metronomeOffsetMs": "{ms} ms",
     "metronomeSetBpmFirst": "حدد أولاً إيقاع الأغنية (BPM) لاستخدام المترونوم.",
     "metronomeGoToBpm": "تعيين BPM",

@@ -938,6 +938,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get metronomeNudge => 'Nudge';
 
   @override
+  String get metronomeTapBeat => 'Tap on the beat';
+
+  @override
+  String get metronomeShiftHalfBeat => 'Shift by half a beat';
+
+  @override
   String metronomeOffsetMs(int ms) {
     return '$ms ms';
   }

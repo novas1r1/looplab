@@ -953,6 +953,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get metronomeNudge => 'Décalage';
 
   @override
+  String get metronomeTapBeat => 'Tapez sur le temps';
+
+  @override
+  String get metronomeShiftHalfBeat => 'Décaler d\'un demi-temps';
+
+  @override
   String metronomeOffsetMs(int ms) {
     return '$ms ms';
   }

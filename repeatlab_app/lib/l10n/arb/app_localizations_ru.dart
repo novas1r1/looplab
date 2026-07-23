@@ -945,6 +945,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get metronomeNudge => 'Сдвиг';
 
   @override
+  String get metronomeTapBeat => 'Нажимайте в такт';
+
+  @override
+  String get metronomeShiftHalfBeat => 'Сдвинуть на полдоли';
+
+  @override
   String metronomeOffsetMs(int ms) {
     return '$ms мс';
   }

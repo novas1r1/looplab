@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
+import 'package:repeatlab/data/services/media_player_handler.dart';
 import 'package:repeatlab/data/services/song_metronome.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 
@@ -515,21 +516,27 @@ void main() {
       verify(() => mockSongRepository.updateSong(any())).called(3);
     });
 
-    test('resetMetronomeOffset nudges the accumulated offset away', () async {
-      final songWithOffset = MockData.songMedium.copyWith(
+    test('resetMetronomeOffset clears trim and anchor in one write', () async {
+      final songWithAlignment = MockData.songMedium.copyWith(
         metronomeOffsetMs: 75,
+        metronomeBeatAnchorMs: 130,
       );
-      final cubit = buildCubit(song: songWithOffset);
+      final cubit = buildCubit(song: songWithAlignment);
 
       await cubit.resetMetronomeOffset();
 
       expect(cubit.state.song.metronomeOffsetMs, 0);
-      verify(
-        () => mockMetronome.nudge(const Duration(milliseconds: -75)),
-      ).called(1);
+      expect(cubit.state.song.metronomeBeatAnchorMs, isNull);
+      final persisted =
+          verify(() => mockSongRepository.updateSong(captureAny()))
+              .captured
+              .last as Song;
+      expect(persisted.metronomeOffsetMs, 0);
+      expect(persisted.metronomeBeatAnchorMs, isNull);
+      verifyNever(() => mockMetronome.nudge(any()));
     });
 
-    test('resetMetronomeOffset is a no-op at zero offset', () async {
+    test('resetMetronomeOffset is a no-op with nothing to reset', () async {
       final cubit = buildCubit();
 
       await cubit.resetMetronomeOffset();
@@ -546,6 +553,196 @@ void main() {
       verify(() => mockMetronome.dispose()).called(1);
     });
   });
+
+  group('metronome beat-grid alignment', () {
+    late MockSongMetronome mockMetronome;
+    late MockMediaPlayerHandler mockHandler;
+    late StreamController<Duration> seekEventsController;
+
+    SongCubit buildCubit({Song song = MockData.songMedium}) {
+      final cubit = SongCubit(
+        song: song,
+        songRepository: mockSongRepository,
+        localConfigRepository: mockLocalConfigRepository,
+        crashReportingRepository: mockCrashReportingRepository,
+        metronome: mockMetronome,
+      )
+        ..isMetronomeSupportedOverride = true
+        ..tapSettleMsOverride = 1
+        ..realignDebounceMsOverride = 1
+        ..debugSetAudioHandler(mockHandler);
+      return cubit;
+    }
+
+    /// Puts the cubit into "playing" — tap capture and grid restarts only
+    /// run during playback.
+    void markPlaying(SongCubit cubit) {
+      cubit.emit(
+        // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+        cubit.state.copyWith(playerState: PlayerState.playing),
+      );
+    }
+
+    setUp(() {
+      mockMetronome = MockSongMetronome();
+      mockHandler = MockMediaPlayerHandler();
+      seekEventsController = StreamController<Duration>.broadcast();
+
+      when(() => mockMetronome.isRunning).thenReturn(false);
+      when(
+        () => mockMetronome.startAligned(
+          bpm: any(named: 'bpm'),
+          offsetMs: any(named: 'offsetMs'),
+          beatsPerBar: any(named: 'beatsPerBar'),
+          beatUnit: any(named: 'beatUnit'),
+          pulsesPerBeat: any(named: 'pulsesPerBeat'),
+          volume: any(named: 'volume'),
+        ),
+      ).thenAnswer((_) async {});
+      when(() => mockMetronome.stop()).thenAnswer((_) async {});
+      when(() => mockMetronome.setTempo(any())).thenAnswer((_) async {});
+      when(() => mockMetronome.nudge(any())).thenAnswer((_) async {});
+      when(() => mockMetronome.dispose()).thenAnswer((_) async {});
+
+      when(
+        () => mockHandler.seekEvents,
+      ).thenAnswer((_) => seekEventsController.stream);
+      when(() => mockHandler.setSpeed(any())).thenAnswer((_) async => true);
+
+      when(
+        () => mockSongRepository.updateSong(any()),
+      ).thenAnswer((_) async {});
+    });
+
+    tearDown(() async {
+      await seekEventsController.close();
+    });
+
+    test('taps commit a circular-mean beat anchor and reset the trim',
+        () async {
+      final songWithTrim = MockData.songMedium.copyWith(metronomeOffsetMs: 40);
+      final cubit = buildCubit(song: songWithTrim);
+      await cubit.setOriginalBpm(120); // beat period 500 ms
+      markPlaying(cubit);
+
+      // Taps on three consecutive beats at phase 100.
+      final positions = [10100, 10600, 11100];
+      var tapIndex = 0;
+      when(() => mockHandler.position).thenAnswer(
+        (_) async => Duration(milliseconds: positions[tapIndex++]),
+      );
+
+      await cubit.tapMetronomeBeat();
+      expect(cubit.state.metronomeTapCount, 1);
+      await cubit.tapMetronomeBeat();
+      await cubit.tapMetronomeBeat();
+      expect(cubit.state.metronomeTapCount, 3);
+
+      // Let the 1 ms settle timer commit.
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+
+      expect(cubit.state.metronomeTapCount, 0);
+      expect(cubit.state.song.metronomeBeatAnchorMs, 100);
+      expect(cubit.state.song.metronomeOffsetMs, 0);
+    });
+
+    test('taps are refused while paused or without a BPM', () async {
+      final cubit = buildCubit();
+
+      // No BPM yet.
+      markPlaying(cubit);
+      await cubit.tapMetronomeBeat();
+      expect(cubit.state.metronomeTapCount, 0);
+
+      // BPM set but paused.
+      final paused = buildCubit();
+      await paused.setOriginalBpm(120);
+      await paused.tapMetronomeBeat();
+      expect(paused.state.metronomeTapCount, 0);
+    });
+
+    test('seek events restart an anchored click on the beat grid', () async {
+      final songWithAnchor = MockData.songMedium.copyWith(
+        metronomeBeatAnchorMs: 100,
+      );
+      final cubit = buildCubit(song: songWithAnchor);
+      await cubit.setOriginalBpm(120);
+      await cubit.toggleMetronome();
+      markPlaying(cubit);
+
+      // Position 10300 → phase 200 of the [100 + n*500] grid → 300 ms to the
+      // next beat; minus the 50 ms native start anchor = 250 ms delay.
+      when(() => mockHandler.position).thenAnswer(
+        (_) async => const Duration(milliseconds: 10300),
+      );
+
+      seekEventsController.add(const Duration(milliseconds: 10300));
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+
+      verify(
+        () => mockMetronome.startAligned(
+          bpm: 120,
+          offsetMs: 250,
+          beatsPerBar: any(named: 'beatsPerBar'),
+          beatUnit: any(named: 'beatUnit'),
+          pulsesPerBeat: any(named: 'pulsesPerBeat'),
+          volume: any(named: 'volume'),
+        ),
+      ).called(1);
+    });
+
+    test('seek events leave a free-running click alone (no anchor)', () async {
+      final cubit = buildCubit();
+      await cubit.setOriginalBpm(120);
+      await cubit.toggleMetronome();
+      markPlaying(cubit);
+
+      seekEventsController.add(Duration.zero);
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+
+      verifyNever(
+        () => mockMetronome.startAligned(
+          bpm: any(named: 'bpm'),
+          offsetMs: any(named: 'offsetMs'),
+          beatsPerBar: any(named: 'beatsPerBar'),
+          beatUnit: any(named: 'beatUnit'),
+          pulsesPerBeat: any(named: 'pulsesPerBeat'),
+          volume: any(named: 'volume'),
+        ),
+      );
+    });
+
+    test('half-beat flip without anchor folds into the offset', () async {
+      final cubit = buildCubit();
+      await cubit.setOriginalBpm(120);
+
+      await cubit.flipMetronomeHalfBeat();
+
+      expect(cubit.state.song.metronomeOffsetMs, 250);
+      expect(cubit.state.song.metronomeBeatAnchorMs, isNull);
+      verify(
+        () => mockMetronome.nudge(const Duration(milliseconds: 250)),
+      ).called(1);
+    });
+
+    test('half-beat flip with anchor shifts the anchor', () async {
+      final songWithAnchor = MockData.songMedium.copyWith(
+        metronomeBeatAnchorMs: 100,
+      );
+      final cubit = buildCubit(song: songWithAnchor);
+      await cubit.setOriginalBpm(120);
+
+      await cubit.flipMetronomeHalfBeat();
+
+      expect(cubit.state.song.metronomeBeatAnchorMs, 350);
+      expect(cubit.state.song.metronomeOffsetMs, 0);
+      verify(
+        () => mockMetronome.nudge(const Duration(milliseconds: 250)),
+      ).called(1);
+    });
+  });
 }
 
 class MockSongMetronome extends Mock implements SongMetronome {}
+
+class MockMediaPlayerHandler extends Mock implements MediaPlayerHandler {}

@@ -323,6 +323,8 @@
     "metronomeTimeSignature": "Compás",
     "metronomeSubdivision": "Subdivisión",
     "metronomeNudge": "Ajuste",
+    "metronomeTapBeat": "Toca al ritmo",
+    "metronomeShiftHalfBeat": "Desplazar medio tiempo",
     "metronomeOffsetMs": "{ms} ms",
     "metronomeSetBpmFirst": "Primero define los BPM de la canción para usar el metrónomo.",
     "metronomeGoToBpm": "Definir BPM",

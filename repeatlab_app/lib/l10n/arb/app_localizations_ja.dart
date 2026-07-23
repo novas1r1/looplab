@@ -905,6 +905,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get metronomeNudge => '微調整';
 
   @override
+  String get metronomeTapBeat => 'ビートに合わせてタップ';
+
+  @override
+  String get metronomeShiftHalfBeat => '半拍ずらす';
+
+  @override
   String metronomeOffsetMs(int ms) {
     return '$ms ms';
   }

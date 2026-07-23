@@ -325,6 +325,8 @@
     "metronomeTimeSignature": "拍子",
     "metronomeSubdivision": "細分",
     "metronomeNudge": "微調整",
+    "metronomeTapBeat": "ビートに合わせてタップ",
+    "metronomeShiftHalfBeat": "半拍ずらす",
     "metronomeOffsetMs": "{ms} ms",
     "metronomeSetBpmFirst": "メトロノームを使うには、まず曲のBPMを設定してください。",
     "metronomeGoToBpm": "BPMを設定",

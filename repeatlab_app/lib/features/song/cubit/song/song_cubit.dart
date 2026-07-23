@@ -3,12 +3,14 @@
 import 'dart:async';
 import 'dart:developer' as dev;
 import 'dart:io';
+import 'dart:math' as math;
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
+import 'package:repeatlab/core/utils/beat_grid.dart';
 import 'package:repeatlab/core/utils/cubit_extension.dart';
 import 'package:repeatlab/core/utils/musical_key.dart';
 import 'package:repeatlab/data/models/loop.dart';
@@ -72,6 +74,20 @@ class SongCubit extends Cubit<SongState> {
   /// Subscription for navigation events from the audio handler (skip prev/next buttons)
   StreamSubscription<LoopNavigationEvent>? _navigationSubscription;
 
+  /// Position discontinuities from the handler (user seeks AND native loop
+  /// wraps, which never reach the cubit any other way) — the metronome
+  /// realigns its click grid from this.
+  StreamSubscription<Duration>? _seekEventsSubscription;
+
+  /// Debounces grid restarts so seek bursts / slider sweeps coalesce into
+  /// one audible re-phase.
+  Timer? _gridRealignTimer;
+
+  /// Tap-to-align capture: buffered tap positions (song-time ms) and the
+  /// settle timer that commits them into the beat anchor.
+  final List<int> _tapPositionsMs = [];
+  Timer? _tapSettleTimer;
+
   Duration? positionToSeek;
 
   Future<Duration> get position async => await audioHandler.position;
@@ -110,6 +126,9 @@ class SongCubit extends Cubit<SongState> {
     await _playerStateSubscription?.cancel();
     await _positionSubscription?.cancel();
     await _durationSubscription?.cancel();
+    await _seekEventsSubscription?.cancel();
+    _gridRealignTimer?.cancel();
+    _tapSettleTimer?.cancel();
 
     // Clean up audio service if available
     await handler?.stop();
@@ -266,6 +285,7 @@ class SongCubit extends Cubit<SongState> {
       await _playerStateSubscription?.cancel();
       await _positionSubscription?.cancel();
       await _durationSubscription?.cancel();
+      await _seekEventsSubscription?.cancel();
 
       // Assign the media handler.
       _audioHandler = handler;
@@ -382,6 +402,12 @@ class SongCubit extends Cubit<SongState> {
         _handleNavigationEvent,
       );
 
+      // Realign the metronome on every position discontinuity the handler
+      // performs — including native loop wraps the cubit never initiates.
+      _seekEventsSubscription = audioHandler.seekEvents.listen((_) {
+        unawaited(_realignMetronome(MetronomeRealignReason.loopJumped));
+      });
+
       // Initialize speed control state - always reset to 1.0 on song open.
       // Cap a persisted BPM to the supported range; older songs may have stored
       // an out-of-range value that would make the bound calculation throw.
@@ -421,6 +447,7 @@ class SongCubit extends Cubit<SongState> {
           isMetronomeEnabled: false,
           metronomeVolume: localConfigRepository.metronomeVolume,
           metronomeSubdivision: _readMetronomeSubdivisionPref(),
+          metronomeTapCount: 0,
           error: null,
         ),
       );
@@ -1006,6 +1033,7 @@ class SongCubit extends Cubit<SongState> {
         mediaType: state.song.mediaType,
         videoSizeMode: state.song.videoSizeMode,
         metronomeOffsetMs: state.song.metronomeOffsetMs,
+        metronomeBeatAnchorMs: state.song.metronomeBeatAnchorMs,
         metronomeBeatsPerBar: state.song.metronomeBeatsPerBar,
         metronomeBeatUnit: state.song.metronomeBeatUnit,
       );
@@ -1571,12 +1599,219 @@ class SongCubit extends Cubit<SongState> {
     }
   }
 
-  /// Reset the persisted click-grid offset to 0, shifting the phase back
-  /// live when running.
+  /// Shift the click grid by half a beat — the quickest fix when the click
+  /// lands exactly on the off-beats. With an anchor the half beat is folded
+  /// into the anchor (song-time); without one it goes into the wall-clock
+  /// offset like a regular nudge. Applied live while running either way.
+  Future<void> flipMetronomeHalfBeat() async {
+    if (!isMetronomeSupported) return;
+
+    final bpm = state.currentBpm;
+    if (bpm == null || bpm <= 0) return;
+
+    final anchor = state.song.metronomeBeatAnchorMs;
+    final originalBpm = state.originalBpm;
+    final halfBeatWallMs = (60000 / bpm / 2).round();
+
+    if (anchor == null || originalBpm == null || originalBpm <= 0) {
+      await nudgeMetronome(halfBeatWallMs);
+      return;
+    }
+
+    try {
+      final halfBeatSongMs = (BeatGrid.beatPeriodMs(originalBpm) / 2).round();
+      final updatedSong = state.song.copyWith(
+        metronomeBeatAnchorMs: anchor + halfBeatSongMs,
+      );
+      await songRepository.updateSong(updatedSong);
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          song: updatedSong,
+          error: null,
+        ),
+      );
+
+      await _metronome.nudge(Duration(milliseconds: halfBeatWallMs));
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to shift metronome: $ex',
+        ),
+      );
+    }
+  }
+
+  /// Test hook: attaches a mocked handler (position + seekEvents) without
+  /// going through [initWithHandler], which needs real files and plugins.
+  @visibleForTesting
+  void debugSetAudioHandler(MediaPlayerHandler handler) {
+    _audioHandler = handler;
+    _seekEventsSubscription = handler.seekEvents.listen((_) {
+      unawaited(_realignMetronome(MetronomeRealignReason.loopJumped));
+    });
+  }
+
+  /// Test hook: the tap capture normally commits ~1.8 beats after the last
+  /// tap, which is too slow for unit tests.
+  @visibleForTesting
+  int? tapSettleMsOverride;
+
+  /// Test hook shortening the seek/tempo grid-realign debounces.
+  @visibleForTesting
+  int? realignDebounceMsOverride;
+
+  /// Record one tap of the tap-to-align capture. The user taps along with
+  /// the song's beats while it plays; once the taps stop (settle timer) the
+  /// circular-mean phase of the tap positions is persisted as the song's
+  /// beat anchor — from then on the click grid follows the song across
+  /// pause, seeks and loop wraps.
+  Future<void> tapMetronomeBeat() async {
+    if (!isMetronomeSupported) return;
+
+    final originalBpm = state.originalBpm;
+    if (originalBpm == null || originalBpm <= 0) return;
+    if (state.playerState != PlayerState.playing) return;
+
+    try {
+      final positionMs = (await audioHandler.position).inMilliseconds;
+      _tapPositionsMs.add(positionMs);
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          metronomeTapCount: _tapPositionsMs.length,
+          error: null,
+        ),
+      );
+
+      // Commit once the user stops tapping. The window must exceed one
+      // wall-clock beat (they tap every beat while capturing), with a floor
+      // for fast tempos.
+      final beatWallMs =
+          BeatGrid.beatPeriodMs(originalBpm) /
+          (state.speed > 0 ? state.speed : 1.0);
+      final settleMs =
+          tapSettleMsOverride ?? math.max(1200, (beatWallMs * 1.8).round());
+      _tapSettleTimer?.cancel();
+      _tapSettleTimer = Timer(Duration(milliseconds: settleMs), () {
+        unawaited(_commitTapAnchor());
+      });
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+    }
+  }
+
+  /// Persists the captured taps as the beat anchor and realigns the click
+  /// while running. A fresh anchor resets the wall-clock trim — the taps
+  /// are the new alignment truth.
+  Future<void> _commitTapAnchor() async {
+    if (isClosed) return;
+
+    final taps = List<int>.of(_tapPositionsMs);
+    _tapPositionsMs.clear();
+
+    final originalBpm = state.originalBpm;
+    if (taps.isEmpty || originalBpm == null || originalBpm <= 0) {
+      maybeEmit(state.copyWith(metronomeTapCount: 0));
+      return;
+    }
+
+    try {
+      final anchor = BeatGrid.circularMeanPhaseMs(
+        taps,
+        BeatGrid.beatPeriodMs(originalBpm),
+      );
+      final updatedSong = state.song.copyWith(
+        metronomeBeatAnchorMs: anchor,
+        metronomeOffsetMs: 0,
+      );
+      await songRepository.updateSong(updatedSong);
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          song: updatedSong,
+          metronomeTapCount: 0,
+          error: null,
+        ),
+      );
+
+      AppAnalytics.trackEvent(
+        AppAnalytics.metronomeAnchorSet,
+        data: {'tap_count': taps.length},
+      );
+
+      if (state.isMetronomeEnabled &&
+          state.playerState == PlayerState.playing) {
+        await _startMetronomeAligned();
+      }
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      maybeEmit(state.copyWith(metronomeTapCount: 0));
+    }
+  }
+
+  /// Reset the alignment completely: beat anchor, wall-clock trim and any
+  /// in-progress tap capture. Restarts the click from "now" when running.
   Future<void> resetMetronomeOffset() async {
-    final currentOffset = state.song.metronomeOffsetMs;
-    if (currentOffset == 0) return;
-    await nudgeMetronome(-currentOffset);
+    if (!isMetronomeSupported) return;
+
+    _tapSettleTimer?.cancel();
+    _tapPositionsMs.clear();
+
+    final song = state.song;
+    if (song.metronomeBeatAnchorMs == null &&
+        song.metronomeOffsetMs == 0 &&
+        state.metronomeTapCount == 0) {
+      return;
+    }
+
+    try {
+      // Direct construction: dart_mappable's copyWith cannot clear a
+      // nullable field (same pattern as updateSongDetails).
+      final updatedSong = Song(
+        id: song.id,
+        title: song.title,
+        artist: song.artist,
+        fileName: song.fileName,
+        duration: song.duration,
+        bpm: song.bpm,
+        currentBpm: song.currentBpm,
+        pitchSemitones: song.pitchSemitones,
+        musicalKey: song.musicalKey,
+        loops: song.loops,
+        loopSort: song.loopSort,
+        sortOrder: song.sortOrder,
+        mediaType: song.mediaType,
+        videoSizeMode: song.videoSizeMode,
+        metronomeOffsetMs: 0,
+        metronomeBeatAnchorMs: null,
+        metronomeBeatsPerBar: song.metronomeBeatsPerBar,
+        metronomeBeatUnit: song.metronomeBeatUnit,
+      );
+      await songRepository.updateSong(updatedSong);
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          song: updatedSong,
+          metronomeTapCount: 0,
+          error: null,
+        ),
+      );
+
+      if (_metronome.isRunning) {
+        await _startMetronomeAligned();
+      }
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to reset metronome alignment: $ex',
+        ),
+      );
+    }
   }
 
   /// Follows playback state — the metronome only clicks while the song
@@ -1595,9 +1830,23 @@ class SongCubit extends Cubit<SongState> {
     }
   }
 
+  /// The native engine anchors its first click ~50 ms after the start call
+  /// (look-ahead scheduling); subtract that from computed grid delays so
+  /// clicks don't land systematically late. Residual device latency is
+  /// absorbed by the user's wall-clock trim.
+  static const int _metronomeStartAnchorMs = 50;
+
+  /// Debounce for seek/loop-wrap grid restarts (coalesces scrub bursts and
+  /// the wrap + bounds-check double seek).
+  static const int _seekRealignDebounceMs = 150;
+
+  /// Settle time before the grid restarts after a tempo change — a restart
+  /// per slider tick would stutter, so the sweep runs on the live
+  /// phase-preserving setTempo and realigns once afterwards.
+  static const int _tempoRealignSettleMs = 400;
+
   /// Single code path for (re)aligning the click grid to playback. All
-  /// playback events that could move the beat grid route through here so
-  /// beat-grid sync can be added in one place later.
+  /// playback events that could move the beat grid route through here.
   Future<void> _realignMetronome(MetronomeRealignReason reason) async {
     if (!isMetronomeSupported || !state.isMetronomeEnabled) return;
 
@@ -1607,28 +1856,87 @@ class SongCubit extends Cubit<SongState> {
     try {
       switch (reason) {
         case MetronomeRealignReason.playStarted:
-          await _metronome.startAligned(
-            bpm: bpm,
-            offsetMs: state.song.metronomeOffsetMs,
-            beatsPerBar: state.song.metronomeBeatsPerBar,
-            beatUnit: state.song.metronomeBeatUnit,
-            pulsesPerBeat: state.metronomeSubdivision.pulsesPerBeat,
-            volume: state.metronomeVolume,
-          );
+          await _startMetronomeAligned();
         case MetronomeRealignReason.tempoChanged:
           // Phase-preserving on the native side — safe from a slider sweep.
+          // With an anchor, the grid additionally restarts once the tempo
+          // settles (the preserved phase drifts off the song's grid).
           await _metronome.setTempo(bpm);
+          _scheduleGridRealign(_tempoRealignSettleMs);
         case MetronomeRealignReason.seeked:
         case MetronomeRealignReason.loopJumped:
-          // v1 free-runs across position jumps ("nudge now, grid later").
-          // Beat-grid sync will restart the phase here based on the new
-          // position; loop jumps additionally need a handler-side stream —
-          // native loop wraps never reach the cubit today.
-          break;
+          // Without an anchor the click free-runs across position jumps
+          // ("nudge now, grid later"); with one it restarts on the new
+          // position, debounced so bursts re-phase only once.
+          _scheduleGridRealign(_seekRealignDebounceMs);
       }
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
     }
+  }
+
+  /// Schedules a debounced grid restart. No-op without a beat anchor —
+  /// free-run alignment must not be destroyed by restarts.
+  void _scheduleGridRealign(int debounceMs) {
+    if (state.song.metronomeBeatAnchorMs == null) return;
+
+    _gridRealignTimer?.cancel();
+    _gridRealignTimer = Timer(
+      Duration(milliseconds: realignDebounceMsOverride ?? debounceMs),
+      () {
+        if (isClosed ||
+            !state.isMetronomeEnabled ||
+            state.playerState != PlayerState.playing) {
+          return;
+        }
+        unawaited(() async {
+          try {
+            await _startMetronomeAligned();
+          } catch (ex, stack) {
+            unawaited(crashReportingRepository.reportError(ex, stack));
+          }
+        }());
+      },
+    );
+  }
+
+  /// Starts (or restarts) the click. With a beat anchor the first click is
+  /// scheduled onto the song's beat grid based on the *fresh* player
+  /// position (never the throttled position stream); without one it keeps
+  /// the v1 free-run behavior of offsetting from "now".
+  Future<void> _startMetronomeAligned() async {
+    final bpm = state.currentBpm;
+    if (bpm == null || bpm <= 0) return;
+
+    final anchor = state.song.metronomeBeatAnchorMs;
+    final originalBpm = state.originalBpm;
+
+    var offsetMs = state.song.metronomeOffsetMs;
+    if (anchor != null && originalBpm != null && originalBpm > 0) {
+      final positionMs = (await audioHandler.position).inMilliseconds;
+      final speed = state.speed > 0 ? state.speed : 1.0;
+      final songMsToBeat = BeatGrid.songMsToNextBeat(
+        positionMs: positionMs,
+        anchorMs: anchor,
+        periodMs: BeatGrid.beatPeriodMs(originalBpm),
+      );
+      // Wall-clock delay until that beat, plus the user's trim, minus the
+      // engine's fixed start anchor. startAligned normalizes the result
+      // into one beat period, so negative values roll to the next beat.
+      offsetMs =
+          (songMsToBeat / speed).round() +
+          state.song.metronomeOffsetMs -
+          _metronomeStartAnchorMs;
+    }
+
+    await _metronome.startAligned(
+      bpm: bpm,
+      offsetMs: offsetMs,
+      beatsPerBar: state.song.metronomeBeatsPerBar,
+      beatUnit: state.song.metronomeBeatUnit,
+      pulsesPerBeat: state.metronomeSubdivision.pulsesPerBeat,
+      volume: state.metronomeVolume,
+    );
   }
 
   MetronomeSubdivision _readMetronomeSubdivisionPref() {
@@ -1749,6 +2057,7 @@ class SongCubit extends Cubit<SongState> {
         mediaType: state.song.mediaType,
         videoSizeMode: state.song.videoSizeMode,
         metronomeOffsetMs: state.song.metronomeOffsetMs,
+        metronomeBeatAnchorMs: state.song.metronomeBeatAnchorMs,
         metronomeBeatsPerBar: state.song.metronomeBeatsPerBar,
         metronomeBeatUnit: state.song.metronomeBeatUnit,
       );

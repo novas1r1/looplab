@@ -325,6 +325,8 @@
     "metronomeTimeSignature": "박자",
     "metronomeSubdivision": "세분",
     "metronomeNudge": "미세 조정",
+    "metronomeTapBeat": "박자에 맞춰 탭",
+    "metronomeShiftHalfBeat": "반 박자 이동",
     "metronomeOffsetMs": "{ms} ms",
     "metronomeSetBpmFirst": "메트로놈을 사용하려면 먼저 곡의 BPM을 설정하세요.",
     "metronomeGoToBpm": "BPM 설정",

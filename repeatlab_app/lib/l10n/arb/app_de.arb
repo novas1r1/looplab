@@ -321,6 +321,8 @@
     "metronomeTimeSignature": "Taktart",
     "metronomeSubdivision": "Unterteilung",
     "metronomeNudge": "Versatz",
+    "metronomeTapBeat": "Zum Beat tippen",
+    "metronomeShiftHalfBeat": "Um einen halben Beat verschieben",
     "metronomeOffsetMs": "{ms} ms",
     "metronomeSetBpmFirst": "Lege zuerst die BPM des Songs fest, um das Metronom zu nutzen.",
     "metronomeGoToBpm": "BPM festlegen",

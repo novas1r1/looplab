@@ -322,6 +322,8 @@
     "metronomeTimeSignature": "Signature rythmique",
     "metronomeSubdivision": "Subdivision",
     "metronomeNudge": "Décalage",
+    "metronomeTapBeat": "Tapez sur le temps",
+    "metronomeShiftHalfBeat": "Décaler d'un demi-temps",
     "metronomeOffsetMs": "{ms} ms",
     "metronomeSetBpmFirst": "Définissez d'abord le BPM du morceau pour utiliser le métronome.",
     "metronomeGoToBpm": "Définir le BPM",

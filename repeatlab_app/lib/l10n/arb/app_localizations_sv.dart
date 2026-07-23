@@ -939,6 +939,12 @@ class AppLocalizationsSv extends AppLocalizations {
   String get metronomeNudge => 'Förskjutning';
 
   @override
+  String get metronomeTapBeat => 'Tryck i takt';
+
+  @override
+  String get metronomeShiftHalfBeat => 'Förskjut ett halvt slag';
+
+  @override
   String metronomeOffsetMs(int ms) {
     return '$ms ms';
   }

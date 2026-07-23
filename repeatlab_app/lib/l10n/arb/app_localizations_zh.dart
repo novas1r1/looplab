@@ -888,6 +888,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get metronomeNudge => '微调';
 
   @override
+  String get metronomeTapBeat => '跟着节拍点击';
+
+  @override
+  String get metronomeShiftHalfBeat => '移动半拍';
+
+  @override
   String metronomeOffsetMs(int ms) {
     return '$ms ms';
   }

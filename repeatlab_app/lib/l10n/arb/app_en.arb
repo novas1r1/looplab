@@ -441,6 +441,8 @@
     "metronomeTimeSignature": "Time signature",
     "metronomeSubdivision": "Subdivision",
     "metronomeNudge": "Nudge",
+    "metronomeTapBeat": "Tap on the beat",
+    "metronomeShiftHalfBeat": "Shift by half a beat",
     "metronomeOffsetMs": "{ms} ms",
     "@metronomeOffsetMs": {
         "description": "Metronome click-grid offset shown next to the nudge buttons",

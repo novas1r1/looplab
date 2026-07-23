@@ -129,6 +129,7 @@ void main() {
       test('roundtrips metronome offset and time signature', () {
         final song = MockData.songMedium.copyWith(
           metronomeOffsetMs: -75,
+          metronomeBeatAnchorMs: 1234,
           metronomeBeatsPerBar: 6,
           metronomeBeatUnit: 8,
         );
@@ -141,6 +142,7 @@ void main() {
         final decoded = serializer.decode(bytes).songs.single;
 
         expect(decoded.metronomeOffsetMs, -75);
+        expect(decoded.metronomeBeatAnchorMs, 1234);
         expect(decoded.metronomeBeatsPerBar, 6);
         expect(decoded.metronomeBeatUnit, 8);
       });
@@ -150,10 +152,12 @@ void main() {
         () {
           final legacyMap = MockData.songMedium.toMap()
             ..remove('metronomeOffsetMs')
+            ..remove('metronomeBeatAnchorMs')
             ..remove('metronomeBeatsPerBar')
             ..remove('metronomeBeatUnit');
 
           expect(SongMapper.fromMap(legacyMap).metronomeOffsetMs, 0);
+          expect(SongMapper.fromMap(legacyMap).metronomeBeatAnchorMs, isNull);
           expect(SongMapper.fromMap(legacyMap).metronomeBeatsPerBar, 4);
           expect(SongMapper.fromMap(legacyMap).metronomeBeatUnit, 4);
         },

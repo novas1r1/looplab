@@ -1758,6 +1758,18 @@ abstract class AppLocalizations {
   /// **'Nudge'**
   String get metronomeNudge;
 
+  /// No description provided for @metronomeTapBeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap on the beat'**
+  String get metronomeTapBeat;
+
+  /// No description provided for @metronomeShiftHalfBeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift by half a beat'**
+  String get metronomeShiftHalfBeat;
+
   /// Metronome click-grid offset shown next to the nudge buttons
   ///
   /// In en, this message translates to:

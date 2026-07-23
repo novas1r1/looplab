@@ -322,6 +322,8 @@
     "metronomeTimeSignature": "Maatsoort",
     "metronomeSubdivision": "Onderverdeling",
     "metronomeNudge": "Verschuiving",
+    "metronomeTapBeat": "Tik op de beat",
+    "metronomeShiftHalfBeat": "Verschuif een halve tel",
     "metronomeOffsetMs": "{ms} ms",
     "metronomeSetBpmFirst": "Stel eerst de BPM van het nummer in om de metronoom te gebruiken.",
     "metronomeGoToBpm": "BPM instellen",

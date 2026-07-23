@@ -322,6 +322,8 @@
     "metronomeTimeSignature": "Taktart",
     "metronomeSubdivision": "Underdelning",
     "metronomeNudge": "Förskjutning",
+    "metronomeTapBeat": "Tryck i takt",
+    "metronomeShiftHalfBeat": "Förskjut ett halvt slag",
     "metronomeOffsetMs": "{ms} ms",
     "metronomeSetBpmFirst": "Ange låtens BPM först för att använda metronomen.",
     "metronomeGoToBpm": "Ange BPM",

@@ -392,6 +392,13 @@ class SongStateMapper extends ClassMapperBase<SongState> {
         opt: true,
         def: MetronomeSubdivision.none,
       );
+  static int _$metronomeTapCount(SongState v) => v.metronomeTapCount;
+  static const Field<SongState, int> _f$metronomeTapCount = Field(
+    'metronomeTapCount',
+    _$metronomeTapCount,
+    opt: true,
+    def: 0,
+  );
 
   @override
   final MappableFields<SongState> fields = const {
@@ -415,6 +422,7 @@ class SongStateMapper extends ClassMapperBase<SongState> {
     #isMetronomeEnabled: _f$isMetronomeEnabled,
     #metronomeVolume: _f$metronomeVolume,
     #metronomeSubdivision: _f$metronomeSubdivision,
+    #metronomeTapCount: _f$metronomeTapCount,
   };
 
   static SongState _instantiate(DecodingData data) {
@@ -439,6 +447,7 @@ class SongStateMapper extends ClassMapperBase<SongState> {
       isMetronomeEnabled: data.dec(_f$isMetronomeEnabled),
       metronomeVolume: data.dec(_f$metronomeVolume),
       metronomeSubdivision: data.dec(_f$metronomeSubdivision),
+      metronomeTapCount: data.dec(_f$metronomeTapCount),
     );
   }
 
@@ -524,6 +533,7 @@ abstract class SongStateCopyWith<$R, $In extends SongState, $Out>
     bool? isMetronomeEnabled,
     double? metronomeVolume,
     MetronomeSubdivision? metronomeSubdivision,
+    int? metronomeTapCount,
   });
   SongStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
@@ -564,6 +574,7 @@ class _SongStateCopyWithImpl<$R, $Out>
     bool? isMetronomeEnabled,
     double? metronomeVolume,
     MetronomeSubdivision? metronomeSubdivision,
+    int? metronomeTapCount,
   }) => $apply(
     FieldCopyWithData({
       if (speed != null) #speed: speed,
@@ -589,6 +600,7 @@ class _SongStateCopyWithImpl<$R, $Out>
       if (metronomeVolume != null) #metronomeVolume: metronomeVolume,
       if (metronomeSubdivision != null)
         #metronomeSubdivision: metronomeSubdivision,
+      if (metronomeTapCount != null) #metronomeTapCount: metronomeTapCount,
     }),
   );
   @override
@@ -630,6 +642,10 @@ class _SongStateCopyWithImpl<$R, $Out>
     metronomeSubdivision: data.get(
       #metronomeSubdivision,
       or: $value.metronomeSubdivision,
+    ),
+    metronomeTapCount: data.get(
+      #metronomeTapCount,
+      or: $value.metronomeTapCount,
     ),
   );
 

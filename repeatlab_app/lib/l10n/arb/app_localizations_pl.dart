@@ -941,6 +941,12 @@ class AppLocalizationsPl extends AppLocalizations {
   String get metronomeNudge => 'Przesunięcie';
 
   @override
+  String get metronomeTapBeat => 'Stukaj w rytm';
+
+  @override
+  String get metronomeShiftHalfBeat => 'Przesuń o pół uderzenia';
+
+  @override
   String metronomeOffsetMs(int ms) {
     return '$ms ms';
   }

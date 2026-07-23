@@ -322,6 +322,8 @@
     "metronomeTimeSignature": "Размер",
     "metronomeSubdivision": "Дробление",
     "metronomeNudge": "Сдвиг",
+    "metronomeTapBeat": "Нажимайте в такт",
+    "metronomeShiftHalfBeat": "Сдвинуть на полдоли",
     "metronomeOffsetMs": "{ms} мс",
     "metronomeSetBpmFirst": "Сначала укажите BPM песни, чтобы использовать метроном.",
     "metronomeGoToBpm": "Указать BPM",

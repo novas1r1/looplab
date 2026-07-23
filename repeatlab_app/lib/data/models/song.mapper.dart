@@ -249,6 +249,12 @@ class SongMapper extends ClassMapperBase<Song> {
     opt: true,
     def: 0,
   );
+  static int? _$metronomeBeatAnchorMs(Song v) => v.metronomeBeatAnchorMs;
+  static const Field<Song, int> _f$metronomeBeatAnchorMs = Field(
+    'metronomeBeatAnchorMs',
+    _$metronomeBeatAnchorMs,
+    opt: true,
+  );
   static int _$metronomeBeatsPerBar(Song v) => v.metronomeBeatsPerBar;
   static const Field<Song, int> _f$metronomeBeatsPerBar = Field(
     'metronomeBeatsPerBar',
@@ -281,6 +287,7 @@ class SongMapper extends ClassMapperBase<Song> {
     #mediaType: _f$mediaType,
     #videoSizeMode: _f$videoSizeMode,
     #metronomeOffsetMs: _f$metronomeOffsetMs,
+    #metronomeBeatAnchorMs: _f$metronomeBeatAnchorMs,
     #metronomeBeatsPerBar: _f$metronomeBeatsPerBar,
     #metronomeBeatUnit: _f$metronomeBeatUnit,
   };
@@ -302,6 +309,7 @@ class SongMapper extends ClassMapperBase<Song> {
       mediaType: data.dec(_f$mediaType),
       videoSizeMode: data.dec(_f$videoSizeMode),
       metronomeOffsetMs: data.dec(_f$metronomeOffsetMs),
+      metronomeBeatAnchorMs: data.dec(_f$metronomeBeatAnchorMs),
       metronomeBeatsPerBar: data.dec(_f$metronomeBeatsPerBar),
       metronomeBeatUnit: data.dec(_f$metronomeBeatUnit),
     );
@@ -370,6 +378,7 @@ abstract class SongCopyWith<$R, $In extends Song, $Out>
     MediaType? mediaType,
     VideoSizeMode? videoSizeMode,
     int? metronomeOffsetMs,
+    int? metronomeBeatAnchorMs,
     int? metronomeBeatsPerBar,
     int? metronomeBeatUnit,
   });
@@ -406,6 +415,7 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
     MediaType? mediaType,
     VideoSizeMode? videoSizeMode,
     int? metronomeOffsetMs,
+    Object? metronomeBeatAnchorMs = $none,
     int? metronomeBeatsPerBar,
     int? metronomeBeatUnit,
   }) => $apply(
@@ -425,6 +435,8 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
       if (mediaType != null) #mediaType: mediaType,
       if (videoSizeMode != null) #videoSizeMode: videoSizeMode,
       if (metronomeOffsetMs != null) #metronomeOffsetMs: metronomeOffsetMs,
+      if (metronomeBeatAnchorMs != $none)
+        #metronomeBeatAnchorMs: metronomeBeatAnchorMs,
       if (metronomeBeatsPerBar != null)
         #metronomeBeatsPerBar: metronomeBeatsPerBar,
       if (metronomeBeatUnit != null) #metronomeBeatUnit: metronomeBeatUnit,
@@ -449,6 +461,10 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
     metronomeOffsetMs: data.get(
       #metronomeOffsetMs,
       or: $value.metronomeOffsetMs,
+    ),
+    metronomeBeatAnchorMs: data.get(
+      #metronomeBeatAnchorMs,
+      or: $value.metronomeBeatAnchorMs,
     ),
     metronomeBeatsPerBar: data.get(
       #metronomeBeatsPerBar,
