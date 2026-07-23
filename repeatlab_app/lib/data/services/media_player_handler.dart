@@ -53,6 +53,12 @@ abstract class MediaPlayerHandler {
   /// Position updates. Nullable to match the audio handler's existing surface.
   Stream<Duration>? get positionStream;
 
+  /// Emits the target position after every position discontinuity — user
+  /// seeks, skip/restart actions and native loop wraps (which never surface
+  /// anywhere else). The metronome realigns its click grid from this single
+  /// signal, so every handler-internal seek must be reported here.
+  Stream<Duration> get seekEvents;
+
   Future<Duration> get position;
 
   /// Loop navigation events (e.g. from notification skip buttons). Video

@@ -67,6 +67,19 @@ class VideoPlayerHandler implements MediaPlayerHandler {
   @override
   Stream<Duration> get positionStream => player.stream.position;
 
+  /// Position discontinuities (seeks, loop wraps, restarts) — see
+  /// [MediaPlayerHandler.seekEvents]. All internal jumps route through
+  /// [seek]/[forward]/[back], which report here.
+  final _seekEventController = StreamController<Duration>.broadcast();
+  @override
+  Stream<Duration> get seekEvents => _seekEventController.stream;
+
+  void _notifySeek(Duration target) {
+    if (!_seekEventController.isClosed) {
+      _seekEventController.add(target);
+    }
+  }
+
   @override
   Future<Duration> get position async => player.state.position;
 
@@ -222,13 +235,17 @@ class VideoPlayerHandler implements MediaPlayerHandler {
       final pos = player.state.position;
       if (pos >= loop.end! || pos < loop.start!) {
         await player.seek(loop.start!);
+        _notifySeek(loop.start!);
       }
     }
     await player.play();
   }
 
   @override
-  Future<void> seek(Duration position) => player.seek(position);
+  Future<void> seek(Duration position) async {
+    await player.seek(position);
+    _notifySeek(position);
+  }
 
   @override
   Future<bool> setSpeed(double speed) async {
@@ -359,6 +376,7 @@ class VideoPlayerHandler implements MediaPlayerHandler {
     }
 
     await player.seek(target);
+    _notifySeek(target);
   }
 
   /// Rewind by [seconds], clamped to zero or active loop start.
@@ -373,6 +391,7 @@ class VideoPlayerHandler implements MediaPlayerHandler {
     }
 
     await player.seek(target);
+    _notifySeek(target);
   }
 
   /// Mirror the audio handler's `customAction` dispatcher so [SongCubit]'s
@@ -422,6 +441,7 @@ class VideoPlayerHandler implements MediaPlayerHandler {
     await _logSubscription?.cancel();
     await _navigationEventController.close();
     await _playerStateController.close();
+    await _seekEventController.close();
     await player.dispose();
     _loops = [];
     _currentLoopIndex = -1;

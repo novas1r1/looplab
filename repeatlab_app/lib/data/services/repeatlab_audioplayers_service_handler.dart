@@ -47,6 +47,19 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
   /// Track last skip previous tap time for double-tap detection
   DateTime? _lastSkipPreviousTime;
 
+  /// Every position discontinuity (user seek, forward/back, loop wrap,
+  /// repeat restart) is reported here so the metronome can realign its
+  /// click grid — native loop wraps are invisible to the cubit otherwise.
+  final _seekEventController = StreamController<Duration>.broadcast();
+  @override
+  Stream<Duration> get seekEvents => _seekEventController.stream;
+
+  void _notifySeek(Duration target) {
+    if (!_seekEventController.isClosed) {
+      _seekEventController.add(target);
+    }
+  }
+
   @override
   Stream<PlayerState>? playerStateStream;
   StreamSubscription<PlayerState>? _playerStateSubscription;
@@ -275,8 +288,10 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
         // check if is in loop mode
         if (position >= _activeLoop!.end!) {
           await audioPlayer.seek(_activeLoop!.start!);
+          _notifySeek(_activeLoop!.start!);
         } else if (position < _activeLoop!.start!) {
           await audioPlayer.seek(_activeLoop!.start!);
+          _notifySeek(_activeLoop!.start!);
         }
       }
     }
@@ -610,6 +625,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     }
 
     await audioPlayer.seek(target);
+    _notifySeek(target);
   }
 
   // if loop is not null, check if position is within loop start and end,
@@ -632,6 +648,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     }
 
     await audioPlayer.seek(target);
+    _notifySeek(target);
   }
 
   // Close resources when the audio handler is no longer needed
@@ -651,6 +668,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     _loops = [];
     _currentLoopIndex = -1;
     await _navigationEventController.close();
+    await _seekEventController.close();
   }
 
   Future<void> _awaitActiveSeek() async {
@@ -701,6 +719,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     }
 
     await audioPlayer.seek(clampedPosition);
+    _notifySeek(clampedPosition);
   }
 
   Future<void> _reloadSourceIfNeeded() async {
@@ -824,6 +843,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
 
       // Seek to beginning and play
       await audioPlayer.seek(Duration.zero);
+      _notifySeek(Duration.zero);
       await audioPlayer.resume();
 
       playbackState.add(
