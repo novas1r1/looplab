@@ -21,11 +21,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
   final PageController _pageController = PageController();
 
   bool _privacyAccepted = false;
+
+  // Optional analytics — GDPR opt-in, so it starts unchecked.
   bool _analyticsAccepted = false;
 
   int _currentPage = 0;
 
-  List<OnboardingSlide> _slides = [];
+  List<_OnboardingSlide> _slides = [];
 
   @override
   void initState() {
@@ -40,155 +42,340 @@ class _OnboardingPageState extends State<OnboardingPage> {
     super.dispose();
   }
 
+  int get _consentIndex => _slides.length;
+
+  int get _pageCount => _slides.length + 1;
+
+  bool get _isConsentPage => _currentPage == _consentIndex;
+
   @override
   Widget build(BuildContext context) {
     _slides = [
-      OnboardingSlide(
+      _OnboardingSlide(
+        eyebrow: context.l10n.onboardingEyebrow1,
         title: context.l10n.onboardingTitle1,
         description: context.l10n.onboardingDescription1,
-        icon: Icons.music_note,
+        icon: Icons.graphic_eq,
       ),
-      OnboardingSlide(
+      _OnboardingSlide(
+        eyebrow: context.l10n.onboardingEyebrow2,
         title: context.l10n.onboardingTitle2,
         description: context.l10n.onboardingDescription2,
-        icon: Icons.loop,
+        icon: Icons.repeat,
       ),
-      OnboardingSlide(
+      _OnboardingSlide(
+        eyebrow: context.l10n.onboardingEyebrow3,
         title: context.l10n.onboardingTitle3,
         description: context.l10n.onboardingDescription3,
-        icon: Icons.security,
-        isPrivacySlide: true,
+        icon: Icons.speed,
+      ),
+      _OnboardingSlide(
+        eyebrow: context.l10n.onboardingEyebrow4,
+        title: context.l10n.onboardingTitle4,
+        description: context.l10n.onboardingDescription4,
+        icon: Icons.music_note,
       ),
     ];
 
     return Scaffold(
+      backgroundColor: AppColors.surface,
       body: SafeArea(
         child: Column(
           children: [
+            _buildTopBar(),
             Expanded(
               child: PageView.builder(
                 controller: _pageController,
                 onPageChanged: _onPageChanged,
-                itemCount: _slides.length,
+                itemCount: _pageCount,
                 itemBuilder: (context, index) {
-                  return _buildSlide(_slides[index]);
+                  if (index < _slides.length) {
+                    return _buildInfoSlide(_slides[index]);
+                  }
+                  return _buildConsentSlide();
                 },
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(
-                      _slides.length,
-                      (index) => _buildDotIndicator(index),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  if (_currentPage == _slides.length - 1) ...[
-                    Row(
-                      children: [
-                        Checkbox(
-                          key: const Key('onboarding.analytics'),
-                          value: _analyticsAccepted,
-                          onChanged: (value) {
-                            setState(() {
-                              _analyticsAccepted = value ?? false;
-                            });
-                          },
-                        ),
-                        Expanded(
-                          child: RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: context
-                                      .l10n
-                                      .onboardingIAcceptUsageStatistics,
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Checkbox(
-                          key: const Key('onboarding.privacy'),
-                          value: _privacyAccepted,
-                          onChanged: (value) {
-                            setState(() {
-                              _privacyAccepted = value ?? false;
-                            });
-                          },
-                        ),
-                        Expanded(
-                          child: RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: context.l10n.onboardingIAccept,
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                                TextSpan(
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = _showPrivacyPolicy,
-                                  text:
-                                      context.l10n.onboardingPrivacyPolicyLink,
-                                  style: Theme.of(context).textTheme.bodyLarge
-                                      ?.copyWith(
-                                        decoration: TextDecoration.underline,
-                                        color: AppColors.primary,
-                                      ),
-                                ),
-                                TextSpan(
-                                  text: context.l10n.and,
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                                TextSpan(
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = _showTermsOfService,
-                                  text:
-                                      context.l10n.onboardingTermsOfServiceLink,
-                                  style: Theme.of(context).textTheme.bodyLarge
-                                      ?.copyWith(
-                                        decoration: TextDecoration.underline,
-                                        color: AppColors.primary,
-                                      ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+            if (_isConsentPage)
+              _buildConsentBottomBar()
+            else
+              _buildInfoBottomBar(),
+          ],
+        ),
+      ),
+    );
+  }
 
-                    const SizedBox(height: 16),
-                  ],
-                  SizedBox(
-                    width: double.infinity,
-                    child: FilledButton(
-                      key: const Key('onboarding.next'),
-                      onPressed: _currentPage == _slides.length - 1
-                          ? (_privacyAccepted ? _finishOnboarding : null)
-                          : () {
-                              _pageController.nextPage(
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeInOut,
-                              );
-                            },
-                      child: Text(
-                        _currentPage == _slides.length - 1
-                            ? context.l10n.onboardingGetStarted
-                            : context.l10n.onboardingNext,
-                      ),
+  // ---------------------------------------------------------------------------
+  // Top bar: progress indicator + Skip
+  // ---------------------------------------------------------------------------
+
+  Widget _buildTopBar() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 18, 20, 6),
+      child: SizedBox(
+        height: 28,
+        child: Row(
+          children: [
+            _buildProgress(),
+            const Spacer(),
+            if (!_isConsentPage)
+              TextButton(
+                key: const Key('onboarding.skip'),
+                onPressed: _skip,
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  minimumSize: Size.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: Text(
+                  context.l10n.onboardingSkip,
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: AppColors.onSurfaceVariant,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProgress() {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: List.generate(_pageCount, (index) {
+        final isActive = index == _currentPage;
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeInOut,
+          margin: EdgeInsets.only(right: index < _pageCount - 1 ? 7 : 0),
+          width: isActive ? 22 : 8,
+          height: 8,
+          decoration: BoxDecoration(
+            color: isActive ? AppColors.primary : AppColors.outlineVariant,
+            borderRadius: BorderRadius.circular(999),
+          ),
+        );
+      }),
+    );
+  }
+
+  // ---------------------------------------------------------------------------
+  // Info slide
+  // ---------------------------------------------------------------------------
+
+  Widget _buildInfoSlide(_OnboardingSlide slide) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 34),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _buildMedallion(slide.icon),
+          const SizedBox(height: 56),
+          Text(
+            slide.eyebrow.toUpperCase(),
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontFamily: 'Oswald',
+              fontWeight: FontWeight.w500,
+              fontSize: 12,
+              letterSpacing: 2,
+              color: AppColors.primary,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            slide.title,
+            textAlign: TextAlign.center,
+            style: theme.textTheme.headlineLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: AppColors.onSurface,
+              height: 1.05,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            slide.description,
+            textAlign: TextAlign.center,
+            style: theme.textTheme.bodyLarge?.copyWith(
+              color: AppColors.onSurfaceVariant,
+              height: 1.5,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMedallion(IconData icon) {
+    return SizedBox(
+      width: 148,
+      height: 148,
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: Opacity(
+              opacity: 0.9,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: AppColors.inversePrimary,
+                  borderRadius: BorderRadius.circular(74),
+                ),
+              ),
+            ),
+          ),
+          Positioned.fill(
+            child: Padding(
+              padding: const EdgeInsets.all(14),
+              child: Container(
+                decoration: BoxDecoration(
+                  // rgba(20, 19, 19, 0.35)
+                  color: const Color(0x59141313),
+                  borderRadius: BorderRadius.circular(60),
+                  border: Border.all(color: AppColors.primary, width: 2),
+                ),
+                child: Center(
+                  child: Icon(icon, size: 64, color: AppColors.primary),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ---------------------------------------------------------------------------
+  // Consent slide
+  // ---------------------------------------------------------------------------
+
+  Widget _buildConsentSlide() {
+    final theme = Theme.of(context);
+    return SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(24, 8, 24, 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const SizedBox(height: 8),
+          const Icon(Icons.shield_outlined, size: 44, color: AppColors.primary),
+          const SizedBox(height: 12),
+          Text(
+            context.l10n.onboardingConsentTitle,
+            textAlign: TextAlign.center,
+            style: theme.textTheme.headlineMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: AppColors.onSurface,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            context.l10n.onboardingConsentBody,
+            textAlign: TextAlign.center,
+            style: theme.textTheme.bodyLarge?.copyWith(
+              color: AppColors.onSurfaceVariant,
+              height: 1.5,
+            ),
+          ),
+          const SizedBox(height: 28),
+          _buildConsentCard(
+            cardKey: const Key('onboarding.analytics'),
+            checked: _analyticsAccepted,
+            onTap: () => setState(() => _analyticsAccepted = !_analyticsAccepted),
+            title: context.l10n.onboardingAnalyticsTitle,
+            body: Text(
+              context.l10n.onboardingAnalyticsBody,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: AppColors.onSurfaceVariant,
+                height: 1.35,
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          _buildConsentCard(
+            cardKey: const Key('onboarding.privacy'),
+            checked: _privacyAccepted,
+            onTap: () => setState(() => _privacyAccepted = !_privacyAccepted),
+            title: context.l10n.onboardingDataProtectionTitle,
+            body: _buildDataProtectionText(theme),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDataProtectionText(ThemeData theme) {
+    final baseStyle = theme.textTheme.bodyMedium?.copyWith(
+      color: AppColors.onSurfaceVariant,
+      height: 1.35,
+    );
+    final linkStyle = baseStyle?.copyWith(
+      color: AppColors.primary,
+      fontWeight: FontWeight.w700,
+    );
+    return RichText(
+      text: TextSpan(
+        style: baseStyle,
+        children: [
+          TextSpan(text: context.l10n.onboardingIAccept),
+          TextSpan(
+            recognizer: TapGestureRecognizer()..onTap = _showPrivacyPolicy,
+            text: context.l10n.onboardingPrivacyPolicyLink,
+            style: linkStyle,
+          ),
+          TextSpan(text: context.l10n.and),
+          TextSpan(
+            recognizer: TapGestureRecognizer()..onTap = _showTermsOfService,
+            text: context.l10n.onboardingTermsOfServiceLink,
+            style: linkStyle,
+          ),
+          const TextSpan(text: '.'),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildConsentCard({
+    required Key cardKey,
+    required bool checked,
+    required VoidCallback onTap,
+    required String title,
+    required Widget body,
+  }) {
+    return InkWell(
+      key: cardKey,
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppColors.secondaryContainer,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: checked ? AppColors.primary : Colors.transparent,
+            width: 2,
+          ),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildCheckIndicator(checked),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.onSurface,
                     ),
                   ),
+                  const SizedBox(height: 4),
+                  body,
                 ],
               ),
             ),
@@ -198,10 +385,164 @@ class _OnboardingPageState extends State<OnboardingPage> {
     );
   }
 
+  Widget _buildCheckIndicator(bool checked) {
+    return Container(
+      width: 24,
+      height: 24,
+      decoration: BoxDecoration(
+        color: checked ? AppColors.primary : Colors.transparent,
+        borderRadius: BorderRadius.circular(7),
+        border: Border.all(
+          color: checked ? AppColors.primary : AppColors.outline,
+          width: 2,
+        ),
+      ),
+      child: checked
+          ? const Icon(Icons.check, size: 16, color: AppColors.onPrimary)
+          : null,
+    );
+  }
+
+  // ---------------------------------------------------------------------------
+  // Bottom bars
+  // ---------------------------------------------------------------------------
+
+  Widget _buildInfoBottomBar() {
+    final isLastInfo = _currentPage == _slides.length - 1;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 8, 24, 30),
+      child: Row(
+        children: [
+          _buildBackButton(enabled: _currentPage > 0),
+          const SizedBox(width: 12),
+          Expanded(
+            child: SizedBox(
+              height: 52,
+              child: FilledButton(
+                key: const Key('onboarding.next'),
+                style: _primaryButtonStyle(),
+                onPressed: _advance,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      isLastInfo
+                          ? context.l10n.onboardingContinue
+                          : context.l10n.onboardingNext,
+                    ),
+                    const SizedBox(width: 8),
+                    Icon(isLastInfo ? Icons.check : Icons.arrow_forward, size: 22),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildConsentBottomBar() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: double.infinity,
+            height: 52,
+            child: FilledButton(
+              key: const Key('onboarding.next'),
+              style: _primaryButtonStyle(),
+              onPressed: _privacyAccepted ? _finishOnboarding : null,
+              child: Text(context.l10n.onboardingGetStarted),
+            ),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            context.l10n.onboardingConsentFootnote,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: AppColors.onSurfaceVariant,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  ButtonStyle _primaryButtonStyle() {
+    return FilledButton.styleFrom(
+      backgroundColor: AppColors.primary,
+      foregroundColor: AppColors.onPrimary,
+      disabledBackgroundColor: AppColors.primary.withValues(alpha: 0.3),
+      disabledForegroundColor: AppColors.onPrimary.withValues(alpha: 0.5),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      textStyle: const TextStyle(
+        fontFamily: 'Nunito Sans',
+        fontWeight: FontWeight.w700,
+        fontSize: 16,
+      ),
+    );
+  }
+
+  Widget _buildBackButton({required bool enabled}) {
+    return Opacity(
+      opacity: enabled ? 1 : 0.4,
+      child: InkWell(
+        onTap: enabled ? _back : null,
+        borderRadius: BorderRadius.circular(10),
+        child: Container(
+          width: 52,
+          height: 52,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: AppColors.outlineVariant),
+          ),
+          child: Icon(
+            Icons.arrow_back,
+            size: 24,
+            color: AppColors.onSurface.withValues(alpha: 0.6),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ---------------------------------------------------------------------------
+  // Navigation
+  // ---------------------------------------------------------------------------
+
   void _onPageChanged(int page) {
     setState(() {
       _currentPage = page;
     });
+  }
+
+  void _advance() {
+    _pageController.nextPage(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void _back() {
+    _pageController.previousPage(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void _skip() {
+    AppAnalytics.trackEvent(
+      AppAnalytics.onboardingSkipped,
+      data: {'from_page': _currentPage},
+    );
+    _pageController.animateToPage(
+      _consentIndex,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
   }
 
   Future<void> _finishOnboarding() async {
@@ -270,60 +611,18 @@ class _OnboardingPageState extends State<OnboardingPage> {
   void _showTermsOfService() {
     Navigator.of(context).pushNamed('/terms');
   }
-
-  Widget _buildSlide(OnboardingSlide slide) {
-    return Padding(
-      padding: const EdgeInsets.all(32.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            slide.icon,
-            size: 100,
-            color: AppColors.primary,
-          ),
-          const SizedBox(height: 32),
-          Text(
-            slide.title,
-            style: Theme.of(context).textTheme.headlineMedium,
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 16),
-          Text(
-            slide.description,
-            style: Theme.of(context).textTheme.bodyLarge,
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDotIndicator(int index) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 4),
-      width: 8,
-      height: 8,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: _currentPage == index
-            ? AppColors.primary
-            : AppColors.primary.withValues(alpha: 0.2),
-      ),
-    );
-  }
 }
 
-class OnboardingSlide {
+class _OnboardingSlide {
+  final String eyebrow;
   final String title;
   final String description;
   final IconData icon;
-  final bool isPrivacySlide;
 
-  OnboardingSlide({
+  _OnboardingSlide({
+    required this.eyebrow,
     required this.title,
     required this.description,
     required this.icon,
-    this.isPrivacySlide = false,
   });
 }

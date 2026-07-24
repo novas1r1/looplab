@@ -121,25 +121,71 @@ class AppLocalizationsHi extends AppLocalizations {
       '§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nईमेल: support@repeatlab.de\n\nकानूनी रूप: स्वतंत्र कार्यकर्ता';
 
   @override
-  String get onboardingTitle1 => 'RepeatLab में आपका स्वागत है';
+  String get onboardingEyebrow1 => 'RepeatLab में आपका स्वागत है';
+
+  @override
+  String get onboardingTitle1 => 'किसी प्रो की तरह अभ्यास करें';
 
   @override
   String get onboardingDescription1 =>
-      'कठिन भागों को दोहराकर या धीमा करके किसी भी गीत में महारत हासिल करें।';
+      'किसी भी गीत में महारत हासिल करने के लिए आपका निजी लूप स्टेशन — ऑडियो या वीडियो, 100% ऑफ़लाइन।';
 
   @override
-  String get onboardingTitle2 => 'सटीक लूप बनाएं';
+  String get onboardingEyebrow2 => 'लूप';
+
+  @override
+  String get onboardingTitle2 => 'कठिन हिस्सों को लूप करें';
 
   @override
   String get onboardingDescription2 =>
-      'बस उस खंड की शुरुआत और अंत को चिह्नित करने के लिए क्लिक करें जिसे आप अभ्यास करना चाहते हैं। सहज वेवफॉर्म व्यू के साथ सटीक समायोजन करें।';
+      'वेवफॉर्म पर सटीक शुरुआत और अंत बिंदु सेट करें, फिर उस हिस्से को तब तक बजाएं जब तक आप उसमें महारत हासिल न कर लें।';
 
   @override
-  String get onboardingTitle3 => 'गोपनीयता पहले';
+  String get onboardingEyebrow3 => 'गति और टेम्पो';
+
+  @override
+  String get onboardingTitle3 => 'गति धीमी करें, पिच वही रखें';
 
   @override
   String get onboardingDescription3 =>
-      'हम आपकी गोपनीयता का सम्मान करते हैं और आपके डेटा को सावधानी से संभालते हैं। कृपया आगे बढ़ने के लिए गोपनीयता नीति की समीक्षा करें और सहमत हों।';
+      '0.5× से 2.0× तक घटाएं, या सटीक BPM सेट करें। पिच सही बनी रहती है, इसलिए आवाज़ कभी बेसुरी नहीं लगती।';
+
+  @override
+  String get onboardingEyebrow4 => 'पिच';
+
+  @override
+  String get onboardingTitle4 => 'इसे अपनी की में बजाएं';
+
+  @override
+  String get onboardingDescription4 =>
+      '±12 सेमिटोन ट्रांसपोज़ करें या की-टू-की मैप करें — अपनी आवाज़, अपनी ट्यूनिंग, अपने कैपो के अनुसार।';
+
+  @override
+  String get onboardingConsentTitle => 'आपका डेटा, आपका फ़ैसला';
+
+  @override
+  String get onboardingConsentBody =>
+      'RepeatLab ऑफ़लाइन काम करता है और आपकी फ़ाइलें आपके डिवाइस पर रखता है। शुरू करने से पहले बस एक छोटी-सी बात।';
+
+  @override
+  String get onboardingAnalyticsTitle => 'गुमनाम एनालिटिक्स';
+
+  @override
+  String get onboardingAnalyticsBody =>
+      'RepeatLab को बेहतर बनाने में मदद के लिए गुमनाम उपयोग डेटा (EU में होस्ट किया गया) साझा करें।';
+
+  @override
+  String get onboardingDataProtectionTitle => 'डेटा सुरक्षा';
+
+  @override
+  String get onboardingConsentFootnote =>
+      'आप एनालिटिक्स को कभी भी सेटिंग्स में बदल सकते हैं।';
+
+  @override
+  String get onboardingSkip => 'छोड़ें';
+
+  @override
+  String get onboardingContinue => 'जारी रखें';
 
   @override
   String get onboardingIAccept => 'मैं स्वीकार करता हूं';
@@ -426,6 +472,20 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get changelogTitle => 'परिवर्तन लॉग';
+
+  @override
+  String get changelog2201Title => 'मेट्रोनोम';
+
+  @override
+  String get changelog2201Description =>
+      'एक अंतर्निहित मेट्रोनोम के साथ बजाएं जो आपके गाने की ताल के साथ चलता है। टाइम सिग्नेचर और सबडिवीज़न चुनें, टेम्पो टैप करें, और क्लिक को आधे-बीट शिफ्ट और मिलीसेकंड नज के साथ बारीकी से समायोजित करें ताकि यह बीट के साथ पूरी तरह मेल खाए।';
+
+  @override
+  String get changelog2202Title => 'रुके होने पर लूप संपादित करें';
+
+  @override
+  String get changelog2202Description =>
+      'अब आप प्लेबैक रुके होने पर किसी लूप के शुरू और अंत बिंदुओं को स्वतंत्र रूप से घुमा सकते हैं - प्लेहेड अब वापस लूप में नहीं आता। जैसे ही आप प्ले दबाते हैं, लूप की सीमाएं फिर से लागू हो जाती हैं, जिससे अपने लूप को बारीकी से समायोजित करना बहुत आसान हो जाता है।';
 
   @override
   String get changelog2101Title => 'पिच शिफ्ट (Beta)';

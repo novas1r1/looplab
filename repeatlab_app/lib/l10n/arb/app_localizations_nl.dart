@@ -120,25 +120,71 @@ class AppLocalizationsNl extends AppLocalizations {
       '§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nE-mail: support@repeatlab.de\n\nRechtsvorm: Freelancer';
 
   @override
-  String get onboardingTitle1 => 'Welkom bij RepeatLab';
+  String get onboardingEyebrow1 => 'Welkom bij RepeatLab';
+
+  @override
+  String get onboardingTitle1 => 'Oefen als een pro';
 
   @override
   String get onboardingDescription1 =>
-      'Beheers elk nummer door moeilijke passages te oefenen door ze te herhalen of te vertragen.';
+      'Jouw persoonlijke loopstation om elk nummer onder de knie te krijgen — audio of video, 100% offline.';
 
   @override
-  String get onboardingTitle2 => 'Maak Precieze Loops';
+  String get onboardingEyebrow2 => 'Loop';
+
+  @override
+  String get onboardingTitle2 => 'Loop de lastige stukken';
 
   @override
   String get onboardingDescription2 =>
-      'Tik simpelweg om het begin en einde van een sectie te markeren die je wilt oefenen. Pas aan en verfijn met onze intuïtieve golfvormweergave.';
+      'Zet precieze begin- en eindpunten op de golfvorm en speel dat stuk tot je het foutloos beheerst.';
 
   @override
-  String get onboardingTitle3 => 'Privacy Voorop';
+  String get onboardingEyebrow3 => 'Snelheid & tempo';
+
+  @override
+  String get onboardingTitle3 => 'Vertraag het, behoud de toonhoogte';
 
   @override
   String get onboardingDescription3 =>
-      'We waarderen je privacy en gaan zorgvuldig om met je gegevens. Lees ons privacybeleid en accepteer om door te gaan.';
+      'Ga van 0.5× naar 2.0×, of stel een exacte BPM in. De toonhoogte blijft kloppen, zodat het nooit vals klinkt.';
+
+  @override
+  String get onboardingEyebrow4 => 'Toonhoogte';
+
+  @override
+  String get onboardingTitle4 => 'Speel het in jouw toonsoort';
+
+  @override
+  String get onboardingDescription4 =>
+      'Transponeer ±12 halve tonen of koppel toonsoort aan toonsoort — passend bij je stem, je stemming, je capo.';
+
+  @override
+  String get onboardingConsentTitle => 'Jouw gegevens, jouw keuze';
+
+  @override
+  String get onboardingConsentBody =>
+      'RepeatLab werkt offline en houdt je bestanden op je apparaat. Nog één klein dingetje voordat je begint.';
+
+  @override
+  String get onboardingAnalyticsTitle => 'Anonieme analyses';
+
+  @override
+  String get onboardingAnalyticsBody =>
+      'Deel anonieme gebruiksgegevens (gehost in de EU) om RepeatLab te helpen verbeteren.';
+
+  @override
+  String get onboardingDataProtectionTitle => 'Gegevensbescherming';
+
+  @override
+  String get onboardingConsentFootnote =>
+      'Je kunt analyses altijd wijzigen in Instellingen.';
+
+  @override
+  String get onboardingSkip => 'Overslaan';
+
+  @override
+  String get onboardingContinue => 'Doorgaan';
 
   @override
   String get onboardingIAccept => 'Ik accepteer het ';
@@ -428,6 +474,20 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get changelogTitle => 'Wijzigingen';
+
+  @override
+  String get changelog2201Title => 'Metronoom';
+
+  @override
+  String get changelog2201Description =>
+      'Speel mee met een ingebouwde metronoom die in de maat van je nummer blijft. Kies de maatsoort en onderverdeling, tik het tempo in en stem de klik nauwkeurig af met halve-tel-verschuivingen en aanpassingen in milliseconden, zodat hij perfect op de beat valt.';
+
+  @override
+  String get changelog2202Title => 'Loops aanpassen tijdens pauze';
+
+  @override
+  String get changelog2202Description =>
+      'Je kunt nu het begin- en eindpunt van een loop vrij verplaatsen terwijl het afspelen is gepauzeerd - de afspeelkop springt niet meer terug in de loop. De loopgrenzen worden weer actief zodra je op afspelen drukt, waardoor je je loops veel makkelijker kunt fijnafstellen.';
 
   @override
   String get changelog2101Title => 'Toonhoogte wijzigen (Beta)';

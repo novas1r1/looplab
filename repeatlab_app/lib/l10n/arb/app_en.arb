@@ -46,12 +46,26 @@
     "noSongsFound": "No songs found",
     "tapToAddSong": "Tap + to add your first song",
     "legalNoticesDescription": "§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nE-Mail: support@repeatlab.de\n\nRechtsform: Freelancer",
-    "onboardingTitle1": "Welcome to RepeatLab",
-    "onboardingDescription1": "Master any song by practicing difficult sections with repeating them or slowing them down.",
-    "onboardingTitle2": "Create Precise Loops",
-    "onboardingDescription2": "Simply tap to mark the start and end of a section you want to practice. Adjust and fine-tune with our intuitive waveform display.",
-    "onboardingTitle3": "Privacy First",
-    "onboardingDescription3": "We value your privacy and handle your data with care. Please review our privacy policy and accept to continue.",
+    "onboardingEyebrow1": "Welcome to RepeatLab",
+    "onboardingTitle1": "Practice Like a Pro",
+    "onboardingDescription1": "Your personal loop station for mastering any song — audio or video, 100% offline.",
+    "onboardingEyebrow2": "Loop",
+    "onboardingTitle2": "Loop the tricky parts",
+    "onboardingDescription2": "Set precise start and end points on the waveform, then play that section till you nail it.",
+    "onboardingEyebrow3": "Speed & Tempo",
+    "onboardingTitle3": "Slow it down, keep the pitch",
+    "onboardingDescription3": "Drop from 0.5× to 2.0×, or dial an exact BPM. The pitch stays true so it never sounds off.",
+    "onboardingEyebrow4": "Pitch",
+    "onboardingTitle4": "Play it in your key",
+    "onboardingDescription4": "Transpose ±12 semitones or map key to key — match your voice, your tuning, your capo.",
+    "onboardingConsentTitle": "Your data, your call",
+    "onboardingConsentBody": "RepeatLab works offline and keeps your files on your device. One quick bit of housekeeping before you start.",
+    "onboardingAnalyticsTitle": "Anonymous analytics",
+    "onboardingAnalyticsBody": "Share anonymous usage data (EU-hosted) to help improve RepeatLab.",
+    "onboardingDataProtectionTitle": "Data protection",
+    "onboardingConsentFootnote": "You can change analytics anytime in Settings.",
+    "onboardingSkip": "Skip",
+    "onboardingContinue": "Continue",
     "onboardingIAccept": "I accept the ",
     "onboardingPrivacyPolicyLink": "Privacy Policy",
     "onboardingTermsOfServiceLink": "Terms of Service",
@@ -184,6 +198,22 @@
     "purchaseSuccess": "Purchase successful. Thank you for supporting the developer ❤️!",
     "voteForFeatures": "Vote for Features",
     "changelogTitle": "Changelog",
+    "changelog2201Title": "Metronome",
+    "@changelog2201Title": {
+        "description": "Changelog entry title for the 2.2.0 metronome feature"
+    },
+    "changelog2201Description": "Play along to a built-in metronome that keeps time with your song. Choose the time signature and subdivision, tap in the tempo, and fine-tune the click with half-beat shifts and millisecond nudges so it lines up perfectly with the beat.",
+    "@changelog2201Description": {
+        "description": "Changelog entry description for the 2.2.0 metronome feature"
+    },
+    "changelog2202Title": "Adjust loops while paused",
+    "@changelog2202Title": {
+        "description": "Changelog entry title for the 2.2.0 loop editing while paused feature"
+    },
+    "changelog2202Description": "You can now freely move a loop's start and end points while playback is paused - the playhead no longer snaps back into the loop. Loop boundaries take effect again the moment you press play, making it much easier to fine-tune your loops.",
+    "@changelog2202Description": {
+        "description": "Changelog entry description for the 2.2.0 loop editing while paused feature"
+    },
     "changelog2101Title": "Pitch shift (Beta)",
     "@changelog2101Title": {
         "description": "Changelog entry title for the 2.1.0 pitch shift feature"

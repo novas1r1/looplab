@@ -120,25 +120,71 @@ class AppLocalizationsRu extends AppLocalizations {
       '§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nEmail: support@repeatlab.de\n\nПравовая форма: Фрилансер';
 
   @override
-  String get onboardingTitle1 => 'Добро пожаловать в RepeatLab';
+  String get onboardingEyebrow1 => 'Добро пожаловать в RepeatLab';
+
+  @override
+  String get onboardingTitle1 => 'Занимайтесь как профи';
 
   @override
   String get onboardingDescription1 =>
-      'Освойте любую песню, практикуя сложные части путем их повторения или замедления.';
+      'Ваша личная петля-станция для освоения любой песни — аудио или видео, на 100% офлайн.';
 
   @override
-  String get onboardingTitle2 => 'Создавайте Точные Лупы';
+  String get onboardingEyebrow2 => 'Петля';
+
+  @override
+  String get onboardingTitle2 => 'Зацикливайте сложные фрагменты';
 
   @override
   String get onboardingDescription2 =>
-      'Просто нажмите, чтобы отметить начало и конец секции, которую вы хотите практиковать. Настройте и уточните с помощью нашего интуитивного отображения волновой формы.';
+      'Задайте точные точки начала и конца на волновой форме, а затем проигрывайте этот фрагмент, пока не освоите его.';
 
   @override
-  String get onboardingTitle3 => 'Конфиденциальность Прежде Всего';
+  String get onboardingEyebrow3 => 'Скорость и темп';
+
+  @override
+  String get onboardingTitle3 => 'Замедляйте без потери высоты звука';
 
   @override
   String get onboardingDescription3 =>
-      'Мы ценим вашу конфиденциальность и бережно обращаемся с вашими данными. Пожалуйста, ознакомьтесь с нашей политикой конфиденциальности и примите её, чтобы продолжить.';
+      'Снижайте с 0.5× до 2.0× или задайте точный BPM. Высота звука остаётся неизменной, поэтому звучание никогда не искажается.';
+
+  @override
+  String get onboardingEyebrow4 => 'Высота звука';
+
+  @override
+  String get onboardingTitle4 => 'Играйте в своей тональности';
+
+  @override
+  String get onboardingDescription4 =>
+      'Транспонируйте на ±12 полутонов или сопоставляйте тональность с тональностью — под ваш голос, ваш строй, ваш каподастр.';
+
+  @override
+  String get onboardingConsentTitle => 'Ваши данные — ваш выбор';
+
+  @override
+  String get onboardingConsentBody =>
+      'RepeatLab работает офлайн и хранит ваши файлы на устройстве. Ещё одна небольшая формальность, прежде чем вы начнёте.';
+
+  @override
+  String get onboardingAnalyticsTitle => 'Анонимная аналитика';
+
+  @override
+  String get onboardingAnalyticsBody =>
+      'Делитесь анонимными данными об использовании (хостинг в EU), чтобы помочь улучшить RepeatLab.';
+
+  @override
+  String get onboardingDataProtectionTitle => 'Защита данных';
+
+  @override
+  String get onboardingConsentFootnote =>
+      'Вы можете изменить настройки аналитики в любое время в Настройках.';
+
+  @override
+  String get onboardingSkip => 'Пропустить';
+
+  @override
+  String get onboardingContinue => 'Продолжить';
 
   @override
   String get onboardingIAccept => 'Я принимаю ';
@@ -430,6 +476,20 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get changelogTitle => 'Изменения';
+
+  @override
+  String get changelog2201Title => 'Метроном';
+
+  @override
+  String get changelog2201Description =>
+      'Играйте под встроенный метроном, который держит темп вашей песни. Выберите размер и деление, задайте темп касанием и точно настройте щелчок с помощью сдвигов на полдоли и подстройки в миллисекундах, чтобы он идеально совпадал с ритмом.';
+
+  @override
+  String get changelog2202Title => 'Редактирование петель на паузе';
+
+  @override
+  String get changelog2202Description =>
+      'Теперь вы можете свободно перемещать точки начала и конца петли, пока воспроизведение на паузе - указатель воспроизведения больше не возвращается внутрь петли. Границы петли снова вступают в силу, как только вы нажимаете воспроизведение, что значительно упрощает точную настройку петель.';
 
   @override
   String get changelog2101Title => 'Изменение тональности (Beta)';

@@ -120,25 +120,71 @@ class AppLocalizationsTr extends AppLocalizations {
       '§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nE-posta: support@repeatlab.de\n\nYasal Şekil: Serbest Çalışan';
 
   @override
-  String get onboardingTitle1 => 'RepeatLab\'a Hoş Geldiniz';
+  String get onboardingEyebrow1 => 'RepeatLab\'a hoş geldiniz';
+
+  @override
+  String get onboardingTitle1 => 'Bir profesyonel gibi çalışın';
 
   @override
   String get onboardingDescription1 =>
-      'Zor bölümleri tekrarlayarak veya yavaşlatarak herhangi bir şarkıda ustalaşın.';
+      'Her şarkıda ustalaşmak için kişisel döngü istasyonunuz — ses veya video, %100 çevrimdışı.';
 
   @override
-  String get onboardingTitle2 => 'Hassas Döngüler Oluşturun';
+  String get onboardingEyebrow2 => 'Döngü';
+
+  @override
+  String get onboardingTitle2 => 'Zorlu bölümleri döngüye alın';
 
   @override
   String get onboardingDescription2 =>
-      'Pratik yapmak istediğiniz bölümün başlangıç ve bitişini işaretlemek için sadece tıklayın. Sezgisel dalga formu görünümü ile hassas ayarlamalar yapın.';
+      'Dalga formu üzerinde hassas başlangıç ve bitiş noktaları belirleyin, ardından o bölümü tam olarak oturtana kadar çalın.';
 
   @override
-  String get onboardingTitle3 => 'Önce Gizlilik';
+  String get onboardingEyebrow3 => 'Hız ve tempo';
+
+  @override
+  String get onboardingTitle3 => 'Yavaşlatın, perdeyi koruyun';
 
   @override
   String get onboardingDescription3 =>
-      'Gizliliğinize saygı duyuyor ve verilerinizi dikkatle işliyoruz. Lütfen devam etmek için gizlilik politikasını gözden geçirin ve onaylayın.';
+      '0.5×\'ten 2.0×\'e inin ya da tam bir BPM ayarlayın. Perde bozulmaz, böylece hiçbir zaman kulağı tırmalamaz.';
+
+  @override
+  String get onboardingEyebrow4 => 'Perde';
+
+  @override
+  String get onboardingTitle4 => 'Kendi tonunuzda çalın';
+
+  @override
+  String get onboardingDescription4 =>
+      '±12 yarım ses transpoze edin ya da tonu tona eşleyin — sesinize, akordunuza ve kaponuza göre ayarlayın.';
+
+  @override
+  String get onboardingConsentTitle => 'Verileriniz, sizin kararınız';
+
+  @override
+  String get onboardingConsentBody =>
+      'RepeatLab çevrimdışı çalışır ve dosyalarınızı cihazınızda tutar. Başlamadan önce hızlıca halledilecek küçük bir konu var.';
+
+  @override
+  String get onboardingAnalyticsTitle => 'Anonim analitik';
+
+  @override
+  String get onboardingAnalyticsBody =>
+      'RepeatLab\'ı geliştirmeye yardımcı olmak için anonim kullanım verilerini (EU\'da barındırılır) paylaşın.';
+
+  @override
+  String get onboardingDataProtectionTitle => 'Veri koruma';
+
+  @override
+  String get onboardingConsentFootnote =>
+      'Analitiği istediğiniz zaman Ayarlar\'dan değiştirebilirsiniz.';
+
+  @override
+  String get onboardingSkip => 'Atla';
+
+  @override
+  String get onboardingContinue => 'Devam et';
 
   @override
   String get onboardingIAccept => 'Kabul Ediyorum';
@@ -428,6 +474,20 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get changelogTitle => 'Değişiklik Günlüğü';
+
+  @override
+  String get changelog2201Title => 'Metronom';
+
+  @override
+  String get changelog2201Description =>
+      'Şarkının temposunu koruyan yerleşik bir metronom eşliğinde çal. Ölçü işaretini ve alt bölünmeyi seç, dokunarak tempoyu belirle ve tıklamayı yarım vuruş kaydırmaları ile milisaniye ince ayarlarıyla ritme tam olarak oturacak şekilde ayarla.';
+
+  @override
+  String get changelog2202Title => 'Duraklatıldığında döngüleri düzenle';
+
+  @override
+  String get changelog2202Description =>
+      'Artık oynatma duraklatılmışken bir döngünün başlangıç ve bitiş noktalarını serbestçe taşıyabilirsin - oynatma başı artık döngünün içine geri dönmüyor. Oynat\'a bastığın anda döngü sınırları yeniden geçerli olur, böylece döngülerini ince ayarlamak çok daha kolay hale gelir.';
 
   @override
   String get changelog2101Title => 'Perde kaydırma (Beta)';

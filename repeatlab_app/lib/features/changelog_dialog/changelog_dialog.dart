@@ -37,6 +37,23 @@ class _ChangelogDialogState extends State<ChangelogDialog>
   Widget build(BuildContext context) {
     final versions = [
       ChangelogVersion(
+        version: '2.2.0',
+        releaseDate: DateTime(2026, 7, 24),
+        updates: [
+          ChangelogElement(
+            title: context.l10n.changelog2201Title,
+            description: context.l10n.changelog2201Description,
+            imagePaths: const [
+              'assets/images/update_metronome.jpg',
+            ],
+          ),
+          ChangelogElement(
+            title: context.l10n.changelog2202Title,
+            description: context.l10n.changelog2202Description,
+          ),
+        ],
+      ),
+      ChangelogVersion(
         version: '2.1.0',
         releaseDate: DateTime(2026, 7, 5),
         updates: [

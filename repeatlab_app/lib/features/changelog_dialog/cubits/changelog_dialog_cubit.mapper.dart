@@ -80,10 +80,11 @@ class ChangelogDialogStateMapper extends ClassMapperBase<ChangelogDialogState> {
     opt: true,
     def: ChangelogStatus.loading,
   );
-  static bool _$shouldShowDialog(ChangelogDialogState v) => v.shouldShowDialog;
-  static const Field<ChangelogDialogState, bool> _f$shouldShowDialog = Field(
-    'shouldShowDialog',
-    _$shouldShowDialog,
+  static bool _$hasUnseenChangelog(ChangelogDialogState v) =>
+      v.hasUnseenChangelog;
+  static const Field<ChangelogDialogState, bool> _f$hasUnseenChangelog = Field(
+    'hasUnseenChangelog',
+    _$hasUnseenChangelog,
     opt: true,
     def: false,
   );
@@ -97,14 +98,14 @@ class ChangelogDialogStateMapper extends ClassMapperBase<ChangelogDialogState> {
   @override
   final MappableFields<ChangelogDialogState> fields = const {
     #status: _f$status,
-    #shouldShowDialog: _f$shouldShowDialog,
+    #hasUnseenChangelog: _f$hasUnseenChangelog,
     #errorMessage: _f$errorMessage,
   };
 
   static ChangelogDialogState _instantiate(DecodingData data) {
     return ChangelogDialogState(
       status: data.dec(_f$status),
-      shouldShowDialog: data.dec(_f$shouldShowDialog),
+      hasUnseenChangelog: data.dec(_f$hasUnseenChangelog),
       errorMessage: data.dec(_f$errorMessage),
     );
   }
@@ -181,7 +182,7 @@ abstract class ChangelogDialogStateCopyWith<
     implements ClassCopyWith<$R, $In, $Out> {
   $R call({
     ChangelogStatus? status,
-    bool? shouldShowDialog,
+    bool? hasUnseenChangelog,
     String? errorMessage,
   });
   ChangelogDialogStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
@@ -200,19 +201,22 @@ class _ChangelogDialogStateCopyWithImpl<$R, $Out>
   @override
   $R call({
     ChangelogStatus? status,
-    bool? shouldShowDialog,
+    bool? hasUnseenChangelog,
     Object? errorMessage = $none,
   }) => $apply(
     FieldCopyWithData({
       if (status != null) #status: status,
-      if (shouldShowDialog != null) #shouldShowDialog: shouldShowDialog,
+      if (hasUnseenChangelog != null) #hasUnseenChangelog: hasUnseenChangelog,
       if (errorMessage != $none) #errorMessage: errorMessage,
     }),
   );
   @override
   ChangelogDialogState $make(CopyWithData data) => ChangelogDialogState(
     status: data.get(#status, or: $value.status),
-    shouldShowDialog: data.get(#shouldShowDialog, or: $value.shouldShowDialog),
+    hasUnseenChangelog: data.get(
+      #hasUnseenChangelog,
+      or: $value.hasUnseenChangelog,
+    ),
     errorMessage: data.get(#errorMessage, or: $value.errorMessage),
   );
 

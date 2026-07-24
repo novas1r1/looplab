@@ -109,6 +109,10 @@ abstract final class AppAnalytics {
   static const clickHelp = 'click_help';
   static const clickOpenSong = 'click_open_song';
   static const clickSkipTutorial = 'click_skip_tutorial';
+
+  /// Tapping the "What's new" entry point (app-bar gift icon or the floating
+  /// bubble) that opens the changelog. Carries a `source` property.
+  static const clickWhatsNew = 'click_whats_new';
   // events song screen
   static const clickDeleteLoop = 'click_delete_loop';
   static const clickAddLoop = 'click_add_loop';
@@ -203,6 +207,10 @@ abstract final class AppAnalytics {
   static const onboardingCompleted = 'onboarding_completed';
   static const onboardingAnalyticsAccepted = 'onboarding_analytics_accepted';
   static const onboardingAnalyticsDeclined = 'onboarding_analytics_declined';
+
+  /// The user tapped "Skip" on an onboarding info slide, jumping straight to
+  /// the consent slide. Carries a `from_page` property (0-based slide index).
+  static const onboardingSkipped = 'onboarding_skipped';
 
   // activation milestones
   static const loopCreated = 'loop_created';

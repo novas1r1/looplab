@@ -120,25 +120,71 @@ class AppLocalizationsAr extends AppLocalizations {
       '§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nالبريد الإلكتروني: support@repeatlab.de\n\nالشكل القانوني: عامل حر';
 
   @override
-  String get onboardingTitle1 => 'مرحبًا بك في RepeatLab';
+  String get onboardingEyebrow1 => 'مرحبًا بك في RepeatLab';
+
+  @override
+  String get onboardingTitle1 => 'تدرّب باحتراف';
 
   @override
   String get onboardingDescription1 =>
-      'أتقن أي أغنية من خلال تكرار الأجزاء الصعبة أو إبطائها.';
+      'محطة التكرار الشخصية لإتقان أي أغنية — صوت أو فيديو، 100% دون اتصال.';
 
   @override
-  String get onboardingTitle2 => 'إنشاء حلقات دقيقة';
+  String get onboardingEyebrow2 => 'التكرار';
+
+  @override
+  String get onboardingTitle2 => 'كرّر الأجزاء الصعبة';
 
   @override
   String get onboardingDescription2 =>
-      'ما عليك سوى النقر لتحديد بداية ونهاية القسم الذي تريد التدرب عليه. اضبط وضبط بدقة باستخدام عرض الموجة البديهي.';
+      'حدّد نقطتَي بداية ونهاية دقيقتين على الموجة الصوتية، ثم شغّل ذلك المقطع حتى تتقنه.';
 
   @override
-  String get onboardingTitle3 => 'الخصوصية أولاً';
+  String get onboardingEyebrow3 => 'السرعة والإيقاع';
+
+  @override
+  String get onboardingTitle3 => 'أبطئها مع الحفاظ على طبقة الصوت';
 
   @override
   String get onboardingDescription3 =>
-      'نحن نقدر خصوصيتك ونعالج بياناتك بعناية. يرجى مراجعة سياسة الخصوصية والموافقة للمتابعة.';
+      'اخفض من 0.5× إلى 2.0×، أو اضبط قيمة BPM محددة. تبقى طبقة الصوت ثابتة فلا يبدو الصوت ناشزًا.';
+
+  @override
+  String get onboardingEyebrow4 => 'طبقة الصوت';
+
+  @override
+  String get onboardingTitle4 => 'اعزفها بمقامك';
+
+  @override
+  String get onboardingDescription4 =>
+      'انقل الطبقة ±12 نصف نغمة أو حوّل من مقام إلى مقام — لتناسب صوتك ودوزانك وكابو الجيتار.';
+
+  @override
+  String get onboardingConsentTitle => 'بياناتك، قرارك';
+
+  @override
+  String get onboardingConsentBody =>
+      'يعمل RepeatLab دون اتصال ويحتفظ بملفاتك على جهازك. تفصيل سريع واحد قبل أن تبدأ.';
+
+  @override
+  String get onboardingAnalyticsTitle => 'تحليلات مجهولة الهوية';
+
+  @override
+  String get onboardingAnalyticsBody =>
+      'شارك بيانات استخدام مجهولة الهوية (مستضافة في EU) للمساعدة في تحسين RepeatLab.';
+
+  @override
+  String get onboardingDataProtectionTitle => 'حماية البيانات';
+
+  @override
+  String get onboardingConsentFootnote =>
+      'يمكنك تغيير إعدادات التحليلات في أي وقت من الإعدادات.';
+
+  @override
+  String get onboardingSkip => 'تخطّي';
+
+  @override
+  String get onboardingContinue => 'متابعة';
 
   @override
   String get onboardingIAccept => 'أوافق على';
@@ -426,6 +472,20 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get changelogTitle => 'سجل التغييرات';
+
+  @override
+  String get changelog2201Title => 'المترونوم';
+
+  @override
+  String get changelog2201Description =>
+      'اعزف مع مترونوم مدمج يحافظ على إيقاع أغنيتك. اختر الميزان الزمني والتقسيمات، انقر لضبط الإيقاع، واضبط النقرة بدقة عبر إزاحات نصف النبضة وتعديلات بالمللي ثانية لتتوافق تمامًا مع الإيقاع.';
+
+  @override
+  String get changelog2202Title => 'تعديل الحلقات أثناء الإيقاف المؤقت';
+
+  @override
+  String get changelog2202Description =>
+      'يمكنك الآن تحريك نقطتي بداية ونهاية الحلقة بحرية أثناء إيقاف التشغيل مؤقتًا - لم يعد مؤشر التشغيل يعود إلى داخل الحلقة. تُطبَّق حدود الحلقة مرة أخرى بمجرد الضغط على زر التشغيل، مما يسهّل عليك ضبط حلقاتك بدقة.';
 
   @override
   String get changelog2101Title => 'تغيير طبقة الصوت (Beta)';

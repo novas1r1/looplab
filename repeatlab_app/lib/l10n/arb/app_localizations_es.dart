@@ -120,25 +120,71 @@ class AppLocalizationsEs extends AppLocalizations {
       '§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nCorreo electrónico: support@repeatlab.de\n\nForma legal: Autónomo';
 
   @override
-  String get onboardingTitle1 => 'Bienvenido a RepeatLab';
+  String get onboardingEyebrow1 => 'Bienvenido a RepeatLab';
+
+  @override
+  String get onboardingTitle1 => 'Practica como un profesional';
 
   @override
   String get onboardingDescription1 =>
-      'Domina cualquier canción practicando secciones difíciles repitiéndolas o ralentizándolas.';
+      'Tu estación de loops personal para dominar cualquier canción — audio o vídeo, 100% sin conexión.';
 
   @override
-  String get onboardingTitle2 => 'Crea Loops Precisos';
+  String get onboardingEyebrow2 => 'Loop';
+
+  @override
+  String get onboardingTitle2 => 'Repite las partes difíciles';
 
   @override
   String get onboardingDescription2 =>
-      'Simplemente toca para marcar el inicio y el final de una sección que quieras practicar. Ajusta y afina con nuestra intuitiva visualización de forma de onda.';
+      'Marca puntos de inicio y fin precisos en la forma de onda y reproduce esa sección hasta clavarla.';
 
   @override
-  String get onboardingTitle3 => 'Privacidad Primero';
+  String get onboardingEyebrow3 => 'Velocidad y tempo';
+
+  @override
+  String get onboardingTitle3 => 'Ralentiza sin cambiar el tono';
 
   @override
   String get onboardingDescription3 =>
-      'Valoramos tu privacidad y manejamos tus datos con cuidado. Por favor, revisa nuestra política de privacidad y acéptala para continuar.';
+      'Baja de 0.5× a 2.0×, o ajusta un BPM exacto. El tono se mantiene fiel para que nunca suene desafinado.';
+
+  @override
+  String get onboardingEyebrow4 => 'Tono';
+
+  @override
+  String get onboardingTitle4 => 'Tócala en tu tonalidad';
+
+  @override
+  String get onboardingDescription4 =>
+      'Transpone ±12 semitonos o asigna tonalidad a tonalidad — adáptala a tu voz, tu afinación, tu cejilla.';
+
+  @override
+  String get onboardingConsentTitle => 'Tus datos, tú decides';
+
+  @override
+  String get onboardingConsentBody =>
+      'RepeatLab funciona sin conexión y mantiene tus archivos en tu dispositivo. Solo un detalle rápido antes de empezar.';
+
+  @override
+  String get onboardingAnalyticsTitle => 'Analíticas anónimas';
+
+  @override
+  String get onboardingAnalyticsBody =>
+      'Comparte datos de uso anónimos (alojados en la EU) para ayudar a mejorar RepeatLab.';
+
+  @override
+  String get onboardingDataProtectionTitle => 'Protección de datos';
+
+  @override
+  String get onboardingConsentFootnote =>
+      'Puedes cambiar las analíticas en cualquier momento en Ajustes.';
+
+  @override
+  String get onboardingSkip => 'Omitir';
+
+  @override
+  String get onboardingContinue => 'Continuar';
 
   @override
   String get onboardingIAccept => 'Acepto';
@@ -430,6 +476,20 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get changelogTitle => 'Cambios';
+
+  @override
+  String get changelog2201Title => 'Metrónomo';
+
+  @override
+  String get changelog2201Description =>
+      'Toca junto a un metrónomo integrado que se mantiene al ritmo de tu canción. Elige el compás y la subdivisión, marca el tempo con toques y ajusta el clic con desplazamientos de medio pulso y microajustes en milisegundos para que encaje perfectamente con el ritmo.';
+
+  @override
+  String get changelog2202Title => 'Ajustar bucles en pausa';
+
+  @override
+  String get changelog2202Description =>
+      'Ahora puedes mover libremente los puntos de inicio y fin de un bucle mientras la reproducción está en pausa: el cursor ya no vuelve de golpe al bucle. Los límites del bucle vuelven a aplicarse en cuanto pulsas reproducir, lo que facilita mucho ajustar tus bucles.';
 
   @override
   String get changelog2101Title => 'Cambio de tono (Beta)';

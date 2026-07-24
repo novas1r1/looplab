@@ -122,25 +122,71 @@ class AppLocalizationsFr extends AppLocalizations {
       '§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nE-mail : support@repeatlab.de\n\nForme juridique : Freelance';
 
   @override
-  String get onboardingTitle1 => 'Bienvenue sur RepeatLab';
+  String get onboardingEyebrow1 => 'Bienvenue sur RepeatLab';
+
+  @override
+  String get onboardingTitle1 => 'Entraînez-vous comme un pro';
 
   @override
   String get onboardingDescription1 =>
-      'Maîtrisez n\'importe quelle chanson en pratiquant les passages difficiles en les répétant ou en les ralentissant.';
+      'Votre station de boucles personnelle pour maîtriser n\'importe quelle chanson — audio ou vidéo, 100% hors ligne.';
 
   @override
-  String get onboardingTitle2 => 'Créez des Boucles Précises';
+  String get onboardingEyebrow2 => 'Boucle';
+
+  @override
+  String get onboardingTitle2 => 'Bouclez les passages difficiles';
 
   @override
   String get onboardingDescription2 =>
-      'Appuyez simplement pour marquer le début et la fin d\'une section que vous souhaitez pratiquer. Ajustez et affinez avec notre affichage de forme d\'onde intuitif.';
+      'Définissez des points de début et de fin précis sur la forme d\'onde, puis jouez cette section jusqu\'à la maîtriser.';
 
   @override
-  String get onboardingTitle3 => 'La Confidentialité d\'Abord';
+  String get onboardingEyebrow3 => 'Vitesse et tempo';
+
+  @override
+  String get onboardingTitle3 => 'Ralentissez sans changer la hauteur';
 
   @override
   String get onboardingDescription3 =>
-      'Nous accordons de l\'importance à votre confidentialité et traitons vos données avec soin. Veuillez consulter notre politique de confidentialité et l\'accepter pour continuer.';
+      'Passez de 0.5× à 2.0×, ou réglez un BPM exact. La hauteur reste fidèle pour que ça ne sonne jamais faux.';
+
+  @override
+  String get onboardingEyebrow4 => 'Hauteur';
+
+  @override
+  String get onboardingTitle4 => 'Jouez-la dans votre tonalité';
+
+  @override
+  String get onboardingDescription4 =>
+      'Transposez de ±12 demi-tons ou faites correspondre les tonalités — adaptez à votre voix, votre accordage, votre capo.';
+
+  @override
+  String get onboardingConsentTitle => 'Vos données, votre choix';
+
+  @override
+  String get onboardingConsentBody =>
+      'RepeatLab fonctionne hors ligne et conserve vos fichiers sur votre appareil. Une petite formalité avant de commencer.';
+
+  @override
+  String get onboardingAnalyticsTitle => 'Statistiques anonymes';
+
+  @override
+  String get onboardingAnalyticsBody =>
+      'Partagez des données d\'utilisation anonymes (hébergées dans l\'EU) pour aider à améliorer RepeatLab.';
+
+  @override
+  String get onboardingDataProtectionTitle => 'Protection des données';
+
+  @override
+  String get onboardingConsentFootnote =>
+      'Vous pouvez modifier les statistiques à tout moment dans les Réglages.';
+
+  @override
+  String get onboardingSkip => 'Passer';
+
+  @override
+  String get onboardingContinue => 'Continuer';
 
   @override
   String get onboardingIAccept => 'J\'accepte la ';
@@ -433,6 +479,20 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get changelogTitle => 'Changelog';
+
+  @override
+  String get changelog2201Title => 'Métronome';
+
+  @override
+  String get changelog2201Description =>
+      'Joue avec un métronome intégré qui reste dans le tempo de ton morceau. Choisis la signature rythmique et la subdivision, tape le tempo et affine le clic avec des décalages d\'un demi-temps et des ajustements à la milliseconde pour qu\'il colle parfaitement au rythme.';
+
+  @override
+  String get changelog2202Title => 'Modifier les boucles en pause';
+
+  @override
+  String get changelog2202Description =>
+      'Tu peux désormais déplacer librement les points de début et de fin d\'une boucle pendant que la lecture est en pause - la tête de lecture ne revient plus dans la boucle. Les limites de la boucle s\'appliquent à nouveau dès que tu appuies sur lecture, ce qui facilite grandement l\'ajustement de tes boucles.';
 
   @override
   String get changelog2101Title => 'Changement de tonalité (Beta)';

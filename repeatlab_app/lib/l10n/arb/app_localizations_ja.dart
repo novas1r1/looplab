@@ -120,24 +120,70 @@ class AppLocalizationsJa extends AppLocalizations {
       '§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nメール：support@repeatlab.de\n\n法的形態：フリーランス';
 
   @override
-  String get onboardingTitle1 => 'RepeatLabへようこそ';
+  String get onboardingEyebrow1 => 'RepeatLabへようこそ';
 
   @override
-  String get onboardingDescription1 => '難しい部分を繰り返したり、速度を落としたりして、どの曲もマスターできます。';
+  String get onboardingTitle1 => 'プロのように練習';
 
   @override
-  String get onboardingTitle2 => '正確なループを作成';
+  String get onboardingDescription1 =>
+      'どんな曲も使いこなすための、あなた専用のループステーション。音声も動画も、100%オフラインで。';
+
+  @override
+  String get onboardingEyebrow2 => 'ループ';
+
+  @override
+  String get onboardingTitle2 => '難しい部分をループ';
 
   @override
   String get onboardingDescription2 =>
-      '練習したい部分の開始と終了をタップするだけでマークできます。直感的な波形表示で調整と微調整が可能です。';
+      '波形上に正確な開始点と終了点を設定し、完璧に弾けるまでその区間を繰り返し再生。';
 
   @override
-  String get onboardingTitle3 => 'プライバシー優先';
+  String get onboardingEyebrow3 => '速度とテンポ';
+
+  @override
+  String get onboardingTitle3 => 'ピッチはそのまま、速度を落とす';
 
   @override
   String get onboardingDescription3 =>
-      'あなたのプライバシーを尊重し、データを慎重に扱います。プライバシーポリシーを確認し、続行するには同意してください。';
+      '0.5×から2.0×まで下げたり、正確なBPMを指定したり。ピッチはそのままなので音程が狂いません。';
+
+  @override
+  String get onboardingEyebrow4 => 'ピッチ';
+
+  @override
+  String get onboardingTitle4 => '自分のキーで演奏';
+
+  @override
+  String get onboardingDescription4 =>
+      '±12半音の移調やキーからキーへのマッピングで、あなたの声、チューニング、カポに合わせられます。';
+
+  @override
+  String get onboardingConsentTitle => 'あなたのデータは、あなたの選択';
+
+  @override
+  String get onboardingConsentBody =>
+      'RepeatLabはオフラインで動作し、ファイルはあなたの端末に保存されます。始める前に、ひとつだけ簡単な確認を。';
+
+  @override
+  String get onboardingAnalyticsTitle => '匿名の分析データ';
+
+  @override
+  String get onboardingAnalyticsBody =>
+      '匿名の利用データ（EUでホスティング）を共有して、RepeatLabの改善にご協力ください。';
+
+  @override
+  String get onboardingDataProtectionTitle => 'データ保護';
+
+  @override
+  String get onboardingConsentFootnote => '分析設定は設定画面でいつでも変更できます。';
+
+  @override
+  String get onboardingSkip => 'スキップ';
+
+  @override
+  String get onboardingContinue => '続ける';
 
   @override
   String get onboardingIAccept => '同意します';
@@ -413,6 +459,20 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get changelogTitle => '変更履歴';
+
+  @override
+  String get changelog2201Title => 'メトロノーム';
+
+  @override
+  String get changelog2201Description =>
+      '曲のテンポに合わせて動く内蔵メトロノームに合わせて演奏できます。拍子と分割を選び、タップでテンポを入力し、ハーフビートのシフトやミリ秒単位の微調整でクリック音をビートにぴったり合わせられます。';
+
+  @override
+  String get changelog2202Title => '一時停止中にループを編集';
+
+  @override
+  String get changelog2202Description =>
+      '再生を一時停止したまま、ループの開始点と終了点を自由に動かせるようになりました。再生ヘッドがループ内に戻ることはありません。再生を押すとループの範囲が再び有効になるので、ループの微調整がずっと簡単になります。';
 
   @override
   String get changelog2101Title => 'ピッチシフト（Beta）';

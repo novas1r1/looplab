@@ -120,23 +120,67 @@ class AppLocalizationsZh extends AppLocalizations {
       '§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\n电子邮件：support@repeatlab.de\n\n法律形式：自由职业者';
 
   @override
-  String get onboardingTitle1 => '欢迎使用 RepeatLab';
+  String get onboardingEyebrow1 => '欢迎使用 RepeatLab';
 
   @override
-  String get onboardingDescription1 => '通过重复或放慢困难部分来掌握任何歌曲。';
+  String get onboardingTitle1 => '像专业人士一样练习';
 
   @override
-  String get onboardingTitle2 => '创建精确循环';
+  String get onboardingDescription1 => '属于你的个人循环工作站，助你掌握任何歌曲——音频或视频，100% 离线。';
 
   @override
-  String get onboardingDescription2 =>
-      '只需点击即可标记您想要练习的部分的开始和结束。使用我们直观的波形显示进行调整和微调。';
+  String get onboardingEyebrow2 => '循环';
 
   @override
-  String get onboardingTitle3 => '隐私优先';
+  String get onboardingTitle2 => '循环练习难点';
 
   @override
-  String get onboardingDescription3 => '我们重视您的隐私并谨慎处理您的数据。请查看我们的隐私政策并接受以继续。';
+  String get onboardingDescription2 => '在波形上设置精确的起点和终点，然后反复播放该段落，直到练熟为止。';
+
+  @override
+  String get onboardingEyebrow3 => '速度与节奏';
+
+  @override
+  String get onboardingTitle3 => '放慢速度，音高不变';
+
+  @override
+  String get onboardingDescription3 =>
+      '从 0.5× 降到 2.0×，或设定精确的 BPM。音高始终保持不变，绝不走音。';
+
+  @override
+  String get onboardingEyebrow4 => '音高';
+
+  @override
+  String get onboardingTitle4 => '用你的调演奏';
+
+  @override
+  String get onboardingDescription4 =>
+      '移调 ±12 个半音，或进行调到调的映射——匹配你的嗓音、你的调音、你的变调夹。';
+
+  @override
+  String get onboardingConsentTitle => '你的数据，你做主';
+
+  @override
+  String get onboardingConsentBody =>
+      'RepeatLab 离线运行，你的文件保存在你的设备上。开始之前，还有一件小事需要确认。';
+
+  @override
+  String get onboardingAnalyticsTitle => '匿名分析';
+
+  @override
+  String get onboardingAnalyticsBody => '分享匿名使用数据（托管于欧盟），帮助改进 RepeatLab。';
+
+  @override
+  String get onboardingDataProtectionTitle => '数据保护';
+
+  @override
+  String get onboardingConsentFootnote => '你可以随时在设置中更改分析选项。';
+
+  @override
+  String get onboardingSkip => '跳过';
+
+  @override
+  String get onboardingContinue => '继续';
 
   @override
   String get onboardingIAccept => '我接受';
@@ -406,6 +450,20 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get changelogTitle => '更新日志';
+
+  @override
+  String get changelog2201Title => '节拍器';
+
+  @override
+  String get changelog2201Description =>
+      '跟随内置节拍器演奏，它会与你的歌曲保持同步。选择拍号和细分，点击设定速度，并通过半拍偏移和毫秒微调来精细调整咔哒声，让它与节拍完美契合。';
+
+  @override
+  String get changelog2202Title => '暂停时编辑循环';
+
+  @override
+  String get changelog2202Description =>
+      '现在，你可以在播放暂停时自由移动循环的起点和终点——播放头不再跳回循环内。一旦你按下播放，循环边界便会重新生效，让微调循环变得更加轻松。';
 
   @override
   String get changelog2101Title => '音高调整（Beta）';

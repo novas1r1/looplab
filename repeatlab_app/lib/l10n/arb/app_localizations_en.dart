@@ -120,25 +120,71 @@ class AppLocalizationsEn extends AppLocalizations {
       '§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nE-Mail: support@repeatlab.de\n\nRechtsform: Freelancer';
 
   @override
-  String get onboardingTitle1 => 'Welcome to RepeatLab';
+  String get onboardingEyebrow1 => 'Welcome to RepeatLab';
+
+  @override
+  String get onboardingTitle1 => 'Practice Like a Pro';
 
   @override
   String get onboardingDescription1 =>
-      'Master any song by practicing difficult sections with repeating them or slowing them down.';
+      'Your personal loop station for mastering any song — audio or video, 100% offline.';
 
   @override
-  String get onboardingTitle2 => 'Create Precise Loops';
+  String get onboardingEyebrow2 => 'Loop';
+
+  @override
+  String get onboardingTitle2 => 'Loop the tricky parts';
 
   @override
   String get onboardingDescription2 =>
-      'Simply tap to mark the start and end of a section you want to practice. Adjust and fine-tune with our intuitive waveform display.';
+      'Set precise start and end points on the waveform, then play that section till you nail it.';
 
   @override
-  String get onboardingTitle3 => 'Privacy First';
+  String get onboardingEyebrow3 => 'Speed & Tempo';
+
+  @override
+  String get onboardingTitle3 => 'Slow it down, keep the pitch';
 
   @override
   String get onboardingDescription3 =>
-      'We value your privacy and handle your data with care. Please review our privacy policy and accept to continue.';
+      'Drop from 0.5× to 2.0×, or dial an exact BPM. The pitch stays true so it never sounds off.';
+
+  @override
+  String get onboardingEyebrow4 => 'Pitch';
+
+  @override
+  String get onboardingTitle4 => 'Play it in your key';
+
+  @override
+  String get onboardingDescription4 =>
+      'Transpose ±12 semitones or map key to key — match your voice, your tuning, your capo.';
+
+  @override
+  String get onboardingConsentTitle => 'Your data, your call';
+
+  @override
+  String get onboardingConsentBody =>
+      'RepeatLab works offline and keeps your files on your device. One quick bit of housekeeping before you start.';
+
+  @override
+  String get onboardingAnalyticsTitle => 'Anonymous analytics';
+
+  @override
+  String get onboardingAnalyticsBody =>
+      'Share anonymous usage data (EU-hosted) to help improve RepeatLab.';
+
+  @override
+  String get onboardingDataProtectionTitle => 'Data protection';
+
+  @override
+  String get onboardingConsentFootnote =>
+      'You can change analytics anytime in Settings.';
+
+  @override
+  String get onboardingSkip => 'Skip';
+
+  @override
+  String get onboardingContinue => 'Continue';
 
   @override
   String get onboardingIAccept => 'I accept the ';
@@ -427,6 +473,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get changelogTitle => 'Changelog';
+
+  @override
+  String get changelog2201Title => 'Metronome';
+
+  @override
+  String get changelog2201Description =>
+      'Play along to a built-in metronome that keeps time with your song. Choose the time signature and subdivision, tap in the tempo, and fine-tune the click with half-beat shifts and millisecond nudges so it lines up perfectly with the beat.';
+
+  @override
+  String get changelog2202Title => 'Adjust loops while paused';
+
+  @override
+  String get changelog2202Description =>
+      'You can now freely move a loop\'s start and end points while playback is paused - the playhead no longer snaps back into the loop. Loop boundaries take effect again the moment you press play, making it much easier to fine-tune your loops.';
 
   @override
   String get changelog2101Title => 'Pitch shift (Beta)';

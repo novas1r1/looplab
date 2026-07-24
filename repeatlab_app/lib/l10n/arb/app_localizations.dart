@@ -330,41 +330,125 @@ abstract class AppLocalizations {
   /// **'§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nE-Mail: support@repeatlab.de\n\nRechtsform: Freelancer'**
   String get legalNoticesDescription;
 
-  /// No description provided for @onboardingTitle1.
+  /// No description provided for @onboardingEyebrow1.
   ///
   /// In en, this message translates to:
   /// **'Welcome to RepeatLab'**
+  String get onboardingEyebrow1;
+
+  /// No description provided for @onboardingTitle1.
+  ///
+  /// In en, this message translates to:
+  /// **'Practice Like a Pro'**
   String get onboardingTitle1;
 
   /// No description provided for @onboardingDescription1.
   ///
   /// In en, this message translates to:
-  /// **'Master any song by practicing difficult sections with repeating them or slowing them down.'**
+  /// **'Your personal loop station for mastering any song — audio or video, 100% offline.'**
   String get onboardingDescription1;
+
+  /// No description provided for @onboardingEyebrow2.
+  ///
+  /// In en, this message translates to:
+  /// **'Loop'**
+  String get onboardingEyebrow2;
 
   /// No description provided for @onboardingTitle2.
   ///
   /// In en, this message translates to:
-  /// **'Create Precise Loops'**
+  /// **'Loop the tricky parts'**
   String get onboardingTitle2;
 
   /// No description provided for @onboardingDescription2.
   ///
   /// In en, this message translates to:
-  /// **'Simply tap to mark the start and end of a section you want to practice. Adjust and fine-tune with our intuitive waveform display.'**
+  /// **'Set precise start and end points on the waveform, then play that section till you nail it.'**
   String get onboardingDescription2;
+
+  /// No description provided for @onboardingEyebrow3.
+  ///
+  /// In en, this message translates to:
+  /// **'Speed & Tempo'**
+  String get onboardingEyebrow3;
 
   /// No description provided for @onboardingTitle3.
   ///
   /// In en, this message translates to:
-  /// **'Privacy First'**
+  /// **'Slow it down, keep the pitch'**
   String get onboardingTitle3;
 
   /// No description provided for @onboardingDescription3.
   ///
   /// In en, this message translates to:
-  /// **'We value your privacy and handle your data with care. Please review our privacy policy and accept to continue.'**
+  /// **'Drop from 0.5× to 2.0×, or dial an exact BPM. The pitch stays true so it never sounds off.'**
   String get onboardingDescription3;
+
+  /// No description provided for @onboardingEyebrow4.
+  ///
+  /// In en, this message translates to:
+  /// **'Pitch'**
+  String get onboardingEyebrow4;
+
+  /// No description provided for @onboardingTitle4.
+  ///
+  /// In en, this message translates to:
+  /// **'Play it in your key'**
+  String get onboardingTitle4;
+
+  /// No description provided for @onboardingDescription4.
+  ///
+  /// In en, this message translates to:
+  /// **'Transpose ±12 semitones or map key to key — match your voice, your tuning, your capo.'**
+  String get onboardingDescription4;
+
+  /// No description provided for @onboardingConsentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data, your call'**
+  String get onboardingConsentTitle;
+
+  /// No description provided for @onboardingConsentBody.
+  ///
+  /// In en, this message translates to:
+  /// **'RepeatLab works offline and keeps your files on your device. One quick bit of housekeeping before you start.'**
+  String get onboardingConsentBody;
+
+  /// No description provided for @onboardingAnalyticsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Anonymous analytics'**
+  String get onboardingAnalyticsTitle;
+
+  /// No description provided for @onboardingAnalyticsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Share anonymous usage data (EU-hosted) to help improve RepeatLab.'**
+  String get onboardingAnalyticsBody;
+
+  /// No description provided for @onboardingDataProtectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Data protection'**
+  String get onboardingDataProtectionTitle;
+
+  /// No description provided for @onboardingConsentFootnote.
+  ///
+  /// In en, this message translates to:
+  /// **'You can change analytics anytime in Settings.'**
+  String get onboardingConsentFootnote;
+
+  /// No description provided for @onboardingSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get onboardingSkip;
+
+  /// No description provided for @onboardingContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get onboardingContinue;
 
   /// No description provided for @onboardingIAccept.
   ///
@@ -869,6 +953,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Changelog'**
   String get changelogTitle;
+
+  /// Changelog entry title for the 2.2.0 metronome feature
+  ///
+  /// In en, this message translates to:
+  /// **'Metronome'**
+  String get changelog2201Title;
+
+  /// Changelog entry description for the 2.2.0 metronome feature
+  ///
+  /// In en, this message translates to:
+  /// **'Play along to a built-in metronome that keeps time with your song. Choose the time signature and subdivision, tap in the tempo, and fine-tune the click with half-beat shifts and millisecond nudges so it lines up perfectly with the beat.'**
+  String get changelog2201Description;
+
+  /// Changelog entry title for the 2.2.0 loop editing while paused feature
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust loops while paused'**
+  String get changelog2202Title;
+
+  /// Changelog entry description for the 2.2.0 loop editing while paused feature
+  ///
+  /// In en, this message translates to:
+  /// **'You can now freely move a loop\'s start and end points while playback is paused - the playhead no longer snaps back into the loop. Loop boundaries take effect again the moment you press play, making it much easier to fine-tune your loops.'**
+  String get changelog2202Description;
 
   /// Changelog entry title for the 2.1.0 pitch shift feature
   ///

@@ -30,7 +30,7 @@ void main() {
       const ChangelogDialogState(),
     );
     when(
-      () => mockChangelogDialogCubit.checkChangelogDialog(),
+      () => mockChangelogDialogCubit.checkForUnseenChangelog(),
     ).thenAnswer((_) async {});
     when(() => mockLocalConfigRepository.hasRatedApp).thenReturn(false);
   });

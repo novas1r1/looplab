@@ -15,11 +15,13 @@ void main() {
     // Onboarding is shown.
     expect($(const Key('onboarding.next')), findsOneWidget);
 
-    // Page 1 -> 2 -> 3.
+    // Walk the four info slides through to the consent slide.
+    await $(const Key('onboarding.next')).tap();
+    await $(const Key('onboarding.next')).tap();
     await $(const Key('onboarding.next')).tap();
     await $(const Key('onboarding.next')).tap();
 
-    // Accept privacy on the last slide, then finish.
+    // Accept data protection on the consent slide, then finish.
     await $(const Key('onboarding.privacy')).tap();
     await $(const Key('onboarding.next')).tap();
     await $.pumpAndSettle();

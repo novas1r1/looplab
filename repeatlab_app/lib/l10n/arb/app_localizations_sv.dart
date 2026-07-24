@@ -120,25 +120,71 @@ class AppLocalizationsSv extends AppLocalizations {
       '§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nE-post: support@repeatlab.de\n\nJuridisk form: Frilansare';
 
   @override
-  String get onboardingTitle1 => 'Välkommen till RepeatLab';
+  String get onboardingEyebrow1 => 'Välkommen till RepeatLab';
+
+  @override
+  String get onboardingTitle1 => 'Öva som ett proffs';
 
   @override
   String get onboardingDescription1 =>
-      'Bemästra vilken låt som helst genom att öva på svåra avsnitt genom att upprepa dem eller sakta ner dem.';
+      'Din personliga loopstation för att bemästra vilken låt som helst — ljud eller video, 100% offline.';
 
   @override
-  String get onboardingTitle2 => 'Skapa Precisa Loopar';
+  String get onboardingEyebrow2 => 'Loop';
+
+  @override
+  String get onboardingTitle2 => 'Loopa de svåra partierna';
 
   @override
   String get onboardingDescription2 =>
-      'Tryck helt enkelt för att markera början och slutet av ett avsnitt du vill öva på. Justera och finjustera med vår intuitiva vågformsvisning.';
+      'Sätt exakta start- och slutpunkter på vågformen och spela sedan det avsnittet tills du sitter det.';
 
   @override
-  String get onboardingTitle3 => 'Integritet Först';
+  String get onboardingEyebrow3 => 'Hastighet & tempo';
+
+  @override
+  String get onboardingTitle3 => 'Sakta ner, behåll tonhöjden';
 
   @override
   String get onboardingDescription3 =>
-      'Vi värdesätter din integritet och hanterar din data med omsorg. Vänligen granska vår integritetspolicy och acceptera för att fortsätta.';
+      'Gå från 0.5× till 2.0×, eller ställ in ett exakt BPM. Tonhöjden bevaras så att det aldrig låter falskt.';
+
+  @override
+  String get onboardingEyebrow4 => 'Tonhöjd';
+
+  @override
+  String get onboardingTitle4 => 'Spela det i din tonart';
+
+  @override
+  String get onboardingDescription4 =>
+      'Transponera ±12 halvtoner eller mappa tonart till tonart — anpassa efter din röst, din stämning, din capo.';
+
+  @override
+  String get onboardingConsentTitle => 'Din data, ditt val';
+
+  @override
+  String get onboardingConsentBody =>
+      'RepeatLab fungerar offline och behåller dina filer på din enhet. En snabb sak att ordna innan du börjar.';
+
+  @override
+  String get onboardingAnalyticsTitle => 'Anonym analys';
+
+  @override
+  String get onboardingAnalyticsBody =>
+      'Dela anonym användningsdata (EU-baserad) för att hjälpa till att förbättra RepeatLab.';
+
+  @override
+  String get onboardingDataProtectionTitle => 'Dataskydd';
+
+  @override
+  String get onboardingConsentFootnote =>
+      'Du kan ändra analys när som helst i Inställningar.';
+
+  @override
+  String get onboardingSkip => 'Hoppa över';
+
+  @override
+  String get onboardingContinue => 'Fortsätt';
 
   @override
   String get onboardingIAccept => 'Jag accepterar ';
@@ -427,6 +473,20 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get changelogTitle => 'Ändringar';
+
+  @override
+  String get changelog2201Title => 'Metronom';
+
+  @override
+  String get changelog2201Description =>
+      'Spela till en inbyggd metronom som håller takten med din låt. Välj taktart och underdelning, tryck in tempot och finjustera klicket med halvslagsförskjutningar och millisekundjusteringar så att det passar perfekt med taktslaget.';
+
+  @override
+  String get changelog2202Title => 'Redigera loopar när pausad';
+
+  @override
+  String get changelog2202Description =>
+      'Du kan nu fritt flytta en loops start- och slutpunkter medan uppspelningen är pausad - spelhuvudet hoppar inte längre tillbaka in i loopen. Loopgränserna börjar gälla igen så snart du trycker på spela, vilket gör det mycket enklare att finjustera dina loopar.';
 
   @override
   String get changelog2101Title => 'Tonhöjdsändring (Beta)';
