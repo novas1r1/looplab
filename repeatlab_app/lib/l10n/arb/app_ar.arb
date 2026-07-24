@@ -174,7 +174,7 @@
     "purchasedAlready": "تم الشراء بالفعل",
     "purchaseSuccess": "تم الشراء بنجاح. شكرًا لدعم المطور ❤️!",
     "voteForFeatures": "التصويت على الميزات",
-    "changelogTitle": "سجل التغييرات",
+    "changelogTitle": "ما الجديد",
     "changelog2201Title": "المترونوم",
     "changelog2201Description": "اعزف مع مترونوم مدمج يحافظ على إيقاع أغنيتك. اختر الميزان الزمني والتقسيمات، انقر لضبط الإيقاع، واضبط النقرة بدقة عبر إزاحات نصف النبضة وتعديلات بالمللي ثانية لتتوافق تمامًا مع الإيقاع.",
     "changelog2202Title": "تعديل الحلقات أثناء الإيقاف المؤقت",
@@ -415,13 +415,17 @@
     "backupExportFailed": "فشل التصدير: {message}",
     "@backupExportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportFailed": "فشل الاستيراد: {message}",
     "@backupImportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportMalformed": "هذا الملف ليس نسخة احتياطية صالحة لـ RepeatLab.",
@@ -430,8 +434,12 @@
     "backupImportConfirmMessage": "تحتوي هذه النسخة الاحتياطية على {songCount} أغنية (تم التصدير في {exportedAt}).",
     "@backupImportConfirmMessage": {
         "placeholders": {
-            "songCount": { "type": "int" },
-            "exportedAt": { "type": "String" }
+            "songCount": {
+                "type": "int"
+            },
+            "exportedAt": {
+                "type": "String"
+            }
         }
     },
     "backupImportModeMerge": "دمج",
@@ -443,9 +451,15 @@
     "backupImportSuccess": "تم استيراد {imported} أغنية. تم تخطي {skipped}، وإعادة تسمية {renamed}.",
     "@backupImportSuccess": {
         "placeholders": {
-            "imported": { "type": "int" },
-            "skipped": { "type": "int" },
-            "renamed": { "type": "int" }
+            "imported": {
+                "type": "int"
+            },
+            "skipped": {
+                "type": "int"
+            },
+            "renamed": {
+                "type": "int"
+            }
         }
     }
 }

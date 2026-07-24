@@ -14,8 +14,7 @@ class WhatsNewBubble extends StatefulWidget {
   State<WhatsNewBubble> createState() => _WhatsNewBubbleState();
 }
 
-class _WhatsNewBubbleState extends State<WhatsNewBubble>
-    with SingleTickerProviderStateMixin {
+class _WhatsNewBubbleState extends State<WhatsNewBubble> with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _bob;
 
@@ -77,12 +76,6 @@ class _WhatsNewBubbleState extends State<WhatsNewBubble>
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(
-                    Icons.auto_awesome,
-                    size: 16,
-                    color: AppColors.onPrimary,
-                  ),
-                  const SizedBox(width: 6),
                   Text(
                     context.l10n.whatsNew,
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(
@@ -121,6 +114,5 @@ class _BubblePointerPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_BubblePointerPainter oldDelegate) =>
-      oldDelegate.color != color;
+  bool shouldRepaint(_BubblePointerPainter oldDelegate) => oldDelegate.color != color;
 }

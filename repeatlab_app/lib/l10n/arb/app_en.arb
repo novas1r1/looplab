@@ -197,7 +197,7 @@
     "purchasedAlready": "Purchased already",
     "purchaseSuccess": "Purchase successful. Thank you for supporting the developer ❤️!",
     "voteForFeatures": "Vote for Features",
-    "changelogTitle": "Changelog",
+    "changelogTitle": "What's New",
     "changelog2201Title": "Metronome",
     "@changelog2201Title": {
         "description": "Changelog entry title for the 2.2.0 metronome feature"
@@ -402,21 +402,29 @@
     "backupExportFailed": "Export failed: {message}",
     "@backupExportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportFailed": "Import failed: {message}",
     "@backupImportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportConfirmTitle": "Import backup",
     "backupImportConfirmMessage": "This backup contains {songCount} songs (exported {exportedAt}).",
     "@backupImportConfirmMessage": {
         "placeholders": {
-            "songCount": { "type": "int" },
-            "exportedAt": { "type": "String" }
+            "songCount": {
+                "type": "int"
+            },
+            "exportedAt": {
+                "type": "String"
+            }
         }
     },
     "backupImportModeMerge": "Merge",
@@ -428,9 +436,15 @@
     "backupImportSuccess": "Imported {imported} songs. {skipped} skipped, {renamed} renamed.",
     "@backupImportSuccess": {
         "placeholders": {
-            "imported": { "type": "int" },
-            "skipped": { "type": "int" },
-            "renamed": { "type": "int" }
+            "imported": {
+                "type": "int"
+            },
+            "skipped": {
+                "type": "int"
+            },
+            "renamed": {
+                "type": "int"
+            }
         }
     },
     "backupImportSchemaTooNew": "This backup was created by a newer version of RepeatLab. Please update the app to import it.",

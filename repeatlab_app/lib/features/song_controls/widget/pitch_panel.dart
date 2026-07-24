@@ -54,17 +54,18 @@ class PitchPanel extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(width: 4),
+                /* const SizedBox(width: 4),
                 IconButton(
                   key: const Key('song.pitch.reset'),
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(minWidth: 40, minHeight: 40),
                   onPressed: () => context.read<SongCubit>().resetPitch(),
-                  icon: const Icon(
-                    Icons.refresh_rounded,
-                    color: AppColors.iconDefault,
+                  icon: const AppIcon(
+                    iconName: 'ic_refresh',
+                    iconSize: 24,
+                    containerSize: 24,
                   ),
-                ),
+                ), */
               ],
             ),
             if (data.pitchMode == PitchMode.semitones)
@@ -85,9 +86,7 @@ class PitchPanel extends StatelessWidget {
     context.read<SongCubit>().setPitchMode(newMode);
 
     AppAnalytics.trackEvent(
-      index == 0
-          ? AppAnalytics.clickPitchModeSemitones
-          : AppAnalytics.clickPitchModeKey,
+      index == 0 ? AppAnalytics.clickPitchModeSemitones : AppAnalytics.clickPitchModeKey,
     );
   }
 }

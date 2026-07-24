@@ -43,7 +43,7 @@ class _SongControlsCardState extends State<SongControlsCard> {
         color: AppColors.secondaryContainer,
         borderRadius: BorderRadius.circular(10),
       ),
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       child: Column(
         spacing: 12,
         children: [

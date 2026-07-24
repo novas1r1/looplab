@@ -170,7 +170,7 @@
     "purchasedAlready": "पहले से ही खरीदा गया",
     "purchaseSuccess": "सफलतापूर्वक खरीदा गया। डेवलपर का समर्थन करने के लिए धन्यवाद ❤️!",
     "voteForFeatures": "सुविधाओं के लिए वोट करें",
-    "changelogTitle": "परिवर्तन लॉग",
+    "changelogTitle": "नया क्या है",
     "changelog2201Title": "मेट्रोनोम",
     "changelog2201Description": "एक अंतर्निहित मेट्रोनोम के साथ बजाएं जो आपके गाने की ताल के साथ चलता है। टाइम सिग्नेचर और सबडिवीज़न चुनें, टेम्पो टैप करें, और क्लिक को आधे-बीट शिफ्ट और मिलीसेकंड नज के साथ बारीकी से समायोजित करें ताकि यह बीट के साथ पूरी तरह मेल खाए।",
     "changelog2202Title": "रुके होने पर लूप संपादित करें",
@@ -415,13 +415,17 @@
     "backupExportFailed": "एक्सपोर्ट विफल: {message}",
     "@backupExportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportFailed": "इम्पोर्ट विफल: {message}",
     "@backupImportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportMalformed": "यह फ़ाइल एक वैध RepeatLab बैकअप नहीं है।",
@@ -430,8 +434,12 @@
     "backupImportConfirmMessage": "इस बैकअप में {songCount} गीत हैं ({exportedAt} को एक्सपोर्ट किए गए)।",
     "@backupImportConfirmMessage": {
         "placeholders": {
-            "songCount": { "type": "int" },
-            "exportedAt": { "type": "String" }
+            "songCount": {
+                "type": "int"
+            },
+            "exportedAt": {
+                "type": "String"
+            }
         }
     },
     "backupImportModeMerge": "मर्ज करें",
@@ -443,9 +451,15 @@
     "backupImportSuccess": "{imported} गीत इम्पोर्ट किए गए। {skipped} छोड़े गए, {renamed} का नाम बदला गया।",
     "@backupImportSuccess": {
         "placeholders": {
-            "imported": { "type": "int" },
-            "skipped": { "type": "int" },
-            "renamed": { "type": "int" }
+            "imported": {
+                "type": "int"
+            },
+            "skipped": {
+                "type": "int"
+            },
+            "renamed": {
+                "type": "int"
+            }
         }
     }
 }

@@ -474,7 +474,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get voteForFeatures => 'Feature Voting';
 
   @override
-  String get changelogTitle => 'Changelog';
+  String get changelogTitle => 'Was ist neu?';
 
   @override
   String get changelog2201Title => 'Metronom';

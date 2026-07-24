@@ -472,7 +472,7 @@ class AppLocalizationsSv extends AppLocalizations {
   String get voteForFeatures => 'Funktioner förfråga';
 
   @override
-  String get changelogTitle => 'Ändringar';
+  String get changelogTitle => 'Vad är nytt?';
 
   @override
   String get changelog2201Title => 'Metronom';

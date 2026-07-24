@@ -471,7 +471,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get voteForFeatures => 'التصويت على الميزات';
 
   @override
-  String get changelogTitle => 'سجل التغييرات';
+  String get changelogTitle => 'ما الجديد';
 
   @override
   String get changelog2201Title => 'المترونوم';

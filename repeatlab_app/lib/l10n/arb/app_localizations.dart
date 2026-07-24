@@ -951,7 +951,7 @@ abstract class AppLocalizations {
   /// No description provided for @changelogTitle.
   ///
   /// In en, this message translates to:
-  /// **'Changelog'**
+  /// **'What\'s New'**
   String get changelogTitle;
 
   /// Changelog entry title for the 2.2.0 metronome feature

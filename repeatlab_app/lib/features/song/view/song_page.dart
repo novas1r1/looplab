@@ -261,7 +261,7 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                 body: CustomScrollView(
                   slivers: [
                     SliverPadding(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16).copyWith(bottom: 0),
                       sliver: SliverList(
                         delegate: SliverChildListDelegate([
                           if (_isVideo)
@@ -305,7 +305,7 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                           SongController(
                             key: tutorialKeySongController,
                           ),
-                          const Divider(height: 24),
+                          const Divider(height: 16),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -319,7 +319,7 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                                 children: [
                                   AutoSizeText(
                                     context.l10n.loopMode,
-                                    minFontSize: 20,
+                                    minFontSize: 18,
                                     maxFontSize: 24,
                                     style: context.bodySmall,
                                   ),
@@ -534,6 +534,7 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                                             scrollController: _loopListController,
                                             padding: const EdgeInsets.only(
                                               bottom: 174,
+                                              top: 8,
                                             ),
                                             itemBuilder: (context, index) => buildItem(index),
                                             itemCount: loops.length,
@@ -879,6 +880,7 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
         radius: 8,
         contents: [
           TargetContent(
+            align: ContentAlign.top,
             builder: (context, controller) => Center(
               child: TutorialItem(
                 title: context.l10n.tutorialPlayAndPauseSong,

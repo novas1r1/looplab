@@ -458,7 +458,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get voteForFeatures => '機能に投票';
 
   @override
-  String get changelogTitle => '変更履歴';
+  String get changelogTitle => '新機能';
 
   @override
   String get changelog2201Title => 'メトロノーム';

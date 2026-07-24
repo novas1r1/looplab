@@ -457,7 +457,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get voteForFeatures => '기능 투표';
 
   @override
-  String get changelogTitle => '변경 사항';
+  String get changelogTitle => '새로운 기능';
 
   @override
   String get changelog2201Title => '메트로놈';

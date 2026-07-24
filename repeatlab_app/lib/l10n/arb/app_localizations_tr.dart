@@ -473,7 +473,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get voteForFeatures => 'Özellikler için oy ver';
 
   @override
-  String get changelogTitle => 'Değişiklik Günlüğü';
+  String get changelogTitle => 'Yenilikler';
 
   @override
   String get changelog2201Title => 'Metronom';

@@ -198,7 +198,7 @@
     "changelog1402Title": "2/2 Hata Düzeltmeleri ve Tasarım İyileştirmeleri",
     "changelog1402Description": "Birkaç hata düzeltildi ve tasarım iyileştirildi.",
     "voteForFeatures": "Özellikler için oy ver",
-    "changelogTitle": "Değişiklik Günlüğü",
+    "changelogTitle": "Yenilikler",
     "changelog2201Title": "Metronom",
     "changelog2201Description": "Şarkının temposunu koruyan yerleşik bir metronom eşliğinde çal. Ölçü işaretini ve alt bölünmeyi seç, dokunarak tempoyu belirle ve tıklamayı yarım vuruş kaydırmaları ile milisaniye ince ayarlarıyla ritme tam olarak oturacak şekilde ayarla.",
     "changelog2202Title": "Duraklatıldığında döngüleri düzenle",
@@ -414,13 +414,17 @@
     "backupExportFailed": "Dışa aktarma başarısız: {message}",
     "@backupExportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportFailed": "İçe aktarma başarısız: {message}",
     "@backupImportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportMalformed": "Bu dosya geçerli bir RepeatLab yedeği değil.",
@@ -429,8 +433,12 @@
     "backupImportConfirmMessage": "Bu yedek {songCount} şarkı içeriyor ({exportedAt} tarihinde dışa aktarıldı).",
     "@backupImportConfirmMessage": {
         "placeholders": {
-            "songCount": { "type": "int" },
-            "exportedAt": { "type": "String" }
+            "songCount": {
+                "type": "int"
+            },
+            "exportedAt": {
+                "type": "String"
+            }
         }
     },
     "backupImportModeMerge": "Birleştir",
@@ -442,9 +450,15 @@
     "backupImportSuccess": "{imported} şarkı içe aktarıldı. {skipped} atlandı, {renamed} yeniden adlandırıldı.",
     "@backupImportSuccess": {
         "placeholders": {
-            "imported": { "type": "int" },
-            "skipped": { "type": "int" },
-            "renamed": { "type": "int" }
+            "imported": {
+                "type": "int"
+            },
+            "skipped": {
+                "type": "int"
+            },
+            "renamed": {
+                "type": "int"
+            }
         }
     }
 }

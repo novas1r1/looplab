@@ -475,7 +475,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get voteForFeatures => 'Votar por Recursos';
 
   @override
-  String get changelogTitle => 'Changelog';
+  String get changelogTitle => 'O que há de novo?';
 
   @override
   String get changelog2201Title => 'Metrônomo';

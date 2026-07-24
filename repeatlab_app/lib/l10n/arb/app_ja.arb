@@ -172,7 +172,7 @@
     "purchasedAlready": "すでに購入済み",
     "purchaseSuccess": "購入が成功しました。開発者をサポートしていただきありがとうございます❤️！",
     "voteForFeatures": "機能に投票",
-    "changelogTitle": "変更履歴",
+    "changelogTitle": "新機能",
     "changelog2201Title": "メトロノーム",
     "changelog2201Description": "曲のテンポに合わせて動く内蔵メトロノームに合わせて演奏できます。拍子と分割を選び、タップでテンポを入力し、ハーフビートのシフトやミリ秒単位の微調整でクリック音をビートにぴったり合わせられます。",
     "changelog2202Title": "一時停止中にループを編集",
@@ -414,13 +414,17 @@
     "backupExportFailed": "エクスポート失敗: {message}",
     "@backupExportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportFailed": "インポート失敗: {message}",
     "@backupImportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportMalformed": "このファイルは有効なRepeatLabバックアップではありません。",
@@ -429,8 +433,12 @@
     "backupImportConfirmMessage": "このバックアップには{songCount}曲が含まれています（エクスポート日: {exportedAt}）。",
     "@backupImportConfirmMessage": {
         "placeholders": {
-            "songCount": { "type": "int" },
-            "exportedAt": { "type": "String" }
+            "songCount": {
+                "type": "int"
+            },
+            "exportedAt": {
+                "type": "String"
+            }
         }
     },
     "backupImportModeMerge": "マージ",
@@ -442,9 +450,15 @@
     "backupImportSuccess": "{imported}曲をインポートしました。{skipped}曲をスキップ、{renamed}曲をリネームしました。",
     "@backupImportSuccess": {
         "placeholders": {
-            "imported": { "type": "int" },
-            "skipped": { "type": "int" },
-            "renamed": { "type": "int" }
+            "imported": {
+                "type": "int"
+            },
+            "skipped": {
+                "type": "int"
+            },
+            "renamed": {
+                "type": "int"
+            }
         }
     }
 }

@@ -170,7 +170,7 @@
     "purchaseSuccess": "Compra realizada com sucesso. Obrigado pelo apoio ao desenvolvedor ❤️!",
     "cancelSubscription": "Cancelar Assinatura",
     "voteForFeatures": "Votar por Recursos",
-    "changelogTitle": "Changelog",
+    "changelogTitle": "O que há de novo?",
     "changelog2201Title": "Metrônomo",
     "changelog2201Description": "Toque junto com um metrônomo integrado que mantém o ritmo da sua música. Escolha a fórmula de compasso e a subdivisão, toque para definir o tempo e ajuste o clique com deslocamentos de meia batida e ajustes em milissegundos para que fique perfeitamente alinhado ao ritmo.",
     "changelog2202Title": "Editar loops em pausa",
@@ -411,13 +411,17 @@
     "backupExportFailed": "Exportação falhou: {message}",
     "@backupExportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportFailed": "Importação falhou: {message}",
     "@backupImportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportMalformed": "Este arquivo não é um backup válido do RepeatLab.",
@@ -426,8 +430,12 @@
     "backupImportConfirmMessage": "Este backup contém {songCount} músicas (exportadas em {exportedAt}).",
     "@backupImportConfirmMessage": {
         "placeholders": {
-            "songCount": { "type": "int" },
-            "exportedAt": { "type": "String" }
+            "songCount": {
+                "type": "int"
+            },
+            "exportedAt": {
+                "type": "String"
+            }
         }
     },
     "backupImportModeMerge": "Mesclar",
@@ -439,9 +447,15 @@
     "backupImportSuccess": "{imported} músicas importadas. {skipped} ignoradas, {renamed} renomeadas.",
     "@backupImportSuccess": {
         "placeholders": {
-            "imported": { "type": "int" },
-            "skipped": { "type": "int" },
-            "renamed": { "type": "int" }
+            "imported": {
+                "type": "int"
+            },
+            "skipped": {
+                "type": "int"
+            },
+            "renamed": {
+                "type": "int"
+            }
         }
     }
 }

@@ -449,7 +449,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get voteForFeatures => '功能投票';
 
   @override
-  String get changelogTitle => '更新日志';
+  String get changelogTitle => '新功能';
 
   @override
   String get changelog2201Title => '节拍器';

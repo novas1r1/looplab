@@ -472,7 +472,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get voteForFeatures => 'Głosuj na Funkcje';
 
   @override
-  String get changelogTitle => 'Zmiany';
+  String get changelogTitle => 'Co nowego?';
 
   @override
   String get changelog2201Title => 'Metronom';

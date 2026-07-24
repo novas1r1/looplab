@@ -112,7 +112,11 @@ class CustomDrawer extends StatelessWidget {
                   children: [
                     if (hasSubscription)
                       ListTile(
-                        leading: const Icon(Icons.free_cancellation),
+                        leading: const AppIcon(
+                          iconName: 'ic_cancel',
+                          iconSize: 24,
+                          containerSize: 24,
+                        ),
                         title: Text(context.l10n.cancelSubscription),
                         onTap: () {
                           _onCancelSubscription(context);
@@ -194,7 +198,11 @@ class CustomDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: const AppIcon(iconName: 'ic_protect', iconSize: 24, containerSize: 24),
+              leading: const AppIcon(
+                iconName: 'ic_protect',
+                iconSize: 24,
+                containerSize: 24,
+              ),
               title: Text(context.l10n.dataProtection),
               onTap: () {
                 AppAnalytics.trackEvent(AppAnalytics.viewDataProtection);
@@ -208,7 +216,11 @@ class CustomDrawer extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.security),
+              leading: const AppIcon(
+                iconName: 'ic_protect',
+                iconSize: 24,
+                containerSize: 24,
+              ),
               title: Text(context.l10n.terms),
               onTap: () {
                 AppAnalytics.trackEvent(AppAnalytics.viewTermsOfService);

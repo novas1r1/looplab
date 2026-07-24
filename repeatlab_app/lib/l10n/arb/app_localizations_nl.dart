@@ -473,7 +473,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get voteForFeatures => 'Functies Voorstellen';
 
   @override
-  String get changelogTitle => 'Wijzigingen';
+  String get changelogTitle => 'Wat is er nieuw?';
 
   @override
   String get changelog2201Title => 'Metronoom';

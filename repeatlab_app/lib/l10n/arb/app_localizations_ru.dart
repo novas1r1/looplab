@@ -475,7 +475,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get voteForFeatures => 'Предложить Функции';
 
   @override
-  String get changelogTitle => 'Изменения';
+  String get changelogTitle => 'Что нового?';
 
   @override
   String get changelog2201Title => 'Метроном';

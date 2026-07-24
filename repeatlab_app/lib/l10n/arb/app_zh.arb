@@ -173,7 +173,7 @@
     "purchasedAlready": "已购买",
     "purchaseSuccess": "购买成功。感谢您支持开发者 ❤️！",
     "voteForFeatures": "功能投票",
-    "changelogTitle": "更新日志",
+    "changelogTitle": "新功能",
     "changelog2201Title": "节拍器",
     "changelog2201Description": "跟随内置节拍器演奏，它会与你的歌曲保持同步。选择拍号和细分，点击设定速度，并通过半拍偏移和毫秒微调来精细调整咔哒声，让它与节拍完美契合。",
     "changelog2202Title": "暂停时编辑循环",
@@ -415,13 +415,17 @@
     "backupExportFailed": "导出失败：{message}",
     "@backupExportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportFailed": "导入失败：{message}",
     "@backupImportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportMalformed": "此文件不是有效的 RepeatLab 备份。",
@@ -430,8 +434,12 @@
     "backupImportConfirmMessage": "此备份包含 {songCount} 首歌曲（导出于 {exportedAt}）。",
     "@backupImportConfirmMessage": {
         "placeholders": {
-            "songCount": { "type": "int" },
-            "exportedAt": { "type": "String" }
+            "songCount": {
+                "type": "int"
+            },
+            "exportedAt": {
+                "type": "String"
+            }
         }
     },
     "backupImportModeMerge": "合并",
@@ -443,9 +451,15 @@
     "backupImportSuccess": "已导入 {imported} 首歌曲。{skipped} 首已跳过，{renamed} 首已重命名。",
     "@backupImportSuccess": {
         "placeholders": {
-            "imported": { "type": "int" },
-            "skipped": { "type": "int" },
-            "renamed": { "type": "int" }
+            "imported": {
+                "type": "int"
+            },
+            "skipped": {
+                "type": "int"
+            },
+            "renamed": {
+                "type": "int"
+            }
         }
     }
 }
