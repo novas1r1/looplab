@@ -62,8 +62,7 @@ class _LoopTimelineState extends State<LoopTimeline> {
               },
               icon: const AppIcon(
                 iconName: 'ic_previous',
-                iconSize: 20,
-                containerSize: 24,
+                iconSize: 24,
               ),
             ),
             Expanded(
@@ -173,8 +172,7 @@ class _LoopTimelineState extends State<LoopTimeline> {
               },
               icon: const AppIcon(
                 iconName: 'ic_next',
-                iconSize: 20,
-                containerSize: 24,
+                iconSize: 24,
               ),
             ),
           ],

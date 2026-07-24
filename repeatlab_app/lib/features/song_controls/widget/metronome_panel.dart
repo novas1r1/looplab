@@ -181,7 +181,7 @@ class _MetronomePanelState extends State<MetronomePanel> {
         iconName: 'ic_settings',
         iconSize: 20,
         containerSize: 24,
-        color: _advancedExpanded ? AppColors.primary : AppColors.secondaryFixed,
+        color: _advancedExpanded ? AppColors.iconActive : AppColors.iconDefault,
       ),
       tooltip: context.l10n.metronomeAdvanced,
     );
@@ -258,7 +258,7 @@ class _MetronomePanelState extends State<MetronomePanel> {
                 borderRadius: BorderRadius.circular(10),
                 icon: const Icon(
                   Icons.expand_more_rounded,
-                  color: AppColors.secondaryFixed,
+                  color: AppColors.iconDefault,
                 ),
                 style: context.labelLarge.copyWith(
                   color: AppColors.secondaryFixed,
@@ -287,7 +287,6 @@ class _MetronomePanelState extends State<MetronomePanel> {
         const AppIcon(
           iconName: 'ic_sound',
           iconSize: 20,
-          color: AppColors.secondaryFixed,
         ),
         Expanded(
           child: CustomSlider(
@@ -331,7 +330,6 @@ class _MetronomePanelState extends State<MetronomePanel> {
           _subdivisionRow(context, data, hasPremium: hasPremium),
           _alignmentRow(context, data, hasPremium: hasPremium),
           _nudgeRow(context, data, hasPremium: hasPremium),
-          _resetSyncRow(context),
         ],
       ),
     );
@@ -416,61 +414,68 @@ class _MetronomePanelState extends State<MetronomePanel> {
     _PanelData data, {
     required bool hasPremium,
   }) {
-    return _premiumGate(
-      hasPremium: hasPremium,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            context.l10n.metronomeNudge,
-            style: context.labelLarge.copyWith(color: AppColors.secondary),
-          ),
-          const SizedBox(width: 8),
-          IconButton(
-            key: const Key('song.metronome.nudgeEarlier'),
-            onPressed: () => _onNudge(context, -_nudgeStepMs),
-            icon: const Icon(
-              Icons.remove_circle_outline_rounded,
-              color: AppColors.secondaryFixed,
-            ),
-          ),
-          SizedBox(
-            width: 64,
-            child: Text(
-              context.l10n.metronomeOffsetMs(data.offsetMs),
-              textAlign: TextAlign.center,
-              style: context.labelLarge.copyWith(
-                color: AppColors.secondaryFixed,
+    // The reset link sits outside the premium gate — clearing an alignment
+    // must always be possible.
+    return Row(
+      children: [
+        _premiumGate(
+          hasPremium: hasPremium,
+          child: Row(
+            children: [
+              Text(
+                context.l10n.metronomeNudge,
+                style: context.labelLarge.copyWith(color: AppColors.secondary),
               ),
-            ),
+              const SizedBox(width: 8),
+              IconButton(
+                key: const Key('song.metronome.nudgeEarlier'),
+                onPressed: () => _onNudge(context, -_nudgeStepMs),
+                icon: const AppIcon(
+                  iconName: 'ic_minus_circle',
+                  iconSize: 18,
+                ),
+              ),
+              SizedBox(
+                width: 64,
+                child: Text(
+                  context.l10n.metronomeOffsetMs(data.offsetMs),
+                  textAlign: TextAlign.center,
+                  style: context.labelLarge.copyWith(
+                    color: AppColors.secondaryFixed,
+                  ),
+                ),
+              ),
+              IconButton(
+                key: const Key('song.metronome.nudgeLater'),
+                onPressed: () => _onNudge(context, _nudgeStepMs),
+                icon: const AppIcon(
+                  iconName: 'ic_plus_circle',
+                  iconSize: 18,
+                ),
+              ),
+            ],
           ),
-          IconButton(
-            key: const Key('song.metronome.nudgeLater'),
-            onPressed: () => _onNudge(context, _nudgeStepMs),
-            icon: const Icon(
-              Icons.add_circle_outline_rounded,
-              color: AppColors.secondaryFixed,
-            ),
-          ),
-        ],
-      ),
+        ),
+        const Spacer(),
+        _resetSyncButton(context),
+      ],
     );
   }
 
-  /// Escape hatch back to the plain unsynced click. Not premium-gated —
-  /// clearing an alignment must always be possible.
-  Widget _resetSyncRow(BuildContext context) {
-    return TextButton.icon(
+  /// Escape hatch back to the plain unsynced click, styled like the song BPM
+  /// "Edit" text link.
+  Widget _resetSyncButton(BuildContext context) {
+    return GestureDetector(
       key: const Key('song.metronome.resetSync'),
-      onPressed: () => _onResetSync(context),
-      icon: const Icon(
-        Icons.restart_alt_rounded,
-        size: 18,
-        color: AppColors.secondary,
-      ),
-      label: Text(
+      onTap: () => _onResetSync(context),
+      child: Text(
         context.l10n.metronomeResetSync,
-        style: context.labelLarge.copyWith(color: AppColors.secondary),
+        style: context.labelMedium.copyWith(
+          color: AppColors.primary,
+          fontWeight: FontWeight.w700,
+          decoration: TextDecoration.underline,
+          decorationColor: AppColors.primary,
+        ),
       ),
     );
   }
@@ -563,11 +568,6 @@ class _MetronomePanelState extends State<MetronomePanel> {
       AppAnalytics.trackEvent(AppAnalytics.clickMetronomeTapBeat);
     }
     context.read<SongCubit>().tapMetronomeBeat();
-  }
-
-  void _onHalfBeat(BuildContext context) {
-    AppAnalytics.trackEvent(AppAnalytics.clickMetronomeHalfBeat);
-    context.read<SongCubit>().flipMetronomeHalfBeat();
   }
 
   void _onNudge(BuildContext context, int deltaMs) {

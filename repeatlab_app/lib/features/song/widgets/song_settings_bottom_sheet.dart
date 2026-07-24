@@ -142,7 +142,7 @@ class SongSettingsBottomSheet extends StatelessWidget {
                       return _SettingsTile(
                         iconName: 'ic_play',
                         iconColor: isAutoPlayEnabled
-                            ? AppColors.primary
+                            ? AppColors.iconActive
                             : AppColors.onSurfaceVariant,
                         title: context.l10n.autoPlayOnLoopSelect,
                         subtitle: context.l10n.autoPlayOnLoopSelectDescription,

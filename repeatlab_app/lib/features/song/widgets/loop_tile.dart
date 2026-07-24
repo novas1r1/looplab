@@ -85,7 +85,7 @@ class _LoopTileState extends State<LoopTile> {
                       ),
                       if (isLocked) ...[
                         const SizedBox(width: 6),
-                        const Icon(Icons.lock, size: 16, color: Colors.grey),
+                        const Icon(Icons.lock, size: 16, color: AppColors.iconDisabled),
                       ],
                     ],
                   ),

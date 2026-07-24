@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/widgets/app_icon.dart';
 import 'package:repeatlab/core/ui/widgets/loading.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
@@ -54,7 +55,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.transparent,
         leading: IconButton(
           key: const Key('home.drawer'),
-          icon: const Icon(Icons.menu),
+          icon: const AppIcon(iconName: 'ic_menu', iconSize: 32, containerSize: 32),
           onPressed: () => _scaffoldKey.currentState?.openDrawer(),
         ),
         title: Text(
@@ -68,7 +69,7 @@ class _HomePageState extends State<HomePage> {
             key: const Key('home.whatsNew'),
             tooltip: context.l10n.whatsNew,
             onPressed: () => _openChangelog(context, source: 'app_bar'),
-            icon: const Icon(Icons.auto_awesome),
+            icon: const AppIcon(iconName: 'ic_update', iconSize: 24, containerSize: 24),
           ),
         ],
       ),
@@ -271,14 +272,14 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 16),
               ListTile(
                 key: const Key('home.addAudio'),
-                leading: const Icon(Icons.audiotrack),
+                leading: const AppIcon(iconName: 'ic_audio', iconSize: 24),
                 title: Text(context.l10n.addSong),
                 subtitle: const Text(SongRepository.supportedFormatsLabel),
                 onTap: () => Navigator.of(sheetContext).pop(_AddMediaChoice.audio),
               ),
               ListTile(
                 key: const Key('home.addVideo'),
-                leading: const Icon(Icons.movie),
+                leading: const AppIcon(iconName: 'ic_video', iconSize: 24),
                 title: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -342,15 +343,6 @@ class _HomePageState extends State<HomePage> {
     if (numberOfSongs >= 2 && !hasRatedAlready) {
       await DialogHelper.displayRateAppDialog(context);
     }
-  }
-
-  Future<void> _onClearDb(BuildContext context) async {
-    AppAnalytics.trackEvent(AppAnalytics.clickClearDb);
-    await context.read<AllSongsCubit>().clearDb();
-  }
-
-  void _onClearSharedPrefs(BuildContext context) {
-    context.read<LocalConfigRepository>().clear();
   }
 
   /// Open the changelog as a bottom sheet and mark it seen so the "What's new"

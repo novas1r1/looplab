@@ -301,7 +301,7 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                               );
                             },
                           ),
-                          const SizedBox(height: 12),
+                          const SizedBox(height: 4),
                           SongController(
                             key: tutorialKeySongController,
                           ),

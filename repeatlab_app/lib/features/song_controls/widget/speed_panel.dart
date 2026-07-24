@@ -16,11 +16,7 @@ class SpeedPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<
-      SongCubit,
-      SongState,
-      ({TempoMode tempoMode, double speed})
-    >(
+    return BlocSelector<SongCubit, SongState, ({TempoMode tempoMode, double speed})>(
       selector: (state) => (
         tempoMode: state.tempoMode,
         speed: state.speed,
@@ -56,17 +52,18 @@ class SpeedPanel extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(width: 4),
+                /* const SizedBox(width: 4),
                 IconButton(
                   key: const Key('song.speed.reset'),
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(minWidth: 40, minHeight: 40),
                   onPressed: () => context.read<SongCubit>().resetSpeed(),
-                  icon: const Icon(
-                    Icons.refresh_rounded,
-                    color: AppColors.secondaryFixed,
+                  icon: const AppIcon(
+                    iconName: 'ic_refresh',
+                    iconSize: 24,
+                    color: AppColors.iconDefault,
                   ),
-                ),
+                ), */
               ],
             ),
             if (data.tempoMode == TempoMode.multiplier)
@@ -84,9 +81,7 @@ class SpeedPanel extends StatelessWidget {
     context.read<SongCubit>().setTempoMode(newMode);
 
     AppAnalytics.trackEvent(
-      index == 0
-          ? AppAnalytics.clickTempoModeMultiplier
-          : AppAnalytics.clickTempoModeBpm,
+      index == 0 ? AppAnalytics.clickTempoModeMultiplier : AppAnalytics.clickTempoModeBpm,
     );
   }
 }

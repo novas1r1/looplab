@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/widgets/app_icon.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
 
 /// Big centred value with a caption, flanked by − / + step buttons. Shared by
@@ -41,7 +42,7 @@ class ControlStepper extends StatelessWidget {
       children: [
         _StepButton(
           key: decrementKey,
-          icon: Icons.remove_rounded,
+          iconName: 'ic_minus_circle',
           onPressed: onDecrement,
         ),
         Expanded(
@@ -80,7 +81,7 @@ class ControlStepper extends StatelessWidget {
         ),
         _StepButton(
           key: incrementKey,
-          icon: Icons.add_rounded,
+          iconName: 'ic_plus_circle',
           onPressed: onIncrement,
         ),
       ],
@@ -89,9 +90,9 @@ class ControlStepper extends StatelessWidget {
 }
 
 class _StepButton extends StatelessWidget {
-  const _StepButton({super.key, required this.icon, this.onPressed});
+  const _StepButton({super.key, required this.iconName, this.onPressed});
 
-  final IconData icon;
+  final String iconName;
   final VoidCallback? onPressed;
 
   @override
@@ -102,12 +103,11 @@ class _StepButton extends StatelessWidget {
       child: IconButton(
         padding: EdgeInsets.zero,
         onPressed: onPressed,
-        icon: Icon(
-          icon,
-          size: 24,
-          color: onPressed == null
-              ? AppColors.outline
-              : AppColors.secondaryFixed,
+        icon: AppIcon(
+          iconName: iconName,
+          iconSize: 30,
+          containerSize: 30,
+          color: onPressed == null ? AppColors.iconDisabled : AppColors.iconDefault,
         ),
       ),
     );

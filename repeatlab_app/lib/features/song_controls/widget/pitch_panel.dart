@@ -62,7 +62,7 @@ class PitchPanel extends StatelessWidget {
                   onPressed: () => context.read<SongCubit>().resetPitch(),
                   icon: const Icon(
                     Icons.refresh_rounded,
-                    color: AppColors.secondaryFixed,
+                    color: AppColors.iconDefault,
                   ),
                 ),
               ],

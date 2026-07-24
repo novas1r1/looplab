@@ -224,7 +224,7 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
                       child: AppIcon(
                         iconName: 'ic_zoom_in',
                         iconSize: 24,
-                        color: _zoomScale < maxZoom ? Colors.white : Colors.grey,
+                        color: _zoomScale < maxZoom ? AppColors.iconDefault : AppColors.iconDisabled,
                       ),
                     ),
                   ),
@@ -264,7 +264,7 @@ class _WaveFormSoLoudViewState extends State<_WaveFormSoLoudView> {
                       child: AppIcon(
                         iconName: 'ic_zoom_out',
                         iconSize: 24,
-                        color: _zoomScale > minZoom ? Colors.white : Colors.grey,
+                        color: _zoomScale > minZoom ? AppColors.iconDefault : AppColors.iconDisabled,
                       ),
                     ),
                   ),

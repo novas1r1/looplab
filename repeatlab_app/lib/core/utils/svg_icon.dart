@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:repeatlab/core/ui/app_colors.dart';
 
 class SvgIcon extends StatelessWidget {
   final String name;
@@ -11,7 +12,7 @@ class SvgIcon extends StatelessWidget {
     super.key,
     required this.name,
     this.size = 24,
-    this.color = Colors.white,
+    this.color = AppColors.iconDefault,
     required this.semanticLabel,
   });
 

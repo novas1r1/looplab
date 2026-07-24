@@ -74,6 +74,12 @@ class MaterialTheme {
     ),
     scaffoldBackgroundColor: colorScheme.surface,
     canvasColor: colorScheme.surface,
+    // Same neutral as AppColors.iconDefault (secondaryFixed is identical in
+    // both schemes), so themed Icons match the explicitly colored AppIcons.
+    iconTheme: IconThemeData(color: colorScheme.secondaryFixed),
+    iconButtonTheme: IconButtonThemeData(
+      style: IconButton.styleFrom(foregroundColor: colorScheme.secondaryFixed),
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: colorScheme.primary,

@@ -68,19 +68,17 @@ class SongController extends StatelessWidget {
               BlocSelector<SongCubit, SongState, PlayerState?>(
                 selector: (state) => state.playerState,
                 builder: (context, playerState) {
-                  return SizedBox(
-                    height: 32,
-                    child: IconButton(
-                      key: const Key('song.play'),
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
-                      onPressed: () => _onTapPlay(context),
-                      icon: AppIcon(
-                        iconName: playerState == PlayerState.playing
-                            ? 'ic_pause_circle'
-                            : 'ic_play_circle',
-                        iconSize: 24,
-                      ),
+                  return IconButton(
+                    key: const Key('song.play'),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    onPressed: () => _onTapPlay(context),
+                    icon: AppIcon(
+                      iconName: playerState == PlayerState.playing
+                          ? 'ic_pause_circle'
+                          : 'ic_play_circle',
+                      iconSize: 24,
+                      containerSize: 30,
                     ),
                   );
                 },

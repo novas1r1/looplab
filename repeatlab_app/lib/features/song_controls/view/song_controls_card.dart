@@ -77,7 +77,7 @@ class _SongControlsCardState extends State<SongControlsCard> {
                     _isExpanded
                         ? Icons.keyboard_arrow_up_rounded
                         : Icons.keyboard_arrow_down_rounded,
-                    color: AppColors.secondaryFixed,
+                    color: AppColors.iconDefault,
                   ),
                 ),
               ),

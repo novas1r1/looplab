@@ -8,6 +8,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:repeatlab/core/app_constants.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/widgets/app_icon.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/repositories/purchases_repository.dart';
 import 'package:repeatlab/features/changelog_dialog/changelog_dialog.dart';
@@ -64,7 +65,7 @@ class CustomDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.newspaper),
+              leading: const AppIcon(iconName: 'ic_update', iconSize: 24, containerSize: 24),
               title: Text(
                 context.l10n.whatsNew,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
@@ -119,7 +120,7 @@ class CustomDrawer extends StatelessWidget {
                       ),
                     if (!hasPremium)
                       ListTile(
-                        leading: const Icon(Icons.shopping_cart),
+                        leading: const AppIcon(iconName: 'ic_pro', iconSize: 24, containerSize: 24),
                         title: Text(context.l10n.buyRepeatLabPro),
                         onTap: () async {
                           await context.read<PremiumSubscriptionCubit>().presentPaywall(
@@ -133,7 +134,7 @@ class CustomDrawer extends StatelessWidget {
             ),
             ListTile(
               key: const Key('drawer.settings'),
-              leading: const Icon(Icons.settings),
+              leading: const AppIcon(iconName: 'ic_settings', iconSize: 24, containerSize: 24),
               title: Text(context.l10n.settings),
               onTap: () => _onSettings(context),
             ),
@@ -144,7 +145,11 @@ class CustomDrawer extends StatelessWidget {
                     : nativeLanguageNameOf(selectedLocale);
                 return ListTile(
                   key: const Key('drawer.language'),
-                  leading: const Icon(Icons.language),
+                  leading: const AppIcon(
+                    iconName: 'ic_translation',
+                    iconSize: 24,
+                    containerSize: 24,
+                  ),
                   title: Text(context.l10n.language),
                   subtitle: Text(subtitle),
                   onTap: () => _onLanguage(context),
@@ -162,7 +167,7 @@ class CustomDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.volunteer_activism),
+              leading: const AppIcon(iconName: 'ic_vote', iconSize: 24, containerSize: 24),
               title: Text(context.l10n.voteForFeatures),
               onTap: () {
                 AppAnalytics.trackEvent(AppAnalytics.clickVoteForFeatures);
@@ -170,7 +175,7 @@ class CustomDrawer extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.feedback),
+              leading: const AppIcon(iconName: 'ic_feedback', iconSize: 24, containerSize: 24),
               title: Text(context.l10n.feedback),
               onTap: () {
                 AppAnalytics.trackEvent(AppAnalytics.clickFeedback);
@@ -189,7 +194,7 @@ class CustomDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.security),
+              leading: const AppIcon(iconName: 'ic_protect', iconSize: 24, containerSize: 24),
               title: Text(context.l10n.dataProtection),
               onTap: () {
                 AppAnalytics.trackEvent(AppAnalytics.viewDataProtection);
@@ -217,7 +222,7 @@ class CustomDrawer extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.gavel),
+              leading: const AppIcon(iconName: 'ic_legal', iconSize: 24, containerSize: 24),
               title: Text(context.l10n.legalNotices),
               onTap: () {
                 AppAnalytics.trackEvent(AppAnalytics.viewLegalNotices);
