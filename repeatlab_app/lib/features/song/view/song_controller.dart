@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auto_size_text/flutter_auto_size_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/widgets/app_icon.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
@@ -31,17 +32,16 @@ class SongController extends StatelessWidget {
                 child: StreamBuilder<Duration>(
                   stream: context.read<SongCubit>().positionStream,
                   initialData: Duration.zero,
-                  builder:
-                      (BuildContext context, AsyncSnapshot<Duration> snapshot) {
-                        if (snapshot.hasData) {
-                          return AutoSizeText(
-                            snapshot.data!.toFormattedString(),
-                            minFontSize: 14,
-                            maxFontSize: 24,
-                          );
-                        }
-                        return const SizedBox.shrink();
-                      },
+                  builder: (BuildContext context, AsyncSnapshot<Duration> snapshot) {
+                    if (snapshot.hasData) {
+                      return AutoSizeText(
+                        snapshot.data!.toFormattedString(),
+                        minFontSize: 14,
+                        maxFontSize: 24,
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  },
                 ),
               ),
               SizedBox(
@@ -57,7 +57,10 @@ class SongController extends StatelessWidget {
                       );
                       context.read<SongCubit>().back(10);
                     },
-                    icon: const Icon(Icons.replay_10_rounded, size: 24),
+                    icon: const AppIcon(
+                      iconName: 'ic_back_10',
+                      iconSize: 24,
+                    ),
                   ),
                 ),
               ),
@@ -72,10 +75,11 @@ class SongController extends StatelessWidget {
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
                       onPressed: () => _onTapPlay(context),
-                      icon: Icon(
-                        playerState == PlayerState.playing
-                            ? Icons.pause_rounded
-                            : Icons.play_arrow_rounded,
+                      icon: AppIcon(
+                        iconName: playerState == PlayerState.playing
+                            ? 'ic_pause_circle'
+                            : 'ic_play_circle',
+                        iconSize: 24,
                       ),
                     ),
                   );
@@ -94,7 +98,10 @@ class SongController extends StatelessWidget {
                     );
                     context.read<SongCubit>().forward(10);
                   },
-                  icon: const Icon(Icons.forward_10_rounded, size: 24),
+                  icon: const AppIcon(
+                    iconName: 'ic_forward_10',
+                    iconSize: 24,
+                  ),
                 ),
               ),
               Expanded(

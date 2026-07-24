@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auto_size_text/flutter_auto_size_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/widgets/app_icon.dart';
 // import 'package:just_audio/just_audio.dart';
 import 'package:repeatlab/core/ui/widgets/loading.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
@@ -235,11 +236,19 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                         AppAnalytics.trackEvent(AppAnalytics.clickHelp);
                         showTutorial();
                       },
-                      icon: const Icon(Icons.help_outline),
+                      icon: const AppIcon(
+                        iconName: 'ic_question',
+                        iconSize: 24,
+                        containerSize: 32,
+                      ),
                     ),
                     // Settings button - opens bottom sheet
                     IconButton(
-                      icon: const Icon(Icons.more_vert),
+                      icon: const AppIcon(
+                        iconName: 'ic_settings',
+                        iconSize: 24,
+                        containerSize: 32,
+                      ),
                       onPressed: () => SongSettingsBottomSheet.show(
                         context,
                         onDeleteSong: () => _onTapDeleteSong(context),
@@ -322,14 +331,11 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                                         thumbIcon: WidgetStateProperty.resolveWith<Icon?>((
                                           Set<WidgetState> states,
                                         ) {
-                                          if (states.contains(
-                                            WidgetState.disabled,
-                                          )) {
-                                            return const Icon(Icons.close);
-                                          }
-                                          return const Icon(
-                                            Icons.loop_rounded,
-                                          );
+                                          return (states.contains(
+                                                WidgetState.disabled,
+                                              ))
+                                              ? const Icon(Icons.close)
+                                              : const Icon(Icons.loop_rounded);
                                         }),
                                         activeTrackColor: AppColors.primaryContainer,
                                         inactiveTrackColor: AppColors.secondaryContainer,
@@ -361,6 +367,9 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                                     ),
                                     minimumSize: const Size(0, 36),
                                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
                                   ),
                                   child: AutoSizeText(
                                     context.l10n.setLoopStart,
@@ -393,6 +402,9 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                                         ),
                                         minimumSize: const Size(0, 36),
                                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
                                       ),
                                       child: AutoSizeText(
                                         context.l10n.setLoopEnd,
@@ -699,14 +711,11 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                 ),
               ),
               actions: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryContainer,
-                    foregroundColor: AppColors.onPrimaryContainer,
-                  ),
+                TextButton(
                   onPressed: () => Navigator.of(dialogContext).pop(),
                   child: Text(dialogContext.l10n.cancel),
                 ),
+
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/widgets/app_icon.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
@@ -33,8 +34,7 @@ class _LoopTimelineState extends State<LoopTimeline> {
   final _timelineKey = GlobalKey();
 
   double get _timelineWidth {
-    final RenderBox? box =
-        _timelineKey.currentContext?.findRenderObject() as RenderBox?;
+    final RenderBox? box = _timelineKey.currentContext?.findRenderObject() as RenderBox?;
     return box?.size.width ?? 0;
   }
 
@@ -60,12 +60,15 @@ class _LoopTimelineState extends State<LoopTimeline> {
                 AppAnalytics.trackEvent(AppAnalytics.clickSkipPrevious);
                 widget.onSkipPrevious();
               },
-              icon: const Icon(Icons.skip_previous, size: 24),
+              icon: const AppIcon(
+                iconName: 'ic_previous',
+                iconSize: 20,
+                containerSize: 24,
+              ),
             ),
             Expanded(
               child: GestureDetector(
-                onTapDown: (details) =>
-                    _handleTimelineInteraction(details.localPosition),
+                onTapDown: (details) => _handleTimelineInteraction(details.localPosition),
                 onHorizontalDragUpdate: (details) =>
                     _handleTimelineInteraction(details.localPosition),
                 child: Container(
@@ -89,9 +92,7 @@ class _LoopTimelineState extends State<LoopTimeline> {
                               if (snapshot.hasData && durationMs != null) {
                                 return Positioned(
                                   left:
-                                      (snapshot.data!.inMilliseconds /
-                                          durationMs) *
-                                      _timelineWidth,
+                                      (snapshot.data!.inMilliseconds / durationMs) * _timelineWidth,
                                   top: 0,
                                   bottom: 0,
                                   child: Container(
@@ -108,24 +109,18 @@ class _LoopTimelineState extends State<LoopTimeline> {
                       ...loops.map(
                         (loop) {
                           final durationMs = _durationMs;
-                          if (loop.start == null ||
-                              loop.end == null ||
-                              durationMs == null) {
+                          if (loop.start == null || loop.end == null || durationMs == null) {
                             return const SizedBox.shrink();
                           }
 
-                          final startPosition =
-                              loop.start!.inMilliseconds / durationMs;
-                          final endPosition =
-                              loop.end!.inMilliseconds / durationMs;
+                          final startPosition = loop.start!.inMilliseconds / durationMs;
+                          final endPosition = loop.end!.inMilliseconds / durationMs;
 
-                          final isLocked =
-                              widget.isLoopLocked?.call(loop) ?? false;
+                          final isLocked = widget.isLoopLocked?.call(loop) ?? false;
 
                           return Positioned(
                             left: startPosition * _timelineWidth,
-                            width:
-                                (endPosition - startPosition) * _timelineWidth,
+                            width: (endPosition - startPosition) * _timelineWidth,
                             top: 8,
                             bottom: 8,
                             child: GestureDetector(
@@ -154,13 +149,9 @@ class _LoopTimelineState extends State<LoopTimeline> {
                                           )
                                         : Text(
                                             loop.name,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .labelSmall
-                                                ?.copyWith(
-                                                  color: AppColors
-                                                      .onSurfaceVariant,
-                                                ),
+                                            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                                              color: AppColors.onSurfaceVariant,
+                                            ),
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                   ),
@@ -180,7 +171,11 @@ class _LoopTimelineState extends State<LoopTimeline> {
                 AppAnalytics.trackEvent(AppAnalytics.clickSkipNext);
                 widget.onSkipNext();
               },
-              icon: const Icon(Icons.skip_next),
+              icon: const AppIcon(
+                iconName: 'ic_next',
+                iconSize: 20,
+                containerSize: 24,
+              ),
             ),
           ],
         );

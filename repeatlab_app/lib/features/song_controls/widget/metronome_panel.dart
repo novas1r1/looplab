@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/ui/interaction/custom_slider.dart';
+import 'package:repeatlab/core/ui/widgets/app_icon.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
@@ -160,7 +161,7 @@ class _MetronomePanelState extends State<MetronomePanel> {
             const Icon(Icons.graphic_eq_rounded),
           ),
           activeTrackColor: AppColors.primaryContainer,
-          inactiveTrackColor: AppColors.secondaryContainer,
+          inactiveTrackColor: AppColors.onSecondaryFixed,
           value: data.isEnabled && hasBpm,
           onChanged: (_) => _onToggle(context, hasBpm: hasBpm),
         ),
@@ -176,9 +177,10 @@ class _MetronomePanelState extends State<MetronomePanel> {
       key: const Key('song.metronome.advancedToggle'),
       visualDensity: VisualDensity.compact,
       onPressed: () => setState(() => _advancedExpanded = !_advancedExpanded),
-      icon: Icon(
-        _advancedExpanded ? Icons.settings_rounded : Icons.settings_outlined,
-        size: 20,
+      icon: AppIcon(
+        iconName: 'ic_settings',
+        iconSize: 20,
+        containerSize: 24,
         color: _advancedExpanded ? AppColors.primary : AppColors.secondaryFixed,
       ),
       tooltip: context.l10n.metronomeAdvanced,
@@ -282,18 +284,10 @@ class _MetronomePanelState extends State<MetronomePanel> {
 
     return Row(
       children: [
-        const Icon(
-          Icons.volume_up_rounded,
-          size: 20,
+        const AppIcon(
+          iconName: 'ic_sound',
+          iconSize: 20,
           color: AppColors.secondaryFixed,
-        ),
-        const SizedBox(width: 8),
-        SizedBox(
-          width: 28,
-          child: Text(
-            '${(volume * 100).round()}',
-            style: context.labelLarge.copyWith(color: AppColors.onSurface),
-          ),
         ),
         Expanded(
           child: CustomSlider(
@@ -374,10 +368,10 @@ class _MetronomePanelState extends State<MetronomePanel> {
                 MetronomeSubdivision.values[index],
               ),
               children: const [
-                Text('♩', style: TextStyle(fontWeight: FontWeight.w600)),
-                Text('♪', style: TextStyle(fontWeight: FontWeight.w600)),
-                Text('³', style: TextStyle(fontWeight: FontWeight.w600)),
-                Text('♬', style: TextStyle(fontWeight: FontWeight.w600)),
+                Text('♩', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24)),
+                Text('♪', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24)),
+                Text('³', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24)),
+                Text('♬', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24)),
               ],
             ),
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/widgets/app_icon.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
@@ -27,15 +28,13 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
   final TextEditingController _startHoursController = TextEditingController();
   final TextEditingController _startMinutesController = TextEditingController();
   final TextEditingController _startSecondsController = TextEditingController();
-  final TextEditingController _startMillisecondsController =
-      TextEditingController();
+  final TextEditingController _startMillisecondsController = TextEditingController();
 
   // End time controllers
   final TextEditingController _endHoursController = TextEditingController();
   final TextEditingController _endMinutesController = TextEditingController();
   final TextEditingController _endSecondsController = TextEditingController();
-  final TextEditingController _endMillisecondsController =
-      TextEditingController();
+  final TextEditingController _endMillisecondsController = TextEditingController();
 
   String? _startError;
   String? _endError;
@@ -55,14 +54,11 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
     // Initialize start time controllers
     if (widget.loop.start != null) {
       _startHoursController.text = widget.loop.start!.inHours.toString();
-      _startMinutesController.text = (widget.loop.start!.inMinutes % 60)
+      _startMinutesController.text = (widget.loop.start!.inMinutes % 60).toString().padLeft(2, '0');
+      _startSecondsController.text = (widget.loop.start!.inSeconds % 60).toString().padLeft(2, '0');
+      _startMillisecondsController.text = (widget.loop.start!.inMilliseconds % 1000)
           .toString()
-          .padLeft(2, '0');
-      _startSecondsController.text = (widget.loop.start!.inSeconds % 60)
-          .toString()
-          .padLeft(2, '0');
-      _startMillisecondsController.text =
-          (widget.loop.start!.inMilliseconds % 1000).toString().padLeft(3, '0');
+          .padLeft(3, '0');
     } else {
       _startHoursController.text = '0';
       _startMinutesController.text = '00';
@@ -73,18 +69,12 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
     // Initialize end time controllers
     if (widget.loop.end != null) {
       _endHoursController.text = widget.loop.end!.inHours.toString();
-      _endMinutesController.text = (widget.loop.end!.inMinutes % 60)
-          .toString()
-          .padLeft(2, '0');
-      _endSecondsController.text = (widget.loop.end!.inSeconds % 60)
-          .toString()
-          .padLeft(2, '0');
-      _endMillisecondsController.text = (widget.loop.end!.inMilliseconds % 1000)
-          .toString()
-          .padLeft(
-            3,
-            '0',
-          );
+      _endMinutesController.text = (widget.loop.end!.inMinutes % 60).toString().padLeft(2, '0');
+      _endSecondsController.text = (widget.loop.end!.inSeconds % 60).toString().padLeft(2, '0');
+      _endMillisecondsController.text = (widget.loop.end!.inMilliseconds % 1000).toString().padLeft(
+        3,
+        '0',
+      );
     } else {
       _endHoursController.text = '0';
       _endMinutesController.text = '00';
@@ -239,10 +229,7 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                         widget.onDelete(widget.loop);
                         Navigator.pop(context);
                       },
-                      icon: const Icon(
-                        Icons.delete,
-                        color: AppColors.onError,
-                      ),
+                      icon: const AppIcon(iconName: 'ic_delete', color: AppColors.onError),
                       label: Text(context.l10n.delete),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.error,
@@ -257,7 +244,7 @@ class _EditLoopBottomUpState extends State<EditLoopBottomUp> {
                     child: ElevatedButton.icon(
                       key: const Key('editLoop.save'),
                       onPressed: () => Navigator.pop(context, _updatedLoop),
-                      icon: const Icon(Icons.save),
+                      icon: const AppIcon(iconName: 'ic_save', color: AppColors.onPrimary),
                       label: Text(context.l10n.save),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(
