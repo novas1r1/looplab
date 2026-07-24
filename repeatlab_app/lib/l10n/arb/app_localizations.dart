@@ -1902,6 +1902,30 @@ abstract class AppLocalizations {
   /// **'Advanced'**
   String get metronomeAdvanced;
 
+  /// Button that starts the tap-to-align capture so the click lands on the song's beats
+  ///
+  /// In en, this message translates to:
+  /// **'Sync to song'**
+  String get metronomeSyncToSong;
+
+  /// Sync button label while a tap capture is in progress, with the number of taps recorded
+  ///
+  /// In en, this message translates to:
+  /// **'Keep tapping… ({count})'**
+  String metronomeKeepTapping(int count);
+
+  /// Helper text under the sync button explaining why the click may be off the beat and how to fix it
+  ///
+  /// In en, this message translates to:
+  /// **'The click follows the song\'s tempo but may not land exactly on the beat. Tap along with the song to sync it.'**
+  String get metronomeSyncHint;
+
+  /// Button in the advanced metronome controls that clears the beat alignment and returns to a steady click
+  ///
+  /// In en, this message translates to:
+  /// **'Reset sync'**
+  String get metronomeResetSync;
+
   /// Status label shown next to the metronome heading when it is disabled
   ///
   /// In en, this message translates to:

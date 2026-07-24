@@ -966,6 +966,20 @@ class AppLocalizationsZh extends AppLocalizations {
   String get metronomeAdvanced => '高级';
 
   @override
+  String get metronomeSyncToSong => '与歌曲同步';
+
+  @override
+  String metronomeKeepTapping(int count) {
+    return '继续点按…（$count）';
+  }
+
+  @override
+  String get metronomeSyncHint => '节拍声会跟随歌曲的速度，但可能与节拍不完全对齐。跟着歌曲的节奏点按即可同步。';
+
+  @override
+  String get metronomeResetSync => '重置同步';
+
+  @override
   String get off => '关闭';
 
   @override

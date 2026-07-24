@@ -153,6 +153,8 @@ abstract final class AppAnalytics {
   static const clickMetronomeSubdivision = 'click_metronome_subdivision';
   static const clickMetronomeTapBeat = 'click_metronome_tap_beat';
   static const clickMetronomeHalfBeat = 'click_metronome_half_beat';
+  static const clickMetronomeSyncToSong = 'click_metronome_sync_to_song';
+  static const clickMetronomeResetSync = 'click_metronome_reset_sync';
   static const metronomeAnchorSet = 'metronome_anchor_set';
   static const clickToggleFullSongRepeat = 'click_toggle_full_song_repeat';
   static const clickToggleAutoPlay = 'click_toggle_auto_play';

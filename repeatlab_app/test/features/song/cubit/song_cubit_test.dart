@@ -696,6 +696,61 @@ void main() {
       ).called(1);
     });
 
+    test('an unanchored click starts with a uniform 1-beat signature',
+        () async {
+      // "Beat 1" is unknown until tap-to-align sets an anchor, so the accent
+      // must not follow the song's stored time signature yet.
+      final cubit = buildCubit(
+        song: MockData.songMedium.copyWith(
+          metronomeBeatsPerBar: 3,
+          metronomeBeatUnit: 4,
+        ),
+      );
+      await cubit.setOriginalBpm(120);
+      markPlaying(cubit);
+
+      await cubit.toggleMetronome();
+
+      verify(
+        () => mockMetronome.startAligned(
+          bpm: 120,
+          offsetMs: any(named: 'offsetMs'),
+          beatsPerBar: 1,
+          beatUnit: 4,
+          pulsesPerBeat: any(named: 'pulsesPerBeat'),
+          volume: any(named: 'volume'),
+        ),
+      ).called(1);
+    });
+
+    test('an anchored click starts with the song time signature', () async {
+      final cubit = buildCubit(
+        song: MockData.songMedium.copyWith(
+          metronomeBeatAnchorMs: 100,
+          metronomeBeatsPerBar: 3,
+          metronomeBeatUnit: 4,
+        ),
+      );
+      await cubit.setOriginalBpm(120);
+      markPlaying(cubit);
+      when(() => mockHandler.position).thenAnswer(
+        (_) async => const Duration(milliseconds: 10300),
+      );
+
+      await cubit.toggleMetronome();
+
+      verify(
+        () => mockMetronome.startAligned(
+          bpm: 120,
+          offsetMs: any(named: 'offsetMs'),
+          beatsPerBar: 3,
+          beatUnit: 4,
+          pulsesPerBeat: any(named: 'pulsesPerBeat'),
+          volume: any(named: 'volume'),
+        ),
+      ).called(1);
+    });
+
     test('seek events leave a free-running click alone (no anchor)', () async {
       final cubit = buildCubit();
       await cubit.setOriginalBpm(120);
@@ -1186,6 +1241,24 @@ void main() {
         ),
       );
       verifyNever(() => mockHandler.swapSourceFile(any()));
+    });
+
+    test('without a beat anchor a uniform 1-beat grid is sent', () async {
+      // "Beat 1" is unknown until tap-to-align sets an anchor, so the accent
+      // must not follow the song's stored time signature yet.
+      final cubit = buildCubit(
+        song: MockData.songMedium.copyWith(
+          metronomeBeatsPerBar: 3,
+          metronomeBeatUnit: 4,
+        ),
+      );
+      await cubit.setOriginalBpm(120);
+
+      await cubit.toggleMetronome();
+
+      final config = sentConfigs.single;
+      expect(config['anchorMs'], isNull);
+      expect(config['beatsPerBar'], 1);
     });
 
     test('disabling silences the native clicks', () async {

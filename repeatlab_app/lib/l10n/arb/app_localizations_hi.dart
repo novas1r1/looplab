@@ -1021,6 +1021,21 @@ class AppLocalizationsHi extends AppLocalizations {
   String get metronomeAdvanced => 'उन्नत';
 
   @override
+  String get metronomeSyncToSong => 'गाने के साथ सिंक करें';
+
+  @override
+  String metronomeKeepTapping(int count) {
+    return 'टैप करते रहें… ($count)';
+  }
+
+  @override
+  String get metronomeSyncHint =>
+      'क्लिक गाने की गति का अनुसरण करता है, लेकिन हो सकता है कि यह ठीक बीट पर न पड़े। सिंक करने के लिए गाने की ताल पर टैप करें।';
+
+  @override
+  String get metronomeResetSync => 'सिंक रीसेट करें';
+
+  @override
   String get off => 'बंद';
 
   @override

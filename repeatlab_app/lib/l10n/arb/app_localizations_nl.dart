@@ -1025,6 +1025,21 @@ class AppLocalizationsNl extends AppLocalizations {
   String get metronomeAdvanced => 'Geavanceerd';
 
   @override
+  String get metronomeSyncToSong => 'Synchroniseren met het nummer';
+
+  @override
+  String metronomeKeepTapping(int count) {
+    return 'Blijf tikken… ($count)';
+  }
+
+  @override
+  String get metronomeSyncHint =>
+      'De klik volgt het tempo van het nummer, maar valt mogelijk niet precies op de beat. Tik mee op de maat om te synchroniseren.';
+
+  @override
+  String get metronomeResetSync => 'Synchronisatie resetten';
+
+  @override
   String get off => 'uit';
 
   @override

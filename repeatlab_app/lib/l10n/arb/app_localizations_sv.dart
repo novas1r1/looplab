@@ -1020,6 +1020,21 @@ class AppLocalizationsSv extends AppLocalizations {
   String get metronomeAdvanced => 'Avancerat';
 
   @override
+  String get metronomeSyncToSong => 'Synka med låten';
+
+  @override
+  String metronomeKeepTapping(int count) {
+    return 'Fortsätt trycka… ($count)';
+  }
+
+  @override
+  String get metronomeSyncHint =>
+      'Klicket följer låtens tempo men landar kanske inte exakt på taktslaget. Tryck i takt med låten för att synka det.';
+
+  @override
+  String get metronomeResetSync => 'Återställ synkning';
+
+  @override
   String get off => 'av';
 
   @override

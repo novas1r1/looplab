@@ -2079,6 +2079,21 @@ class SongCubit extends Cubit<SongState> {
   /// scheduled onto the song's beat grid based on the *fresh* player
   /// position (never the throttled position stream); without one it keeps
   /// the v1 free-run behavior of offsetting from "now".
+  /// Time signature actually sent to the click engines, as
+  /// (beatsPerBar, beatUnit).
+  ///
+  /// Without a beat anchor the grid's "beat 1" is arbitrary — the grid counts
+  /// from the file start (or from "now" on the live path), so an accented
+  /// downbeat would land on a musically random beat, which is worse than no
+  /// accent at all. Until tap-to-align sets an anchor the metronome renders a
+  /// uniform 1-beat click; the song's stored signature only takes effect once
+  /// beat 1 is actually known. The UI mirrors this by hiding the
+  /// time-signature control until the song is synced.
+  (int, int) get _effectiveTimeSignature =>
+      state.song.metronomeBeatAnchorMs == null
+      ? (1, 4)
+      : (state.song.metronomeBeatsPerBar, state.song.metronomeBeatUnit);
+
   Future<void> _startMetronomeAligned() {
     final generation = _metronomeGeneration;
 
@@ -2113,11 +2128,12 @@ class SongCubit extends Cubit<SongState> {
             _metronomeStartAnchorMs;
       }
 
+      final (beatsPerBar, beatUnit) = _effectiveTimeSignature;
       await _metronome.startAligned(
         bpm: bpm,
         offsetMs: offsetMs,
-        beatsPerBar: state.song.metronomeBeatsPerBar,
-        beatUnit: state.song.metronomeBeatUnit,
+        beatsPerBar: beatsPerBar,
+        beatUnit: beatUnit,
         pulsesPerBeat: state.metronomeSubdivision.pulsesPerBeat,
         volume: state.metronomeVolume,
       );
@@ -2176,7 +2192,7 @@ class SongCubit extends Cubit<SongState> {
         bpm: originalBpm,
         anchorMs: state.song.metronomeBeatAnchorMs,
         offsetMs: state.song.metronomeOffsetMs,
-        beatsPerBar: state.song.metronomeBeatsPerBar,
+        beatsPerBar: _effectiveTimeSignature.$1,
         pulsesPerBeat: state.metronomeSubdivision.pulsesPerBeat,
         volume: state.metronomeVolume,
       );
@@ -2216,13 +2232,14 @@ class SongCubit extends Cubit<SongState> {
 
     try {
       final songPath = await state.song.path;
+      final (beatsPerBar, beatUnit) = _effectiveTimeSignature;
       final config = ClickTrackConfig(
         durationMs: state.song.duration.inMilliseconds,
         bpm: originalBpm,
         anchorMs: state.song.metronomeBeatAnchorMs,
         offsetMs: state.song.metronomeOffsetMs,
-        beatsPerBar: state.song.metronomeBeatsPerBar,
-        beatUnit: state.song.metronomeBeatUnit,
+        beatsPerBar: beatsPerBar,
+        beatUnit: beatUnit,
         pulsesPerBeat: state.metronomeSubdivision.pulsesPerBeat,
         volume: state.metronomeVolume,
       );

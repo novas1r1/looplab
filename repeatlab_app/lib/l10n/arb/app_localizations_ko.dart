@@ -983,6 +983,21 @@ class AppLocalizationsKo extends AppLocalizations {
   String get metronomeAdvanced => '고급';
 
   @override
+  String get metronomeSyncToSong => '곡과 동기화';
+
+  @override
+  String metronomeKeepTapping(int count) {
+    return '계속 탭하세요… ($count)';
+  }
+
+  @override
+  String get metronomeSyncHint =>
+      '클릭은 곡의 템포를 따르지만 박자와 정확히 맞지 않을 수 있습니다. 곡에 맞춰 탭하여 동기화하세요.';
+
+  @override
+  String get metronomeResetSync => '동기화 재설정';
+
+  @override
   String get off => '꺼짐';
 
   @override

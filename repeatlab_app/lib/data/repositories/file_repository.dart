@@ -27,6 +27,19 @@ class FileRepository {
   ///
   /// Throws [PickAlreadyInProgressException] when a previous pick (possibly
   /// still copying a large cloud file) has not finished yet.
+  /// Audio extensions offered to the file picker on both platforms.
+  static const _audioPickerExtensions = [
+    'mp3',
+    'm4a',
+    'aac',
+    'wav',
+    'flac',
+    'ogg',
+    'wma',
+    'opus',
+    'aiff',
+  ];
+
   Future<List<File>> pickAudioFiles() {
     return _pickAndCopy(() async {
       if (Platform.isIOS) {
@@ -35,17 +48,7 @@ class FileRepository {
 
         return filePicker.pickFiles(
           type: FileType.custom,
-          allowedExtensions: [
-            'mp3',
-            'm4a',
-            'aac',
-            'wav',
-            'flac',
-            'ogg',
-            'wma',
-            'opus',
-            'aiff',
-          ],
+          allowedExtensions: _audioPickerExtensions,
           onFileLoading: _logPickerStatus,
         );
         // this only shows files in mediathek
@@ -54,23 +57,39 @@ class FileRepository {
         // );
       }
       try {
-        // TODO: Fix this once [log] ERROR: PlatformException(invalid_format_type, Can't handle the provided file type., null, null)
-        // is solved
-        // filepicking for FileType.audio is not working. It displays all files in the system.
-        return await filePicker.pickFiles(
-          type: FileType.audio,
+        // Android only opens the SAF document browser — the picker that shows
+        // cloud providers (OneDrive) and reopens the last browsed location —
+        // for an unfiltered pick. Both FileType.audio and FileType.custom with
+        // audio-only extensions get routed to the media/"Audio" category view
+        // instead, which ignores providers and always lands in the same place.
+        // So pick with FileType.any and drop unsupported files afterwards.
+        final result = await filePicker.pickFiles(
+          type: FileType.any,
           onFileLoading: _logPickerStatus,
         );
-
-        /* result = await filePicker.pickFiles(
-          type: FileType.custom,
-          allowedExtensions: ['mp3', 'm4a', 'aac', 'wav', 'flac', 'mpg', 'ogg'],
-        ); */
+        return _keepSupportedAudio(result);
       } on PlatformException catch (e) {
         log('Error picking file: $e');
         rethrow;
       }
     });
+  }
+
+  /// Filters a document-browser pick (`FileType.any`) down to the audio
+  /// formats we accept. When the pick contained files but none are supported,
+  /// the raw result is returned unchanged so the import pipeline surfaces its
+  /// localized "unsupported format" error for the offending file rather than
+  /// failing silently.
+  FilePickerResult? _keepSupportedAudio(FilePickerResult? result) {
+    if (result == null || result.files.isEmpty) {
+      return result;
+    }
+    final supported = result.files
+        .where(
+          (f) => _audioPickerExtensions.contains(f.extension?.toLowerCase()),
+        )
+        .toList();
+    return supported.isEmpty ? result : FilePickerResult(supported);
   }
 
   /// Pick one or more video files and copy each into the app documents

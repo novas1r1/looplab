@@ -1014,6 +1014,21 @@ class AppLocalizationsAr extends AppLocalizations {
   String get metronomeAdvanced => 'متقدم';
 
   @override
+  String get metronomeSyncToSong => 'مزامنة مع الأغنية';
+
+  @override
+  String metronomeKeepTapping(int count) {
+    return 'واصل النقر… ($count)';
+  }
+
+  @override
+  String get metronomeSyncHint =>
+      'تتبع النقرة إيقاع الأغنية لكنها قد لا تقع تمامًا على الضربة. انقر مع إيقاع الأغنية لمزامنتها.';
+
+  @override
+  String get metronomeResetSync => 'إعادة تعيين المزامنة';
+
+  @override
   String get off => 'إيقاف';
 
   @override

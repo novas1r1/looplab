@@ -10,11 +10,34 @@ import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_s
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
+/// Everything the panel needs from [SongState], selected once in [build].
+typedef _PanelData = ({
+  bool isEnabled,
+  double volume,
+  MetronomeSubdivision subdivision,
+  int? currentBpm,
+  int offsetMs,
+  int beatsPerBar,
+  int beatUnit,
+  bool isPlaying,
+  bool hasAnchor,
+  int tapCount,
+  bool isGenerating,
+});
+
 /// Metronome section shown at the bottom of the Tempo tab (below a divider).
 ///
-/// Off: a compact row with a button that enables + expands it. On: current
-/// tempo, beat indicator, time signature and volume, with the power-user
-/// controls (subdivision, tap-align, ±ms nudge) tucked behind a gear toggle.
+/// Staged by sync state so each control only appears once it can do what it
+/// claims (docs/plans/2026-07-23-metronome-track-design.md):
+///
+/// * Off: a compact row with the on/off switch.
+/// * On, not synced: volume plus a single "Sync to song" call to action —
+///   the click is a uniform tick because without a beat anchor "beat 1" is
+///   unknown and an accent would land on a random beat.
+/// * On, synced (anchor set via tap-along): the time signature appears and
+///   the downbeat accent turns on, with the power-user controls
+///   (subdivision, re-tap, ½-beat, ±ms nudge, reset) behind a gear toggle.
+///
 /// Clicks only play while the song plays; tempo follows `currentBpm`.
 class MetronomePanel extends StatefulWidget {
   const MetronomePanel({super.key});
@@ -47,23 +70,7 @@ class _MetronomePanelState extends State<MetronomePanel> {
   Widget build(BuildContext context) {
     final hasPremium = context.watch<PremiumSubscriptionCubit>().hasPremium;
 
-    return BlocSelector<
-      SongCubit,
-      SongState,
-      ({
-        bool isEnabled,
-        double volume,
-        MetronomeSubdivision subdivision,
-        int? currentBpm,
-        int offsetMs,
-        int beatsPerBar,
-        int beatUnit,
-        bool isPlaying,
-        bool hasAnchor,
-        int tapCount,
-        bool isGenerating,
-      })
-    >(
+    return BlocSelector<SongCubit, SongState, _PanelData>(
       selector: (state) => (
         isEnabled: state.isMetronomeEnabled,
         volume: state.metronomeVolume,
@@ -87,10 +94,14 @@ class _MetronomePanelState extends State<MetronomePanel> {
             _header(context, data, hasBpm: hasBpm),
             if (data.isEnabled && hasBpm) ...[
               const SizedBox(height: 12),
-              _timeSignatureRow(context, data),
-              const SizedBox(height: 8),
               _volumeRow(context, data),
-              _advancedSection(context, data, hasPremium: hasPremium),
+              if (!data.hasAnchor)
+                _syncSection(context, data, hasPremium: hasPremium)
+              else ...[
+                const SizedBox(height: 8),
+                _timeSignatureRow(context, data, hasPremium: hasPremium),
+                _advancedSection(context, data, hasPremium: hasPremium),
+              ],
             ],
           ],
         );
@@ -100,23 +111,15 @@ class _MetronomePanelState extends State<MetronomePanel> {
 
   Widget _header(
     BuildContext context,
-    ({
-      bool isEnabled,
-      double volume,
-      MetronomeSubdivision subdivision,
-      int? currentBpm,
-      int offsetMs,
-      int beatsPerBar,
-      int beatUnit,
-      bool isPlaying,
-      bool hasAnchor,
-      int tapCount,
-      bool isGenerating,
-    }) data, {
+    _PanelData data, {
     required bool hasBpm,
   }) {
+    // Not synced: just the tempo — the click is a plain tick, so showing a
+    // time signature here would promise a downbeat that doesn't exist yet.
     final status = data.isEnabled && hasBpm
-        ? '${data.currentBpm} BPM · ${data.beatsPerBar}/${data.beatUnit}'
+        ? data.hasAnchor
+              ? '${data.currentBpm} BPM · ${data.beatsPerBar}/${data.beatUnit} ✓'
+              : '${data.currentBpm} BPM'
         : context.l10n.off;
 
     return Row(
@@ -147,22 +150,27 @@ class _MetronomePanelState extends State<MetronomePanel> {
               ),
             ),
           ),
-        if (data.isEnabled && hasBpm) ...[
+        if (data.isEnabled && hasBpm && data.hasAnchor) ...[
           _advancedButton(context),
           const SizedBox(width: 4),
-          CupertinoSwitch(
-            key: const Key('song.metronome.toggle'),
-            value: data.isEnabled,
-            activeTrackColor: AppColors.primaryContainer,
-            onChanged: (_) => _onToggle(context),
+        ],
+        CupertinoSwitch(
+          key: const Key('song.metronome.toggle'),
+          thumbIcon: WidgetStateProperty.all(
+            const Icon(Icons.graphic_eq_rounded),
           ),
-        ] else
-          _enableButton(context, enabled: hasBpm),
+          activeTrackColor: AppColors.primaryContainer,
+          inactiveTrackColor: AppColors.secondaryContainer,
+          value: data.isEnabled && hasBpm,
+          onChanged: (_) => _onToggle(context, hasBpm: hasBpm),
+        ),
       ],
     );
   }
 
-  /// Gear toggle for the advanced controls, shown beside the on/off switch.
+  /// Gear toggle for the advanced controls, shown beside the on/off switch
+  /// once the song is synced (the advanced tools all refine an existing
+  /// alignment, so they stay hidden before that).
   Widget _advancedButton(BuildContext context) {
     return IconButton(
       key: const Key('song.metronome.advancedToggle'),
@@ -177,48 +185,49 @@ class _MetronomePanelState extends State<MetronomePanel> {
     );
   }
 
-  /// Compact "turn on" affordance shown when the metronome is off. Disabled
-  /// until a BPM exists (the BPM entry sits directly above in the same tab).
-  Widget _enableButton(BuildContext context, {required bool enabled}) {
-    return Material(
-      color: enabled
-          ? AppColors.surfaceContainerHigh
-          : AppColors.surfaceContainerLow,
-      borderRadius: BorderRadius.circular(10),
-      child: InkWell(
-        key: const Key('song.metronome.toggle'),
-        borderRadius: BorderRadius.circular(10),
-        onTap: enabled ? () => _onToggle(context) : null,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          child: Icon(
-            Icons.graphic_eq_rounded,
-            size: 18,
-            color: enabled ? AppColors.secondaryFixed : AppColors.outline,
+  /// The single next step while unsynced: a "Sync to song" button with one
+  /// line explaining why the click may be off the beat and how to fix it.
+  /// Pressing it while paused starts playback (you tap along to what you
+  /// hear); while playing every press records a tap of the alignment
+  /// capture.
+  Widget _syncSection(
+    BuildContext context,
+    _PanelData data, {
+    required bool hasPremium,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const SizedBox(height: 8),
+        _premiumGate(
+          hasPremium: hasPremium,
+          child: OutlinedButton.icon(
+            key: const Key('song.metronome.syncToSong'),
+            onPressed: () => _onSyncPressed(context, data),
+            icon: const Icon(Icons.touch_app_rounded, size: 18),
+            label: Text(
+              data.tapCount > 0
+                  ? context.l10n.metronomeKeepTapping(data.tapCount)
+                  : context.l10n.metronomeSyncToSong,
+            ),
           ),
         ),
-      ),
+        const SizedBox(height: 6),
+        Text(
+          context.l10n.metronomeSyncHint,
+          style: context.labelMedium.copyWith(
+            color: AppColors.onSurfaceVariant,
+          ),
+        ),
+      ],
     );
   }
 
   Widget _timeSignatureRow(
     BuildContext context,
-    ({
-      bool isEnabled,
-      double volume,
-      MetronomeSubdivision subdivision,
-      int? currentBpm,
-      int offsetMs,
-      int beatsPerBar,
-      int beatUnit,
-      bool isPlaying,
-      bool hasAnchor,
-      int tapCount,
-      bool isGenerating,
-    }) data,
-  ) {
-    final hasPremium = context.watch<PremiumSubscriptionCubit>().hasPremium;
-
+    _PanelData data, {
+    required bool hasPremium,
+  }) {
     return Row(
       children: [
         Text(
@@ -237,9 +246,10 @@ class _MetronomePanelState extends State<MetronomePanel> {
             child: DropdownButtonHideUnderline(
               child: DropdownButton<(int, int)>(
                 key: const Key('song.metronome.timeSignature'),
-                value: _timeSignatures.contains(
-                  (data.beatsPerBar, data.beatUnit),
-                )
+                value:
+                    _timeSignatures.contains(
+                      (data.beatsPerBar, data.beatUnit),
+                    )
                     ? (data.beatsPerBar, data.beatUnit)
                     : (4, 4),
                 dropdownColor: AppColors.surfaceContainerHigh,
@@ -267,22 +277,7 @@ class _MetronomePanelState extends State<MetronomePanel> {
     );
   }
 
-  Widget _volumeRow(
-    BuildContext context,
-    ({
-      bool isEnabled,
-      double volume,
-      MetronomeSubdivision subdivision,
-      int? currentBpm,
-      int offsetMs,
-      int beatsPerBar,
-      int beatUnit,
-      bool isPlaying,
-      bool hasAnchor,
-      int tapCount,
-      bool isGenerating,
-    }) data,
-  ) {
+  Widget _volumeRow(BuildContext context, _PanelData data) {
     final volume = _draggedVolume ?? data.volume;
 
     return Row(
@@ -323,31 +318,17 @@ class _MetronomePanelState extends State<MetronomePanel> {
     );
   }
 
-  /// Gear-toggled "advanced" block: subdivision, tap-align + half-beat, and the
-  /// ±ms nudge — all premium-gated, all hidden by default so the section
-  /// matches the design at a glance.
+  /// Gear-toggled "advanced" block, only reachable once synced: subdivision,
+  /// re-tap + half-beat, the ±ms nudge (all premium-gated) and a reset back
+  /// to the plain unsynced click.
   Widget _advancedSection(
     BuildContext context,
-    ({
-      bool isEnabled,
-      double volume,
-      MetronomeSubdivision subdivision,
-      int? currentBpm,
-      int offsetMs,
-      int beatsPerBar,
-      int beatUnit,
-      bool isPlaying,
-      bool hasAnchor,
-      int tapCount,
-      bool isGenerating,
-    }) data, {
+    _PanelData data, {
     required bool hasPremium,
   }) {
     return AnimatedCrossFade(
       duration: const Duration(milliseconds: 180),
-      crossFadeState: _advancedExpanded
-          ? CrossFadeState.showSecond
-          : CrossFadeState.showFirst,
+      crossFadeState: _advancedExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
       firstChild: const SizedBox(width: double.infinity),
       secondChild: Column(
         spacing: 8,
@@ -356,6 +337,7 @@ class _MetronomePanelState extends State<MetronomePanel> {
           _subdivisionRow(context, data, hasPremium: hasPremium),
           _alignmentRow(context, data, hasPremium: hasPremium),
           _nudgeRow(context, data, hasPremium: hasPremium),
+          _resetSyncRow(context),
         ],
       ),
     );
@@ -363,19 +345,7 @@ class _MetronomePanelState extends State<MetronomePanel> {
 
   Widget _subdivisionRow(
     BuildContext context,
-    ({
-      bool isEnabled,
-      double volume,
-      MetronomeSubdivision subdivision,
-      int? currentBpm,
-      int offsetMs,
-      int beatsPerBar,
-      int beatUnit,
-      bool isPlaying,
-      bool hasAnchor,
-      int tapCount,
-      bool isGenerating,
-    }) data, {
+    _PanelData data, {
     required bool hasPremium,
   }) {
     return Row(
@@ -397,8 +367,7 @@ class _MetronomePanelState extends State<MetronomePanel> {
               fillColor: AppColors.primaryContainer,
               disabledColor: AppColors.secondary,
               isSelected: [
-                for (final s in MetronomeSubdivision.values)
-                  s == data.subdivision,
+                for (final s in MetronomeSubdivision.values) s == data.subdivision,
               ],
               onPressed: (index) => _onSubdivision(
                 context,
@@ -419,19 +388,7 @@ class _MetronomePanelState extends State<MetronomePanel> {
 
   Widget _alignmentRow(
     BuildContext context,
-    ({
-      bool isEnabled,
-      double volume,
-      MetronomeSubdivision subdivision,
-      int? currentBpm,
-      int offsetMs,
-      int beatsPerBar,
-      int beatUnit,
-      bool isPlaying,
-      bool hasAnchor,
-      int tapCount,
-      bool isGenerating,
-    }) data, {
+    _PanelData data, {
     required bool hasPremium,
   }) {
     return _premiumGate(
@@ -441,9 +398,7 @@ class _MetronomePanelState extends State<MetronomePanel> {
           Expanded(
             child: OutlinedButton.icon(
               key: const Key('song.metronome.tapBeat'),
-              onPressed: data.isPlaying
-                  ? () => _onTapBeat(context, data.tapCount)
-                  : null,
+              onPressed: data.isPlaying ? () => _onTapBeat(context, data.tapCount) : null,
               icon: Icon(
                 data.hasAnchor && data.tapCount == 0
                     ? Icons.check_circle_outline_rounded
@@ -457,15 +412,6 @@ class _MetronomePanelState extends State<MetronomePanel> {
               ),
             ),
           ),
-          const SizedBox(width: 8),
-          Tooltip(
-            message: context.l10n.metronomeShiftHalfBeat,
-            child: OutlinedButton(
-              key: const Key('song.metronome.halfBeat'),
-              onPressed: () => _onHalfBeat(context),
-              child: const Text('½'),
-            ),
-          ),
         ],
       ),
     );
@@ -473,19 +419,7 @@ class _MetronomePanelState extends State<MetronomePanel> {
 
   Widget _nudgeRow(
     BuildContext context,
-    ({
-      bool isEnabled,
-      double volume,
-      MetronomeSubdivision subdivision,
-      int? currentBpm,
-      int offsetMs,
-      int beatsPerBar,
-      int beatUnit,
-      bool isPlaying,
-      bool hasAnchor,
-      int tapCount,
-      bool isGenerating,
-    }) data, {
+    _PanelData data, {
     required bool hasPremium,
   }) {
     return _premiumGate(
@@ -529,6 +463,24 @@ class _MetronomePanelState extends State<MetronomePanel> {
     );
   }
 
+  /// Escape hatch back to the plain unsynced click. Not premium-gated —
+  /// clearing an alignment must always be possible.
+  Widget _resetSyncRow(BuildContext context) {
+    return TextButton.icon(
+      key: const Key('song.metronome.resetSync'),
+      onPressed: () => _onResetSync(context),
+      icon: const Icon(
+        Icons.restart_alt_rounded,
+        size: 18,
+        color: AppColors.secondary,
+      ),
+      label: Text(
+        context.l10n.metronomeResetSync,
+        style: context.labelLarge.copyWith(color: AppColors.secondary),
+      ),
+    );
+  }
+
   /// Free users see the control but any touch opens the paywall — the same
   /// Listener+AbsorbPointer pattern as the speed/pitch controls.
   Widget _premiumGate({required bool hasPremium, required Widget child}) {
@@ -540,9 +492,58 @@ class _MetronomePanelState extends State<MetronomePanel> {
     );
   }
 
-  void _onToggle(BuildContext context) {
+  void _onToggle(BuildContext context, {required bool hasBpm}) {
+    // The metronome needs a tempo to click against; guide the user to set the
+    // song's BPM first instead of silently doing nothing.
+    if (!hasBpm) {
+      _showSetBpmDialog(context);
+      return;
+    }
     AppAnalytics.trackEvent(AppAnalytics.clickMetronomeToggle);
     context.read<SongCubit>().toggleMetronome();
+  }
+
+  Future<void> _showSetBpmDialog(BuildContext context) async {
+    await showDialog<void>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        key: const Key('song.metronome.setBpmDialog'),
+        backgroundColor: AppColors.surface,
+        elevation: 24,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: BorderSide(
+            color: Theme.of(
+              dialogContext,
+            ).colorScheme.outlineVariant.withValues(alpha: 0.8),
+            width: 1.5,
+          ),
+        ),
+        title: Text(dialogContext.l10n.metronome),
+        content: Text(dialogContext.l10n.metronomeSetBpmFirst),
+        actions: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.primary,
+              foregroundColor: AppColors.onPrimary,
+            ),
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: Text(dialogContext.l10n.close),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _onSyncPressed(BuildContext context, _PanelData data) {
+    // Taps only make sense against audible playback: the first press on a
+    // paused song starts it, then every press is a tap of the capture.
+    if (!data.isPlaying) {
+      AppAnalytics.trackEvent(AppAnalytics.clickMetronomeSyncToSong);
+      context.read<SongCubit>().togglePlaySong();
+      return;
+    }
+    _onTapBeat(context, data.tapCount);
   }
 
   void _onTimeSignature(BuildContext context, (int, int)? value) {
@@ -581,6 +582,14 @@ class _MetronomePanelState extends State<MetronomePanel> {
       data: {'delta_ms': deltaMs},
     );
     context.read<SongCubit>().nudgeMetronome(deltaMs);
+  }
+
+  void _onResetSync(BuildContext context) {
+    AppAnalytics.trackEvent(AppAnalytics.clickMetronomeResetSync);
+    // Collapse the gear section — everything in it needs an anchor, and the
+    // panel returns to the sync call to action.
+    setState(() => _advancedExpanded = false);
+    context.read<SongCubit>().resetMetronomeOffset();
   }
 
   Future<void> _showPremiumDialog(BuildContext context) async {

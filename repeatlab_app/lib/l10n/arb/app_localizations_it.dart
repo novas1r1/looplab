@@ -1031,6 +1031,21 @@ class AppLocalizationsIt extends AppLocalizations {
   String get metronomeAdvanced => 'Avanzate';
 
   @override
+  String get metronomeSyncToSong => 'Sincronizza con il brano';
+
+  @override
+  String metronomeKeepTapping(int count) {
+    return 'Continua a toccare… ($count)';
+  }
+
+  @override
+  String get metronomeSyncHint =>
+      'Il clic segue il tempo del brano ma potrebbe non cadere esattamente sul beat. Tocca a ritmo con il brano per sincronizzarlo.';
+
+  @override
+  String get metronomeResetSync => 'Reimposta sincronizzazione';
+
+  @override
   String get off => 'spento';
 
   @override

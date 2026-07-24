@@ -1025,6 +1025,21 @@ class AppLocalizationsTr extends AppLocalizations {
   String get metronomeAdvanced => 'Gelişmiş';
 
   @override
+  String get metronomeSyncToSong => 'Şarkıyla senkronize et';
+
+  @override
+  String metronomeKeepTapping(int count) {
+    return 'Dokunmaya devam edin… ($count)';
+  }
+
+  @override
+  String get metronomeSyncHint =>
+      'Tık sesi şarkının temposunu takip eder ancak vuruşlara tam denk gelmeyebilir. Senkronize etmek için şarkıyla birlikte ritme dokunun.';
+
+  @override
+  String get metronomeResetSync => 'Senkronizasyonu sıfırla';
+
+  @override
   String get off => 'kapalı';
 
   @override
