@@ -6,9 +6,11 @@ import 'dart:io';
 import 'package:audio_metadata_reader/audio_metadata_reader.dart';
 import 'package:ffmpeg_kit_flutter_new_min/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter_new_min/return_code.dart';
-import 'package:flutter_soloud/flutter_soloud.dart' hide AudioMetadata;
+import 'package:flutter_soloud/flutter_soloud.dart'
+    hide AudioMetadata, Mp3Metadata;
 import 'package:media_kit/media_kit.dart';
 import 'package:path/path.dart' as p;
+import 'package:repeatlab/core/utils/musical_key.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:sembast/sembast.dart';
@@ -183,18 +185,43 @@ class SongRepository {
       log('No metadata available: $ex');
     }
 
+    // BPM/key tags are read from the ORIGINAL file: formats converted to WAV
+    // (m4a, aac, …) lose their tags in conversion, and the unified
+    // readMetadata model drops TBPM/TKEY entirely.
+    final tags = _readBpmAndKeyTags(file);
+
     final song = Song(
       id: const Uuid().v4(),
       title: metadata?.title ?? fileName,
       artist: metadata?.artist ?? 'Unknown Artist',
       fileName: fileName,
       duration: duration,
+      bpm: tags.bpm,
+      musicalKey: tags.musicalKey,
     );
 
     // Shift existing songs down so the new song appears at the top
     await incrementExistingSortOrders();
     await _store.add(db, song.toMap());
     await getAllSongs();
+  }
+
+  /// Best-effort read of BPM (TBPM) and musical key (TKEY) tags. Only MP3
+  /// (ID3v2) carries these in a form audio_metadata_reader exposes; other
+  /// formats simply return nulls. Never throws — tag data is optional.
+  ({int? bpm, String? musicalKey}) _readBpmAndKeyTags(File file) {
+    try {
+      final tags = readAllMetadata(file, getImage: false);
+      if (tags is Mp3Metadata) {
+        return (
+          bpm: MusicalKey.parseTagBpm(tags.bpm),
+          musicalKey: MusicalKey.normalizeTagKey(tags.initialKey),
+        );
+      }
+    } on Exception catch (ex) {
+      log('BPM/key tag read failed: $ex');
+    }
+    return (bpm: null, musicalKey: null);
   }
 
   /// Import a video file. The file is kept as-is (no transcoding, no audio
@@ -209,7 +236,19 @@ class SongRepository {
       throw UnsupportedVideoFormatException(extension);
     }
 
+    final sizeBytes = await file.exists() ? await file.length() : -1;
+    final stopwatch = Stopwatch()..start();
+    log(
+      'addVideoFile start: "$fileName" ($sizeBytes bytes)',
+      name: 'ImportTiming',
+    );
+
     final duration = await _probeVideoDuration(file);
+    log(
+      'Duration probe finished ($duration) '
+      'after ${stopwatch.elapsedMilliseconds} ms',
+      name: 'ImportTiming',
+    );
     if (duration == null || duration <= Duration.zero) {
       throw UnsupportedVideoFormatException(extension);
     }
@@ -223,6 +262,10 @@ class SongRepository {
     } on Exception catch (ex) {
       log('Metadata read failed for video: $ex');
     }
+    log(
+      'Metadata read finished after ${stopwatch.elapsedMilliseconds} ms',
+      name: 'ImportTiming',
+    );
 
     final song = Song(
       id: const Uuid().v4(),
@@ -237,6 +280,10 @@ class SongRepository {
     await incrementExistingSortOrders();
     await _store.add(db, song.toMap());
     await getAllSongs();
+    log(
+      'addVideoFile finished after ${stopwatch.elapsedMilliseconds} ms',
+      name: 'ImportTiming',
+    );
   }
 
   /// Probe video duration by briefly opening the file with media_kit. Returns
@@ -244,8 +291,18 @@ class SongRepository {
   /// ~100–500 ms one-time at import; acceptable for a non-hot path.
   Future<Duration?> _probeVideoDuration(File file) async {
     final probe = Player();
+    final stopwatch = Stopwatch()..start();
     try {
-      await probe.open(Media(file.path), play: false);
+      log('Probe open start: ${file.path}', name: 'ImportTiming');
+      // open() itself can hang on files libmpv struggles with — cap it so a
+      // broken file fails the import instead of freezing it forever.
+      await probe
+          .open(Media(file.path), play: false)
+          .timeout(const Duration(seconds: 15));
+      log(
+        'Probe open done after ${stopwatch.elapsedMilliseconds} ms',
+        name: 'ImportTiming',
+      );
       // Wait for libmpv to report a non-zero duration. Bail after 5s to avoid
       // hanging on truly broken files.
       final duration = await probe.stream.duration
@@ -255,11 +312,26 @@ class SongRepository {
             onTimeout: () => Duration.zero,
           );
       return duration > Duration.zero ? duration : null;
+    } on TimeoutException {
+      log(
+        'Probe open timed out after ${stopwatch.elapsedMilliseconds} ms — '
+        'treating file as unreadable',
+        name: 'ImportTiming',
+      );
+      return null;
     } on Exception catch (ex) {
       log('Failed to probe video duration: $ex', name: 'AddVideoFile');
       return null;
     } finally {
-      await probe.dispose();
+      // Not awaited: if open() hung, dispose() can hang on the same lock and
+      // would freeze the import again.
+      unawaited(
+        probe.dispose().timeout(const Duration(seconds: 5)).catchError((
+          Object ex,
+        ) {
+          log('Probe dispose failed: $ex', name: 'ImportTiming');
+        }),
+      );
     }
   }
 
@@ -272,7 +344,8 @@ class SongRepository {
     // Build the output path by replacing the original extension with .wav.
     // If that name is already taken (a previously imported song — its loops
     // point into that audio), pick `<stem> (n).wav` instead of overwriting.
-    var outputPath = '${file.path.substring(0, file.path.length - ext.length)}wav';
+    var outputPath =
+        '${file.path.substring(0, file.path.length - ext.length)}wav';
     if (await File(outputPath).exists()) {
       final dir = p.dirname(outputPath);
       final stem = p.basenameWithoutExtension(outputPath);
@@ -286,7 +359,8 @@ class SongRepository {
     // FFmpeg command to convert the audio. "-y" overwrites existing files,
     // "-vn" drops any (unlikely) video track, and we encode the audio stream
     // using 16-bit PCM which is supported by SoLoud.
-    final ffmpegCommand = '-y -i "${file.path}" -vn -c:a pcm_s16le "$outputPath"';
+    final ffmpegCommand =
+        '-y -i "${file.path}" -vn -c:a pcm_s16le "$outputPath"';
 
     log(
       'Starting $ext→wav conversion using FFmpeg: $ffmpegCommand',
@@ -363,7 +437,9 @@ class SongRepository {
     log('UPDATING LOOP: ${loop.toMap()}');
 
     // update the loop in the song
-    final updatedLoops = song.loops.map((e) => e.id == loop.id ? loop : e).toList();
+    final updatedLoops = song.loops
+        .map((e) => e.id == loop.id ? loop : e)
+        .toList();
     final updatedSong = song.copyWith(loops: updatedLoops);
 
     await _store.update(

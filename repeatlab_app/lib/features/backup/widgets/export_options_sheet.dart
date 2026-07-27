@@ -95,8 +95,7 @@ class _BackupExportOptionsSheetState extends State<_BackupExportOptionsSheet> {
             ),
             CheckboxListTile(
               value: _loopsAndSettings,
-              onChanged: (v) =>
-                  setState(() => _loopsAndSettings = v ?? false),
+              onChanged: (v) => setState(() => _loopsAndSettings = v ?? false),
               title: Text(l10n.backupExportOptionLoopsAndSettings),
               subtitle: Text(l10n.backupExportOptionLoopsAndSettingsSubtitle),
               secondary: const Icon(Icons.tune),

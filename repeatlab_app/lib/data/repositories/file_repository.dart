@@ -11,57 +11,85 @@ import 'package:repeatlab/data/repositories/song_repository.dart';
 class FileRepository {
   final FilePickerWrapper filePicker;
 
-  const FileRepository({required this.filePicker});
+  FileRepository({required this.filePicker});
+
+  /// True while a pick — including the platform-side copy of the picked
+  /// files into the app cache — is still running. On Android, picking from a
+  /// cloud document provider (OneDrive, Google Drive, …) downloads the whole
+  /// file before the pick future resolves, which can take minutes for large
+  /// videos. The platform plugin only supports one active pick, so new picks
+  /// during that window must be rejected explicitly instead of surfacing as
+  /// an opaque 'already_active' platform error.
+  bool _pickInProgress = false;
 
   /// Pick one or more audio files and copy each into the app documents
   /// directory. Returns an empty list when the user cancels the picker.
-  Future<List<File>> pickAudioFiles() async {
-    FilePickerResult? result;
+  ///
+  /// Throws [PickAlreadyInProgressException] when a previous pick (possibly
+  /// still copying a large cloud file) has not finished yet.
+  /// Audio extensions offered to the file picker on both platforms.
+  static const _audioPickerExtensions = [
+    'mp3',
+    'm4a',
+    'aac',
+    'wav',
+    'flac',
+    'ogg',
+    'wma',
+    'opus',
+    'aiff',
+  ];
 
-    if (Platform.isIOS) {
-      // this allows to pick any file type from every location, also iCloud
-      // result = await filePicker.pickFiles();
+  Future<List<File>> pickAudioFiles() {
+    return _pickAndCopy(() async {
+      if (Platform.isIOS) {
+        // this allows to pick any file type from every location, also iCloud
+        // result = await filePicker.pickFiles();
 
-      result = await filePicker.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: [
-          'mp3',
-          'm4a',
-          'aac',
-          'wav',
-          'flac',
-          'ogg',
-          'wma',
-          'opus',
-          'aiff',
-        ],
-        allowMultiple: true,
-      );
-      // this only shows files in mediathek
-      // result = await filePicker.pickFiles(
-      //   type: FileType.audio,
-      // );
-    } else {
-      try {
-        // TODO: Fix this once [log] ERROR: PlatformException(invalid_format_type, Can't handle the provided file type., null, null)
-        // is solved
-        // filepicking for FileType.audio is not working. It displays all files in the system.
-        result = await filePicker.pickFiles(
-          type: FileType.audio,
-          allowMultiple: true,
-        );
-
-        /* result = await filePicker.pickFiles(
+        return filePicker.pickFiles(
           type: FileType.custom,
-          allowedExtensions: ['mp3', 'm4a', 'aac', 'wav', 'flac', 'mpg', 'ogg'],
-        ); */
+          allowedExtensions: _audioPickerExtensions,
+          onFileLoading: _logPickerStatus,
+        );
+        // this only shows files in mediathek
+        // result = await filePicker.pickFiles(
+        //   type: FileType.audio,
+        // );
+      }
+      try {
+        // Android only opens the SAF document browser — the picker that shows
+        // cloud providers (OneDrive) and reopens the last browsed location —
+        // for an unfiltered pick. Both FileType.audio and FileType.custom with
+        // audio-only extensions get routed to the media/"Audio" category view
+        // instead, which ignores providers and always lands in the same place.
+        // So pick with FileType.any and drop unsupported files afterwards.
+        final result = await filePicker.pickFiles(
+          type: FileType.any,
+          onFileLoading: _logPickerStatus,
+        );
+        return _keepSupportedAudio(result);
       } on PlatformException catch (e) {
         log('Error picking file: $e');
         rethrow;
       }
-    }
+    });
+  }
 
-    return _copyPickedFiles(result);
+  /// Filters a document-browser pick (`FileType.any`) down to the audio
+  /// formats we accept. When the pick contained files but none are supported,
+  /// the raw result is returned unchanged so the import pipeline surfaces its
+  /// localized "unsupported format" error for the offending file rather than
+  /// failing silently.
+  FilePickerResult? _keepSupportedAudio(FilePickerResult? result) {
+    if (result == null || result.files.isEmpty) {
+      return result;
+    }
+    final supported = result.files
+        .where(
+          (f) => _audioPickerExtensions.contains(f.extension?.toLowerCase()),
+        )
+        .toList();
+    return supported.isEmpty ? result : FilePickerResult(supported);
   }
 
   /// Pick one or more video files and copy each into the app documents
@@ -74,28 +102,77 @@ class FileRepository {
   /// would open the Photos library picker instead of the Files browser.
   /// Android must use `FileType.video`: with `FileType.custom`, files whose
   /// document provider reports an unexpected MIME type would be greyed out.
-  Future<List<File>> pickVideoFiles() async {
-    FilePickerResult? result;
-
-    if (Platform.isIOS) {
-      result = await filePicker.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: SongRepository.videoPickerExtensionsIos,
-        allowMultiple: true,
-      );
-    } else {
+  ///
+  /// Throws [PickAlreadyInProgressException] when a previous pick (possibly
+  /// still copying a large cloud file) has not finished yet.
+  Future<List<File>> pickVideoFiles() {
+    return _pickAndCopy(() async {
+      if (Platform.isIOS) {
+        return filePicker.pickFiles(
+          type: FileType.custom,
+          allowedExtensions: SongRepository.videoPickerExtensionsIos,
+          onFileLoading: _logPickerStatus,
+        );
+      }
       try {
-        result = await filePicker.pickFiles(
+        return await filePicker.pickFiles(
           type: FileType.video,
-          allowMultiple: true,
+          onFileLoading: _logPickerStatus,
         );
       } on PlatformException catch (e) {
         log('Error picking video file: $e');
         rethrow;
       }
-    }
+    });
+  }
 
-    return _copyPickedFiles(result);
+  /// Runs [pick] with a re-entrancy guard, then copies the result into the
+  /// app documents directory. Rejects overlapping picks — both via the local
+  /// [_pickInProgress] flag and by translating the plugin's 'already_active'
+  /// error (a pick left pending on the platform side, e.g. after the user
+  /// backed out while a cloud file was still downloading) — as
+  /// [PickAlreadyInProgressException].
+  Future<List<File>> _pickAndCopy(
+    Future<FilePickerResult?> Function() pick,
+  ) async {
+    if (_pickInProgress) {
+      throw const PickAlreadyInProgressException();
+    }
+    _pickInProgress = true;
+    final stopwatch = Stopwatch()..start();
+    try {
+      log('Pick started', name: 'ImportTiming');
+      final result = await pick();
+      // On Android this duration includes the plugin copying every picked
+      // file from its document provider (OneDrive, Drive, …) into the app
+      // cache — usually the dominant cost for large cloud files.
+      log(
+        'Picker returned ${result?.files.length ?? 0} file(s) '
+        'after ${stopwatch.elapsedMilliseconds} ms',
+        name: 'ImportTiming',
+      );
+      final files = await _copyPickedFiles(result);
+      log(
+        'Pick + copy finished after ${stopwatch.elapsedMilliseconds} ms',
+        name: 'ImportTiming',
+      );
+      return files;
+    } on PlatformException catch (e) {
+      if (e.code == 'already_active') {
+        throw const PickAlreadyInProgressException();
+      }
+      rethrow;
+    } finally {
+      _pickInProgress = false;
+    }
+  }
+
+  /// The plugin reports `picking` when it starts materializing the selected
+  /// files (on Android: copying them from the document provider into the app
+  /// cache) and `done` when finished. If logcat shows `picking` and never
+  /// `done`, the freeze is inside the provider stream, not in our code.
+  void _logPickerStatus(FilePickerStatus status) {
+    log('File picker status: $status', name: 'ImportTiming');
   }
 
   /// Move every picked file into the app documents directory, preserving the
@@ -127,10 +204,25 @@ class FileRepository {
       final fileName = _resolveFileName(pickedFile.name, sourceFile.path);
       final destinationPath = await _uniqueDestinationPath(appDir, fileName);
       final newFile = File(destinationPath);
+      final stopwatch = Stopwatch()..start();
       try {
         await sourceFile.rename(newFile.path);
-      } on FileSystemException {
+        log(
+          'Renamed "$fileName" (${pickedFile.size} bytes) into app dir '
+          'in ${stopwatch.elapsedMilliseconds} ms',
+          name: 'ImportTiming',
+        );
+      } on FileSystemException catch (ex) {
+        log(
+          'Rename failed for "$fileName" ($ex), falling back to full copy',
+          name: 'ImportTiming',
+        );
         await sourceFile.copy(newFile.path);
+        log(
+          'Copied "$fileName" (${pickedFile.size} bytes) into app dir '
+          'in ${stopwatch.elapsedMilliseconds} ms',
+          name: 'ImportTiming',
+        );
       }
 
       copiedFiles.add(newFile);
@@ -138,6 +230,16 @@ class FileRepository {
 
     return copiedFiles;
   }
+}
+
+/// Thrown when a new file pick is requested while a previous pick is still
+/// running — typically because the platform is still downloading/copying a
+/// large file from a cloud provider (OneDrive, Google Drive, iCloud, …).
+class PickAlreadyInProgressException implements Exception {
+  const PickAlreadyInProgressException();
+
+  @override
+  String toString() => 'A file pick is already in progress.';
 }
 
 /// Returns a path in [dir] for [fileName] that doesn't collide with an

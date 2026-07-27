@@ -37,8 +37,12 @@ class AllSongsStatusMapper extends EnumMapper<AllSongsStatus> {
         return AllSongsStatus.loaded;
       case r'error':
         return AllSongsStatus.error;
+      case r'errorAudioFormat':
+        return AllSongsStatus.errorAudioFormat;
       case r'errorVideoFormat':
         return AllSongsStatus.errorVideoFormat;
+      case r'errorImportInProgress':
+        return AllSongsStatus.errorImportInProgress;
       default:
         throw MapperException.unknownEnumValue(value);
     }
@@ -57,8 +61,12 @@ class AllSongsStatusMapper extends EnumMapper<AllSongsStatus> {
         return r'loaded';
       case AllSongsStatus.error:
         return r'error';
+      case AllSongsStatus.errorAudioFormat:
+        return r'errorAudioFormat';
       case AllSongsStatus.errorVideoFormat:
         return r'errorVideoFormat';
+      case AllSongsStatus.errorImportInProgress:
+        return r'errorImportInProgress';
     }
   }
 }

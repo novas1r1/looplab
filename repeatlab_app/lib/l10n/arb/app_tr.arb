@@ -37,12 +37,26 @@
     "noSongsFound": "Şarkı Bulunamadı",
     "tapToAddSong": "İlk şarkınızı eklemek için +'ya dokunun",
     "legalNoticesDescription": "§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nE-posta: support@repeatlab.de\n\nYasal Şekil: Serbest Çalışan",
-    "onboardingTitle1": "RepeatLab'a Hoş Geldiniz",
-    "onboardingDescription1": "Zor bölümleri tekrarlayarak veya yavaşlatarak herhangi bir şarkıda ustalaşın.",
-    "onboardingTitle2": "Hassas Döngüler Oluşturun",
-    "onboardingDescription2": "Pratik yapmak istediğiniz bölümün başlangıç ve bitişini işaretlemek için sadece tıklayın. Sezgisel dalga formu görünümü ile hassas ayarlamalar yapın.",
-    "onboardingTitle3": "Önce Gizlilik",
-    "onboardingDescription3": "Gizliliğinize saygı duyuyor ve verilerinizi dikkatle işliyoruz. Lütfen devam etmek için gizlilik politikasını gözden geçirin ve onaylayın.",
+    "onboardingTitle1": "Bir profesyonel gibi çalışın",
+    "onboardingDescription1": "Her şarkıda ustalaşmak için kişisel döngü istasyonunuz — ses veya video, %100 çevrimdışı.",
+    "onboardingTitle2": "Zorlu bölümleri döngüye alın",
+    "onboardingDescription2": "Dalga formu üzerinde hassas başlangıç ve bitiş noktaları belirleyin, ardından o bölümü tam olarak oturtana kadar çalın.",
+    "onboardingTitle3": "Yavaşlatın, perdeyi koruyun",
+    "onboardingDescription3": "0.5×'ten 2.0×'e inin ya da tam bir BPM ayarlayın. Perde bozulmaz, böylece hiçbir zaman kulağı tırmalamaz.",
+    "onboardingEyebrow1": "RepeatLab'a hoş geldiniz",
+    "onboardingEyebrow2": "Döngü",
+    "onboardingEyebrow3": "Hız ve tempo",
+    "onboardingEyebrow4": "Perde",
+    "onboardingTitle4": "Kendi tonunuzda çalın",
+    "onboardingDescription4": "±12 yarım ses transpoze edin ya da tonu tona eşleyin — sesinize, akordunuza ve kaponuza göre ayarlayın.",
+    "onboardingConsentTitle": "Verileriniz, sizin kararınız",
+    "onboardingConsentBody": "RepeatLab çevrimdışı çalışır ve dosyalarınızı cihazınızda tutar. Başlamadan önce hızlıca halledilecek küçük bir konu var.",
+    "onboardingAnalyticsTitle": "Anonim analitik",
+    "onboardingAnalyticsBody": "RepeatLab'ı geliştirmeye yardımcı olmak için anonim kullanım verilerini (EU'da barındırılır) paylaşın.",
+    "onboardingDataProtectionTitle": "Veri koruma",
+    "onboardingConsentFootnote": "Analitiği istediğiniz zaman Ayarlar'dan değiştirebilirsiniz.",
+    "onboardingSkip": "Atla",
+    "onboardingContinue": "Devam et",
     "onboardingIAccept": "Kabul Ediyorum",
     "onboardingTermsOfServiceLink": "Gizlilik Politikası",
     "and": "ve",
@@ -73,6 +87,7 @@
     "premiumHeadline": "Tempo kontrolü, yakınlaştırma ve sınırsız döngülerle favori şarkılarınızda profesyoneller gibi ustalaşın!",
     "premiumFeatureUnlimitedLoops": "Sınırsız döngüler",
     "premiumFeatureChangeMusicSpeed": "Hız Kontrolü (BPM/Çarpan)",
+    "premiumFeaturePitchControl": "Perde Kontrolü (Yarım Tonlar)",
     "premiumFeatureZoomInOut": "Dalga formunu yakınlaştır/uzaklaştır",
     "premiumFeatureSupportDeveloper": "Bağımsız geliştiriciyi destekle",
     "freeFeatureUnlimitedSongs": "Sınırsız şarkı + şarkı başına bir döngü",
@@ -118,6 +133,8 @@
     "endPositionMustBeAfterStartPosition": "Bitiş konumu başlangıç konumundan sonra olmalıdır",
     "tutorialNavigateThroughSong": "Şarkı boyunca gezinme",
     "tutorialNavigateThroughSongDescription": "Daha iyi hassasiyet için parmaklarınızla tüm şarkıyı sola veya sağa sürükleyin ve yakınlaştırın/uzaklaştırın",
+    "tutorialVideoPreview": "Videoyu izleyin ve boyutunu ayarlayın",
+    "tutorialVideoPreviewDescription": "Videoyu yeniden boyutlandırmak için + ve − düğmelerini kullanın. Videoda gezinmek için aşağıdaki zaman çizelgesini ve kontrolleri kullanın",
     "tutorialPlayAndPauseSong": "Şarkıyı çal ve duraklat",
     "tutorialPlayAndPauseSongDescription": "Şarkı ve döngüleri kontrol etmek için bu düğmeleri kullanın",
     "tutorialJumpToLoop": "Döngüleri görüntüle ve onlara atla",
@@ -154,6 +171,12 @@
     },
     "purchasedAlready": "Zaten satın alındı",
     "purchaseSuccess": "Başarıyla satın alındı. Geliştiriciyi desteklediğiniz için teşekkür ederiz ❤️!",
+    "changelog2101Title": "Perde kaydırma (Beta)",
+    "changelog2101Description": "Şarkılarının perdesini hızı etkilemeden yarım tonlar halinde değiştir - bir şarkıyı başka bir tona aktarmak veya enstrümanının akorduna uydurmak için mükemmel. Bu özellik şu an Beta aşamasında; sorunla karşılaşırsan bana geri bildirimini gönder.",
+    "changelog2102Title": "Birden fazla dosyayı aynı anda içe aktarın",
+    "changelog2102Description": "Artık birden fazla ses dosyasını tek seferde seçip içe aktarabilirsiniz. Şarkılarınız eklenirken bir ilerleme göstergesi sizi bilgilendirir.",
+    "changelog2103Title": "Hata düzeltmeleri ve kararlılık iyileştirmeleri",
+    "changelog2103Description": "Birkaç hata düzeltildi, uygulamanın genel kararlılığı ve performansı iyileştirildi.",
     "changelog201Title": "Videoları döngüye al ve hız değiştir (Beta)",
     "changelog201Description": "Videoları içe aktarıp tıpkı ses şarkıları gibi döngüye al - ya da hızı değiştir - eğitim videoları veya canlı performanslarla pratik yapmak için mükemmel. Bu özellik şu an Beta aşamasında; sorunla karşılaşırsan bana geri bildirimini gönder.",
     "changelog180Title": "Şarkılarınızı yeniden sıralayın",
@@ -175,7 +198,11 @@
     "changelog1402Title": "2/2 Hata Düzeltmeleri ve Tasarım İyileştirmeleri",
     "changelog1402Description": "Birkaç hata düzeltildi ve tasarım iyileştirildi.",
     "voteForFeatures": "Özellikler için oy ver",
-    "changelogTitle": "Değişiklik Günlüğü",
+    "changelogTitle": "Yenilikler",
+    "changelog2201Title": "Metronom",
+    "changelog2201Description": "Şarkının temposunu koruyan yerleşik bir metronom eşliğinde çal. Ölçü işaretini ve alt bölünmeyi seç, dokunarak tempoyu belirle ve tıklamayı yarım vuruş kaydırmaları ile milisaniye ince ayarlarıyla ritme tam olarak oturacak şekilde ayarla.",
+    "changelog2202Title": "Duraklatıldığında döngüleri düzenle",
+    "changelog2202Description": "Artık oynatma duraklatılmışken bir döngünün başlangıç ve bitiş noktalarını serbestçe taşıyabilirsin - oynatma başı artık döngünün içine geri dönmüyor. Oynat'a bastığın anda döngü sınırları yeniden geçerli olur, böylece döngülerini ince ayarlamak çok daha kolay hale gelir.",
     "changelog130Title": "BPM'ye göre tempo değiştirme",
     "changelog130Description": "Şimdi BPM'ye göre şarkının tempo'unu değiştirebilirsiniz. Bu, tempo'yu daha hassas ayarlamanıza olanak tanır. Ayrıca, tempo'yu artık bir düğme ile sıfırlayabilirsiniz.",
     "changelog1201Title": "1/4 Şarkı bilgileri eklendi",
@@ -196,6 +223,7 @@
     "changelog1013Description": "Artık uygulamada yeni özellikler için oy verebilir veya kendi özellik önerilerinizi sunabilirsiniz. Sadece menüyü açın ve 'Özellikler için oy ver' panelini açın. İsteklerinizi duymaktan mutluluk duyarız!",
     "whatsNew": "Yenilikler",
     "songAddError": "Şarkı eklenemedi. Bu dosya formatından kaynaklanıyor olabilir. Lütfen dosyayı mp3 veya wav gibi desteklenen bir formata dönüştürmeyi deneyin.",
+    "importAlreadyRunningError": "Başka bir içe aktarma hâlâ devam ediyor. Bulut depolamadan büyük dosyalar zaman alabilir; lütfen bitmesini bekleyin.",
     "unsupportedAudioFormatError": "Ses formatı \".{format}\" desteklenmiyor. Desteklenen formatlar: {supportedFormats}.",
     "@unsupportedAudioFormatError": {
         "placeholders": {
@@ -309,6 +337,34 @@
     "useBpm": "BPM'yi kullan",
     "reset": "Sıfırla",
     "speedControl": "Hız",
+    "pitchControl": "Perde",
+    "metronome": "Metronom",
+    "metronomeVolume": "Ses düzeyi",
+    "metronomeTimeSignature": "Ölçü",
+    "metronomeSubdivision": "Alt bölme",
+    "metronomeNudge": "Kaydırma",
+    "metronomeTapBeat": "Vuruşa dokun",
+    "metronomeShiftHalfBeat": "Yarım vuruş kaydır",
+    "metronomeOffsetMs": "{ms} ms",
+    "metronomeSetBpmFirst": "Metronomu kullanmak için önce şarkının BPM değerini ayarla.",
+    "metronomeGoToBpm": "BPM ayarla",
+    "metronomeAdvanced": "Gelişmiş",
+    "metronomeSyncToSong": "Şarkıyla senkronize et",
+    "metronomeKeepTapping": "Dokunmaya devam edin… ({count})",
+    "metronomeSyncHint": "Tık sesi şarkının temposunu takip eder ancak vuruşlara tam denk gelmeyebilir. Senkronize etmek için şarkıyla birlikte ritme dokunun.",
+    "metronomeResetSync": "Senkronizasyonu sıfırla",
+    "off": "kapalı",
+    "pitchSemitone": "Yarım ses",
+    "semitones": "Yarım sesler",
+    "pitchUnchanged": "perde değişmedi",
+    "tapTempo": "Tempoyu vur",
+    "songBpmValue": "Şarkı BPM {bpm}",
+    "retap": "yeniden vur",
+    "edit": "Düzenle",
+    "setSongTempoHint": "Oynatmayı dakikadaki vuruşa göre ayarlamak için şarkının temposunu belirle.",
+    "bpmTapHint": "Ritme uygun şekilde pede dokun",
+    "bpmTapUnit": "BPM · dokun",
+    "useBpmValue": "{bpm} kullan",
     "hereYouCanSetTheOriginalBpmOfTheAudioFile": "Burada ses dosyasının orijinal BPM'sini ayarlayabilirsiniz.",
     "setBpm": "SET",
     "originalBpm": "Orijinal BPM",
@@ -323,6 +379,11 @@
     "playbackSettings": "Oynatma",
     "actions": "Eylemler",
     "speedChangeFailed": "Hız değişikliği başarısız oldu. Lütfen tekrar deneyin.",
+    "pitchChangeFailed": "Perde değişikliği başarısız oldu. Lütfen tekrar deneyin.",
+    "editSongKey": "Ton",
+    "originalKey": "ORİJİNAL TON",
+    "currentKey": "GÜNCEL TON",
+    "hereYouCanSetTheOriginalKeyOfTheAudioFile": "Burada ses dosyasının orijinal tonunu ayarlayabilirsiniz.",
     "copyToClipboard": "Panoya kopyala",
     "editSong": "Şarkıyı düzenle",
     "editSongTitle": "Başlık",
@@ -353,13 +414,17 @@
     "backupExportFailed": "Dışa aktarma başarısız: {message}",
     "@backupExportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportFailed": "İçe aktarma başarısız: {message}",
     "@backupImportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportMalformed": "Bu dosya geçerli bir RepeatLab yedeği değil.",
@@ -368,8 +433,12 @@
     "backupImportConfirmMessage": "Bu yedek {songCount} şarkı içeriyor ({exportedAt} tarihinde dışa aktarıldı).",
     "@backupImportConfirmMessage": {
         "placeholders": {
-            "songCount": { "type": "int" },
-            "exportedAt": { "type": "String" }
+            "songCount": {
+                "type": "int"
+            },
+            "exportedAt": {
+                "type": "String"
+            }
         }
     },
     "backupImportModeMerge": "Birleştir",
@@ -381,9 +450,15 @@
     "backupImportSuccess": "{imported} şarkı içe aktarıldı. {skipped} atlandı, {renamed} yeniden adlandırıldı.",
     "@backupImportSuccess": {
         "placeholders": {
-            "imported": { "type": "int" },
-            "skipped": { "type": "int" },
-            "renamed": { "type": "int" }
+            "imported": {
+                "type": "int"
+            },
+            "skipped": {
+                "type": "int"
+            },
+            "renamed": {
+                "type": "int"
+            }
         }
     }
 }

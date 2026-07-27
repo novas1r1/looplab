@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
-import 'package:repeatlab/core/ui/interaction/primary_button.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
-/// Dialog for tapping to detect BPM
+/// Dialog for tapping to detect BPM. A large circular pad shows the live
+/// detected tempo; Reset / Use commit or clear it.
 class BpmTapDialog extends StatefulWidget {
   const BpmTapDialog({super.key});
 
@@ -22,122 +22,121 @@ class BpmTapDialogState extends State<BpmTapDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(context.l10n.tapBpm),
+      backgroundColor: AppColors.surfaceContainerHigh,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            context.l10n.tapTheButtonBelowInRhythmWithYourMusicToDetectTheBpm,
+            context.l10n.tapTempo,
+            style: context.titleLarge.copyWith(color: AppColors.onSurface),
           ),
-          const SizedBox(height: 24),
-          if (_calculatedBpm != null)
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: AppColors.secondary,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Column(
-                children: [
-                  Text(
-                    context.l10n.detectedBpm,
-                    style: context.labelMedium.copyWith(
-                      color: AppColors.onPrimaryContainer,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    '$_calculatedBpm',
-                    style: context.headlineMedium.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.onPrimaryContainer,
-                    ),
-                  ),
-                ],
-              ),
-            )
-          else
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: AppColors.surfaceContainer,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Text(
-                context.l10n.tapAtLeast2TimesToDetectBpm,
-                style: context.bodyMedium.copyWith(
-                  color: AppColors.onSurfaceVariant,
-                ),
-              ),
-            ),
-          const SizedBox(height: 24),
-          SizedBox(
-            width: 120,
-            height: 120,
-            child: ElevatedButton(
-              onPressed: () {
-                _tapTimes.add(DateTime.now());
-                _calculateBpmFromTaps();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: AppColors.onPrimary,
-                shape: const CircleBorder(),
-                elevation: 4,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.touch_app, size: 32),
-                  const SizedBox(height: 4),
-                  Text(
-                    context.l10n.tap,
-                    style: context.titleMedium.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.onPrimary,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 8),
           Text(
-            '${context.l10n.taps}: ${_tapTimes.length}',
-            style: context.bodySmall,
+            context.l10n.bpmTapHint,
+            textAlign: TextAlign.center,
+            style: context.bodySmall.copyWith(
+              color: AppColors.onSurfaceVariant,
+            ),
+          ),
+          const SizedBox(height: 24),
+          _tapPad(context),
+          const SizedBox(height: 8),
+          TextButton(
+            key: const Key('song.bpmTap.cancel'),
+            onPressed: () {
+              _resetTapBpm();
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              context.l10n.cancel,
+              style: context.labelMedium.copyWith(
+                color: AppColors.onSurfaceVariant,
+              ),
+            ),
           ),
         ],
       ),
       actionsAlignment: MainAxisAlignment.spaceBetween,
       actions: [
         TextButton(
-          onPressed: () {
-            _resetTapBpm();
-            Navigator.of(context).pop();
-          },
-          child: Text(context.l10n.cancel),
+          key: const Key('song.bpmTap.reset'),
+          onPressed: _resetTapBpm,
+          child: Text(context.l10n.reset),
         ),
-        PrimaryButton(
-          text: context.l10n.useBpm,
+        FilledButton(
+          key: const Key('song.bpmTap.use'),
+          style: FilledButton.styleFrom(
+            backgroundColor: AppColors.primaryContainer,
+            foregroundColor: AppColors.onPrimaryContainer,
+          ),
           onPressed: _calculatedBpm != null
               ? () {
                   context.read<SongCubit>().setOriginalBpm(_calculatedBpm);
-
                   AppAnalytics.trackEvent(
                     AppAnalytics.clickUseTappedBpm,
                     data: {'bpm': _calculatedBpm},
                   );
-
                   Navigator.of(context).pop();
                 }
               : null,
+          child: Text(
+            _calculatedBpm != null
+                ? context.l10n.useBpmValue(_calculatedBpm!)
+                : context.l10n.useBpm,
+          ),
         ),
       ],
     );
   }
 
+  Widget _tapPad(BuildContext context) {
+    return GestureDetector(
+      key: const Key('song.bpmTap.pad'),
+      onTap: () {
+        _tapTimes.add(DateTime.now());
+        _calculateBpmFromTaps();
+      },
+      child: Container(
+        width: 150,
+        height: 150,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: AppColors.primaryContainer.withAlpha(31),
+          border: Border.all(color: AppColors.primary, width: 2),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              _calculatedBpm?.toString() ?? '—',
+              style: context.displaySmall.copyWith(
+                fontWeight: FontWeight.w700,
+                color: AppColors.primary,
+                height: 1,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              context.l10n.bpmTapUnit,
+              style: context.labelSmall.copyWith(
+                color: AppColors.onSurfaceVariant,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   void _calculateBpmFromTaps() {
-    if (_tapTimes.length < 2) return;
+    if (_tapTimes.length < 2) {
+      setState(() {});
+      return;
+    }
 
     // Keep only the last 8 taps for more accurate measurement
     if (_tapTimes.length > 8) {

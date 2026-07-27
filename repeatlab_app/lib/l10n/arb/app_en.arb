@@ -46,12 +46,26 @@
     "noSongsFound": "No songs found",
     "tapToAddSong": "Tap + to add your first song",
     "legalNoticesDescription": "§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nE-Mail: support@repeatlab.de\n\nRechtsform: Freelancer",
-    "onboardingTitle1": "Welcome to RepeatLab",
-    "onboardingDescription1": "Master any song by practicing difficult sections with repeating them or slowing them down.",
-    "onboardingTitle2": "Create Precise Loops",
-    "onboardingDescription2": "Simply tap to mark the start and end of a section you want to practice. Adjust and fine-tune with our intuitive waveform display.",
-    "onboardingTitle3": "Privacy First",
-    "onboardingDescription3": "We value your privacy and handle your data with care. Please review our privacy policy and accept to continue.",
+    "onboardingEyebrow1": "Welcome to RepeatLab",
+    "onboardingTitle1": "Practice Like a Pro",
+    "onboardingDescription1": "Your personal loop station for mastering any song — audio or video, 100% offline.",
+    "onboardingEyebrow2": "Loop",
+    "onboardingTitle2": "Loop the tricky parts",
+    "onboardingDescription2": "Set precise start and end points on the waveform, then play that section till you nail it.",
+    "onboardingEyebrow3": "Speed & Tempo",
+    "onboardingTitle3": "Slow it down, keep the pitch",
+    "onboardingDescription3": "Drop from 0.5× to 2.0×, or dial an exact BPM. The pitch stays true so it never sounds off.",
+    "onboardingEyebrow4": "Pitch",
+    "onboardingTitle4": "Play it in your key",
+    "onboardingDescription4": "Transpose ±12 semitones or map key to key — match your voice, your tuning, your capo.",
+    "onboardingConsentTitle": "Your data, your call",
+    "onboardingConsentBody": "RepeatLab works offline and keeps your files on your device. One quick bit of housekeeping before you start.",
+    "onboardingAnalyticsTitle": "Anonymous analytics",
+    "onboardingAnalyticsBody": "Share anonymous usage data (EU-hosted) to help improve RepeatLab.",
+    "onboardingDataProtectionTitle": "Data protection",
+    "onboardingConsentFootnote": "You can change analytics anytime in Settings.",
+    "onboardingSkip": "Skip",
+    "onboardingContinue": "Continue",
     "onboardingIAccept": "I accept the ",
     "onboardingPrivacyPolicyLink": "Privacy Policy",
     "onboardingTermsOfServiceLink": "Terms of Service",
@@ -82,6 +96,7 @@
     "premiumHeadline": "Master Your Favorite Songs like a Pro with Tempo Control, Zoom & Unlimited Loops!",
     "premiumFeatureUnlimitedLoops": "Unlimited Loops",
     "premiumFeatureChangeMusicSpeed": "Audio Speed Control (BPM/Multiplier)",
+    "premiumFeaturePitchControl": "Pitch Control (Semitones)",
     "premiumFeatureZoomInOut": "Waveform Zoom-In/Out",
     "premiumFeatureSupportDeveloper": "Support the independent Developer",
     "freeFeatureUnlimitedSongs": "Unlimited Songs + One Loop per Song",
@@ -143,6 +158,8 @@
     "endPositionMustBeAfterStartPosition": "End position must be after start position",
     "tutorialNavigateThroughSong": "Navigate through the song with dragging and dropping",
     "tutorialNavigateThroughSongDescription": "Use your fingers to drag and drop the whole song to the left or right and zoom in/out for better precision",
+    "tutorialVideoPreview": "Watch the video and adjust its size",
+    "tutorialVideoPreviewDescription": "Use the + and − buttons to resize the video. To navigate through the video, use the timeline and controls below",
     "tutorialPlayAndPauseSong": "Play, pause or change the speed of the song",
     "tutorialPlayAndPauseSongDescription": "Use these buttons to control the song and loops",
     "tutorialJumpToLoop": "See and jump to loops",
@@ -180,7 +197,47 @@
     "purchasedAlready": "Purchased already",
     "purchaseSuccess": "Purchase successful. Thank you for supporting the developer ❤️!",
     "voteForFeatures": "Vote for Features",
-    "changelogTitle": "Changelog",
+    "changelogTitle": "What's New",
+    "changelog2201Title": "Metronome",
+    "@changelog2201Title": {
+        "description": "Changelog entry title for the 2.2.0 metronome feature"
+    },
+    "changelog2201Description": "Play along to a built-in metronome that keeps time with your song. Choose the time signature and subdivision, tap in the tempo, and fine-tune the click with half-beat shifts and millisecond nudges so it lines up perfectly with the beat.",
+    "@changelog2201Description": {
+        "description": "Changelog entry description for the 2.2.0 metronome feature"
+    },
+    "changelog2202Title": "Adjust loops while paused",
+    "@changelog2202Title": {
+        "description": "Changelog entry title for the 2.2.0 loop editing while paused feature"
+    },
+    "changelog2202Description": "You can now freely move a loop's start and end points while playback is paused - the playhead no longer snaps back into the loop. Loop boundaries take effect again the moment you press play, making it much easier to fine-tune your loops.",
+    "@changelog2202Description": {
+        "description": "Changelog entry description for the 2.2.0 loop editing while paused feature"
+    },
+    "changelog2101Title": "Pitch shift (Beta)",
+    "@changelog2101Title": {
+        "description": "Changelog entry title for the 2.1.0 pitch shift feature"
+    },
+    "changelog2101Description": "Change the pitch of your songs in semitones without affecting the speed - perfect for transposing a song to a different key or matching your instrument's tuning. This feature is currently in Beta; please send me your feedback if you run into any issues.",
+    "@changelog2101Description": {
+        "description": "Changelog entry description for the 2.1.0 pitch shift feature"
+    },
+    "changelog2102Title": "Import multiple files at once",
+    "@changelog2102Title": {
+        "description": "Changelog entry title for the 2.1.0 multi-file import feature"
+    },
+    "changelog2102Description": "You can now select and import multiple audio files in one go. A progress indicator keeps you updated while your songs are being added.",
+    "@changelog2102Description": {
+        "description": "Changelog entry description for the 2.1.0 multi-file import feature"
+    },
+    "changelog2103Title": "Bug fixes and stability improvements",
+    "@changelog2103Title": {
+        "description": "Changelog entry title for the 2.1.0 bug fixes"
+    },
+    "changelog2103Description": "Several bugs were fixed and the overall stability and performance of the app improved.",
+    "@changelog2103Description": {
+        "description": "Changelog entry description for the 2.1.0 bug fixes"
+    },
     "changelog201Title": "Loop and speed-change videos (Beta)",
     "@changelog201Title": {
         "description": "Changelog entry title for the 2.0.1 video support feature"
@@ -239,6 +296,10 @@
     "changelog1013Description": "You can now vote for new features or submit your own feature proposals in the app. Just open the menu and open the 'Vote for Features' board. Happy to hear your wishes!",
     "whatsNew": "What's New",
     "songAddError": "Failed to add song. This could be due to a problem with the file format. Please try to convert the file to a supported format like mp3 or wav.",
+    "importAlreadyRunningError": "Another import is still running. Large files from cloud storage can take a while — please wait for it to finish.",
+    "@importAlreadyRunningError": {
+        "description": "Error shown when the user starts a new import while a previous file pick is still running, e.g. a large video still downloading from cloud storage (OneDrive, Google Drive, iCloud)."
+    },
     "unsupportedAudioFormatError": "The audio format \".{format}\" is not supported. Supported formats: {supportedFormats}.",
     "@unsupportedAudioFormatError": {
         "placeholders": {
@@ -341,21 +402,29 @@
     "backupExportFailed": "Export failed: {message}",
     "@backupExportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportFailed": "Import failed: {message}",
     "@backupImportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportConfirmTitle": "Import backup",
     "backupImportConfirmMessage": "This backup contains {songCount} songs (exported {exportedAt}).",
     "@backupImportConfirmMessage": {
         "placeholders": {
-            "songCount": { "type": "int" },
-            "exportedAt": { "type": "String" }
+            "songCount": {
+                "type": "int"
+            },
+            "exportedAt": {
+                "type": "String"
+            }
         }
     },
     "backupImportModeMerge": "Merge",
@@ -367,9 +436,15 @@
     "backupImportSuccess": "Imported {imported} songs. {skipped} skipped, {renamed} renamed.",
     "@backupImportSuccess": {
         "placeholders": {
-            "imported": { "type": "int" },
-            "skipped": { "type": "int" },
-            "renamed": { "type": "int" }
+            "imported": {
+                "type": "int"
+            },
+            "skipped": {
+                "type": "int"
+            },
+            "renamed": {
+                "type": "int"
+            }
         }
     },
     "backupImportSchemaTooNew": "This backup was created by a newer version of RepeatLab. Please update the app to import it.",
@@ -404,6 +479,108 @@
     "useBpm": "Use BPM",
     "reset": "Reset",
     "speedControl": "Speed",
+    "pitchControl": "Pitch",
+    "metronome": "Metronome",
+    "metronomeVolume": "Volume",
+    "metronomeTimeSignature": "Time signature",
+    "metronomeSubdivision": "Subdivision",
+    "metronomeNudge": "Nudge",
+    "metronomeTapBeat": "Tap on the beat",
+    "metronomeShiftHalfBeat": "Shift by half a beat",
+    "metronomeOffsetMs": "{ms} ms",
+    "@metronomeOffsetMs": {
+        "description": "Metronome click-grid offset shown next to the nudge buttons",
+        "placeholders": {
+            "ms": {
+                "type": "int"
+            }
+        }
+    },
+    "metronomeSetBpmFirst": "Set the song's BPM first to use the metronome.",
+    "metronomeGoToBpm": "Set BPM",
+    "metronomeAdvanced": "Advanced",
+    "@metronomeAdvanced": {
+        "description": "Toggle label for the collapsible advanced metronome controls (subdivision, tap-align, nudge)"
+    },
+    "metronomeSyncToSong": "Sync to song",
+    "@metronomeSyncToSong": {
+        "description": "Button that starts the tap-to-align capture so the click lands on the song's beats"
+    },
+    "metronomeKeepTapping": "Keep tapping… ({count})",
+    "@metronomeKeepTapping": {
+        "description": "Sync button label while a tap capture is in progress, with the number of taps recorded",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "metronomeSyncHint": "The click follows the song's tempo but may not land exactly on the beat. Tap along with the song to sync it.",
+    "@metronomeSyncHint": {
+        "description": "Helper text under the sync button explaining why the click may be off the beat and how to fix it"
+    },
+    "metronomeResetSync": "Reset sync",
+    "@metronomeResetSync": {
+        "description": "Button in the advanced metronome controls that clears the beat alignment and returns to a steady click"
+    },
+    "off": "off",
+    "@off": {
+        "description": "Status label shown next to the metronome heading when it is disabled"
+    },
+    "pitchSemitone": "Semitone",
+    "@pitchSemitone": {
+        "description": "Label for the semitone mode of the pitch control toggle"
+    },
+    "semitones": "Semitones",
+    "@semitones": {
+        "description": "Unit shown under the pitch stepper value, e.g. 'Semitones · A#'"
+    },
+    "pitchUnchanged": "pitch unchanged",
+    "@pitchUnchanged": {
+        "description": "Caption under the speed multiplier value noting the pitch stays the same"
+    },
+    "tapTempo": "Tap Tempo",
+    "@tapTempo": {
+        "description": "Button that opens the tap-tempo dialog to detect the song BPM"
+    },
+    "songBpmValue": "Song BPM {bpm}",
+    "@songBpmValue": {
+        "description": "Reference to the song's original BPM shown under the BPM stepper",
+        "placeholders": {
+            "bpm": {
+                "type": "int"
+            }
+        }
+    },
+    "retap": "retap",
+    "@retap": {
+        "description": "Small link next to the song BPM to re-open the tap-tempo dialog"
+    },
+    "edit": "Edit",
+    "@edit": {
+        "description": "Small link next to the song BPM that returns to the set-or-tap entry to change it"
+    },
+    "setSongTempoHint": "Set the song's tempo to adjust playback by beats per minute.",
+    "@setSongTempoHint": {
+        "description": "Helper text shown in BPM mode before an original BPM is set"
+    },
+    "bpmTapHint": "Tap the pad in time with the beat",
+    "@bpmTapHint": {
+        "description": "Instruction under the tap-tempo dialog title"
+    },
+    "bpmTapUnit": "BPM · tap",
+    "@bpmTapUnit": {
+        "description": "Unit label under the live BPM value on the tap-tempo pad"
+    },
+    "useBpmValue": "Use {bpm}",
+    "@useBpmValue": {
+        "description": "Confirm button on the tap-tempo dialog, e.g. 'Use 120'",
+        "placeholders": {
+            "bpm": {
+                "type": "int"
+            }
+        }
+    },
     "hereYouCanSetTheOriginalBpmOfTheAudioFile": "Here you can set the original BPM of the audio file.",
     "setBpm": "SET",
     "originalBpm": "ORIGINAL BPM",
@@ -415,6 +592,11 @@
     "autoPlayOnLoopSelectDescription": "Automatically start playing when selecting a loop or navigating to next/previous loop",
     "actions": "Actions",
     "speedChangeFailed": "Speed change failed. Please try again.",
+    "pitchChangeFailed": "Pitch change failed. Please try again.",
+    "editSongKey": "Key",
+    "originalKey": "ORIGINAL KEY",
+    "currentKey": "CURRENT KEY",
+    "hereYouCanSetTheOriginalKeyOfTheAudioFile": "Here you can set the original key of the audio file.",
     "copyToClipboard": "Copy to Clipboard",
     "@copyToClipboard": {
         "description": "Button or action to copy text to the device clipboard"

@@ -27,6 +27,33 @@ abstract class MediaPlayerHandler {
   Future<void> seek(Duration position);
   Future<bool> setSpeed(double speed);
 
+  /// Swaps the underlying audio file while preserving position, playing
+  /// state, speed and pitch. Used by the baked-click-track metronome (iOS)
+  /// to switch between the original song and the song+click mix
+  /// mid-session. Video handlers may throw [UnsupportedError] — the cubit
+  /// only routes audio songs here.
+  Future<void> swapSourceFile(String path);
+
+  /// Configures the native in-pipeline metronome click track (clicks
+  /// synthesized inside the playback pipeline on the media-time beat grid,
+  /// sample-locked across seeks/loops/speed changes). Android audio only —
+  /// other handlers/platforms throw [UnsupportedError]; the cubit gates
+  /// callers accordingly. Pass `enabled: false` to silence the clicks.
+  Future<void> setNativeClickTrack({
+    required bool enabled,
+    int? bpm,
+    int? anchorMs,
+    int offsetMs,
+    int beatsPerBar,
+    int pulsesPerBeat,
+    double volume,
+  });
+
+  /// Applies a pitch shift in semitones (-12..+12), independent of speed.
+  /// Returns false if the platform rejected the change (the caller should
+  /// revert its state from [currentPitchSemitones]).
+  Future<bool> setPitchSemitones(int semitones);
+
   Future<void> forward(int seconds, Loop? loop);
   Future<void> back(int seconds, Loop? loop);
 
@@ -48,6 +75,12 @@ abstract class MediaPlayerHandler {
   /// Position updates. Nullable to match the audio handler's existing surface.
   Stream<Duration>? get positionStream;
 
+  /// Emits the target position after every position discontinuity — user
+  /// seeks, skip/restart actions and native loop wraps (which never surface
+  /// anywhere else). The metronome realigns its click grid from this single
+  /// signal, so every handler-internal seek must be reported here.
+  Stream<Duration> get seekEvents;
+
   Future<Duration> get position;
 
   /// Loop navigation events (e.g. from notification skip buttons). Video
@@ -56,6 +89,9 @@ abstract class MediaPlayerHandler {
   Stream<LoopNavigationEvent> get navigationEvents;
 
   double get currentPlaybackSpeed;
+
+  /// Currently applied pitch shift in semitones (0 = original pitch).
+  int get currentPitchSemitones;
 
   Future<void> close();
 }

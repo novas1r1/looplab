@@ -20,6 +20,15 @@ class Song with SongMappable {
   /// for it.
   final int? bpm;
   final int? currentBpm;
+
+  /// Pitch shift in semitones (-12..+12), 0 = original pitch. Persisted per
+  /// song and reapplied on open (unlike speed, which resets to 1.0). Defaults
+  /// to 0 so existing sembast records decode without a migration.
+  final int pitchSemitones;
+
+  /// Musical key (Tonart) of the song, e.g. "Am" or "F#", read from the
+  /// file's ID3 TKEY tag on import. `null` when the file carried no key tag.
+  final String? musicalKey;
   final List<Loop> loops;
   final LoopSort loopSort;
   final int sortOrder;
@@ -34,6 +43,25 @@ class Song with SongMappable {
   /// [VideoSizeMode.medium] so existing records decode without migration.
   final VideoSizeMode videoSizeMode;
 
+  /// Metronome trim in wall-clock milliseconds. Without a beat anchor it
+  /// shifts the free-running click grid relative to playback start; with an
+  /// anchor set it is a fine trim applied on top of the grid (absorbs
+  /// device-specific output latency). Adjusted via the nudge control.
+  /// Defaults to 0 so existing sembast records decode without migration.
+  final int metronomeOffsetMs;
+
+  /// Song-time position (ms into the recording) of a beat, captured via
+  /// tap-to-align. When set, the metronome aligns its click grid to
+  /// `anchor + n * beatPeriod(bpm)` on every play/seek/loop wrap instead of
+  /// free-running. `null` (the default, so old records decode without
+  /// migration) means no anchor — v1 free-run behavior.
+  final int? metronomeBeatAnchorMs;
+
+  /// Metronome time signature for this song (e.g. 4/4, 6/8). Defaults keep
+  /// existing sembast records decoding without migration.
+  final int metronomeBeatsPerBar;
+  final int metronomeBeatUnit;
+
   const Song({
     required this.id,
     required this.title,
@@ -42,11 +70,17 @@ class Song with SongMappable {
     required this.duration,
     this.bpm,
     this.currentBpm,
+    this.pitchSemitones = 0,
+    this.musicalKey,
     this.loops = const [],
     this.loopSort = LoopSort.none,
     this.sortOrder = 0,
     this.mediaType = MediaType.audio,
     this.videoSizeMode = VideoSizeMode.medium,
+    this.metronomeOffsetMs = 0,
+    this.metronomeBeatAnchorMs,
+    this.metronomeBeatsPerBar = 4,
+    this.metronomeBeatUnit = 4,
   });
 
   Future<String> get path async {

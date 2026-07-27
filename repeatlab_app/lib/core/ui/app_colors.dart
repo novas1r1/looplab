@@ -144,4 +144,12 @@ abstract final class AppColors {
   static const surfaceContainerHighest = Color(0xff353434);
 
   static const danger = Colors.red;
+
+  // Semantic icon colors. Every icon should use one of these instead of a
+  // raw scheme color, so the app-wide icon look can be changed in one place.
+  // Exceptions: decorative accents (onboarding heroes, rating stars) and
+  // icons overlaid on video content, which are brightness-independent.
+  static const iconDefault = secondaryFixed;
+  static const iconDisabled = outline;
+  static const iconActive = primary;
 }

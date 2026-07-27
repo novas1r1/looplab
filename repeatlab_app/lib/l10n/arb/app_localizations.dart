@@ -330,41 +330,125 @@ abstract class AppLocalizations {
   /// **'§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nE-Mail: support@repeatlab.de\n\nRechtsform: Freelancer'**
   String get legalNoticesDescription;
 
-  /// No description provided for @onboardingTitle1.
+  /// No description provided for @onboardingEyebrow1.
   ///
   /// In en, this message translates to:
   /// **'Welcome to RepeatLab'**
+  String get onboardingEyebrow1;
+
+  /// No description provided for @onboardingTitle1.
+  ///
+  /// In en, this message translates to:
+  /// **'Practice Like a Pro'**
   String get onboardingTitle1;
 
   /// No description provided for @onboardingDescription1.
   ///
   /// In en, this message translates to:
-  /// **'Master any song by practicing difficult sections with repeating them or slowing them down.'**
+  /// **'Your personal loop station for mastering any song — audio or video, 100% offline.'**
   String get onboardingDescription1;
+
+  /// No description provided for @onboardingEyebrow2.
+  ///
+  /// In en, this message translates to:
+  /// **'Loop'**
+  String get onboardingEyebrow2;
 
   /// No description provided for @onboardingTitle2.
   ///
   /// In en, this message translates to:
-  /// **'Create Precise Loops'**
+  /// **'Loop the tricky parts'**
   String get onboardingTitle2;
 
   /// No description provided for @onboardingDescription2.
   ///
   /// In en, this message translates to:
-  /// **'Simply tap to mark the start and end of a section you want to practice. Adjust and fine-tune with our intuitive waveform display.'**
+  /// **'Set precise start and end points on the waveform, then play that section till you nail it.'**
   String get onboardingDescription2;
+
+  /// No description provided for @onboardingEyebrow3.
+  ///
+  /// In en, this message translates to:
+  /// **'Speed & Tempo'**
+  String get onboardingEyebrow3;
 
   /// No description provided for @onboardingTitle3.
   ///
   /// In en, this message translates to:
-  /// **'Privacy First'**
+  /// **'Slow it down, keep the pitch'**
   String get onboardingTitle3;
 
   /// No description provided for @onboardingDescription3.
   ///
   /// In en, this message translates to:
-  /// **'We value your privacy and handle your data with care. Please review our privacy policy and accept to continue.'**
+  /// **'Drop from 0.5× to 2.0×, or dial an exact BPM. The pitch stays true so it never sounds off.'**
   String get onboardingDescription3;
+
+  /// No description provided for @onboardingEyebrow4.
+  ///
+  /// In en, this message translates to:
+  /// **'Pitch'**
+  String get onboardingEyebrow4;
+
+  /// No description provided for @onboardingTitle4.
+  ///
+  /// In en, this message translates to:
+  /// **'Play it in your key'**
+  String get onboardingTitle4;
+
+  /// No description provided for @onboardingDescription4.
+  ///
+  /// In en, this message translates to:
+  /// **'Transpose ±12 semitones or map key to key — match your voice, your tuning, your capo.'**
+  String get onboardingDescription4;
+
+  /// No description provided for @onboardingConsentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data, your call'**
+  String get onboardingConsentTitle;
+
+  /// No description provided for @onboardingConsentBody.
+  ///
+  /// In en, this message translates to:
+  /// **'RepeatLab works offline and keeps your files on your device. One quick bit of housekeeping before you start.'**
+  String get onboardingConsentBody;
+
+  /// No description provided for @onboardingAnalyticsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Anonymous analytics'**
+  String get onboardingAnalyticsTitle;
+
+  /// No description provided for @onboardingAnalyticsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Share anonymous usage data (EU-hosted) to help improve RepeatLab.'**
+  String get onboardingAnalyticsBody;
+
+  /// No description provided for @onboardingDataProtectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Data protection'**
+  String get onboardingDataProtectionTitle;
+
+  /// No description provided for @onboardingConsentFootnote.
+  ///
+  /// In en, this message translates to:
+  /// **'You can change analytics anytime in Settings.'**
+  String get onboardingConsentFootnote;
+
+  /// No description provided for @onboardingSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get onboardingSkip;
+
+  /// No description provided for @onboardingContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get onboardingContinue;
 
   /// No description provided for @onboardingIAccept.
   ///
@@ -546,6 +630,12 @@ abstract class AppLocalizations {
   /// **'Audio Speed Control (BPM/Multiplier)'**
   String get premiumFeatureChangeMusicSpeed;
 
+  /// No description provided for @premiumFeaturePitchControl.
+  ///
+  /// In en, this message translates to:
+  /// **'Pitch Control (Semitones)'**
+  String get premiumFeaturePitchControl;
+
   /// No description provided for @premiumFeatureZoomInOut.
   ///
   /// In en, this message translates to:
@@ -726,6 +816,18 @@ abstract class AppLocalizations {
   /// **'Use your fingers to drag and drop the whole song to the left or right and zoom in/out for better precision'**
   String get tutorialNavigateThroughSongDescription;
 
+  /// No description provided for @tutorialVideoPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch the video and adjust its size'**
+  String get tutorialVideoPreview;
+
+  /// No description provided for @tutorialVideoPreviewDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the + and − buttons to resize the video. To navigate through the video, use the timeline and controls below'**
+  String get tutorialVideoPreviewDescription;
+
   /// No description provided for @tutorialPlayAndPauseSong.
   ///
   /// In en, this message translates to:
@@ -849,8 +951,68 @@ abstract class AppLocalizations {
   /// No description provided for @changelogTitle.
   ///
   /// In en, this message translates to:
-  /// **'Changelog'**
+  /// **'What\'s New'**
   String get changelogTitle;
+
+  /// Changelog entry title for the 2.2.0 metronome feature
+  ///
+  /// In en, this message translates to:
+  /// **'Metronome'**
+  String get changelog2201Title;
+
+  /// Changelog entry description for the 2.2.0 metronome feature
+  ///
+  /// In en, this message translates to:
+  /// **'Play along to a built-in metronome that keeps time with your song. Choose the time signature and subdivision, tap in the tempo, and fine-tune the click with half-beat shifts and millisecond nudges so it lines up perfectly with the beat.'**
+  String get changelog2201Description;
+
+  /// Changelog entry title for the 2.2.0 loop editing while paused feature
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust loops while paused'**
+  String get changelog2202Title;
+
+  /// Changelog entry description for the 2.2.0 loop editing while paused feature
+  ///
+  /// In en, this message translates to:
+  /// **'You can now freely move a loop\'s start and end points while playback is paused - the playhead no longer snaps back into the loop. Loop boundaries take effect again the moment you press play, making it much easier to fine-tune your loops.'**
+  String get changelog2202Description;
+
+  /// Changelog entry title for the 2.1.0 pitch shift feature
+  ///
+  /// In en, this message translates to:
+  /// **'Pitch shift (Beta)'**
+  String get changelog2101Title;
+
+  /// Changelog entry description for the 2.1.0 pitch shift feature
+  ///
+  /// In en, this message translates to:
+  /// **'Change the pitch of your songs in semitones without affecting the speed - perfect for transposing a song to a different key or matching your instrument\'s tuning. This feature is currently in Beta; please send me your feedback if you run into any issues.'**
+  String get changelog2101Description;
+
+  /// Changelog entry title for the 2.1.0 multi-file import feature
+  ///
+  /// In en, this message translates to:
+  /// **'Import multiple files at once'**
+  String get changelog2102Title;
+
+  /// Changelog entry description for the 2.1.0 multi-file import feature
+  ///
+  /// In en, this message translates to:
+  /// **'You can now select and import multiple audio files in one go. A progress indicator keeps you updated while your songs are being added.'**
+  String get changelog2102Description;
+
+  /// Changelog entry title for the 2.1.0 bug fixes
+  ///
+  /// In en, this message translates to:
+  /// **'Bug fixes and stability improvements'**
+  String get changelog2103Title;
+
+  /// Changelog entry description for the 2.1.0 bug fixes
+  ///
+  /// In en, this message translates to:
+  /// **'Several bugs were fixed and the overall stability and performance of the app improved.'**
+  String get changelog2103Description;
 
   /// Changelog entry title for the 2.0.1 video support feature
   ///
@@ -1091,6 +1253,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to add song. This could be due to a problem with the file format. Please try to convert the file to a supported format like mp3 or wav.'**
   String get songAddError;
+
+  /// Error shown when the user starts a new import while a previous file pick is still running, e.g. a large video still downloading from cloud storage (OneDrive, Google Drive, iCloud).
+  ///
+  /// In en, this message translates to:
+  /// **'Another import is still running. Large files from cloud storage can take a while — please wait for it to finish.'**
+  String get importAlreadyRunningError;
 
   /// No description provided for @unsupportedAudioFormatError.
   ///
@@ -1662,6 +1830,174 @@ abstract class AppLocalizations {
   /// **'Speed'**
   String get speedControl;
 
+  /// No description provided for @pitchControl.
+  ///
+  /// In en, this message translates to:
+  /// **'Pitch'**
+  String get pitchControl;
+
+  /// No description provided for @metronome.
+  ///
+  /// In en, this message translates to:
+  /// **'Metronome'**
+  String get metronome;
+
+  /// No description provided for @metronomeVolume.
+  ///
+  /// In en, this message translates to:
+  /// **'Volume'**
+  String get metronomeVolume;
+
+  /// No description provided for @metronomeTimeSignature.
+  ///
+  /// In en, this message translates to:
+  /// **'Time signature'**
+  String get metronomeTimeSignature;
+
+  /// No description provided for @metronomeSubdivision.
+  ///
+  /// In en, this message translates to:
+  /// **'Subdivision'**
+  String get metronomeSubdivision;
+
+  /// No description provided for @metronomeNudge.
+  ///
+  /// In en, this message translates to:
+  /// **'Nudge'**
+  String get metronomeNudge;
+
+  /// No description provided for @metronomeTapBeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap on the beat'**
+  String get metronomeTapBeat;
+
+  /// No description provided for @metronomeShiftHalfBeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift by half a beat'**
+  String get metronomeShiftHalfBeat;
+
+  /// Metronome click-grid offset shown next to the nudge buttons
+  ///
+  /// In en, this message translates to:
+  /// **'{ms} ms'**
+  String metronomeOffsetMs(int ms);
+
+  /// No description provided for @metronomeSetBpmFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Set the song\'s BPM first to use the metronome.'**
+  String get metronomeSetBpmFirst;
+
+  /// No description provided for @metronomeGoToBpm.
+  ///
+  /// In en, this message translates to:
+  /// **'Set BPM'**
+  String get metronomeGoToBpm;
+
+  /// Toggle label for the collapsible advanced metronome controls (subdivision, tap-align, nudge)
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced'**
+  String get metronomeAdvanced;
+
+  /// Button that starts the tap-to-align capture so the click lands on the song's beats
+  ///
+  /// In en, this message translates to:
+  /// **'Sync to song'**
+  String get metronomeSyncToSong;
+
+  /// Sync button label while a tap capture is in progress, with the number of taps recorded
+  ///
+  /// In en, this message translates to:
+  /// **'Keep tapping… ({count})'**
+  String metronomeKeepTapping(int count);
+
+  /// Helper text under the sync button explaining why the click may be off the beat and how to fix it
+  ///
+  /// In en, this message translates to:
+  /// **'The click follows the song\'s tempo but may not land exactly on the beat. Tap along with the song to sync it.'**
+  String get metronomeSyncHint;
+
+  /// Button in the advanced metronome controls that clears the beat alignment and returns to a steady click
+  ///
+  /// In en, this message translates to:
+  /// **'Reset sync'**
+  String get metronomeResetSync;
+
+  /// Status label shown next to the metronome heading when it is disabled
+  ///
+  /// In en, this message translates to:
+  /// **'off'**
+  String get off;
+
+  /// Label for the semitone mode of the pitch control toggle
+  ///
+  /// In en, this message translates to:
+  /// **'Semitone'**
+  String get pitchSemitone;
+
+  /// Unit shown under the pitch stepper value, e.g. 'Semitones · A#'
+  ///
+  /// In en, this message translates to:
+  /// **'Semitones'**
+  String get semitones;
+
+  /// Caption under the speed multiplier value noting the pitch stays the same
+  ///
+  /// In en, this message translates to:
+  /// **'pitch unchanged'**
+  String get pitchUnchanged;
+
+  /// Button that opens the tap-tempo dialog to detect the song BPM
+  ///
+  /// In en, this message translates to:
+  /// **'Tap Tempo'**
+  String get tapTempo;
+
+  /// Reference to the song's original BPM shown under the BPM stepper
+  ///
+  /// In en, this message translates to:
+  /// **'Song BPM {bpm}'**
+  String songBpmValue(int bpm);
+
+  /// Small link next to the song BPM to re-open the tap-tempo dialog
+  ///
+  /// In en, this message translates to:
+  /// **'retap'**
+  String get retap;
+
+  /// Small link next to the song BPM that returns to the set-or-tap entry to change it
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
+  /// Helper text shown in BPM mode before an original BPM is set
+  ///
+  /// In en, this message translates to:
+  /// **'Set the song\'s tempo to adjust playback by beats per minute.'**
+  String get setSongTempoHint;
+
+  /// Instruction under the tap-tempo dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the pad in time with the beat'**
+  String get bpmTapHint;
+
+  /// Unit label under the live BPM value on the tap-tempo pad
+  ///
+  /// In en, this message translates to:
+  /// **'BPM · tap'**
+  String get bpmTapUnit;
+
+  /// Confirm button on the tap-tempo dialog, e.g. 'Use 120'
+  ///
+  /// In en, this message translates to:
+  /// **'Use {bpm}'**
+  String useBpmValue(int bpm);
+
   /// No description provided for @hereYouCanSetTheOriginalBpmOfTheAudioFile.
   ///
   /// In en, this message translates to:
@@ -1727,6 +2063,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Speed change failed. Please try again.'**
   String get speedChangeFailed;
+
+  /// No description provided for @pitchChangeFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Pitch change failed. Please try again.'**
+  String get pitchChangeFailed;
+
+  /// No description provided for @editSongKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Key'**
+  String get editSongKey;
+
+  /// No description provided for @originalKey.
+  ///
+  /// In en, this message translates to:
+  /// **'ORIGINAL KEY'**
+  String get originalKey;
+
+  /// No description provided for @currentKey.
+  ///
+  /// In en, this message translates to:
+  /// **'CURRENT KEY'**
+  String get currentKey;
+
+  /// No description provided for @hereYouCanSetTheOriginalKeyOfTheAudioFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Here you can set the original key of the audio file.'**
+  String get hereYouCanSetTheOriginalKeyOfTheAudioFile;
 
   /// Button or action to copy text to the device clipboard
   ///

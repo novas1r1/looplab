@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/widgets/app_icon.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/data/models/loop.dart';
@@ -62,8 +63,7 @@ class _LoopTileState extends State<LoopTile> {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(8),
-        onTap: () =>
-            isLocked ? widget.onLockedTap?.call() : widget.onTap(widget.loop),
+        onTap: () => isLocked ? widget.onLockedTap?.call() : widget.onTap(widget.loop),
         child: Column(
           children: [
             Row(
@@ -85,7 +85,7 @@ class _LoopTileState extends State<LoopTile> {
                       ),
                       if (isLocked) ...[
                         const SizedBox(width: 6),
-                        const Icon(Icons.lock, size: 16, color: Colors.grey),
+                        const Icon(Icons.lock, size: 16, color: AppColors.iconDisabled),
                       ],
                     ],
                   ),
@@ -97,9 +97,8 @@ class _LoopTileState extends State<LoopTile> {
                     key: Key('song.loop.export.${widget.loop.id}'),
                     constraints: const BoxConstraints(),
                     padding: EdgeInsets.zero,
-                    onPressed: () =>
-                        isLocked ? widget.onLockedTap?.call() : _onExportLoop(),
-                    icon: const Icon(Icons.upload_file, size: 20),
+                    onPressed: () => isLocked ? widget.onLockedTap?.call() : _onExportLoop(),
+                    icon: const AppIcon(iconName: 'ic_export'),
                   ),
                 ),
                 SizedBox(
@@ -109,9 +108,8 @@ class _LoopTileState extends State<LoopTile> {
                     key: Key('song.loop.edit.${widget.loop.id}'),
                     constraints: const BoxConstraints(),
                     padding: EdgeInsets.zero,
-                    onPressed: () =>
-                        isLocked ? widget.onLockedTap?.call() : _onEditLoop(),
-                    icon: const Icon(Icons.more_vert, size: 20),
+                    onPressed: () => isLocked ? widget.onLockedTap?.call() : _onEditLoop(),
+                    icon: const AppIcon(iconName: 'ic_edit'),
                   ),
                 ),
               ],

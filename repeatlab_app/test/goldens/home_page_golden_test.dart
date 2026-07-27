@@ -29,7 +29,9 @@ void main() {
     when(() => mockChangelogDialogCubit.state).thenReturn(
       const ChangelogDialogState(),
     );
-    when(() => mockChangelogDialogCubit.checkChangelogDialog()).thenAnswer((_) async {});
+    when(
+      () => mockChangelogDialogCubit.checkForUnseenChangelog(),
+    ).thenAnswer((_) async {});
     when(() => mockLocalConfigRepository.hasRatedApp).thenReturn(false);
   });
 
@@ -56,7 +58,8 @@ void main() {
     multiLocaleGoldenTest(
       'renders empty state',
       fileNameBase: 'home_page_empty',
-      pumpWidgetWithLocale: (tester, widget, locale) => tester.pumpApp(widget, locale: locale),
+      pumpWidgetWithLocale: (tester, widget, locale) =>
+          tester.pumpApp(widget, locale: locale),
       builder: () {
         when(() => mockAllSongsCubit.state).thenReturn(
           const AllSongsState(status: AllSongsStatus.loaded),
@@ -72,7 +75,8 @@ void main() {
     multiLocaleGoldenTest(
       'renders with songs',
       fileNameBase: 'home_page_with_songs',
-      pumpWidgetWithLocale: (tester, widget, locale) => tester.pumpApp(widget, locale: locale),
+      pumpWidgetWithLocale: (tester, widget, locale) =>
+          tester.pumpApp(widget, locale: locale),
       builder: () {
         when(() => mockAllSongsCubit.state).thenReturn(
           const AllSongsState(
@@ -112,7 +116,8 @@ void main() {
     multiLocaleGoldenTest(
       'renders error state',
       fileNameBase: 'home_page_error',
-      pumpWidgetWithLocale: (tester, widget, locale) => tester.pumpApp(widget, locale: locale),
+      pumpWidgetWithLocale: (tester, widget, locale) =>
+          tester.pumpApp(widget, locale: locale),
       builder: () {
         when(() => mockAllSongsCubit.state).thenReturn(
           const AllSongsState(

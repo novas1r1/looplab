@@ -70,7 +70,29 @@ Analytics is **opt-in** and gated end to end.
   `LocalConfigRepository.setAnalyticsEnabled(...)`, which:
   - `Posthog().enable()` / `disable()`
   - `Clarity.resume()` / `pause()`
+  - settles the **pre-consent event buffer** via
+    `AppAnalytics.onConsentDecision(...)` (see below)
   - **syncs the RevenueCat identity link** (see §5) — release only
+
+### Pre-consent event buffer
+
+Events fired *before* the consent decision (e.g. `view_onboarding` /
+`onboarding_started` in the onboarding page's `initState`) would otherwise be
+silently dropped by the SDK's opt-out — even for users who later consent.
+`AppAnalytics` therefore keeps a consent state (`undecided` / `granted` /
+`denied`, restored on startup via `AppAnalytics.init(...)` in `main.dart`):
+
+- **undecided** (first onboarding, no decision yet): events are buffered
+  **in memory only** (bounded at 50) — nothing is persisted or transmitted,
+  the buffer dies with the process. GDPR: no processing before consent.
+- **granted**: buffered events are flushed to PostHog in order, each tagged
+  with an `original_timestamp` property; subsequent events capture directly.
+- **denied**: the buffer is discarded and later events are dropped. A later
+  opt-in via settings never resurrects pre-decision events.
+
+Note: this covers only `AppAnalytics.trackEvent` calls. SDK autocapture
+(`$screen`, lifecycle events) still starts at consent — pre-consent
+`Application Installed` remains unmeasurable by design.
 - `Posthog().reset()` runs **only** on "delete all data"
   (`lib/features/home/settings_page.dart`), rotating the anonymous id for
   right-to-erasure. It is **never** called on app start (that would inflate users
@@ -219,7 +241,7 @@ server-side.
 | Funnel stage | Client event(s) | Key properties |
 |---|---|---|
 | App start | `Application Opened` (autocapture) | `$os`, `$app_version` |
-| Onboarding | `onboarding_started`, `onboarding_completed`, `onboarding_analytics_accepted` | — |
+| Onboarding | `onboarding_started`, `onboarding_completed`, `onboarding_analytics_accepted` (pre-consent events delivered via the buffer, §3) | `original_timestamp` on buffered events |
 | Activation | `loop_created`, `first_loop_created`, `first_song_added`, `song_add_success` | `loop_count`, `source`, `format` |
 | Core usage | `click_play_song/loop`, `click_stop_loop`, `click_pause_song`, `click_update_speed` | context |
 | Paywall viewed | **`paywall_viewed`** (unified) | `trigger` (`drawer`/`onboarding`/`backup`/`song_loops`/`song_speed`/`premium_screen`) |

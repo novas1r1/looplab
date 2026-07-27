@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:posthog_flutter/posthog_flutter.dart';
+import 'package:repeatlab/core/ui/widgets/app_icon.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/core/utils/dialog_helper.dart';
@@ -96,7 +97,11 @@ class _SettingsViewState extends State<_SettingsView> {
             ),
             ListTile(
               key: const Key('settings.deleteAll'),
-              leading: const Icon(Icons.delete_forever),
+              leading: const AppIcon(
+                iconName: 'ic_delete',
+                iconSize: 24,
+                containerSize: 24,
+              ),
               title: Text(context.l10n.deleteAllLocalData),
               onTap: () => _onDeleteAllData(context),
             ),
@@ -200,9 +205,7 @@ class _BackupTiles extends StatelessWidget {
       (c) => c.hasPremium,
     );
     final busy = context.select<BackupCubit, bool>(
-      (c) =>
-          c.state.status == BackupStatus.exporting ||
-          c.state.status == BackupStatus.importing,
+      (c) => c.state.status == BackupStatus.exporting || c.state.status == BackupStatus.importing,
     );
     final importing = context.select<BackupCubit, bool>(
       (c) => c.state.status == BackupStatus.importing,
@@ -221,16 +224,16 @@ class _BackupTiles extends StatelessWidget {
                   height: 24,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : Icon(hasPremium ? Icons.upload_file : Icons.lock_outline),
+              : const AppIcon(
+                  iconName: 'ic_export',
+                  iconSize: 24,
+                  containerSize: 24,
+                ),
           title: Text(
-            exporting
-                ? context.l10n.backupExporting
-                : context.l10n.backupExport,
+            exporting ? context.l10n.backupExporting : context.l10n.backupExport,
           ),
           subtitle: Text(
-            hasPremium
-                ? context.l10n.backupExportSubtitle
-                : context.l10n.backupProOnly,
+            hasPremium ? context.l10n.backupExportSubtitle : context.l10n.backupProOnly,
           ),
           enabled: !busy,
           onTap: busy ? null : () => _handleExportTap(context, hasPremium),
@@ -243,16 +246,16 @@ class _BackupTiles extends StatelessWidget {
                   height: 24,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : Icon(hasPremium ? Icons.file_download : Icons.lock_outline),
+              : const AppIcon(
+                  iconName: 'ic_import',
+                  iconSize: 24,
+                  containerSize: 24,
+                ),
           title: Text(
-            importing
-                ? context.l10n.backupImporting
-                : context.l10n.backupImport,
+            importing ? context.l10n.backupImporting : context.l10n.backupImport,
           ),
           subtitle: Text(
-            hasPremium
-                ? context.l10n.backupImportSubtitle
-                : context.l10n.backupProOnly,
+            hasPremium ? context.l10n.backupImportSubtitle : context.l10n.backupProOnly,
           ),
           enabled: !busy,
           onTap: busy
@@ -283,9 +286,7 @@ class _BackupTiles extends StatelessWidget {
     // sheet's own render box would otherwise become the anchor and dismiss
     // when the user picks an app to share to.
     final box = context.findRenderObject() as RenderBox?;
-    final origin = box != null
-        ? box.localToGlobal(Offset.zero) & box.size
-        : null;
+    final origin = box != null ? box.localToGlobal(Offset.zero) & box.size : null;
 
     final options = await showBackupExportOptionsSheet(context);
     if (options == null || !context.mounted) return;
@@ -342,16 +343,14 @@ class _BackupTiles extends StatelessWidget {
               leading: const Icon(Icons.merge_type),
               title: Text(context.l10n.backupImportModeMerge),
               subtitle: Text(context.l10n.backupImportModeMergeDescription),
-              onTap: () =>
-                  Navigator.of(dialogContext).pop(BackupImportMode.merge),
+              onTap: () => Navigator.of(dialogContext).pop(BackupImportMode.merge),
             ),
             ListTile(
               contentPadding: EdgeInsets.zero,
               leading: const Icon(Icons.swap_horiz),
               title: Text(context.l10n.backupImportModeReplace),
               subtitle: Text(context.l10n.backupImportModeReplaceDescription),
-              onTap: () =>
-                  Navigator.of(dialogContext).pop(BackupImportMode.replace),
+              onTap: () => Navigator.of(dialogContext).pop(BackupImportMode.replace),
             ),
           ],
         ),

@@ -120,25 +120,71 @@ class AppLocalizationsNl extends AppLocalizations {
       '§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nE-mail: support@repeatlab.de\n\nRechtsvorm: Freelancer';
 
   @override
-  String get onboardingTitle1 => 'Welkom bij RepeatLab';
+  String get onboardingEyebrow1 => 'Welkom bij RepeatLab';
+
+  @override
+  String get onboardingTitle1 => 'Oefen als een pro';
 
   @override
   String get onboardingDescription1 =>
-      'Beheers elk nummer door moeilijke passages te oefenen door ze te herhalen of te vertragen.';
+      'Jouw persoonlijke loopstation om elk nummer onder de knie te krijgen — audio of video, 100% offline.';
 
   @override
-  String get onboardingTitle2 => 'Maak Precieze Loops';
+  String get onboardingEyebrow2 => 'Loop';
+
+  @override
+  String get onboardingTitle2 => 'Loop de lastige stukken';
 
   @override
   String get onboardingDescription2 =>
-      'Tik simpelweg om het begin en einde van een sectie te markeren die je wilt oefenen. Pas aan en verfijn met onze intuïtieve golfvormweergave.';
+      'Zet precieze begin- en eindpunten op de golfvorm en speel dat stuk tot je het foutloos beheerst.';
 
   @override
-  String get onboardingTitle3 => 'Privacy Voorop';
+  String get onboardingEyebrow3 => 'Snelheid & tempo';
+
+  @override
+  String get onboardingTitle3 => 'Vertraag het, behoud de toonhoogte';
 
   @override
   String get onboardingDescription3 =>
-      'We waarderen je privacy en gaan zorgvuldig om met je gegevens. Lees ons privacybeleid en accepteer om door te gaan.';
+      'Ga van 0.5× naar 2.0×, of stel een exacte BPM in. De toonhoogte blijft kloppen, zodat het nooit vals klinkt.';
+
+  @override
+  String get onboardingEyebrow4 => 'Toonhoogte';
+
+  @override
+  String get onboardingTitle4 => 'Speel het in jouw toonsoort';
+
+  @override
+  String get onboardingDescription4 =>
+      'Transponeer ±12 halve tonen of koppel toonsoort aan toonsoort — passend bij je stem, je stemming, je capo.';
+
+  @override
+  String get onboardingConsentTitle => 'Jouw gegevens, jouw keuze';
+
+  @override
+  String get onboardingConsentBody =>
+      'RepeatLab werkt offline en houdt je bestanden op je apparaat. Nog één klein dingetje voordat je begint.';
+
+  @override
+  String get onboardingAnalyticsTitle => 'Anonieme analyses';
+
+  @override
+  String get onboardingAnalyticsBody =>
+      'Deel anonieme gebruiksgegevens (gehost in de EU) om RepeatLab te helpen verbeteren.';
+
+  @override
+  String get onboardingDataProtectionTitle => 'Gegevensbescherming';
+
+  @override
+  String get onboardingConsentFootnote =>
+      'Je kunt analyses altijd wijzigen in Instellingen.';
+
+  @override
+  String get onboardingSkip => 'Overslaan';
+
+  @override
+  String get onboardingContinue => 'Doorgaan';
 
   @override
   String get onboardingIAccept => 'Ik accepteer het ';
@@ -235,6 +281,9 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get premiumFeatureChangeMusicSpeed =>
       'Tempo Controle (BPM/Multiplicateur)';
+
+  @override
+  String get premiumFeaturePitchControl => 'Toonhoogte Controle (Halve tonen)';
 
   @override
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';
@@ -344,6 +393,13 @@ class AppLocalizationsNl extends AppLocalizations {
       'Gebruik je vingers om het hele nummer naar links of rechts te slepen en zoom voor betere precisie';
 
   @override
+  String get tutorialVideoPreview => 'Bekijk de video en pas de grootte aan';
+
+  @override
+  String get tutorialVideoPreviewDescription =>
+      'Gebruik de knoppen + en − om de videogrootte aan te passen. Gebruik de tijdlijn en de bediening hieronder om door de video te navigeren';
+
+  @override
   String get tutorialPlayAndPauseSong =>
       'Speel, pauzeer of verander de snelheid van het nummer';
 
@@ -417,7 +473,42 @@ class AppLocalizationsNl extends AppLocalizations {
   String get voteForFeatures => 'Functies Voorstellen';
 
   @override
-  String get changelogTitle => 'Wijzigingen';
+  String get changelogTitle => 'Wat is er nieuw?';
+
+  @override
+  String get changelog2201Title => 'Metronoom';
+
+  @override
+  String get changelog2201Description =>
+      'Speel mee met een ingebouwde metronoom die in de maat van je nummer blijft. Kies de maatsoort en onderverdeling, tik het tempo in en stem de klik nauwkeurig af met halve-tel-verschuivingen en aanpassingen in milliseconden, zodat hij perfect op de beat valt.';
+
+  @override
+  String get changelog2202Title => 'Loops aanpassen tijdens pauze';
+
+  @override
+  String get changelog2202Description =>
+      'Je kunt nu het begin- en eindpunt van een loop vrij verplaatsen terwijl het afspelen is gepauzeerd - de afspeelkop springt niet meer terug in de loop. De loopgrenzen worden weer actief zodra je op afspelen drukt, waardoor je je loops veel makkelijker kunt fijnafstellen.';
+
+  @override
+  String get changelog2101Title => 'Toonhoogte wijzigen (Beta)';
+
+  @override
+  String get changelog2101Description =>
+      'Wijzig de toonhoogte van je nummers in halve tonen zonder de snelheid te beïnvloeden - perfect om een nummer naar een andere toonsoort te transponeren of aan de stemming van je instrument aan te passen. Deze functie is momenteel in Beta; stuur me je feedback als je problemen tegenkomt.';
+
+  @override
+  String get changelog2102Title => 'Meerdere bestanden tegelijk importeren';
+
+  @override
+  String get changelog2102Description =>
+      'Je kunt nu meerdere audiobestanden in één keer selecteren en importeren. Een voortgangsindicator houdt je op de hoogte terwijl je nummers worden toegevoegd.';
+
+  @override
+  String get changelog2103Title => 'Bugfixes en stabiliteitsverbeteringen';
+
+  @override
+  String get changelog2103Description =>
+      'Verschillende bugs zijn opgelost en de algemene stabiliteit en prestaties van de app zijn verbeterd.';
 
   @override
   String get changelog201Title =>
@@ -564,6 +655,10 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get songAddError =>
       'Fout bij het toevoegen van het nummer. Dit kan veroorzaakt worden door een probleem met het bestandsformaat. Probeer het bestand om te zetten in een ondersteund formaat zoals mp3 of wav.';
+
+  @override
+  String get importAlreadyRunningError =>
+      'Er is nog een andere import bezig. Grote bestanden uit cloudopslag kunnen even duren – wacht tot deze klaar is.';
 
   @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
@@ -891,6 +986,101 @@ class AppLocalizationsNl extends AppLocalizations {
   String get speedControl => 'Snelheid';
 
   @override
+  String get pitchControl => 'Toonhoogte';
+
+  @override
+  String get metronome => 'Metronoom';
+
+  @override
+  String get metronomeVolume => 'Volume';
+
+  @override
+  String get metronomeTimeSignature => 'Maatsoort';
+
+  @override
+  String get metronomeSubdivision => 'Onderverdeling';
+
+  @override
+  String get metronomeNudge => 'Verschuiving';
+
+  @override
+  String get metronomeTapBeat => 'Tik op de beat';
+
+  @override
+  String get metronomeShiftHalfBeat => 'Verschuif een halve tel';
+
+  @override
+  String metronomeOffsetMs(int ms) {
+    return '$ms ms';
+  }
+
+  @override
+  String get metronomeSetBpmFirst =>
+      'Stel eerst de BPM van het nummer in om de metronoom te gebruiken.';
+
+  @override
+  String get metronomeGoToBpm => 'BPM instellen';
+
+  @override
+  String get metronomeAdvanced => 'Geavanceerd';
+
+  @override
+  String get metronomeSyncToSong => 'Synchroniseren met het nummer';
+
+  @override
+  String metronomeKeepTapping(int count) {
+    return 'Blijf tikken… ($count)';
+  }
+
+  @override
+  String get metronomeSyncHint =>
+      'De klik volgt het tempo van het nummer, maar valt mogelijk niet precies op de beat. Tik mee op de maat om te synchroniseren.';
+
+  @override
+  String get metronomeResetSync => 'Synchronisatie resetten';
+
+  @override
+  String get off => 'uit';
+
+  @override
+  String get pitchSemitone => 'Halve toon';
+
+  @override
+  String get semitones => 'Halve tonen';
+
+  @override
+  String get pitchUnchanged => 'toonhoogte ongewijzigd';
+
+  @override
+  String get tapTempo => 'Tempo tikken';
+
+  @override
+  String songBpmValue(int bpm) {
+    return 'Nummer-BPM $bpm';
+  }
+
+  @override
+  String get retap => 'opnieuw tikken';
+
+  @override
+  String get edit => 'Bewerken';
+
+  @override
+  String get setSongTempoHint =>
+      'Stel het tempo van het nummer in om de weergave in slagen per minuut aan te passen.';
+
+  @override
+  String get bpmTapHint => 'Tik op het paneel op de maat';
+
+  @override
+  String get bpmTapUnit => 'BPM · tik';
+
+  @override
+  String useBpmValue(int bpm) {
+    return '$bpm gebruiken';
+  }
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'Hier kun je de originele BPM van het audio-bestand instellen.';
 
@@ -925,6 +1115,23 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get speedChangeFailed =>
       'Snelheidswijziging is mislukt. Probeer het opnieuw.';
+
+  @override
+  String get pitchChangeFailed =>
+      'Toonhoogtewijziging is mislukt. Probeer het opnieuw.';
+
+  @override
+  String get editSongKey => 'Toonsoort';
+
+  @override
+  String get originalKey => 'ORIGINELE TOONSOORT';
+
+  @override
+  String get currentKey => 'HUIDIGE TOONSOORT';
+
+  @override
+  String get hereYouCanSetTheOriginalKeyOfTheAudioFile =>
+      'Hier kun je de originele toonsoort van het audiobestand instellen.';
 
   @override
   String get copyToClipboard => 'Kopiëren naar klembord';

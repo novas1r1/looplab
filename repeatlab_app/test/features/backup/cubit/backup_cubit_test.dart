@@ -22,7 +22,9 @@ void main() {
   setUp(() async {
     mockBackup = MockBackupRepository();
     mockCrash = MockCrashReportingRepository();
-    when(() => mockCrash.reportError(any(), any())).thenAnswer((_) async => null);
+    when(
+      () => mockCrash.reportError(any(), any()),
+    ).thenAnswer((_) async => null);
     sandbox = await Directory.systemTemp.createTemp('backup_cubit_test_');
   });
 
@@ -39,13 +41,15 @@ void main() {
   });
 
   BackupCubit buildCubit({
-    Future<ShareResultStatus> Function(File, {Rect? sharePositionOrigin})? shareFile,
+    Future<ShareResultStatus> Function(File, {Rect? sharePositionOrigin})?
+    shareFile,
     Future<File?> Function()? pickBackupFile,
   }) {
     return BackupCubit(
       backupRepository: mockBackup,
       crashReportingRepository: mockCrash,
-      shareFile: shareFile ??
+      shareFile:
+          shareFile ??
           (_, {Rect? sharePositionOrigin}) async => ShareResultStatus.success,
       pickBackupFile: pickBackupFile ?? () async => null,
     );
@@ -70,14 +74,21 @@ void main() {
       'emits exporting → exportSuccess when export + share succeed',
       setUp: () async {
         final file = await sandboxFile('out.rlbackup');
-        when(() => mockBackup.exportToFile())
-            .thenAnswer((_) async => file);
+        when(() => mockBackup.exportToFile()).thenAnswer((_) async => file);
       },
       build: buildCubit,
       act: (cubit) => cubit.exportAndShare(),
       expect: () => [
-        isA<BackupState>().having((s) => s.status, 'status', BackupStatus.exporting),
-        isA<BackupState>().having((s) => s.status, 'status', BackupStatus.exportSuccess),
+        isA<BackupState>().having(
+          (s) => s.status,
+          'status',
+          BackupStatus.exporting,
+        ),
+        isA<BackupState>().having(
+          (s) => s.status,
+          'status',
+          BackupStatus.exportSuccess,
+        ),
       ],
     );
 
@@ -89,10 +100,18 @@ void main() {
       build: buildCubit,
       act: (cubit) => cubit.exportAndShare(),
       expect: () => [
-        isA<BackupState>().having((s) => s.status, 'status', BackupStatus.exporting),
+        isA<BackupState>().having(
+          (s) => s.status,
+          'status',
+          BackupStatus.exporting,
+        ),
         isA<BackupState>()
             .having((s) => s.status, 'status', BackupStatus.failure)
-            .having((s) => s.errorMessage, 'errorMessage', contains('disk full')),
+            .having(
+              (s) => s.errorMessage,
+              'errorMessage',
+              contains('disk full'),
+            ),
       ],
       verify: (_) {
         verify(() => mockCrash.reportError(any(), any())).called(1);
@@ -103,17 +122,24 @@ void main() {
       'still emits exportSuccess if the share sheet throws (file is valid)',
       setUp: () async {
         final file = await sandboxFile('out.rlbackup');
-        when(() => mockBackup.exportToFile())
-            .thenAnswer((_) async => file);
+        when(() => mockBackup.exportToFile()).thenAnswer((_) async => file);
       },
       build: () => buildCubit(
-            shareFile: (_, {Rect? sharePositionOrigin}) async =>
-                throw Exception('share boom'),
-          ),
+        shareFile: (_, {Rect? sharePositionOrigin}) async =>
+            throw Exception('share boom'),
+      ),
       act: (cubit) => cubit.exportAndShare(),
       expect: () => [
-        isA<BackupState>().having((s) => s.status, 'status', BackupStatus.exporting),
-        isA<BackupState>().having((s) => s.status, 'status', BackupStatus.exportSuccess),
+        isA<BackupState>().having(
+          (s) => s.status,
+          'status',
+          BackupStatus.exporting,
+        ),
+        isA<BackupState>().having(
+          (s) => s.status,
+          'status',
+          BackupStatus.exportSuccess,
+        ),
       ],
       verify: (_) {
         verify(() => mockCrash.reportError(any(), any())).called(1);
@@ -122,17 +148,21 @@ void main() {
   });
 
   group('pickBackupForImport', () {
-    test('returns null without emitting failure when user cancels pick', () async {
-      final cubit = buildCubit(pickBackupFile: () async => null);
-      final result = await cubit.pickBackupForImport();
-      expect(result, isNull);
-      expect(cubit.state.status, BackupStatus.idle);
-    });
+    test(
+      'returns null without emitting failure when user cancels pick',
+      () async {
+        final cubit = buildCubit(pickBackupFile: () async => null);
+        final result = await cubit.pickBackupForImport();
+        expect(result, isNull);
+        expect(cubit.state.status, BackupStatus.idle);
+      },
+    );
 
     test('returns candidate when manifest parses', () async {
       final file = await sandboxFile('in.rlbackup');
-      when(() => mockBackup.peekImport(any()))
-          .thenAnswer((_) async => manifest(songCount: 7));
+      when(
+        () => mockBackup.peekImport(any()),
+      ).thenAnswer((_) async => manifest(songCount: 7));
 
       final cubit = buildCubit(pickBackupFile: () async => file);
       final result = await cubit.pickBackupForImport();
@@ -162,8 +192,9 @@ void main() {
 
     test('emits failure on malformed backup', () async {
       final file = await sandboxFile('in.rlbackup');
-      when(() => mockBackup.peekImport(any()))
-          .thenThrow(const BackupFormatException('not a zip'));
+      when(
+        () => mockBackup.peekImport(any()),
+      ).thenThrow(const BackupFormatException('not a zip'));
 
       final cubit = buildCubit(pickBackupFile: () async => file);
       final result = await cubit.pickBackupForImport();
@@ -178,15 +209,19 @@ void main() {
     blocTest<BackupCubit, BackupState>(
       'emits importing → importSuccess with summary',
       setUp: () {
-        when(() => mockBackup.importFromFile(
-              any(),
-              mode: any(named: 'mode'),
-            )).thenAnswer((_) async => const BackupImportSummary(
-                  songsImported: 4,
-                  songsSkipped: 1,
-                  filesRenamed: 0,
-                  replacedExistingLibrary: false,
-                ));
+        when(
+          () => mockBackup.importFromFile(
+            any(),
+            mode: any(named: 'mode'),
+          ),
+        ).thenAnswer(
+          (_) async => const BackupImportSummary(
+            songsImported: 4,
+            songsSkipped: 1,
+            filesRenamed: 0,
+            replacedExistingLibrary: false,
+          ),
+        );
       },
       build: buildCubit,
       act: (cubit) async {
@@ -194,7 +229,11 @@ void main() {
         await cubit.confirmImport(file: file, mode: BackupImportMode.merge);
       },
       expect: () => [
-        isA<BackupState>().having((s) => s.status, 'status', BackupStatus.importing),
+        isA<BackupState>().having(
+          (s) => s.status,
+          'status',
+          BackupStatus.importing,
+        ),
         isA<BackupState>()
             .having((s) => s.status, 'status', BackupStatus.importSuccess)
             .having(
@@ -208,10 +247,12 @@ void main() {
     blocTest<BackupCubit, BackupState>(
       'emits failure when importFromFile throws',
       setUp: () {
-        when(() => mockBackup.importFromFile(
-              any(),
-              mode: any(named: 'mode'),
-            )).thenThrow(const BackupFormatException('song.mp3 corrupted'));
+        when(
+          () => mockBackup.importFromFile(
+            any(),
+            mode: any(named: 'mode'),
+          ),
+        ).thenThrow(const BackupFormatException('song.mp3 corrupted'));
       },
       build: buildCubit,
       act: (cubit) async {
@@ -219,10 +260,18 @@ void main() {
         await cubit.confirmImport(file: file, mode: BackupImportMode.replace);
       },
       expect: () => [
-        isA<BackupState>().having((s) => s.status, 'status', BackupStatus.importing),
+        isA<BackupState>().having(
+          (s) => s.status,
+          'status',
+          BackupStatus.importing,
+        ),
         isA<BackupState>()
             .having((s) => s.status, 'status', BackupStatus.failure)
-            .having((s) => s.errorMessage, 'errorMessage', contains('song.mp3')),
+            .having(
+              (s) => s.errorMessage,
+              'errorMessage',
+              contains('song.mp3'),
+            ),
       ],
       verify: (_) {
         verify(() => mockCrash.reportError(any(), any())).called(1);

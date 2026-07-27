@@ -120,24 +120,70 @@ class AppLocalizationsJa extends AppLocalizations {
       '§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nメール：support@repeatlab.de\n\n法的形態：フリーランス';
 
   @override
-  String get onboardingTitle1 => 'RepeatLabへようこそ';
+  String get onboardingEyebrow1 => 'RepeatLabへようこそ';
 
   @override
-  String get onboardingDescription1 => '難しい部分を繰り返したり、速度を落としたりして、どの曲もマスターできます。';
+  String get onboardingTitle1 => 'プロのように練習';
 
   @override
-  String get onboardingTitle2 => '正確なループを作成';
+  String get onboardingDescription1 =>
+      'どんな曲も使いこなすための、あなた専用のループステーション。音声も動画も、100%オフラインで。';
+
+  @override
+  String get onboardingEyebrow2 => 'ループ';
+
+  @override
+  String get onboardingTitle2 => '難しい部分をループ';
 
   @override
   String get onboardingDescription2 =>
-      '練習したい部分の開始と終了をタップするだけでマークできます。直感的な波形表示で調整と微調整が可能です。';
+      '波形上に正確な開始点と終了点を設定し、完璧に弾けるまでその区間を繰り返し再生。';
 
   @override
-  String get onboardingTitle3 => 'プライバシー優先';
+  String get onboardingEyebrow3 => '速度とテンポ';
+
+  @override
+  String get onboardingTitle3 => 'ピッチはそのまま、速度を落とす';
 
   @override
   String get onboardingDescription3 =>
-      'あなたのプライバシーを尊重し、データを慎重に扱います。プライバシーポリシーを確認し、続行するには同意してください。';
+      '0.5×から2.0×まで下げたり、正確なBPMを指定したり。ピッチはそのままなので音程が狂いません。';
+
+  @override
+  String get onboardingEyebrow4 => 'ピッチ';
+
+  @override
+  String get onboardingTitle4 => '自分のキーで演奏';
+
+  @override
+  String get onboardingDescription4 =>
+      '±12半音の移調やキーからキーへのマッピングで、あなたの声、チューニング、カポに合わせられます。';
+
+  @override
+  String get onboardingConsentTitle => 'あなたのデータは、あなたの選択';
+
+  @override
+  String get onboardingConsentBody =>
+      'RepeatLabはオフラインで動作し、ファイルはあなたの端末に保存されます。始める前に、ひとつだけ簡単な確認を。';
+
+  @override
+  String get onboardingAnalyticsTitle => '匿名の分析データ';
+
+  @override
+  String get onboardingAnalyticsBody =>
+      '匿名の利用データ（EUでホスティング）を共有して、RepeatLabの改善にご協力ください。';
+
+  @override
+  String get onboardingDataProtectionTitle => 'データ保護';
+
+  @override
+  String get onboardingConsentFootnote => '分析設定は設定画面でいつでも変更できます。';
+
+  @override
+  String get onboardingSkip => 'スキップ';
+
+  @override
+  String get onboardingContinue => '続ける';
 
   @override
   String get onboardingIAccept => '同意します';
@@ -231,6 +277,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get premiumFeatureChangeMusicSpeed => 'テンポコントロール（BPM/マルチプライヤー）';
+
+  @override
+  String get premiumFeaturePitchControl => 'ピッチコントロール（半音）';
 
   @override
   String get premiumFeatureZoomInOut => '波形のズームイン/アウト';
@@ -334,6 +383,13 @@ class AppLocalizationsJa extends AppLocalizations {
       '指を使って曲全体を左右にドラッグし、ズームイン/アウトして精度を向上させることができます';
 
   @override
+  String get tutorialVideoPreview => '動画を見てサイズを調整';
+
+  @override
+  String get tutorialVideoPreviewDescription =>
+      '＋と−のボタンで動画のサイズを変更できます。動画内を移動するには、下のタイムラインとコントロールを使用してください';
+
+  @override
   String get tutorialPlayAndPauseSong => '曲の再生、一時停止、速度変更';
 
   @override
@@ -402,7 +458,41 @@ class AppLocalizationsJa extends AppLocalizations {
   String get voteForFeatures => '機能に投票';
 
   @override
-  String get changelogTitle => '変更履歴';
+  String get changelogTitle => '新機能';
+
+  @override
+  String get changelog2201Title => 'メトロノーム';
+
+  @override
+  String get changelog2201Description =>
+      '曲のテンポに合わせて動く内蔵メトロノームに合わせて演奏できます。拍子と分割を選び、タップでテンポを入力し、ハーフビートのシフトやミリ秒単位の微調整でクリック音をビートにぴったり合わせられます。';
+
+  @override
+  String get changelog2202Title => '一時停止中にループを編集';
+
+  @override
+  String get changelog2202Description =>
+      '再生を一時停止したまま、ループの開始点と終了点を自由に動かせるようになりました。再生ヘッドがループ内に戻ることはありません。再生を押すとループの範囲が再び有効になるので、ループの微調整がずっと簡単になります。';
+
+  @override
+  String get changelog2101Title => 'ピッチシフト（Beta）';
+
+  @override
+  String get changelog2101Description =>
+      '速度を変えずに曲のピッチを半音単位で変更できます - 曲を別のキーに移調したり、楽器のチューニングに合わせたりするのに最適です。この機能は現在ベータ版です。問題があればフィードバックを送ってください。';
+
+  @override
+  String get changelog2102Title => '複数ファイルの一括インポート';
+
+  @override
+  String get changelog2102Description =>
+      '複数のオーディオファイルを一度に選択してインポートできるようになりました。曲の追加中は進行状況インジケーターで状況を確認できます。';
+
+  @override
+  String get changelog2103Title => 'バグ修正と安定性の向上';
+
+  @override
+  String get changelog2103Description => '複数のバグを修正し、アプリ全体の安定性とパフォーマンスを改善しました。';
 
   @override
   String get changelog201Title => '動画をループして速度変更（Beta）';
@@ -540,6 +630,10 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get songAddError =>
       '曲の追加に失敗しました。ファイル形式に問題がある可能性があります。mp3やwavなどのサポートされている形式に変換してみてください。';
+
+  @override
+  String get importAlreadyRunningError =>
+      '別のインポートがまだ実行中です。クラウドストレージの大きなファイルは時間がかかることがあります。完了するまでお待ちください。';
 
   @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
@@ -853,6 +947,99 @@ class AppLocalizationsJa extends AppLocalizations {
   String get speedControl => '速度';
 
   @override
+  String get pitchControl => 'ピッチ';
+
+  @override
+  String get metronome => 'メトロノーム';
+
+  @override
+  String get metronomeVolume => '音量';
+
+  @override
+  String get metronomeTimeSignature => '拍子';
+
+  @override
+  String get metronomeSubdivision => '細分';
+
+  @override
+  String get metronomeNudge => '微調整';
+
+  @override
+  String get metronomeTapBeat => 'ビートに合わせてタップ';
+
+  @override
+  String get metronomeShiftHalfBeat => '半拍ずらす';
+
+  @override
+  String metronomeOffsetMs(int ms) {
+    return '$ms ms';
+  }
+
+  @override
+  String get metronomeSetBpmFirst => 'メトロノームを使うには、まず曲のBPMを設定してください。';
+
+  @override
+  String get metronomeGoToBpm => 'BPMを設定';
+
+  @override
+  String get metronomeAdvanced => '詳細設定';
+
+  @override
+  String get metronomeSyncToSong => '曲と同期';
+
+  @override
+  String metronomeKeepTapping(int count) {
+    return 'タップを続けてください…（$count）';
+  }
+
+  @override
+  String get metronomeSyncHint =>
+      'クリック音は曲のテンポに合わせますが、拍とずれることがあります。曲に合わせてタップして同期しましょう。';
+
+  @override
+  String get metronomeResetSync => '同期をリセット';
+
+  @override
+  String get off => 'オフ';
+
+  @override
+  String get pitchSemitone => '半音';
+
+  @override
+  String get semitones => '半音';
+
+  @override
+  String get pitchUnchanged => 'ピッチはそのまま';
+
+  @override
+  String get tapTempo => 'タップテンポ';
+
+  @override
+  String songBpmValue(int bpm) {
+    return '曲のBPM $bpm';
+  }
+
+  @override
+  String get retap => '再タップ';
+
+  @override
+  String get edit => '編集';
+
+  @override
+  String get setSongTempoHint => '曲のテンポを設定して、再生を1分あたりの拍数で調整します。';
+
+  @override
+  String get bpmTapHint => 'ビートに合わせてパッドをタップ';
+
+  @override
+  String get bpmTapUnit => 'BPM・タップ';
+
+  @override
+  String useBpmValue(int bpm) {
+    return '$bpm を使用';
+  }
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'ここでオーディオファイルの元のBPMを設定できます。';
 
@@ -886,6 +1073,22 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get speedChangeFailed => '速度変更に失敗しました。もう一度お試しください。';
+
+  @override
+  String get pitchChangeFailed => 'ピッチ変更に失敗しました。もう一度お試しください。';
+
+  @override
+  String get editSongKey => 'キー';
+
+  @override
+  String get originalKey => '元のキー';
+
+  @override
+  String get currentKey => '現在のキー';
+
+  @override
+  String get hereYouCanSetTheOriginalKeyOfTheAudioFile =>
+      'ここで音声ファイルの元のキーを設定できます。';
 
   @override
   String get copyToClipboard => 'クリップボードにコピー';

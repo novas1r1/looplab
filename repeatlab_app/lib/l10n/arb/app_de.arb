@@ -33,12 +33,26 @@
     "noSongsFound": "Keine Songs gefunden",
     "tapToAddSong": "Tippe auf + um deinen ersten Song hinzuzufügen",
     "legalNoticesDescription": "§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nE-Mail: support@repeatlab.de\n\nRechtsform: Freiberufler",
-    "onboardingTitle1": "Willkommen bei RepeatLab",
-    "onboardingDescription1": "Meistere jeden Song, indem du schwierige Passagen übst, sie wiederholst oder verlangsamst.",
-    "onboardingTitle2": "Erstelle präzise Loops",
-    "onboardingDescription2": "Tippe einfach, um Start und Ende eines Abschnitts zu markieren, den du üben möchtest. Passe die Auswahl mit unserer intuitiven Wellenform-Anzeige an.",
-    "onboardingTitle3": "Datenschutz",
-    "onboardingDescription3": "Wir schätzen deine Privatsphäre und gehen sorgfältig mit deinen Daten um. Bitte lies unsere Datenschutzerklärung und akzeptiere sie, um fortzufahren.",
+    "onboardingTitle1": "Üben wie ein Profi",
+    "onboardingDescription1": "Deine persönliche Loop-Station, um jeden Song zu meistern — Audio oder Video, 100% offline.",
+    "onboardingTitle2": "Schwierige Stellen loopen",
+    "onboardingDescription2": "Setze präzise Start- und Endpunkte auf der Wellenform und spiele den Abschnitt so lange, bis du ihn draufhast.",
+    "onboardingTitle3": "Langsamer, gleiche Tonhöhe",
+    "onboardingDescription3": "Regle von 0.5× bis 2.0× oder stelle eine exakte BPM ein. Die Tonhöhe bleibt erhalten, damit nichts schräg klingt.",
+    "onboardingEyebrow1": "Willkommen bei RepeatLab",
+    "onboardingEyebrow2": "Loop",
+    "onboardingEyebrow3": "Geschwindigkeit & Tempo",
+    "onboardingEyebrow4": "Tonhöhe",
+    "onboardingTitle4": "Spiel es in deiner Tonart",
+    "onboardingDescription4": "Transponiere ±12 Halbtöne oder ordne Tonart zu Tonart zu — passend zu deiner Stimme, deiner Stimmung, deinem Kapodaster.",
+    "onboardingConsentTitle": "Deine Daten, deine Entscheidung",
+    "onboardingConsentBody": "RepeatLab funktioniert offline und behält deine Dateien auf deinem Gerät. Nur noch eine Kleinigkeit, bevor du loslegst.",
+    "onboardingAnalyticsTitle": "Anonyme Analysen",
+    "onboardingAnalyticsBody": "Teile anonyme Nutzungsdaten (in der EU gehostet), um RepeatLab zu verbessern.",
+    "onboardingDataProtectionTitle": "Datenschutz",
+    "onboardingConsentFootnote": "Du kannst die Analysen jederzeit in den Einstellungen ändern.",
+    "onboardingSkip": "Überspringen",
+    "onboardingContinue": "Weiter",
     "onboardingIAccept": "Ich akzeptiere die ",
     "onboardingPrivacyPolicyLink": "Datenschutzerklärung",
     "onboardingTermsOfServiceLink": "Nutzungsbedingungen",
@@ -69,6 +83,7 @@
     "premiumHeadline": "Übe deine Lieblingssongs wie ein Profi – mit Tempo-Kontrolle, Zoom & unbegrenzten Loops!",
     "premiumFeatureUnlimitedLoops": "Unbegrenzt viele Loops",
     "premiumFeatureChangeMusicSpeed": "Audio-Tempo-Kontrolle (BPM/Multiplier)",
+    "premiumFeaturePitchControl": "Tonhöhen-Kontrolle (Halbtöne)",
     "premiumFeatureZoomInOut": "Waveform-Zoom In/Out",
     "premiumFeatureSupportDeveloper": "Unterstütze die unabhängige Entwicklerin",
     "freeFeatureUnlimitedSongs": "Unbegrenzt viele Songs + eine Loop pro Song",
@@ -116,6 +131,8 @@
     "endPositionMustBeAfterStartPosition": "Endposition muss nach Startposition sein",
     "tutorialNavigateThroughSong": "Navigiere durch den Song mit Drag & Drop",
     "tutorialNavigateThroughSongDescription": "Verwende deine Finger, um den gesamten Song nach links oder rechts zu ziehen und zu zoomen, um eine bessere Präzision zu erhalten",
+    "tutorialVideoPreview": "Sieh dir das Video an und passe die Größe an",
+    "tutorialVideoPreviewDescription": "Verwende die Buttons + und −, um die Videogröße zu ändern. Zum Navigieren durch das Video nutze die Timeline und die Steuerelemente darunter",
     "tutorialPlayAndPauseSong": "Starte, pausiere oder ändere die Geschwindigkeit des Songs",
     "tutorialPlayAndPauseSongDescription": "Verwende diese Buttons, um den Song und die Loops zu steuern",
     "tutorialJumpToLoop": "Springe zu den Loops und sehe eine Übersicht aller Loops im Song",
@@ -154,7 +171,17 @@
     "purchaseSuccess": "Kauf erfolgreich. Vielen Dank für die Unterstützung der Entwicklerin ❤️!",
     "cancelSubscription": "Abonnement kündigen",
     "voteForFeatures": "Feature Voting",
-    "changelogTitle": "Changelog",
+    "changelogTitle": "Was ist neu?",
+    "changelog2201Title": "Metronom",
+    "changelog2201Description": "Spiele zu einem eingebauten Metronom, das im Takt deines Songs bleibt. Wähle Taktart und Unterteilung, tippe das Tempo ein und feinjustiere den Klick mit Halbschlag-Verschiebungen und Millisekunden-Anpassungen, damit er perfekt auf den Beat passt.",
+    "changelog2202Title": "Loops im pausierten Zustand anpassen",
+    "changelog2202Description": "Du kannst jetzt Start- und Endpunkt eines Loops frei verschieben, während die Wiedergabe pausiert ist - der Abspielkopf springt nicht mehr in den Loop zurück. Die Loop-Grenzen greifen wieder, sobald du auf Play drückst, sodass du deine Loops viel einfacher feinjustieren kannst.",
+    "changelog2101Title": "Tonhöhe ändern (Beta)",
+    "changelog2101Description": "Ändere die Tonhöhe deiner Songs in Halbtönen, ohne die Geschwindigkeit zu beeinflussen - perfekt, um einen Song in eine andere Tonart zu transponieren oder an die Stimmung deines Instruments anzupassen. Diese Funktion ist aktuell in der Beta; bitte schicke mir dein Feedback, wenn du auf Probleme stößt.",
+    "changelog2102Title": "Mehrere Dateien gleichzeitig importieren",
+    "changelog2102Description": "Du kannst jetzt mehrere Audiodateien auf einmal auswählen und importieren. Eine Fortschrittsanzeige hält dich auf dem Laufenden, während deine Songs hinzugefügt werden.",
+    "changelog2103Title": "Fehlerbehebungen und Stabilitätsverbesserungen",
+    "changelog2103Description": "Mehrere Fehler wurden behoben und die allgemeine Stabilität und Performance der App verbessert.",
     "changelog201Title": "Videos loopen und Geschwindigkeit ändern (Beta)",
     "changelog201Description": "Importiere Videos und loope sie genau wie Audio-Songs oder ändere die Geschwindigkeit - perfekt zum Üben mit Tutorials oder Live-Auftritten. Diese Funktion ist aktuell in der Beta; bitte schicke mir dein Feedback wenn du auf Probleme stößt.",
     "changelog180Title": "Songs neu anordnen",
@@ -195,6 +222,7 @@
     "changelog1013Description": "Öffne das Menü und klicke auf 'Feature Voting'. Hier kannst du deine Stimme abgeben und/oder neue Features vorschlagen. Ich freue mich auf deine Ideen!",
     "whatsNew": "Was ist neu?",
     "songAddError": "Fehler beim Hinzufügen des Songs. Dies könnte daran liegen, dass das Dateiformat nicht unterstützt wird. Bitte versuche, die Datei in ein unterstütztes Format wie mp3 oder wav umzuwandeln.",
+    "importAlreadyRunningError": "Ein anderer Import läuft noch. Große Dateien aus dem Cloud-Speicher können eine Weile dauern – bitte warte, bis er abgeschlossen ist.",
     "unsupportedAudioFormatError": "Das Audioformat \".{format}\" wird nicht unterstützt. Unterstützte Formate: {supportedFormats}.",
     "@unsupportedAudioFormatError": {
         "placeholders": {
@@ -305,6 +333,34 @@
     "taps": "Taps",
     "useBpm": "BPM verwenden",
     "speedControl": "Tempo",
+    "pitchControl": "Tonhöhe",
+    "metronome": "Metronom",
+    "metronomeVolume": "Lautstärke",
+    "metronomeTimeSignature": "Taktart",
+    "metronomeSubdivision": "Unterteilung",
+    "metronomeNudge": "Versatz",
+    "metronomeTapBeat": "Zum Beat tippen",
+    "metronomeShiftHalfBeat": "Um einen halben Beat verschieben",
+    "metronomeOffsetMs": "{ms} ms",
+    "metronomeSetBpmFirst": "Lege zuerst die BPM des Songs fest, um das Metronom zu nutzen.",
+    "metronomeGoToBpm": "BPM festlegen",
+    "metronomeAdvanced": "Erweitert",
+    "metronomeSyncToSong": "Mit Song synchronisieren",
+    "metronomeKeepTapping": "Weiter tippen… ({count})",
+    "metronomeSyncHint": "Der Klick folgt dem Tempo des Songs, liegt aber evtl. nicht genau auf dem Beat. Tippe im Takt mit, um ihn zu synchronisieren.",
+    "metronomeResetSync": "Synchronisierung zurücksetzen",
+    "off": "aus",
+    "pitchSemitone": "Halbton",
+    "semitones": "Halbtöne",
+    "pitchUnchanged": "Tonhöhe unverändert",
+    "tapTempo": "Tempo tippen",
+    "songBpmValue": "Song-BPM {bpm}",
+    "retap": "neu tippen",
+    "edit": "Bearbeiten",
+    "setSongTempoHint": "Lege das Tempo des Songs fest, um die Wiedergabe in Schlägen pro Minute anzupassen.",
+    "bpmTapHint": "Tippe im Takt auf das Feld",
+    "bpmTapUnit": "BPM · tippen",
+    "useBpmValue": "{bpm} übernehmen",
     "hereYouCanSetTheOriginalBpmOfTheAudioFile": "Hier kannst du die Original-BPM der Audio-Datei setzen.",
     "setBpm": "SET",
     "originalBpm": "ORIGINAL BPM",
@@ -321,6 +377,11 @@
     "playbackSettings": "Wiedergabe",
     "actions": "Aktionen",
     "speedChangeFailed": "Geschwindigkeitsänderung fehlgeschlagen. Bitte versuche es erneut.",
+    "pitchChangeFailed": "Tonhöhenänderung fehlgeschlagen. Bitte versuche es erneut.",
+    "editSongKey": "Tonart",
+    "originalKey": "ORIGINAL-TONART",
+    "currentKey": "AKTUELLE TONART",
+    "hereYouCanSetTheOriginalKeyOfTheAudioFile": "Hier kannst du die Original-Tonart der Audio-Datei setzen.",
     "copyToClipboard": "In Zwischenablage kopieren",
     "editSong": "Song bearbeiten",
     "editSongTitle": "Titel",
@@ -351,13 +412,17 @@
     "backupExportFailed": "Export fehlgeschlagen: {message}",
     "@backupExportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportFailed": "Import fehlgeschlagen: {message}",
     "@backupImportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportMalformed": "Diese Datei ist kein gültiges RepeatLab-Backup.",
@@ -366,8 +431,12 @@
     "backupImportConfirmMessage": "Dieses Backup enthält {songCount} Songs (exportiert am {exportedAt}).",
     "@backupImportConfirmMessage": {
         "placeholders": {
-            "songCount": { "type": "int" },
-            "exportedAt": { "type": "String" }
+            "songCount": {
+                "type": "int"
+            },
+            "exportedAt": {
+                "type": "String"
+            }
         }
     },
     "backupImportModeMerge": "Zusammenführen",
@@ -379,9 +448,15 @@
     "backupImportSuccess": "{imported} Songs importiert. {skipped} übersprungen, {renamed} umbenannt.",
     "@backupImportSuccess": {
         "placeholders": {
-            "imported": { "type": "int" },
-            "skipped": { "type": "int" },
-            "renamed": { "type": "int" }
+            "imported": {
+                "type": "int"
+            },
+            "skipped": {
+                "type": "int"
+            },
+            "renamed": {
+                "type": "int"
+            }
         }
     }
 }

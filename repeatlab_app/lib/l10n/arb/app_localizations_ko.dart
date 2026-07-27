@@ -120,24 +120,70 @@ class AppLocalizationsKo extends AppLocalizations {
       '§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\n이메일: support@repeatlab.de\n\n법적 형태: 프리랜서';
 
   @override
-  String get onboardingTitle1 => 'RepeatLab에 오신 것을 환영합니다';
+  String get onboardingEyebrow1 => 'RepeatLab에 오신 것을 환영합니다';
 
   @override
-  String get onboardingDescription1 => '어려운 부분을 반복하거나 속도를 늦춰 어떤 곡이든 마스터하세요.';
+  String get onboardingTitle1 => '프로처럼 연습하세요';
 
   @override
-  String get onboardingTitle2 => '정확한 루프 생성';
+  String get onboardingDescription1 =>
+      '어떤 곡이든 마스터하기 위한 나만의 루프 스테이션. 오디오든 비디오든, 100% 오프라인으로.';
+
+  @override
+  String get onboardingEyebrow2 => '루프';
+
+  @override
+  String get onboardingTitle2 => '어려운 부분을 반복하세요';
 
   @override
   String get onboardingDescription2 =>
-      '연습하고 싶은 부분의 시작과 끝을 탭하여 표시하세요. 직관적인 파형 표시로 조정과 미세 조정이 가능합니다.';
+      '파형에 정확한 시작점과 끝점을 설정하고, 완벽하게 익힐 때까지 그 구간을 반복 재생하세요.';
 
   @override
-  String get onboardingTitle3 => '개인정보 보호 우선';
+  String get onboardingEyebrow3 => '속도 & 템포';
+
+  @override
+  String get onboardingTitle3 => '음정은 그대로, 속도만 늦추기';
 
   @override
   String get onboardingDescription3 =>
-      '귀하의 개인정보를 존중하고 데이터를 신중하게 처리합니다. 개인정보 처리방침을 검토하고 계속하려면 동의해 주세요.';
+      '0.5×부터 2.0×까지 낮추거나 정확한 BPM을 지정하세요. 음정이 그대로 유지되어 어색하게 들리지 않습니다.';
+
+  @override
+  String get onboardingEyebrow4 => '음정';
+
+  @override
+  String get onboardingTitle4 => '나의 키로 연주하세요';
+
+  @override
+  String get onboardingDescription4 =>
+      '±12 반음 이조하거나 키를 키로 매핑하여 당신의 목소리, 튜닝, 카포에 맞추세요.';
+
+  @override
+  String get onboardingConsentTitle => '당신의 데이터, 당신의 선택';
+
+  @override
+  String get onboardingConsentBody =>
+      'RepeatLab은 오프라인으로 작동하며 파일을 당신의 기기에 보관합니다. 시작하기 전에 간단한 확인 하나만 할게요.';
+
+  @override
+  String get onboardingAnalyticsTitle => '익명 분석';
+
+  @override
+  String get onboardingAnalyticsBody =>
+      '익명 사용 데이터(EU 호스팅)를 공유하여 RepeatLab 개선에 도움을 주세요.';
+
+  @override
+  String get onboardingDataProtectionTitle => '데이터 보호';
+
+  @override
+  String get onboardingConsentFootnote => '분석 설정은 언제든지 설정에서 변경할 수 있습니다.';
+
+  @override
+  String get onboardingSkip => '건너뛰기';
+
+  @override
+  String get onboardingContinue => '계속';
 
   @override
   String get onboardingIAccept => '동의합니다';
@@ -230,6 +276,9 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get premiumFeatureChangeMusicSpeed => '속도 제어 (BPM/배율)';
+
+  @override
+  String get premiumFeaturePitchControl => '음정 제어 (반음)';
 
   @override
   String get premiumFeatureZoomInOut => '파형 확대/축소';
@@ -333,6 +382,13 @@ class AppLocalizationsKo extends AppLocalizations {
       '손가락으로 곡 전체를 좌우로 드래그하고 확대/축소하여 정확도를 높일 수 있습니다';
 
   @override
+  String get tutorialVideoPreview => '동영상을 보고 크기를 조절하세요';
+
+  @override
+  String get tutorialVideoPreviewDescription =>
+      '+ 및 − 버튼으로 동영상 크기를 조절할 수 있습니다. 동영상을 탐색하려면 아래의 타임라인과 컨트롤을 사용하세요';
+
+  @override
   String get tutorialPlayAndPauseSong => '곡 재생, 일시 정지 또는 속도 변경';
 
   @override
@@ -401,7 +457,41 @@ class AppLocalizationsKo extends AppLocalizations {
   String get voteForFeatures => '기능 투표';
 
   @override
-  String get changelogTitle => '변경 사항';
+  String get changelogTitle => '새로운 기능';
+
+  @override
+  String get changelog2201Title => '메트로놈';
+
+  @override
+  String get changelog2201Description =>
+      '곡의 박자에 맞춰 작동하는 내장 메트로놈에 맞춰 연주하세요. 박자표와 분할을 선택하고, 탭으로 템포를 입력하며, 하프비트 이동과 밀리초 단위 조정으로 클릭음을 비트에 완벽하게 맞출 수 있습니다.';
+
+  @override
+  String get changelog2202Title => '일시정지 중 루프 편집';
+
+  @override
+  String get changelog2202Description =>
+      '이제 재생이 일시정지된 상태에서 루프의 시작점과 끝점을 자유롭게 옮길 수 있습니다. 재생 헤드가 더 이상 루프 안으로 되돌아가지 않습니다. 재생을 누르면 루프 경계가 다시 적용되어 루프를 훨씬 쉽게 미세 조정할 수 있습니다.';
+
+  @override
+  String get changelog2101Title => '음정 조절 (Beta)';
+
+  @override
+  String get changelog2101Description =>
+      '속도에 영향을 주지 않고 곡의 음정을 반음 단위로 변경하세요 - 곡을 다른 조로 이조하거나 악기의 튜닝에 맞추기에 완벽합니다. 이 기능은 현재 베타 버전입니다. 문제가 생기면 피드백을 보내주세요.';
+
+  @override
+  String get changelog2102Title => '여러 파일 한 번에 가져오기';
+
+  @override
+  String get changelog2102Description =>
+      '이제 여러 오디오 파일을 한 번에 선택하여 가져올 수 있습니다. 곡이 추가되는 동안 진행률 표시기가 상태를 알려줍니다.';
+
+  @override
+  String get changelog2103Title => '버그 수정 및 안정성 개선';
+
+  @override
+  String get changelog2103Description => '여러 버그를 수정하고 앱의 전반적인 안정성과 성능을 개선했습니다.';
 
   @override
   String get changelog201Title => '동영상 루프 및 속도 변경 (Beta)';
@@ -537,6 +627,10 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get songAddError =>
       '곡 추가에 실패했습니다. 파일 형식에 문제가 있을 수 있습니다. mp3나 wav와 같은 지원되는 형식으로 변환해 보세요.';
+
+  @override
+  String get importAlreadyRunningError =>
+      '다른 가져오기가 아직 진행 중입니다. 클라우드 저장소의 큰 파일은 시간이 걸릴 수 있습니다. 완료될 때까지 기다려 주세요.';
 
   @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
@@ -851,6 +945,99 @@ class AppLocalizationsKo extends AppLocalizations {
   String get speedControl => '속도 제어';
 
   @override
+  String get pitchControl => '음정';
+
+  @override
+  String get metronome => '메트로놈';
+
+  @override
+  String get metronomeVolume => '볼륨';
+
+  @override
+  String get metronomeTimeSignature => '박자';
+
+  @override
+  String get metronomeSubdivision => '세분';
+
+  @override
+  String get metronomeNudge => '미세 조정';
+
+  @override
+  String get metronomeTapBeat => '박자에 맞춰 탭';
+
+  @override
+  String get metronomeShiftHalfBeat => '반 박자 이동';
+
+  @override
+  String metronomeOffsetMs(int ms) {
+    return '$ms ms';
+  }
+
+  @override
+  String get metronomeSetBpmFirst => '메트로놈을 사용하려면 먼저 곡의 BPM을 설정하세요.';
+
+  @override
+  String get metronomeGoToBpm => 'BPM 설정';
+
+  @override
+  String get metronomeAdvanced => '고급';
+
+  @override
+  String get metronomeSyncToSong => '곡과 동기화';
+
+  @override
+  String metronomeKeepTapping(int count) {
+    return '계속 탭하세요… ($count)';
+  }
+
+  @override
+  String get metronomeSyncHint =>
+      '클릭은 곡의 템포를 따르지만 박자와 정확히 맞지 않을 수 있습니다. 곡에 맞춰 탭하여 동기화하세요.';
+
+  @override
+  String get metronomeResetSync => '동기화 재설정';
+
+  @override
+  String get off => '꺼짐';
+
+  @override
+  String get pitchSemitone => '반음';
+
+  @override
+  String get semitones => '반음';
+
+  @override
+  String get pitchUnchanged => '피치 변경 없음';
+
+  @override
+  String get tapTempo => '탭 템포';
+
+  @override
+  String songBpmValue(int bpm) {
+    return '곡 BPM $bpm';
+  }
+
+  @override
+  String get retap => '다시 탭';
+
+  @override
+  String get edit => '편집';
+
+  @override
+  String get setSongTempoHint => '곡의 템포를 설정하여 분당 박자 수로 재생을 조정하세요.';
+
+  @override
+  String get bpmTapHint => '박자에 맞춰 패드를 탭하세요';
+
+  @override
+  String get bpmTapUnit => 'BPM · 탭';
+
+  @override
+  String useBpmValue(int bpm) {
+    return '$bpm 사용';
+  }
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       '오디오 파일의 원래 BPM을 설정할 수 있습니다.';
 
@@ -884,6 +1071,22 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get speedChangeFailed => '속도 변경에 실패했습니다. 다시 시도해 주세요.';
+
+  @override
+  String get pitchChangeFailed => '음정 변경에 실패했습니다. 다시 시도해 주세요.';
+
+  @override
+  String get editSongKey => '키';
+
+  @override
+  String get originalKey => '원래 키';
+
+  @override
+  String get currentKey => '현재 키';
+
+  @override
+  String get hereYouCanSetTheOriginalKeyOfTheAudioFile =>
+      '여기에서 오디오 파일의 원래 키를 설정할 수 있습니다.';
 
   @override
   String get copyToClipboard => '클립보드에 복사';

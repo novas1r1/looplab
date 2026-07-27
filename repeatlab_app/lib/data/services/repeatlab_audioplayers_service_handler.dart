@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:developer';
+import 'dart:math' show pow;
 
 import 'package:audio_service/audio_service.dart';
 import 'package:audio_session/audio_session.dart';
@@ -25,6 +26,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
   static const double _minPlaybackSpeed = 0.5;
   static const double _maxPlaybackSpeed = 2.0;
 
+  static const int _minPitchSemitones = -12;
+  static const int _maxPitchSemitones = 12;
+
   /// Double-tap detection threshold for skip previous
   static const Duration _doubleTapThreshold = Duration(milliseconds: 400);
 
@@ -42,6 +46,19 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
 
   /// Track last skip previous tap time for double-tap detection
   DateTime? _lastSkipPreviousTime;
+
+  /// Every position discontinuity (user seek, forward/back, loop wrap,
+  /// repeat restart) is reported here so the metronome can realign its
+  /// click grid — native loop wraps are invisible to the cubit otherwise.
+  final _seekEventController = StreamController<Duration>.broadcast();
+  @override
+  Stream<Duration> get seekEvents => _seekEventController.stream;
+
+  void _notifySeek(Duration target) {
+    if (!_seekEventController.isClosed) {
+      _seekEventController.add(target);
+    }
+  }
 
   @override
   Stream<PlayerState>? playerStateStream;
@@ -61,6 +78,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
   Future<void>? _seekQueue;
   Source? _currentSource;
   double _playbackSpeed = 1.0;
+  int _pitchSemitones = 0;
   bool _loopSeekInProgress = false;
 
   RepeatlabAudioplayersServiceHandler({required this.audioPlayer}) {
@@ -220,6 +238,23 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
 
       // Reset playback speed to 1.0 for new songs to ensure consistent behavior
       _playbackSpeed = 1.0;
+      // Reset pitch: the native Signalsmith processor survives source changes,
+      // so a previous song's pitch would leak into the next song otherwise.
+      // The cubit reapplies the persisted per-song pitch afterwards.
+      _pitchSemitones = 0;
+      // Same for the native click processor: clear its grid so a new song
+      // never inherits the previous song's clicks. The cubit re-sends the
+      // config when the metronome is (re)enabled. Non-Android platforms
+      // throw UnsupportedError — nothing to clear there.
+      try {
+        await audioPlayer.setClickTrack(enabled: false);
+        // The platform interface signals "not implemented here" via
+        // UnsupportedError by design (same pattern as setPitchShift) —
+        // catching it is the intended cross-platform usage.
+        // ignore: avoid_catching_errors
+      } on UnsupportedError {
+        // Native click track not available on this platform.
+      }
 
       await audioPlayer.setReleaseMode(ReleaseMode.stop);
       if (autoStart) {
@@ -228,6 +263,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
         await audioPlayer.setSource(source);
       }
       await audioPlayer.setPlaybackRate(_playbackSpeed);
+      await _applyPitchShiftSafely();
       playbackState.add(
         playbackState.value.copyWith(
           controls: [
@@ -265,8 +301,10 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
         // check if is in loop mode
         if (position >= _activeLoop!.end!) {
           await audioPlayer.seek(_activeLoop!.start!);
+          _notifySeek(_activeLoop!.start!);
         } else if (position < _activeLoop!.start!) {
           await audioPlayer.seek(_activeLoop!.start!);
+          _notifySeek(_activeLoop!.start!);
         }
       }
     }
@@ -410,6 +448,50 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
   }
 
   @override
+  Future<void> setNativeClickTrack({
+    required bool enabled,
+    int? bpm,
+    int? anchorMs,
+    int offsetMs = 0,
+    int beatsPerBar = 4,
+    int pulsesPerBeat = 1,
+    double volume = 1.0,
+  }) {
+    return audioPlayer.setClickTrack(
+      enabled: enabled,
+      bpm: bpm,
+      anchorMs: anchorMs,
+      offsetMs: offsetMs,
+      beatsPerBar: beatsPerBar,
+      pulsesPerBeat: pulsesPerBeat,
+      volume: volume,
+    );
+  }
+
+  @override
+  Future<void> swapSourceFile(String path) async {
+    await _awaitActiveSeek();
+
+    final wasPlaying = audioPlayer.state == PlayerState.playing;
+    final currentPosition =
+        await audioPlayer.getCurrentPosition() ?? Duration.zero;
+
+    final source = DeviceFileSource(path);
+    _currentSource = source;
+
+    // setSource resets the platform player, so speed and pitch must be
+    // reapplied — same as _reloadSourceIfNeeded.
+    await audioPlayer.setSource(source);
+    await audioPlayer.setPlaybackRate(_playbackSpeed);
+    await _applyPitchShiftSafely();
+
+    await audioPlayer.seek(currentPosition);
+    if (wasPlaying) {
+      await audioPlayer.resume();
+    }
+  }
+
+  @override
   Future<void> skipToPrevious() async {
     log(
       'skipToPrevious called, currentLoopIndex: $_currentLoopIndex, loops: ${_loops.length}',
@@ -497,6 +579,40 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     return success;
   }
 
+  /// Returns the currently applied pitch shift in semitones
+  @override
+  int get currentPitchSemitones => _pitchSemitones;
+
+  @override
+  Future<bool> setPitchSemitones(int semitones) async {
+    final target = semitones.clamp(_minPitchSemitones, _maxPitchSemitones);
+    log('setPitchSemitones: $target');
+
+    try {
+      await audioPlayer.setPitchShift(_pitchMultiplierForSemitones(target));
+      _pitchSemitones = target;
+      return true;
+    } catch (e) {
+      log('Failed to set pitch shift: $e');
+      return false;
+    }
+  }
+
+  double _pitchMultiplierForSemitones(int semitones) =>
+      pow(2.0, semitones / 12.0).toDouble();
+
+  /// Reapplies the current pitch shift, swallowing platform errors (pitch is
+  /// unsupported outside Android; playback must not fail because of it).
+  Future<void> _applyPitchShiftSafely() async {
+    try {
+      await audioPlayer.setPitchShift(
+        _pitchMultiplierForSemitones(_pitchSemitones),
+      );
+    } catch (e) {
+      log('Failed to apply pitch shift: $e');
+    }
+  }
+
   @override
   Future<void> customAction(String name, [Map<String, dynamic>? extras]) async {
     switch (name) {
@@ -513,13 +629,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
         await disableLoopMode();
         return;
       case 'setPitch':
-        if (extras != null && extras['pitch'] != null) {
-          final pitch = extras['pitch'] as double;
-          // Note: audioplayers doesn't directly support pitch shifting
-          // This is a placeholder - actual implementation would need a different approach
-          log(
-            'Pitch change requested: $pitch (not implemented in audioplayers)',
-          );
+        if (extras != null && extras['semitones'] != null) {
+          final semitones = extras['semitones'] as int;
+          await setPitchSemitones(semitones);
         }
         return;
       case 'setLoops':
@@ -570,6 +682,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     }
 
     await audioPlayer.seek(target);
+    _notifySeek(target);
   }
 
   // if loop is not null, check if position is within loop start and end,
@@ -592,6 +705,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     }
 
     await audioPlayer.seek(target);
+    _notifySeek(target);
   }
 
   // Close resources when the audio handler is no longer needed
@@ -611,6 +725,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     _loops = [];
     _currentLoopIndex = -1;
     await _navigationEventController.close();
+    await _seekEventController.close();
   }
 
   Future<void> _awaitActiveSeek() async {
@@ -661,6 +776,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     }
 
     await audioPlayer.seek(clampedPosition);
+    _notifySeek(clampedPosition);
   }
 
   Future<void> _reloadSourceIfNeeded() async {
@@ -672,6 +788,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
         playerState == PlayerState.disposed) {
       await audioPlayer.setSource(_currentSource!);
       await audioPlayer.setPlaybackRate(_playbackSpeed);
+      await _applyPitchShiftSafely();
     }
   }
 
@@ -687,6 +804,12 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     final start = loop.start;
     final end = loop.end;
     if (start == null || end == null) return;
+
+    // Only enforce the loop wrap during active playback. While paused, the user
+    // may drag the playhead past the loop end to set a new end — snapping back
+    // to start here would make the loop impossible to edit. (The play button
+    // handles jumping back into the loop via resume().)
+    if (audioPlayer.state != PlayerState.playing) return;
 
     if (position >= end) {
       if (_loopSeekInProgress) {
@@ -778,10 +901,12 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
       if (_currentSource != null) {
         await audioPlayer.setSource(_currentSource!);
         await audioPlayer.setPlaybackRate(_playbackSpeed);
+        await _applyPitchShiftSafely();
       }
 
       // Seek to beginning and play
       await audioPlayer.seek(Duration.zero);
+      _notifySeek(Duration.zero);
       await audioPlayer.resume();
 
       playbackState.add(
@@ -811,6 +936,12 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     final start = loop.start;
     final end = loop.end;
     if (start == null || end == null) return;
+
+    // Only pull the playhead into the loop while playing. When paused — e.g.
+    // right after the user parks the playhead at a new end via setLoopEnd — a
+    // forced seek to start would fight editing. resume() handles jumping into
+    // the loop when playback actually starts.
+    if (audioPlayer.state != PlayerState.playing) return;
 
     final currentPosition =
         await audioPlayer.getCurrentPosition() ?? Duration.zero;

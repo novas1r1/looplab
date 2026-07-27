@@ -33,12 +33,26 @@
     "noSongsFound": "Aucune chanson trouvée",
     "tapToAddSong": "Appuyez sur + pour ajouter votre première chanson",
     "legalNoticesDescription": "§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nE-mail : support@repeatlab.de\n\nForme juridique : Freelance",
-    "onboardingTitle1": "Bienvenue sur RepeatLab",
-    "onboardingDescription1": "Maîtrisez n'importe quelle chanson en pratiquant les passages difficiles en les répétant ou en les ralentissant.",
-    "onboardingTitle2": "Créez des Boucles Précises",
-    "onboardingDescription2": "Appuyez simplement pour marquer le début et la fin d'une section que vous souhaitez pratiquer. Ajustez et affinez avec notre affichage de forme d'onde intuitif.",
-    "onboardingTitle3": "La Confidentialité d'Abord",
-    "onboardingDescription3": "Nous accordons de l'importance à votre confidentialité et traitons vos données avec soin. Veuillez consulter notre politique de confidentialité et l'accepter pour continuer.",
+    "onboardingTitle1": "Entraînez-vous comme un pro",
+    "onboardingDescription1": "Votre station de boucles personnelle pour maîtriser n'importe quelle chanson — audio ou vidéo, 100% hors ligne.",
+    "onboardingTitle2": "Bouclez les passages difficiles",
+    "onboardingDescription2": "Définissez des points de début et de fin précis sur la forme d'onde, puis jouez cette section jusqu'à la maîtriser.",
+    "onboardingTitle3": "Ralentissez sans changer la hauteur",
+    "onboardingDescription3": "Passez de 0.5× à 2.0×, ou réglez un BPM exact. La hauteur reste fidèle pour que ça ne sonne jamais faux.",
+    "onboardingEyebrow1": "Bienvenue sur RepeatLab",
+    "onboardingEyebrow2": "Boucle",
+    "onboardingEyebrow3": "Vitesse et tempo",
+    "onboardingEyebrow4": "Hauteur",
+    "onboardingTitle4": "Jouez-la dans votre tonalité",
+    "onboardingDescription4": "Transposez de ±12 demi-tons ou faites correspondre les tonalités — adaptez à votre voix, votre accordage, votre capo.",
+    "onboardingConsentTitle": "Vos données, votre choix",
+    "onboardingConsentBody": "RepeatLab fonctionne hors ligne et conserve vos fichiers sur votre appareil. Une petite formalité avant de commencer.",
+    "onboardingAnalyticsTitle": "Statistiques anonymes",
+    "onboardingAnalyticsBody": "Partagez des données d'utilisation anonymes (hébergées dans l'EU) pour aider à améliorer RepeatLab.",
+    "onboardingDataProtectionTitle": "Protection des données",
+    "onboardingConsentFootnote": "Vous pouvez modifier les statistiques à tout moment dans les Réglages.",
+    "onboardingSkip": "Passer",
+    "onboardingContinue": "Continuer",
     "onboardingIAccept": "J'accepte la ",
     "onboardingTermsOfServiceLink": "Conditions d'Utilisation",
     "and": "et",
@@ -69,6 +83,7 @@
     "premiumHeadline": "Maîtrisez Vos Chansons Préférées comme un Pro avec Contrôle de Tempo, Zoom et Boucles Ilimitées",
     "premiumFeatureUnlimitedLoops": "Boucles Illimitées",
     "premiumFeatureChangeMusicSpeed": "Contrôle de Vitesse (BPM/Multiplicateur)",
+    "premiumFeaturePitchControl": "Contrôle de Tonalité (Demi-tons)",
     "premiumFeatureZoomInOut": "Waveform Zoom-In/Out",
     "premiumFeatureSupportDeveloper": "Soutenez le Développeur Indépendant",
     "freeFeatureUnlimitedSongs": "Chansons Illimitées + Une Boucle par Chanson",
@@ -113,6 +128,8 @@
     "endPositionMustBeAfterStartPosition": "La position de fin doit être après la position de début",
     "tutorialNavigateThroughSong": "Naviguez dans la chanson par glisser-déposer",
     "tutorialNavigateThroughSongDescription": "Utilisez vos doigts pour faire glisser toute la chanson vers la gauche ou la droite et zoomer pour plus de précision",
+    "tutorialVideoPreview": "Regardez la vidéo et ajustez sa taille",
+    "tutorialVideoPreviewDescription": "Utilisez les boutons + et − pour redimensionner la vidéo. Pour naviguer dans la vidéo, utilisez la timeline et les commandes ci-dessous",
     "tutorialPlayAndPauseSong": "Lecture, pause ou changement de vitesse de la chanson",
     "tutorialPlayAndPauseSongDescription": "Utilisez ces boutons pour contrôler la chanson et les boucles",
     "tutorialJumpToLoop": "Voir et sauter aux boucles",
@@ -154,7 +171,17 @@
     "close": "Fermer",
     "cancelSubscription": "Annuler l'Abonnement",
     "voteForFeatures": "Voter pour les Fonctionnalités",
-    "changelogTitle": "Changelog",
+    "changelogTitle": "Qu'y a-t-il de nouveau ?",
+    "changelog2201Title": "Métronome",
+    "changelog2201Description": "Joue avec un métronome intégré qui reste dans le tempo de ton morceau. Choisis la signature rythmique et la subdivision, tape le tempo et affine le clic avec des décalages d'un demi-temps et des ajustements à la milliseconde pour qu'il colle parfaitement au rythme.",
+    "changelog2202Title": "Modifier les boucles en pause",
+    "changelog2202Description": "Tu peux désormais déplacer librement les points de début et de fin d'une boucle pendant que la lecture est en pause - la tête de lecture ne revient plus dans la boucle. Les limites de la boucle s'appliquent à nouveau dès que tu appuies sur lecture, ce qui facilite grandement l'ajustement de tes boucles.",
+    "changelog2101Title": "Changement de tonalité (Beta)",
+    "changelog2101Description": "Modifiez la tonalité de vos morceaux par demi-tons sans affecter la vitesse - parfait pour transposer un morceau dans une autre tonalité ou l'adapter à l'accordage de votre instrument. Cette fonctionnalité est actuellement en Beta ; envoie-moi ton feedback si tu rencontres des problèmes.",
+    "changelog2102Title": "Importez plusieurs fichiers à la fois",
+    "changelog2102Description": "Vous pouvez désormais sélectionner et importer plusieurs fichiers audio en une seule fois. Un indicateur de progression vous tient informé pendant l'ajout de vos morceaux.",
+    "changelog2103Title": "Corrections de bugs et améliorations de stabilité",
+    "changelog2103Description": "Plusieurs bugs ont été corrigés et la stabilité et les performances générales de l'application ont été améliorées.",
     "changelog201Title": "Mettre des vidéos en boucle et modifier la vitesse (Beta)",
     "changelog201Description": "Importez des vidéos et mettez-les en boucle exactement comme des chansons audio - ou modifiez la vitesse - parfait pour s'entraîner avec des tutoriels ou des performances live. Cette fonctionnalité est actuellement en Beta ; envoie-moi ton feedback si tu rencontres des problèmes.",
     "changelog180Title": "Réorganisez vos chansons",
@@ -195,6 +222,7 @@
     "changelog1013Description": "Vous pouvez maintenant voter pour de nouvelles fonctionnalités ou soumettre vos propres propositions de fonctionnalités dans l'app. Simplement ouvrez le menu et ouvrez le tableau 'Voter pour les Fonctionnalités'. Heureux de recevoir vos souhaits !",
     "whatsNew": "Qu'y a-t-il de nouveau ?",
     "songAddError": "Erreur lors de l'ajout de la chanson. Cela pourrait être dû à un problème avec le format de fichier. Essayez de convertir le fichier en un format compatible comme mp3 ou wav.",
+    "importAlreadyRunningError": "Une autre importation est toujours en cours. Les fichiers volumineux depuis le cloud peuvent prendre du temps – veuillez attendre qu'elle se termine.",
     "unsupportedAudioFormatError": "Le format audio \".{format}\" n'est pas pris en charge. Formats pris en charge : {supportedFormats}.",
     "@unsupportedAudioFormatError": {
         "placeholders": {
@@ -306,6 +334,34 @@
     "useBpm": "Utiliser le BPM",
     "reset": "Réinitialiser",
     "speedControl": "Vitesse",
+    "pitchControl": "Tonalité",
+    "metronome": "Métronome",
+    "metronomeVolume": "Volume",
+    "metronomeTimeSignature": "Signature rythmique",
+    "metronomeSubdivision": "Subdivision",
+    "metronomeNudge": "Décalage",
+    "metronomeTapBeat": "Tapez sur le temps",
+    "metronomeShiftHalfBeat": "Décaler d'un demi-temps",
+    "metronomeOffsetMs": "{ms} ms",
+    "metronomeSetBpmFirst": "Définissez d'abord le BPM du morceau pour utiliser le métronome.",
+    "metronomeGoToBpm": "Définir le BPM",
+    "metronomeAdvanced": "Avancé",
+    "metronomeSyncToSong": "Synchroniser avec le morceau",
+    "metronomeKeepTapping": "Continuez à taper… ({count})",
+    "metronomeSyncHint": "Le clic suit le tempo du morceau mais peut ne pas tomber exactement sur le temps. Tapez en rythme avec le morceau pour le synchroniser.",
+    "metronomeResetSync": "Réinitialiser la synchronisation",
+    "off": "désactivé",
+    "pitchSemitone": "Demi-ton",
+    "semitones": "Demi-tons",
+    "pitchUnchanged": "hauteur inchangée",
+    "tapTempo": "Taper le tempo",
+    "songBpmValue": "BPM du morceau {bpm}",
+    "retap": "retaper",
+    "edit": "Modifier",
+    "setSongTempoHint": "Définissez le tempo du morceau pour ajuster la lecture en battements par minute.",
+    "bpmTapHint": "Tapez sur le pavé en rythme",
+    "bpmTapUnit": "BPM · tapez",
+    "useBpmValue": "Utiliser {bpm}",
     "hereYouCanSetTheOriginalBpmOfTheAudioFile": "Vous pouvez définir le BPM original du fichier audio ici.",
     "setBpm": "SET",
     "originalBpm": "BPM ORIGINAL",
@@ -320,6 +376,11 @@
     "playbackSettings": "Lecture",
     "actions": "Actions",
     "speedChangeFailed": "Le changement de vitesse a échoué. Veuillez réessayer.",
+    "pitchChangeFailed": "Le changement de tonalité a échoué. Veuillez réessayer.",
+    "editSongKey": "Tonalité",
+    "originalKey": "TONALITÉ ORIGINALE",
+    "currentKey": "TONALITÉ ACTUELLE",
+    "hereYouCanSetTheOriginalKeyOfTheAudioFile": "Ici, vous pouvez définir la tonalité originale du fichier audio.",
     "copyToClipboard": "Copier dans le presse-papiers",
     "editSong": "Modifier le morceau",
     "editSongTitle": "Titre",
@@ -350,13 +411,17 @@
     "backupExportFailed": "Exportation échouée : {message}",
     "@backupExportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportFailed": "Importation échouée : {message}",
     "@backupImportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportMalformed": "Ce fichier n'est pas une sauvegarde RepeatLab valide.",
@@ -365,8 +430,12 @@
     "backupImportConfirmMessage": "Cette sauvegarde contient {songCount} chansons (exportées le {exportedAt}).",
     "@backupImportConfirmMessage": {
         "placeholders": {
-            "songCount": { "type": "int" },
-            "exportedAt": { "type": "String" }
+            "songCount": {
+                "type": "int"
+            },
+            "exportedAt": {
+                "type": "String"
+            }
         }
     },
     "backupImportModeMerge": "Fusionner",
@@ -378,9 +447,15 @@
     "backupImportSuccess": "{imported} chansons importées. {skipped} ignorées, {renamed} renommées.",
     "@backupImportSuccess": {
         "placeholders": {
-            "imported": { "type": "int" },
-            "skipped": { "type": "int" },
-            "renamed": { "type": "int" }
+            "imported": {
+                "type": "int"
+            },
+            "skipped": {
+                "type": "int"
+            },
+            "renamed": {
+                "type": "int"
+            }
         }
     }
 }

@@ -33,12 +33,26 @@
     "noSongsFound": "Geen nummers gevonden",
     "tapToAddSong": "Tik op + om je eerste nummer toe te voegen",
     "legalNoticesDescription": "§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nE-mail: support@repeatlab.de\n\nRechtsvorm: Freelancer",
-    "onboardingTitle1": "Welkom bij RepeatLab",
-    "onboardingDescription1": "Beheers elk nummer door moeilijke passages te oefenen door ze te herhalen of te vertragen.",
-    "onboardingTitle2": "Maak Precieze Loops",
-    "onboardingDescription2": "Tik simpelweg om het begin en einde van een sectie te markeren die je wilt oefenen. Pas aan en verfijn met onze intuïtieve golfvormweergave.",
-    "onboardingTitle3": "Privacy Voorop",
-    "onboardingDescription3": "We waarderen je privacy en gaan zorgvuldig om met je gegevens. Lees ons privacybeleid en accepteer om door te gaan.",
+    "onboardingTitle1": "Oefen als een pro",
+    "onboardingDescription1": "Jouw persoonlijke loopstation om elk nummer onder de knie te krijgen — audio of video, 100% offline.",
+    "onboardingTitle2": "Loop de lastige stukken",
+    "onboardingDescription2": "Zet precieze begin- en eindpunten op de golfvorm en speel dat stuk tot je het foutloos beheerst.",
+    "onboardingTitle3": "Vertraag het, behoud de toonhoogte",
+    "onboardingDescription3": "Ga van 0.5× naar 2.0×, of stel een exacte BPM in. De toonhoogte blijft kloppen, zodat het nooit vals klinkt.",
+    "onboardingEyebrow1": "Welkom bij RepeatLab",
+    "onboardingEyebrow2": "Loop",
+    "onboardingEyebrow3": "Snelheid & tempo",
+    "onboardingEyebrow4": "Toonhoogte",
+    "onboardingTitle4": "Speel het in jouw toonsoort",
+    "onboardingDescription4": "Transponeer ±12 halve tonen of koppel toonsoort aan toonsoort — passend bij je stem, je stemming, je capo.",
+    "onboardingConsentTitle": "Jouw gegevens, jouw keuze",
+    "onboardingConsentBody": "RepeatLab werkt offline en houdt je bestanden op je apparaat. Nog één klein dingetje voordat je begint.",
+    "onboardingAnalyticsTitle": "Anonieme analyses",
+    "onboardingAnalyticsBody": "Deel anonieme gebruiksgegevens (gehost in de EU) om RepeatLab te helpen verbeteren.",
+    "onboardingDataProtectionTitle": "Gegevensbescherming",
+    "onboardingConsentFootnote": "Je kunt analyses altijd wijzigen in Instellingen.",
+    "onboardingSkip": "Overslaan",
+    "onboardingContinue": "Doorgaan",
     "onboardingIAccept": "Ik accepteer het ",
     "onboardingTermsOfServiceLink": "Privacybeleid",
     "and": "en",
@@ -69,6 +83,7 @@
     "premiumHeadline": "Beheers Je Favoriete Nummers als een Pro met Tempo Controle, Zoom & Onbeperkte Loops!",
     "premiumFeatureUnlimitedLoops": "Onbeperkte Loops",
     "premiumFeatureChangeMusicSpeed": "Tempo Controle (BPM/Multiplicateur)",
+    "premiumFeaturePitchControl": "Toonhoogte Controle (Halve tonen)",
     "premiumFeatureZoomInOut": "Waveform Zoom-In/Out",
     "premiumFeatureSupportDeveloper": "Steun de Onafhankelijke Ontwikkelaar",
     "freeFeatureUnlimitedSongs": "Onbeperkte Nummers + Een Loop per Nummer",
@@ -115,6 +130,8 @@
     "endPositionMustBeAfterStartPosition": "Eindpositie moet na startpositie zijn",
     "tutorialNavigateThroughSong": "Navigeer door het nummer met slepen",
     "tutorialNavigateThroughSongDescription": "Gebruik je vingers om het hele nummer naar links of rechts te slepen en zoom voor betere precisie",
+    "tutorialVideoPreview": "Bekijk de video en pas de grootte aan",
+    "tutorialVideoPreviewDescription": "Gebruik de knoppen + en − om de videogrootte aan te passen. Gebruik de tijdlijn en de bediening hieronder om door de video te navigeren",
     "tutorialPlayAndPauseSong": "Speel, pauzeer of verander de snelheid van het nummer",
     "tutorialPlayAndPauseSongDescription": "Gebruik deze knoppen om het nummer en de loops te bedienen",
     "tutorialJumpToLoop": "Bekijk en spring naar loops",
@@ -153,7 +170,17 @@
     "purchaseSuccess": "Aankoop succesvol. Bedankt voor je ondersteuning aan de ontwikkelaar ❤️!",
     "cancelSubscription": "Abonnement Opzeggen",
     "voteForFeatures": "Functies Voorstellen",
-    "changelogTitle": "Wijzigingen",
+    "changelogTitle": "Wat is er nieuw?",
+    "changelog2201Title": "Metronoom",
+    "changelog2201Description": "Speel mee met een ingebouwde metronoom die in de maat van je nummer blijft. Kies de maatsoort en onderverdeling, tik het tempo in en stem de klik nauwkeurig af met halve-tel-verschuivingen en aanpassingen in milliseconden, zodat hij perfect op de beat valt.",
+    "changelog2202Title": "Loops aanpassen tijdens pauze",
+    "changelog2202Description": "Je kunt nu het begin- en eindpunt van een loop vrij verplaatsen terwijl het afspelen is gepauzeerd - de afspeelkop springt niet meer terug in de loop. De loopgrenzen worden weer actief zodra je op afspelen drukt, waardoor je je loops veel makkelijker kunt fijnafstellen.",
+    "changelog2101Title": "Toonhoogte wijzigen (Beta)",
+    "changelog2101Description": "Wijzig de toonhoogte van je nummers in halve tonen zonder de snelheid te beïnvloeden - perfect om een nummer naar een andere toonsoort te transponeren of aan de stemming van je instrument aan te passen. Deze functie is momenteel in Beta; stuur me je feedback als je problemen tegenkomt.",
+    "changelog2102Title": "Meerdere bestanden tegelijk importeren",
+    "changelog2102Description": "Je kunt nu meerdere audiobestanden in één keer selecteren en importeren. Een voortgangsindicator houdt je op de hoogte terwijl je nummers worden toegevoegd.",
+    "changelog2103Title": "Bugfixes en stabiliteitsverbeteringen",
+    "changelog2103Description": "Verschillende bugs zijn opgelost en de algemene stabiliteit en prestaties van de app zijn verbeterd.",
     "changelog201Title": "Video's loopen en snelheid aanpassen (Beta)",
     "changelog201Description": "Importeer video's en loop ze net zoals audio-nummers - of pas de snelheid aan - perfect om te oefenen met tutorials of live-optredens. Deze functie is momenteel in Beta; stuur me je feedback als je problemen ondervindt.",
     "changelog180Title": "Nummers herordenen",
@@ -194,6 +221,7 @@
     "changelog1013Description": "You can now vote for new features or submit your own feature proposals in the app. Just open the menu and open the 'Vote for Features' board. Happy to hear your wishes!",
     "whatsNew": "Wat is er nieuw?",
     "songAddError": "Fout bij het toevoegen van het nummer. Dit kan veroorzaakt worden door een probleem met het bestandsformaat. Probeer het bestand om te zetten in een ondersteund formaat zoals mp3 of wav.",
+    "importAlreadyRunningError": "Er is nog een andere import bezig. Grote bestanden uit cloudopslag kunnen even duren – wacht tot deze klaar is.",
     "unsupportedAudioFormatError": "Het audioformaat \".{format}\" wordt niet ondersteund. Ondersteunde formaten: {supportedFormats}.",
     "@unsupportedAudioFormatError": {
         "placeholders": {
@@ -306,6 +334,34 @@
     "useBpm": "BPM gebruiken",
     "reset": "Reset",
     "speedControl": "Snelheid",
+    "pitchControl": "Toonhoogte",
+    "metronome": "Metronoom",
+    "metronomeVolume": "Volume",
+    "metronomeTimeSignature": "Maatsoort",
+    "metronomeSubdivision": "Onderverdeling",
+    "metronomeNudge": "Verschuiving",
+    "metronomeTapBeat": "Tik op de beat",
+    "metronomeShiftHalfBeat": "Verschuif een halve tel",
+    "metronomeOffsetMs": "{ms} ms",
+    "metronomeSetBpmFirst": "Stel eerst de BPM van het nummer in om de metronoom te gebruiken.",
+    "metronomeGoToBpm": "BPM instellen",
+    "metronomeAdvanced": "Geavanceerd",
+    "metronomeSyncToSong": "Synchroniseren met het nummer",
+    "metronomeKeepTapping": "Blijf tikken… ({count})",
+    "metronomeSyncHint": "De klik volgt het tempo van het nummer, maar valt mogelijk niet precies op de beat. Tik mee op de maat om te synchroniseren.",
+    "metronomeResetSync": "Synchronisatie resetten",
+    "off": "uit",
+    "pitchSemitone": "Halve toon",
+    "semitones": "Halve tonen",
+    "pitchUnchanged": "toonhoogte ongewijzigd",
+    "tapTempo": "Tempo tikken",
+    "songBpmValue": "Nummer-BPM {bpm}",
+    "retap": "opnieuw tikken",
+    "edit": "Bewerken",
+    "setSongTempoHint": "Stel het tempo van het nummer in om de weergave in slagen per minuut aan te passen.",
+    "bpmTapHint": "Tik op het paneel op de maat",
+    "bpmTapUnit": "BPM · tik",
+    "useBpmValue": "{bpm} gebruiken",
     "hereYouCanSetTheOriginalBpmOfTheAudioFile": "Hier kun je de originele BPM van het audio-bestand instellen.",
     "setBpm": "SET",
     "originalBpm": "Originele BPM",
@@ -320,6 +376,11 @@
     "playbackSettings": "Afspelen",
     "actions": "Acties",
     "speedChangeFailed": "Snelheidswijziging is mislukt. Probeer het opnieuw.",
+    "pitchChangeFailed": "Toonhoogtewijziging is mislukt. Probeer het opnieuw.",
+    "editSongKey": "Toonsoort",
+    "originalKey": "ORIGINELE TOONSOORT",
+    "currentKey": "HUIDIGE TOONSOORT",
+    "hereYouCanSetTheOriginalKeyOfTheAudioFile": "Hier kun je de originele toonsoort van het audiobestand instellen.",
     "copyToClipboard": "Kopiëren naar klembord",
     "editSong": "Nummer bewerken",
     "editSongTitle": "Titel",
@@ -350,13 +411,17 @@
     "backupExportFailed": "Export mislukt: {message}",
     "@backupExportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportFailed": "Import mislukt: {message}",
     "@backupImportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportMalformed": "Dit bestand is geen geldige RepeatLab-back-up.",
@@ -365,8 +430,12 @@
     "backupImportConfirmMessage": "Deze back-up bevat {songCount} nummers (geëxporteerd op {exportedAt}).",
     "@backupImportConfirmMessage": {
         "placeholders": {
-            "songCount": { "type": "int" },
-            "exportedAt": { "type": "String" }
+            "songCount": {
+                "type": "int"
+            },
+            "exportedAt": {
+                "type": "String"
+            }
         }
     },
     "backupImportModeMerge": "Samenvoegen",
@@ -378,9 +447,15 @@
     "backupImportSuccess": "{imported} nummers geïmporteerd. {skipped} overgeslagen, {renamed} hernoemd.",
     "@backupImportSuccess": {
         "placeholders": {
-            "imported": { "type": "int" },
-            "skipped": { "type": "int" },
-            "renamed": { "type": "int" }
+            "imported": {
+                "type": "int"
+            },
+            "skipped": {
+                "type": "int"
+            },
+            "renamed": {
+                "type": "int"
+            }
         }
     }
 }

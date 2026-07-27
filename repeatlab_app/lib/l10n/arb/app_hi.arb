@@ -37,12 +37,26 @@
     "noSongsFound": "कोई गीत नहीं मिला",
     "tapToAddSong": "अपना पहला गीत जोड़ने के लिए + पर टैप करें",
     "legalNoticesDescription": "§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nईमेल: support@repeatlab.de\n\nकानूनी रूप: स्वतंत्र कार्यकर्ता",
-    "onboardingTitle1": "RepeatLab में आपका स्वागत है",
-    "onboardingDescription1": "कठिन भागों को दोहराकर या धीमा करके किसी भी गीत में महारत हासिल करें।",
-    "onboardingTitle2": "सटीक लूप बनाएं",
-    "onboardingDescription2": "बस उस खंड की शुरुआत और अंत को चिह्नित करने के लिए क्लिक करें जिसे आप अभ्यास करना चाहते हैं। सहज वेवफॉर्म व्यू के साथ सटीक समायोजन करें।",
-    "onboardingTitle3": "गोपनीयता पहले",
-    "onboardingDescription3": "हम आपकी गोपनीयता का सम्मान करते हैं और आपके डेटा को सावधानी से संभालते हैं। कृपया आगे बढ़ने के लिए गोपनीयता नीति की समीक्षा करें और सहमत हों।",
+    "onboardingTitle1": "किसी प्रो की तरह अभ्यास करें",
+    "onboardingDescription1": "किसी भी गीत में महारत हासिल करने के लिए आपका निजी लूप स्टेशन — ऑडियो या वीडियो, 100% ऑफ़लाइन।",
+    "onboardingTitle2": "कठिन हिस्सों को लूप करें",
+    "onboardingDescription2": "वेवफॉर्म पर सटीक शुरुआत और अंत बिंदु सेट करें, फिर उस हिस्से को तब तक बजाएं जब तक आप उसमें महारत हासिल न कर लें।",
+    "onboardingTitle3": "गति धीमी करें, पिच वही रखें",
+    "onboardingDescription3": "0.5× से 2.0× तक घटाएं, या सटीक BPM सेट करें। पिच सही बनी रहती है, इसलिए आवाज़ कभी बेसुरी नहीं लगती।",
+    "onboardingEyebrow1": "RepeatLab में आपका स्वागत है",
+    "onboardingEyebrow2": "लूप",
+    "onboardingEyebrow3": "गति और टेम्पो",
+    "onboardingEyebrow4": "पिच",
+    "onboardingTitle4": "इसे अपनी की में बजाएं",
+    "onboardingDescription4": "±12 सेमिटोन ट्रांसपोज़ करें या की-टू-की मैप करें — अपनी आवाज़, अपनी ट्यूनिंग, अपने कैपो के अनुसार।",
+    "onboardingConsentTitle": "आपका डेटा, आपका फ़ैसला",
+    "onboardingConsentBody": "RepeatLab ऑफ़लाइन काम करता है और आपकी फ़ाइलें आपके डिवाइस पर रखता है। शुरू करने से पहले बस एक छोटी-सी बात।",
+    "onboardingAnalyticsTitle": "गुमनाम एनालिटिक्स",
+    "onboardingAnalyticsBody": "RepeatLab को बेहतर बनाने में मदद के लिए गुमनाम उपयोग डेटा (EU में होस्ट किया गया) साझा करें।",
+    "onboardingDataProtectionTitle": "डेटा सुरक्षा",
+    "onboardingConsentFootnote": "आप एनालिटिक्स को कभी भी सेटिंग्स में बदल सकते हैं।",
+    "onboardingSkip": "छोड़ें",
+    "onboardingContinue": "जारी रखें",
     "onboardingPrivacyPolicy": "मैं सहमत हूं",
     "onboardingPrivacyPolicyLink": "गोपनीयता नीति",
     "onboardingGetStarted": "शुरू करें",
@@ -71,6 +85,7 @@
     "premiumHeadline": "टेम्पो नियंत्रण, ज़ूम और असीमित लूप के साथ अपने पसंदीदा गीतों में पेशेवरों की तरह महारत हासिल करें!",
     "premiumFeatureUnlimitedLoops": "असीमित लूप",
     "premiumFeatureChangeMusicSpeed": "गति नियंत्रण (BPM/गुणक)",
+    "premiumFeaturePitchControl": "पिच नियंत्रण (सेमीटोन)",
     "premiumFeatureZoomInOut": "वेवफॉर्म ज़ूम इन/आउट",
     "premiumFeatureSupportDeveloper": "स्वतंत्र डेवलपर का समर्थन करें",
     "freeFeatureUnlimitedSongs": "असीमित गीत + प्रति गीत एक लूप",
@@ -116,6 +131,8 @@
     "endPositionMustBeAfterStartPosition": "समाप्ति स्थिति प्रारंभ स्थिति के बाद होनी चाहिए",
     "tutorialNavigateThroughSong": "गीत के माध्यम से नेविगेट करें",
     "tutorialNavigateThroughSongDescription": "बेहतर सटीकता के लिए अपनी उंगलियों से पूरे गीत को बाएं या दाएं खींचें और ज़ूम इन/आउट करें",
+    "tutorialVideoPreview": "वीडियो देखें और उसका आकार समायोजित करें",
+    "tutorialVideoPreviewDescription": "वीडियो का आकार बदलने के लिए + और − बटन का उपयोग करें। वीडियो में नेविगेट करने के लिए नीचे दी गई टाइमलाइन और नियंत्रणों का उपयोग करें",
     "tutorialPlayAndPauseSong": "गीत चलाएं और रोकें",
     "tutorialPlayAndPauseSongDescription": "गीत और लूप को नियंत्रित करने के लिए इन बटनों का उपयोग करें",
     "tutorialJumpToLoop": "लूप देखें और उन पर जाएं",
@@ -153,7 +170,17 @@
     "purchasedAlready": "पहले से ही खरीदा गया",
     "purchaseSuccess": "सफलतापूर्वक खरीदा गया। डेवलपर का समर्थन करने के लिए धन्यवाद ❤️!",
     "voteForFeatures": "सुविधाओं के लिए वोट करें",
-    "changelogTitle": "परिवर्तन लॉग",
+    "changelogTitle": "नया क्या है",
+    "changelog2201Title": "मेट्रोनोम",
+    "changelog2201Description": "एक अंतर्निहित मेट्रोनोम के साथ बजाएं जो आपके गाने की ताल के साथ चलता है। टाइम सिग्नेचर और सबडिवीज़न चुनें, टेम्पो टैप करें, और क्लिक को आधे-बीट शिफ्ट और मिलीसेकंड नज के साथ बारीकी से समायोजित करें ताकि यह बीट के साथ पूरी तरह मेल खाए।",
+    "changelog2202Title": "रुके होने पर लूप संपादित करें",
+    "changelog2202Description": "अब आप प्लेबैक रुके होने पर किसी लूप के शुरू और अंत बिंदुओं को स्वतंत्र रूप से घुमा सकते हैं - प्लेहेड अब वापस लूप में नहीं आता। जैसे ही आप प्ले दबाते हैं, लूप की सीमाएं फिर से लागू हो जाती हैं, जिससे अपने लूप को बारीकी से समायोजित करना बहुत आसान हो जाता है।",
+    "changelog2101Title": "पिच शिफ्ट (Beta)",
+    "changelog2101Description": "स्पीड को प्रभावित किए बिना अपने गानों की पिच को सेमीटोन में बदलें - किसी गाने को दूसरी की में ट्रांसपोज़ करने या अपने वाद्य यंत्र की ट्यूनिंग से मिलाने के लिए बिल्कुल सही। यह फीचर अभी Beta में है; अगर कोई समस्या आए तो मुझे अपना फीडबैक भेजें।",
+    "changelog2102Title": "एक साथ कई फ़ाइलें इम्पोर्ट करें",
+    "changelog2102Description": "अब आप एक ही बार में कई ऑडियो फ़ाइलें चुनकर इम्पोर्ट कर सकते हैं। आपके गाने जोड़े जाने के दौरान एक प्रगति संकेतक आपको सूचित रखता है।",
+    "changelog2103Title": "बग फ़िक्स और स्थिरता में सुधार",
+    "changelog2103Description": "कई बग ठीक किए गए और ऐप की समग्र स्थिरता और प्रदर्शन में सुधार किया गया।",
     "changelog201Title": "वीडियो लूप करें और स्पीड बदलें (Beta)",
     "changelog201Description": "वीडियो इम्पोर्ट करें और उन्हें ऑडियो गानों की तरह लूप करें - या स्पीड बदलें - ट्यूटोरियल या लाइव परफॉर्मेंस के साथ अभ्यास के लिए बिल्कुल सही। यह फीचर अभी Beta में है; अगर कोई समस्या आए तो मुझे अपना फीडबैक भेजें।",
     "changelog180Title": "अपने गाने पुनः व्यवस्थित करें",
@@ -194,6 +221,7 @@
     "changelog1013Description": "अब आप ऐप में नई सुविधाओं के लिए वोट कर सकते हैं या अपने स्वयं के सुविधा सुझाव दे सकते हैं। बस मेनू खोलें और 'सुविधाओं के लिए वोट करें' पैनल खोलें। आपकी इच्छाओं को सुनकर खुशी होगी!",
     "whatsNew": "नया क्या है",
     "songAddError": "गीत जोड़ने में विफल। यह फाइल प्रारूप के कारण हो सकता है। कृपया फाइल को mp3 या wav जैसे समर्थित प्रारूप में कनवर्ट करने का प्रयास करें।",
+    "importAlreadyRunningError": "एक और आयात अभी भी चल रहा है। क्लाउड स्टोरेज से बड़ी फ़ाइलों में समय लग सकता है - कृपया इसके समाप्त होने की प्रतीक्षा करें।",
     "unsupportedAudioFormatError": "ऑडियो प्रारूप \".{format}\" समर्थित नहीं है। समर्थित प्रारूप: {supportedFormats}।",
     "@unsupportedAudioFormatError": {
         "placeholders": {
@@ -310,6 +338,34 @@
     "useBpm": "BPM का उपयोग करें",
     "reset": "रीसेट",
     "speedControl": "गति",
+    "pitchControl": "पिच",
+    "metronome": "मेट्रोनोम",
+    "metronomeVolume": "वॉल्यूम",
+    "metronomeTimeSignature": "ताल",
+    "metronomeSubdivision": "उपविभाजन",
+    "metronomeNudge": "समायोजन",
+    "metronomeTapBeat": "बीट पर टैप करें",
+    "metronomeShiftHalfBeat": "आधी बीट खिसकाएँ",
+    "metronomeOffsetMs": "{ms} ms",
+    "metronomeSetBpmFirst": "मेट्रोनोम का उपयोग करने के लिए पहले गाने का BPM सेट करें।",
+    "metronomeGoToBpm": "BPM सेट करें",
+    "metronomeAdvanced": "उन्नत",
+    "metronomeSyncToSong": "गाने के साथ सिंक करें",
+    "metronomeKeepTapping": "टैप करते रहें… ({count})",
+    "metronomeSyncHint": "क्लिक गाने की गति का अनुसरण करता है, लेकिन हो सकता है कि यह ठीक बीट पर न पड़े। सिंक करने के लिए गाने की ताल पर टैप करें।",
+    "metronomeResetSync": "सिंक रीसेट करें",
+    "off": "बंद",
+    "pitchSemitone": "सेमिटोन",
+    "semitones": "सेमिटोन",
+    "pitchUnchanged": "पिच अपरिवर्तित",
+    "tapTempo": "टैप टेम्पो",
+    "songBpmValue": "गाने का BPM {bpm}",
+    "retap": "फिर से टैप करें",
+    "edit": "संपादित करें",
+    "setSongTempoHint": "प्रति मिनट बीट्स के अनुसार प्लेबैक समायोजित करने के लिए गाने का टेम्पो सेट करें।",
+    "bpmTapHint": "बीट की ताल पर पैड को टैप करें",
+    "bpmTapUnit": "BPM · टैप",
+    "useBpmValue": "{bpm} उपयोग करें",
     "hereYouCanSetTheOriginalBpmOfTheAudioFile": "आप यहां ऑडियो फ़ाइल का मूल BPM सेट कर सकते हैं।",
     "setBpm": "SET",
     "originalBpm": "मूल BPM",
@@ -324,6 +380,11 @@
     "playbackSettings": "प्लेबैक",
     "actions": "क्रियाएं",
     "speedChangeFailed": "गति परिवर्तन विफल हो गया। कृपया पुनः प्रयास करें।",
+    "pitchChangeFailed": "पिच परिवर्तन विफल हो गया। कृपया पुनः प्रयास करें।",
+    "editSongKey": "की",
+    "originalKey": "मूल की",
+    "currentKey": "वर्तमान की",
+    "hereYouCanSetTheOriginalKeyOfTheAudioFile": "यहां आप ऑडियो फ़ाइल की मूल की सेट कर सकते हैं।",
     "copyToClipboard": "क्लिपबोर्ड पर कॉपी करें",
     "editSong": "गाना संपादित करें",
     "editSongTitle": "शीर्षक",
@@ -354,13 +415,17 @@
     "backupExportFailed": "एक्सपोर्ट विफल: {message}",
     "@backupExportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportFailed": "इम्पोर्ट विफल: {message}",
     "@backupImportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportMalformed": "यह फ़ाइल एक वैध RepeatLab बैकअप नहीं है।",
@@ -369,8 +434,12 @@
     "backupImportConfirmMessage": "इस बैकअप में {songCount} गीत हैं ({exportedAt} को एक्सपोर्ट किए गए)।",
     "@backupImportConfirmMessage": {
         "placeholders": {
-            "songCount": { "type": "int" },
-            "exportedAt": { "type": "String" }
+            "songCount": {
+                "type": "int"
+            },
+            "exportedAt": {
+                "type": "String"
+            }
         }
     },
     "backupImportModeMerge": "मर्ज करें",
@@ -382,9 +451,15 @@
     "backupImportSuccess": "{imported} गीत इम्पोर्ट किए गए। {skipped} छोड़े गए, {renamed} का नाम बदला गया।",
     "@backupImportSuccess": {
         "placeholders": {
-            "imported": { "type": "int" },
-            "skipped": { "type": "int" },
-            "renamed": { "type": "int" }
+            "imported": {
+                "type": "int"
+            },
+            "skipped": {
+                "type": "int"
+            },
+            "renamed": {
+                "type": "int"
+            }
         }
     }
 }

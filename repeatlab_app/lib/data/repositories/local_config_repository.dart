@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:clarity_flutter/clarity_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:posthog_flutter/posthog_flutter.dart';
+import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/repositories/purchases_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,6 +22,8 @@ class LocalConfigRepository {
   static const kAutoPlayOnLoopSelect = 'auto_play_on_loop_select';
   static const kFullSongRepeatEnabled = 'full_song_repeat_enabled';
   static const kLanguageCode = 'language_code';
+  static const kMetronomeVolume = 'metronome_volume';
+  static const kMetronomeSubdivision = 'metronome_subdivision';
 
   /// One-time activation milestones — used to fire `first_song_added` /
   /// `first_loop_created` analytics exactly once per install.
@@ -62,6 +65,11 @@ class LocalConfigRepository {
       Clarity.pause();
       await Posthog().disable();
     }
+
+    // After the SDK opt-in/out is applied: on grant this flushes events
+    // buffered before the consent decision (e.g. onboarding_started); on
+    // denial it discards them.
+    AppAnalytics.onConsentDecision(granted: isEnabled);
 
     // Keep RevenueCat's server-side PostHog identity in sync with consent, so
     // rc_* purchase events either link to the same person (opt-in) or fall back
@@ -121,6 +129,22 @@ class LocalConfigRepository {
 
   Future<void> setFullSongRepeatEnabled({required bool isEnabled}) =>
       sharedPreferences.setBool(kFullSongRepeatEnabled, isEnabled);
+
+  /// Metronome output volume (0.0..1.0). A player preference, not a song
+  /// property — shared across all songs.
+  double get metronomeVolume =>
+      sharedPreferences.getDouble(kMetronomeVolume) ?? 0.5;
+
+  Future<void> setMetronomeVolume(double volume) =>
+      sharedPreferences.setDouble(kMetronomeVolume, volume);
+
+  /// Metronome subdivision as the enum name of the app-side
+  /// `MetronomeSubdivision` (e.g. 'none', 'eighths'). Global preference.
+  String? get metronomeSubdivision =>
+      sharedPreferences.getString(kMetronomeSubdivision);
+
+  Future<void> setMetronomeSubdivision(String name) =>
+      sharedPreferences.setString(kMetronomeSubdivision, name);
 
   /// Selected app language code (e.g. 'en', 'de'). `null` means follow system.
   String? get languageCode => sharedPreferences.getString(kLanguageCode);

@@ -33,12 +33,26 @@
     "noSongsFound": "Inga låtar hittades",
     "tapToAddSong": "Tryck på + för att lägga till din första låt",
     "legalNoticesDescription": "§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nE-post: support@repeatlab.de\n\nJuridisk form: Frilansare",
-    "onboardingTitle1": "Välkommen till RepeatLab",
-    "onboardingDescription1": "Bemästra vilken låt som helst genom att öva på svåra avsnitt genom att upprepa dem eller sakta ner dem.",
-    "onboardingTitle2": "Skapa Precisa Loopar",
-    "onboardingDescription2": "Tryck helt enkelt för att markera början och slutet av ett avsnitt du vill öva på. Justera och finjustera med vår intuitiva vågformsvisning.",
-    "onboardingTitle3": "Integritet Först",
-    "onboardingDescription3": "Vi värdesätter din integritet och hanterar din data med omsorg. Vänligen granska vår integritetspolicy och acceptera för att fortsätta.",
+    "onboardingTitle1": "Öva som ett proffs",
+    "onboardingDescription1": "Din personliga loopstation för att bemästra vilken låt som helst — ljud eller video, 100% offline.",
+    "onboardingTitle2": "Loopa de svåra partierna",
+    "onboardingDescription2": "Sätt exakta start- och slutpunkter på vågformen och spela sedan det avsnittet tills du sitter det.",
+    "onboardingTitle3": "Sakta ner, behåll tonhöjden",
+    "onboardingDescription3": "Gå från 0.5× till 2.0×, eller ställ in ett exakt BPM. Tonhöjden bevaras så att det aldrig låter falskt.",
+    "onboardingEyebrow1": "Välkommen till RepeatLab",
+    "onboardingEyebrow2": "Loop",
+    "onboardingEyebrow3": "Hastighet & tempo",
+    "onboardingEyebrow4": "Tonhöjd",
+    "onboardingTitle4": "Spela det i din tonart",
+    "onboardingDescription4": "Transponera ±12 halvtoner eller mappa tonart till tonart — anpassa efter din röst, din stämning, din capo.",
+    "onboardingConsentTitle": "Din data, ditt val",
+    "onboardingConsentBody": "RepeatLab fungerar offline och behåller dina filer på din enhet. En snabb sak att ordna innan du börjar.",
+    "onboardingAnalyticsTitle": "Anonym analys",
+    "onboardingAnalyticsBody": "Dela anonym användningsdata (EU-baserad) för att hjälpa till att förbättra RepeatLab.",
+    "onboardingDataProtectionTitle": "Dataskydd",
+    "onboardingConsentFootnote": "Du kan ändra analys när som helst i Inställningar.",
+    "onboardingSkip": "Hoppa över",
+    "onboardingContinue": "Fortsätt",
     "onboardingIAccept": "Jag accepterar ",
     "onboardingTermsOfServiceLink": "Integritetspolicyn",
     "and": "och",
@@ -69,6 +83,7 @@
     "premiumHeadline": "Bemästra Dina Favoritlåtar som en Pro med Tempo Kontroll, Zoom och Obegränsade Loopar!",
     "premiumFeatureUnlimitedLoops": "Obegränsade Loopar",
     "premiumFeatureChangeMusicSpeed": "Tempo Kontroll (BPM/Multiplicator)",
+    "premiumFeaturePitchControl": "Tonhöjdskontroll (Halvtoner)",
     "premiumFeatureZoomInOut": "Waveform Zoom-In/Out",
     "premiumFeatureSupportDeveloper": "Stöd den Oberoende Utvecklaren",
     "freeFeatureUnlimitedSongs": "Obegränsade Låtar + En Loop per Låt",
@@ -115,6 +130,8 @@
     "endPositionMustBeAfterStartPosition": "Slutposition måste vara efter startposition",
     "tutorialNavigateThroughSong": "Navigera genom låten med dra och släpp",
     "tutorialNavigateThroughSongDescription": "Använd dina fingrar för att dra hela låten åt vänster eller höger och zooma för bättre precision",
+    "tutorialVideoPreview": "Titta på videon och justera dess storlek",
+    "tutorialVideoPreviewDescription": "Använd knapparna + och − för att ändra videons storlek. Använd tidslinjen och kontrollerna nedan för att navigera i videon",
     "tutorialPlayAndPauseSong": "Spela, pausa eller ändra låtens hastighet",
     "tutorialPlayAndPauseSongDescription": "Använd dessa knappar för att kontrollera låten och looparna",
     "tutorialJumpToLoop": "Se och hoppa till loopar",
@@ -153,7 +170,17 @@
     "purchaseSuccess": "Köp lyckades. Tack för att du stödjer utvecklaren ❤️!",
     "cancelSubscription": "Avbryt Prenumeration",
     "voteForFeatures": "Funktioner förfråga",
-    "changelogTitle": "Ändringar",
+    "changelogTitle": "Vad är nytt?",
+    "changelog2201Title": "Metronom",
+    "changelog2201Description": "Spela till en inbyggd metronom som håller takten med din låt. Välj taktart och underdelning, tryck in tempot och finjustera klicket med halvslagsförskjutningar och millisekundjusteringar så att det passar perfekt med taktslaget.",
+    "changelog2202Title": "Redigera loopar när pausad",
+    "changelog2202Description": "Du kan nu fritt flytta en loops start- och slutpunkter medan uppspelningen är pausad - spelhuvudet hoppar inte längre tillbaka in i loopen. Loopgränserna börjar gälla igen så snart du trycker på spela, vilket gör det mycket enklare att finjustera dina loopar.",
+    "changelog2101Title": "Tonhöjdsändring (Beta)",
+    "changelog2101Description": "Ändra tonhöjden på dina låtar i halvtoner utan att påverka hastigheten - perfekt för att transponera en låt till en annan tonart eller anpassa den till ditt instruments stämning. Den här funktionen är just nu i Beta; skicka gärna din feedback om du stöter på problem.",
+    "changelog2102Title": "Importera flera filer samtidigt",
+    "changelog2102Description": "Du kan nu välja och importera flera ljudfiler på en gång. En förloppsindikator håller dig uppdaterad medan dina låtar läggs till.",
+    "changelog2103Title": "Buggfixar och stabilitetsförbättringar",
+    "changelog2103Description": "Flera buggar har åtgärdats och appens allmänna stabilitet och prestanda har förbättrats.",
     "changelog201Title": "Loopa videor och ändra hastighet (Beta)",
     "changelog201Description": "Importera videor och loopa dem precis som ljudlåtar - eller ändra hastigheten - perfekt för att öva med tutorials eller liveframträdanden. Den här funktionen är just nu i Beta; skicka gärna din feedback om du stöter på problem.",
     "changelog180Title": "Ändra ordningen på dina låtar",
@@ -194,6 +221,7 @@
     "changelog1013Description": "Du kan nu rösta för nya funktioner eller skicka in egna funktioner i appen. Justera menyn och öppna 'Rösta för funktioner' boarden. Jag uppskattar dina önskningar!",
     "whatsNew": "Vad är nytt?",
     "songAddError": "Fel vid läggning av låt. Detta kan bero på ett problem med filformatet. Försök att konvertera filen till ett understött format som mp3 eller wav.",
+    "importAlreadyRunningError": "En annan import pågår fortfarande. Stora filer från molnlagring kan ta en stund – vänta tills den är klar.",
     "unsupportedAudioFormatError": "Audioformatet \".{format}\" stöds inte. Format som stöds: {supportedFormats}.",
     "@unsupportedAudioFormatError": {
         "placeholders": {
@@ -306,6 +334,34 @@
     "useBpm": "Använd BPM",
     "reset": "Återställ",
     "speedControl": "Tempo",
+    "pitchControl": "Tonhöjd",
+    "metronome": "Metronom",
+    "metronomeVolume": "Volym",
+    "metronomeTimeSignature": "Taktart",
+    "metronomeSubdivision": "Underdelning",
+    "metronomeNudge": "Förskjutning",
+    "metronomeTapBeat": "Tryck i takt",
+    "metronomeShiftHalfBeat": "Förskjut ett halvt slag",
+    "metronomeOffsetMs": "{ms} ms",
+    "metronomeSetBpmFirst": "Ange låtens BPM först för att använda metronomen.",
+    "metronomeGoToBpm": "Ange BPM",
+    "metronomeAdvanced": "Avancerat",
+    "metronomeSyncToSong": "Synka med låten",
+    "metronomeKeepTapping": "Fortsätt trycka… ({count})",
+    "metronomeSyncHint": "Klicket följer låtens tempo men landar kanske inte exakt på taktslaget. Tryck i takt med låten för att synka det.",
+    "metronomeResetSync": "Återställ synkning",
+    "off": "av",
+    "pitchSemitone": "Halvton",
+    "semitones": "Halvtoner",
+    "pitchUnchanged": "tonhöjd oförändrad",
+    "tapTempo": "Knacka tempo",
+    "songBpmValue": "Låtens BPM {bpm}",
+    "retap": "knacka igen",
+    "edit": "Redigera",
+    "setSongTempoHint": "Ställ in låtens tempo för att justera uppspelningen i slag per minut.",
+    "bpmTapHint": "Knacka på plattan i takt med taktslaget",
+    "bpmTapUnit": "BPM · knacka",
+    "useBpmValue": "Använd {bpm}",
     "hereYouCanSetTheOriginalBpmOfTheAudioFile": "Här kan du ställa in den ursprungliga BPM för ljudfilen.",
     "setBpm": "SET",
     "originalBpm": "Ursprunglig BPM",
@@ -320,6 +376,11 @@
     "playbackSettings": "Spelning",
     "actions": "Åtgärder",
     "speedChangeFailed": "Hastighetsändring misslyckades. Vänligen försök igen.",
+    "pitchChangeFailed": "Tonhöjdsändring misslyckades. Vänligen försök igen.",
+    "editSongKey": "Tonart",
+    "originalKey": "URSPRUNGLIG TONART",
+    "currentKey": "NUVARANDE TONART",
+    "hereYouCanSetTheOriginalKeyOfTheAudioFile": "Här kan du ställa in ljudfilens ursprungliga tonart.",
     "copyToClipboard": "Kopiera till urklipp",
     "editSong": "Redigera låt",
     "editSongTitle": "Titel",
@@ -350,13 +411,17 @@
     "backupExportFailed": "Export misslyckades: {message}",
     "@backupExportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportFailed": "Import misslyckades: {message}",
     "@backupImportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportMalformed": "Den här filen är inte en giltig RepeatLab-säkerhetskopia.",
@@ -365,8 +430,12 @@
     "backupImportConfirmMessage": "Den här säkerhetskopian innehåller {songCount} låtar (exporterades {exportedAt}).",
     "@backupImportConfirmMessage": {
         "placeholders": {
-            "songCount": { "type": "int" },
-            "exportedAt": { "type": "String" }
+            "songCount": {
+                "type": "int"
+            },
+            "exportedAt": {
+                "type": "String"
+            }
         }
     },
     "backupImportModeMerge": "Slå samman",
@@ -378,9 +447,15 @@
     "backupImportSuccess": "{imported} låtar importerade. {skipped} hoppades över, {renamed} omdöpta.",
     "@backupImportSuccess": {
         "placeholders": {
-            "imported": { "type": "int" },
-            "skipped": { "type": "int" },
-            "renamed": { "type": "int" }
+            "imported": {
+                "type": "int"
+            },
+            "skipped": {
+                "type": "int"
+            },
+            "renamed": {
+                "type": "int"
+            }
         }
     }
 }

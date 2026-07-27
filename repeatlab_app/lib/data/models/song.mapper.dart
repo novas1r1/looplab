@@ -194,6 +194,19 @@ class SongMapper extends ClassMapperBase<Song> {
     _$currentBpm,
     opt: true,
   );
+  static int _$pitchSemitones(Song v) => v.pitchSemitones;
+  static const Field<Song, int> _f$pitchSemitones = Field(
+    'pitchSemitones',
+    _$pitchSemitones,
+    opt: true,
+    def: 0,
+  );
+  static String? _$musicalKey(Song v) => v.musicalKey;
+  static const Field<Song, String> _f$musicalKey = Field(
+    'musicalKey',
+    _$musicalKey,
+    opt: true,
+  );
   static List<Loop> _$loops(Song v) => v.loops;
   static const Field<Song, List<Loop>> _f$loops = Field(
     'loops',
@@ -229,6 +242,33 @@ class SongMapper extends ClassMapperBase<Song> {
     opt: true,
     def: VideoSizeMode.medium,
   );
+  static int _$metronomeOffsetMs(Song v) => v.metronomeOffsetMs;
+  static const Field<Song, int> _f$metronomeOffsetMs = Field(
+    'metronomeOffsetMs',
+    _$metronomeOffsetMs,
+    opt: true,
+    def: 0,
+  );
+  static int? _$metronomeBeatAnchorMs(Song v) => v.metronomeBeatAnchorMs;
+  static const Field<Song, int> _f$metronomeBeatAnchorMs = Field(
+    'metronomeBeatAnchorMs',
+    _$metronomeBeatAnchorMs,
+    opt: true,
+  );
+  static int _$metronomeBeatsPerBar(Song v) => v.metronomeBeatsPerBar;
+  static const Field<Song, int> _f$metronomeBeatsPerBar = Field(
+    'metronomeBeatsPerBar',
+    _$metronomeBeatsPerBar,
+    opt: true,
+    def: 4,
+  );
+  static int _$metronomeBeatUnit(Song v) => v.metronomeBeatUnit;
+  static const Field<Song, int> _f$metronomeBeatUnit = Field(
+    'metronomeBeatUnit',
+    _$metronomeBeatUnit,
+    opt: true,
+    def: 4,
+  );
 
   @override
   final MappableFields<Song> fields = const {
@@ -239,11 +279,17 @@ class SongMapper extends ClassMapperBase<Song> {
     #duration: _f$duration,
     #bpm: _f$bpm,
     #currentBpm: _f$currentBpm,
+    #pitchSemitones: _f$pitchSemitones,
+    #musicalKey: _f$musicalKey,
     #loops: _f$loops,
     #loopSort: _f$loopSort,
     #sortOrder: _f$sortOrder,
     #mediaType: _f$mediaType,
     #videoSizeMode: _f$videoSizeMode,
+    #metronomeOffsetMs: _f$metronomeOffsetMs,
+    #metronomeBeatAnchorMs: _f$metronomeBeatAnchorMs,
+    #metronomeBeatsPerBar: _f$metronomeBeatsPerBar,
+    #metronomeBeatUnit: _f$metronomeBeatUnit,
   };
 
   static Song _instantiate(DecodingData data) {
@@ -255,11 +301,17 @@ class SongMapper extends ClassMapperBase<Song> {
       duration: data.dec(_f$duration),
       bpm: data.dec(_f$bpm),
       currentBpm: data.dec(_f$currentBpm),
+      pitchSemitones: data.dec(_f$pitchSemitones),
+      musicalKey: data.dec(_f$musicalKey),
       loops: data.dec(_f$loops),
       loopSort: data.dec(_f$loopSort),
       sortOrder: data.dec(_f$sortOrder),
       mediaType: data.dec(_f$mediaType),
       videoSizeMode: data.dec(_f$videoSizeMode),
+      metronomeOffsetMs: data.dec(_f$metronomeOffsetMs),
+      metronomeBeatAnchorMs: data.dec(_f$metronomeBeatAnchorMs),
+      metronomeBeatsPerBar: data.dec(_f$metronomeBeatsPerBar),
+      metronomeBeatUnit: data.dec(_f$metronomeBeatUnit),
     );
   }
 
@@ -318,11 +370,17 @@ abstract class SongCopyWith<$R, $In extends Song, $Out>
     Duration? duration,
     int? bpm,
     int? currentBpm,
+    int? pitchSemitones,
+    String? musicalKey,
     List<Loop>? loops,
     LoopSort? loopSort,
     int? sortOrder,
     MediaType? mediaType,
     VideoSizeMode? videoSizeMode,
+    int? metronomeOffsetMs,
+    int? metronomeBeatAnchorMs,
+    int? metronomeBeatsPerBar,
+    int? metronomeBeatUnit,
   });
   SongCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
@@ -349,11 +407,17 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
     Duration? duration,
     Object? bpm = $none,
     Object? currentBpm = $none,
+    int? pitchSemitones,
+    Object? musicalKey = $none,
     List<Loop>? loops,
     LoopSort? loopSort,
     int? sortOrder,
     MediaType? mediaType,
     VideoSizeMode? videoSizeMode,
+    int? metronomeOffsetMs,
+    Object? metronomeBeatAnchorMs = $none,
+    int? metronomeBeatsPerBar,
+    int? metronomeBeatUnit,
   }) => $apply(
     FieldCopyWithData({
       if (id != null) #id: id,
@@ -363,11 +427,19 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
       if (duration != null) #duration: duration,
       if (bpm != $none) #bpm: bpm,
       if (currentBpm != $none) #currentBpm: currentBpm,
+      if (pitchSemitones != null) #pitchSemitones: pitchSemitones,
+      if (musicalKey != $none) #musicalKey: musicalKey,
       if (loops != null) #loops: loops,
       if (loopSort != null) #loopSort: loopSort,
       if (sortOrder != null) #sortOrder: sortOrder,
       if (mediaType != null) #mediaType: mediaType,
       if (videoSizeMode != null) #videoSizeMode: videoSizeMode,
+      if (metronomeOffsetMs != null) #metronomeOffsetMs: metronomeOffsetMs,
+      if (metronomeBeatAnchorMs != $none)
+        #metronomeBeatAnchorMs: metronomeBeatAnchorMs,
+      if (metronomeBeatsPerBar != null)
+        #metronomeBeatsPerBar: metronomeBeatsPerBar,
+      if (metronomeBeatUnit != null) #metronomeBeatUnit: metronomeBeatUnit,
     }),
   );
   @override
@@ -379,11 +451,29 @@ class _SongCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Song, $Out>
     duration: data.get(#duration, or: $value.duration),
     bpm: data.get(#bpm, or: $value.bpm),
     currentBpm: data.get(#currentBpm, or: $value.currentBpm),
+    pitchSemitones: data.get(#pitchSemitones, or: $value.pitchSemitones),
+    musicalKey: data.get(#musicalKey, or: $value.musicalKey),
     loops: data.get(#loops, or: $value.loops),
     loopSort: data.get(#loopSort, or: $value.loopSort),
     sortOrder: data.get(#sortOrder, or: $value.sortOrder),
     mediaType: data.get(#mediaType, or: $value.mediaType),
     videoSizeMode: data.get(#videoSizeMode, or: $value.videoSizeMode),
+    metronomeOffsetMs: data.get(
+      #metronomeOffsetMs,
+      or: $value.metronomeOffsetMs,
+    ),
+    metronomeBeatAnchorMs: data.get(
+      #metronomeBeatAnchorMs,
+      or: $value.metronomeBeatAnchorMs,
+    ),
+    metronomeBeatsPerBar: data.get(
+      #metronomeBeatsPerBar,
+      or: $value.metronomeBeatsPerBar,
+    ),
+    metronomeBeatUnit: data.get(
+      #metronomeBeatUnit,
+      or: $value.metronomeBeatUnit,
+    ),
   );
 
   @override

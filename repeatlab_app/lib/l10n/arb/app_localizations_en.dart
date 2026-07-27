@@ -120,25 +120,71 @@ class AppLocalizationsEn extends AppLocalizations {
       '§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nE-Mail: support@repeatlab.de\n\nRechtsform: Freelancer';
 
   @override
-  String get onboardingTitle1 => 'Welcome to RepeatLab';
+  String get onboardingEyebrow1 => 'Welcome to RepeatLab';
+
+  @override
+  String get onboardingTitle1 => 'Practice Like a Pro';
 
   @override
   String get onboardingDescription1 =>
-      'Master any song by practicing difficult sections with repeating them or slowing them down.';
+      'Your personal loop station for mastering any song — audio or video, 100% offline.';
 
   @override
-  String get onboardingTitle2 => 'Create Precise Loops';
+  String get onboardingEyebrow2 => 'Loop';
+
+  @override
+  String get onboardingTitle2 => 'Loop the tricky parts';
 
   @override
   String get onboardingDescription2 =>
-      'Simply tap to mark the start and end of a section you want to practice. Adjust and fine-tune with our intuitive waveform display.';
+      'Set precise start and end points on the waveform, then play that section till you nail it.';
 
   @override
-  String get onboardingTitle3 => 'Privacy First';
+  String get onboardingEyebrow3 => 'Speed & Tempo';
+
+  @override
+  String get onboardingTitle3 => 'Slow it down, keep the pitch';
 
   @override
   String get onboardingDescription3 =>
-      'We value your privacy and handle your data with care. Please review our privacy policy and accept to continue.';
+      'Drop from 0.5× to 2.0×, or dial an exact BPM. The pitch stays true so it never sounds off.';
+
+  @override
+  String get onboardingEyebrow4 => 'Pitch';
+
+  @override
+  String get onboardingTitle4 => 'Play it in your key';
+
+  @override
+  String get onboardingDescription4 =>
+      'Transpose ±12 semitones or map key to key — match your voice, your tuning, your capo.';
+
+  @override
+  String get onboardingConsentTitle => 'Your data, your call';
+
+  @override
+  String get onboardingConsentBody =>
+      'RepeatLab works offline and keeps your files on your device. One quick bit of housekeeping before you start.';
+
+  @override
+  String get onboardingAnalyticsTitle => 'Anonymous analytics';
+
+  @override
+  String get onboardingAnalyticsBody =>
+      'Share anonymous usage data (EU-hosted) to help improve RepeatLab.';
+
+  @override
+  String get onboardingDataProtectionTitle => 'Data protection';
+
+  @override
+  String get onboardingConsentFootnote =>
+      'You can change analytics anytime in Settings.';
+
+  @override
+  String get onboardingSkip => 'Skip';
+
+  @override
+  String get onboardingContinue => 'Continue';
 
   @override
   String get onboardingIAccept => 'I accept the ';
@@ -236,6 +282,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get premiumFeatureChangeMusicSpeed =>
       'Audio Speed Control (BPM/Multiplier)';
+
+  @override
+  String get premiumFeaturePitchControl => 'Pitch Control (Semitones)';
 
   @override
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';
@@ -344,6 +393,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Use your fingers to drag and drop the whole song to the left or right and zoom in/out for better precision';
 
   @override
+  String get tutorialVideoPreview => 'Watch the video and adjust its size';
+
+  @override
+  String get tutorialVideoPreviewDescription =>
+      'Use the + and − buttons to resize the video. To navigate through the video, use the timeline and controls below';
+
+  @override
   String get tutorialPlayAndPauseSong =>
       'Play, pause or change the speed of the song';
 
@@ -416,7 +472,42 @@ class AppLocalizationsEn extends AppLocalizations {
   String get voteForFeatures => 'Vote for Features';
 
   @override
-  String get changelogTitle => 'Changelog';
+  String get changelogTitle => 'What\'s New';
+
+  @override
+  String get changelog2201Title => 'Metronome';
+
+  @override
+  String get changelog2201Description =>
+      'Play along to a built-in metronome that keeps time with your song. Choose the time signature and subdivision, tap in the tempo, and fine-tune the click with half-beat shifts and millisecond nudges so it lines up perfectly with the beat.';
+
+  @override
+  String get changelog2202Title => 'Adjust loops while paused';
+
+  @override
+  String get changelog2202Description =>
+      'You can now freely move a loop\'s start and end points while playback is paused - the playhead no longer snaps back into the loop. Loop boundaries take effect again the moment you press play, making it much easier to fine-tune your loops.';
+
+  @override
+  String get changelog2101Title => 'Pitch shift (Beta)';
+
+  @override
+  String get changelog2101Description =>
+      'Change the pitch of your songs in semitones without affecting the speed - perfect for transposing a song to a different key or matching your instrument\'s tuning. This feature is currently in Beta; please send me your feedback if you run into any issues.';
+
+  @override
+  String get changelog2102Title => 'Import multiple files at once';
+
+  @override
+  String get changelog2102Description =>
+      'You can now select and import multiple audio files in one go. A progress indicator keeps you updated while your songs are being added.';
+
+  @override
+  String get changelog2103Title => 'Bug fixes and stability improvements';
+
+  @override
+  String get changelog2103Description =>
+      'Several bugs were fixed and the overall stability and performance of the app improved.';
 
   @override
   String get changelog201Title => 'Loop and speed-change videos (Beta)';
@@ -560,6 +651,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get songAddError =>
       'Failed to add song. This could be due to a problem with the file format. Please try to convert the file to a supported format like mp3 or wav.';
+
+  @override
+  String get importAlreadyRunningError =>
+      'Another import is still running. Large files from cloud storage can take a while — please wait for it to finish.';
 
   @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
@@ -885,6 +980,101 @@ class AppLocalizationsEn extends AppLocalizations {
   String get speedControl => 'Speed';
 
   @override
+  String get pitchControl => 'Pitch';
+
+  @override
+  String get metronome => 'Metronome';
+
+  @override
+  String get metronomeVolume => 'Volume';
+
+  @override
+  String get metronomeTimeSignature => 'Time signature';
+
+  @override
+  String get metronomeSubdivision => 'Subdivision';
+
+  @override
+  String get metronomeNudge => 'Nudge';
+
+  @override
+  String get metronomeTapBeat => 'Tap on the beat';
+
+  @override
+  String get metronomeShiftHalfBeat => 'Shift by half a beat';
+
+  @override
+  String metronomeOffsetMs(int ms) {
+    return '$ms ms';
+  }
+
+  @override
+  String get metronomeSetBpmFirst =>
+      'Set the song\'s BPM first to use the metronome.';
+
+  @override
+  String get metronomeGoToBpm => 'Set BPM';
+
+  @override
+  String get metronomeAdvanced => 'Advanced';
+
+  @override
+  String get metronomeSyncToSong => 'Sync to song';
+
+  @override
+  String metronomeKeepTapping(int count) {
+    return 'Keep tapping… ($count)';
+  }
+
+  @override
+  String get metronomeSyncHint =>
+      'The click follows the song\'s tempo but may not land exactly on the beat. Tap along with the song to sync it.';
+
+  @override
+  String get metronomeResetSync => 'Reset sync';
+
+  @override
+  String get off => 'off';
+
+  @override
+  String get pitchSemitone => 'Semitone';
+
+  @override
+  String get semitones => 'Semitones';
+
+  @override
+  String get pitchUnchanged => 'pitch unchanged';
+
+  @override
+  String get tapTempo => 'Tap Tempo';
+
+  @override
+  String songBpmValue(int bpm) {
+    return 'Song BPM $bpm';
+  }
+
+  @override
+  String get retap => 'retap';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get setSongTempoHint =>
+      'Set the song\'s tempo to adjust playback by beats per minute.';
+
+  @override
+  String get bpmTapHint => 'Tap the pad in time with the beat';
+
+  @override
+  String get bpmTapUnit => 'BPM · tap';
+
+  @override
+  String useBpmValue(int bpm) {
+    return 'Use $bpm';
+  }
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'Here you can set the original BPM of the audio file.';
 
@@ -918,6 +1108,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get speedChangeFailed => 'Speed change failed. Please try again.';
+
+  @override
+  String get pitchChangeFailed => 'Pitch change failed. Please try again.';
+
+  @override
+  String get editSongKey => 'Key';
+
+  @override
+  String get originalKey => 'ORIGINAL KEY';
+
+  @override
+  String get currentKey => 'CURRENT KEY';
+
+  @override
+  String get hereYouCanSetTheOriginalKeyOfTheAudioFile =>
+      'Here you can set the original key of the audio file.';
 
   @override
   String get copyToClipboard => 'Copy to Clipboard';

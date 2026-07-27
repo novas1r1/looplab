@@ -37,12 +37,26 @@
     "noSongsFound": "곡을 찾을 수 없습니다",
     "tapToAddSong": "+를 탭하여 첫 번째 곡을 추가하세요",
     "legalNoticesDescription": "§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\n이메일: support@repeatlab.de\n\n법적 형태: 프리랜서",
-    "onboardingTitle1": "RepeatLab에 오신 것을 환영합니다",
-    "onboardingDescription1": "어려운 부분을 반복하거나 속도를 늦춰 어떤 곡이든 마스터하세요.",
-    "onboardingTitle2": "정확한 루프 생성",
-    "onboardingDescription2": "연습하고 싶은 부분의 시작과 끝을 탭하여 표시하세요. 직관적인 파형 표시로 조정과 미세 조정이 가능합니다.",
-    "onboardingTitle3": "개인정보 보호 우선",
-    "onboardingDescription3": "귀하의 개인정보를 존중하고 데이터를 신중하게 처리합니다. 개인정보 처리방침을 검토하고 계속하려면 동의해 주세요.",
+    "onboardingTitle1": "프로처럼 연습하세요",
+    "onboardingDescription1": "어떤 곡이든 마스터하기 위한 나만의 루프 스테이션. 오디오든 비디오든, 100% 오프라인으로.",
+    "onboardingTitle2": "어려운 부분을 반복하세요",
+    "onboardingDescription2": "파형에 정확한 시작점과 끝점을 설정하고, 완벽하게 익힐 때까지 그 구간을 반복 재생하세요.",
+    "onboardingTitle3": "음정은 그대로, 속도만 늦추기",
+    "onboardingDescription3": "0.5×부터 2.0×까지 낮추거나 정확한 BPM을 지정하세요. 음정이 그대로 유지되어 어색하게 들리지 않습니다.",
+    "onboardingEyebrow1": "RepeatLab에 오신 것을 환영합니다",
+    "onboardingEyebrow2": "루프",
+    "onboardingEyebrow3": "속도 & 템포",
+    "onboardingEyebrow4": "음정",
+    "onboardingTitle4": "나의 키로 연주하세요",
+    "onboardingDescription4": "±12 반음 이조하거나 키를 키로 매핑하여 당신의 목소리, 튜닝, 카포에 맞추세요.",
+    "onboardingConsentTitle": "당신의 데이터, 당신의 선택",
+    "onboardingConsentBody": "RepeatLab은 오프라인으로 작동하며 파일을 당신의 기기에 보관합니다. 시작하기 전에 간단한 확인 하나만 할게요.",
+    "onboardingAnalyticsTitle": "익명 분석",
+    "onboardingAnalyticsBody": "익명 사용 데이터(EU 호스팅)를 공유하여 RepeatLab 개선에 도움을 주세요.",
+    "onboardingDataProtectionTitle": "데이터 보호",
+    "onboardingConsentFootnote": "분석 설정은 언제든지 설정에서 변경할 수 있습니다.",
+    "onboardingSkip": "건너뛰기",
+    "onboardingContinue": "계속",
     "onboardingIAccept": "동의합니다",
     "onboardingTermsOfServiceLink": "개인정보 처리방침",
     "and": "과",
@@ -73,6 +87,7 @@
     "premiumHeadline": "템포 제어, 확대/축소 및 무제한 루프로 프로처럼 좋아하는 곡을 마스터하세요!",
     "premiumFeatureUnlimitedLoops": "무제한 루프",
     "premiumFeatureChangeMusicSpeed": "속도 제어 (BPM/배율)",
+    "premiumFeaturePitchControl": "음정 제어 (반음)",
     "premiumFeatureZoomInOut": "파형 확대/축소",
     "premiumFeatureSupportDeveloper": "독립 개발자 지원",
     "freeFeatureUnlimitedSongs": "무제한 곡 + 곡당 하나의 루프",
@@ -118,6 +133,8 @@
     "endPositionMustBeAfterStartPosition": "종료 위치는 시작 위치보다 이후여야 합니다",
     "tutorialNavigateThroughSong": "드래그 앤 드롭으로 곡 탐색",
     "tutorialNavigateThroughSongDescription": "손가락으로 곡 전체를 좌우로 드래그하고 확대/축소하여 정확도를 높일 수 있습니다",
+    "tutorialVideoPreview": "동영상을 보고 크기를 조절하세요",
+    "tutorialVideoPreviewDescription": "+ 및 − 버튼으로 동영상 크기를 조절할 수 있습니다. 동영상을 탐색하려면 아래의 타임라인과 컨트롤을 사용하세요",
     "tutorialPlayAndPauseSong": "곡 재생, 일시 정지 또는 속도 변경",
     "tutorialPlayAndPauseSongDescription": "이 버튼을 사용하여 곡과 루프를 제어합니다",
     "tutorialJumpToLoop": "루프 보기 및 이동",
@@ -155,7 +172,17 @@
     "purchasedAlready": "이미 구매함",
     "purchaseSuccess": "구매가 성공적으로 완료되었습니다. 개발자를 지원해 주셔서 감사합니다 ❤️!",
     "voteForFeatures": "기능 투표",
-    "changelogTitle": "변경 사항",
+    "changelogTitle": "새로운 기능",
+    "changelog2201Title": "메트로놈",
+    "changelog2201Description": "곡의 박자에 맞춰 작동하는 내장 메트로놈에 맞춰 연주하세요. 박자표와 분할을 선택하고, 탭으로 템포를 입력하며, 하프비트 이동과 밀리초 단위 조정으로 클릭음을 비트에 완벽하게 맞출 수 있습니다.",
+    "changelog2202Title": "일시정지 중 루프 편집",
+    "changelog2202Description": "이제 재생이 일시정지된 상태에서 루프의 시작점과 끝점을 자유롭게 옮길 수 있습니다. 재생 헤드가 더 이상 루프 안으로 되돌아가지 않습니다. 재생을 누르면 루프 경계가 다시 적용되어 루프를 훨씬 쉽게 미세 조정할 수 있습니다.",
+    "changelog2101Title": "음정 조절 (Beta)",
+    "changelog2101Description": "속도에 영향을 주지 않고 곡의 음정을 반음 단위로 변경하세요 - 곡을 다른 조로 이조하거나 악기의 튜닝에 맞추기에 완벽합니다. 이 기능은 현재 베타 버전입니다. 문제가 생기면 피드백을 보내주세요.",
+    "changelog2102Title": "여러 파일 한 번에 가져오기",
+    "changelog2102Description": "이제 여러 오디오 파일을 한 번에 선택하여 가져올 수 있습니다. 곡이 추가되는 동안 진행률 표시기가 상태를 알려줍니다.",
+    "changelog2103Title": "버그 수정 및 안정성 개선",
+    "changelog2103Description": "여러 버그를 수정하고 앱의 전반적인 안정성과 성능을 개선했습니다.",
     "changelog201Title": "동영상 루프 및 속도 변경 (Beta)",
     "changelog201Description": "동영상을 가져와 오디오 곡처럼 루프하세요 - 또는 속도를 변경하세요 - 튜토리얼이나 라이브 공연을 따라 연습하기에 완벽합니다. 이 기능은 현재 베타 버전입니다. 문제가 생기면 피드백을 보내주세요.",
     "changelog180Title": "노래 순서 재정렬",
@@ -196,6 +223,7 @@
     "changelog1013Description": "이제 앱에서 새 기능에 투표하거나 자신의 기능 제안을 제출할 수 있습니다. 메뉴를 열고 '기능 투표' 보드를 열기만 하면 됩니다. 귀하의 소원을 듣고 싶습니다!",
     "whatsNew": "새로운 기능",
     "songAddError": "곡 추가에 실패했습니다. 파일 형식에 문제가 있을 수 있습니다. mp3나 wav와 같은 지원되는 형식으로 변환해 보세요.",
+    "importAlreadyRunningError": "다른 가져오기가 아직 진행 중입니다. 클라우드 저장소의 큰 파일은 시간이 걸릴 수 있습니다. 완료될 때까지 기다려 주세요.",
     "unsupportedAudioFormatError": "오디오 형식 \".{format}\"은(는) 지원되지 않습니다. 지원되는 형식: {supportedFormats}.",
     "@unsupportedAudioFormatError": {
         "placeholders": {
@@ -309,6 +337,34 @@
     "useBpm": "BPM 사용",
     "reset": "초기화",
     "speedControl": "속도 제어",
+    "pitchControl": "음정",
+    "metronome": "메트로놈",
+    "metronomeVolume": "볼륨",
+    "metronomeTimeSignature": "박자",
+    "metronomeSubdivision": "세분",
+    "metronomeNudge": "미세 조정",
+    "metronomeTapBeat": "박자에 맞춰 탭",
+    "metronomeShiftHalfBeat": "반 박자 이동",
+    "metronomeOffsetMs": "{ms} ms",
+    "metronomeSetBpmFirst": "메트로놈을 사용하려면 먼저 곡의 BPM을 설정하세요.",
+    "metronomeGoToBpm": "BPM 설정",
+    "metronomeAdvanced": "고급",
+    "metronomeSyncToSong": "곡과 동기화",
+    "metronomeKeepTapping": "계속 탭하세요… ({count})",
+    "metronomeSyncHint": "클릭은 곡의 템포를 따르지만 박자와 정확히 맞지 않을 수 있습니다. 곡에 맞춰 탭하여 동기화하세요.",
+    "metronomeResetSync": "동기화 재설정",
+    "off": "꺼짐",
+    "pitchSemitone": "반음",
+    "semitones": "반음",
+    "pitchUnchanged": "피치 변경 없음",
+    "tapTempo": "탭 템포",
+    "songBpmValue": "곡 BPM {bpm}",
+    "retap": "다시 탭",
+    "edit": "편집",
+    "setSongTempoHint": "곡의 템포를 설정하여 분당 박자 수로 재생을 조정하세요.",
+    "bpmTapHint": "박자에 맞춰 패드를 탭하세요",
+    "bpmTapUnit": "BPM · 탭",
+    "useBpmValue": "{bpm} 사용",
     "hereYouCanSetTheOriginalBpmOfTheAudioFile": "오디오 파일의 원래 BPM을 설정할 수 있습니다.",
     "setBpm": "SET",
     "originalBpm": "원래 BPM",
@@ -323,6 +379,11 @@
     "playbackSettings": "재생",
     "actions": "작업",
     "speedChangeFailed": "속도 변경에 실패했습니다. 다시 시도해 주세요.",
+    "pitchChangeFailed": "음정 변경에 실패했습니다. 다시 시도해 주세요.",
+    "editSongKey": "키",
+    "originalKey": "원래 키",
+    "currentKey": "현재 키",
+    "hereYouCanSetTheOriginalKeyOfTheAudioFile": "여기에서 오디오 파일의 원래 키를 설정할 수 있습니다.",
     "copyToClipboard": "클립보드에 복사",
     "editSong": "곡 편집",
     "editSongTitle": "제목",
@@ -353,13 +414,17 @@
     "backupExportFailed": "내보내기 실패: {message}",
     "@backupExportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportFailed": "가져오기 실패: {message}",
     "@backupImportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportMalformed": "이 파일은 유효한 RepeatLab 백업이 아닙니다.",
@@ -368,8 +433,12 @@
     "backupImportConfirmMessage": "이 백업에는 {songCount}곡이 포함되어 있습니다 ({exportedAt}에 내보냄).",
     "@backupImportConfirmMessage": {
         "placeholders": {
-            "songCount": { "type": "int" },
-            "exportedAt": { "type": "String" }
+            "songCount": {
+                "type": "int"
+            },
+            "exportedAt": {
+                "type": "String"
+            }
         }
     },
     "backupImportModeMerge": "병합",
@@ -381,9 +450,15 @@
     "backupImportSuccess": "{imported}곡을 가져왔습니다. {skipped}곡 건너뜀, {renamed}곡 이름 변경됨.",
     "@backupImportSuccess": {
         "placeholders": {
-            "imported": { "type": "int" },
-            "skipped": { "type": "int" },
-            "renamed": { "type": "int" }
+            "imported": {
+                "type": "int"
+            },
+            "skipped": {
+                "type": "int"
+            },
+            "renamed": {
+                "type": "int"
+            }
         }
     }
 }

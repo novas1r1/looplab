@@ -50,11 +50,16 @@ class AllSongsCubit extends Cubit<AllSongsState> {
   }
 
   Future<void> addSong() async {
-    emit(state.copyWith(status: AllSongsStatus.importing));
+    emit(state.copyWith(status: AllSongsStatus.importing, errorMessage: null));
 
     List<File> files;
     try {
       files = await fileRepository.pickAudioFiles();
+    } on PickAlreadyInProgressException {
+      // Expected while a previous pick is still copying a large/cloud file —
+      // tell the user to wait instead of reporting a crash.
+      emit(state.copyWith(status: AllSongsStatus.errorImportInProgress));
+      return;
     } catch (ex, stack) {
       crashReportingRepository.reportError(ex, stack);
       emit(state.copyWith(status: AllSongsStatus.error));
@@ -89,7 +94,7 @@ class AllSongsCubit extends Cubit<AllSongsState> {
           stack,
           properties: {'file': file.path},
         );
-        failureStatus ??= AllSongsStatus.error;
+        failureStatus ??= AllSongsStatus.errorAudioFormat;
         failureMessage ??= ex.format;
       } on AudioFileLoadException catch (ex, stack) {
         // A supported format that still failed to load — report the diagnostic
@@ -127,11 +132,16 @@ class AllSongsCubit extends Cubit<AllSongsState> {
   }
 
   Future<void> addVideo() async {
-    emit(state.copyWith(status: AllSongsStatus.importing));
+    emit(state.copyWith(status: AllSongsStatus.importing, errorMessage: null));
 
     List<File> files;
     try {
       files = await fileRepository.pickVideoFiles();
+    } on PickAlreadyInProgressException {
+      // Expected while a previous pick is still copying a large/cloud file —
+      // tell the user to wait instead of reporting a crash.
+      emit(state.copyWith(status: AllSongsStatus.errorImportInProgress));
+      return;
     } catch (ex, stack) {
       crashReportingRepository.reportError(ex, stack);
       emit(state.copyWith(status: AllSongsStatus.error));
@@ -219,6 +229,7 @@ class AllSongsCubit extends Cubit<AllSongsState> {
         state.copyWith(
           status: AllSongsStatus.loaded,
           songs: songs,
+          errorMessage: null,
           importCurrent: null,
           importTotal: null,
         ),

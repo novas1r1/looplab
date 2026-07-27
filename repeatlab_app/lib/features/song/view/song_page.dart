@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auto_size_text/flutter_auto_size_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/widgets/app_icon.dart';
 // import 'package:just_audio/just_audio.dart';
 import 'package:repeatlab/core/ui/widgets/loading.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
+import 'package:repeatlab/core/utils/musical_key.dart';
 import 'package:repeatlab/core/utils/snackbar_helper.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
@@ -158,6 +160,12 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                 context,
                 context.l10n.speedChangeFailed,
               );
+            } else if (state.status == SongStatus.pitchChangeFailed) {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              SnackbarHelper.showError(
+                context,
+                context.l10n.pitchChangeFailed,
+              );
             } else if (state.status == SongStatus.songDeleted) {
               Navigator.of(context).popUntil((route) => route.isFirst);
             } else if (state.status == SongStatus.loopAdded) {
@@ -228,11 +236,19 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                         AppAnalytics.trackEvent(AppAnalytics.clickHelp);
                         showTutorial();
                       },
-                      icon: const Icon(Icons.help_outline),
+                      icon: const AppIcon(
+                        iconName: 'ic_question',
+                        iconSize: 24,
+                        containerSize: 32,
+                      ),
                     ),
                     // Settings button - opens bottom sheet
                     IconButton(
-                      icon: const Icon(Icons.more_vert),
+                      icon: const AppIcon(
+                        iconName: 'ic_settings',
+                        iconSize: 24,
+                        containerSize: 32,
+                      ),
                       onPressed: () => SongSettingsBottomSheet.show(
                         context,
                         onDeleteSong: () => _onTapDeleteSong(context),
@@ -245,7 +261,7 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                 body: CustomScrollView(
                   slivers: [
                     SliverPadding(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16).copyWith(bottom: 0),
                       sliver: SliverList(
                         delegate: SliverChildListDelegate([
                           if (_isVideo)
@@ -285,11 +301,11 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                               );
                             },
                           ),
-                          const SizedBox(height: 12),
+                          const SizedBox(height: 4),
                           SongController(
                             key: tutorialKeySongController,
                           ),
-                          const Divider(height: 24),
+                          const Divider(height: 16),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -303,7 +319,7 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                                 children: [
                                   AutoSizeText(
                                     context.l10n.loopMode,
-                                    minFontSize: 20,
+                                    minFontSize: 18,
                                     maxFontSize: 24,
                                     style: context.bodySmall,
                                   ),
@@ -315,14 +331,11 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                                         thumbIcon: WidgetStateProperty.resolveWith<Icon?>((
                                           Set<WidgetState> states,
                                         ) {
-                                          if (states.contains(
-                                            WidgetState.disabled,
-                                          )) {
-                                            return const Icon(Icons.close);
-                                          }
-                                          return const Icon(
-                                            Icons.loop_rounded,
-                                          );
+                                          return (states.contains(
+                                                WidgetState.disabled,
+                                              ))
+                                              ? const Icon(Icons.close)
+                                              : const Icon(Icons.loop_rounded);
                                         }),
                                         activeTrackColor: AppColors.primaryContainer,
                                         inactiveTrackColor: AppColors.secondaryContainer,
@@ -354,6 +367,9 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                                     ),
                                     minimumSize: const Size(0, 36),
                                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
                                   ),
                                   child: AutoSizeText(
                                     context.l10n.setLoopStart,
@@ -386,6 +402,9 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                                         ),
                                         minimumSize: const Size(0, 36),
                                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
                                       ),
                                       child: AutoSizeText(
                                         context.l10n.setLoopEnd,
@@ -404,7 +423,7 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                       ),
                     ),
                     SliverPadding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 174),
                       sliver: SliverList(
                         delegate: SliverChildBuilderDelegate(
                           (context, index) {
@@ -424,7 +443,9 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                                             state.hasYearlySubscription ||
                                             state.hasLifetimePurchase,
                                         builder: (context, hasPremium) {
-                                          Widget buildItem(int index) => Padding(
+                                          Widget buildItem(
+                                            int index,
+                                          ) => Padding(
                                             padding: const EdgeInsets.symmetric(
                                               vertical: 4,
                                             ),
@@ -499,7 +520,10 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
 
                                               final List<Loop> newLoops = List<Loop>.from(loops);
                                               final Loop item = newLoops.removeAt(oldIndex);
-                                              newLoops.insert(targetIndex, item);
+                                              newLoops.insert(
+                                                targetIndex,
+                                                item,
+                                              );
 
                                               for (var i = 0; i < newLoops.length; i++) {
                                                 newLoops[i] = newLoops[i].copyWith(orderNumber: i);
@@ -510,6 +534,7 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                                             scrollController: _loopListController,
                                             padding: const EdgeInsets.only(
                                               bottom: 174,
+                                              top: 8,
                                             ),
                                             itemBuilder: (context, index) => buildItem(index),
                                             itemCount: loops.length,
@@ -601,7 +626,7 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
     final songCubit = context.read<SongCubit>();
     final currentSong = songCubit.state.song;
 
-    final result = await showDialog<({String title, String artist, int? bpm})>(
+    final result = await showDialog<({String title, String artist, int? bpm, String? musicalKey})>(
       context: context,
       builder: (dialogContext) {
         final titleController = TextEditingController(text: currentSong.title);
@@ -611,6 +636,11 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
         final bpmController = TextEditingController(
           text: currentSong.bpm?.toString() ?? '',
         );
+        // Empty string = no key. Stored keys may use flat spellings (e.g.
+        // "Bbm" from ID3 tags), so canonicalize to match the dropdown values.
+        var selectedKey = currentSong.musicalKey == null
+            ? ''
+            : MusicalKey.canonicalize(currentSong.musicalKey!) ?? '';
 
         return StatefulBuilder(
           builder: (dialogContext, setState) {
@@ -660,18 +690,33 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                       ),
                       keyboardType: TextInputType.number,
                     ),
+                    const SizedBox(height: 16),
+                    DropdownButtonFormField<String>(
+                      key: const Key('song.edit.key'),
+                      initialValue: selectedKey,
+                      decoration: InputDecoration(
+                        labelText: dialogContext.l10n.editSongKey,
+                      ),
+                      items: [
+                        const DropdownMenuItem(value: '', child: Text('–')),
+                        ...MusicalKey.allKeys.map(
+                          (key) => DropdownMenuItem(
+                            value: key,
+                            child: Text(MusicalKey.displayLabel(key)),
+                          ),
+                        ),
+                      ],
+                      onChanged: (value) => setState(() => selectedKey = value ?? ''),
+                    ),
                   ],
                 ),
               ),
               actions: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryContainer,
-                    foregroundColor: AppColors.onPrimaryContainer,
-                  ),
+                TextButton(
                   onPressed: () => Navigator.of(dialogContext).pop(),
                   child: Text(dialogContext.l10n.cancel),
                 ),
+
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
@@ -686,6 +731,7 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                             title: titleController.text.trim(),
                             artist: artistController.text.trim(),
                             bpm: bpm,
+                            musicalKey: selectedKey.isEmpty ? null : selectedKey,
                           ));
                         },
                   child: Text(dialogContext.l10n.save),
@@ -702,6 +748,7 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
         title: result.title,
         artist: result.artist,
         bpm: result.bpm,
+        musicalKey: result.musicalKey,
       );
     }
   }
@@ -814,8 +861,12 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
         contents: [
           TargetContent(
             builder: (context, controller) => TutorialItem(
-              title: context.l10n.tutorialNavigateThroughSong,
-              content: context.l10n.tutorialNavigateThroughSongDescription,
+              title: _isVideo
+                  ? context.l10n.tutorialVideoPreview
+                  : context.l10n.tutorialNavigateThroughSong,
+              content: _isVideo
+                  ? context.l10n.tutorialVideoPreviewDescription
+                  : context.l10n.tutorialNavigateThroughSongDescription,
               onNext: () => controller.next(),
             ),
           ),
@@ -829,6 +880,7 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
         radius: 8,
         contents: [
           TargetContent(
+            align: ContentAlign.top,
             builder: (context, controller) => Center(
               child: TutorialItem(
                 title: context.l10n.tutorialPlayAndPauseSong,

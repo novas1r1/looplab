@@ -95,7 +95,8 @@ class MockData {
     id: 'song-super-long',
     title:
         'Several Species of Small Furry Animals Gathered Together in a Cave and Grooving with a Pict',
-    artist: 'The Artist Formerly Known As Prince And The New Power Generation Band',
+    artist:
+        'The Artist Formerly Known As Prince And The New Power Generation Band',
     fileName: 'several_species.mp3',
     duration: Duration(minutes: 12, seconds: 5),
     bpm: 88,

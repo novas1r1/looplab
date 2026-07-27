@@ -120,25 +120,71 @@ class AppLocalizationsDe extends AppLocalizations {
       '§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nE-Mail: support@repeatlab.de\n\nRechtsform: Freiberufler';
 
   @override
-  String get onboardingTitle1 => 'Willkommen bei RepeatLab';
+  String get onboardingEyebrow1 => 'Willkommen bei RepeatLab';
+
+  @override
+  String get onboardingTitle1 => 'Üben wie ein Profi';
 
   @override
   String get onboardingDescription1 =>
-      'Meistere jeden Song, indem du schwierige Passagen übst, sie wiederholst oder verlangsamst.';
+      'Deine persönliche Loop-Station, um jeden Song zu meistern — Audio oder Video, 100% offline.';
 
   @override
-  String get onboardingTitle2 => 'Erstelle präzise Loops';
+  String get onboardingEyebrow2 => 'Loop';
+
+  @override
+  String get onboardingTitle2 => 'Schwierige Stellen loopen';
 
   @override
   String get onboardingDescription2 =>
-      'Tippe einfach, um Start und Ende eines Abschnitts zu markieren, den du üben möchtest. Passe die Auswahl mit unserer intuitiven Wellenform-Anzeige an.';
+      'Setze präzise Start- und Endpunkte auf der Wellenform und spiele den Abschnitt so lange, bis du ihn draufhast.';
 
   @override
-  String get onboardingTitle3 => 'Datenschutz';
+  String get onboardingEyebrow3 => 'Geschwindigkeit & Tempo';
+
+  @override
+  String get onboardingTitle3 => 'Langsamer, gleiche Tonhöhe';
 
   @override
   String get onboardingDescription3 =>
-      'Wir schätzen deine Privatsphäre und gehen sorgfältig mit deinen Daten um. Bitte lies unsere Datenschutzerklärung und akzeptiere sie, um fortzufahren.';
+      'Regle von 0.5× bis 2.0× oder stelle eine exakte BPM ein. Die Tonhöhe bleibt erhalten, damit nichts schräg klingt.';
+
+  @override
+  String get onboardingEyebrow4 => 'Tonhöhe';
+
+  @override
+  String get onboardingTitle4 => 'Spiel es in deiner Tonart';
+
+  @override
+  String get onboardingDescription4 =>
+      'Transponiere ±12 Halbtöne oder ordne Tonart zu Tonart zu — passend zu deiner Stimme, deiner Stimmung, deinem Kapodaster.';
+
+  @override
+  String get onboardingConsentTitle => 'Deine Daten, deine Entscheidung';
+
+  @override
+  String get onboardingConsentBody =>
+      'RepeatLab funktioniert offline und behält deine Dateien auf deinem Gerät. Nur noch eine Kleinigkeit, bevor du loslegst.';
+
+  @override
+  String get onboardingAnalyticsTitle => 'Anonyme Analysen';
+
+  @override
+  String get onboardingAnalyticsBody =>
+      'Teile anonyme Nutzungsdaten (in der EU gehostet), um RepeatLab zu verbessern.';
+
+  @override
+  String get onboardingDataProtectionTitle => 'Datenschutz';
+
+  @override
+  String get onboardingConsentFootnote =>
+      'Du kannst die Analysen jederzeit in den Einstellungen ändern.';
+
+  @override
+  String get onboardingSkip => 'Überspringen';
+
+  @override
+  String get onboardingContinue => 'Weiter';
 
   @override
   String get onboardingIAccept => 'Ich akzeptiere die ';
@@ -235,6 +281,9 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get premiumFeatureChangeMusicSpeed =>
       'Audio-Tempo-Kontrolle (BPM/Multiplier)';
+
+  @override
+  String get premiumFeaturePitchControl => 'Tonhöhen-Kontrolle (Halbtöne)';
 
   @override
   String get premiumFeatureZoomInOut => 'Waveform-Zoom In/Out';
@@ -343,6 +392,14 @@ class AppLocalizationsDe extends AppLocalizations {
       'Verwende deine Finger, um den gesamten Song nach links oder rechts zu ziehen und zu zoomen, um eine bessere Präzision zu erhalten';
 
   @override
+  String get tutorialVideoPreview =>
+      'Sieh dir das Video an und passe die Größe an';
+
+  @override
+  String get tutorialVideoPreviewDescription =>
+      'Verwende die Buttons + und −, um die Videogröße zu ändern. Zum Navigieren durch das Video nutze die Timeline und die Steuerelemente darunter';
+
+  @override
   String get tutorialPlayAndPauseSong =>
       'Starte, pausiere oder ändere die Geschwindigkeit des Songs';
 
@@ -417,7 +474,43 @@ class AppLocalizationsDe extends AppLocalizations {
   String get voteForFeatures => 'Feature Voting';
 
   @override
-  String get changelogTitle => 'Changelog';
+  String get changelogTitle => 'Was ist neu?';
+
+  @override
+  String get changelog2201Title => 'Metronom';
+
+  @override
+  String get changelog2201Description =>
+      'Spiele zu einem eingebauten Metronom, das im Takt deines Songs bleibt. Wähle Taktart und Unterteilung, tippe das Tempo ein und feinjustiere den Klick mit Halbschlag-Verschiebungen und Millisekunden-Anpassungen, damit er perfekt auf den Beat passt.';
+
+  @override
+  String get changelog2202Title => 'Loops im pausierten Zustand anpassen';
+
+  @override
+  String get changelog2202Description =>
+      'Du kannst jetzt Start- und Endpunkt eines Loops frei verschieben, während die Wiedergabe pausiert ist - der Abspielkopf springt nicht mehr in den Loop zurück. Die Loop-Grenzen greifen wieder, sobald du auf Play drückst, sodass du deine Loops viel einfacher feinjustieren kannst.';
+
+  @override
+  String get changelog2101Title => 'Tonhöhe ändern (Beta)';
+
+  @override
+  String get changelog2101Description =>
+      'Ändere die Tonhöhe deiner Songs in Halbtönen, ohne die Geschwindigkeit zu beeinflussen - perfekt, um einen Song in eine andere Tonart zu transponieren oder an die Stimmung deines Instruments anzupassen. Diese Funktion ist aktuell in der Beta; bitte schicke mir dein Feedback, wenn du auf Probleme stößt.';
+
+  @override
+  String get changelog2102Title => 'Mehrere Dateien gleichzeitig importieren';
+
+  @override
+  String get changelog2102Description =>
+      'Du kannst jetzt mehrere Audiodateien auf einmal auswählen und importieren. Eine Fortschrittsanzeige hält dich auf dem Laufenden, während deine Songs hinzugefügt werden.';
+
+  @override
+  String get changelog2103Title =>
+      'Fehlerbehebungen und Stabilitätsverbesserungen';
+
+  @override
+  String get changelog2103Description =>
+      'Mehrere Fehler wurden behoben und die allgemeine Stabilität und Performance der App verbessert.';
 
   @override
   String get changelog201Title =>
@@ -564,6 +657,10 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get songAddError =>
       'Fehler beim Hinzufügen des Songs. Dies könnte daran liegen, dass das Dateiformat nicht unterstützt wird. Bitte versuche, die Datei in ein unterstütztes Format wie mp3 oder wav umzuwandeln.';
+
+  @override
+  String get importAlreadyRunningError =>
+      'Ein anderer Import läuft noch. Große Dateien aus dem Cloud-Speicher können eine Weile dauern – bitte warte, bis er abgeschlossen ist.';
 
   @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
@@ -890,6 +987,101 @@ class AppLocalizationsDe extends AppLocalizations {
   String get speedControl => 'Tempo';
 
   @override
+  String get pitchControl => 'Tonhöhe';
+
+  @override
+  String get metronome => 'Metronom';
+
+  @override
+  String get metronomeVolume => 'Lautstärke';
+
+  @override
+  String get metronomeTimeSignature => 'Taktart';
+
+  @override
+  String get metronomeSubdivision => 'Unterteilung';
+
+  @override
+  String get metronomeNudge => 'Versatz';
+
+  @override
+  String get metronomeTapBeat => 'Zum Beat tippen';
+
+  @override
+  String get metronomeShiftHalfBeat => 'Um einen halben Beat verschieben';
+
+  @override
+  String metronomeOffsetMs(int ms) {
+    return '$ms ms';
+  }
+
+  @override
+  String get metronomeSetBpmFirst =>
+      'Lege zuerst die BPM des Songs fest, um das Metronom zu nutzen.';
+
+  @override
+  String get metronomeGoToBpm => 'BPM festlegen';
+
+  @override
+  String get metronomeAdvanced => 'Erweitert';
+
+  @override
+  String get metronomeSyncToSong => 'Mit Song synchronisieren';
+
+  @override
+  String metronomeKeepTapping(int count) {
+    return 'Weiter tippen… ($count)';
+  }
+
+  @override
+  String get metronomeSyncHint =>
+      'Der Klick folgt dem Tempo des Songs, liegt aber evtl. nicht genau auf dem Beat. Tippe im Takt mit, um ihn zu synchronisieren.';
+
+  @override
+  String get metronomeResetSync => 'Synchronisierung zurücksetzen';
+
+  @override
+  String get off => 'aus';
+
+  @override
+  String get pitchSemitone => 'Halbton';
+
+  @override
+  String get semitones => 'Halbtöne';
+
+  @override
+  String get pitchUnchanged => 'Tonhöhe unverändert';
+
+  @override
+  String get tapTempo => 'Tempo tippen';
+
+  @override
+  String songBpmValue(int bpm) {
+    return 'Song-BPM $bpm';
+  }
+
+  @override
+  String get retap => 'neu tippen';
+
+  @override
+  String get edit => 'Bearbeiten';
+
+  @override
+  String get setSongTempoHint =>
+      'Lege das Tempo des Songs fest, um die Wiedergabe in Schlägen pro Minute anzupassen.';
+
+  @override
+  String get bpmTapHint => 'Tippe im Takt auf das Feld';
+
+  @override
+  String get bpmTapUnit => 'BPM · tippen';
+
+  @override
+  String useBpmValue(int bpm) {
+    return '$bpm übernehmen';
+  }
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'Hier kannst du die Original-BPM der Audio-Datei setzen.';
 
@@ -924,6 +1116,23 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get speedChangeFailed =>
       'Geschwindigkeitsänderung fehlgeschlagen. Bitte versuche es erneut.';
+
+  @override
+  String get pitchChangeFailed =>
+      'Tonhöhenänderung fehlgeschlagen. Bitte versuche es erneut.';
+
+  @override
+  String get editSongKey => 'Tonart';
+
+  @override
+  String get originalKey => 'ORIGINAL-TONART';
+
+  @override
+  String get currentKey => 'AKTUELLE TONART';
+
+  @override
+  String get hereYouCanSetTheOriginalKeyOfTheAudioFile =>
+      'Hier kannst du die Original-Tonart der Audio-Datei setzen.';
 
   @override
   String get copyToClipboard => 'In Zwischenablage kopieren';

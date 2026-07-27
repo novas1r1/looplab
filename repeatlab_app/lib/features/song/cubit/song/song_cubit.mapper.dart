@@ -54,6 +54,107 @@ extension TempoModeMapperExtension on TempoMode {
   }
 }
 
+class PitchModeMapper extends EnumMapper<PitchMode> {
+  PitchModeMapper._();
+
+  static PitchModeMapper? _instance;
+  static PitchModeMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = PitchModeMapper._());
+    }
+    return _instance!;
+  }
+
+  static PitchMode fromValue(dynamic value) {
+    ensureInitialized();
+    return MapperContainer.globals.fromValue(value);
+  }
+
+  @override
+  PitchMode decode(dynamic value) {
+    switch (value) {
+      case r'semitones':
+        return PitchMode.semitones;
+      case r'key':
+        return PitchMode.key;
+      default:
+        throw MapperException.unknownEnumValue(value);
+    }
+  }
+
+  @override
+  dynamic encode(PitchMode self) {
+    switch (self) {
+      case PitchMode.semitones:
+        return r'semitones';
+      case PitchMode.key:
+        return r'key';
+    }
+  }
+}
+
+extension PitchModeMapperExtension on PitchMode {
+  String toValue() {
+    PitchModeMapper.ensureInitialized();
+    return MapperContainer.globals.toValue<PitchMode>(this) as String;
+  }
+}
+
+class MetronomeSubdivisionMapper extends EnumMapper<MetronomeSubdivision> {
+  MetronomeSubdivisionMapper._();
+
+  static MetronomeSubdivisionMapper? _instance;
+  static MetronomeSubdivisionMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = MetronomeSubdivisionMapper._());
+    }
+    return _instance!;
+  }
+
+  static MetronomeSubdivision fromValue(dynamic value) {
+    ensureInitialized();
+    return MapperContainer.globals.fromValue(value);
+  }
+
+  @override
+  MetronomeSubdivision decode(dynamic value) {
+    switch (value) {
+      case r'none':
+        return MetronomeSubdivision.none;
+      case r'eighths':
+        return MetronomeSubdivision.eighths;
+      case r'triplets':
+        return MetronomeSubdivision.triplets;
+      case r'sixteenths':
+        return MetronomeSubdivision.sixteenths;
+      default:
+        throw MapperException.unknownEnumValue(value);
+    }
+  }
+
+  @override
+  dynamic encode(MetronomeSubdivision self) {
+    switch (self) {
+      case MetronomeSubdivision.none:
+        return r'none';
+      case MetronomeSubdivision.eighths:
+        return r'eighths';
+      case MetronomeSubdivision.triplets:
+        return r'triplets';
+      case MetronomeSubdivision.sixteenths:
+        return r'sixteenths';
+    }
+  }
+}
+
+extension MetronomeSubdivisionMapperExtension on MetronomeSubdivision {
+  String toValue() {
+    MetronomeSubdivisionMapper.ensureInitialized();
+    return MapperContainer.globals.toValue<MetronomeSubdivision>(this)
+        as String;
+  }
+}
+
 class SongStatusMapper extends EnumMapper<SongStatus> {
   SongStatusMapper._();
 
@@ -95,6 +196,8 @@ class SongStatusMapper extends EnumMapper<SongStatus> {
         return SongStatus.songDeleted;
       case r'speedChangeFailed':
         return SongStatus.speedChangeFailed;
+      case r'pitchChangeFailed':
+        return SongStatus.pitchChangeFailed;
       default:
         throw MapperException.unknownEnumValue(value);
     }
@@ -125,6 +228,8 @@ class SongStatusMapper extends EnumMapper<SongStatus> {
         return r'songDeleted';
       case SongStatus.speedChangeFailed:
         return r'speedChangeFailed';
+      case SongStatus.pitchChangeFailed:
+        return r'pitchChangeFailed';
     }
   }
 }
@@ -147,6 +252,8 @@ class SongStateMapper extends ClassMapperBase<SongState> {
       SongMapper.ensureInitialized();
       LoopMapper.ensureInitialized();
       TempoModeMapper.ensureInitialized();
+      PitchModeMapper.ensureInitialized();
+      MetronomeSubdivisionMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -248,6 +355,57 @@ class SongStateMapper extends ClassMapperBase<SongState> {
     _$maxBpm,
     opt: true,
   );
+  static int _$pitchSemitones(SongState v) => v.pitchSemitones;
+  static const Field<SongState, int> _f$pitchSemitones = Field(
+    'pitchSemitones',
+    _$pitchSemitones,
+    opt: true,
+    def: 0,
+  );
+  static PitchMode _$pitchMode(SongState v) => v.pitchMode;
+  static const Field<SongState, PitchMode> _f$pitchMode = Field(
+    'pitchMode',
+    _$pitchMode,
+    opt: true,
+    def: PitchMode.semitones,
+  );
+  static bool _$isMetronomeEnabled(SongState v) => v.isMetronomeEnabled;
+  static const Field<SongState, bool> _f$isMetronomeEnabled = Field(
+    'isMetronomeEnabled',
+    _$isMetronomeEnabled,
+    opt: true,
+    def: false,
+  );
+  static double _$metronomeVolume(SongState v) => v.metronomeVolume;
+  static const Field<SongState, double> _f$metronomeVolume = Field(
+    'metronomeVolume',
+    _$metronomeVolume,
+    opt: true,
+    def: 0.5,
+  );
+  static MetronomeSubdivision _$metronomeSubdivision(SongState v) =>
+      v.metronomeSubdivision;
+  static const Field<SongState, MetronomeSubdivision> _f$metronomeSubdivision =
+      Field(
+        'metronomeSubdivision',
+        _$metronomeSubdivision,
+        opt: true,
+        def: MetronomeSubdivision.none,
+      );
+  static int _$metronomeTapCount(SongState v) => v.metronomeTapCount;
+  static const Field<SongState, int> _f$metronomeTapCount = Field(
+    'metronomeTapCount',
+    _$metronomeTapCount,
+    opt: true,
+    def: 0,
+  );
+  static bool _$isMetronomeGenerating(SongState v) => v.isMetronomeGenerating;
+  static const Field<SongState, bool> _f$isMetronomeGenerating = Field(
+    'isMetronomeGenerating',
+    _$isMetronomeGenerating,
+    opt: true,
+    def: false,
+  );
 
   @override
   final MappableFields<SongState> fields = const {
@@ -266,6 +424,13 @@ class SongStateMapper extends ClassMapperBase<SongState> {
     #currentBpm: _f$currentBpm,
     #minBpm: _f$minBpm,
     #maxBpm: _f$maxBpm,
+    #pitchSemitones: _f$pitchSemitones,
+    #pitchMode: _f$pitchMode,
+    #isMetronomeEnabled: _f$isMetronomeEnabled,
+    #metronomeVolume: _f$metronomeVolume,
+    #metronomeSubdivision: _f$metronomeSubdivision,
+    #metronomeTapCount: _f$metronomeTapCount,
+    #isMetronomeGenerating: _f$isMetronomeGenerating,
   };
 
   static SongState _instantiate(DecodingData data) {
@@ -285,6 +450,13 @@ class SongStateMapper extends ClassMapperBase<SongState> {
       currentBpm: data.dec(_f$currentBpm),
       minBpm: data.dec(_f$minBpm),
       maxBpm: data.dec(_f$maxBpm),
+      pitchSemitones: data.dec(_f$pitchSemitones),
+      pitchMode: data.dec(_f$pitchMode),
+      isMetronomeEnabled: data.dec(_f$isMetronomeEnabled),
+      metronomeVolume: data.dec(_f$metronomeVolume),
+      metronomeSubdivision: data.dec(_f$metronomeSubdivision),
+      metronomeTapCount: data.dec(_f$metronomeTapCount),
+      isMetronomeGenerating: data.dec(_f$isMetronomeGenerating),
     );
   }
 
@@ -365,6 +537,13 @@ abstract class SongStateCopyWith<$R, $In extends SongState, $Out>
     int? currentBpm,
     int? minBpm,
     int? maxBpm,
+    int? pitchSemitones,
+    PitchMode? pitchMode,
+    bool? isMetronomeEnabled,
+    double? metronomeVolume,
+    MetronomeSubdivision? metronomeSubdivision,
+    int? metronomeTapCount,
+    bool? isMetronomeGenerating,
   });
   SongStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
@@ -400,6 +579,13 @@ class _SongStateCopyWithImpl<$R, $Out>
     Object? currentBpm = $none,
     Object? minBpm = $none,
     Object? maxBpm = $none,
+    int? pitchSemitones,
+    PitchMode? pitchMode,
+    bool? isMetronomeEnabled,
+    double? metronomeVolume,
+    MetronomeSubdivision? metronomeSubdivision,
+    int? metronomeTapCount,
+    bool? isMetronomeGenerating,
   }) => $apply(
     FieldCopyWithData({
       if (speed != null) #speed: speed,
@@ -419,6 +605,15 @@ class _SongStateCopyWithImpl<$R, $Out>
       if (currentBpm != $none) #currentBpm: currentBpm,
       if (minBpm != $none) #minBpm: minBpm,
       if (maxBpm != $none) #maxBpm: maxBpm,
+      if (pitchSemitones != null) #pitchSemitones: pitchSemitones,
+      if (pitchMode != null) #pitchMode: pitchMode,
+      if (isMetronomeEnabled != null) #isMetronomeEnabled: isMetronomeEnabled,
+      if (metronomeVolume != null) #metronomeVolume: metronomeVolume,
+      if (metronomeSubdivision != null)
+        #metronomeSubdivision: metronomeSubdivision,
+      if (metronomeTapCount != null) #metronomeTapCount: metronomeTapCount,
+      if (isMetronomeGenerating != null)
+        #isMetronomeGenerating: isMetronomeGenerating,
     }),
   );
   @override
@@ -450,6 +645,25 @@ class _SongStateCopyWithImpl<$R, $Out>
     currentBpm: data.get(#currentBpm, or: $value.currentBpm),
     minBpm: data.get(#minBpm, or: $value.minBpm),
     maxBpm: data.get(#maxBpm, or: $value.maxBpm),
+    pitchSemitones: data.get(#pitchSemitones, or: $value.pitchSemitones),
+    pitchMode: data.get(#pitchMode, or: $value.pitchMode),
+    isMetronomeEnabled: data.get(
+      #isMetronomeEnabled,
+      or: $value.isMetronomeEnabled,
+    ),
+    metronomeVolume: data.get(#metronomeVolume, or: $value.metronomeVolume),
+    metronomeSubdivision: data.get(
+      #metronomeSubdivision,
+      or: $value.metronomeSubdivision,
+    ),
+    metronomeTapCount: data.get(
+      #metronomeTapCount,
+      or: $value.metronomeTapCount,
+    ),
+    isMetronomeGenerating: data.get(
+      #isMetronomeGenerating,
+      or: $value.isMetronomeGenerating,
+    ),
   );
 
   @override

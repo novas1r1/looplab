@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:developer';
+import 'dart:math' show pow;
 
 import 'package:audioplayers/audioplayers.dart' show PlayerState;
 import 'package:flutter/foundation.dart';
@@ -32,6 +33,9 @@ class VideoPlayerHandler implements MediaPlayerHandler {
   static const double _minPlaybackSpeed = 0.5;
   static const double _maxPlaybackSpeed = 2.0;
 
+  static const int _minPitchSemitones = -12;
+  static const int _maxPitchSemitones = 12;
+
   /// Double-tap detection threshold for skip previous, mirroring the audio
   /// handler's behavior.
   static const Duration _doubleTapThreshold = Duration(milliseconds: 400);
@@ -42,6 +46,7 @@ class VideoPlayerHandler implements MediaPlayerHandler {
   bool _fullSongRepeatEnabled = false;
 
   double _playbackSpeed = 1.0;
+  int _pitchSemitones = 0;
   bool _loopSeekInProgress = false;
 
   DateTime? _lastSkipPreviousTime;
@@ -62,12 +67,29 @@ class VideoPlayerHandler implements MediaPlayerHandler {
   @override
   Stream<Duration> get positionStream => player.stream.position;
 
+  /// Position discontinuities (seeks, loop wraps, restarts) — see
+  /// [MediaPlayerHandler.seekEvents]. All internal jumps route through
+  /// [seek]/[forward]/[back], which report here.
+  final _seekEventController = StreamController<Duration>.broadcast();
+  @override
+  Stream<Duration> get seekEvents => _seekEventController.stream;
+
+  void _notifySeek(Duration target) {
+    if (!_seekEventController.isClosed) {
+      _seekEventController.add(target);
+    }
+  }
+
   @override
   Future<Duration> get position async => player.state.position;
 
   /// Current internal playback speed (mirrors the audio handler API).
   @override
   double get currentPlaybackSpeed => _playbackSpeed;
+
+  /// Currently applied pitch shift in semitones (mirrors the audio handler).
+  @override
+  int get currentPitchSemitones => _pitchSemitones;
 
   bool get isFullSongRepeatEnabled => _fullSongRepeatEnabled;
 
@@ -88,8 +110,11 @@ class VideoPlayerHandler implements MediaPlayerHandler {
             // Verbose libmpv logs in debug builds surface file-open / decoder /
             // audio-device failures that would otherwise be silent. Release
             // builds use `error` to keep logs and Sentry breadcrumbs quiet.
+            // pitch: true enables Player.setPitch (libmpv scaletempo);
+            // without it media_kit throws on every setPitch call.
             configuration: const PlayerConfiguration(
               logLevel: kDebugMode ? MPVLogLevel.debug : MPVLogLevel.error,
+              pitch: true,
             ),
           ) {
     log('VideoPlayerHandler constructor');
@@ -102,7 +127,9 @@ class VideoPlayerHandler implements MediaPlayerHandler {
       log('VideoPlayerHandler mpv ERROR: $error');
     });
     _logSubscription = this.player.stream.log.listen((entry) {
-      log('VideoPlayerHandler mpv[${entry.level}] ${entry.prefix}: ${entry.text}');
+      log(
+        'VideoPlayerHandler mpv[${entry.level}] ${entry.prefix}: ${entry.text}',
+      );
     });
 
     _playingSubscription = this.player.stream.playing.listen((playing) {
@@ -142,6 +169,7 @@ class VideoPlayerHandler implements MediaPlayerHandler {
   Future<void> playSong(Song song, {bool autoStart = true}) async {
     final path = await song.path;
     _playbackSpeed = 1.0;
+    _pitchSemitones = 0;
 
     // iOS's bundled libmpv won't reliably open a bare POSIX path like
     // /var/mobile/.../Documents/foo.mp4 (Android's tolerates it). Hand it a
@@ -165,6 +193,14 @@ class VideoPlayerHandler implements MediaPlayerHandler {
       log('VideoPlayerHandler.playSong failed: $e\n$stack');
       _emitPlayerState(PlayerState.stopped);
       rethrow;
+    }
+
+    // Reset pitch separately and non-fatally: opening a video must never
+    // fail because pitch is unsupported on some platform/build.
+    try {
+      await player.setPitch(1);
+    } catch (e) {
+      log('VideoPlayerHandler.playSong: pitch reset failed (ignored): $e');
     }
   }
 
@@ -199,13 +235,41 @@ class VideoPlayerHandler implements MediaPlayerHandler {
       final pos = player.state.position;
       if (pos >= loop.end! || pos < loop.start!) {
         await player.seek(loop.start!);
+        _notifySeek(loop.start!);
       }
     }
     await player.play();
   }
 
   @override
-  Future<void> seek(Duration position) => player.seek(position);
+  Future<void> seek(Duration position) async {
+    await player.seek(position);
+    _notifySeek(position);
+  }
+
+  /// Video songs keep the live metronome (a baked click track would require
+  /// remuxing the video file); the cubit never routes them here.
+  @override
+  Future<void> swapSourceFile(String path) {
+    throw UnsupportedError('swapSourceFile is not supported for video songs');
+  }
+
+  /// Video playback runs on media_kit — there is no click-injection
+  /// pipeline; the cubit never routes video songs here.
+  @override
+  Future<void> setNativeClickTrack({
+    required bool enabled,
+    int? bpm,
+    int? anchorMs,
+    int offsetMs = 0,
+    int beatsPerBar = 4,
+    int pulsesPerBeat = 1,
+    double volume = 1.0,
+  }) {
+    throw UnsupportedError(
+      'setNativeClickTrack is not supported for video songs',
+    );
+  }
 
   @override
   Future<bool> setSpeed(double speed) async {
@@ -216,6 +280,19 @@ class VideoPlayerHandler implements MediaPlayerHandler {
       return true;
     } catch (e) {
       log('VideoPlayerHandler.setSpeed failed: $e');
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> setPitchSemitones(int semitones) async {
+    final target = semitones.clamp(_minPitchSemitones, _maxPitchSemitones);
+    try {
+      await player.setPitch(pow(2.0, target / 12.0).toDouble());
+      _pitchSemitones = target;
+      return true;
+    } catch (e) {
+      log('VideoPlayerHandler.setPitchSemitones failed: $e');
       return false;
     }
   }
@@ -323,6 +400,7 @@ class VideoPlayerHandler implements MediaPlayerHandler {
     }
 
     await player.seek(target);
+    _notifySeek(target);
   }
 
   /// Rewind by [seconds], clamped to zero or active loop start.
@@ -337,6 +415,7 @@ class VideoPlayerHandler implements MediaPlayerHandler {
     }
 
     await player.seek(target);
+    _notifySeek(target);
   }
 
   /// Mirror the audio handler's `customAction` dispatcher so [SongCubit]'s
@@ -359,13 +438,9 @@ class VideoPlayerHandler implements MediaPlayerHandler {
         await disableLoopMode();
         return;
       case 'setPitch':
-        final pitch = extras?['pitch'] as double?;
-        if (pitch != null) {
-          try {
-            await player.setPitch(pitch);
-          } catch (e) {
-            log('VideoPlayerHandler.setPitch failed: $e');
-          }
+        final semitones = extras?['semitones'] as int?;
+        if (semitones != null) {
+          await setPitchSemitones(semitones);
         }
         return;
       case 'setLoops':
@@ -390,6 +465,7 @@ class VideoPlayerHandler implements MediaPlayerHandler {
     await _logSubscription?.cancel();
     await _navigationEventController.close();
     await _playerStateController.close();
+    await _seekEventController.close();
     await player.dispose();
     _loops = [];
     _currentLoopIndex = -1;
@@ -402,6 +478,12 @@ class VideoPlayerHandler implements MediaPlayerHandler {
     final start = loop.start;
     final end = loop.end;
     if (start == null || end == null) return;
+
+    // Only enforce the loop wrap during active playback — see the audio handler
+    // for the rationale. While paused the user must be able to drag the playhead
+    // outside the loop to move its start/end; resume() handles jumping back into
+    // the loop when playback starts.
+    if (!player.state.playing) return;
 
     if (position >= end) {
       if (_loopSeekInProgress) return;
@@ -444,6 +526,11 @@ class VideoPlayerHandler implements MediaPlayerHandler {
     final start = loop.start;
     final end = loop.end;
     if (start == null || end == null) return;
+
+    // Only pull the playhead into the loop while playing — see the audio
+    // handler for the rationale. Paused editing must leave the playhead where
+    // the user put it; resume() jumps into the loop when playback starts.
+    if (!player.state.playing) return;
 
     final pos = player.state.position;
     if (pos >= end || pos < start) {

@@ -120,25 +120,71 @@ class AppLocalizationsSv extends AppLocalizations {
       '§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nE-post: support@repeatlab.de\n\nJuridisk form: Frilansare';
 
   @override
-  String get onboardingTitle1 => 'Välkommen till RepeatLab';
+  String get onboardingEyebrow1 => 'Välkommen till RepeatLab';
+
+  @override
+  String get onboardingTitle1 => 'Öva som ett proffs';
 
   @override
   String get onboardingDescription1 =>
-      'Bemästra vilken låt som helst genom att öva på svåra avsnitt genom att upprepa dem eller sakta ner dem.';
+      'Din personliga loopstation för att bemästra vilken låt som helst — ljud eller video, 100% offline.';
 
   @override
-  String get onboardingTitle2 => 'Skapa Precisa Loopar';
+  String get onboardingEyebrow2 => 'Loop';
+
+  @override
+  String get onboardingTitle2 => 'Loopa de svåra partierna';
 
   @override
   String get onboardingDescription2 =>
-      'Tryck helt enkelt för att markera början och slutet av ett avsnitt du vill öva på. Justera och finjustera med vår intuitiva vågformsvisning.';
+      'Sätt exakta start- och slutpunkter på vågformen och spela sedan det avsnittet tills du sitter det.';
 
   @override
-  String get onboardingTitle3 => 'Integritet Först';
+  String get onboardingEyebrow3 => 'Hastighet & tempo';
+
+  @override
+  String get onboardingTitle3 => 'Sakta ner, behåll tonhöjden';
 
   @override
   String get onboardingDescription3 =>
-      'Vi värdesätter din integritet och hanterar din data med omsorg. Vänligen granska vår integritetspolicy och acceptera för att fortsätta.';
+      'Gå från 0.5× till 2.0×, eller ställ in ett exakt BPM. Tonhöjden bevaras så att det aldrig låter falskt.';
+
+  @override
+  String get onboardingEyebrow4 => 'Tonhöjd';
+
+  @override
+  String get onboardingTitle4 => 'Spela det i din tonart';
+
+  @override
+  String get onboardingDescription4 =>
+      'Transponera ±12 halvtoner eller mappa tonart till tonart — anpassa efter din röst, din stämning, din capo.';
+
+  @override
+  String get onboardingConsentTitle => 'Din data, ditt val';
+
+  @override
+  String get onboardingConsentBody =>
+      'RepeatLab fungerar offline och behåller dina filer på din enhet. En snabb sak att ordna innan du börjar.';
+
+  @override
+  String get onboardingAnalyticsTitle => 'Anonym analys';
+
+  @override
+  String get onboardingAnalyticsBody =>
+      'Dela anonym användningsdata (EU-baserad) för att hjälpa till att förbättra RepeatLab.';
+
+  @override
+  String get onboardingDataProtectionTitle => 'Dataskydd';
+
+  @override
+  String get onboardingConsentFootnote =>
+      'Du kan ändra analys när som helst i Inställningar.';
+
+  @override
+  String get onboardingSkip => 'Hoppa över';
+
+  @override
+  String get onboardingContinue => 'Fortsätt';
 
   @override
   String get onboardingIAccept => 'Jag accepterar ';
@@ -237,6 +283,9 @@ class AppLocalizationsSv extends AppLocalizations {
   @override
   String get premiumFeatureChangeMusicSpeed =>
       'Tempo Kontroll (BPM/Multiplicator)';
+
+  @override
+  String get premiumFeaturePitchControl => 'Tonhöjdskontroll (Halvtoner)';
 
   @override
   String get premiumFeatureZoomInOut => 'Waveform Zoom-In/Out';
@@ -344,6 +393,13 @@ class AppLocalizationsSv extends AppLocalizations {
       'Använd dina fingrar för att dra hela låten åt vänster eller höger och zooma för bättre precision';
 
   @override
+  String get tutorialVideoPreview => 'Titta på videon och justera dess storlek';
+
+  @override
+  String get tutorialVideoPreviewDescription =>
+      'Använd knapparna + och − för att ändra videons storlek. Använd tidslinjen och kontrollerna nedan för att navigera i videon';
+
+  @override
   String get tutorialPlayAndPauseSong =>
       'Spela, pausa eller ändra låtens hastighet';
 
@@ -416,7 +472,42 @@ class AppLocalizationsSv extends AppLocalizations {
   String get voteForFeatures => 'Funktioner förfråga';
 
   @override
-  String get changelogTitle => 'Ändringar';
+  String get changelogTitle => 'Vad är nytt?';
+
+  @override
+  String get changelog2201Title => 'Metronom';
+
+  @override
+  String get changelog2201Description =>
+      'Spela till en inbyggd metronom som håller takten med din låt. Välj taktart och underdelning, tryck in tempot och finjustera klicket med halvslagsförskjutningar och millisekundjusteringar så att det passar perfekt med taktslaget.';
+
+  @override
+  String get changelog2202Title => 'Redigera loopar när pausad';
+
+  @override
+  String get changelog2202Description =>
+      'Du kan nu fritt flytta en loops start- och slutpunkter medan uppspelningen är pausad - spelhuvudet hoppar inte längre tillbaka in i loopen. Loopgränserna börjar gälla igen så snart du trycker på spela, vilket gör det mycket enklare att finjustera dina loopar.';
+
+  @override
+  String get changelog2101Title => 'Tonhöjdsändring (Beta)';
+
+  @override
+  String get changelog2101Description =>
+      'Ändra tonhöjden på dina låtar i halvtoner utan att påverka hastigheten - perfekt för att transponera en låt till en annan tonart eller anpassa den till ditt instruments stämning. Den här funktionen är just nu i Beta; skicka gärna din feedback om du stöter på problem.';
+
+  @override
+  String get changelog2102Title => 'Importera flera filer samtidigt';
+
+  @override
+  String get changelog2102Description =>
+      'Du kan nu välja och importera flera ljudfiler på en gång. En förloppsindikator håller dig uppdaterad medan dina låtar läggs till.';
+
+  @override
+  String get changelog2103Title => 'Buggfixar och stabilitetsförbättringar';
+
+  @override
+  String get changelog2103Description =>
+      'Flera buggar har åtgärdats och appens allmänna stabilitet och prestanda har förbättrats.';
 
   @override
   String get changelog201Title => 'Loopa videor och ändra hastighet (Beta)';
@@ -560,6 +651,10 @@ class AppLocalizationsSv extends AppLocalizations {
   @override
   String get songAddError =>
       'Fel vid läggning av låt. Detta kan bero på ett problem med filformatet. Försök att konvertera filen till ett understött format som mp3 eller wav.';
+
+  @override
+  String get importAlreadyRunningError =>
+      'En annan import pågår fortfarande. Stora filer från molnlagring kan ta en stund – vänta tills den är klar.';
 
   @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
@@ -886,6 +981,101 @@ class AppLocalizationsSv extends AppLocalizations {
   String get speedControl => 'Tempo';
 
   @override
+  String get pitchControl => 'Tonhöjd';
+
+  @override
+  String get metronome => 'Metronom';
+
+  @override
+  String get metronomeVolume => 'Volym';
+
+  @override
+  String get metronomeTimeSignature => 'Taktart';
+
+  @override
+  String get metronomeSubdivision => 'Underdelning';
+
+  @override
+  String get metronomeNudge => 'Förskjutning';
+
+  @override
+  String get metronomeTapBeat => 'Tryck i takt';
+
+  @override
+  String get metronomeShiftHalfBeat => 'Förskjut ett halvt slag';
+
+  @override
+  String metronomeOffsetMs(int ms) {
+    return '$ms ms';
+  }
+
+  @override
+  String get metronomeSetBpmFirst =>
+      'Ange låtens BPM först för att använda metronomen.';
+
+  @override
+  String get metronomeGoToBpm => 'Ange BPM';
+
+  @override
+  String get metronomeAdvanced => 'Avancerat';
+
+  @override
+  String get metronomeSyncToSong => 'Synka med låten';
+
+  @override
+  String metronomeKeepTapping(int count) {
+    return 'Fortsätt trycka… ($count)';
+  }
+
+  @override
+  String get metronomeSyncHint =>
+      'Klicket följer låtens tempo men landar kanske inte exakt på taktslaget. Tryck i takt med låten för att synka det.';
+
+  @override
+  String get metronomeResetSync => 'Återställ synkning';
+
+  @override
+  String get off => 'av';
+
+  @override
+  String get pitchSemitone => 'Halvton';
+
+  @override
+  String get semitones => 'Halvtoner';
+
+  @override
+  String get pitchUnchanged => 'tonhöjd oförändrad';
+
+  @override
+  String get tapTempo => 'Knacka tempo';
+
+  @override
+  String songBpmValue(int bpm) {
+    return 'Låtens BPM $bpm';
+  }
+
+  @override
+  String get retap => 'knacka igen';
+
+  @override
+  String get edit => 'Redigera';
+
+  @override
+  String get setSongTempoHint =>
+      'Ställ in låtens tempo för att justera uppspelningen i slag per minut.';
+
+  @override
+  String get bpmTapHint => 'Knacka på plattan i takt med taktslaget';
+
+  @override
+  String get bpmTapUnit => 'BPM · knacka';
+
+  @override
+  String useBpmValue(int bpm) {
+    return 'Använd $bpm';
+  }
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'Här kan du ställa in den ursprungliga BPM för ljudfilen.';
 
@@ -920,6 +1110,23 @@ class AppLocalizationsSv extends AppLocalizations {
   @override
   String get speedChangeFailed =>
       'Hastighetsändring misslyckades. Vänligen försök igen.';
+
+  @override
+  String get pitchChangeFailed =>
+      'Tonhöjdsändring misslyckades. Vänligen försök igen.';
+
+  @override
+  String get editSongKey => 'Tonart';
+
+  @override
+  String get originalKey => 'URSPRUNGLIG TONART';
+
+  @override
+  String get currentKey => 'NUVARANDE TONART';
+
+  @override
+  String get hereYouCanSetTheOriginalKeyOfTheAudioFile =>
+      'Här kan du ställa in ljudfilens ursprungliga tonart.';
 
   @override
   String get copyToClipboard => 'Kopiera till urklipp';

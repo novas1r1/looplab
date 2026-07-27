@@ -16,26 +16,27 @@ class ChangelogDialogCubit extends Cubit<ChangelogDialogState> {
     required this.packageInfo,
   }) : super(const ChangelogDialogState());
 
-  /// Check on starting the app if changelog dialog for the current version was shown
-  Future<void> checkChangelogDialog() async {
-    await Future.delayed(const Duration(seconds: 3));
+  /// Check whether the current app version has a changelog the user hasn't
+  /// seen yet. Drives the "What's new" badge instead of auto-opening a dialog.
+  Future<void> checkForUnseenChangelog() async {
     // get current build number
     final currentBuildNumber = int.tryParse(packageInfo.buildNumber) ?? 0;
 
     final lastChangelogVersionShown =
         localConfigRepository.lastChangelogVersionShown;
 
-    if (lastChangelogVersionShown < currentBuildNumber) {
-      emit(state.copyWith(shouldShowDialog: true));
-    } else {
-      maybeEmit(state.copyWith(shouldShowDialog: false));
-    }
+    maybeEmit(
+      state.copyWith(
+        hasUnseenChangelog: lastChangelogVersionShown < currentBuildNumber,
+      ),
+    );
   }
 
-  /// Save the current build version to be shown
-  Future<void> setChangelogDialogSeen() async {
+  /// Mark the current build's changelog as seen and clear the badge.
+  Future<void> markChangelogSeen() async {
     final currentBuildNumber = int.tryParse(packageInfo.buildNumber) ?? 0;
 
     await localConfigRepository.setChangelogShown(currentBuildNumber);
+    maybeEmit(state.copyWith(hasUnseenChangelog: false));
   }
 }

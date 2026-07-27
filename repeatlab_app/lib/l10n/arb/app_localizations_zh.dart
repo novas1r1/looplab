@@ -120,23 +120,67 @@ class AppLocalizationsZh extends AppLocalizations {
       '§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\n电子邮件：support@repeatlab.de\n\n法律形式：自由职业者';
 
   @override
-  String get onboardingTitle1 => '欢迎使用 RepeatLab';
+  String get onboardingEyebrow1 => '欢迎使用 RepeatLab';
 
   @override
-  String get onboardingDescription1 => '通过重复或放慢困难部分来掌握任何歌曲。';
+  String get onboardingTitle1 => '像专业人士一样练习';
 
   @override
-  String get onboardingTitle2 => '创建精确循环';
+  String get onboardingDescription1 => '属于你的个人循环工作站，助你掌握任何歌曲——音频或视频，100% 离线。';
 
   @override
-  String get onboardingDescription2 =>
-      '只需点击即可标记您想要练习的部分的开始和结束。使用我们直观的波形显示进行调整和微调。';
+  String get onboardingEyebrow2 => '循环';
 
   @override
-  String get onboardingTitle3 => '隐私优先';
+  String get onboardingTitle2 => '循环练习难点';
 
   @override
-  String get onboardingDescription3 => '我们重视您的隐私并谨慎处理您的数据。请查看我们的隐私政策并接受以继续。';
+  String get onboardingDescription2 => '在波形上设置精确的起点和终点，然后反复播放该段落，直到练熟为止。';
+
+  @override
+  String get onboardingEyebrow3 => '速度与节奏';
+
+  @override
+  String get onboardingTitle3 => '放慢速度，音高不变';
+
+  @override
+  String get onboardingDescription3 =>
+      '从 0.5× 降到 2.0×，或设定精确的 BPM。音高始终保持不变，绝不走音。';
+
+  @override
+  String get onboardingEyebrow4 => '音高';
+
+  @override
+  String get onboardingTitle4 => '用你的调演奏';
+
+  @override
+  String get onboardingDescription4 =>
+      '移调 ±12 个半音，或进行调到调的映射——匹配你的嗓音、你的调音、你的变调夹。';
+
+  @override
+  String get onboardingConsentTitle => '你的数据，你做主';
+
+  @override
+  String get onboardingConsentBody =>
+      'RepeatLab 离线运行，你的文件保存在你的设备上。开始之前，还有一件小事需要确认。';
+
+  @override
+  String get onboardingAnalyticsTitle => '匿名分析';
+
+  @override
+  String get onboardingAnalyticsBody => '分享匿名使用数据（托管于欧盟），帮助改进 RepeatLab。';
+
+  @override
+  String get onboardingDataProtectionTitle => '数据保护';
+
+  @override
+  String get onboardingConsentFootnote => '你可以随时在设置中更改分析选项。';
+
+  @override
+  String get onboardingSkip => '跳过';
+
+  @override
+  String get onboardingContinue => '继续';
 
   @override
   String get onboardingIAccept => '我接受';
@@ -228,6 +272,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get premiumFeatureChangeMusicSpeed => '速度控制 (BPM/倍数)';
+
+  @override
+  String get premiumFeaturePitchControl => '音高控制（半音）';
 
   @override
   String get premiumFeatureZoomInOut => '波形缩放';
@@ -329,6 +376,13 @@ class AppLocalizationsZh extends AppLocalizations {
       '使用手指左右拖动整个歌曲，并缩放以获得更好的精确度';
 
   @override
+  String get tutorialVideoPreview => '观看视频并调整其大小';
+
+  @override
+  String get tutorialVideoPreviewDescription =>
+      '使用 + 和 − 按钮调整视频大小。要在视频中导航，请使用下方的时间轴和控制按钮';
+
+  @override
   String get tutorialPlayAndPauseSong => '播放、暂停或改变歌曲速度';
 
   @override
@@ -395,7 +449,41 @@ class AppLocalizationsZh extends AppLocalizations {
   String get voteForFeatures => '功能投票';
 
   @override
-  String get changelogTitle => '更新日志';
+  String get changelogTitle => '新功能';
+
+  @override
+  String get changelog2201Title => '节拍器';
+
+  @override
+  String get changelog2201Description =>
+      '跟随内置节拍器演奏，它会与你的歌曲保持同步。选择拍号和细分，点击设定速度，并通过半拍偏移和毫秒微调来精细调整咔哒声，让它与节拍完美契合。';
+
+  @override
+  String get changelog2202Title => '暂停时编辑循环';
+
+  @override
+  String get changelog2202Description =>
+      '现在，你可以在播放暂停时自由移动循环的起点和终点——播放头不再跳回循环内。一旦你按下播放，循环边界便会重新生效，让微调循环变得更加轻松。';
+
+  @override
+  String get changelog2101Title => '音高调整（Beta）';
+
+  @override
+  String get changelog2101Description =>
+      '以半音为单位改变歌曲的音高而不影响速度 - 非常适合将歌曲移调到其他调性，或匹配你乐器的调音。此功能目前处于 Beta 阶段；如遇到问题，请把你的反馈发给我。';
+
+  @override
+  String get changelog2102Title => '一次导入多个文件';
+
+  @override
+  String get changelog2102Description =>
+      '现在你可以一次选择并导入多个音频文件。添加歌曲时，进度指示器会随时显示进度。';
+
+  @override
+  String get changelog2103Title => '错误修复与稳定性改进';
+
+  @override
+  String get changelog2103Description => '修复了多个错误，并提升了应用的整体稳定性和性能。';
 
   @override
   String get changelog201Title => '视频循环与速度调节（Beta）';
@@ -526,6 +614,10 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get songAddError => '添加歌曲失败。这可能是由于文件格式问题。请尝试将文件转换为支持的格式，如 mp3 或 wav。';
+
+  @override
+  String get importAlreadyRunningError =>
+      '另一个导入仍在进行中。来自云存储的大文件可能需要一些时间，请等待其完成。';
 
   @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
@@ -836,6 +928,98 @@ class AppLocalizationsZh extends AppLocalizations {
   String get speedControl => '速度';
 
   @override
+  String get pitchControl => '音高';
+
+  @override
+  String get metronome => '节拍器';
+
+  @override
+  String get metronomeVolume => '音量';
+
+  @override
+  String get metronomeTimeSignature => '拍号';
+
+  @override
+  String get metronomeSubdivision => '细分';
+
+  @override
+  String get metronomeNudge => '微调';
+
+  @override
+  String get metronomeTapBeat => '跟着节拍点击';
+
+  @override
+  String get metronomeShiftHalfBeat => '移动半拍';
+
+  @override
+  String metronomeOffsetMs(int ms) {
+    return '$ms ms';
+  }
+
+  @override
+  String get metronomeSetBpmFirst => '请先设置歌曲的BPM以使用节拍器。';
+
+  @override
+  String get metronomeGoToBpm => '设置BPM';
+
+  @override
+  String get metronomeAdvanced => '高级';
+
+  @override
+  String get metronomeSyncToSong => '与歌曲同步';
+
+  @override
+  String metronomeKeepTapping(int count) {
+    return '继续点按…（$count）';
+  }
+
+  @override
+  String get metronomeSyncHint => '节拍声会跟随歌曲的速度，但可能与节拍不完全对齐。跟着歌曲的节奏点按即可同步。';
+
+  @override
+  String get metronomeResetSync => '重置同步';
+
+  @override
+  String get off => '关闭';
+
+  @override
+  String get pitchSemitone => '半音';
+
+  @override
+  String get semitones => '半音';
+
+  @override
+  String get pitchUnchanged => '音高不变';
+
+  @override
+  String get tapTempo => '点击速度';
+
+  @override
+  String songBpmValue(int bpm) {
+    return '歌曲 BPM $bpm';
+  }
+
+  @override
+  String get retap => '重新点击';
+
+  @override
+  String get edit => '编辑';
+
+  @override
+  String get setSongTempoHint => '设置歌曲的速度，以每分钟节拍数调整播放。';
+
+  @override
+  String get bpmTapHint => '跟着节拍点击';
+
+  @override
+  String get bpmTapUnit => 'BPM · 点击';
+
+  @override
+  String useBpmValue(int bpm) {
+    return '使用 $bpm';
+  }
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile => '您可以在此设置音频文件的原始 BPM。';
 
   @override
@@ -867,6 +1051,21 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get speedChangeFailed => '速度变化失败。请再试一次。';
+
+  @override
+  String get pitchChangeFailed => '音高变化失败。请再试一次。';
+
+  @override
+  String get editSongKey => '调性';
+
+  @override
+  String get originalKey => '原调';
+
+  @override
+  String get currentKey => '当前调';
+
+  @override
+  String get hereYouCanSetTheOriginalKeyOfTheAudioFile => '在这里您可以设置音频文件的原调。';
 
   @override
   String get copyToClipboard => '复制到剪贴板';

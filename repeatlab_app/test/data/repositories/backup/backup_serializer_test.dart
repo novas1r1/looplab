@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:archive/archive.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:repeatlab/data/models/loop.dart';
+import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/backup/backup_exceptions.dart';
 import 'package:repeatlab/data/repositories/backup/backup_manifest.dart';
 import 'package:repeatlab/data/repositories/backup/backup_serializer.dart';
@@ -106,6 +107,130 @@ void main() {
           payload.audioFiles[song.fileName],
           equals(audio[song.fileName]),
         );
+      });
+
+      test('roundtrips pitch and musical key', () {
+        final song = MockData.songMedium.copyWith(
+          pitchSemitones: -4,
+          musicalKey: 'F#m',
+        );
+
+        final bytes = serializer.encode(
+          songs: [song],
+          audioFiles: {song.fileName: audioBytesFor('medium')},
+          appVersion: '2.0.4',
+        );
+        final decoded = serializer.decode(bytes).songs.single;
+
+        expect(decoded.pitchSemitones, -4);
+        expect(decoded.musicalKey, 'F#m');
+      });
+
+      test('roundtrips metronome offset and time signature', () {
+        final song = MockData.songMedium.copyWith(
+          metronomeOffsetMs: -75,
+          metronomeBeatAnchorMs: 1234,
+          metronomeBeatsPerBar: 6,
+          metronomeBeatUnit: 8,
+        );
+
+        final bytes = serializer.encode(
+          songs: [song],
+          audioFiles: {song.fileName: audioBytesFor('medium')},
+          appVersion: '2.2.0',
+        );
+        final decoded = serializer.decode(bytes).songs.single;
+
+        expect(decoded.metronomeOffsetMs, -75);
+        expect(decoded.metronomeBeatAnchorMs, 1234);
+        expect(decoded.metronomeBeatsPerBar, 6);
+        expect(decoded.metronomeBeatUnit, 8);
+      });
+
+      test(
+        'imports backups from versions without metronome fields (defaults)',
+        () {
+          final legacyMap = MockData.songMedium.toMap()
+            ..remove('metronomeOffsetMs')
+            ..remove('metronomeBeatAnchorMs')
+            ..remove('metronomeBeatsPerBar')
+            ..remove('metronomeBeatUnit');
+
+          expect(SongMapper.fromMap(legacyMap).metronomeOffsetMs, 0);
+          expect(SongMapper.fromMap(legacyMap).metronomeBeatAnchorMs, isNull);
+          expect(SongMapper.fromMap(legacyMap).metronomeBeatsPerBar, 4);
+          expect(SongMapper.fromMap(legacyMap).metronomeBeatUnit, 4);
+        },
+      );
+
+      test(
+        'imports backups from versions without pitch/key fields (defaults)',
+        () {
+          // Simulate a songs.json entry written by an app version that
+          // predates pitchSemitones/musicalKey.
+          final legacyMap = MockData.songMedium.toMap()
+            ..remove('pitchSemitones')
+            ..remove('musicalKey');
+
+          final bytes = serializer.encode(
+            songs: [MockData.songMedium],
+            audioFiles: {
+              MockData.songMedium.fileName: audioBytesFor('medium'),
+            },
+            appVersion: '2.0.3',
+          );
+
+          // Rebuild the archive with the legacy songs.json payload.
+          final archive = ZipDecoder().decodeBytes(bytes);
+          final rebuilt = Archive();
+          for (final file in archive.files) {
+            if (file.name == BackupSerializer.songsFileName) {
+              final legacyBytes = utf8.encode(jsonEncode([legacyMap]));
+              rebuilt.addFile(
+                ArchiveFile(file.name, legacyBytes.length, legacyBytes),
+              );
+            } else {
+              rebuilt.addFile(file);
+            }
+          }
+          final legacyZip = Uint8List.fromList(ZipEncoder().encode(rebuilt));
+
+          final decoded = serializer.decode(legacyZip).songs.single;
+          expect(decoded.pitchSemitones, 0);
+          expect(decoded.musicalKey, isNull);
+        },
+      );
+
+      test('ignores unknown fields from future app versions', () {
+        // Simulate a songs.json entry written by a NEWER app version that
+        // has fields this version doesn't know about.
+        final futureMap = MockData.songMedium.toMap()
+          ..['someFutureField'] = 'whatever'
+          ..['anotherOne'] = 42;
+
+        final bytes = serializer.encode(
+          songs: [MockData.songMedium],
+          audioFiles: {MockData.songMedium.fileName: audioBytesFor('medium')},
+          appVersion: '9.9.9',
+        );
+
+        final archive = ZipDecoder().decodeBytes(bytes);
+        final rebuilt = Archive();
+        for (final file in archive.files) {
+          if (file.name == BackupSerializer.songsFileName) {
+            final futureBytes = utf8.encode(jsonEncode([futureMap]));
+            rebuilt.addFile(
+              ArchiveFile(file.name, futureBytes.length, futureBytes),
+            );
+          } else {
+            rebuilt.addFile(file);
+          }
+        }
+        final futureZip = Uint8List.fromList(ZipEncoder().encode(rebuilt));
+
+        final decoded = serializer.decode(futureZip).songs.single;
+        expect(decoded.id, MockData.songMedium.id);
+        expect(decoded.title, MockData.songMedium.title);
       });
 
       test('throws BackupFormatException for non-zip bytes', () {
@@ -238,8 +363,9 @@ void main() {
               stripped.addFile(file);
             }
           }
-          final strippedBytes =
-              Uint8List.fromList(ZipEncoder().encode(stripped));
+          final strippedBytes = Uint8List.fromList(
+            ZipEncoder().encode(stripped),
+          );
 
           expect(
             () => serializer.decode(strippedBytes),
@@ -274,8 +400,7 @@ void main() {
             stripped.addFile(file);
           }
         }
-        final strippedBytes =
-            Uint8List.fromList(ZipEncoder().encode(stripped));
+        final strippedBytes = Uint8List.fromList(ZipEncoder().encode(stripped));
 
         final manifest = serializer.peekManifest(strippedBytes);
         expect(manifest.songCount, 1);

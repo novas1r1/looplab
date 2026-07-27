@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/widgets/app_icon.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
@@ -85,10 +86,11 @@ class SongSettingsBottomSheet extends StatelessWidget {
                       color: AppColors.primaryContainer.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Icon(
-                      Icons.settings_outlined,
+                    child: const AppIcon(
+                      iconName: 'ic_settings',
+                      iconSize: 20,
+                      containerSize: 24,
                       color: AppColors.primary,
-                      size: 24,
                     ),
                   ),
                   const SizedBox(width: 14),
@@ -105,7 +107,7 @@ class SongSettingsBottomSheet extends StatelessWidget {
 
               // Playback Settings Section
               _SectionHeader(
-                icon: Icons.play_circle_outline,
+                iconName: 'ic_play_circle',
                 title: context.l10n.playbackSettings,
               ),
               const SizedBox(height: 12),
@@ -116,9 +118,7 @@ class SongSettingsBottomSheet extends StatelessWidget {
                     selector: (state) => state.isFullSongRepeatEnabled,
                     builder: (context, isFullSongRepeatEnabled) {
                       return _SettingsTile(
-                        icon: isFullSongRepeatEnabled
-                            ? Icons.repeat_one_rounded
-                            : Icons.repeat_rounded,
+                        iconName: 'ic_repeat',
                         iconColor: isFullSongRepeatEnabled
                             ? AppColors.primary
                             : AppColors.onSurfaceVariant,
@@ -140,9 +140,9 @@ class SongSettingsBottomSheet extends StatelessWidget {
                     selector: (state) => state.isAutoPlayEnabled,
                     builder: (context, isAutoPlayEnabled) {
                       return _SettingsTile(
-                        icon: Icons.play_arrow_rounded,
+                        iconName: 'ic_play',
                         iconColor: isAutoPlayEnabled
-                            ? AppColors.primary
+                            ? AppColors.iconActive
                             : AppColors.onSurfaceVariant,
                         title: context.l10n.autoPlayOnLoopSelect,
                         subtitle: context.l10n.autoPlayOnLoopSelectDescription,
@@ -159,19 +159,17 @@ class SongSettingsBottomSheet extends StatelessWidget {
                   ),
                 ],
               ),
-
               const SizedBox(height: 24),
-
               // Actions Section
               _SectionHeader(
-                icon: Icons.touch_app_outlined,
+                iconName: 'ic_touch',
                 title: context.l10n.actions,
               ),
               const SizedBox(height: 12),
               _SettingsCard(
                 children: [
                   _ActionTile(
-                    icon: Icons.edit_outlined,
+                    iconName: 'ic_edit',
                     title: context.l10n.editSong,
                     onTap: () {
                       Navigator.pop(context);
@@ -180,7 +178,7 @@ class SongSettingsBottomSheet extends StatelessWidget {
                   ),
                   const _SettingsDivider(),
                   _ActionTile(
-                    icon: Icons.feedback_outlined,
+                    iconName: 'ic_feedback',
                     title: context.l10n.reportBugAndFeedback,
                     onTap: () {
                       AppAnalytics.trackEvent(AppAnalytics.clickReportBug);
@@ -191,7 +189,7 @@ class SongSettingsBottomSheet extends StatelessWidget {
                   ),
                   const _SettingsDivider(),
                   _ActionTile(
-                    icon: Icons.delete_outline_rounded,
+                    iconName: 'ic_delete',
                     title: context.l10n.deleteSong,
                     isDestructive: true,
                     onTap: () {
@@ -212,11 +210,11 @@ class SongSettingsBottomSheet extends StatelessWidget {
 }
 
 class _SectionHeader extends StatelessWidget {
-  final IconData icon;
+  final String iconName;
   final String title;
 
   const _SectionHeader({
-    required this.icon,
+    required this.iconName,
     required this.title,
   });
 
@@ -224,12 +222,12 @@ class _SectionHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(
-          icon,
-          size: 18,
-          color: AppColors.primary,
-        ),
-        const SizedBox(width: 8),
+        // AppIcon(
+        //   iconName: iconName,
+        //   iconSize: 18,
+        //   color: AppColors.primary,
+        // ),
+        // const SizedBox(width: 8),
         Text(
           title.toUpperCase(),
           style: context.labelMedium.copyWith(
@@ -266,7 +264,7 @@ class _SettingsCard extends StatelessWidget {
 }
 
 class _SettingsTile extends StatelessWidget {
-  final IconData icon;
+  final String iconName;
   final Color? iconColor;
   final String title;
   final String? subtitle;
@@ -274,7 +272,7 @@ class _SettingsTile extends StatelessWidget {
   final ValueChanged<bool> onChanged;
 
   const _SettingsTile({
-    required this.icon,
+    required this.iconName,
     this.iconColor,
     required this.title,
     this.subtitle,
@@ -300,10 +298,11 @@ class _SettingsTile extends StatelessWidget {
                 ),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(
-                icon,
+              child: AppIcon(
+                iconName: iconName,
                 color: iconColor ?? AppColors.onSurfaceVariant,
-                size: 22,
+                iconSize: 20,
+                containerSize: 22,
               ),
             ),
             const SizedBox(width: 14),
@@ -344,13 +343,13 @@ class _SettingsTile extends StatelessWidget {
 }
 
 class _ActionTile extends StatelessWidget {
-  final IconData icon;
+  final String iconName;
   final String title;
   final bool isDestructive;
   final VoidCallback onTap;
 
   const _ActionTile({
-    required this.icon,
+    required this.iconName,
     required this.title,
     this.isDestructive = false,
     required this.onTap,
@@ -374,10 +373,11 @@ class _ActionTile extends StatelessWidget {
                 color: color.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(
-                icon,
+              child: AppIcon(
+                iconName: iconName,
+                iconSize: 20,
+                containerSize: 22,
                 color: color,
-                size: 22,
               ),
             ),
             const SizedBox(width: 14),

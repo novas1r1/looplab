@@ -1,7 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/widgets/app_icon.dart';
 import 'package:repeatlab/core/ui/widgets/loading.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
@@ -14,6 +14,7 @@ import 'package:repeatlab/features/changelog_dialog/cubits/changelog_dialog_cubi
 import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
 import 'package:repeatlab/features/home/widgets/custom_drawer.dart';
 import 'package:repeatlab/features/home/widgets/home_tile.dart';
+import 'package:repeatlab/features/home/widgets/whats_new_bubble.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,9 +31,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     AppAnalytics.trackEvent(AppAnalytics.viewHome);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ChangelogDialogCubit>().checkChangelogDialog();
-    });
+    context.read<ChangelogDialogCubit>().checkForUnseenChangelog();
   }
 
   @override
@@ -41,59 +40,54 @@ class _HomePageState extends State<HomePage> {
     final songCount = allSongsState.songs.length;
     // Block a second import while one is running (or the list is loading);
     // large videos can take a while to copy and probe.
-    final isBusy = allSongsState.status == AllSongsStatus.loading ||
+    final isBusy =
+        allSongsState.status == AllSongsStatus.loading ||
         allSongsState.status == AllSongsStatus.importing;
 
-    return BlocListener<ChangelogDialogCubit, ChangelogDialogState>(
-      listener: (context, state) {
-        _displayChangelogDialog(state, context);
-      },
-      child: Scaffold(
-        key: _scaffoldKey,
-        backgroundColor: AppColors.surface,
-        drawer: const CustomDrawer(),
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          leading: IconButton(
-            key: const Key('home.drawer'),
-            icon: const Icon(Icons.menu),
-            onPressed: () => _scaffoldKey.currentState?.openDrawer(),
-          ),
-          title: Text(
-            'RepeatLab',
-            style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          actions: [
-            IconButton(
-              onPressed: () => context.read<AllSongsCubit>().loadSongs(),
-              icon: const Icon(Icons.refresh),
-            ),
-            if (kDebugMode)
-              IconButton(
-                onPressed: () => _onClearDb(context),
-                icon: const Icon(Icons.delete),
-              ),
-            if (kDebugMode)
-              IconButton(
-                onPressed: () => _onClearSharedPrefs(context),
-                icon: const Icon(Icons.delete_forever),
-              ),
-          ],
+    final hasUnseenChangelog = context.watch<ChangelogDialogCubit>().state.hasUnseenChangelog;
+
+    return Scaffold(
+      key: _scaffoldKey,
+      backgroundColor: AppColors.surface,
+      drawer: const CustomDrawer(),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          key: const Key('home.drawer'),
+          icon: const AppIcon(iconName: 'ic_menu', iconSize: 32, containerSize: 32),
+          onPressed: () => _scaffoldKey.currentState?.openDrawer(),
         ),
-        body: BlocConsumer<AllSongsCubit, AllSongsState>(
-          listenWhen: (previous, current) => previous.status != current.status,
-          listener: (context, state) {
-            if (state.status == AllSongsStatus.error) {
-              final format = state.errorMessage;
-              if (format != null) {
+        title: Text(
+          'RepeatLab',
+          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        actions: [
+          IconButton(
+            key: const Key('home.whatsNew'),
+            tooltip: context.l10n.whatsNew,
+            onPressed: () => _openChangelog(context, source: 'app_bar'),
+            icon: const AppIcon(iconName: 'ic_update', iconSize: 24, containerSize: 24),
+          ),
+        ],
+      ),
+      body: Stack(
+        children: [
+          BlocConsumer<AllSongsCubit, AllSongsState>(
+            listenWhen: (previous, current) => previous.status != current.status,
+            listener: (context, state) {
+              if (state.status == AllSongsStatus.error) {
+                AppAnalytics.trackEvent(AppAnalytics.songAddError);
+                SnackbarHelper.showError(context, context.l10n.songAddError);
+              } else if (state.status == AllSongsStatus.errorAudioFormat) {
+                // errorMessage contains the unsupported format extension
+                final format = state.errorMessage ?? '';
                 AppAnalytics.trackEvent(
                   AppAnalytics.songAddUnsupportedFormat,
                   data: {'format': format},
                 );
-                // errorMessage contains the unsupported format extension
                 SnackbarHelper.showError(
                   context,
                   context.l10n.unsupportedAudioFormatError(
@@ -101,129 +95,144 @@ class _HomePageState extends State<HomePage> {
                     SongRepository.supportedFormatsLabel,
                   ),
                 );
-              } else {
-                AppAnalytics.trackEvent(AppAnalytics.songAddError);
-                SnackbarHelper.showError(context, context.l10n.songAddError);
-              }
-            } else if (state.status == AllSongsStatus.errorVideoFormat) {
-              final format = state.errorMessage ?? '';
-              AppAnalytics.trackEvent(
-                AppAnalytics.songAddUnsupportedFormat,
-                data: {'format': format, 'kind': 'video'},
-              );
-              SnackbarHelper.showError(
-                context,
-                context.l10n.unsupportedVideoFormatError(
-                  format,
-                  SongRepository.supportedVideoFormatsLabel,
-                ),
-              );
-            }
-          },
-          builder: (context, state) {
-            switch (state.status) {
-              case AllSongsStatus.loading:
-                return const Center(child: Loading());
-              case AllSongsStatus.importing:
-                return Center(
-                  key: const Key('home.importing'),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Loading(),
-                      const SizedBox(height: 16),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 32),
-                        child: Text(
-                          context.l10n.importingMedia,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ),
-                      if (state.importCurrent != null && state.importTotal != null) ...[
-                        const SizedBox(height: 8),
-                        Text(
-                          context.l10n.importingMediaProgress(
-                            state.importCurrent!,
-                            state.importTotal!,
-                          ),
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: AppColors.onSurface.withValues(alpha: 0.6),
-                          ),
-                        ),
-                      ],
-                    ],
+              } else if (state.status == AllSongsStatus.errorVideoFormat) {
+                final format = state.errorMessage ?? '';
+                AppAnalytics.trackEvent(
+                  AppAnalytics.songAddUnsupportedFormat,
+                  data: {'format': format, 'kind': 'video'},
+                );
+                SnackbarHelper.showError(
+                  context,
+                  context.l10n.unsupportedVideoFormatError(
+                    format,
+                    SongRepository.supportedVideoFormatsLabel,
                   ),
                 );
-              case AllSongsStatus.initial:
-              case AllSongsStatus.loaded:
-              case AllSongsStatus.error:
-              case AllSongsStatus.errorVideoFormat:
-                if (state.songs.isEmpty) {
+              } else if (state.status == AllSongsStatus.errorImportInProgress) {
+                SnackbarHelper.showError(
+                  context,
+                  context.l10n.importAlreadyRunningError,
+                );
+              }
+            },
+            builder: (context, state) {
+              switch (state.status) {
+                case AllSongsStatus.loading:
+                  return const Center(child: Loading());
+                case AllSongsStatus.importing:
                   return Center(
-                    key: const Key('home.empty'),
+                    key: const Key('home.importing'),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
-                          Icons.music_note,
-                          size: 64,
-                          color: AppColors.primary.withValues(alpha: 0.5),
-                        ),
+                        const Loading(),
                         const SizedBox(height: 16),
-                        Text(
-                          context.l10n.noSongsFound,
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          context.l10n.tapToAddSong,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: AppColors.onSurface.withValues(
-                              alpha: 0.6,
-                            ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 32),
+                          child: Text(
+                            context.l10n.importingMedia,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ),
+                        if (state.importCurrent != null && state.importTotal != null) ...[
+                          const SizedBox(height: 8),
+                          Text(
+                            context.l10n.importingMediaProgress(
+                              state.importCurrent!,
+                              state.importTotal!,
+                            ),
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: AppColors.onSurface.withValues(
+                                alpha: 0.6,
+                              ),
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                   );
-                }
-                return ReorderableListView.builder(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 92),
-                  itemCount: state.songs.length,
-                  onReorderItem: (int oldIndex, int newIndex) {
-                    context.read<AllSongsCubit>().reorderSongs(
-                      oldIndex,
-                      newIndex,
+                case AllSongsStatus.initial:
+                case AllSongsStatus.loaded:
+                case AllSongsStatus.error:
+                case AllSongsStatus.errorAudioFormat:
+                case AllSongsStatus.errorVideoFormat:
+                case AllSongsStatus.errorImportInProgress:
+                  if (state.songs.isEmpty) {
+                    return Center(
+                      key: const Key('home.empty'),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.music_note,
+                            size: 64,
+                            color: AppColors.primary.withValues(alpha: 0.5),
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            context.l10n.noSongsFound,
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          const SizedBox(height: 8),
+                          GestureDetector(
+                            onTap: () => _showAddMediaSheet(context, songCount),
+                            child: Text(
+                              context.l10n.tapToAddSong,
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: AppColors.onSurface.withValues(
+                                  alpha: 0.6,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     );
-                  },
-                  onReorderEnd: (_) => AppAnalytics.trackEvent(AppAnalytics.reorderSongs),
-                  proxyDecorator: (Widget child, int index, Animation<double> animation) {
-                    return Material(
-                      color: Colors.transparent,
-                      child: child,
-                    );
-                  },
-                  itemBuilder: (context, index) => HomeTile(
-                    key: ValueKey(state.songs[index].id),
-                    song: state.songs[index],
-                  ),
-                );
-            }
-          },
-        ),
-        floatingActionButton: FloatingActionButton.extended(
-          key: const Key('home.fab'),
-          heroTag: 'addMedia',
-          onPressed: isBusy ? null : () => _showAddMediaSheet(context, songCount),
-          backgroundColor: isBusy
-              ? Theme.of(context).disabledColor
-              : null,
-          icon: const Icon(Icons.add),
-          label: Text(
-            context.l10n.addSong,
-            style: context.bodyLargeDarkBold,
+                  }
+                  return ReorderableListView.builder(
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 92),
+                    itemCount: state.songs.length,
+                    onReorderItem: (int oldIndex, int newIndex) {
+                      context.read<AllSongsCubit>().reorderSongs(
+                        oldIndex,
+                        newIndex,
+                      );
+                    },
+                    onReorderEnd: (_) => AppAnalytics.trackEvent(AppAnalytics.reorderSongs),
+                    proxyDecorator: (Widget child, int index, Animation<double> animation) {
+                      return Material(
+                        color: Colors.transparent,
+                        child: child,
+                      );
+                    },
+                    itemBuilder: (context, index) => HomeTile(
+                      key: ValueKey(state.songs[index].id),
+                      song: state.songs[index],
+                    ),
+                  );
+              }
+            },
           ),
+          if (hasUnseenChangelog)
+            Positioned(
+              top: 0,
+              right: 4,
+              child: WhatsNewBubble(
+                onTap: () => _openChangelog(context, source: 'bubble'),
+              ),
+            ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        key: const Key('home.fab'),
+        heroTag: 'addMedia',
+        onPressed: isBusy ? null : () => _showAddMediaSheet(context, songCount),
+        backgroundColor: isBusy ? Theme.of(context).disabledColor : null,
+        icon: const Icon(Icons.add),
+        label: Text(
+          context.l10n.addSong,
+          style: context.bodyLargeDarkBold,
         ),
       ),
     );
@@ -263,14 +272,14 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 16),
               ListTile(
                 key: const Key('home.addAudio'),
-                leading: const Icon(Icons.audiotrack),
+                leading: const AppIcon(iconName: 'ic_audio', iconSize: 24),
                 title: Text(context.l10n.addSong),
                 subtitle: const Text(SongRepository.supportedFormatsLabel),
                 onTap: () => Navigator.of(sheetContext).pop(_AddMediaChoice.audio),
               ),
               ListTile(
                 key: const Key('home.addVideo'),
-                leading: const Icon(Icons.movie),
+                leading: const AppIcon(iconName: 'ic_video', iconSize: 24),
                 title: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -336,22 +345,19 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Future<void> _onClearDb(BuildContext context) async {
-    AppAnalytics.trackEvent(AppAnalytics.clickClearDb);
-    await context.read<AllSongsCubit>().clearDb();
-  }
-
-  void _onClearSharedPrefs(BuildContext context) {
-    context.read<LocalConfigRepository>().clear();
-  }
-
-  Future<void> _displayChangelogDialog(
-    ChangelogDialogState state,
-    BuildContext context,
-  ) async {
-    if (!state.shouldShowDialog) return;
-
+  /// Open the changelog as a bottom sheet and mark it seen so the "What's new"
+  /// badge clears. Triggered from the gift icon or the floating bubble;
+  /// [source] records which entry point was tapped.
+  Future<void> _openChangelog(BuildContext context, {required String source}) async {
+    AppAnalytics.trackEvent(
+      AppAnalytics.clickWhatsNew,
+      data: {'source': source},
+    );
     AppAnalytics.trackEvent(AppAnalytics.viewChangelogDialog);
+
+    // Mark as seen immediately so the badge disappears as soon as the user
+    // engages with it, regardless of how they dismiss the sheet.
+    context.read<ChangelogDialogCubit>().markChangelogSeen();
 
     await showModalBottomSheet(
       context: context,
@@ -365,9 +371,6 @@ class _HomePageState extends State<HomePage> {
       ),
       builder: (context) => const ChangelogDialog(),
     );
-
-    if (!context.mounted) return;
-    context.read<ChangelogDialogCubit>().setChangelogDialogSeen();
   }
 }
 

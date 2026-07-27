@@ -120,25 +120,71 @@ class AppLocalizationsAr extends AppLocalizations {
       '§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nالبريد الإلكتروني: support@repeatlab.de\n\nالشكل القانوني: عامل حر';
 
   @override
-  String get onboardingTitle1 => 'مرحبًا بك في RepeatLab';
+  String get onboardingEyebrow1 => 'مرحبًا بك في RepeatLab';
+
+  @override
+  String get onboardingTitle1 => 'تدرّب باحتراف';
 
   @override
   String get onboardingDescription1 =>
-      'أتقن أي أغنية من خلال تكرار الأجزاء الصعبة أو إبطائها.';
+      'محطة التكرار الشخصية لإتقان أي أغنية — صوت أو فيديو، 100% دون اتصال.';
 
   @override
-  String get onboardingTitle2 => 'إنشاء حلقات دقيقة';
+  String get onboardingEyebrow2 => 'التكرار';
+
+  @override
+  String get onboardingTitle2 => 'كرّر الأجزاء الصعبة';
 
   @override
   String get onboardingDescription2 =>
-      'ما عليك سوى النقر لتحديد بداية ونهاية القسم الذي تريد التدرب عليه. اضبط وضبط بدقة باستخدام عرض الموجة البديهي.';
+      'حدّد نقطتَي بداية ونهاية دقيقتين على الموجة الصوتية، ثم شغّل ذلك المقطع حتى تتقنه.';
 
   @override
-  String get onboardingTitle3 => 'الخصوصية أولاً';
+  String get onboardingEyebrow3 => 'السرعة والإيقاع';
+
+  @override
+  String get onboardingTitle3 => 'أبطئها مع الحفاظ على طبقة الصوت';
 
   @override
   String get onboardingDescription3 =>
-      'نحن نقدر خصوصيتك ونعالج بياناتك بعناية. يرجى مراجعة سياسة الخصوصية والموافقة للمتابعة.';
+      'اخفض من 0.5× إلى 2.0×، أو اضبط قيمة BPM محددة. تبقى طبقة الصوت ثابتة فلا يبدو الصوت ناشزًا.';
+
+  @override
+  String get onboardingEyebrow4 => 'طبقة الصوت';
+
+  @override
+  String get onboardingTitle4 => 'اعزفها بمقامك';
+
+  @override
+  String get onboardingDescription4 =>
+      'انقل الطبقة ±12 نصف نغمة أو حوّل من مقام إلى مقام — لتناسب صوتك ودوزانك وكابو الجيتار.';
+
+  @override
+  String get onboardingConsentTitle => 'بياناتك، قرارك';
+
+  @override
+  String get onboardingConsentBody =>
+      'يعمل RepeatLab دون اتصال ويحتفظ بملفاتك على جهازك. تفصيل سريع واحد قبل أن تبدأ.';
+
+  @override
+  String get onboardingAnalyticsTitle => 'تحليلات مجهولة الهوية';
+
+  @override
+  String get onboardingAnalyticsBody =>
+      'شارك بيانات استخدام مجهولة الهوية (مستضافة في EU) للمساعدة في تحسين RepeatLab.';
+
+  @override
+  String get onboardingDataProtectionTitle => 'حماية البيانات';
+
+  @override
+  String get onboardingConsentFootnote =>
+      'يمكنك تغيير إعدادات التحليلات في أي وقت من الإعدادات.';
+
+  @override
+  String get onboardingSkip => 'تخطّي';
+
+  @override
+  String get onboardingContinue => 'متابعة';
 
   @override
   String get onboardingIAccept => 'أوافق على';
@@ -236,6 +282,10 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get premiumFeatureChangeMusicSpeed =>
       'تحكم في سرعة الصوت (BPM/Multiplier)';
+
+  @override
+  String get premiumFeaturePitchControl =>
+      'التحكم في طبقة الصوت (أنصاف النغمات)';
 
   @override
   String get premiumFeatureZoomInOut => 'تكبير/تصغير الموجة';
@@ -343,6 +393,13 @@ class AppLocalizationsAr extends AppLocalizations {
       'استخدم أصابعك لسحب الأغنية بأكملها إلى اليسار أو اليمين والتكبير/التصغير للحصول على دقة أفضل';
 
   @override
+  String get tutorialVideoPreview => 'شاهد الفيديو واضبط حجمه';
+
+  @override
+  String get tutorialVideoPreviewDescription =>
+      'استخدم زري + و − لتغيير حجم الفيديو. للتنقل عبر الفيديو، استخدم الخط الزمني وعناصر التحكم أدناه';
+
+  @override
   String get tutorialPlayAndPauseSong =>
       'تشغيل وإيقاف مؤقت وتغيير سرعة الأغنية';
 
@@ -414,7 +471,42 @@ class AppLocalizationsAr extends AppLocalizations {
   String get voteForFeatures => 'التصويت على الميزات';
 
   @override
-  String get changelogTitle => 'سجل التغييرات';
+  String get changelogTitle => 'ما الجديد';
+
+  @override
+  String get changelog2201Title => 'المترونوم';
+
+  @override
+  String get changelog2201Description =>
+      'اعزف مع مترونوم مدمج يحافظ على إيقاع أغنيتك. اختر الميزان الزمني والتقسيمات، انقر لضبط الإيقاع، واضبط النقرة بدقة عبر إزاحات نصف النبضة وتعديلات بالمللي ثانية لتتوافق تمامًا مع الإيقاع.';
+
+  @override
+  String get changelog2202Title => 'تعديل الحلقات أثناء الإيقاف المؤقت';
+
+  @override
+  String get changelog2202Description =>
+      'يمكنك الآن تحريك نقطتي بداية ونهاية الحلقة بحرية أثناء إيقاف التشغيل مؤقتًا - لم يعد مؤشر التشغيل يعود إلى داخل الحلقة. تُطبَّق حدود الحلقة مرة أخرى بمجرد الضغط على زر التشغيل، مما يسهّل عليك ضبط حلقاتك بدقة.';
+
+  @override
+  String get changelog2101Title => 'تغيير طبقة الصوت (Beta)';
+
+  @override
+  String get changelog2101Description =>
+      'غيّر طبقة صوت أغانيك بأنصاف النغمات دون التأثير على السرعة - مثالي لنقل الأغنية إلى مقام آخر أو لمطابقة دوزان آلتك الموسيقية. هذه الميزة حاليًا في مرحلة تجريبية؛ يرجى إرسال ملاحظاتك إليّ إذا واجهت أي مشاكل.';
+
+  @override
+  String get changelog2102Title => 'استيراد عدة ملفات دفعة واحدة';
+
+  @override
+  String get changelog2102Description =>
+      'يمكنك الآن تحديد واستيراد عدة ملفات صوتية دفعة واحدة. يُبقيك مؤشر التقدم على اطلاع أثناء إضافة أغانيك.';
+
+  @override
+  String get changelog2103Title => 'إصلاحات للأخطاء وتحسينات في الاستقرار';
+
+  @override
+  String get changelog2103Description =>
+      'تم إصلاح العديد من الأخطاء وتحسين الاستقرار العام وأداء التطبيق.';
 
   @override
   String get changelog201Title =>
@@ -557,6 +649,10 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get songAddError =>
       'فشل في إضافة الأغنية. قد يكون هذا بسبب مشكلة في تنسيق الملف. يرجى محاولة تحويل الملف إلى تنسيق مدعوم مثل mp3 أو wav.';
+
+  @override
+  String get importAlreadyRunningError =>
+      'لا تزال عملية استيراد أخرى قيد التشغيل. قد تستغرق الملفات الكبيرة من التخزين السحابي بعض الوقت - يرجى الانتظار حتى تنتهي.';
 
   @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
@@ -879,6 +975,101 @@ class AppLocalizationsAr extends AppLocalizations {
   String get speedControl => 'السرعة';
 
   @override
+  String get pitchControl => 'طبقة الصوت';
+
+  @override
+  String get metronome => 'المترونوم';
+
+  @override
+  String get metronomeVolume => 'مستوى الصوت';
+
+  @override
+  String get metronomeTimeSignature => 'الميزان الإيقاعي';
+
+  @override
+  String get metronomeSubdivision => 'التقسيم';
+
+  @override
+  String get metronomeNudge => 'الإزاحة';
+
+  @override
+  String get metronomeTapBeat => 'انقر مع الإيقاع';
+
+  @override
+  String get metronomeShiftHalfBeat => 'إزاحة نصف نبضة';
+
+  @override
+  String metronomeOffsetMs(int ms) {
+    return '$ms ms';
+  }
+
+  @override
+  String get metronomeSetBpmFirst =>
+      'حدد أولاً إيقاع الأغنية (BPM) لاستخدام المترونوم.';
+
+  @override
+  String get metronomeGoToBpm => 'تعيين BPM';
+
+  @override
+  String get metronomeAdvanced => 'متقدم';
+
+  @override
+  String get metronomeSyncToSong => 'مزامنة مع الأغنية';
+
+  @override
+  String metronomeKeepTapping(int count) {
+    return 'واصل النقر… ($count)';
+  }
+
+  @override
+  String get metronomeSyncHint =>
+      'تتبع النقرة إيقاع الأغنية لكنها قد لا تقع تمامًا على الضربة. انقر مع إيقاع الأغنية لمزامنتها.';
+
+  @override
+  String get metronomeResetSync => 'إعادة تعيين المزامنة';
+
+  @override
+  String get off => 'إيقاف';
+
+  @override
+  String get pitchSemitone => 'نصف نغمة';
+
+  @override
+  String get semitones => 'أنصاف النغمات';
+
+  @override
+  String get pitchUnchanged => 'طبقة الصوت دون تغيير';
+
+  @override
+  String get tapTempo => 'انقر الإيقاع';
+
+  @override
+  String songBpmValue(int bpm) {
+    return 'إيقاع الأغنية $bpm';
+  }
+
+  @override
+  String get retap => 'أعد النقر';
+
+  @override
+  String get edit => 'تعديل';
+
+  @override
+  String get setSongTempoHint =>
+      'اضبط إيقاع الأغنية لتعديل التشغيل بعدد النقرات في الدقيقة.';
+
+  @override
+  String get bpmTapHint => 'انقر على اللوحة مع الإيقاع';
+
+  @override
+  String get bpmTapUnit => 'BPM · نقر';
+
+  @override
+  String useBpmValue(int bpm) {
+    return 'استخدام $bpm';
+  }
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'يمكنك هنا تعيين BPM الأصلي لملف الصوت.';
 
@@ -912,6 +1103,22 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get speedChangeFailed => 'فشل تغيير السرعة. يرجى إعادة المحاولة.';
+
+  @override
+  String get pitchChangeFailed => 'فشل تغيير طبقة الصوت. يرجى إعادة المحاولة.';
+
+  @override
+  String get editSongKey => 'السلم الموسيقي';
+
+  @override
+  String get originalKey => 'السلم الأصلي';
+
+  @override
+  String get currentKey => 'السلم الحالي';
+
+  @override
+  String get hereYouCanSetTheOriginalKeyOfTheAudioFile =>
+      'هنا يمكنك تعيين السلم الأصلي للملف الصوتي.';
 
   @override
   String get copyToClipboard => 'نسخ إلى الحافظة';

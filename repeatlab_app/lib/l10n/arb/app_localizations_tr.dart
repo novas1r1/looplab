@@ -120,25 +120,71 @@ class AppLocalizationsTr extends AppLocalizations {
       '§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nE-posta: support@repeatlab.de\n\nYasal Şekil: Serbest Çalışan';
 
   @override
-  String get onboardingTitle1 => 'RepeatLab\'a Hoş Geldiniz';
+  String get onboardingEyebrow1 => 'RepeatLab\'a hoş geldiniz';
+
+  @override
+  String get onboardingTitle1 => 'Bir profesyonel gibi çalışın';
 
   @override
   String get onboardingDescription1 =>
-      'Zor bölümleri tekrarlayarak veya yavaşlatarak herhangi bir şarkıda ustalaşın.';
+      'Her şarkıda ustalaşmak için kişisel döngü istasyonunuz — ses veya video, %100 çevrimdışı.';
 
   @override
-  String get onboardingTitle2 => 'Hassas Döngüler Oluşturun';
+  String get onboardingEyebrow2 => 'Döngü';
+
+  @override
+  String get onboardingTitle2 => 'Zorlu bölümleri döngüye alın';
 
   @override
   String get onboardingDescription2 =>
-      'Pratik yapmak istediğiniz bölümün başlangıç ve bitişini işaretlemek için sadece tıklayın. Sezgisel dalga formu görünümü ile hassas ayarlamalar yapın.';
+      'Dalga formu üzerinde hassas başlangıç ve bitiş noktaları belirleyin, ardından o bölümü tam olarak oturtana kadar çalın.';
 
   @override
-  String get onboardingTitle3 => 'Önce Gizlilik';
+  String get onboardingEyebrow3 => 'Hız ve tempo';
+
+  @override
+  String get onboardingTitle3 => 'Yavaşlatın, perdeyi koruyun';
 
   @override
   String get onboardingDescription3 =>
-      'Gizliliğinize saygı duyuyor ve verilerinizi dikkatle işliyoruz. Lütfen devam etmek için gizlilik politikasını gözden geçirin ve onaylayın.';
+      '0.5×\'ten 2.0×\'e inin ya da tam bir BPM ayarlayın. Perde bozulmaz, böylece hiçbir zaman kulağı tırmalamaz.';
+
+  @override
+  String get onboardingEyebrow4 => 'Perde';
+
+  @override
+  String get onboardingTitle4 => 'Kendi tonunuzda çalın';
+
+  @override
+  String get onboardingDescription4 =>
+      '±12 yarım ses transpoze edin ya da tonu tona eşleyin — sesinize, akordunuza ve kaponuza göre ayarlayın.';
+
+  @override
+  String get onboardingConsentTitle => 'Verileriniz, sizin kararınız';
+
+  @override
+  String get onboardingConsentBody =>
+      'RepeatLab çevrimdışı çalışır ve dosyalarınızı cihazınızda tutar. Başlamadan önce hızlıca halledilecek küçük bir konu var.';
+
+  @override
+  String get onboardingAnalyticsTitle => 'Anonim analitik';
+
+  @override
+  String get onboardingAnalyticsBody =>
+      'RepeatLab\'ı geliştirmeye yardımcı olmak için anonim kullanım verilerini (EU\'da barındırılır) paylaşın.';
+
+  @override
+  String get onboardingDataProtectionTitle => 'Veri koruma';
+
+  @override
+  String get onboardingConsentFootnote =>
+      'Analitiği istediğiniz zaman Ayarlar\'dan değiştirebilirsiniz.';
+
+  @override
+  String get onboardingSkip => 'Atla';
+
+  @override
+  String get onboardingContinue => 'Devam et';
 
   @override
   String get onboardingIAccept => 'Kabul Ediyorum';
@@ -238,6 +284,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get premiumFeatureChangeMusicSpeed => 'Hız Kontrolü (BPM/Çarpan)';
+
+  @override
+  String get premiumFeaturePitchControl => 'Perde Kontrolü (Yarım Tonlar)';
 
   @override
   String get premiumFeatureZoomInOut => 'Dalga formunu yakınlaştır/uzaklaştır';
@@ -345,6 +394,13 @@ class AppLocalizationsTr extends AppLocalizations {
       'Daha iyi hassasiyet için parmaklarınızla tüm şarkıyı sola veya sağa sürükleyin ve yakınlaştırın/uzaklaştırın';
 
   @override
+  String get tutorialVideoPreview => 'Videoyu izleyin ve boyutunu ayarlayın';
+
+  @override
+  String get tutorialVideoPreviewDescription =>
+      'Videoyu yeniden boyutlandırmak için + ve − düğmelerini kullanın. Videoda gezinmek için aşağıdaki zaman çizelgesini ve kontrolleri kullanın';
+
+  @override
   String get tutorialPlayAndPauseSong => 'Şarkıyı çal ve duraklat';
 
   @override
@@ -417,7 +473,43 @@ class AppLocalizationsTr extends AppLocalizations {
   String get voteForFeatures => 'Özellikler için oy ver';
 
   @override
-  String get changelogTitle => 'Değişiklik Günlüğü';
+  String get changelogTitle => 'Yenilikler';
+
+  @override
+  String get changelog2201Title => 'Metronom';
+
+  @override
+  String get changelog2201Description =>
+      'Şarkının temposunu koruyan yerleşik bir metronom eşliğinde çal. Ölçü işaretini ve alt bölünmeyi seç, dokunarak tempoyu belirle ve tıklamayı yarım vuruş kaydırmaları ile milisaniye ince ayarlarıyla ritme tam olarak oturacak şekilde ayarla.';
+
+  @override
+  String get changelog2202Title => 'Duraklatıldığında döngüleri düzenle';
+
+  @override
+  String get changelog2202Description =>
+      'Artık oynatma duraklatılmışken bir döngünün başlangıç ve bitiş noktalarını serbestçe taşıyabilirsin - oynatma başı artık döngünün içine geri dönmüyor. Oynat\'a bastığın anda döngü sınırları yeniden geçerli olur, böylece döngülerini ince ayarlamak çok daha kolay hale gelir.';
+
+  @override
+  String get changelog2101Title => 'Perde kaydırma (Beta)';
+
+  @override
+  String get changelog2101Description =>
+      'Şarkılarının perdesini hızı etkilemeden yarım tonlar halinde değiştir - bir şarkıyı başka bir tona aktarmak veya enstrümanının akorduna uydurmak için mükemmel. Bu özellik şu an Beta aşamasında; sorunla karşılaşırsan bana geri bildirimini gönder.';
+
+  @override
+  String get changelog2102Title => 'Birden fazla dosyayı aynı anda içe aktarın';
+
+  @override
+  String get changelog2102Description =>
+      'Artık birden fazla ses dosyasını tek seferde seçip içe aktarabilirsiniz. Şarkılarınız eklenirken bir ilerleme göstergesi sizi bilgilendirir.';
+
+  @override
+  String get changelog2103Title =>
+      'Hata düzeltmeleri ve kararlılık iyileştirmeleri';
+
+  @override
+  String get changelog2103Description =>
+      'Birkaç hata düzeltildi, uygulamanın genel kararlılığı ve performansı iyileştirildi.';
 
   @override
   String get changelog201Title => 'Videoları döngüye al ve hız değiştir (Beta)';
@@ -563,6 +655,10 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get songAddError =>
       'Şarkı eklenemedi. Bu dosya formatından kaynaklanıyor olabilir. Lütfen dosyayı mp3 veya wav gibi desteklenen bir formata dönüştürmeyi deneyin.';
+
+  @override
+  String get importAlreadyRunningError =>
+      'Başka bir içe aktarma hâlâ devam ediyor. Bulut depolamadan büyük dosyalar zaman alabilir; lütfen bitmesini bekleyin.';
 
   @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
@@ -890,6 +986,101 @@ class AppLocalizationsTr extends AppLocalizations {
   String get speedControl => 'Hız';
 
   @override
+  String get pitchControl => 'Perde';
+
+  @override
+  String get metronome => 'Metronom';
+
+  @override
+  String get metronomeVolume => 'Ses düzeyi';
+
+  @override
+  String get metronomeTimeSignature => 'Ölçü';
+
+  @override
+  String get metronomeSubdivision => 'Alt bölme';
+
+  @override
+  String get metronomeNudge => 'Kaydırma';
+
+  @override
+  String get metronomeTapBeat => 'Vuruşa dokun';
+
+  @override
+  String get metronomeShiftHalfBeat => 'Yarım vuruş kaydır';
+
+  @override
+  String metronomeOffsetMs(int ms) {
+    return '$ms ms';
+  }
+
+  @override
+  String get metronomeSetBpmFirst =>
+      'Metronomu kullanmak için önce şarkının BPM değerini ayarla.';
+
+  @override
+  String get metronomeGoToBpm => 'BPM ayarla';
+
+  @override
+  String get metronomeAdvanced => 'Gelişmiş';
+
+  @override
+  String get metronomeSyncToSong => 'Şarkıyla senkronize et';
+
+  @override
+  String metronomeKeepTapping(int count) {
+    return 'Dokunmaya devam edin… ($count)';
+  }
+
+  @override
+  String get metronomeSyncHint =>
+      'Tık sesi şarkının temposunu takip eder ancak vuruşlara tam denk gelmeyebilir. Senkronize etmek için şarkıyla birlikte ritme dokunun.';
+
+  @override
+  String get metronomeResetSync => 'Senkronizasyonu sıfırla';
+
+  @override
+  String get off => 'kapalı';
+
+  @override
+  String get pitchSemitone => 'Yarım ses';
+
+  @override
+  String get semitones => 'Yarım sesler';
+
+  @override
+  String get pitchUnchanged => 'perde değişmedi';
+
+  @override
+  String get tapTempo => 'Tempoyu vur';
+
+  @override
+  String songBpmValue(int bpm) {
+    return 'Şarkı BPM $bpm';
+  }
+
+  @override
+  String get retap => 'yeniden vur';
+
+  @override
+  String get edit => 'Düzenle';
+
+  @override
+  String get setSongTempoHint =>
+      'Oynatmayı dakikadaki vuruşa göre ayarlamak için şarkının temposunu belirle.';
+
+  @override
+  String get bpmTapHint => 'Ritme uygun şekilde pede dokun';
+
+  @override
+  String get bpmTapUnit => 'BPM · dokun';
+
+  @override
+  String useBpmValue(int bpm) {
+    return '$bpm kullan';
+  }
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'Burada ses dosyasının orijinal BPM\'sini ayarlayabilirsiniz.';
 
@@ -924,6 +1115,23 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get speedChangeFailed =>
       'Hız değişikliği başarısız oldu. Lütfen tekrar deneyin.';
+
+  @override
+  String get pitchChangeFailed =>
+      'Perde değişikliği başarısız oldu. Lütfen tekrar deneyin.';
+
+  @override
+  String get editSongKey => 'Ton';
+
+  @override
+  String get originalKey => 'ORİJİNAL TON';
+
+  @override
+  String get currentKey => 'GÜNCEL TON';
+
+  @override
+  String get hereYouCanSetTheOriginalKeyOfTheAudioFile =>
+      'Burada ses dosyasının orijinal tonunu ayarlayabilirsiniz.';
 
   @override
   String get copyToClipboard => 'Panoya kopyala';

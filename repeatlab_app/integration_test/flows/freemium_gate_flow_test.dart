@@ -10,7 +10,9 @@ void main() {
   // The paywall itself is a native RevenueCatUI sheet (can't be asserted in
   // Flutter), so the gate is verified via its in-app effect: for a non-Pro user,
   // every loop beyond the first renders locked.
-  patrolTest('freemium gate: non-Pro sees locked loops past the first', ($) async {
+  patrolTest('freemium gate: non-Pro sees locked loops past the first', (
+    $,
+  ) async {
     await resetAppState();
     final song = await seedAudioSong(title: 'Gated Song', loopCount: 2);
     await pumpRepeatLab($, isPro: false);

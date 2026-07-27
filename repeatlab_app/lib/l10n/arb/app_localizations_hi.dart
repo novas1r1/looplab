@@ -121,25 +121,71 @@ class AppLocalizationsHi extends AppLocalizations {
       '§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nईमेल: support@repeatlab.de\n\nकानूनी रूप: स्वतंत्र कार्यकर्ता';
 
   @override
-  String get onboardingTitle1 => 'RepeatLab में आपका स्वागत है';
+  String get onboardingEyebrow1 => 'RepeatLab में आपका स्वागत है';
+
+  @override
+  String get onboardingTitle1 => 'किसी प्रो की तरह अभ्यास करें';
 
   @override
   String get onboardingDescription1 =>
-      'कठिन भागों को दोहराकर या धीमा करके किसी भी गीत में महारत हासिल करें।';
+      'किसी भी गीत में महारत हासिल करने के लिए आपका निजी लूप स्टेशन — ऑडियो या वीडियो, 100% ऑफ़लाइन।';
 
   @override
-  String get onboardingTitle2 => 'सटीक लूप बनाएं';
+  String get onboardingEyebrow2 => 'लूप';
+
+  @override
+  String get onboardingTitle2 => 'कठिन हिस्सों को लूप करें';
 
   @override
   String get onboardingDescription2 =>
-      'बस उस खंड की शुरुआत और अंत को चिह्नित करने के लिए क्लिक करें जिसे आप अभ्यास करना चाहते हैं। सहज वेवफॉर्म व्यू के साथ सटीक समायोजन करें।';
+      'वेवफॉर्म पर सटीक शुरुआत और अंत बिंदु सेट करें, फिर उस हिस्से को तब तक बजाएं जब तक आप उसमें महारत हासिल न कर लें।';
 
   @override
-  String get onboardingTitle3 => 'गोपनीयता पहले';
+  String get onboardingEyebrow3 => 'गति और टेम्पो';
+
+  @override
+  String get onboardingTitle3 => 'गति धीमी करें, पिच वही रखें';
 
   @override
   String get onboardingDescription3 =>
-      'हम आपकी गोपनीयता का सम्मान करते हैं और आपके डेटा को सावधानी से संभालते हैं। कृपया आगे बढ़ने के लिए गोपनीयता नीति की समीक्षा करें और सहमत हों।';
+      '0.5× से 2.0× तक घटाएं, या सटीक BPM सेट करें। पिच सही बनी रहती है, इसलिए आवाज़ कभी बेसुरी नहीं लगती।';
+
+  @override
+  String get onboardingEyebrow4 => 'पिच';
+
+  @override
+  String get onboardingTitle4 => 'इसे अपनी की में बजाएं';
+
+  @override
+  String get onboardingDescription4 =>
+      '±12 सेमिटोन ट्रांसपोज़ करें या की-टू-की मैप करें — अपनी आवाज़, अपनी ट्यूनिंग, अपने कैपो के अनुसार।';
+
+  @override
+  String get onboardingConsentTitle => 'आपका डेटा, आपका फ़ैसला';
+
+  @override
+  String get onboardingConsentBody =>
+      'RepeatLab ऑफ़लाइन काम करता है और आपकी फ़ाइलें आपके डिवाइस पर रखता है। शुरू करने से पहले बस एक छोटी-सी बात।';
+
+  @override
+  String get onboardingAnalyticsTitle => 'गुमनाम एनालिटिक्स';
+
+  @override
+  String get onboardingAnalyticsBody =>
+      'RepeatLab को बेहतर बनाने में मदद के लिए गुमनाम उपयोग डेटा (EU में होस्ट किया गया) साझा करें।';
+
+  @override
+  String get onboardingDataProtectionTitle => 'डेटा सुरक्षा';
+
+  @override
+  String get onboardingConsentFootnote =>
+      'आप एनालिटिक्स को कभी भी सेटिंग्स में बदल सकते हैं।';
+
+  @override
+  String get onboardingSkip => 'छोड़ें';
+
+  @override
+  String get onboardingContinue => 'जारी रखें';
 
   @override
   String get onboardingIAccept => 'मैं स्वीकार करता हूं';
@@ -239,6 +285,9 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get premiumFeatureChangeMusicSpeed => 'गति नियंत्रण (BPM/गुणक)';
+
+  @override
+  String get premiumFeaturePitchControl => 'पिच नियंत्रण (सेमीटोन)';
 
   @override
   String get premiumFeatureZoomInOut => 'वेवफॉर्म ज़ूम इन/आउट';
@@ -344,6 +393,13 @@ class AppLocalizationsHi extends AppLocalizations {
       'बेहतर सटीकता के लिए अपनी उंगलियों से पूरे गीत को बाएं या दाएं खींचें और ज़ूम इन/आउट करें';
 
   @override
+  String get tutorialVideoPreview => 'वीडियो देखें और उसका आकार समायोजित करें';
+
+  @override
+  String get tutorialVideoPreviewDescription =>
+      'वीडियो का आकार बदलने के लिए + और − बटन का उपयोग करें। वीडियो में नेविगेट करने के लिए नीचे दी गई टाइमलाइन और नियंत्रणों का उपयोग करें';
+
+  @override
   String get tutorialPlayAndPauseSong => 'गीत चलाएं और रोकें';
 
   @override
@@ -415,7 +471,42 @@ class AppLocalizationsHi extends AppLocalizations {
   String get voteForFeatures => 'सुविधाओं के लिए वोट करें';
 
   @override
-  String get changelogTitle => 'परिवर्तन लॉग';
+  String get changelogTitle => 'नया क्या है';
+
+  @override
+  String get changelog2201Title => 'मेट्रोनोम';
+
+  @override
+  String get changelog2201Description =>
+      'एक अंतर्निहित मेट्रोनोम के साथ बजाएं जो आपके गाने की ताल के साथ चलता है। टाइम सिग्नेचर और सबडिवीज़न चुनें, टेम्पो टैप करें, और क्लिक को आधे-बीट शिफ्ट और मिलीसेकंड नज के साथ बारीकी से समायोजित करें ताकि यह बीट के साथ पूरी तरह मेल खाए।';
+
+  @override
+  String get changelog2202Title => 'रुके होने पर लूप संपादित करें';
+
+  @override
+  String get changelog2202Description =>
+      'अब आप प्लेबैक रुके होने पर किसी लूप के शुरू और अंत बिंदुओं को स्वतंत्र रूप से घुमा सकते हैं - प्लेहेड अब वापस लूप में नहीं आता। जैसे ही आप प्ले दबाते हैं, लूप की सीमाएं फिर से लागू हो जाती हैं, जिससे अपने लूप को बारीकी से समायोजित करना बहुत आसान हो जाता है।';
+
+  @override
+  String get changelog2101Title => 'पिच शिफ्ट (Beta)';
+
+  @override
+  String get changelog2101Description =>
+      'स्पीड को प्रभावित किए बिना अपने गानों की पिच को सेमीटोन में बदलें - किसी गाने को दूसरी की में ट्रांसपोज़ करने या अपने वाद्य यंत्र की ट्यूनिंग से मिलाने के लिए बिल्कुल सही। यह फीचर अभी Beta में है; अगर कोई समस्या आए तो मुझे अपना फीडबैक भेजें।';
+
+  @override
+  String get changelog2102Title => 'एक साथ कई फ़ाइलें इम्पोर्ट करें';
+
+  @override
+  String get changelog2102Description =>
+      'अब आप एक ही बार में कई ऑडियो फ़ाइलें चुनकर इम्पोर्ट कर सकते हैं। आपके गाने जोड़े जाने के दौरान एक प्रगति संकेतक आपको सूचित रखता है।';
+
+  @override
+  String get changelog2103Title => 'बग फ़िक्स और स्थिरता में सुधार';
+
+  @override
+  String get changelog2103Description =>
+      'कई बग ठीक किए गए और ऐप की समग्र स्थिरता और प्रदर्शन में सुधार किया गया।';
 
   @override
   String get changelog201Title => 'वीडियो लूप करें और स्पीड बदलें (Beta)';
@@ -562,6 +653,10 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get songAddError =>
       'गीत जोड़ने में विफल। यह फाइल प्रारूप के कारण हो सकता है। कृपया फाइल को mp3 या wav जैसे समर्थित प्रारूप में कनवर्ट करने का प्रयास करें।';
+
+  @override
+  String get importAlreadyRunningError =>
+      'एक और आयात अभी भी चल रहा है। क्लाउड स्टोरेज से बड़ी फ़ाइलों में समय लग सकता है - कृपया इसके समाप्त होने की प्रतीक्षा करें।';
 
   @override
   String unsupportedAudioFormatError(String format, String supportedFormats) {
@@ -887,6 +982,101 @@ class AppLocalizationsHi extends AppLocalizations {
   String get speedControl => 'गति';
 
   @override
+  String get pitchControl => 'पिच';
+
+  @override
+  String get metronome => 'मेट्रोनोम';
+
+  @override
+  String get metronomeVolume => 'वॉल्यूम';
+
+  @override
+  String get metronomeTimeSignature => 'ताल';
+
+  @override
+  String get metronomeSubdivision => 'उपविभाजन';
+
+  @override
+  String get metronomeNudge => 'समायोजन';
+
+  @override
+  String get metronomeTapBeat => 'बीट पर टैप करें';
+
+  @override
+  String get metronomeShiftHalfBeat => 'आधी बीट खिसकाएँ';
+
+  @override
+  String metronomeOffsetMs(int ms) {
+    return '$ms ms';
+  }
+
+  @override
+  String get metronomeSetBpmFirst =>
+      'मेट्रोनोम का उपयोग करने के लिए पहले गाने का BPM सेट करें।';
+
+  @override
+  String get metronomeGoToBpm => 'BPM सेट करें';
+
+  @override
+  String get metronomeAdvanced => 'उन्नत';
+
+  @override
+  String get metronomeSyncToSong => 'गाने के साथ सिंक करें';
+
+  @override
+  String metronomeKeepTapping(int count) {
+    return 'टैप करते रहें… ($count)';
+  }
+
+  @override
+  String get metronomeSyncHint =>
+      'क्लिक गाने की गति का अनुसरण करता है, लेकिन हो सकता है कि यह ठीक बीट पर न पड़े। सिंक करने के लिए गाने की ताल पर टैप करें।';
+
+  @override
+  String get metronomeResetSync => 'सिंक रीसेट करें';
+
+  @override
+  String get off => 'बंद';
+
+  @override
+  String get pitchSemitone => 'सेमिटोन';
+
+  @override
+  String get semitones => 'सेमिटोन';
+
+  @override
+  String get pitchUnchanged => 'पिच अपरिवर्तित';
+
+  @override
+  String get tapTempo => 'टैप टेम्पो';
+
+  @override
+  String songBpmValue(int bpm) {
+    return 'गाने का BPM $bpm';
+  }
+
+  @override
+  String get retap => 'फिर से टैप करें';
+
+  @override
+  String get edit => 'संपादित करें';
+
+  @override
+  String get setSongTempoHint =>
+      'प्रति मिनट बीट्स के अनुसार प्लेबैक समायोजित करने के लिए गाने का टेम्पो सेट करें।';
+
+  @override
+  String get bpmTapHint => 'बीट की ताल पर पैड को टैप करें';
+
+  @override
+  String get bpmTapUnit => 'BPM · टैप';
+
+  @override
+  String useBpmValue(int bpm) {
+    return '$bpm उपयोग करें';
+  }
+
+  @override
   String get hereYouCanSetTheOriginalBpmOfTheAudioFile =>
       'आप यहां ऑडियो फ़ाइल का मूल BPM सेट कर सकते हैं।';
 
@@ -921,6 +1111,23 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get speedChangeFailed =>
       'गति परिवर्तन विफल हो गया। कृपया पुनः प्रयास करें।';
+
+  @override
+  String get pitchChangeFailed =>
+      'पिच परिवर्तन विफल हो गया। कृपया पुनः प्रयास करें।';
+
+  @override
+  String get editSongKey => 'की';
+
+  @override
+  String get originalKey => 'मूल की';
+
+  @override
+  String get currentKey => 'वर्तमान की';
+
+  @override
+  String get hereYouCanSetTheOriginalKeyOfTheAudioFile =>
+      'यहां आप ऑडियो फ़ाइल की मूल की सेट कर सकते हैं।';
 
   @override
   String get copyToClipboard => 'क्लिपबोर्ड पर कॉपी करें';

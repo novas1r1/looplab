@@ -3,13 +3,16 @@
 import 'dart:async';
 import 'dart:developer' as dev;
 import 'dart:io';
-import 'dart:math';
+import 'dart:math' as math;
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
+import 'package:repeatlab/core/utils/beat_grid.dart';
 import 'package:repeatlab/core/utils/cubit_extension.dart';
+import 'package:repeatlab/core/utils/musical_key.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/crash_reporting_repository.dart';
@@ -17,7 +20,9 @@ import 'package:repeatlab/data/repositories/local_config_repository.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:repeatlab/data/services/audio_service_provider.dart';
 import 'package:repeatlab/data/services/media_player_handler.dart';
+import 'package:repeatlab/data/services/metronome_track_service.dart';
 import 'package:repeatlab/data/services/repeatlab_audioplayers_service_handler.dart';
+import 'package:repeatlab/data/services/song_metronome.dart';
 
 // part 'song_cubit.mapper.dart';
 part 'song_cubit.mapper.dart';
@@ -29,6 +34,15 @@ class SongCubit extends Cubit<SongState> {
   final SongRepository songRepository;
   final LocalConfigRepository localConfigRepository;
   final CrashReportingRepository crashReportingRepository;
+
+  /// Native metronome wrapper. Injected in tests; lazily initialized on first
+  /// use, so unsupported platforms never touch the plugin. Only used for
+  /// video songs — audio songs use the baked click track instead.
+  final SongMetronome _metronome;
+
+  /// Renders + mixes the baked click track for audio songs. Injected in
+  /// tests so no ffmpeg/path_provider plugins are touched.
+  final MetronomeTrackService _trackService;
 
   static const double _minPlaybackSpeed = 0.5;
   static const double _maxPlaybackSpeed = 2.0;
@@ -66,6 +80,42 @@ class SongCubit extends Cubit<SongState> {
   /// Subscription for navigation events from the audio handler (skip prev/next buttons)
   StreamSubscription<LoopNavigationEvent>? _navigationSubscription;
 
+  /// Position discontinuities from the handler (user seeks AND native loop
+  /// wraps, which never reach the cubit any other way) — the metronome
+  /// realigns its click grid from this.
+  StreamSubscription<Duration>? _seekEventsSubscription;
+
+  /// Debounces grid restarts so seek bursts / slider sweeps coalesce into
+  /// one audible re-phase.
+  Timer? _gridRealignTimer;
+
+  /// Tap-to-align capture: buffered tap positions (song-time ms) and the
+  /// settle timer that commits them into the beat anchor.
+  final List<int> _tapPositionsMs = [];
+  Timer? _tapSettleTimer;
+
+  /// Serializes metronome start/stop against each other. An aligned start
+  /// awaits the player position mid-flight; without ordering, a stop
+  /// (pause/completed) issued during that await could be overtaken by the
+  /// stale start — leaving the click running over silence.
+  Future<void> _metronomeCommandQueue = Future<void>.value();
+
+  /// Bumped on every stop/dispose; an in-flight aligned start aborts when
+  /// its captured generation is stale.
+  int _metronomeGeneration = 0;
+
+  /// Debounces click-track re-mixes so a burst of settings changes (nudge
+  /// taps, volume slider) mixes once, not per tap.
+  Timer? _clickTrackRefreshTimer;
+
+  /// Bumped whenever the click track must not be applied anymore (toggle
+  /// off, close); an in-flight mix aborts when its generation is stale.
+  int _clickTrackGeneration = 0;
+
+  /// Whether the player is currently fed the song+click mix instead of the
+  /// original file — the flag that tells disable to swap back.
+  bool _isClickTrackSourceActive = false;
+
   Duration? positionToSeek;
 
   Future<Duration> get position async => await audioHandler.position;
@@ -75,7 +125,11 @@ class SongCubit extends Cubit<SongState> {
     required this.songRepository,
     required this.localConfigRepository,
     required this.crashReportingRepository,
-  }) : super(SongState(song: song)) {
+    SongMetronome? metronome,
+    MetronomeTrackService? trackService,
+  }) : _metronome = metronome ?? SongMetronome(),
+       _trackService = trackService ?? MetronomeTrackService(),
+       super(SongState(song: song)) {
     loopsStreamController = StreamController<List<Loop>>.broadcast();
     // clear the stream
     loopsStreamController?.stream.drain();
@@ -102,9 +156,28 @@ class SongCubit extends Cubit<SongState> {
     await _playerStateSubscription?.cancel();
     await _positionSubscription?.cancel();
     await _durationSubscription?.cancel();
+    await _seekEventsSubscription?.cancel();
+    _gridRealignTimer?.cancel();
+    _tapSettleTimer?.cancel();
+    _clickTrackRefreshTimer?.cancel();
+    _clickTrackGeneration++;
+
+    // The audio handler is an app-lifetime singleton — silence the native
+    // click processor so it cannot outlive this song page.
+    if (handler != null &&
+        _usesNativeClickPipeline &&
+        state.isMetronomeEnabled) {
+      unawaited(_disableNativeClickTrack());
+    }
 
     // Clean up audio service if available
     await handler?.stop();
+
+    // Serialized behind any in-flight metronome command; the generation
+    // bump aborts a pending aligned start so it cannot resurrect the
+    // engine after dispose.
+    _metronomeGeneration++;
+    await _enqueueMetronomeCommand(_metronome.dispose);
 
     return super.close();
   }
@@ -256,6 +329,7 @@ class SongCubit extends Cubit<SongState> {
       await _playerStateSubscription?.cancel();
       await _positionSubscription?.cancel();
       await _durationSubscription?.cancel();
+      await _seekEventsSubscription?.cancel();
 
       // Assign the media handler.
       _audioHandler = handler;
@@ -267,6 +341,12 @@ class SongCubit extends Cubit<SongState> {
           stopSong();
         }
 
+        // Single choke point that sees play/pause/stop/completed for both
+        // audio and video (incl. notification/Bluetooth controls) — the
+        // metronome follows playback from here. Only react to actual
+        // transitions so duplicate stream events don't restart the phase.
+        final previousPlayerState = state.playerState;
+
         maybeEmit(
           state.copyWith(
             status: SongStatus.updated,
@@ -274,6 +354,10 @@ class SongCubit extends Cubit<SongState> {
             error: null,
           ),
         );
+
+        if (playerState != previousPlayerState) {
+          unawaited(_syncMetronomeToPlayback(playerState));
+        }
       });
 
       /// audio player subscriptions for position
@@ -319,8 +403,22 @@ class SongCubit extends Cubit<SongState> {
       // Initialize audio player with the file but keep it paused.
       // autoStart: false loads the source without starting playback, so the
       // user doesn't hear a brief blip when opening a song.
-      // Note: playSong automatically resets speed to 1.0 for each new song.
+      // Note: playSong automatically resets speed to 1.0 and pitch to 0 for
+      // each new song.
       await audioHandler.playSong(state.song, autoStart: false);
+
+      // Restore the persisted per-song pitch (unlike speed, pitch survives
+      // song reopen). If the platform rejects it, stay at 0.
+      var appliedPitch = 0;
+      final persistedPitch = state.song.pitchSemitones.clamp(
+        minPitchSemitones,
+        maxPitchSemitones,
+      );
+      if (persistedPitch != 0 && isPitchControlSupported) {
+        if (await audioHandler.setPitchSemitones(persistedPitch)) {
+          appliedPitch = persistedPitch;
+        }
+      }
 
       // check if tutorial is completed
       final isTutorialCompleted = localConfigRepository.hasCompletedTutorial;
@@ -348,6 +446,12 @@ class SongCubit extends Cubit<SongState> {
         _handleNavigationEvent,
       );
 
+      // Realign the metronome on every position discontinuity the handler
+      // performs — including native loop wraps the cubit never initiates.
+      _seekEventsSubscription = audioHandler.seekEvents.listen((_) {
+        unawaited(_realignMetronome(MetronomeRealignReason.loopJumped));
+      });
+
       // Initialize speed control state - always reset to 1.0 on song open.
       // Cap a persisted BPM to the supported range; older songs may have stored
       // an out-of-range value that would make the bound calculation throw.
@@ -359,7 +463,10 @@ class SongCubit extends Cubit<SongState> {
       int? initialMaxBpm;
       if (songBpm != null && songBpm > 0) {
         initialMinBpm = (songBpm * 0.5).round().clamp(1, songBpm);
-        initialMaxBpm = (songBpm * 2.0).round().clamp(songBpm, _maxSupportedBpm);
+        initialMaxBpm = (songBpm * 2.0).round().clamp(
+          songBpm,
+          _maxSupportedBpm,
+        );
       }
 
       emit(
@@ -377,6 +484,14 @@ class SongCubit extends Cubit<SongState> {
           currentBpm: songBpm, // Start at original BPM (speed 1.0)
           minBpm: initialMinBpm,
           maxBpm: initialMaxBpm,
+          // Pitch is restored from the song, unlike speed; the mode resets
+          pitchSemitones: appliedPitch,
+          pitchMode: PitchMode.semitones,
+          // Metronome always starts off; volume/subdivision are global prefs
+          isMetronomeEnabled: false,
+          metronomeVolume: localConfigRepository.metronomeVolume,
+          metronomeSubdivision: _readMetronomeSubdivisionPref(),
+          metronomeTapCount: 0,
           error: null,
         ),
       );
@@ -412,14 +527,18 @@ class SongCubit extends Cubit<SongState> {
         case PlayerState.completed:
         case PlayerState.disposed:
           // Reinitialize the audio handler if it's in a bad state
-          // This resets speed to 1.0, so sync UI state
+          // This resets speed to 1.0 and pitch to 0, so sync UI state
           await audioHandler.playSong(state.song);
           _syncSpeedStateAfterSongReload();
+          await _reapplyPitchAfterSongReload();
+          _reapplyClickTrackAfterSongReload();
         case null:
           // Initialize the audio handler if it's null
-          // This resets speed to 1.0, so sync UI state
+          // This resets speed to 1.0 and pitch to 0, so sync UI state
           await audioHandler.playSong(state.song);
           _syncSpeedStateAfterSongReload();
+          await _reapplyPitchAfterSongReload();
+          _reapplyClickTrackAfterSongReload();
       }
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
@@ -443,6 +562,23 @@ class SongCubit extends Cubit<SongState> {
         currentBpm: state.originalBpm, // Reset to original BPM if set
       ),
     );
+    unawaited(_realignMetronome(MetronomeRealignReason.tempoChanged));
+  }
+
+  /// Reapplies the current pitch after the audio handler reset it to 0 in
+  /// playSong (unlike speed, pitch should survive a song reload). Reverts the
+  /// UI state to 0 if the platform rejects the change.
+  Future<void> _reapplyPitchAfterSongReload() async {
+    if (state.pitchSemitones == 0 || !isPitchControlSupported) return;
+
+    final success = await audioHandler.setPitchSemitones(state.pitchSemitones);
+    if (!success) {
+      dev.log(
+        'Failed to reapply pitch after song reload, reverting to 0',
+        name: 'SongCubit',
+      );
+      emit(state.copyWith(pitchSemitones: 0));
+    }
   }
 
   Future<void> stopSong() async {
@@ -476,6 +612,7 @@ class SongCubit extends Cubit<SongState> {
   Future<void> seekSong(Duration position) async {
     try {
       await audioHandler.seek(position);
+      unawaited(_realignMetronome(MetronomeRealignReason.seeked));
     } catch (ex) {
       // disabled crash reporting because its happening too often
       // unawaited(crashReportingRepository.reportError(ex, stack));
@@ -503,6 +640,14 @@ class SongCubit extends Cubit<SongState> {
     final currentPosition = await position;
 
     dev.log('setLoopStart to $currentPosition');
+
+    // Push the new bounds to the handler immediately (mirrors setLoopEnd) so a
+    // subsequent play resumes from the new start rather than the stale one.
+    if (state.isLoopModeEnabled) {
+      audioHandler.customAction('enableLoop', {
+        'loop': activeLoop.copyWith(start: currentPosition),
+      });
+    }
 
     await updateLoop(activeLoop.copyWith(start: currentPosition));
   }
@@ -595,6 +740,8 @@ class SongCubit extends Cubit<SongState> {
         ),
       );
 
+      unawaited(_realignMetronome(MetronomeRealignReason.seeked));
+
       // Auto-play the loop if enabled
       if (state.isAutoPlayEnabled) {
         await audioHandler.play();
@@ -659,6 +806,8 @@ class SongCubit extends Cubit<SongState> {
             currentPosition < updatedLoop.start!) {
           await audioHandler.seek(updatedLoop.start!);
         }
+
+        unawaited(_realignMetronome(MetronomeRealignReason.seeked));
       } else {
         await audioHandler.pause();
       }
@@ -755,9 +904,7 @@ class SongCubit extends Cubit<SongState> {
       // once a loop has been deleted — use max(id) + 1 instead.
       final nextId = state.song.loops.isEmpty
           ? 0
-          : state.song.loops
-                    .map((l) => l.id)
-                    .reduce((a, b) => a > b ? a : b) +
+          : state.song.loops.map((l) => l.id).reduce((a, b) => a > b ? a : b) +
                 1;
 
       // create a new loop
@@ -891,6 +1038,10 @@ class SongCubit extends Cubit<SongState> {
 
     try {
       await songRepository.deleteSong(state.song);
+      // Cached click mixes for a deleted song are dead weight.
+      unawaited(
+        _trackService.clearForSong(state.song.id).catchError((Object _) {}),
+      );
       loopsStreamController?.close();
       emit(
         state.copyWith(
@@ -914,15 +1065,16 @@ class SongCubit extends Cubit<SongState> {
     required String title,
     required String artist,
     required int? bpm,
+    required String? musicalKey,
   }) async {
     final bpmChanged = bpm != state.song.bpm;
 
     emit(state.copyWith(status: SongStatus.updating));
 
     try {
-      // Build the updated song. For BPM we must construct a new Song directly
-      // because dart_mappable's copyWith cannot distinguish null (clear) from
-      // not-provided when the field is nullable.
+      // Build the updated song. For BPM and musical key we must construct a
+      // new Song directly because dart_mappable's copyWith cannot distinguish
+      // null (clear) from not-provided when the field is nullable.
       final updatedSong = Song(
         id: state.song.id,
         title: title,
@@ -931,11 +1083,17 @@ class SongCubit extends Cubit<SongState> {
         duration: state.song.duration,
         bpm: bpm,
         currentBpm: state.song.currentBpm,
+        pitchSemitones: state.song.pitchSemitones,
+        musicalKey: musicalKey,
         loops: state.song.loops,
         loopSort: state.song.loopSort,
         sortOrder: state.song.sortOrder,
         mediaType: state.song.mediaType,
         videoSizeMode: state.song.videoSizeMode,
+        metronomeOffsetMs: state.song.metronomeOffsetMs,
+        metronomeBeatAnchorMs: state.song.metronomeBeatAnchorMs,
+        metronomeBeatsPerBar: state.song.metronomeBeatsPerBar,
+        metronomeBeatUnit: state.song.metronomeBeatUnit,
       );
       await songRepository.updateSong(updatedSong);
 
@@ -993,6 +1151,7 @@ class SongCubit extends Cubit<SongState> {
     dev.log('back: $seconds');
     try {
       await audioHandler.back(seconds, state.activeLoop);
+      unawaited(_realignMetronome(MetronomeRealignReason.seeked));
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
       emit(
@@ -1008,6 +1167,7 @@ class SongCubit extends Cubit<SongState> {
     dev.log('forward: $seconds');
     try {
       await audioHandler.forward(seconds, state.activeLoop);
+      unawaited(_realignMetronome(MetronomeRealignReason.seeked));
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
       emit(
@@ -1081,6 +1241,7 @@ class SongCubit extends Cubit<SongState> {
           error: null,
         ),
       );
+      unawaited(_realignMetronome(MetronomeRealignReason.tempoChanged));
       return true;
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
@@ -1159,6 +1320,7 @@ class SongCubit extends Cubit<SongState> {
           error: null,
         ),
       );
+      unawaited(_realignMetronome(MetronomeRealignReason.tempoChanged));
       return true;
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
@@ -1187,8 +1349,9 @@ class SongCubit extends Cubit<SongState> {
     // above what the speed controls support; without capping, the min/max bound
     // calculation below would pass an inverted range to clamp and throw
     // (FLUTTER-B8).
-    final effectiveBpm =
-        (bpm != null && bpm > _maxSupportedBpm) ? _maxSupportedBpm : bpm;
+    final effectiveBpm = (bpm != null && bpm > _maxSupportedBpm)
+        ? _maxSupportedBpm
+        : bpm;
 
     try {
       // Persist to song model
@@ -1198,8 +1361,10 @@ class SongCubit extends Cubit<SongState> {
       if (effectiveBpm != null && effectiveBpm > 0) {
         // Calculate BPM bounds (0.5x to 2.0x of original)
         final minBpm = (effectiveBpm * 0.5).round().clamp(1, effectiveBpm);
-        final maxBpm =
-            (effectiveBpm * 2.0).round().clamp(effectiveBpm, _maxSupportedBpm);
+        final maxBpm = (effectiveBpm * 2.0).round().clamp(
+          effectiveBpm,
+          _maxSupportedBpm,
+        );
 
         emit(
           state.copyWith(
@@ -1216,8 +1381,13 @@ class SongCubit extends Cubit<SongState> {
 
         // Reset audio handler speed to 1.0
         await audioHandler.setSpeed(1.0);
+
+        unawaited(_realignMetronome(MetronomeRealignReason.tempoChanged));
+        // A new original BPM changes the baked beat grid entirely.
+        _scheduleClickTrackRefresh();
       } else {
-        // Clear all BPM-related state
+        // Clear all BPM-related state. Without a BPM the metronome has no
+        // tempo to click at — force it off.
         emit(
           state.copyWith(
             status: SongStatus.updated,
@@ -1226,9 +1396,20 @@ class SongCubit extends Cubit<SongState> {
             currentBpm: null,
             minBpm: null,
             maxBpm: null,
+            isMetronomeEnabled: false,
             error: null,
           ),
         );
+        await _stopMetronome();
+        if (_usesClickTrack) {
+          _clickTrackGeneration++;
+          _clickTrackRefreshTimer?.cancel();
+          if (_usesNativeClickPipeline) {
+            await _disableNativeClickTrack();
+          } else {
+            await _restoreOriginalSource();
+          }
+        }
       }
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
@@ -1278,6 +1459,7 @@ class SongCubit extends Cubit<SongState> {
           error: null,
         ),
       );
+      unawaited(_realignMetronome(MetronomeRealignReason.tempoChanged));
       return true;
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
@@ -1340,28 +1522,956 @@ class SongCubit extends Cubit<SongState> {
     }
   }
 
-  Future<void> updatePitch(int semitones) async {
+  // ==================== METRONOME METHODS ====================
+
+  /// Test hook: platform support is compile-time (`Platform.isX`), which
+  /// would make every metronome method a no-op in host unit tests.
+  @visibleForTesting
+  bool? isMetronomeSupportedOverride;
+
+  /// Whether the metronome works on this platform. `precise_metronome` and
+  /// `ffmpeg_kit` ship iOS + Android implementations only; the metronome tab
+  /// hides itself elsewhere (mirrors [isPitchControlSupported]).
+  bool get isMetronomeSupported =>
+      isMetronomeSupportedOverride ?? (Platform.isAndroid || Platform.isIOS);
+
+  /// Audio songs use a click track locked to the media timeline (instead of
+  /// the live free-running metronome, which video songs keep because their
+  /// file cannot be processed). See
+  /// docs/plans/2026-07-23-metronome-track-design.md.
+  bool get _usesClickTrack => state.song.mediaType == MediaType.audio;
+
+  /// Test hook: forces the native-vs-baked click-track split, which is
+  /// platform-dependent (`Platform.isAndroid`) in production.
+  @visibleForTesting
+  bool? isNativeClickTrackSupportedOverride;
+
+  /// Android audio songs get the *native in-pipeline* click (synthesized in
+  /// the audioplayers fork's ExoPlayer processor — instant toggle/volume,
+  /// no mixing, no source swap). iOS audio songs keep the baked ffmpeg
+  /// click track until the MTAudioProcessingTap follow-up lands.
+  bool get _usesNativeClickPipeline =>
+      _usesClickTrack &&
+      (isNativeClickTrackSupportedOverride ?? Platform.isAndroid);
+
+  /// Toggle the metronome on/off. Requires a BPM (the metronome panel shows
+  /// a "set BPM first" prompt otherwise).
+  ///
+  /// Audio songs: swaps the player source to the song+click mix (mixing it
+  /// first if not cached — [SongState.isMetronomeGenerating] covers the
+  /// wait). Video songs: starts/stops the live click.
+  Future<void> toggleMetronome() async {
+    if (!isMetronomeSupported) return;
+
+    final enable = !state.isMetronomeEnabled;
+    if (enable && (state.currentBpm == null || state.currentBpm! <= 0)) {
+      return;
+    }
+
+    emit(
+      state.copyWith(
+        status: SongStatus.updated,
+        isMetronomeEnabled: enable,
+        error: null,
+      ),
+    );
+
     try {
-      // Convert semitones to pitch multiplier
-      // Each semitone is approximately 1.059463 multiplier
-      final pitchMultiplier = pow(2.0, semitones / 12.0);
+      if (_usesNativeClickPipeline) {
+        if (enable) {
+          await _applyNativeClickTrack();
+        } else {
+          _clickTrackRefreshTimer?.cancel();
+          await _disableNativeClickTrack();
+        }
+        return;
+      }
 
-      await audioHandler.customAction('setPitch', {'pitch': pitchMultiplier});
+      if (_usesClickTrack) {
+        if (enable) {
+          await _applyClickTrack();
+        } else {
+          _clickTrackGeneration++;
+          _clickTrackRefreshTimer?.cancel();
+          await _restoreOriginalSource();
+        }
+        return;
+      }
 
-      emit(
-        state.copyWith(
-          status: SongStatus.updated,
-          error: null,
-        ),
-      );
+      if (enable && state.playerState == PlayerState.playing) {
+        await _realignMetronome(MetronomeRealignReason.playStarted);
+      } else if (!enable) {
+        await _stopMetronome();
+      }
     } catch (ex, stack) {
       unawaited(crashReportingRepository.reportError(ex, stack));
       emit(
         state.copyWith(
           status: SongStatus.error,
-          error: 'Failed to update pitch: $ex',
+          isMetronomeEnabled: false,
+          error: 'Failed to toggle metronome: $ex',
         ),
       );
     }
+  }
+
+  /// Live volume change while dragging. Pass [persist] true (e.g. from the
+  /// slider's onChangeEnd) to write the global preference.
+  ///
+  /// Click-track mode: the click gain is baked into the mix, so only the
+  /// settled value (persist) triggers a re-mix — dragging just updates state.
+  Future<void> setMetronomeVolume(double volume, {bool persist = false}) async {
+    if (!isMetronomeSupported) return;
+
+    final clamped = volume.clamp(0.0, 1.0);
+    emit(state.copyWith(metronomeVolume: clamped));
+
+    try {
+      if (!_usesClickTrack) {
+        await _metronome.setVolume(clamped);
+      } else if (_usesNativeClickPipeline) {
+        // Native clicks change volume live while dragging (coalesced);
+        // baked clicks only re-mix on the settled value below.
+        _scheduleClickTrackRefresh();
+      }
+      if (persist) {
+        await localConfigRepository.setMetronomeVolume(clamped);
+        _scheduleClickTrackRefresh();
+      }
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+    }
+  }
+
+  /// Set the song's time signature (persisted per song). Restarts the click
+  /// phase while running so the accent lands on the next downbeat cleanly.
+  Future<void> setMetronomeTimeSignature(int beatsPerBar, int beatUnit) async {
+    if (!isMetronomeSupported) return;
+
+    try {
+      final updatedSong = state.song.copyWith(
+        metronomeBeatsPerBar: beatsPerBar,
+        metronomeBeatUnit: beatUnit,
+      );
+      await songRepository.updateSong(updatedSong);
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          song: updatedSong,
+          error: null,
+        ),
+      );
+
+      if (_usesClickTrack) {
+        _scheduleClickTrackRefresh();
+      } else if (_metronome.isRunning) {
+        await _realignMetronome(MetronomeRealignReason.playStarted);
+      }
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to set time signature: $ex',
+        ),
+      );
+    }
+  }
+
+  /// Set the subdivision (global preference), applied live.
+  Future<void> setMetronomeSubdivision(MetronomeSubdivision subdivision) async {
+    if (!isMetronomeSupported) return;
+
+    emit(state.copyWith(metronomeSubdivision: subdivision));
+
+    try {
+      await localConfigRepository.setMetronomeSubdivision(subdivision.name);
+      if (_usesClickTrack) {
+        _scheduleClickTrackRefresh();
+      } else {
+        await _metronome.setSubdivision(subdivision.pulsesPerBeat);
+      }
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+    }
+  }
+
+  /// Nudge the click grid by [deltaMs] (negative = earlier), accumulated
+  /// into the song's persisted offset so the alignment survives reopening
+  /// the song. Live path: applied to the running click. Click-track path:
+  /// the grid shift is baked into a (debounced) re-mix.
+  Future<void> nudgeMetronome(int deltaMs) async {
+    if (!isMetronomeSupported) return;
+
+    try {
+      final updatedSong = state.song.copyWith(
+        metronomeOffsetMs: state.song.metronomeOffsetMs + deltaMs,
+      );
+      await songRepository.updateSong(updatedSong);
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          song: updatedSong,
+          error: null,
+        ),
+      );
+
+      if (_usesClickTrack) {
+        _scheduleClickTrackRefresh();
+      } else {
+        await _metronome.nudge(Duration(milliseconds: deltaMs));
+      }
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to nudge metronome: $ex',
+        ),
+      );
+    }
+  }
+
+  /// Shift the click grid by half a beat — the quickest fix when the click
+  /// lands exactly on the off-beats. With an anchor the half beat is folded
+  /// into the anchor (song-time); without one it goes into the wall-clock
+  /// offset like a regular nudge. Applied live while running either way.
+  Future<void> flipMetronomeHalfBeat() async {
+    if (!isMetronomeSupported) return;
+
+    final bpm = state.currentBpm;
+    if (bpm == null || bpm <= 0) return;
+
+    final anchor = state.song.metronomeBeatAnchorMs;
+    final originalBpm = state.originalBpm;
+    final halfBeatWallMs = (60000 / bpm / 2).round();
+
+    if (anchor == null || originalBpm == null || originalBpm <= 0) {
+      await nudgeMetronome(halfBeatWallMs);
+      return;
+    }
+
+    try {
+      final halfBeatSongMs = (BeatGrid.beatPeriodMs(originalBpm) / 2).round();
+      final updatedSong = state.song.copyWith(
+        metronomeBeatAnchorMs: anchor + halfBeatSongMs,
+      );
+      await songRepository.updateSong(updatedSong);
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          song: updatedSong,
+          error: null,
+        ),
+      );
+
+      if (_usesClickTrack) {
+        _scheduleClickTrackRefresh();
+      } else {
+        await _metronome.nudge(Duration(milliseconds: halfBeatWallMs));
+      }
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to shift metronome: $ex',
+        ),
+      );
+    }
+  }
+
+  /// Test hook: attaches a mocked handler (position + seekEvents) without
+  /// going through [initWithHandler], which needs real files and plugins.
+  @visibleForTesting
+  void debugSetAudioHandler(MediaPlayerHandler handler) {
+    _audioHandler = handler;
+    _seekEventsSubscription = handler.seekEvents.listen((_) {
+      unawaited(_realignMetronome(MetronomeRealignReason.loopJumped));
+    });
+  }
+
+  /// Test hook: the tap capture normally commits ~1.8 beats after the last
+  /// tap, which is too slow for unit tests.
+  @visibleForTesting
+  int? tapSettleMsOverride;
+
+  /// Test hook shortening the seek/tempo grid-realign debounces.
+  @visibleForTesting
+  int? realignDebounceMsOverride;
+
+  /// Record one tap of the tap-to-align capture. The user taps along with
+  /// the song's beats while it plays; once the taps stop (settle timer) the
+  /// circular-mean phase of the tap positions is persisted as the song's
+  /// beat anchor — from then on the click grid follows the song across
+  /// pause, seeks and loop wraps.
+  Future<void> tapMetronomeBeat() async {
+    if (!isMetronomeSupported) return;
+
+    final originalBpm = state.originalBpm;
+    if (originalBpm == null || originalBpm <= 0) return;
+    if (state.playerState != PlayerState.playing) return;
+
+    try {
+      final positionMs = (await audioHandler.position).inMilliseconds;
+      _tapPositionsMs.add(positionMs);
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          metronomeTapCount: _tapPositionsMs.length,
+          error: null,
+        ),
+      );
+
+      // Commit once the user stops tapping. The window must exceed one
+      // wall-clock beat (they tap every beat while capturing), with a floor
+      // for fast tempos.
+      final beatWallMs =
+          BeatGrid.beatPeriodMs(originalBpm) /
+          (state.speed > 0 ? state.speed : 1.0);
+      final settleMs =
+          tapSettleMsOverride ?? math.max(1200, (beatWallMs * 1.8).round());
+      _tapSettleTimer?.cancel();
+      _tapSettleTimer = Timer(Duration(milliseconds: settleMs), () {
+        unawaited(_commitTapAnchor());
+      });
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+    }
+  }
+
+  /// Persists the captured taps as the beat anchor and realigns the click
+  /// while running. A fresh anchor resets the wall-clock trim — the taps
+  /// are the new alignment truth.
+  Future<void> _commitTapAnchor() async {
+    if (isClosed) return;
+
+    final taps = List<int>.of(_tapPositionsMs);
+    _tapPositionsMs.clear();
+
+    final originalBpm = state.originalBpm;
+    if (taps.isEmpty || originalBpm == null || originalBpm <= 0) {
+      maybeEmit(state.copyWith(metronomeTapCount: 0));
+      return;
+    }
+
+    try {
+      final anchor = BeatGrid.circularMeanPhaseMs(
+        taps,
+        BeatGrid.beatPeriodMs(originalBpm),
+      );
+      final updatedSong = state.song.copyWith(
+        metronomeBeatAnchorMs: anchor,
+        metronomeOffsetMs: 0,
+      );
+      await songRepository.updateSong(updatedSong);
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          song: updatedSong,
+          metronomeTapCount: 0,
+          error: null,
+        ),
+      );
+
+      AppAnalytics.trackEvent(
+        AppAnalytics.metronomeAnchorSet,
+        data: {'tap_count': taps.length},
+      );
+
+      if (_usesClickTrack) {
+        _scheduleClickTrackRefresh();
+      } else if (state.isMetronomeEnabled &&
+          state.playerState == PlayerState.playing) {
+        await _startMetronomeAligned();
+      }
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      maybeEmit(state.copyWith(metronomeTapCount: 0));
+    }
+  }
+
+  /// Reset the alignment completely: beat anchor, wall-clock trim and any
+  /// in-progress tap capture. Restarts the click from "now" when running.
+  Future<void> resetMetronomeOffset() async {
+    if (!isMetronomeSupported) return;
+
+    _tapSettleTimer?.cancel();
+    _tapPositionsMs.clear();
+
+    final song = state.song;
+    if (song.metronomeBeatAnchorMs == null &&
+        song.metronomeOffsetMs == 0 &&
+        state.metronomeTapCount == 0) {
+      return;
+    }
+
+    try {
+      // Direct construction: dart_mappable's copyWith cannot clear a
+      // nullable field (same pattern as updateSongDetails).
+      final updatedSong = Song(
+        id: song.id,
+        title: song.title,
+        artist: song.artist,
+        fileName: song.fileName,
+        duration: song.duration,
+        bpm: song.bpm,
+        currentBpm: song.currentBpm,
+        pitchSemitones: song.pitchSemitones,
+        musicalKey: song.musicalKey,
+        loops: song.loops,
+        loopSort: song.loopSort,
+        sortOrder: song.sortOrder,
+        mediaType: song.mediaType,
+        videoSizeMode: song.videoSizeMode,
+        metronomeOffsetMs: 0,
+        metronomeBeatAnchorMs: null,
+        metronomeBeatsPerBar: song.metronomeBeatsPerBar,
+        metronomeBeatUnit: song.metronomeBeatUnit,
+      );
+      await songRepository.updateSong(updatedSong);
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          song: updatedSong,
+          metronomeTapCount: 0,
+          error: null,
+        ),
+      );
+
+      if (_usesClickTrack) {
+        _scheduleClickTrackRefresh();
+      } else if (_metronome.isRunning) {
+        await _startMetronomeAligned();
+      }
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to reset metronome alignment: $ex',
+        ),
+      );
+    }
+  }
+
+  /// Follows playback state — the metronome only clicks while the song
+  /// plays (no standalone mode in v1). Click-track mode needs none of this:
+  /// the clicks live inside the audio stream and pause/resume with it.
+  Future<void> _syncMetronomeToPlayback(PlayerState playerState) async {
+    if (!isMetronomeSupported || !state.isMetronomeEnabled) return;
+    if (_usesClickTrack) return;
+
+    try {
+      if (playerState == PlayerState.playing) {
+        await _realignMetronome(MetronomeRealignReason.playStarted);
+      } else {
+        await _stopMetronome();
+      }
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+    }
+  }
+
+  /// The native engine anchors its first click ~50 ms after the start call
+  /// (look-ahead scheduling); subtract that from computed grid delays so
+  /// clicks don't land systematically late. Residual device latency is
+  /// absorbed by the user's wall-clock trim.
+  static const int _metronomeStartAnchorMs = 50;
+
+  /// Debounce for seek/loop-wrap grid restarts (coalesces scrub bursts and
+  /// the wrap + bounds-check double seek).
+  static const int _seekRealignDebounceMs = 150;
+
+  /// Settle time before the grid restarts after a tempo change — a restart
+  /// per slider tick would stutter, so the sweep runs on the live
+  /// phase-preserving setTempo and realigns once afterwards.
+  static const int _tempoRealignSettleMs = 400;
+
+  /// Single code path for (re)aligning the live click grid to playback
+  /// (video songs only). Click-track mode is immune to seeks/loops/tempo by
+  /// construction, so all realign reasons are no-ops there.
+  Future<void> _realignMetronome(MetronomeRealignReason reason) async {
+    if (!isMetronomeSupported || !state.isMetronomeEnabled) return;
+    if (_usesClickTrack) return;
+
+    final bpm = state.currentBpm;
+    if (bpm == null || bpm <= 0) return;
+
+    try {
+      switch (reason) {
+        case MetronomeRealignReason.playStarted:
+          await _startMetronomeAligned();
+        case MetronomeRealignReason.tempoChanged:
+          // Phase-preserving on the native side — safe from a slider sweep.
+          // With an anchor, the grid additionally restarts once the tempo
+          // settles (the preserved phase drifts off the song's grid).
+          await _metronome.setTempo(bpm);
+          _scheduleGridRealign(_tempoRealignSettleMs);
+        case MetronomeRealignReason.seeked:
+        case MetronomeRealignReason.loopJumped:
+          // Without an anchor the click free-runs across position jumps
+          // ("nudge now, grid later"); with one it restarts on the new
+          // position, debounced so bursts re-phase only once.
+          _scheduleGridRealign(_seekRealignDebounceMs);
+      }
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+    }
+  }
+
+  /// Schedules a debounced grid restart. No-op without a beat anchor —
+  /// free-run alignment must not be destroyed by restarts.
+  void _scheduleGridRealign(int debounceMs) {
+    if (state.song.metronomeBeatAnchorMs == null) return;
+
+    _gridRealignTimer?.cancel();
+    _gridRealignTimer = Timer(
+      Duration(milliseconds: realignDebounceMsOverride ?? debounceMs),
+      () {
+        if (isClosed ||
+            !state.isMetronomeEnabled ||
+            state.playerState != PlayerState.playing) {
+          return;
+        }
+        unawaited(() async {
+          try {
+            await _startMetronomeAligned();
+          } catch (ex, stack) {
+            unawaited(crashReportingRepository.reportError(ex, stack));
+          }
+        }());
+      },
+    );
+  }
+
+  /// Appends [command] to the serial metronome queue. A failed command is
+  /// surfaced to its caller but never blocks later commands.
+  Future<void> _enqueueMetronomeCommand(Future<void> Function() command) {
+    final next = _metronomeCommandQueue.then((_) => command());
+    _metronomeCommandQueue = next.then<void>(
+      (_) {},
+      onError: (Object _) {},
+    );
+    return next;
+  }
+
+  /// Stops the click. Always routed through the command queue and always
+  /// invalidates any in-flight aligned start — a stop must win every race
+  /// against a start, or the click keeps running over paused music.
+  Future<void> _stopMetronome() {
+    _metronomeGeneration++;
+    _gridRealignTimer?.cancel();
+    return _enqueueMetronomeCommand(_metronome.stop);
+  }
+
+  /// Whether an aligned start captured at [generation] must abort: the
+  /// cubit closed, a stop was issued after it was scheduled, or playback
+  /// is no longer running. Checked when the queued command runs AND again
+  /// after awaiting the player position.
+  bool _isStaleAlignedStart(int generation) =>
+      isClosed ||
+      generation != _metronomeGeneration ||
+      !state.isMetronomeEnabled ||
+      state.playerState != PlayerState.playing;
+
+  /// Starts (or restarts) the click. With a beat anchor the first click is
+  /// scheduled onto the song's beat grid based on the *fresh* player
+  /// position (never the throttled position stream); without one it keeps
+  /// the v1 free-run behavior of offsetting from "now".
+  /// Time signature actually sent to the click engines, as
+  /// (beatsPerBar, beatUnit).
+  ///
+  /// Without a beat anchor the grid's "beat 1" is arbitrary — the grid counts
+  /// from the file start (or from "now" on the live path), so an accented
+  /// downbeat would land on a musically random beat, which is worse than no
+  /// accent at all. Until tap-to-align sets an anchor the metronome renders a
+  /// uniform 1-beat click; the song's stored signature only takes effect once
+  /// beat 1 is actually known. The UI mirrors this by hiding the
+  /// time-signature control until the song is synced.
+  (int, int) get _effectiveTimeSignature =>
+      state.song.metronomeBeatAnchorMs == null
+      ? (1, 4)
+      : (state.song.metronomeBeatsPerBar, state.song.metronomeBeatUnit);
+
+  Future<void> _startMetronomeAligned() {
+    final generation = _metronomeGeneration;
+
+    return _enqueueMetronomeCommand(() async {
+      if (_isStaleAlignedStart(generation)) return;
+
+      final bpm = state.currentBpm;
+      if (bpm == null || bpm <= 0) return;
+
+      final anchor = state.song.metronomeBeatAnchorMs;
+      final originalBpm = state.originalBpm;
+
+      var offsetMs = state.song.metronomeOffsetMs;
+      if (anchor != null && originalBpm != null && originalBpm > 0) {
+        final positionMs = (await audioHandler.position).inMilliseconds;
+        // The position read is a platform-channel round trip — a pause may
+        // have stopped the metronome in the meantime.
+        if (_isStaleAlignedStart(generation)) return;
+
+        final speed = state.speed > 0 ? state.speed : 1.0;
+        final songMsToBeat = BeatGrid.songMsToNextBeat(
+          positionMs: positionMs,
+          anchorMs: anchor,
+          periodMs: BeatGrid.beatPeriodMs(originalBpm),
+        );
+        // Wall-clock delay until that beat, plus the user's trim, minus the
+        // engine's fixed start anchor. startAligned normalizes the result
+        // into one beat period, so negative values roll to the next beat.
+        offsetMs =
+            (songMsToBeat / speed).round() +
+            state.song.metronomeOffsetMs -
+            _metronomeStartAnchorMs;
+      }
+
+      final (beatsPerBar, beatUnit) = _effectiveTimeSignature;
+      await _metronome.startAligned(
+        bpm: bpm,
+        offsetMs: offsetMs,
+        beatsPerBar: beatsPerBar,
+        beatUnit: beatUnit,
+        pulsesPerBeat: state.metronomeSubdivision.pulsesPerBeat,
+        volume: state.metronomeVolume,
+      );
+    });
+  }
+
+  // ==================== CLICK TRACK (audio songs) ====================
+
+  /// Debounce for baked-click-track re-mixes after settings changes.
+  static const int _clickTrackRefreshDebounceMs = 600;
+
+  /// Coalesce window for native click-config resends (no mixing involved —
+  /// this only limits method-channel chatter from slider drags).
+  static const int _nativeClickRefreshDebounceMs = 50;
+
+  /// Test hook shortening the click-track refresh debounce.
+  @visibleForTesting
+  int? clickTrackDebounceMsOverride;
+
+  /// Schedules a debounced refresh after a grid/volume change: a re-mix +
+  /// source swap on the baked path, a config resend on the native path.
+  /// No-op unless the metronome is enabled in click-track mode.
+  void _scheduleClickTrackRefresh() {
+    if (!isMetronomeSupported || !_usesClickTrack || !state.isMetronomeEnabled) {
+      return;
+    }
+
+    final debounceMs = clickTrackDebounceMsOverride ??
+        (_usesNativeClickPipeline
+            ? _nativeClickRefreshDebounceMs
+            : _clickTrackRefreshDebounceMs);
+    _clickTrackRefreshTimer?.cancel();
+    _clickTrackRefreshTimer = Timer(
+      Duration(milliseconds: debounceMs),
+      () {
+        if (isClosed || !state.isMetronomeEnabled) return;
+        if (_usesNativeClickPipeline) {
+          unawaited(_applyNativeClickTrack());
+        } else {
+          unawaited(_applyClickTrack());
+        }
+      },
+    );
+  }
+
+  /// Sends the full grid config to the native in-pipeline click processor.
+  /// Instant: no mixing, no source swap — the processor picks the new
+  /// config up within one audio buffer.
+  Future<void> _applyNativeClickTrack() async {
+    final originalBpm = state.originalBpm;
+    if (originalBpm == null || originalBpm <= 0) return;
+
+    try {
+      await audioHandler.setNativeClickTrack(
+        enabled: state.isMetronomeEnabled,
+        bpm: originalBpm,
+        anchorMs: state.song.metronomeBeatAnchorMs,
+        offsetMs: state.song.metronomeOffsetMs,
+        beatsPerBar: _effectiveTimeSignature.$1,
+        pulsesPerBeat: state.metronomeSubdivision.pulsesPerBeat,
+        volume: state.metronomeVolume,
+      );
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      maybeEmit(
+        state.copyWith(
+          status: SongStatus.error,
+          isMetronomeEnabled: false,
+          error: 'Failed to configure metronome: $ex',
+        ),
+      );
+    }
+  }
+
+  /// Silences the native click processor (config cleared on the platform
+  /// side). Failures are reported but never surface — disabling must not
+  /// error the UI.
+  Future<void> _disableNativeClickTrack() async {
+    try {
+      await audioHandler.setNativeClickTrack(enabled: false);
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+    }
+  }
+
+  /// Mixes (or fetches from cache) the song+click file for the current
+  /// settings and swaps the player onto it, preserving position and playing
+  /// state. On failure the metronome turns itself off and the original
+  /// source is restored — a stale mix must never keep playing silently.
+  Future<void> _applyClickTrack() async {
+    final originalBpm = state.originalBpm;
+    if (originalBpm == null || originalBpm <= 0) return;
+
+    final generation = ++_clickTrackGeneration;
+    maybeEmit(state.copyWith(isMetronomeGenerating: true));
+
+    try {
+      final songPath = await state.song.path;
+      final (beatsPerBar, beatUnit) = _effectiveTimeSignature;
+      final config = ClickTrackConfig(
+        durationMs: state.song.duration.inMilliseconds,
+        bpm: originalBpm,
+        anchorMs: state.song.metronomeBeatAnchorMs,
+        offsetMs: state.song.metronomeOffsetMs,
+        beatsPerBar: beatsPerBar,
+        beatUnit: beatUnit,
+        pulsesPerBeat: state.metronomeSubdivision.pulsesPerBeat,
+        volume: state.metronomeVolume,
+      );
+
+      final mixedPath = await _trackService.ensureMixedTrack(
+        songId: state.song.id,
+        songPath: songPath,
+        config: config,
+      );
+
+      // The mix ran async — the user may have toggled off or closed the
+      // page meanwhile; a stale apply must not hijack the source.
+      if (isClosed ||
+          generation != _clickTrackGeneration ||
+          !state.isMetronomeEnabled) {
+        return;
+      }
+
+      await audioHandler.swapSourceFile(mixedPath);
+      _isClickTrackSourceActive = true;
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      if (!isClosed && generation == _clickTrackGeneration) {
+        maybeEmit(
+          state.copyWith(
+            status: SongStatus.error,
+            isMetronomeEnabled: false,
+            error: 'Failed to prepare metronome track: $ex',
+          ),
+        );
+        await _restoreOriginalSource();
+      }
+    } finally {
+      maybeEmit(state.copyWith(isMetronomeGenerating: false));
+    }
+  }
+
+  /// `playSong` drops the click state: on the native path the handler
+  /// clears the processor's grid, on the baked path the original file is
+  /// reloaded. Re-apply whichever the song uses.
+  void _reapplyClickTrackAfterSongReload() {
+    if (_usesNativeClickPipeline) {
+      if (state.isMetronomeEnabled) {
+        unawaited(_applyNativeClickTrack());
+      }
+      return;
+    }
+    if (!_isClickTrackSourceActive) return;
+    _isClickTrackSourceActive = false;
+    if (_usesClickTrack && state.isMetronomeEnabled) {
+      unawaited(_applyClickTrack());
+    }
+  }
+
+  /// Swaps the player back onto the original song file (no-op when it is
+  /// already playing the original).
+  Future<void> _restoreOriginalSource() async {
+    if (!_isClickTrackSourceActive) return;
+
+    try {
+      final songPath = await state.song.path;
+      await audioHandler.swapSourceFile(songPath);
+      _isClickTrackSourceActive = false;
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+    }
+  }
+
+  MetronomeSubdivision _readMetronomeSubdivisionPref() {
+    final name = localConfigRepository.metronomeSubdivision;
+    return MetronomeSubdivision.values.firstWhere(
+      (value) => value.name == name,
+      orElse: () => MetronomeSubdivision.none,
+    );
+  }
+
+  // ==================== PITCH CONTROL METHODS ====================
+
+  static const int minPitchSemitones = -12;
+  static const int maxPitchSemitones = 12;
+
+  /// Whether pitch shifting works for the current song on this platform:
+  /// video → all platforms (media_kit/libmpv); audio → Android only
+  /// (Signalsmith processor in the audioplayers fork). The pitch card hides
+  /// itself when unsupported.
+  bool get isPitchControlSupported =>
+      state.song.mediaType == MediaType.video || Platform.isAndroid;
+
+  /// Update the pitch shift in semitones (-12 to +12) and persist it on the
+  /// song. Returns true if the pitch was applied successfully.
+  Future<bool> setPitchSemitones(int semitones) async {
+    dev.log('setPitchSemitones: $semitones', name: 'SongCubit');
+
+    try {
+      final target = semitones.clamp(minPitchSemitones, maxPitchSemitones);
+
+      final success = await audioHandler.setPitchSemitones(target);
+
+      if (!success) {
+        dev.log(
+          'Pitch change failed, reverting UI to actual pitch',
+          name: 'SongCubit',
+        );
+        emit(
+          state.copyWith(
+            status: SongStatus.pitchChangeFailed,
+            pitchSemitones: audioHandler.currentPitchSemitones,
+            error: 'Pitch change failed. Please try again.',
+          ),
+        );
+        return false;
+      }
+
+      // Persist the pitch per song. A persistence failure must not revert
+      // the already-applied audio change — report it and keep the UI state.
+      var updatedSong = state.song;
+      try {
+        updatedSong = state.song.copyWith(pitchSemitones: target);
+        await songRepository.updateSong(updatedSong);
+      } catch (ex, stack) {
+        unawaited(crashReportingRepository.reportError(ex, stack));
+        updatedSong = state.song;
+      }
+
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          song: updatedSong,
+          pitchSemitones: target,
+          error: null,
+        ),
+      );
+      return true;
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      dev.log('Failed to set pitch: $ex', name: 'SongCubit');
+      emit(
+        state.copyWith(
+          status: SongStatus.pitchChangeFailed,
+          pitchSemitones: audioHandler.currentPitchSemitones,
+          error: 'Pitch change failed. Please try again.',
+        ),
+      );
+      return false;
+    }
+  }
+
+  /// Reset pitch to the original (0 semitones)
+  Future<bool> resetPitch() {
+    dev.log('resetPitch', name: 'SongCubit');
+    return setPitchSemitones(0);
+  }
+
+  /// Switch between semitone mode and key mode (mirrors [setTempoMode])
+  void setPitchMode(PitchMode mode) {
+    dev.log('setPitchMode: $mode', name: 'SongCubit');
+    emit(state.copyWith(pitchMode: mode));
+  }
+
+  /// Set or clear the song's original musical key and persist it. Resets the
+  /// pitch to 0, mirroring how [setOriginalBpm] resets speed: changing the
+  /// reference makes the previous shift meaningless.
+  Future<void> setOriginalKey(String? key) async {
+    dev.log('setOriginalKey: $key', name: 'SongCubit');
+
+    final canonical = key == null ? null : MusicalKey.canonicalize(key);
+
+    try {
+      // Build the updated song directly (not copyWith) so a null key actually
+      // clears the field — same pattern as updateSongDetails.
+      final updatedSong = Song(
+        id: state.song.id,
+        title: state.song.title,
+        artist: state.song.artist,
+        fileName: state.song.fileName,
+        duration: state.song.duration,
+        bpm: state.song.bpm,
+        currentBpm: state.song.currentBpm,
+        pitchSemitones: 0,
+        musicalKey: canonical,
+        loops: state.song.loops,
+        loopSort: state.song.loopSort,
+        sortOrder: state.song.sortOrder,
+        mediaType: state.song.mediaType,
+        videoSizeMode: state.song.videoSizeMode,
+        metronomeOffsetMs: state.song.metronomeOffsetMs,
+        metronomeBeatAnchorMs: state.song.metronomeBeatAnchorMs,
+        metronomeBeatsPerBar: state.song.metronomeBeatsPerBar,
+        metronomeBeatUnit: state.song.metronomeBeatUnit,
+      );
+      await songRepository.updateSong(updatedSong);
+
+      await audioHandler.setPitchSemitones(0);
+
+      emit(
+        state.copyWith(
+          status: SongStatus.updated,
+          song: updatedSong,
+          pitchSemitones: 0,
+          error: null,
+        ),
+      );
+    } catch (ex, stack) {
+      unawaited(crashReportingRepository.reportError(ex, stack));
+      dev.log('Failed to set original key: $ex', name: 'SongCubit');
+      emit(
+        state.copyWith(
+          status: SongStatus.error,
+          error: 'Failed to set original key: $ex',
+        ),
+      );
+    }
+  }
+
+  /// Set the pitch by choosing the key the song should sound in. Picks the
+  /// shorter transposition direction (Am → Cm is +3, not −9).
+  /// Requires the original key to be set.
+  Future<bool> setPitchByTargetKey(String targetKey) async {
+    dev.log('setPitchByTargetKey: $targetKey', name: 'SongCubit');
+
+    final originalKey = state.song.musicalKey;
+    if (originalKey == null) return false;
+
+    final offset = MusicalKey.signedOffset(originalKey, targetKey);
+    if (offset == null) {
+      dev.log(
+        'Cannot transpose from $originalKey to $targetKey',
+        name: 'SongCubit',
+      );
+      return false;
+    }
+
+    return setPitchSemitones(offset);
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
+import 'package:repeatlab/core/ui/widgets/app_icon.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/duration_extension.dart';
 import 'package:repeatlab/data/models/song.dart';
@@ -62,12 +63,10 @@ class HomeTile extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               alignment: Alignment.center,
-              child: Icon(
-                song.mediaType == MediaType.video
-                    ? Icons.videocam
-                    : Icons.music_note,
+              child: AppIcon(
+                iconName: song.mediaType == MediaType.video ? 'ic_video' : 'ic_audio',
+                iconSize: 20,
                 color: AppColors.onPrimary,
-                size: 20,
               ),
             ),
             onTap: () => _onTapSong(context, song),
@@ -100,9 +99,10 @@ class HomeTile extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(
-                        Icons.repeat,
-                        size: 14,
+                      const AppIcon(
+                        iconName: 'ic_infinity',
+                        iconSize: 18,
+                        containerSize: 18,
                         color: AppColors.onPrimaryContainer,
                       ),
                       const SizedBox(width: 4),
@@ -173,10 +173,10 @@ class _MetaChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: AppColors.primaryContainer,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: child,
     );

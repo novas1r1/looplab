@@ -37,12 +37,26 @@
     "noSongsFound": "لم يتم العثور على أغاني",
     "tapToAddSong": "انقر على + لإضافة أغانيك الأولى",
     "legalNoticesDescription": "§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nالبريد الإلكتروني: support@repeatlab.de\n\nالشكل القانوني: عامل حر",
-    "onboardingTitle1": "مرحبًا بك في RepeatLab",
-    "onboardingDescription1": "أتقن أي أغنية من خلال تكرار الأجزاء الصعبة أو إبطائها.",
-    "onboardingTitle2": "إنشاء حلقات دقيقة",
-    "onboardingDescription2": "ما عليك سوى النقر لتحديد بداية ونهاية القسم الذي تريد التدرب عليه. اضبط وضبط بدقة باستخدام عرض الموجة البديهي.",
-    "onboardingTitle3": "الخصوصية أولاً",
-    "onboardingDescription3": "نحن نقدر خصوصيتك ونعالج بياناتك بعناية. يرجى مراجعة سياسة الخصوصية والموافقة للمتابعة.",
+    "onboardingTitle1": "تدرّب باحتراف",
+    "onboardingDescription1": "محطة التكرار الشخصية لإتقان أي أغنية — صوت أو فيديو، 100% دون اتصال.",
+    "onboardingTitle2": "كرّر الأجزاء الصعبة",
+    "onboardingDescription2": "حدّد نقطتَي بداية ونهاية دقيقتين على الموجة الصوتية، ثم شغّل ذلك المقطع حتى تتقنه.",
+    "onboardingTitle3": "أبطئها مع الحفاظ على طبقة الصوت",
+    "onboardingDescription3": "اخفض من 0.5× إلى 2.0×، أو اضبط قيمة BPM محددة. تبقى طبقة الصوت ثابتة فلا يبدو الصوت ناشزًا.",
+    "onboardingEyebrow1": "مرحبًا بك في RepeatLab",
+    "onboardingEyebrow2": "التكرار",
+    "onboardingEyebrow3": "السرعة والإيقاع",
+    "onboardingEyebrow4": "طبقة الصوت",
+    "onboardingTitle4": "اعزفها بمقامك",
+    "onboardingDescription4": "انقل الطبقة ±12 نصف نغمة أو حوّل من مقام إلى مقام — لتناسب صوتك ودوزانك وكابو الجيتار.",
+    "onboardingConsentTitle": "بياناتك، قرارك",
+    "onboardingConsentBody": "يعمل RepeatLab دون اتصال ويحتفظ بملفاتك على جهازك. تفصيل سريع واحد قبل أن تبدأ.",
+    "onboardingAnalyticsTitle": "تحليلات مجهولة الهوية",
+    "onboardingAnalyticsBody": "شارك بيانات استخدام مجهولة الهوية (مستضافة في EU) للمساعدة في تحسين RepeatLab.",
+    "onboardingDataProtectionTitle": "حماية البيانات",
+    "onboardingConsentFootnote": "يمكنك تغيير إعدادات التحليلات في أي وقت من الإعدادات.",
+    "onboardingSkip": "تخطّي",
+    "onboardingContinue": "متابعة",
     "onboardingPrivacyPolicy": "أوافق على",
     "onboardingIAccept": "أوافق على",
     "onboardingTermsOfServiceLink": "الشروط والأحكام",
@@ -75,6 +89,7 @@
     "premiumHeadline": "أتقن أغانيك المفضلة مثل المحترفين مع التحكم في الإيقاع والتكبير وحلقات غير محدودة!",
     "premiumFeatureUnlimitedLoops": "حلقات غير محدودة",
     "premiumFeatureChangeMusicSpeed": "تحكم في سرعة الصوت (BPM/Multiplier)",
+    "premiumFeaturePitchControl": "التحكم في طبقة الصوت (أنصاف النغمات)",
     "premiumFeatureZoomInOut": "تكبير/تصغير الموجة",
     "premiumFeatureSupportDeveloper": "دعم المطور المستقل",
     "freeFeatureUnlimitedSongs": "أغاني غير محدودة + حلقة واحدة لكل أغنية",
@@ -120,6 +135,8 @@
     "endPositionMustBeAfterStartPosition": "يجب أن يكون موضع الانتهاء بعد موضع البدء",
     "tutorialNavigateThroughSong": "التنقل عبر الأغنية بالسحب والإفلات",
     "tutorialNavigateThroughSongDescription": "استخدم أصابعك لسحب الأغنية بأكملها إلى اليسار أو اليمين والتكبير/التصغير للحصول على دقة أفضل",
+    "tutorialVideoPreview": "شاهد الفيديو واضبط حجمه",
+    "tutorialVideoPreviewDescription": "استخدم زري + و − لتغيير حجم الفيديو. للتنقل عبر الفيديو، استخدم الخط الزمني وعناصر التحكم أدناه",
     "tutorialPlayAndPauseSong": "تشغيل وإيقاف مؤقت وتغيير سرعة الأغنية",
     "tutorialPlayAndPauseSongDescription": "استخدم هذه الأزرار للتحكم في الأغنية والحلقات",
     "tutorialJumpToLoop": "عرض والقفز إلى الحلقات",
@@ -157,7 +174,17 @@
     "purchasedAlready": "تم الشراء بالفعل",
     "purchaseSuccess": "تم الشراء بنجاح. شكرًا لدعم المطور ❤️!",
     "voteForFeatures": "التصويت على الميزات",
-    "changelogTitle": "سجل التغييرات",
+    "changelogTitle": "ما الجديد",
+    "changelog2201Title": "المترونوم",
+    "changelog2201Description": "اعزف مع مترونوم مدمج يحافظ على إيقاع أغنيتك. اختر الميزان الزمني والتقسيمات، انقر لضبط الإيقاع، واضبط النقرة بدقة عبر إزاحات نصف النبضة وتعديلات بالمللي ثانية لتتوافق تمامًا مع الإيقاع.",
+    "changelog2202Title": "تعديل الحلقات أثناء الإيقاف المؤقت",
+    "changelog2202Description": "يمكنك الآن تحريك نقطتي بداية ونهاية الحلقة بحرية أثناء إيقاف التشغيل مؤقتًا - لم يعد مؤشر التشغيل يعود إلى داخل الحلقة. تُطبَّق حدود الحلقة مرة أخرى بمجرد الضغط على زر التشغيل، مما يسهّل عليك ضبط حلقاتك بدقة.",
+    "changelog2101Title": "تغيير طبقة الصوت (Beta)",
+    "changelog2101Description": "غيّر طبقة صوت أغانيك بأنصاف النغمات دون التأثير على السرعة - مثالي لنقل الأغنية إلى مقام آخر أو لمطابقة دوزان آلتك الموسيقية. هذه الميزة حاليًا في مرحلة تجريبية؛ يرجى إرسال ملاحظاتك إليّ إذا واجهت أي مشاكل.",
+    "changelog2102Title": "استيراد عدة ملفات دفعة واحدة",
+    "changelog2102Description": "يمكنك الآن تحديد واستيراد عدة ملفات صوتية دفعة واحدة. يُبقيك مؤشر التقدم على اطلاع أثناء إضافة أغانيك.",
+    "changelog2103Title": "إصلاحات للأخطاء وتحسينات في الاستقرار",
+    "changelog2103Description": "تم إصلاح العديد من الأخطاء وتحسين الاستقرار العام وأداء التطبيق.",
     "changelog201Title": "تشغيل الفيديو على شكل حلقات وتغيير السرعة (Beta)",
     "changelog201Description": "استورد مقاطع الفيديو وكرّرها تمامًا كالأغاني الصوتية - أو غيّر السرعة - مثالي للتدرب مع الشروحات أو العروض الحية. هذه الميزة في مرحلة البيتا حاليًا؛ أرسل لي ملاحظاتك إذا واجهت أي مشكلة.",
     "changelog180Title": "إعادة ترتيب أغانيك",
@@ -198,6 +225,7 @@
     "changelog1013Description": "يمكنك الآن التصويت على الميزات الجديدة أو تقديم اقتراحات الميزات الخاصة بك في التطبيق. ما عليك سوى فتح القائمة وفتح لوحة 'التصويت على الميزات'. يسعدنا سماع رغباتك!",
     "whatsNew": "ما الجديد",
     "songAddError": "فشل في إضافة الأغنية. قد يكون هذا بسبب مشكلة في تنسيق الملف. يرجى محاولة تحويل الملف إلى تنسيق مدعوم مثل mp3 أو wav.",
+    "importAlreadyRunningError": "لا تزال عملية استيراد أخرى قيد التشغيل. قد تستغرق الملفات الكبيرة من التخزين السحابي بعض الوقت - يرجى الانتظار حتى تنتهي.",
     "unsupportedAudioFormatError": "تنسيق الصوت \".{format}\" غير مدعوم. التنسيقات المدعومة: {supportedFormats}.",
     "@unsupportedAudioFormatError": {
         "placeholders": {
@@ -310,6 +338,34 @@
     "useBpm": "استخدم BPM",
     "reset": "إعادة تعيين",
     "speedControl": "السرعة",
+    "pitchControl": "طبقة الصوت",
+    "metronome": "المترونوم",
+    "metronomeVolume": "مستوى الصوت",
+    "metronomeTimeSignature": "الميزان الإيقاعي",
+    "metronomeSubdivision": "التقسيم",
+    "metronomeNudge": "الإزاحة",
+    "metronomeTapBeat": "انقر مع الإيقاع",
+    "metronomeShiftHalfBeat": "إزاحة نصف نبضة",
+    "metronomeOffsetMs": "{ms} ms",
+    "metronomeSetBpmFirst": "حدد أولاً إيقاع الأغنية (BPM) لاستخدام المترونوم.",
+    "metronomeGoToBpm": "تعيين BPM",
+    "metronomeAdvanced": "متقدم",
+    "metronomeSyncToSong": "مزامنة مع الأغنية",
+    "metronomeKeepTapping": "واصل النقر… ({count})",
+    "metronomeSyncHint": "تتبع النقرة إيقاع الأغنية لكنها قد لا تقع تمامًا على الضربة. انقر مع إيقاع الأغنية لمزامنتها.",
+    "metronomeResetSync": "إعادة تعيين المزامنة",
+    "off": "إيقاف",
+    "pitchSemitone": "نصف نغمة",
+    "semitones": "أنصاف النغمات",
+    "pitchUnchanged": "طبقة الصوت دون تغيير",
+    "tapTempo": "انقر الإيقاع",
+    "songBpmValue": "إيقاع الأغنية {bpm}",
+    "retap": "أعد النقر",
+    "edit": "تعديل",
+    "setSongTempoHint": "اضبط إيقاع الأغنية لتعديل التشغيل بعدد النقرات في الدقيقة.",
+    "bpmTapHint": "انقر على اللوحة مع الإيقاع",
+    "bpmTapUnit": "BPM · نقر",
+    "useBpmValue": "استخدام {bpm}",
     "hereYouCanSetTheOriginalBpmOfTheAudioFile": "يمكنك هنا تعيين BPM الأصلي لملف الصوت.",
     "setBpm": "تعيين",
     "originalBpm": "BPM الأصلي",
@@ -324,6 +380,11 @@
     "autoPlayOnLoopSelectDescription": "تشغيل الحلقات تلقائيًا عند تحديد حلقة أو التنقل إلى الحلقة التالية أو السابقة",
     "actions": "الإجراءات",
     "speedChangeFailed": "فشل تغيير السرعة. يرجى إعادة المحاولة.",
+    "pitchChangeFailed": "فشل تغيير طبقة الصوت. يرجى إعادة المحاولة.",
+    "editSongKey": "السلم الموسيقي",
+    "originalKey": "السلم الأصلي",
+    "currentKey": "السلم الحالي",
+    "hereYouCanSetTheOriginalKeyOfTheAudioFile": "هنا يمكنك تعيين السلم الأصلي للملف الصوتي.",
     "copyToClipboard": "نسخ إلى الحافظة",
     "editSong": "تعديل الأغنية",
     "editSongTitle": "العنوان",
@@ -354,13 +415,17 @@
     "backupExportFailed": "فشل التصدير: {message}",
     "@backupExportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportFailed": "فشل الاستيراد: {message}",
     "@backupImportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportMalformed": "هذا الملف ليس نسخة احتياطية صالحة لـ RepeatLab.",
@@ -369,8 +434,12 @@
     "backupImportConfirmMessage": "تحتوي هذه النسخة الاحتياطية على {songCount} أغنية (تم التصدير في {exportedAt}).",
     "@backupImportConfirmMessage": {
         "placeholders": {
-            "songCount": { "type": "int" },
-            "exportedAt": { "type": "String" }
+            "songCount": {
+                "type": "int"
+            },
+            "exportedAt": {
+                "type": "String"
+            }
         }
     },
     "backupImportModeMerge": "دمج",
@@ -382,9 +451,15 @@
     "backupImportSuccess": "تم استيراد {imported} أغنية. تم تخطي {skipped}، وإعادة تسمية {renamed}.",
     "@backupImportSuccess": {
         "placeholders": {
-            "imported": { "type": "int" },
-            "skipped": { "type": "int" },
-            "renamed": { "type": "int" }
+            "imported": {
+                "type": "int"
+            },
+            "skipped": {
+                "type": "int"
+            },
+            "renamed": {
+                "type": "int"
+            }
         }
     }
 }

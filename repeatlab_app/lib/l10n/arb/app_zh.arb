@@ -37,12 +37,26 @@
     "noSongsFound": "未找到歌曲",
     "tapToAddSong": "点击 + 添加您的第一首歌曲",
     "legalNoticesDescription": "§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\n电子邮件：support@repeatlab.de\n\n法律形式：自由职业者",
-    "onboardingTitle1": "欢迎使用 RepeatLab",
-    "onboardingDescription1": "通过重复或放慢困难部分来掌握任何歌曲。",
-    "onboardingTitle2": "创建精确循环",
-    "onboardingDescription2": "只需点击即可标记您想要练习的部分的开始和结束。使用我们直观的波形显示进行调整和微调。",
-    "onboardingTitle3": "隐私优先",
-    "onboardingDescription3": "我们重视您的隐私并谨慎处理您的数据。请查看我们的隐私政策并接受以继续。",
+    "onboardingTitle1": "像专业人士一样练习",
+    "onboardingDescription1": "属于你的个人循环工作站，助你掌握任何歌曲——音频或视频，100% 离线。",
+    "onboardingTitle2": "循环练习难点",
+    "onboardingDescription2": "在波形上设置精确的起点和终点，然后反复播放该段落，直到练熟为止。",
+    "onboardingTitle3": "放慢速度，音高不变",
+    "onboardingDescription3": "从 0.5× 降到 2.0×，或设定精确的 BPM。音高始终保持不变，绝不走音。",
+    "onboardingEyebrow1": "欢迎使用 RepeatLab",
+    "onboardingEyebrow2": "循环",
+    "onboardingEyebrow3": "速度与节奏",
+    "onboardingEyebrow4": "音高",
+    "onboardingTitle4": "用你的调演奏",
+    "onboardingDescription4": "移调 ±12 个半音，或进行调到调的映射——匹配你的嗓音、你的调音、你的变调夹。",
+    "onboardingConsentTitle": "你的数据，你做主",
+    "onboardingConsentBody": "RepeatLab 离线运行，你的文件保存在你的设备上。开始之前，还有一件小事需要确认。",
+    "onboardingAnalyticsTitle": "匿名分析",
+    "onboardingAnalyticsBody": "分享匿名使用数据（托管于欧盟），帮助改进 RepeatLab。",
+    "onboardingDataProtectionTitle": "数据保护",
+    "onboardingConsentFootnote": "你可以随时在设置中更改分析选项。",
+    "onboardingSkip": "跳过",
+    "onboardingContinue": "继续",
     "onboardingIAccept": "我接受",
     "onboardingTermsOfServiceLink": "隐私政策",
     "onboardingTermsOfService": "隐私政策",
@@ -74,6 +88,7 @@
     "premiumHeadline": "通过速度控制、缩放和无限循环，像专业人士一样掌握您喜爱的歌曲！",
     "premiumFeatureUnlimitedLoops": "无限循环",
     "premiumFeatureChangeMusicSpeed": "速度控制 (BPM/倍数)",
+    "premiumFeaturePitchControl": "音高控制（半音）",
     "premiumFeatureZoomInOut": "波形缩放",
     "premiumFeatureSupportDeveloper": "支持独立开发者",
     "freeFeatureUnlimitedSongs": "无限歌曲 + 每首歌一个循环",
@@ -119,6 +134,8 @@
     "endPositionMustBeAfterStartPosition": "结束位置必须在开始位置之后",
     "tutorialNavigateThroughSong": "通过拖放浏览歌曲",
     "tutorialNavigateThroughSongDescription": "使用手指左右拖动整个歌曲，并缩放以获得更好的精确度",
+    "tutorialVideoPreview": "观看视频并调整其大小",
+    "tutorialVideoPreviewDescription": "使用 + 和 − 按钮调整视频大小。要在视频中导航，请使用下方的时间轴和控制按钮",
     "tutorialPlayAndPauseSong": "播放、暂停或改变歌曲速度",
     "tutorialPlayAndPauseSongDescription": "使用这些按钮控制歌曲和循环",
     "tutorialJumpToLoop": "查看并跳转到循环",
@@ -156,7 +173,17 @@
     "purchasedAlready": "已购买",
     "purchaseSuccess": "购买成功。感谢您支持开发者 ❤️！",
     "voteForFeatures": "功能投票",
-    "changelogTitle": "更新日志",
+    "changelogTitle": "新功能",
+    "changelog2201Title": "节拍器",
+    "changelog2201Description": "跟随内置节拍器演奏，它会与你的歌曲保持同步。选择拍号和细分，点击设定速度，并通过半拍偏移和毫秒微调来精细调整咔哒声，让它与节拍完美契合。",
+    "changelog2202Title": "暂停时编辑循环",
+    "changelog2202Description": "现在，你可以在播放暂停时自由移动循环的起点和终点——播放头不再跳回循环内。一旦你按下播放，循环边界便会重新生效，让微调循环变得更加轻松。",
+    "changelog2101Title": "音高调整（Beta）",
+    "changelog2101Description": "以半音为单位改变歌曲的音高而不影响速度 - 非常适合将歌曲移调到其他调性，或匹配你乐器的调音。此功能目前处于 Beta 阶段；如遇到问题，请把你的反馈发给我。",
+    "changelog2102Title": "一次导入多个文件",
+    "changelog2102Description": "现在你可以一次选择并导入多个音频文件。添加歌曲时，进度指示器会随时显示进度。",
+    "changelog2103Title": "错误修复与稳定性改进",
+    "changelog2103Description": "修复了多个错误，并提升了应用的整体稳定性和性能。",
     "changelog201Title": "视频循环与速度调节（Beta）",
     "changelog201Description": "导入视频并像音频歌曲一样循环播放 - 或调节速度 - 非常适合跟随教程或现场表演练习。此功能目前处于 Beta 阶段；如遇到问题，请把你的反馈发给我。",
     "changelog180Title": "重新排列您的歌曲",
@@ -197,6 +224,7 @@
     "changelog1013Description": "您现在可以在应用中投票支持新功能或提交自己的功能提案。只需打开菜单并打开\"功能投票\"板。很高兴听到您的愿望！",
     "whatsNew": "新功能",
     "songAddError": "添加歌曲失败。这可能是由于文件格式问题。请尝试将文件转换为支持的格式，如 mp3 或 wav。",
+    "importAlreadyRunningError": "另一个导入仍在进行中。来自云存储的大文件可能需要一些时间，请等待其完成。",
     "unsupportedAudioFormatError": "音频格式 \".{format}\" 不受支持。支持的格式：{supportedFormats}。",
     "@unsupportedAudioFormatError": {
         "placeholders": {
@@ -310,6 +338,34 @@
     "useBpm": "使用 BPM",
     "reset": "重置",
     "speedControl": "速度",
+    "pitchControl": "音高",
+    "metronome": "节拍器",
+    "metronomeVolume": "音量",
+    "metronomeTimeSignature": "拍号",
+    "metronomeSubdivision": "细分",
+    "metronomeNudge": "微调",
+    "metronomeTapBeat": "跟着节拍点击",
+    "metronomeShiftHalfBeat": "移动半拍",
+    "metronomeOffsetMs": "{ms} ms",
+    "metronomeSetBpmFirst": "请先设置歌曲的BPM以使用节拍器。",
+    "metronomeGoToBpm": "设置BPM",
+    "metronomeAdvanced": "高级",
+    "metronomeSyncToSong": "与歌曲同步",
+    "metronomeKeepTapping": "继续点按…（{count}）",
+    "metronomeSyncHint": "节拍声会跟随歌曲的速度，但可能与节拍不完全对齐。跟着歌曲的节奏点按即可同步。",
+    "metronomeResetSync": "重置同步",
+    "off": "关闭",
+    "pitchSemitone": "半音",
+    "semitones": "半音",
+    "pitchUnchanged": "音高不变",
+    "tapTempo": "点击速度",
+    "songBpmValue": "歌曲 BPM {bpm}",
+    "retap": "重新点击",
+    "edit": "编辑",
+    "setSongTempoHint": "设置歌曲的速度，以每分钟节拍数调整播放。",
+    "bpmTapHint": "跟着节拍点击",
+    "bpmTapUnit": "BPM · 点击",
+    "useBpmValue": "使用 {bpm}",
     "hereYouCanSetTheOriginalBpmOfTheAudioFile": "您可以在此设置音频文件的原始 BPM。",
     "setBpm": "设置",
     "originalBpm": "原始 BPM",
@@ -324,6 +380,11 @@
     "playbackSettings": "播放设置",
     "actions": "操作",
     "speedChangeFailed": "速度变化失败。请再试一次。",
+    "pitchChangeFailed": "音高变化失败。请再试一次。",
+    "editSongKey": "调性",
+    "originalKey": "原调",
+    "currentKey": "当前调",
+    "hereYouCanSetTheOriginalKeyOfTheAudioFile": "在这里您可以设置音频文件的原调。",
     "copyToClipboard": "复制到剪贴板",
     "editSong": "编辑歌曲",
     "editSongTitle": "标题",
@@ -354,13 +415,17 @@
     "backupExportFailed": "导出失败：{message}",
     "@backupExportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportFailed": "导入失败：{message}",
     "@backupImportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportMalformed": "此文件不是有效的 RepeatLab 备份。",
@@ -369,8 +434,12 @@
     "backupImportConfirmMessage": "此备份包含 {songCount} 首歌曲（导出于 {exportedAt}）。",
     "@backupImportConfirmMessage": {
         "placeholders": {
-            "songCount": { "type": "int" },
-            "exportedAt": { "type": "String" }
+            "songCount": {
+                "type": "int"
+            },
+            "exportedAt": {
+                "type": "String"
+            }
         }
     },
     "backupImportModeMerge": "合并",
@@ -382,9 +451,15 @@
     "backupImportSuccess": "已导入 {imported} 首歌曲。{skipped} 首已跳过，{renamed} 首已重命名。",
     "@backupImportSuccess": {
         "placeholders": {
-            "imported": { "type": "int" },
-            "skipped": { "type": "int" },
-            "renamed": { "type": "int" }
+            "imported": {
+                "type": "int"
+            },
+            "skipped": {
+                "type": "int"
+            },
+            "renamed": {
+                "type": "int"
+            }
         }
     }
 }

@@ -37,12 +37,26 @@
     "noSongsFound": "曲が見つかりません",
     "tapToAddSong": "+をタップして最初の曲を追加",
     "legalNoticesDescription": "§5 TMG\n\nVerena Zaiser\nReichenbachstr. 17\n70372 Stuttgart\nメール：support@repeatlab.de\n\n法的形態：フリーランス",
-    "onboardingTitle1": "RepeatLabへようこそ",
-    "onboardingDescription1": "難しい部分を繰り返したり、速度を落としたりして、どの曲もマスターできます。",
-    "onboardingTitle2": "正確なループを作成",
-    "onboardingDescription2": "練習したい部分の開始と終了をタップするだけでマークできます。直感的な波形表示で調整と微調整が可能です。",
-    "onboardingTitle3": "プライバシー優先",
-    "onboardingDescription3": "あなたのプライバシーを尊重し、データを慎重に扱います。プライバシーポリシーを確認し、続行するには同意してください。",
+    "onboardingTitle1": "プロのように練習",
+    "onboardingDescription1": "どんな曲も使いこなすための、あなた専用のループステーション。音声も動画も、100%オフラインで。",
+    "onboardingTitle2": "難しい部分をループ",
+    "onboardingDescription2": "波形上に正確な開始点と終了点を設定し、完璧に弾けるまでその区間を繰り返し再生。",
+    "onboardingTitle3": "ピッチはそのまま、速度を落とす",
+    "onboardingDescription3": "0.5×から2.0×まで下げたり、正確なBPMを指定したり。ピッチはそのままなので音程が狂いません。",
+    "onboardingEyebrow1": "RepeatLabへようこそ",
+    "onboardingEyebrow2": "ループ",
+    "onboardingEyebrow3": "速度とテンポ",
+    "onboardingEyebrow4": "ピッチ",
+    "onboardingTitle4": "自分のキーで演奏",
+    "onboardingDescription4": "±12半音の移調やキーからキーへのマッピングで、あなたの声、チューニング、カポに合わせられます。",
+    "onboardingConsentTitle": "あなたのデータは、あなたの選択",
+    "onboardingConsentBody": "RepeatLabはオフラインで動作し、ファイルはあなたの端末に保存されます。始める前に、ひとつだけ簡単な確認を。",
+    "onboardingAnalyticsTitle": "匿名の分析データ",
+    "onboardingAnalyticsBody": "匿名の利用データ（EUでホスティング）を共有して、RepeatLabの改善にご協力ください。",
+    "onboardingDataProtectionTitle": "データ保護",
+    "onboardingConsentFootnote": "分析設定は設定画面でいつでも変更できます。",
+    "onboardingSkip": "スキップ",
+    "onboardingContinue": "続ける",
     "onboardingIAccept": "同意します",
     "onboardingTermsOfServiceLink": "プライバシーポリシー",
     "and": "と",
@@ -73,6 +87,7 @@
     "premiumHeadline": "テンポコントロール、ズーム、無制限のループで、プロのようにお気に入りの曲をマスターしましょう！",
     "premiumFeatureUnlimitedLoops": "無制限のループ",
     "premiumFeatureChangeMusicSpeed": "テンポコントロール（BPM/マルチプライヤー）",
+    "premiumFeaturePitchControl": "ピッチコントロール（半音）",
     "premiumFeatureZoomInOut": "波形のズームイン/アウト",
     "premiumFeatureSupportDeveloper": "独立系開発者をサポート",
     "freeFeatureUnlimitedSongs": "無制限の曲 + 曲ごとに1つのループ",
@@ -118,6 +133,8 @@
     "endPositionMustBeAfterStartPosition": "終了位置は開始位置より後である必要があります",
     "tutorialNavigateThroughSong": "ドラッグ＆ドロップで曲をナビゲート",
     "tutorialNavigateThroughSongDescription": "指を使って曲全体を左右にドラッグし、ズームイン/アウトして精度を向上させることができます",
+    "tutorialVideoPreview": "動画を見てサイズを調整",
+    "tutorialVideoPreviewDescription": "＋と−のボタンで動画のサイズを変更できます。動画内を移動するには、下のタイムラインとコントロールを使用してください",
     "tutorialPlayAndPauseSong": "曲の再生、一時停止、速度変更",
     "tutorialPlayAndPauseSongDescription": "これらのボタンを使用して曲とループを制御します",
     "tutorialJumpToLoop": "ループを表示してジャンプ",
@@ -155,7 +172,17 @@
     "purchasedAlready": "すでに購入済み",
     "purchaseSuccess": "購入が成功しました。開発者をサポートしていただきありがとうございます❤️！",
     "voteForFeatures": "機能に投票",
-    "changelogTitle": "変更履歴",
+    "changelogTitle": "新機能",
+    "changelog2201Title": "メトロノーム",
+    "changelog2201Description": "曲のテンポに合わせて動く内蔵メトロノームに合わせて演奏できます。拍子と分割を選び、タップでテンポを入力し、ハーフビートのシフトやミリ秒単位の微調整でクリック音をビートにぴったり合わせられます。",
+    "changelog2202Title": "一時停止中にループを編集",
+    "changelog2202Description": "再生を一時停止したまま、ループの開始点と終了点を自由に動かせるようになりました。再生ヘッドがループ内に戻ることはありません。再生を押すとループの範囲が再び有効になるので、ループの微調整がずっと簡単になります。",
+    "changelog2101Title": "ピッチシフト（Beta）",
+    "changelog2101Description": "速度を変えずに曲のピッチを半音単位で変更できます - 曲を別のキーに移調したり、楽器のチューニングに合わせたりするのに最適です。この機能は現在ベータ版です。問題があればフィードバックを送ってください。",
+    "changelog2102Title": "複数ファイルの一括インポート",
+    "changelog2102Description": "複数のオーディオファイルを一度に選択してインポートできるようになりました。曲の追加中は進行状況インジケーターで状況を確認できます。",
+    "changelog2103Title": "バグ修正と安定性の向上",
+    "changelog2103Description": "複数のバグを修正し、アプリ全体の安定性とパフォーマンスを改善しました。",
     "changelog201Title": "動画をループして速度変更（Beta）",
     "changelog201Description": "動画をインポートして、オーディオ曲と同じようにループできます - または速度を変更できます - チュートリアルやライブパフォーマンスに合わせて練習するのに最適です。この機能は現在ベータ版です。問題があればフィードバックを送ってください。",
     "changelog180Title": "曲を並べ替える",
@@ -196,6 +223,7 @@
     "changelog1013Description": "アプリ内で新機能に投票したり、独自の機能提案を送信したりできるようになりました。メニューを開いて「機能に投票」ボードを開くだけです。あなたの要望をお聞かせください！",
     "whatsNew": "新機能",
     "songAddError": "曲の追加に失敗しました。ファイル形式に問題がある可能性があります。mp3やwavなどのサポートされている形式に変換してみてください。",
+    "importAlreadyRunningError": "別のインポートがまだ実行中です。クラウドストレージの大きなファイルは時間がかかることがあります。完了するまでお待ちください。",
     "unsupportedAudioFormatError": "オーディオ形式「.{format}」はサポートされていません。サポートされている形式：{supportedFormats}。",
     "@unsupportedAudioFormatError": {
         "placeholders": {
@@ -309,6 +337,34 @@
     "useBpm": "BPMを使用",
     "reset": "リセット",
     "speedControl": "速度",
+    "pitchControl": "ピッチ",
+    "metronome": "メトロノーム",
+    "metronomeVolume": "音量",
+    "metronomeTimeSignature": "拍子",
+    "metronomeSubdivision": "細分",
+    "metronomeNudge": "微調整",
+    "metronomeTapBeat": "ビートに合わせてタップ",
+    "metronomeShiftHalfBeat": "半拍ずらす",
+    "metronomeOffsetMs": "{ms} ms",
+    "metronomeSetBpmFirst": "メトロノームを使うには、まず曲のBPMを設定してください。",
+    "metronomeGoToBpm": "BPMを設定",
+    "metronomeAdvanced": "詳細設定",
+    "metronomeSyncToSong": "曲と同期",
+    "metronomeKeepTapping": "タップを続けてください…（{count}）",
+    "metronomeSyncHint": "クリック音は曲のテンポに合わせますが、拍とずれることがあります。曲に合わせてタップして同期しましょう。",
+    "metronomeResetSync": "同期をリセット",
+    "off": "オフ",
+    "pitchSemitone": "半音",
+    "semitones": "半音",
+    "pitchUnchanged": "ピッチはそのまま",
+    "tapTempo": "タップテンポ",
+    "songBpmValue": "曲のBPM {bpm}",
+    "retap": "再タップ",
+    "edit": "編集",
+    "setSongTempoHint": "曲のテンポを設定して、再生を1分あたりの拍数で調整します。",
+    "bpmTapHint": "ビートに合わせてパッドをタップ",
+    "bpmTapUnit": "BPM・タップ",
+    "useBpmValue": "{bpm} を使用",
     "hereYouCanSetTheOriginalBpmOfTheAudioFile": "ここでオーディオファイルの元のBPMを設定できます。",
     "setBpm": "SET",
     "originalBpm": "元のBPM",
@@ -323,6 +379,11 @@
     "playbackSettings": "再生",
     "actions": "アクション",
     "speedChangeFailed": "速度変更に失敗しました。もう一度お試しください。",
+    "pitchChangeFailed": "ピッチ変更に失敗しました。もう一度お試しください。",
+    "editSongKey": "キー",
+    "originalKey": "元のキー",
+    "currentKey": "現在のキー",
+    "hereYouCanSetTheOriginalKeyOfTheAudioFile": "ここで音声ファイルの元のキーを設定できます。",
     "copyToClipboard": "クリップボードにコピー",
     "editSong": "曲を編集",
     "editSongTitle": "タイトル",
@@ -353,13 +414,17 @@
     "backupExportFailed": "エクスポート失敗: {message}",
     "@backupExportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportFailed": "インポート失敗: {message}",
     "@backupImportFailed": {
         "placeholders": {
-            "message": { "type": "String" }
+            "message": {
+                "type": "String"
+            }
         }
     },
     "backupImportMalformed": "このファイルは有効なRepeatLabバックアップではありません。",
@@ -368,8 +433,12 @@
     "backupImportConfirmMessage": "このバックアップには{songCount}曲が含まれています（エクスポート日: {exportedAt}）。",
     "@backupImportConfirmMessage": {
         "placeholders": {
-            "songCount": { "type": "int" },
-            "exportedAt": { "type": "String" }
+            "songCount": {
+                "type": "int"
+            },
+            "exportedAt": {
+                "type": "String"
+            }
         }
     },
     "backupImportModeMerge": "マージ",
@@ -381,9 +450,15 @@
     "backupImportSuccess": "{imported}曲をインポートしました。{skipped}曲をスキップ、{renamed}曲をリネームしました。",
     "@backupImportSuccess": {
         "placeholders": {
-            "imported": { "type": "int" },
-            "skipped": { "type": "int" },
-            "renamed": { "type": "int" }
+            "imported": {
+                "type": "int"
+            },
+            "skipped": {
+                "type": "int"
+            },
+            "renamed": {
+                "type": "int"
+            }
         }
     }
 }
