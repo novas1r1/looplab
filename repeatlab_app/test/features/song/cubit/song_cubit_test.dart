@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-// ignore: depend_on_referenced_packages
-import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/services/media_player_handler.dart';
@@ -348,8 +346,9 @@ void main() {
   group('metronome (live path, video songs)', () {
     late MockSongMetronome mockMetronome;
 
-    // The live native metronome only serves video songs since the baked
-    // click track took over audio songs — these tests pin the video path.
+    // The live native metronome only serves video songs since the native
+    // in-pipeline click took over audio songs — these tests pin the video
+    // path.
     SongCubit buildCubit({Song song = MockData.songMedium}) {
       final cubit = SongCubit(
         song: song.copyWith(mediaType: MediaType.video),
@@ -840,293 +839,7 @@ void main() {
       ).called(1);
     });
   });
-  group('metronome click track (audio songs)', () {
-    late MockSongMetronome mockMetronome;
-    late MockMetronomeTrackService mockTrackService;
-    late MockMediaPlayerHandler mockHandler;
-    late StreamController<Duration> seekEventsController;
-
-    const mixedPath = '/tmp/mixes/abc.m4a';
-
-    SongCubit buildCubit({Song song = MockData.songMedium}) {
-      final cubit = SongCubit(
-        song: song,
-        songRepository: mockSongRepository,
-        localConfigRepository: mockLocalConfigRepository,
-        crashReportingRepository: mockCrashReportingRepository,
-        metronome: mockMetronome,
-        trackService: mockTrackService,
-      )
-        ..isMetronomeSupportedOverride = true
-        // Pin the baked path — on Android this group's songs would use the
-        // native pipeline instead.
-        ..isNativeClickTrackSupportedOverride = false
-        ..clickTrackDebounceMsOverride = 1
-        ..debugSetAudioHandler(mockHandler);
-      return cubit;
-    }
-
-    setUpAll(() {
-      PathProviderPlatform.instance = _FakePathProviderPlatform();
-      registerFallbackValue(
-        const ClickTrackConfig(
-          durationMs: 1000,
-          bpm: 120,
-          anchorMs: null,
-          offsetMs: 0,
-          beatsPerBar: 4,
-          beatUnit: 4,
-          pulsesPerBeat: 1,
-          volume: 0.5,
-        ),
-      );
-    });
-
-    setUp(() {
-      mockMetronome = MockSongMetronome();
-      mockTrackService = MockMetronomeTrackService();
-      mockHandler = MockMediaPlayerHandler();
-      seekEventsController = StreamController<Duration>.broadcast();
-
-      when(() => mockMetronome.isRunning).thenReturn(false);
-      when(() => mockMetronome.stop()).thenAnswer((_) async {});
-      when(() => mockMetronome.dispose()).thenAnswer((_) async {});
-
-      when(
-        () => mockTrackService.ensureMixedTrack(
-          songId: any(named: 'songId'),
-          songPath: any(named: 'songPath'),
-          config: any(named: 'config'),
-        ),
-      ).thenAnswer((_) async => mixedPath);
-
-      when(
-        () => mockHandler.seekEvents,
-      ).thenAnswer((_) => seekEventsController.stream);
-      when(() => mockHandler.setSpeed(any())).thenAnswer((_) async => true);
-      when(() => mockHandler.swapSourceFile(any())).thenAnswer((_) async {});
-
-      when(
-        () => mockSongRepository.updateSong(any()),
-      ).thenAnswer((_) async {});
-      when(
-        () => mockLocalConfigRepository.setMetronomeVolume(any()),
-      ).thenAnswer((_) async {});
-      when(
-        () => mockLocalConfigRepository.setMetronomeSubdivision(any()),
-      ).thenAnswer((_) async {});
-    });
-
-    tearDown(() async {
-      await seekEventsController.close();
-    });
-
-    test('enabling mixes the click track and swaps the source', () async {
-      final cubit = buildCubit();
-      await cubit.setOriginalBpm(120);
-
-      await cubit.toggleMetronome();
-
-      expect(cubit.state.isMetronomeEnabled, isTrue);
-      expect(cubit.state.isMetronomeGenerating, isFalse);
-      verify(() => mockHandler.swapSourceFile(mixedPath)).called(1);
-      // The live native metronome must stay untouched for audio songs.
-      verifyNever(
-        () => mockMetronome.startAligned(
-          bpm: any(named: 'bpm'),
-          offsetMs: any(named: 'offsetMs'),
-          beatsPerBar: any(named: 'beatsPerBar'),
-          beatUnit: any(named: 'beatUnit'),
-          pulsesPerBeat: any(named: 'pulsesPerBeat'),
-          volume: any(named: 'volume'),
-        ),
-      );
-    });
-
-    test('disabling swaps back to the original file', () async {
-      final cubit = buildCubit();
-      await cubit.setOriginalBpm(120);
-      await cubit.toggleMetronome();
-
-      await cubit.toggleMetronome();
-
-      expect(cubit.state.isMetronomeEnabled, isFalse);
-      final swaps = verify(
-        () => mockHandler.swapSourceFile(captureAny()),
-      ).captured;
-      expect(swaps, hasLength(2));
-      expect(swaps.first, mixedPath);
-      expect(swaps.last, contains(MockData.songMedium.fileName));
-    });
-
-    test('grid config uses the original BPM, not the sped-up one', () async {
-      final cubit = buildCubit(
-        song: MockData.songMedium.copyWith(
-          metronomeBeatAnchorMs: 130,
-          metronomeOffsetMs: 25,
-        ),
-      );
-      await cubit.setOriginalBpm(120);
-      await cubit.setSpeedByMultiplier(1.5);
-      expect(cubit.state.currentBpm, 180);
-
-      await cubit.toggleMetronome();
-
-      final config = verify(
-        () => mockTrackService.ensureMixedTrack(
-          songId: any(named: 'songId'),
-          songPath: any(named: 'songPath'),
-          config: captureAny(named: 'config'),
-        ),
-      ).captured.single as ClickTrackConfig;
-      // Speed acts on the mixed stream — the baked grid stays in song time.
-      expect(config.bpm, 120);
-      expect(config.anchorMs, 130);
-      expect(config.offsetMs, 25);
-      expect(
-        config.durationMs,
-        MockData.songMedium.duration.inMilliseconds,
-      );
-    });
-
-    test('seek events do not re-mix or touch the live metronome', () async {
-      final cubit = buildCubit(
-        song: MockData.songMedium.copyWith(metronomeBeatAnchorMs: 100),
-      );
-      await cubit.setOriginalBpm(120);
-      await cubit.toggleMetronome();
-
-      seekEventsController.add(const Duration(milliseconds: 10300));
-      await Future<void>.delayed(const Duration(milliseconds: 50));
-
-      verify(
-        () => mockTrackService.ensureMixedTrack(
-          songId: any(named: 'songId'),
-          songPath: any(named: 'songPath'),
-          config: any(named: 'config'),
-        ),
-      ).called(1);
-      verifyNever(
-        () => mockMetronome.startAligned(
-          bpm: any(named: 'bpm'),
-          offsetMs: any(named: 'offsetMs'),
-          beatsPerBar: any(named: 'beatsPerBar'),
-          beatUnit: any(named: 'beatUnit'),
-          pulsesPerBeat: any(named: 'pulsesPerBeat'),
-          volume: any(named: 'volume'),
-        ),
-      );
-    });
-
-    test('a nudge while enabled re-mixes with the new offset', () async {
-      final cubit = buildCubit();
-      await cubit.setOriginalBpm(120);
-      await cubit.toggleMetronome();
-
-      await cubit.nudgeMetronome(25);
-      // Let the 1 ms refresh debounce fire.
-      await Future<void>.delayed(const Duration(milliseconds: 50));
-
-      final configs = verify(
-        () => mockTrackService.ensureMixedTrack(
-          songId: any(named: 'songId'),
-          songPath: any(named: 'songPath'),
-          config: captureAny(named: 'config'),
-        ),
-      ).captured.cast<ClickTrackConfig>();
-      expect(configs, hasLength(2));
-      expect(configs.last.offsetMs, 25);
-      verifyNever(() => mockMetronome.nudge(any()));
-    });
-
-    test('volume drag does not re-mix; the settled value does', () async {
-      final cubit = buildCubit();
-      await cubit.setOriginalBpm(120);
-      await cubit.toggleMetronome();
-
-      await cubit.setMetronomeVolume(0.8);
-      await Future<void>.delayed(const Duration(milliseconds: 50));
-      verify(
-        () => mockTrackService.ensureMixedTrack(
-          songId: any(named: 'songId'),
-          songPath: any(named: 'songPath'),
-          config: any(named: 'config'),
-        ),
-      ).called(1);
-
-      await cubit.setMetronomeVolume(0.8, persist: true);
-      await Future<void>.delayed(const Duration(milliseconds: 50));
-      final configs = verify(
-        () => mockTrackService.ensureMixedTrack(
-          songId: any(named: 'songId'),
-          songPath: any(named: 'songPath'),
-          config: captureAny(named: 'config'),
-        ),
-      ).captured.cast<ClickTrackConfig>();
-      expect(configs.last.volume, 0.8);
-      verifyNever(() => mockMetronome.setVolume(any()));
-    });
-
-    test('a failed mix turns the metronome back off', () async {
-      when(
-        () => mockTrackService.ensureMixedTrack(
-          songId: any(named: 'songId'),
-          songPath: any(named: 'songPath'),
-          config: any(named: 'config'),
-        ),
-      ).thenThrow(Exception('ffmpeg exploded'));
-      final cubit = buildCubit();
-      await cubit.setOriginalBpm(120);
-
-      await cubit.toggleMetronome();
-
-      expect(cubit.state.isMetronomeEnabled, isFalse);
-      expect(cubit.state.isMetronomeGenerating, isFalse);
-      expect(cubit.state.status, SongStatus.error);
-      verifyNever(() => mockHandler.swapSourceFile(any()));
-    });
-
-    test('toggling off during an in-flight mix discards the swap', () async {
-      final mixCompleter = Completer<String>();
-      when(
-        () => mockTrackService.ensureMixedTrack(
-          songId: any(named: 'songId'),
-          songPath: any(named: 'songPath'),
-          config: any(named: 'config'),
-        ),
-      ).thenAnswer((_) => mixCompleter.future);
-      final cubit = buildCubit();
-      await cubit.setOriginalBpm(120);
-
-      final enableFuture = cubit.toggleMetronome();
-      await Future<void>.delayed(Duration.zero);
-      expect(cubit.state.isMetronomeGenerating, isTrue);
-
-      await cubit.toggleMetronome(); // off while the mix is still running
-      mixCompleter.complete(mixedPath);
-      await enableFuture;
-
-      expect(cubit.state.isMetronomeEnabled, isFalse);
-      // Neither the stale mix nor a swap-back (nothing was ever swapped).
-      verifyNever(() => mockHandler.swapSourceFile(any()));
-    });
-
-    test('clearing the BPM disables and swaps back', () async {
-      final cubit = buildCubit();
-      await cubit.setOriginalBpm(120);
-      await cubit.toggleMetronome();
-
-      await cubit.setOriginalBpm(null);
-
-      expect(cubit.state.isMetronomeEnabled, isFalse);
-      final swaps = verify(
-        () => mockHandler.swapSourceFile(captureAny()),
-      ).captured;
-      expect(swaps.last, contains(MockData.songMedium.fileName));
-    });
-  });
-
-  group('metronome native click pipeline (Android audio songs)', () {
+  group('metronome native click pipeline (audio songs)', () {
     late MockSongMetronome mockMetronome;
     late MockMetronomeTrackService mockTrackService;
     late MockMediaPlayerHandler mockHandler;
@@ -1222,7 +935,6 @@ void main() {
       await cubit.toggleMetronome();
 
       expect(cubit.state.isMetronomeEnabled, isTrue);
-      expect(cubit.state.isMetronomeGenerating, isFalse);
       final config = sentConfigs.single;
       // Speed acts on the stream — the grid stays at the original BPM.
       expect(config['enabled'], isTrue);
@@ -1232,15 +944,6 @@ void main() {
       expect(config['beatsPerBar'], 4);
       expect(config['pulsesPerBeat'], 1);
       expect(config['volume'], isA<double>());
-      // Native path: neither the ffmpeg mixer nor a source swap is touched.
-      verifyNever(
-        () => mockTrackService.ensureMixedTrack(
-          songId: any(named: 'songId'),
-          songPath: any(named: 'songPath'),
-          config: any(named: 'config'),
-        ),
-      );
-      verifyNever(() => mockHandler.swapSourceFile(any()));
     });
 
     test('without a beat anchor a uniform 1-beat grid is sent', () async {
@@ -1333,7 +1036,6 @@ void main() {
 
       expect(cubit.state.isMetronomeEnabled, isFalse);
       expect(sentConfigs.last['enabled'], isFalse);
-      verifyNever(() => mockHandler.swapSourceFile(any()));
     });
   });
 }
@@ -1343,8 +1045,3 @@ class MockSongMetronome extends Mock implements SongMetronome {}
 class MockMediaPlayerHandler extends Mock implements MediaPlayerHandler {}
 
 class MockMetronomeTrackService extends Mock implements MetronomeTrackService {}
-
-class _FakePathProviderPlatform extends PathProviderPlatform {
-  @override
-  Future<String?> getApplicationDocumentsPath() async => '/tmp/docs';
-}

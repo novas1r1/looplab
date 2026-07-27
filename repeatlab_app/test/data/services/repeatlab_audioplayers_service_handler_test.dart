@@ -155,50 +155,6 @@ void main() {
     });
   });
 
-  group('swapSourceFile', () {
-    test('preserves position, speed, pitch and resumes when playing',
-        () async {
-      final handler = RepeatlabAudioplayersServiceHandler(
-        audioPlayer: audioPlayer,
-      );
-      addTearDown(handler.close);
-
-      when(() => audioPlayer.state).thenReturn(PlayerState.playing);
-      when(
-        () => audioPlayer.getCurrentPosition(),
-      ).thenAnswer((_) async => const Duration(seconds: 42));
-      when(() => audioPlayer.setPlaybackRate(any())).thenAnswer((_) async {});
-      await handler.setSpeed(1.5);
-
-      await handler.swapSourceFile('/tmp/mix.m4a');
-
-      final source =
-          verify(() => audioPlayer.setSource(captureAny())).captured.last
-              as DeviceFileSource;
-      expect(source.path, '/tmp/mix.m4a');
-      verify(() => audioPlayer.setPlaybackRate(1.5)).called(greaterThan(0));
-      verify(() => audioPlayer.seek(const Duration(seconds: 42))).called(1);
-      verify(() => audioPlayer.resume()).called(1);
-    });
-
-    test('stays paused when the player was not playing', () async {
-      final handler = RepeatlabAudioplayersServiceHandler(
-        audioPlayer: audioPlayer,
-      );
-      addTearDown(handler.close);
-
-      when(() => audioPlayer.state).thenReturn(PlayerState.paused);
-      when(
-        () => audioPlayer.getCurrentPosition(),
-      ).thenAnswer((_) async => const Duration(seconds: 10));
-
-      await handler.swapSourceFile('/tmp/mix.m4a');
-
-      verify(() => audioPlayer.seek(const Duration(seconds: 10))).called(1);
-      verifyNever(() => audioPlayer.resume());
-    });
-  });
-
   test(
     'seek clamps to media item duration when platform duration unavailable',
     () async {

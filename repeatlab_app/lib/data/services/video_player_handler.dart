@@ -247,13 +247,6 @@ class VideoPlayerHandler implements MediaPlayerHandler {
     _notifySeek(position);
   }
 
-  /// Video songs keep the live metronome (a baked click track would require
-  /// remuxing the video file); the cubit never routes them here.
-  @override
-  Future<void> swapSourceFile(String path) {
-    throw UnsupportedError('swapSourceFile is not supported for video songs');
-  }
-
   /// Video playback runs on media_kit — there is no click-injection
   /// pipeline; the cubit never routes video songs here.
   @override

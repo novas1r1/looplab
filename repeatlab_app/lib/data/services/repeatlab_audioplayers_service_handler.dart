@@ -244,16 +244,19 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
       _pitchSemitones = 0;
       // Same for the native click processor: clear its grid so a new song
       // never inherits the previous song's clicks. The cubit re-sends the
-      // config when the metronome is (re)enabled. Non-Android platforms
-      // throw UnsupportedError — nothing to clear there.
+      // config when the metronome is (re)enabled. Implemented on Android and
+      // iOS/macOS in the fork; the catches are a safety net for platforms
+      // without an implementation.
       try {
         await audioPlayer.setClickTrack(enabled: false);
-        // The platform interface signals "not implemented here" via
-        // UnsupportedError by design (same pattern as setPitchShift) —
-        // catching it is the intended cross-platform usage.
+        // "Not implemented here" arrives as UnsupportedError (platform
+        // interface default) or MissingPluginException (method channel with
+        // no native handler). Both mean the same thing: nothing to clear.
         // ignore: avoid_catching_errors
       } on UnsupportedError {
         // Native click track not available on this platform.
+      } on MissingPluginException {
+        // Native click track not implemented on this platform.
       }
 
       await audioPlayer.setReleaseMode(ReleaseMode.stop);
@@ -466,29 +469,6 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
       pulsesPerBeat: pulsesPerBeat,
       volume: volume,
     );
-  }
-
-  @override
-  Future<void> swapSourceFile(String path) async {
-    await _awaitActiveSeek();
-
-    final wasPlaying = audioPlayer.state == PlayerState.playing;
-    final currentPosition =
-        await audioPlayer.getCurrentPosition() ?? Duration.zero;
-
-    final source = DeviceFileSource(path);
-    _currentSource = source;
-
-    // setSource resets the platform player, so speed and pitch must be
-    // reapplied — same as _reloadSourceIfNeeded.
-    await audioPlayer.setSource(source);
-    await audioPlayer.setPlaybackRate(_playbackSpeed);
-    await _applyPitchShiftSafely();
-
-    await audioPlayer.seek(currentPosition);
-    if (wasPlaying) {
-      await audioPlayer.resume();
-    }
   }
 
   @override

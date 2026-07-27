@@ -82,6 +82,10 @@ dependency_overrides:
   # pub.dev and miss the new API.
   audioplayers_platform_interface:
     path: ../ap/packages/audioplayers_platform_interface
+  # The fork's darwin plugin carries the native metronome click tap
+  # (setClickTrack via MTAudioProcessingTap); pub.dev's does not.
+  audioplayers_darwin:
+    path: ../ap/packages/audioplayers_darwin
   # TODO: Remove once Xcode is updated to 26.1+.
   # device_info_plus 12.4.0+ references isiOSAppOnVision (iOS 26.1 SDK).
   device_info_plus: 13.2.0

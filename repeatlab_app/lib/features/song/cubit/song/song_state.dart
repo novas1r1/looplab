@@ -87,11 +87,6 @@ class SongState with SongStateMappable {
   /// tap buffer itself lives in the cubit.
   final int metronomeTapCount;
 
-  /// Whether the baked click track is currently being rendered/mixed (audio
-  /// songs only). The metronome panel shows a busy indicator during this —
-  /// the first mix of a song takes a few seconds; settings changes re-mix.
-  final bool isMetronomeGenerating;
-
   const SongState({
     this.speed = 1.0,
     this.status = SongStatus.loading,
@@ -114,7 +109,6 @@ class SongState with SongStateMappable {
     this.metronomeVolume = 0.5,
     this.metronomeSubdivision = MetronomeSubdivision.none,
     this.metronomeTapCount = 0,
-    this.isMetronomeGenerating = false,
   });
 }
 

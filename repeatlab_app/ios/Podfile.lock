@@ -9,51 +9,23 @@ PODS:
     - FlutterMacOS
   - clarity_flutter (1.0.0):
     - Flutter
+  - CocoaAsyncSocket (7.6.5)
   - device_info_plus (0.0.1):
     - Flutter
-  - DKImagePickerController/Core (4.3.9):
-    - DKImagePickerController/ImageDataManager
-    - DKImagePickerController/Resource
-  - DKImagePickerController/ImageDataManager (4.3.9)
-  - DKImagePickerController/PhotoGallery (4.3.9):
-    - DKImagePickerController/Core
-    - DKPhotoGallery
-  - DKImagePickerController/Resource (4.3.9)
-  - DKPhotoGallery (0.0.19):
-    - DKPhotoGallery/Core (= 0.0.19)
-    - DKPhotoGallery/Model (= 0.0.19)
-    - DKPhotoGallery/Preview (= 0.0.19)
-    - DKPhotoGallery/Resource (= 0.0.19)
-    - SDWebImage
-    - SwiftyGif
-  - DKPhotoGallery/Core (0.0.19):
-    - DKPhotoGallery/Model
-    - DKPhotoGallery/Preview
-    - SDWebImage
-    - SwiftyGif
-  - DKPhotoGallery/Model (0.0.19):
-    - SDWebImage
-    - SwiftyGif
-  - DKPhotoGallery/Preview (0.0.19):
-    - DKPhotoGallery/Model
-    - DKPhotoGallery/Resource
-    - SDWebImage
-    - SwiftyGif
-  - DKPhotoGallery/Resource (0.0.19):
-    - SDWebImage
-    - SwiftyGif
-  - ffmpeg_kit_flutter_new_min (7.1.1):
-    - ffmpeg_kit_flutter_new_min/min (= 7.1.1)
+  - ffmpeg_kit_flutter_new_min (8.1.2):
+    - ffmpeg_kit_flutter_new_min/min (= 8.1.2)
     - Flutter
-  - ffmpeg_kit_flutter_new_min/min (7.1.1):
+  - ffmpeg_kit_flutter_new_min/min (8.1.2):
     - Flutter
   - file_picker (0.0.1):
-    - DKImagePickerController/PhotoGallery
     - Flutter
+    - FlutterMacOS
   - Flutter (1.0.0)
   - flutter_soloud (0.0.1):
     - Flutter
   - in_app_review (2.0.0):
+    - Flutter
+  - integration_test (0.0.1):
     - Flutter
   - media_kit_libs_ios_video (1.0.4):
     - Flutter
@@ -61,28 +33,36 @@ PODS:
     - Flutter
   - package_info_plus (0.4.5):
     - Flutter
-  - purchases_flutter (10.2.2):
-    - Flutter
-    - PurchasesHybridCommon (= 18.10.0)
-  - purchases_ui_flutter (10.2.2):
-    - Flutter
-    - PurchasesHybridCommonUI (= 18.10.0)
-  - PurchasesHybridCommon (18.10.0):
-    - RevenueCat (= 5.76.0)
-  - PurchasesHybridCommonUI (18.10.0):
-    - PurchasesHybridCommon (= 18.10.0)
-    - RevenueCatUI (= 5.76.0)
-  - RevenueCat (5.76.0)
-  - RevenueCatUI (5.76.0):
-    - RevenueCat (= 5.76.0)
-  - SDWebImage (5.21.7):
-    - SDWebImage/Core (= 5.21.7)
-  - SDWebImage/Core (5.21.7)
-  - Sentry/HybridSDK (8.58.3)
-  - sentry_flutter (9.21.0):
+  - patrol (0.0.1):
+    - CocoaAsyncSocket (~> 7.6)
     - Flutter
     - FlutterMacOS
-    - Sentry/HybridSDK (= 8.58.3)
+  - PostHog (3.68.2)
+  - posthog_flutter (0.0.1):
+    - Flutter
+    - FlutterMacOS
+    - PostHog (< 4.0.0, >= 3.66.0)
+  - precise_metronome (0.1.0):
+    - Flutter
+  - purchases_flutter (10.4.3):
+    - Flutter
+    - PurchasesHybridCommon (= 18.22.2)
+  - purchases_ui_flutter (10.4.3):
+    - Flutter
+    - PurchasesHybridCommonUI (= 18.22.2)
+  - PurchasesHybridCommon (18.22.2):
+    - RevenueCat (= 5.81.1)
+  - PurchasesHybridCommonUI (18.22.2):
+    - PurchasesHybridCommon (= 18.22.2)
+    - RevenueCatUI (= 5.81.1)
+  - RevenueCat (5.81.1)
+  - RevenueCatUI (5.81.1):
+    - RevenueCat (= 5.81.1)
+  - Sentry/HybridSDK (8.58.4)
+  - sentry_flutter (9.25.0):
+    - Flutter
+    - FlutterMacOS
+    - Sentry/HybridSDK (= 8.58.4)
   - share_plus (0.0.1):
     - Flutter
   - shared_preferences_foundation (0.0.1):
@@ -91,7 +71,6 @@ PODS:
   - sqflite_darwin (0.0.4):
     - Flutter
     - FlutterMacOS
-  - SwiftyGif (5.4.5)
   - url_launcher_ios (0.0.1):
     - Flutter
   - wakelock_plus (0.0.1):
@@ -104,13 +83,17 @@ DEPENDENCIES:
   - clarity_flutter (from `.symlinks/plugins/clarity_flutter/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - ffmpeg_kit_flutter_new_min (from `.symlinks/plugins/ffmpeg_kit_flutter_new_min/ios`)
-  - file_picker (from `.symlinks/plugins/file_picker/ios`)
+  - file_picker (from `.symlinks/plugins/file_picker/darwin`)
   - Flutter (from `Flutter`)
   - flutter_soloud (from `.symlinks/plugins/flutter_soloud/ios`)
   - in_app_review (from `.symlinks/plugins/in_app_review/ios`)
+  - integration_test (from `.symlinks/plugins/integration_test/ios`)
   - media_kit_libs_ios_video (from `.symlinks/plugins/media_kit_libs_ios_video/ios`)
   - media_kit_video (from `.symlinks/plugins/media_kit_video/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
+  - patrol (from `.symlinks/plugins/patrol/darwin`)
+  - posthog_flutter (from `.symlinks/plugins/posthog_flutter/darwin`)
+  - precise_metronome (from `.symlinks/plugins/precise_metronome/ios`)
   - purchases_flutter (from `.symlinks/plugins/purchases_flutter/ios`)
   - purchases_ui_flutter (from `.symlinks/plugins/purchases_ui_flutter/ios`)
   - sentry_flutter (from `.symlinks/plugins/sentry_flutter/ios`)
@@ -122,15 +105,13 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - DKImagePickerController
-    - DKPhotoGallery
+    - CocoaAsyncSocket
+    - PostHog
     - PurchasesHybridCommon
     - PurchasesHybridCommonUI
     - RevenueCat
     - RevenueCatUI
-    - SDWebImage
     - Sentry
-    - SwiftyGif
 
 EXTERNAL SOURCES:
   audio_service:
@@ -146,19 +127,27 @@ EXTERNAL SOURCES:
   ffmpeg_kit_flutter_new_min:
     :path: ".symlinks/plugins/ffmpeg_kit_flutter_new_min/ios"
   file_picker:
-    :path: ".symlinks/plugins/file_picker/ios"
+    :path: ".symlinks/plugins/file_picker/darwin"
   Flutter:
     :path: Flutter
   flutter_soloud:
     :path: ".symlinks/plugins/flutter_soloud/ios"
   in_app_review:
     :path: ".symlinks/plugins/in_app_review/ios"
+  integration_test:
+    :path: ".symlinks/plugins/integration_test/ios"
   media_kit_libs_ios_video:
     :path: ".symlinks/plugins/media_kit_libs_ios_video/ios"
   media_kit_video:
     :path: ".symlinks/plugins/media_kit_video/ios"
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
+  patrol:
+    :path: ".symlinks/plugins/patrol/darwin"
+  posthog_flutter:
+    :path: ".symlinks/plugins/posthog_flutter/darwin"
+  precise_metronome:
+    :path: ".symlinks/plugins/precise_metronome/ios"
   purchases_flutter:
     :path: ".symlinks/plugins/purchases_flutter/ios"
   purchases_ui_flutter:
@@ -179,35 +168,37 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   audio_service: aa99a6ba2ae7565996015322b0bb024e1d25c6fd
   audio_session: 9bb7f6c970f21241b19f5a3658097ae459681ba0
-  audioplayers_darwin: 835ced6edd4c9fc8ebb0a7cc9e294a91d99917d5
+  audioplayers_darwin: f5d3ad75cdd9efaa97c18de1028f4bdd11cb6bfb
   clarity_flutter: d665e4a61c0000a28e7829668a4e287cc1b657bd
+  CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   device_info_plus: 21fcca2080fbcd348be798aa36c3e5ed849eefbe
-  DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
-  DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
-  ffmpeg_kit_flutter_new_min: 85493896be79f45e846b5c9b23a3bf73eb284c4a
-  file_picker: a0560bc09d61de87f12d246fc47d2119e6ef37be
+  ffmpeg_kit_flutter_new_min: 2d44c39c41f0c8e25681e17183f62724f3c4fc22
+  file_picker: 70164d9778c42c47218d6cd79ce435de0856b11a
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   flutter_soloud: d9969a9777b511239e85da6e108e05b429207baf
   in_app_review: 7dd1ea365263f834b8464673f9df72c80c17c937
+  integration_test: 4a889634ef21a45d28d50d622cf412dc6d9f586e
   media_kit_libs_ios_video: 5a18affdb97d1f5d466dc79988b13eff6c5e2854
   media_kit_video: 1746e198cb697d1ffb734b1d05ec429d1fcd1474
   package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
-  purchases_flutter: dea68d45394f0ea152a781b86b6e86283a11b571
-  purchases_ui_flutter: 966932dc725227c59edb0f19e699e9add9d112c6
-  PurchasesHybridCommon: 3e650c7f56ebcd63b37a708685fbf98515305d14
-  PurchasesHybridCommonUI: 7f0ca509eff47ee76f69726221cb5699fd4308ec
-  RevenueCat: 792388288b4207a5056550fbf8f673090f1fbe22
-  RevenueCatUI: c20f148f7f81f26bed4103f538d64c09c494f793
-  SDWebImage: e9fc87c1aab89a8ab1bbd74eba378c6f53be8abf
-  Sentry: 108fdbb76299c4189af12246bf0308c09c278922
-  sentry_flutter: 32e67cb4756ce3de42bbd56581fa935922ff328f
+  patrol: 09773d9cd563ec54230813755b3231b2e8252aac
+  PostHog: fc2ad4be2fbb6c2c7b7135ce994efb704fb3f036
+  posthog_flutter: 528072e27902d8a2f413fa06111c7e3293d8f305
+  precise_metronome: aaaccdf121d961506879cd61c623e9f4d6de74ca
+  purchases_flutter: 70ea95feca029142ca37761d1a0b57b8324e9a29
+  purchases_ui_flutter: ec34abc3188f7cf471ba108b741293640581da7d
+  PurchasesHybridCommon: e47bc4f611e86fcf8295bf1c984f187982270f02
+  PurchasesHybridCommonUI: e6756576ad454c6c15a4679f57446115382ff791
+  RevenueCat: 693b033863262f9776130cc6c1f9255a74ab23ff
+  RevenueCatUI: 2c7092fa0a485454d2a474e80f241e6db591dd36
+  Sentry: 5321d74bdd28d6f6f8beaa1ca06f1fdc746bff49
+  sentry_flutter: d6279f3b5156b6535e2159e03437b571a24cc648
   share_plus: 50da8cb520a8f0f65671c6c6a99b3617ed10a58a
   shared_preferences_foundation: 7036424c3d8ec98dfe75ff1667cb0cd531ec82bb
   sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
-  SwiftyGif: 706c60cf65fa2bc5ee0313beece843c8eb8194d4
   url_launcher_ios: 7a95fa5b60cc718a708b8f2966718e93db0cef1b
   wakelock_plus: e29112ab3ef0b318e58cfa5c32326458be66b556
 
-PODFILE CHECKSUM: 1959d098c91d8a792531a723c4a9d7e9f6a01e38
+PODFILE CHECKSUM: 9c46fd01abff66081b39f5fa5767b3f1d0b11d76
 
 COCOAPODS: 1.16.2

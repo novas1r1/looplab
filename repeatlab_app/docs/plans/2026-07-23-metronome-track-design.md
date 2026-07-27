@@ -1,10 +1,42 @@
 # Metronome track design (grid-locked clicks)
 
-**Date:** 2026-07-23
-**Status:** Option A implemented (same day). Option B (native in-pipeline
-clicks) implemented for **Android** the same day — see below; iOS keeps
-Option A until an MTAudioProcessingTap follow-up.
+**Date:** 2026-07-23 (updated 2026-07-27)
+**Status:** Option B (native in-pipeline clicks) implemented for **Android**
+(2026-07-23) and **iOS/macOS** (2026-07-27, MTAudioProcessingTap in the
+audioplayers_darwin fork — see below). Option A (baked ffmpeg mix) is
+**retired and deleted**; `MetronomeTrackService` survives only to purge the
+legacy mix cache.
 **Branch context:** `feat/metronome`
+
+## Option B implementation notes (iOS/macOS, as built 2026-07-27)
+
+Clicks are synthesized inside AVPlayer playback by an `MTAudioProcessingTap`
+attached via `AVMutableAudioMix` in the audioplayers fork
+(`ap/packages/audioplayers_darwin`): `ClickGrid`/`ClickSynth`/`ClickTrackConfig`
+Swift ports (exact mirrors of the Kotlin/Dart math, `swift test`-covered) plus
+`ClickTrackTap.swift` (tap lifecycle + Float32 mixing). Position comes from
+the tap's source-audio `timeRange` (item time) each callback, so seeks, loop
+wraps and source swaps re-anchor for free — no pending-anchor machinery like
+Android needs. Config handoff is an `os_unfair_lock` write / audio-thread
+`trylock` read (stale config for at most one buffer, never blocking the RT
+thread). The tap is attached in `WrappedMediaPlayer.setSourceUrl` after the
+item is ready and before playback; teardown is item deallocation only (never
+mutating `audioMix` on a live item). Plumbing mirrors Android:
+`setClickTrack` method case → `WrappedMediaPlayer.clickTrack`
+(equality-gated, survives source swaps) → tap context.
+
+The app routes iOS audio songs through the same
+`SongCubit._usesNativeClickPipeline` path as Android
+(`Platform.isAndroid || Platform.isIOS`); the baked Option A path was
+deleted (state field `isMetronomeGenerating`, spinner, `swapSourceFile`,
+`ClickTrackRenderer`, mixing half of `MetronomeTrackService`). The app must
+override `audioplayers_darwin` to the fork path in `pubspec.yaml` — pub.dev's
+darwin plugin has no click tap.
+
+Accepted trade-off (unchanged from Option A): clicks are placed pre-stretch
+(the tap runs before AVPlayer's `.timeDomain` rate stage), so they stretch
+with the music at slowed speeds — same as Android's pre-Signalsmith
+placement.
 
 ## Option B implementation notes (Android, as built)
 

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:clarity_flutter/clarity_flutter.dart';
 import 'package:flutter/foundation.dart';
@@ -63,16 +62,14 @@ Future<void> _initializeApp() async {
   // package info, preferences). Shared with E2E tests, see [bootstrap].
   final app = await bootstrap();
 
-  // Android's metronome runs natively in the playback pipeline; any baked
-  // click-track mixes cached by earlier versions are full-song-sized dead
-  // weight there. (iOS still uses the baked track and keeps its cache.)
-  if (Platform.isAndroid) {
-    unawaited(
-      MetronomeTrackService().clearAll().catchError((Object error, StackTrace stack) {
-        log('Failed to clear metronome mix cache: $error', stackTrace: stack);
-      }),
-    );
-  }
+  // The metronome runs natively in the playback pipeline on all supported
+  // platforms; any baked click-track mixes cached by earlier versions are
+  // full-song-sized dead weight.
+  unawaited(
+    MetronomeTrackService().clearAll().catchError((Object error, StackTrace stack) {
+      log('Failed to clear metronome mix cache: $error', stackTrace: stack);
+    }),
+  );
 
   // get current device language
   // final deviceLanguage = Platform.localeName.split('_')[0];
