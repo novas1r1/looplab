@@ -499,8 +499,20 @@ class SongRepository {
     return updatedSong;
   }
 
-  Future<void> clearDb() async {
+  /// Clears the entire song library, deleting every remaining song's media
+  /// file except those named in [keepFileNames]. The exclusion set exists
+  /// for backup-restore replace mode: new files are written to disk and
+  /// resolved to fileNames *before* the old library is cleared, so those
+  /// fileNames must survive even though the old DB records referencing them
+  /// (if any, via a hash-dedup collision) are being wiped.
+  Future<void> clearDb({Set<String> keepFileNames = const {}}) async {
+    final songs = await getAllSongs();
     await _store.delete(db);
+
+    for (final song in songs) {
+      if (keepFileNames.contains(song.fileName)) continue;
+      await _deleteMediaFile(song);
+    }
   }
 
   void dispose() {

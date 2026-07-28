@@ -410,6 +410,58 @@ void main() {
         songs = await songRepository.getAllSongs();
         expect(songs, isEmpty);
       });
+
+      test("deletes every song's media file", () async {
+        final shortFile = File(
+          p.join(appDir.path, MockData.songShort.fileName),
+        );
+        final mediumFile = File(
+          p.join(appDir.path, MockData.songMedium.fileName),
+        );
+        await shortFile.writeAsString('audio bytes');
+        await mediumFile.writeAsString('audio bytes');
+
+        final store = StoreRef<String, Map<String, dynamic>>('songs');
+        await store.add(db, MockData.songShort.toMap());
+        await store.add(db, MockData.songMedium.toMap());
+
+        await songRepository.clearDb();
+
+        expect(await shortFile.exists(), isFalse);
+        expect(await mediumFile.exists(), isFalse);
+      });
+
+      test('keeps files named in keepFileNames', () async {
+        final shortFile = File(
+          p.join(appDir.path, MockData.songShort.fileName),
+        );
+        final mediumFile = File(
+          p.join(appDir.path, MockData.songMedium.fileName),
+        );
+        await shortFile.writeAsString('audio bytes');
+        await mediumFile.writeAsString('audio bytes');
+
+        final store = StoreRef<String, Map<String, dynamic>>('songs');
+        await store.add(db, MockData.songShort.toMap());
+        await store.add(db, MockData.songMedium.toMap());
+
+        await songRepository.clearDb(
+          keepFileNames: {MockData.songShort.fileName},
+        );
+
+        expect(await shortFile.exists(), isTrue);
+        expect(await mediumFile.exists(), isFalse);
+      });
+
+      test("does not throw when a song's file is missing on disk", () async {
+        final store = StoreRef<String, Map<String, dynamic>>('songs');
+        await store.add(db, MockData.songShort.toMap());
+
+        await songRepository.clearDb();
+
+        final songs = await songRepository.getAllSongs();
+        expect(songs, isEmpty);
+      });
     });
 
     group('stream behavior', () {

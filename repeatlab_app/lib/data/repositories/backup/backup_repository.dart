@@ -249,7 +249,14 @@ class BackupRepository {
     // the import fails midway.
     var replaced = false;
     if (mode == BackupImportMode.replace) {
-      await songRepository.clearDb();
+      // The incoming songs' files are already on disk at this point (see the
+      // isolate call above) — protect their fileNames from clearDb's file
+      // deletion, since a hash-dedup collision can point an old and a new
+      // song at the same file.
+      final keepFileNames = result.songMapsToPersist
+          .map((songMap) => songMap['fileName'] as String)
+          .toSet();
+      await songRepository.clearDb(keepFileNames: keepFileNames);
       replaced = true;
       existingIds.clear();
     }

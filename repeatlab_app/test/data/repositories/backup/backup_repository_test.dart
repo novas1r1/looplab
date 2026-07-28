@@ -4,6 +4,8 @@ import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as p;
+// ignore: depend_on_referenced_packages
+import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/backup/backup_exceptions.dart';
 import 'package:repeatlab/data/repositories/backup/backup_manifest.dart';
@@ -17,6 +19,16 @@ import '../../../helpers/mock_services.dart';
 
 var _testDbCounter = 0;
 
+class _FakePathProviderPlatform extends PathProviderPlatform {
+  _FakePathProviderPlatform({required this.applicationDocumentsPath});
+
+  final String applicationDocumentsPath;
+
+  @override
+  Future<String?> getApplicationDocumentsPath() async =>
+      applicationDocumentsPath;
+}
+
 void main() {
   late Database db;
   late SongRepository songRepository;
@@ -24,6 +36,7 @@ void main() {
   late Directory docsDir;
   late Directory tempDir;
   late Directory rootTmp;
+  late PathProviderPlatform originalPathProvider;
 
   final packageInfo = PackageInfo(
     appName: 'repeatlab',
@@ -45,6 +58,16 @@ void main() {
     docsDir = await Directory(p.join(rootTmp.path, 'docs')).create();
     tempDir = await Directory(p.join(rootTmp.path, 'tmp')).create();
 
+    // SongRepository resolves file paths via Song.path (path_provider), which
+    // is independent of BackupRepository's injected getDocumentsDirectory —
+    // point it at the same docsDir so clearDb's file deletion (exercised via
+    // songRepository, the repository under test here) operates on the files
+    // BackupRepository actually wrote.
+    originalPathProvider = PathProviderPlatform.instance;
+    PathProviderPlatform.instance = _FakePathProviderPlatform(
+      applicationDocumentsPath: docsDir.path,
+    );
+
     backupRepository = BackupRepository(
       db: db,
       songRepository: songRepository,
@@ -57,6 +80,7 @@ void main() {
   tearDown(() async {
     songRepository.dispose();
     await db.close();
+    PathProviderPlatform.instance = originalPathProvider;
     if (await rootTmp.exists()) {
       await rootTmp.delete(recursive: true);
     }
@@ -450,6 +474,38 @@ void main() {
       },
     );
 
+    test(
+      'replace does not delete a file reused via hash-dedup for the new song',
+      () async {
+        // Identical content means the isolate reuses the existing file rather
+        // than writing a new one, so the incoming song ends up with the same
+        // fileName as the old song being cleared. clearDb's file deletion
+        // must not delete a file the new song still needs.
+        await seedSong(MockData.songShort, bytes('same-content'));
+
+        final exported = await exportWith([
+          (
+            MockData.songShort.copyWith(title: 'From backup'),
+            bytes('same-content'),
+          ),
+        ]);
+
+        await backupRepository.importFromFile(
+          exported,
+          mode: BackupImportMode.replace,
+        );
+
+        final songs = await songRepository.getAllSongs();
+        expect(songs.single.fileName, MockData.songShort.fileName);
+        expect(
+          await File(
+            p.join(docsDir.path, MockData.songShort.fileName),
+          ).exists(),
+          isTrue,
+        );
+      },
+    );
+
     test('skips songs whose fileName would escape the documents dir', () async {
       // Craft a malicious backup directly via the serializer: the song's
       // fileName tries to traverse out of the docs dir (zip-slip).
@@ -495,5 +551,34 @@ void main() {
       expect(songs, hasLength(1));
       expect(songs.single.id, MockData.songShort.id);
     });
+
+    test(
+      "replace deletes the replaced song's orphaned file from disk",
+      () async {
+        await seedSong(MockData.songLong, bytes('to-be-wiped'));
+
+        final exported = await exportWith([
+          (MockData.songShort, bytes('short')),
+        ]);
+
+        await backupRepository.importFromFile(
+          exported,
+          mode: BackupImportMode.replace,
+        );
+
+        expect(
+          await File(
+            p.join(docsDir.path, MockData.songLong.fileName),
+          ).exists(),
+          isFalse,
+        );
+        expect(
+          await File(
+            p.join(docsDir.path, MockData.songShort.fileName),
+          ).exists(),
+          isTrue,
+        );
+      },
+    );
   });
 }
