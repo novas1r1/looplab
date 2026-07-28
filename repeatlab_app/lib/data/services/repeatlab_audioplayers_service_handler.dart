@@ -75,6 +75,18 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
   /// reports that the end has already been passed.
   Timer? _loopWrapTimer;
 
+  /// True while the platform player wraps the loop natively (Android:
+  /// PlayerMessage-scheduled seek inside ExoPlayer). All Dart-side wrap
+  /// machinery stands down then; the 200 ms poll stays as a watchdog only.
+  bool _nativeLoopRegionActive = false;
+  StreamSubscription<Duration>? _loopWrapSubscription;
+
+  /// How far past the loop end the watchdog lets the playhead run before
+  /// concluding the native wrap missed (e.g. after a user seek beyond the
+  /// end, which native messages deliberately don't fire on). Must stay well
+  /// above the native wrap latency so both never race to seek.
+  static const Duration _nativeWrapMissMargin = Duration(milliseconds: 250);
+
   @override
   Future<Duration> get position async =>
       await audioPlayer.getCurrentPosition() ?? Duration.zero;
@@ -204,6 +216,14 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     _positionSubscription = positionStream?.listen((position) {
       playbackState.add(playbackState.value.copyWith(updatePosition: position));
     });
+
+    // Native loop wraps happen entirely inside the platform player; surface
+    // them as seek events so the metronome realigns — "native loop wraps the
+    // cubit never initiates".
+    _loopWrapSubscription = audioPlayer.onLoopWrap.listen((position) {
+      _notifySeek(position);
+      playbackState.add(playbackState.value.copyWith(updatePosition: position));
+    });
   }
 
   Future<void> _initAudioSession() async {
@@ -254,13 +274,16 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
       // throw UnsupportedError — nothing to clear there.
       try {
         await audioPlayer.setClickTrack(enabled: false);
-        // The platform interface signals "not implemented here" via
-        // UnsupportedError by design (same pattern as setPitchShift) —
-        // catching it is the intended cross-platform usage.
-        // ignore: avoid_catching_errors
-      } on UnsupportedError {
-        // Native click track not available on this platform.
+      } catch (e) {
+        // Platforms without the native click track reject the call with
+        // UnsupportedError (interface default) or MissingPluginException/
+        // PlatformException (method channel) — none of that may break
+        // song loading.
+        log('Native click track unavailable: $e');
       }
+      // Same for the native loop region: a new song never inherits the
+      // previous song's loop bounds.
+      await _clearNativeLoopRegionSafely();
 
       await audioPlayer.setReleaseMode(ReleaseMode.stop);
       if (autoStart) {
@@ -354,6 +377,20 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
       return;
     }
 
+    // Prefer the native loop region (Android): the engine wraps at the
+    // boundary itself, with no detection or platform-channel latency. Dart
+    // wrapping below stays as the fallback for platforms without it. Native
+    // is strictly an optimization, so *any* failure — UnsupportedError from
+    // the interface default, MissingPluginException/PlatformException from a
+    // platform whose native side doesn't implement it — falls back to Dart.
+    _nativeLoopRegionActive = false;
+    try {
+      await audioPlayer.setLoopRegion(enabled: true, start: start, end: end);
+      _nativeLoopRegionActive = true;
+    } catch (e) {
+      log('Native loop region unavailable, wrapping from Dart: $e');
+    }
+
     // Use stream for responsive UI updates when app is in foreground
     final positionUpdates = positionStream ?? audioPlayer.onPositionChanged;
     _loopPositionSubscription = positionUpdates.listen(
@@ -381,6 +418,22 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     _activeLoop = null;
     _currentLoopIndex = -1;
     _loopSeekInProgress = false;
+    if (_nativeLoopRegionActive) {
+      await _clearNativeLoopRegionSafely();
+    }
+  }
+
+  /// Clears the native loop region, swallowing every failure mode: platforms
+  /// without the feature throw (UnsupportedError, MissingPluginException or
+  /// PlatformException depending on the layer that rejects it), and none of
+  /// that may break song loading or loop teardown.
+  Future<void> _clearNativeLoopRegionSafely() async {
+    _nativeLoopRegionActive = false;
+    try {
+      await audioPlayer.setLoopRegion(enabled: false);
+    } catch (e) {
+      log('Failed to clear native loop region: $e');
+    }
   }
 
   @override
@@ -751,6 +804,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     await _playerStateSubscription?.cancel();
     await _positionSubscription?.cancel();
     await _loopPositionSubscription?.cancel();
+    await _loopWrapSubscription?.cancel();
     _loopCheckTimer?.cancel();
     _loopCheckTimer = null;
     _loopWrapTimer?.cancel();
@@ -860,6 +914,10 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
       return;
     }
 
+    // The engine wraps by itself — reacting here too would race it into a
+    // double seek. The 200 ms watchdog poll covers genuine native misses.
+    if (_nativeLoopRegionActive) return;
+
     if (_loopSeekInProgress) return;
 
     if (position >= end) {
@@ -877,6 +935,10 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
   /// end, scaled by playback speed. Rearmed on every position update while
   /// playing, so scheduling drift stays within one update interval.
   void _armLoopWrapTimer(Duration remaining) {
+    // Predictive wraps are Dart-fallback machinery; never arm them while the
+    // native loop region owns the boundary.
+    if (_nativeLoopRegionActive) return;
+
     _loopWrapTimer?.cancel();
 
     final scaledMicroseconds = (remaining.inMicroseconds / _playbackSpeed)
@@ -953,6 +1015,17 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     try {
       final position = await audioPlayer.getCurrentPosition();
       if (position == null) return;
+
+      if (_nativeLoopRegionActive) {
+        // Watchdog only: the native message doesn't fire when a user seek
+        // jumps past the loop end (messages trigger on playback reaching the
+        // position, not on seeks over it). Well past the boundary — where a
+        // native wrap can no longer be in flight — pull the playhead back.
+        if (position >= end + _nativeWrapMissMargin) {
+          await _wrapToLoopStart();
+        }
+        return;
+      }
 
       if (position >= end) {
         // The predictive timer missed (or was never armed) — wrap now.

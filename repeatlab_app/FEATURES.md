@@ -37,7 +37,7 @@ Each feature is marked as **Free** (available to everyone) or **Premium** (requi
 - **Loop Export** — Free: Export loops as audio files in MP3 (compressed) or WAV (lossless) format
 
 ### Loop Playback — Free
-- **Seamless Looping**: Smooth transitions between loop start and end points
+- **Seamless Looping**: Smooth transitions between loop start and end points — on Android the loop wrap happens natively inside the playback engine (zero detection latency); other platforms use predictive Dart-side scheduling
 - **Loop Mode Toggle**: Switch between full song and loop-only playback
 - **Jump to Loops**: Skip to the next or previous loop with the skip buttons — also from the notification and lock screen
 - **Loop Activation**: Select and activate specific loops for focused practice
