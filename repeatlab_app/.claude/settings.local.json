@@ -83,7 +83,14 @@
       "PowerShell(git *)",
       "mcp__manager__start_work",
       "mcp__manager__complete_work",
-      "mcp__manager__add_link"
+      "mcp__manager__add_link",
+      "mcp__revenuecat__list-products",
+      "mcp__manager__reorder_wiki_chapters",
+      "mcp__manager__log_time",
+      "mcp__manager__get_time",
+      "Bash(fvm flutter *)",
+      "Bash(echo \"EXIT: $?\")",
+      "Read(//tmp/**)"
     ]
   }
 }
