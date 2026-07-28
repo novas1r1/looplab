@@ -75,7 +75,15 @@
       "mcp__manager__create_wiki_folder",
       "mcp__manager__create_wiki_page",
       "mcp__manager__add_comment",
-      "mcp__manager__add_wiki_chapter"
+      "mcp__manager__add_wiki_chapter",
+      "mcp__manager__use_skill",
+      "mcp__manager__get_wiki_page",
+      "mcp__manager__get_wiki_links",
+      "mcp__manager__add_wiki_link",
+      "PowerShell(git *)",
+      "mcp__manager__start_work",
+      "mcp__manager__complete_work",
+      "mcp__manager__add_link"
     ]
   }
 }
