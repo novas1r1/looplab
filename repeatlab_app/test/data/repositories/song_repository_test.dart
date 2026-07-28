@@ -67,7 +67,9 @@ void main() {
     songRepository.dispose();
     await db.close();
     PathProviderPlatform.instance = originalPathProvider;
-    await appDir.delete(recursive: true);
+    if (await appDir.exists()) {
+      await appDir.delete(recursive: true);
+    }
   });
 
   group('SongRepository', () {
@@ -461,6 +463,55 @@ void main() {
 
         final songs = await songRepository.getAllSongs();
         expect(songs, isEmpty);
+      });
+    });
+
+    group('sweepOrphanedFiles', () {
+      test('deletes a media file no song references', () async {
+        final orphan = File(p.join(appDir.path, 'orphaned.mp3'));
+        await orphan.writeAsString('audio bytes');
+
+        await songRepository.sweepOrphanedFiles();
+
+        expect(await orphan.exists(), isFalse);
+      });
+
+      test('keeps a media file still referenced by a song', () async {
+        final referenced = File(
+          p.join(appDir.path, MockData.songShort.fileName),
+        );
+        await referenced.writeAsString('audio bytes');
+
+        final store = StoreRef<String, Map<String, dynamic>>('songs');
+        await store.add(db, MockData.songShort.toMap());
+
+        await songRepository.sweepOrphanedFiles();
+
+        expect(await referenced.exists(), isTrue);
+      });
+
+      test('leaves non-media files untouched', () async {
+        final dbFile = File(p.join(appDir.path, 'repeatlab.db'));
+        await dbFile.writeAsString('not a media file');
+
+        await songRepository.sweepOrphanedFiles();
+
+        expect(await dbFile.exists(), isTrue);
+      });
+
+      test('does nothing when the documents directory is missing', () async {
+        await appDir.delete(recursive: true);
+
+        await expectLater(songRepository.sweepOrphanedFiles(), completes);
+      });
+
+      test('does not throw when resolving the directory fails', () async {
+        PathProviderPlatform.instance = _FakePathProviderPlatform(
+          applicationDocumentsPath: appDir.path,
+          throwOnResolve: Exception('platform channel unavailable'),
+        );
+
+        await expectLater(songRepository.sweepOrphanedFiles(), completes);
       });
     });
 

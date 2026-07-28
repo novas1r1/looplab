@@ -342,6 +342,48 @@ void main() {
       });
     });
 
+    group('orphanedMediaFilesSwept', () {
+      test('returns false when not set', () {
+        when(
+          () => mockSharedPreferences.getBool(
+            LocalConfigRepository.kOrphanedMediaFilesSwept,
+          ),
+        ).thenReturn(null);
+
+        expect(localConfigRepository.orphanedMediaFilesSwept, isFalse);
+      });
+
+      test('returns true when set to true', () {
+        when(
+          () => mockSharedPreferences.getBool(
+            LocalConfigRepository.kOrphanedMediaFilesSwept,
+          ),
+        ).thenReturn(true);
+
+        expect(localConfigRepository.orphanedMediaFilesSwept, isTrue);
+      });
+    });
+
+    group('markOrphanedMediaFilesSwept', () {
+      test('saves true to shared preferences', () async {
+        when(
+          () => mockSharedPreferences.setBool(
+            LocalConfigRepository.kOrphanedMediaFilesSwept,
+            true,
+          ),
+        ).thenAnswer((_) async => true);
+
+        await localConfigRepository.markOrphanedMediaFilesSwept();
+
+        verify(
+          () => mockSharedPreferences.setBool(
+            LocalConfigRepository.kOrphanedMediaFilesSwept,
+            true,
+          ),
+        ).called(1);
+      });
+    });
+
     group('clear', () {
       test('clears all shared preferences', () async {
         when(() => mockSharedPreferences.clear()).thenAnswer((_) async => true);

@@ -10,6 +10,7 @@ import 'package:flutter_soloud/flutter_soloud.dart'
     hide AudioMetadata, Mp3Metadata;
 import 'package:media_kit/media_kit.dart';
 import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 import 'package:repeatlab/core/utils/musical_key.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
@@ -512,6 +513,69 @@ class SongRepository {
     for (final song in songs) {
       if (keepFileNames.contains(song.fileName)) continue;
       await _deleteMediaFile(song);
+    }
+  }
+
+  /// File extensions ever written to the app documents directory by the
+  /// import pipeline: everything offered by the audio/video file pickers
+  /// (`FileRepository._audioPickerExtensions`, [videoPickerExtensions]) plus
+  /// `.wav`, the on-device conversion output. Scopes [sweepOrphanedFiles] so
+  /// it can only ever touch files the app itself imported — never unrelated
+  /// app data sharing the same directory (e.g. the sembast DB file).
+  static const _sweepableExtensions = {
+    '.mp3',
+    '.m4a',
+    '.aac',
+    '.wav',
+    '.flac',
+    '.ogg',
+    '.wma',
+    '.opus',
+    '.aiff',
+    '.mp4',
+    '.mov',
+    '.m4v',
+    '.mkv',
+    '.webm',
+    '.avi',
+  };
+
+  /// One-time sweep of the app documents directory removing media files no
+  /// longer referenced by any [Song] — orphaned by past deletions (before
+  /// this cleanup existed) or by the collision-safe `<stem> (n).ext`
+  /// re-import renaming. Best-effort: a failure anywhere is logged and
+  /// swallowed rather than thrown, since this is meant to run unawaited at
+  /// startup and must never block it.
+  Future<void> sweepOrphanedFiles() async {
+    try {
+      final songs = await getAllSongs();
+      final referencedFileNames = songs.map((song) => song.fileName).toSet();
+
+      final appDir = await getApplicationDocumentsDirectory();
+      if (!await appDir.exists()) return;
+
+      await for (final entity in appDir.list()) {
+        if (entity is! File) continue;
+
+        final fileName = p.basename(entity.path);
+        if (referencedFileNames.contains(fileName)) continue;
+        if (!_sweepableExtensions.contains(
+          p.extension(fileName).toLowerCase(),
+        )) {
+          continue;
+        }
+
+        try {
+          await entity.delete();
+        } on Exception catch (ex) {
+          log(
+            'Failed to delete orphaned file "$fileName": $ex',
+            name: 'SweepOrphanedFiles',
+          );
+        }
+      }
+    } on Exception catch (ex) {
+      log('Orphan file sweep failed: $ex', name: 'SweepOrphanedFiles');
     }
   }
 
