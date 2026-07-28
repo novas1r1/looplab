@@ -2,9 +2,11 @@
 
 **RepeatLab** is a comprehensive audio loop studio designed for musicians, students, and audio enthusiasts who want to master difficult sections of songs through precise looping and tempo control.
 
-## 🎵 Core Audio Features
+Each feature is marked as **Free** (available to everyone) or **Premium** (requires a subscription).
 
-### Audio File Support
+## 🎵 Core Audio Features (Free)
+
+### Audio File Support — Free
 - **Supported Formats**: MP3, WAV, OGG, FLAC (native SoLoud playback), plus M4A and AAC via conversion
 - **Automatic Conversion**: M4A/AAC files are automatically converted to MP3 for compatibility (via FFmpeg)
 - **Multi-File Import**: Select and import multiple audio files in one go, with a progress indicator
@@ -12,12 +14,12 @@
 - **Unlimited Songs**: Add as many audio files as you want to your library
 - **Song Reordering**: Long-press and drag songs to organize your library; the custom order is saved
 
-### Video Support (Beta)
+### Video Support (Beta) — Free
 - **Video Import**: Import videos (MP4, MOV, M4V, MKV, WEBM, AVI) and practice with them like audio songs
-- **Video Looping & Speed**: Loop sections of a video and change playback speed — ideal for tutorials and live performances
+- **Video Looping & Speed**: Loop sections of a video and change playback speed — ideal for tutorials and live performances (speed/pitch changes are Premium, as for audio)
 - **Video Pitch Control**: Pitch shifting also works for video playback (via media_kit/libmpv)
 
-### Audio Playback Engine
+### Audio Playback Engine — Free
 - **High-Quality Playback**: Powered by SoLoud and AudioPlayers for optimal audio performance
 - **Background Playback**: Continue listening even when the app is in background or device is in standby mode
 - **Audio Service Integration**: Full media control integration with system audio controls
@@ -25,15 +27,16 @@
 ## 🔄 Loop Management
 
 ### Loop Creation & Control
-- **Unlimited Loops** (Premium): Create multiple loops per song for comprehensive practice
-- **One Loop per Song** (Free): Basic looping functionality for all users
-- **Precise Loop Points**: Set exact start and end positions using the waveform display
-- **Visual Loop Indicators**: See all your loops displayed on the timeline
-- **Loop Reordering** (Premium): Drag and drop loops to reorganize them
-- **Loop Editing**: Fine-tune loop start/end times with precision controls
-- **Loop Export**: Export loops as audio files in MP3 (compressed) or WAV (lossless) format
+- **One Loop per Song** — Free: Basic looping functionality for all users
+- **Unlimited Loops** — Premium: Create multiple loops per song for comprehensive practice
+- **Precise Loop Points** — Free: Set exact start and end positions using the waveform display
+- **Visual Loop Indicators** — Free: See all your loops displayed on the timeline
+- **Loop Reordering** — Premium: Drag and drop loops to reorganize them
+- **Loop Editing** — Free: Fine-tune loop start/end times with precision controls
+- **Edit While Paused** — Free: Freely move a loop's start and end points while playback is paused — the playhead no longer snaps back into the loop; boundaries take effect again on play
+- **Loop Export** — Free: Export loops as audio files in MP3 (compressed) or WAV (lossless) format
 
-### Loop Playback
+### Loop Playback — Free
 - **Seamless Looping**: Smooth transitions between loop start and end points
 - **Loop Mode Toggle**: Switch between full song and loop-only playback
 - **Jump to Loops**: Skip to the next or previous loop with the skip buttons — also from the notification and lock screen
@@ -46,20 +49,20 @@
 - **Multiplier Mode**: Adjust playback speed using a factor from 0.5× to 2.0× (default: 1.0×)
 - **BPM Mode**: Control tempo in beats per minute for precise musical timing
 
-### Multiplier Mode
+### Multiplier Mode — Premium
 - **Speed Range**: 0.5× (half speed) to 2.0× (double speed)
 - **Default Speed**: 1.0× (original tempo) when opening any song
 - **Bidirectional Sync**: When original BPM is set, current BPM updates to match the speed factor
 
 ### BPM Mode
-- **Original BPM**: Set the song's original tempo (can be tapped or entered manually)
-- **Current BPM Range**: Automatically calculated as original BPM × 0.5 to original BPM × 2.0
+- **Original BPM** — Free: Set the song's original tempo by typing it in or using Tap Tempo (also needed for the metronome)
+- **Tap BPM Detection** — Free: Tap along with the music to automatically detect BPM
+- **Edit Original BPM** — Free: Tap the original BPM tile to change or clear it
+- **Current BPM Adjustment** — Premium: Change the playback tempo in BPM (range: original BPM × 0.5 to × 2.0)
 - **Original BPM = 1.0×**: The original BPM always corresponds to speed factor 1.0
 - **Bidirectional Sync**: Changing current BPM updates the speed factor accordingly
-- **Tap BPM Detection**: Tap along with the music to automatically detect BPM
-- **Edit Original BPM**: Tap the original BPM tile to change or clear it
 
-### Speed Control Features
+### Speed Control Features — Premium
 - **Speed Reset**: Resets speed to 1.0× (and current BPM to original BPM if set)
 - **Per-Song Reset**: Speed always resets to 1.0× when opening a song
 - **Loop Speed Sync**: Loop playback always uses the same speed as song playback
@@ -85,21 +88,38 @@
 - **Pitch Reset**: Quickly return to original pitch (0 semitones)
 - **Compact UI**: Space-efficient tabbed interface with tempo controls
 
+## 🥁 Metronome
+
+A built-in metronome that keeps time with your song, shown in the Tempo tab. It requires the song's BPM to be set (free, via Tap Tempo or manual entry) and clicks only while the song plays, always following the current playback tempo.
+
+### Basic Metronome — Free
+- **On/Off Toggle**: Enable a steady click at the song's BPM
+- **Speed Aware**: The click automatically follows tempo/speed changes
+- **Reset Sync**: Clearing a beat alignment is always possible
+
+### Sync & Advanced Controls — Premium
+- **Sync to Song**: Tap along with the music to align the click with the actual beat (beat anchor)
+- **Time Signature**: Choose from 2/4, 3/4, 4/4, 5/4, 6/8, 7/8, and 12/8 — with a downbeat accent once synced
+- **Subdivisions**: Click in quarters, eighths, triplets, or sixteenths
+- **Re-Tap Alignment**: Redo the tap-along beat capture at any time
+- **Millisecond Nudge**: Shift the click earlier or later in ±25 ms steps for a perfect lock
+- **Click Volume**: Adjust the metronome volume independently of the song
+
 ## 📊 Waveform Visualization
 
-### Waveform Display
+### Waveform Display — Free
 - **Visual Audio Representation**: See the complete audio waveform
 - **Current Position Indicator**: Track playback progress visually
 - **Loop Visualization**: Loops are highlighted on the waveform
 - **Interactive Navigation**: Drag to scrub through the audio
 
-### Zoom Features (Premium)
+### Zoom Features — Premium
 - **Zoom In/Out**: Magnify waveform for precise editing (0.25× to 5.0× zoom)
 - **Zoom Controls**: Intuitive zoom buttons and slider
 - **Zoom Persistence**: Maintains zoom level during playback
 - **Precision Editing**: Enhanced accuracy for loop point selection
 
-## 🎯 Navigation & Control
+## 🎯 Navigation & Control (Free)
 
 ### Playback Controls
 - **Play/Pause**: Standard playback controls
@@ -113,7 +133,7 @@
 - **Visual Feedback**: Clear indicators for all states and actions
 - **Responsive Design**: Optimized for various screen sizes
 
-## 🌍 Internationalization
+## 🌍 Internationalization (Free)
 
 ### Supported Languages
 - **16 Languages**: Arabic, German, English, Spanish, French, Hindi, Italian, Japanese, Korean, Dutch, Polish, Portuguese, Russian, Swedish, Turkish, Chinese
@@ -121,13 +141,14 @@
 - **Complete Localization**: All UI elements and messages translated
 - **Regional Formats**: Proper time and number formatting for each locale
 
-## 📚 User Experience
+## 📚 User Experience (Free)
 
 ### Onboarding & Tutorial
 - **Welcome Flow**: Guided introduction to app features
 - **Interactive Tutorial**: Step-by-step guidance for first-time users
 - **Privacy Controls**: Clear consent management for data usage
 - **Feature Highlights**: Showcase of key functionality
+- **Changelog Dialog**: See what's new after each update
 
 ### Help & Support
 - **In-App Tutorial**: Contextual help system with coach marks
@@ -135,29 +156,32 @@
 - **Rate App Integration**: Easy app store rating system
 - **Feature Voting**: Community-driven feature prioritization via UserOrient
 
-## 💎 Premium Features
+## 💎 Free vs. Premium at a Glance
 
-### Subscription Benefits
+### Free Features
+- **Unlimited Songs**: No limit on audio or video file imports
+- **One Loop per Song**: Basic looping functionality, including loop export
+- **Basic Metronome**: Steady click at the song's tempo
+- **Original BPM / Tap Tempo**: Set and edit the song's tempo
+- **No Advertisements**: Clean, ad-free experience
+- **Core Playback**: All essential audio playback features, background playback, media controls
+
+### Premium (Subscription) Features
 - **Unlimited Loops**: Create as many loops as needed per song (including drag-to-reorder)
 - **Speed Control**: Full tempo and BPM adjustment capabilities
 - **Pitch Control**: Full pitch adjustment capabilities (semitones and key mode)
+- **Metronome Sync & Advanced Controls**: Beat alignment, time signatures with accent, subdivisions, nudge, click volume
 - **Waveform Zoom**: Enhanced precision with zoom functionality
 - **Backup & Restore**: Export the entire library and restore it on another device
 - **Developer Support**: Support independent development
 
-### Free Features
-- **Unlimited Songs**: No limit on audio file imports
-- **One Loop per Song**: Basic looping functionality
-- **No Advertisements**: Clean, ad-free experience
-- **Core Playback**: All essential audio playback features
-
 ## 🔧 Technical Features
 
 ### Data Management
-- **Local Storage**: All audio files stored locally on device
-- **Database Integration**: Efficient data management with Sembast
-- **Settings Persistence**: User preferences saved across sessions
-- **Backup & Restore** (Premium): Export the entire library — songs, loops, and optionally audio files — to a single backup file and restore it on another device, with Merge or Replace mode
+- **Local Storage** — Free: All audio files stored locally on device
+- **Database Integration** — Free: Efficient data management with Sembast
+- **Settings Persistence** — Free: User preferences saved across sessions
+- **Backup & Restore** — Premium: Export the entire library — songs, loops, and optionally audio files — to a single backup file and restore it on another device, with Merge or Replace mode
 
 ### Performance & Reliability
 - **Crash Reporting**: Automatic error reporting via Sentry
@@ -204,10 +228,11 @@
 
 1. **Import Audio or Video**: Add your favorite songs (or videos) in supported formats — multiple files at once
 2. **Create Loops**: Mark sections you want to practice
-3. **Adjust Speed**: Fine-tune tempo for comfortable practice (Premium)
-4. **Adjust Pitch**: Transpose songs to comfortable keys (Premium)
-5. **Practice**: Use loops to master difficult passages
-6. **Progress**: Track your improvement over time
+3. **Set the Tempo**: Tap in or enter the song's BPM, then turn on the metronome
+4. **Adjust Speed**: Fine-tune tempo for comfortable practice (Premium)
+5. **Adjust Pitch**: Transpose songs to comfortable keys (Premium)
+6. **Practice**: Use loops to master difficult passages
+7. **Progress**: Track your improvement over time
 
 ## Premium Upgrade
 
@@ -215,6 +240,7 @@ Unlock the full potential of RepeatLab with premium features:
 - Unlimited loops per song
 - Complete speed and BPM control
 - Pitch control (semitones and key mode)
+- Metronome sync and advanced controls
 - Waveform zoom for precision editing
 - Library backup & restore
 - Support independent development

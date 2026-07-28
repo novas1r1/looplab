@@ -70,11 +70,17 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
   StreamSubscription<Duration>? _loopPositionSubscription;
   Timer? _loopCheckTimer;
 
+  /// One-shot timer armed to fire the loop wrap exactly when the playhead
+  /// reaches the loop end, instead of reacting after a position update
+  /// reports that the end has already been passed.
+  Timer? _loopWrapTimer;
+
   @override
   Future<Duration> get position async =>
       await audioPlayer.getCurrentPosition() ?? Duration.zero;
 
   Duration? _pendingSeekTarget;
+  bool _pendingSeekIsLoopWrap = false;
   Future<void>? _seekQueue;
   Source? _currentSource;
   double _playbackSpeed = 1.0;
@@ -310,6 +316,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     }
 
     await audioPlayer.resume();
+    unawaited(_rearmLoopWrapTimerFromCurrentPosition());
     playbackState.add(
       playbackState.value.copyWith(
         controls: const [
@@ -334,6 +341,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     _loopPositionSubscription = null;
     _loopCheckTimer?.cancel();
     _loopCheckTimer = null;
+    _loopWrapTimer?.cancel();
     _activeLoop = loop;
 
     // Update current loop index for navigation
@@ -359,6 +367,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     });
 
     await _ensureWithinLoopBounds(loop);
+    await _rearmLoopWrapTimerFromCurrentPosition();
   }
 
   /// Disable loop mode
@@ -367,6 +376,8 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     _loopPositionSubscription = null;
     _loopCheckTimer?.cancel();
     _loopCheckTimer = null;
+    _loopWrapTimer?.cancel();
+    _loopWrapTimer = null;
     _activeLoop = null;
     _currentLoopIndex = -1;
     _loopSeekInProgress = false;
@@ -375,6 +386,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
   @override
   Future<void> play() async {
     await audioPlayer.resume();
+    unawaited(_rearmLoopWrapTimerFromCurrentPosition());
     playbackState.add(
       playbackState.value.copyWith(
         controls: const [
@@ -395,6 +407,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
 
   @override
   Future<void> pause() async {
+    _loopWrapTimer?.cancel();
     await _awaitActiveSeek();
 
     await audioPlayer.pause();
@@ -418,6 +431,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
 
   @override
   Future<void> stop() async {
+    _loopWrapTimer?.cancel();
     _pendingSeekTarget = null;
     await _awaitActiveSeek();
 
@@ -442,7 +456,22 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
 
   @override
   Future<void> seek(Duration position) {
+    // A user seek supersedes any scheduled loop wrap; position updates after
+    // the seek rearm the boundary timer.
+    _loopWrapTimer?.cancel();
     _pendingSeekTarget = position;
+    _pendingSeekIsLoopWrap = false;
+    _seekQueue ??= _processSeekQueue();
+    return _seekQueue!;
+  }
+
+  /// Fast path for loop wraps: shares the seek queue (so a wrap never
+  /// interleaves with an in-flight user seek) but skips [_performSeek]'s
+  /// duration/position guards — the target is a validated loop start, and
+  /// every extra platform-channel round trip is audible as re-entry delay.
+  Future<void> _seekToLoopStart(Duration start) {
+    _pendingSeekTarget = start;
+    _pendingSeekIsLoopWrap = true;
     _seekQueue ??= _processSeekQueue();
     return _seekQueue!;
   }
@@ -575,6 +604,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     final success = await _setPlaybackRateSafely(targetSpeed);
     if (success) {
       _playbackSpeed = targetSpeed;
+      // A speed change shifts when the playhead reaches the loop end, so the
+      // currently scheduled wrap (if any) fires at the wrong time.
+      unawaited(_rearmLoopWrapTimerFromCurrentPosition());
     }
     return success;
   }
@@ -721,6 +753,8 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     await _loopPositionSubscription?.cancel();
     _loopCheckTimer?.cancel();
     _loopCheckTimer = null;
+    _loopWrapTimer?.cancel();
+    _loopWrapTimer = null;
     _currentSource = null;
     _loops = [];
     _currentLoopIndex = -1;
@@ -743,12 +777,24 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     try {
       while (_pendingSeekTarget != null) {
         final target = _pendingSeekTarget!;
+        final isLoopWrap = _pendingSeekIsLoopWrap;
         _pendingSeekTarget = null;
-        await _performSeek(target);
+        _pendingSeekIsLoopWrap = false;
+        if (isLoopWrap) {
+          await _performLoopWrapSeek(target);
+        } else {
+          await _performSeek(target);
+        }
       }
     } finally {
       _seekQueue = null;
     }
+  }
+
+  Future<void> _performLoopWrapSeek(Duration target) async {
+    await _reloadSourceIfNeeded();
+    await audioPlayer.seek(target);
+    _notifySeek(target);
   }
 
   Future<void> _performSeek(Duration requestedPosition) async {
@@ -809,17 +855,83 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     // may drag the playhead past the loop end to set a new end — snapping back
     // to start here would make the loop impossible to edit. (The play button
     // handles jumping back into the loop via resume().)
-    if (audioPlayer.state != PlayerState.playing) return;
+    if (audioPlayer.state != PlayerState.playing) {
+      _loopWrapTimer?.cancel();
+      return;
+    }
+
+    if (_loopSeekInProgress) return;
 
     if (position >= end) {
-      if (_loopSeekInProgress) {
-        return;
-      }
+      // Late detection (e.g. first update after returning to the foreground):
+      // wrap immediately.
+      unawaited(_wrapToLoopStart());
+    } else {
+      // Predictive wrap: fire the seek when the playhead reaches the boundary
+      // instead of waiting for a position update to report it was passed.
+      _armLoopWrapTimer(end - position);
+    }
+  }
 
-      _loopSeekInProgress = true;
-      seek(start).whenComplete(() {
-        _loopSeekInProgress = false;
-      });
+  /// Schedules the loop wrap for the moment the playhead reaches the loop
+  /// end, scaled by playback speed. Rearmed on every position update while
+  /// playing, so scheduling drift stays within one update interval.
+  void _armLoopWrapTimer(Duration remaining) {
+    _loopWrapTimer?.cancel();
+
+    final scaledMicroseconds = (remaining.inMicroseconds / _playbackSpeed)
+        .round();
+    _loopWrapTimer = Timer(
+      Duration(microseconds: scaledMicroseconds < 0 ? 0 : scaledMicroseconds),
+      () {
+        if (audioPlayer.state != PlayerState.playing) return;
+        unawaited(_wrapToLoopStart());
+      },
+    );
+  }
+
+  /// Rearms the boundary timer from the player's current position — used
+  /// after resume, speed changes, and loop activation, where a previously
+  /// scheduled fire time (if any) is stale.
+  Future<void> _rearmLoopWrapTimerFromCurrentPosition() async {
+    final end = _activeLoop?.end;
+    if (end == null) return;
+    if (audioPlayer.state != PlayerState.playing) return;
+
+    try {
+      final position = await audioPlayer.getCurrentPosition();
+      if (position == null || _loopSeekInProgress) return;
+
+      if (position < end) {
+        _armLoopWrapTimer(end - position);
+      }
+    } catch (e) {
+      log('Error rearming loop wrap timer: $e');
+    }
+  }
+
+  /// Seeks back to the active loop's start via the fast seek path.
+  Future<void> _wrapToLoopStart() async {
+    final loop = _activeLoop;
+    final start = loop?.start;
+    final end = loop?.end;
+    if (loop == null || start == null || end == null) return;
+    if (_loopSeekInProgress) return;
+
+    _loopSeekInProgress = true;
+    _loopWrapTimer?.cancel();
+    try {
+      await _seekToLoopStart(start);
+    } finally {
+      _loopSeekInProgress = false;
+    }
+
+    // In the background frame-driven position updates stop, so nothing would
+    // rearm the boundary timer for the next pass — schedule it from the loop
+    // length. Foreground position updates simply keep refining it.
+    if (identical(_activeLoop, loop) &&
+        audioPlayer.state == PlayerState.playing) {
+      _armLoopWrapTimer(end - start);
     }
   }
 
@@ -843,15 +955,15 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
       if (position == null) return;
 
       if (position >= end) {
-        _loopSeekInProgress = true;
-        await seek(start);
-        _loopSeekInProgress = false;
+        // The predictive timer missed (or was never armed) — wrap now.
+        await _wrapToLoopStart();
+      } else if (!(_loopWrapTimer?.isActive ?? false)) {
+        // Self-healing for background mode: keep a boundary timer scheduled
+        // even when no position updates arrive to arm one.
+        _armLoopWrapTimer(end - position);
       }
     } catch (e) {
       log('Error checking loop bounds: $e');
-      _loopSeekInProgress = false;
-    } finally {
-      _loopSeekInProgress = false;
     }
   }
 
@@ -865,8 +977,11 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
 
     _loopSeekInProgress = true;
     try {
-      await seek(loop.start!);
+      await _seekToLoopStart(loop.start!);
       await audioPlayer.resume();
+      if (loop.end != null) {
+        _armLoopWrapTimer(loop.end! - loop.start!);
+      }
       playbackState.add(
         playbackState.value.copyWith(
           controls: const [

@@ -120,12 +120,11 @@ packages:
     source: path
     version: "0.1.4"
   audioplayers_darwin:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: audioplayers_darwin
-      sha256: "1ca553add991384ecf421b9569da850f3ab2472ffb83f6970b0416365abc51be"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../ap/packages/audioplayers_darwin"
+      relative: true
+    source: path
     version: "6.5.0"
   audioplayers_linux:
     dependency: transitive
