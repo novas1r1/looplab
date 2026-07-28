@@ -14,6 +14,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:repeatlab/core/utils/musical_key.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
+import 'package:repeatlab/data/repositories/backup_activity_guard.dart';
 import 'package:sembast/sembast.dart';
 import 'package:uuid/uuid.dart';
 
@@ -418,9 +419,18 @@ class SongRepository {
     final stillReferenced = remainingSongs.any(
       (remaining) => remaining.fileName == song.fileName,
     );
-    if (!stillReferenced) {
-      await _deleteMediaFile(song);
+    if (stillReferenced) return;
+
+    if (BackupActivityGuard.isActive) {
+      log(
+        'Skipped deleting media file "${song.fileName}": '
+        'a backup transfer is in flight',
+        name: 'DeleteSong',
+      );
+      return;
     }
+
+    await _deleteMediaFile(song);
   }
 
   /// Deletes [song]'s media file from the app documents directory, if
@@ -506,9 +516,28 @@ class SongRepository {
   /// resolved to fileNames *before* the old library is cleared, so those
   /// fileNames must survive even though the old DB records referencing them
   /// (if any, via a hash-dedup collision) are being wiped.
-  Future<void> clearDb({Set<String> keepFileNames = const {}}) async {
+  ///
+  /// [respectBackupGuard] skips all file deletion while
+  /// [BackupActivityGuard.isActive] is true — protects a concurrent "delete
+  /// all songs" from racing an unrelated in-flight backup export/import.
+  /// `BackupRepository` passes `false` for its own replace-mode call: that
+  /// call *is* the guarded transfer, and its file safety is already handled
+  /// via [keepFileNames], so it must not block on its own guard.
+  Future<void> clearDb({
+    Set<String> keepFileNames = const {},
+    bool respectBackupGuard = true,
+  }) async {
     final songs = await getAllSongs();
     await _store.delete(db);
+
+    if (respectBackupGuard && BackupActivityGuard.isActive) {
+      log(
+        "Skipped deleting cleared songs' media files: "
+        'a backup transfer is in flight',
+        name: 'ClearDb',
+      );
+      return;
+    }
 
     for (final song in songs) {
       if (keepFileNames.contains(song.fileName)) continue;
@@ -547,6 +576,14 @@ class SongRepository {
   /// swallowed rather than thrown, since this is meant to run unawaited at
   /// startup and must never block it.
   Future<void> sweepOrphanedFiles() async {
+    if (BackupActivityGuard.isActive) {
+      log(
+        'Skipped orphan file sweep: a backup transfer is in flight',
+        name: 'SweepOrphanedFiles',
+      );
+      return;
+    }
+
     try {
       final songs = await getAllSongs();
       final referencedFileNames = songs.map((song) => song.fileName).toSet();

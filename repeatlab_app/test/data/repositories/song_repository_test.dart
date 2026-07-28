@@ -7,6 +7,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
+import 'package:repeatlab/data/repositories/backup_activity_guard.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:sembast/sembast_memory.dart';
 
@@ -67,6 +68,7 @@ void main() {
     songRepository.dispose();
     await db.close();
     PathProviderPlatform.instance = originalPathProvider;
+    BackupActivityGuard.reset();
     if (await appDir.exists()) {
       await appDir.delete(recursive: true);
     }
@@ -211,6 +213,26 @@ void main() {
 
           await songRepository.deleteSong(MockData.songShort);
 
+          final songs = await songRepository.getAllSongs();
+          expect(songs, isEmpty);
+        },
+      );
+
+      test(
+        'keeps the media file but still removes the DB record while a '
+        'backup transfer is in flight',
+        () async {
+          final file = File(p.join(appDir.path, MockData.songShort.fileName));
+          await file.writeAsString('audio bytes');
+
+          final store = StoreRef<String, Map<String, dynamic>>('songs');
+          await store.add(db, MockData.songShort.toMap());
+
+          await BackupActivityGuard.run(
+            () => songRepository.deleteSong(MockData.songShort),
+          );
+
+          expect(await file.exists(), isTrue);
           final songs = await songRepository.getAllSongs();
           expect(songs, isEmpty);
         },
@@ -464,6 +486,42 @@ void main() {
         final songs = await songRepository.getAllSongs();
         expect(songs, isEmpty);
       });
+
+      test(
+        'keeps files but still clears the DB while a backup transfer is '
+        'in flight',
+        () async {
+          final file = File(p.join(appDir.path, MockData.songShort.fileName));
+          await file.writeAsString('audio bytes');
+
+          final store = StoreRef<String, Map<String, dynamic>>('songs');
+          await store.add(db, MockData.songShort.toMap());
+
+          await BackupActivityGuard.run(() => songRepository.clearDb());
+
+          expect(await file.exists(), isTrue);
+          final songs = await songRepository.getAllSongs();
+          expect(songs, isEmpty);
+        },
+      );
+
+      test(
+        'deletes files even while a backup transfer is in flight when '
+        'respectBackupGuard is false',
+        () async {
+          final file = File(p.join(appDir.path, MockData.songShort.fileName));
+          await file.writeAsString('audio bytes');
+
+          final store = StoreRef<String, Map<String, dynamic>>('songs');
+          await store.add(db, MockData.songShort.toMap());
+
+          await BackupActivityGuard.run(
+            () => songRepository.clearDb(respectBackupGuard: false),
+          );
+
+          expect(await file.exists(), isFalse);
+        },
+      );
     });
 
     group('sweepOrphanedFiles', () {
@@ -475,6 +533,20 @@ void main() {
 
         expect(await orphan.exists(), isFalse);
       });
+
+      test(
+        'keeps an orphaned file while a backup transfer is in flight',
+        () async {
+          final orphan = File(p.join(appDir.path, 'orphaned.mp3'));
+          await orphan.writeAsString('audio bytes');
+
+          await BackupActivityGuard.run(
+            () => songRepository.sweepOrphanedFiles(),
+          );
+
+          expect(await orphan.exists(), isTrue);
+        },
+      );
 
       test('keeps a media file still referenced by a song', () async {
         final referenced = File(

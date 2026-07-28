@@ -99,6 +99,10 @@ Future<void> _initializeApp() async {
           })
           .whenComplete(() {
             sweepSongRepository.dispose();
+            // Marked done even if BackupActivityGuard made the sweep no-op
+            // (see SongRepository.sweepOrphanedFiles) — harmless today since
+            // no backup transfer can be in flight this early at startup, but
+            // worth revisiting if that ever changes (e.g. an auto-backup).
             unawaited(app.localConfigRepository.markOrphanedMediaFilesSwept());
           }),
     );

@@ -11,6 +11,7 @@ import 'package:repeatlab/data/repositories/backup/backup_exceptions.dart';
 import 'package:repeatlab/data/repositories/backup/backup_manifest.dart';
 import 'package:repeatlab/data/repositories/backup/backup_repository.dart';
 import 'package:repeatlab/data/repositories/backup/backup_serializer.dart';
+import 'package:repeatlab/data/repositories/backup_activity_guard.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:sembast/sembast_memory.dart';
 
@@ -81,6 +82,7 @@ void main() {
     songRepository.dispose();
     await db.close();
     PathProviderPlatform.instance = originalPathProvider;
+    BackupActivityGuard.reset();
     if (await rootTmp.exists()) {
       await rootTmp.delete(recursive: true);
     }
@@ -127,6 +129,18 @@ void main() {
         expect(payload.audioFiles[MockData.songShort.fileName], bytes('short'));
       },
     );
+
+    test('holds BackupActivityGuard active while exporting', () async {
+      await seedSong(MockData.songShort, bytes('short'));
+
+      expect(BackupActivityGuard.isActive, isFalse);
+      final future = backupRepository.exportToFile();
+      expect(BackupActivityGuard.isActive, isTrue);
+
+      await future;
+
+      expect(BackupActivityGuard.isActive, isFalse);
+    });
 
     test('skips songs whose audio file is missing from disk', () async {
       await seedSong(MockData.songShort, bytes('short'));
@@ -297,6 +311,23 @@ void main() {
       await sourceDb.close();
       return file;
     }
+
+    test('holds BackupActivityGuard active while importing', () async {
+      final exported = await exportWith([
+        (MockData.songShort, bytes('short')),
+      ]);
+
+      expect(BackupActivityGuard.isActive, isFalse);
+      final future = backupRepository.importFromFile(
+        exported,
+        mode: BackupImportMode.merge,
+      );
+      expect(BackupActivityGuard.isActive, isTrue);
+
+      await future;
+
+      expect(BackupActivityGuard.isActive, isFalse);
+    });
 
     test('merge imports new songs into an empty library', () async {
       final exported = await exportWith([
