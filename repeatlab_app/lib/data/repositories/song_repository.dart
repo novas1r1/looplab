@@ -409,7 +409,35 @@ class SongRepository {
       db,
       finder: Finder(filter: Filter.equals('id', song.id)),
     );
-    await getAllSongs();
+
+    // Other songs can legitimately share a fileName (e.g. a backup restore
+    // that dedupes identical content onto one file for two songs), so only
+    // delete the file if no remaining song still points at it.
+    final remainingSongs = await getAllSongs();
+    final stillReferenced = remainingSongs.any(
+      (remaining) => remaining.fileName == song.fileName,
+    );
+    if (!stillReferenced) {
+      await _deleteMediaFile(song);
+    }
+  }
+
+  /// Deletes [song]'s media file from the app documents directory, if
+  /// present. Best-effort: a filesystem error is logged and swallowed rather
+  /// than thrown, since the caller's DB state is already consistent by the
+  /// time this runs.
+  Future<void> _deleteMediaFile(Song song) async {
+    try {
+      final file = File(await song.path);
+      if (await file.exists()) {
+        await file.delete();
+      }
+    } on Exception catch (ex) {
+      log(
+        'Failed to delete media file "${song.fileName}": $ex',
+        name: 'DeleteSong',
+      );
+    }
   }
 
   Future<Song> addLoopToSong({
