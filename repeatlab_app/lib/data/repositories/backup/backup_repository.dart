@@ -11,6 +11,7 @@ import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/repositories/backup/backup_exceptions.dart';
 import 'package:repeatlab/data/repositories/backup/backup_manifest.dart';
 import 'package:repeatlab/data/repositories/backup/backup_serializer.dart';
+import 'package:repeatlab/data/repositories/backup_activity_guard.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:sembast/sembast.dart';
 import 'package:uuid/uuid.dart';
@@ -126,7 +127,11 @@ class BackupRepository {
   Future<File> exportToFile({
     BackupExportOptions options = BackupExportOptions.all,
     DateTime? now,
-  }) async {
+  }) {
+    return BackupActivityGuard.run(() => _exportToFile(options, now));
+  }
+
+  Future<File> _exportToFile(BackupExportOptions options, DateTime? now) async {
     final allSongs = await songRepository.getAllSongs();
     final docsDir = await _getDocumentsDirectory();
 
@@ -215,6 +220,13 @@ class BackupRepository {
   Future<BackupImportSummary> importFromFile(
     File file, {
     required BackupImportMode mode,
+  }) {
+    return BackupActivityGuard.run(() => _importFromFile(file, mode: mode));
+  }
+
+  Future<BackupImportSummary> _importFromFile(
+    File file, {
+    required BackupImportMode mode,
   }) async {
     final docsDir = await _getDocumentsDirectory();
     await docsDir.create(recursive: true);
@@ -249,7 +261,20 @@ class BackupRepository {
     // the import fails midway.
     var replaced = false;
     if (mode == BackupImportMode.replace) {
-      await songRepository.clearDb();
+      // The incoming songs' files are already on disk at this point (see the
+      // isolate call above) — protect their fileNames from clearDb's file
+      // deletion, since a hash-dedup collision can point an old and a new
+      // song at the same file.
+      final keepFileNames = result.songMapsToPersist
+          .map((songMap) => songMap['fileName'] as String)
+          .toSet();
+      // This clearDb call IS the guarded transfer (BackupActivityGuard is
+      // already active from importFromFile), so it must not skip itself —
+      // its file safety is already handled via keepFileNames above.
+      await songRepository.clearDb(
+        keepFileNames: keepFileNames,
+        respectBackupGuard: false,
+      );
       replaced = true;
       existingIds.clear();
     }

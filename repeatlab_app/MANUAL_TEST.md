@@ -1021,6 +1021,65 @@ Scenario: Loop playback performance
   And there should be no audio gaps or clicks
 ```
 
+### Feature: Loop Re-Entry Without Delay (seamless-loop QA checklist)
+
+Run on **both Android and iOS**, on a physical device with wired headphones
+(Bluetooth adds its own latency and masks gaps). Use a song with a clearly
+audible, continuous rhythm (e.g. a drum groove) so a wrap gap or early/late
+re-entry is audible immediately.
+
+**Pass criteria (apply to every scenario below):**
+- **No audible gap**: the jump from loop end back to loop start has no silence,
+  stutter, or click. On Android the wrap is native (PlayerMessage inside
+  ExoPlayer); a barely perceptible transition is acceptable, a countable pause
+  ("gap you could clap in") is a FAIL.
+- **No drift**: the loop re-enters at the set start point every pass — after 10+
+  consecutive wraps the perceived downbeat must not creep earlier or later.
+- **Metronome stays locked** (when enabled): clicks land on the same beats
+  after every wrap; a click doubling, skipping, or shifting against the music
+  after a wrap is a FAIL.
+
+```gherkin
+Scenario: Short loop at every speed (foreground)
+  Given a loop shorter than 2 seconds in the middle of a song
+  When I play it continuously at 0.5x, then 1.0x, then 2.0x
+  Then every wrap at every speed meets the pass criteria
+  And changing the speed mid-loop does not skip or double a wrap
+
+Scenario: Short loop at every speed (background)
+  Given the same loop is playing
+  When I background the app (screen off, then lock screen) at 0.5x, 1.0x and 2.0x
+  Then wraps continue seamlessly with the app backgrounded
+  And returning to the foreground shows the playhead inside the loop bounds
+
+Scenario: Loop near the end of the song at 0.5x (Android)
+  Given a loop whose end point is within 2 seconds of the end of the song
+  When I play it at 0.5x speed for at least 10 wraps
+  Then every wrap meets the pass criteria
+  # Guards the slowed-speed edge where the scheduled native wrap position
+  # exceeds the nominal media duration; the 200 ms Dart watchdog must cover
+  # it without an audible extra delay.
+
+Scenario: Seeking past the loop end while playing
+  Given a loop is active and playing
+  When I scrub the waveform to a position after the loop end
+  Then playback returns to the loop start within roughly half a second
+  # Native wrap messages do not fire on seeks over the boundary — this is the
+  # Dart watchdog path (250 ms margin + 200 ms poll), so a slightly longer
+  # re-entry is acceptable here; several seconds of runaway playback is a FAIL.
+
+Scenario: Editing the loop end while paused still works
+  Given a loop is active and playback is paused
+  When I drag the playhead past the loop end to set a new end point
+  Then the playhead stays where I parked it (no snap back to loop start)
+  And pressing play re-enters the loop from the start point
+
+Scenario: Pitch shift and metronome survive wraps
+  Given a loop with pitch shifted by +3 semitones and the metronome enabled
+  When the loop wraps 10+ times at 1.0x and 1.5x
+  Then pitch and metronome alignment are identical on every pass
+```
+
 ---
 
 ## Test Execution Notes

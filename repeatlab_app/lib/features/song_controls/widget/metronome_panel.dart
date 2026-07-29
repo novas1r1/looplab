@@ -758,7 +758,7 @@ class _ResetSyncButton extends StatelessWidget {
       key: const Key('song.metronome.resetSync'),
       onTap: onTap,
       child: Text(
-        context.l10n.metronomeResetSync,
+        context.l10n.reset,
         style: context.labelMedium.copyWith(
           color: AppColors.primary,
           fontWeight: FontWeight.w700,

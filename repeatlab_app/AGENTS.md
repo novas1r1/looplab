@@ -45,6 +45,6 @@ For a complete list of features, see the [FEATURES.md](FEATURES.md) file.
 - **Primary Audio Service**: `RepeatlabAudioplayersServiceHandler` in `lib/data/services/repeatlab_audioplayers_service_handler.dart`
 - **Secondary Service**: `AudioplayerService` in `lib/data/services/audioplayers_service.dart`
 - **Known Issues**: When the song is completed, it cant be played again, seeking via touch often ends up in timeoutexceptions
-- **Performance Focus**: Timer-based loop checking (50ms intervals), seek operations, stream subscriptions
+- **Performance Focus**: Loop wrapping is native on Android (`AudioPlayer.setLoopRegion` → PlayerMessage inside the ExoPlayer fork, wraps reported via `onLoopWrap`); other platforms fall back to predictive Dart scheduling plus a 200 ms poll (watchdog-only while native is active). Seek operations and stream subscriptions remain hot paths.
 - **Code Quality**: Multiple audio service implementations exist - some commented out, need consolidation
 - **Performance Monitoring**: Memory leaks in stream subscriptions, timer cleanup, audio session management

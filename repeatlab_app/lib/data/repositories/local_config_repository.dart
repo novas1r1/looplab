@@ -30,6 +30,11 @@ class LocalConfigRepository {
   static const kFirstSongTracked = 'first_song_tracked';
   static const kFirstLoopTracked = 'first_loop_tracked';
 
+  /// Set once the startup sweep for orphaned media files (RL-31) has run, so
+  /// it only does a full documents-directory listing on the first launch
+  /// after upgrading, not on every cold start.
+  static const kOrphanedMediaFilesSwept = 'orphaned_media_files_swept';
+
   final SharedPreferences sharedPreferences;
 
   const LocalConfigRepository({required this.sharedPreferences});
@@ -96,6 +101,13 @@ class LocalConfigRepository {
 
   Future<void> markFirstLoopTracked() =>
       sharedPreferences.setBool(kFirstLoopTracked, true);
+
+  /// Whether the orphaned-media-file startup sweep has already run.
+  bool get orphanedMediaFilesSwept =>
+      sharedPreferences.getBool(kOrphanedMediaFilesSwept) ?? false;
+
+  Future<void> markOrphanedMediaFilesSwept() =>
+      sharedPreferences.setBool(kOrphanedMediaFilesSwept, true);
 
   Future<bool> clear() => sharedPreferences.clear();
 
