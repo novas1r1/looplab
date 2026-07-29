@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:clarity_flutter/clarity_flutter.dart';
 import 'package:flutter/foundation.dart';
@@ -63,10 +64,11 @@ Future<void> _initializeApp() async {
   // package info, preferences). Shared with E2E tests, see [bootstrap].
   final app = await bootstrap();
 
-  // Android's metronome runs natively in the playback pipeline; any baked
-  // click-track mixes cached by earlier versions are full-song-sized dead
-  // weight there. (iOS still uses the baked track and keeps its cache.)
-  if (Platform.isAndroid) {
+  // Both Android and iOS/macOS now run the metronome natively in the playback
+  // pipeline (ExoPlayer ClickTrackAudioProcessor / darwin MTAudioProcessingTap);
+  // any baked click-track mixes cached by earlier versions are full-song-sized
+  // dead weight and can be purged everywhere.
+  if (Platform.isAndroid || Platform.isIOS) {
     unawaited(
       MetronomeTrackService().clearAll().catchError((
         Object error,

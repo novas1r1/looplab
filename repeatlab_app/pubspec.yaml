@@ -81,15 +81,13 @@ dependency_overrides:
   # already path deps, but the platform interface would otherwise resolve from
   # pub.dev and miss the new API.
   # Local fork seeks with zero tolerance so loop wraps land exactly on the
-  # loop start (AVPlayer's default tolerance is unbounded).
+  # loop start (AVPlayer's default tolerance is unbounded), and its darwin
+  # plugin carries the native metronome click tap (setClickTrack via
+  # MTAudioProcessingTap); pub.dev's does not.
   audioplayers_darwin:
     path: ../ap/packages/audioplayers_darwin
   audioplayers_platform_interface:
     path: ../ap/packages/audioplayers_platform_interface
-  # The fork's darwin plugin carries the native metronome click tap
-  # (setClickTrack via MTAudioProcessingTap); pub.dev's does not.
-  audioplayers_darwin:
-    path: ../ap/packages/audioplayers_darwin
   # TODO: Remove once Xcode is updated to 26.1+.
   # device_info_plus 12.4.0+ references isiOSAppOnVision (iOS 26.1 SDK).
   device_info_plus: 13.2.0
