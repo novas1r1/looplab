@@ -53,6 +53,7 @@ class SongPage extends StatelessWidget {
               localConfigRepository: context.read<LocalConfigRepository>(),
               crashReportingRepository: context.read<CrashReportingRepository>(),
               song: song,
+              hasPremium: () => context.read<PremiumSubscriptionCubit>().hasPremium,
             )..initVideo(),
           )
         else
@@ -62,6 +63,7 @@ class SongPage extends StatelessWidget {
               localConfigRepository: context.read<LocalConfigRepository>(),
               crashReportingRepository: context.read<CrashReportingRepository>(),
               song: song,
+              hasPremium: () => context.read<PremiumSubscriptionCubit>().hasPremium,
             )..initSong(AudioPlayer()),
           ),
         BlocProvider(
@@ -289,12 +291,8 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                                 onSkipNext: () => context.read<SongCubit>().skipToNextLoop(),
                                 onSeek: (position) => context.read<SongCubit>().seekSong(position),
                                 duration: widget.song.duration,
-                                isLoopLocked: (loop) {
-                                  if (hasPremium) return false;
-                                  final loops = context.read<SongCubit>().state.song.loops;
-                                  if (loops.isEmpty) return false;
-                                  return loop.id != loops.first.id;
-                                },
+                                isLoopLocked: (loop) =>
+                                    context.read<SongCubit>().isLoopLocked(loop),
                                 onLockedLoopTap: (_) => _presentLoopPaywall(
                                   context,
                                 ),

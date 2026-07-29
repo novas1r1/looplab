@@ -40,6 +40,7 @@ class VideoSongCubit extends SongCubit {
     required super.songRepository,
     required super.localConfigRepository,
     required super.crashReportingRepository,
+    super.hasPremium,
   });
 
   /// Construct a fresh [VideoPlayerHandler] and run the shared init body.

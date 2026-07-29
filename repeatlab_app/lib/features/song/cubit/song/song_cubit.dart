@@ -120,6 +120,15 @@ class SongCubit extends Cubit<SongState> {
 
   Future<Duration> get position async => await audioHandler.position;
 
+  /// Reports whether the user currently has premium. Loop navigation is
+  /// gated on this so the restriction is enforced here — the single place
+  /// both the in-app skip buttons AND the OS media-notification skip
+  /// controls (which call straight into this cubit via
+  /// [RepeatlabAudioplayersServiceHandler], bypassing the widget tree)
+  /// funnel through. Defaults to "always premium" so callers that don't
+  /// care about entitlement (tests, video-less flows) are unaffected.
+  final bool Function() _hasPremium;
+
   SongCubit({
     required this.song,
     required this.songRepository,
@@ -127,8 +136,10 @@ class SongCubit extends Cubit<SongState> {
     required this.crashReportingRepository,
     SongMetronome? metronome,
     MetronomeTrackService? trackService,
+    bool Function()? hasPremium,
   }) : _metronome = metronome ?? SongMetronome(),
        _trackService = trackService ?? MetronomeTrackService(),
+       _hasPremium = hasPremium ?? (() => true),
        super(SongState(song: song)) {
     loopsStreamController = StreamController<List<Loop>>.broadcast();
     // clear the stream
@@ -720,9 +731,23 @@ class SongCubit extends Cubit<SongState> {
     }
   }
 
+  /// Whether [loop] is off-limits for the current user. Free users may only
+  /// play the first loop of a song; every other loop is locked behind
+  /// premium. Enforced inside [selectLoop] itself (rather than only in the
+  /// UI) so it can't be bypassed by callers that don't go through the
+  /// timeline widget — e.g. the OS media-notification skip buttons, which
+  /// call [nextLoop]/[previousLoop] directly.
+  bool isLoopLocked(Loop loop) {
+    if (_hasPremium()) return false;
+    final loops = state.song.loops;
+    if (loops.isEmpty) return false;
+    return loop.id != loops.first.id;
+  }
+
   Future<void> selectLoop(Loop loop) async {
     dev.log('SELECT LOOP: $loop');
     if (loop.start == null) return;
+    if (isLoopLocked(loop)) return;
 
     try {
       await audioHandler.pause();
