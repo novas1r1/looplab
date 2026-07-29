@@ -90,7 +90,8 @@
       "mcp__manager__get_time",
       "Bash(fvm flutter *)",
       "Bash(echo \"EXIT: $?\")",
-      "Read(//tmp/**)"
+      "Read(//tmp/**)",
+      "Bash(git log *)"
     ]
   }
 }
