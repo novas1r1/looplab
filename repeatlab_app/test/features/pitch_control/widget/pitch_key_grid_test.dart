@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
 import 'package:repeatlab/features/pitch_control/widget/key_grid.dart';
@@ -121,6 +122,51 @@ void main() {
       expect(find.text('+5'), findsOneWidget);
       expect(find.text('−5'), findsOneWidget);
       expect(find.text('+3'), findsOneWidget);
+    });
+
+    testWidgets('colour-codes the original and current keys apart', (
+      tester,
+    ) async {
+      // C is the song's key, D is where it is playing after +2.
+      await pumpGrid(tester, originalKey: 'C', pitchSemitones: 2);
+
+      Color cellColor(String key) => tester
+          .widget<Material>(
+            find
+                .ancestor(
+                  of: find.byKey(Key('song.pitch.key.$key')),
+                  matching: find.byType(Material),
+                )
+                .first,
+          )
+          .color!;
+
+      // Matches the tiles above the grid: secondary = recorded in,
+      // primaryContainer = playing now, everything else neutral.
+      expect(cellColor('C'), AppColors.secondary);
+      expect(cellColor('D'), AppColors.primaryContainer);
+      expect(cellColor('E'), AppColors.surfaceContainerLow);
+    });
+
+    testWidgets('an untransposed song shows one highlighted cell', (
+      tester,
+    ) async {
+      await pumpGrid(tester, originalKey: 'C');
+
+      final color = tester
+          .widget<Material>(
+            find
+                .ancestor(
+                  of: find.byKey(const Key('song.pitch.key.C')),
+                  matching: find.byType(Material),
+                )
+                .first,
+          )
+          .color;
+
+      // Original and current are the same key here; "playing now" wins so
+      // there is never more than one primary cell.
+      expect(color, AppColors.primaryContainer);
     });
 
     testWidgets('tapping a key transposes to it', (tester) async {

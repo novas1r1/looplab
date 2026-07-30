@@ -48,6 +48,9 @@ class _PitchKeyGridState extends State<PitchKeyGrid> {
     final grid = KeyGrid(
       keys: keys,
       selectedKey: currentKey,
+      // Tinted like the "original key" tile above, so the grid answers "where
+      // did this song start" and "where is it now" in the same colours.
+      markedKey: MusicalKey.canonicalize(widget.originalKey),
       badgeBuilder: _badgeFor,
       onSelected: (key) => _onSelect(context, key),
     );

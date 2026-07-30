@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/ui/interaction/primary_button.dart';
 import 'package:repeatlab/core/ui/widgets/app_icon.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
@@ -60,7 +59,6 @@ class _EditSongKeyDialogState extends State<EditSongKeyDialog> {
               iconName: 'ic_refresh',
               iconSize: 22,
               containerSize: 22,
-              color: AppColors.error,
             ),
           ),
         ],

@@ -56,50 +56,54 @@ class _PitchControlKeyModeState extends State<PitchControlKeyMode> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Original key tile - tappable to edit
-                  GestureDetector(
-                    onTap: () => _showEditOriginalKeyDialog(
-                      context,
-                      originalKey,
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: AppColors.secondary,
-                        borderRadius: BorderRadius.circular(10),
+                  // Original key tile — the whole tile edits the key, with an
+                  // ink response so it reads as a button rather than a label
+                  // with a small icon.
+                  Material(
+                    color: AppColors.secondary,
+                    borderRadius: BorderRadius.circular(10),
+                    child: InkWell(
+                      key: const Key('song.pitch.editOriginalKey'),
+                      onTap: () => _showEditOriginalKeyDialog(
+                        context,
+                        originalKey,
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              AutoSizeText(
-                                context.l10n.originalKey,
-                                minFontSize: 14,
-                                maxFontSize: 24,
-                                style: context.bodySmall.copyWith(
-                                  color: AppColors.onPrimaryContainer,
+                      borderRadius: BorderRadius.circular(10),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                AutoSizeText(
+                                  context.l10n.originalKey,
+                                  minFontSize: 14,
+                                  maxFontSize: 24,
+                                  style: context.bodySmall.copyWith(
+                                    color: AppColors.onPrimaryContainer,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(width: 4),
-                              Icon(
-                                Icons.edit,
-                                size: 14,
-                                color: AppColors.onPrimaryContainer.withAlpha(
-                                  180,
+                                const SizedBox(width: 4),
+                                Icon(
+                                  Icons.edit,
+                                  size: 14,
+                                  color: AppColors.onPrimaryContainer.withAlpha(
+                                    180,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Text(
-                            MusicalKey.displayLabel(originalKey),
-                            style: context.titleMedium.copyWith(
-                              color: AppColors.onPrimaryContainer,
-                              fontWeight: FontWeight.w600,
+                              ],
                             ),
-                          ),
-                        ],
+                            Text(
+                              MusicalKey.displayLabel(originalKey),
+                              style: context.titleMedium.copyWith(
+                                color: AppColors.onPrimaryContainer,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

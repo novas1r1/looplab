@@ -18,6 +18,7 @@ class KeyGrid extends StatelessWidget {
     required this.keys,
     required this.onSelected,
     this.selectedKey,
+    this.markedKey,
     this.badgeBuilder,
   });
 
@@ -25,8 +26,13 @@ class KeyGrid extends StatelessWidget {
   /// [MusicalKey.conventionalLabel].
   final List<String> keys;
 
-  /// Canonical key to highlight, if any.
+  /// Canonical key to highlight as the active choice, if any.
   final String? selectedKey;
+
+  /// Canonical key to give a secondary highlight — used for the song's own
+  /// key, tinted to match the tile above the grid so the two read as the same
+  /// thing. [selectedKey] wins when a key is both.
+  final String? markedKey;
 
   /// Small caption under each key (e.g. a signed semitone offset). Return null
   /// for a given key to omit its badge; pass null entirely for a grid with no
@@ -58,6 +64,7 @@ class KeyGrid extends StatelessWidget {
                     musicalKey: key,
                     badge: badgeBuilder?.call(key),
                     isSelected: key == selectedKey,
+                    isMarked: key == markedKey,
                     onTap: () => onSelected(key),
                   ),
                 ),
@@ -76,6 +83,7 @@ class _KeyGridCell extends StatelessWidget {
   const _KeyGridCell({
     required this.musicalKey,
     required this.isSelected,
+    required this.isMarked,
     required this.onTap,
     this.badge,
   });
@@ -83,18 +91,24 @@ class _KeyGridCell extends StatelessWidget {
   final String musicalKey;
   final String? badge;
   final bool isSelected;
+  final bool isMarked;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    final foreground = isSelected
+    // Colours match the tiles above the grid: primary is where the song is
+    // playing now, secondary is the key it was recorded in.
+    final background = switch ((isSelected, isMarked)) {
+      (true, _) => AppColors.primaryContainer,
+      (false, true) => AppColors.secondary,
+      _ => AppColors.surfaceContainerLow,
+    };
+    final foreground = isSelected || isMarked
         ? AppColors.onPrimaryContainer
         : AppColors.onSurface;
 
     return Material(
-      color: isSelected
-          ? AppColors.primaryContainer
-          : AppColors.surfaceContainerLow,
+      color: background,
       borderRadius: BorderRadius.circular(10),
       child: InkWell(
         key: Key('song.pitch.key.$musicalKey'),
@@ -119,7 +133,7 @@ class _KeyGridCell extends StatelessWidget {
                   badge!,
                   maxLines: 1,
                   style: context.labelSmall.copyWith(
-                    color: isSelected
+                    color: isSelected || isMarked
                         ? foreground
                         : AppColors.onSurfaceVariant,
                   ),
