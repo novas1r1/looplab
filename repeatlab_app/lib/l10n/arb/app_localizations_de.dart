@@ -491,7 +491,7 @@ class AppLocalizationsDe extends AppLocalizations {
       'Du kannst jetzt Start- und Endpunkt eines Loops frei verschieben, während die Wiedergabe pausiert ist - der Abspielkopf springt nicht mehr in den Loop zurück. Die Loop-Grenzen greifen wieder, sobald du auf Play drückst, sodass du deine Loops viel einfacher feinjustieren kannst.';
 
   @override
-  String get changelog2101Title => 'Tonhöhe ändern (Beta)';
+  String get changelog2101Title => 'Tonhöhe ändern';
 
   @override
   String get changelog2101Description =>
@@ -513,8 +513,7 @@ class AppLocalizationsDe extends AppLocalizations {
       'Mehrere Fehler wurden behoben und die allgemeine Stabilität und Performance der App verbessert.';
 
   @override
-  String get changelog201Title =>
-      'Videos loopen und Geschwindigkeit ändern (Beta)';
+  String get changelog201Title => 'Videos loopen und Geschwindigkeit ändern';
 
   @override
   String get changelog201Description =>

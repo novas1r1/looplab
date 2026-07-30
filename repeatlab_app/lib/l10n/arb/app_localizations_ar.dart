@@ -488,7 +488,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'يمكنك الآن تحريك نقطتي بداية ونهاية الحلقة بحرية أثناء إيقاف التشغيل مؤقتًا - لم يعد مؤشر التشغيل يعود إلى داخل الحلقة. تُطبَّق حدود الحلقة مرة أخرى بمجرد الضغط على زر التشغيل، مما يسهّل عليك ضبط حلقاتك بدقة.';
 
   @override
-  String get changelog2101Title => 'تغيير طبقة الصوت (Beta)';
+  String get changelog2101Title => 'تغيير طبقة الصوت';
 
   @override
   String get changelog2101Description =>
@@ -509,8 +509,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'تم إصلاح العديد من الأخطاء وتحسين الاستقرار العام وأداء التطبيق.';
 
   @override
-  String get changelog201Title =>
-      'تشغيل الفيديو على شكل حلقات وتغيير السرعة (Beta)';
+  String get changelog201Title => 'تشغيل الفيديو على شكل حلقات وتغيير السرعة';
 
   @override
   String get changelog201Description =>

@@ -488,7 +488,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'अब आप प्लेबैक रुके होने पर किसी लूप के शुरू और अंत बिंदुओं को स्वतंत्र रूप से घुमा सकते हैं - प्लेहेड अब वापस लूप में नहीं आता। जैसे ही आप प्ले दबाते हैं, लूप की सीमाएं फिर से लागू हो जाती हैं, जिससे अपने लूप को बारीकी से समायोजित करना बहुत आसान हो जाता है।';
 
   @override
-  String get changelog2101Title => 'पिच शिफ्ट (Beta)';
+  String get changelog2101Title => 'पिच शिफ्ट';
 
   @override
   String get changelog2101Description =>
@@ -509,7 +509,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'कई बग ठीक किए गए और ऐप की समग्र स्थिरता और प्रदर्शन में सुधार किया गया।';
 
   @override
-  String get changelog201Title => 'वीडियो लूप करें और स्पीड बदलें (Beta)';
+  String get changelog201Title => 'वीडियो लूप करें और स्पीड बदलें';
 
   @override
   String get changelog201Description =>

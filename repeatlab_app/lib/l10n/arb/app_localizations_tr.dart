@@ -490,7 +490,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'Artık oynatma duraklatılmışken bir döngünün başlangıç ve bitiş noktalarını serbestçe taşıyabilirsin - oynatma başı artık döngünün içine geri dönmüyor. Oynat\'a bastığın anda döngü sınırları yeniden geçerli olur, böylece döngülerini ince ayarlamak çok daha kolay hale gelir.';
 
   @override
-  String get changelog2101Title => 'Perde kaydırma (Beta)';
+  String get changelog2101Title => 'Perde kaydırma';
 
   @override
   String get changelog2101Description =>
@@ -512,7 +512,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'Birkaç hata düzeltildi, uygulamanın genel kararlılığı ve performansı iyileştirildi.';
 
   @override
-  String get changelog201Title => 'Videoları döngüye al ve hız değiştir (Beta)';
+  String get changelog201Title => 'Videoları döngüye al ve hız değiştir';
 
   @override
   String get changelog201Description =>

@@ -495,7 +495,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'Tu peux désormais déplacer librement les points de début et de fin d\'une boucle pendant que la lecture est en pause - la tête de lecture ne revient plus dans la boucle. Les limites de la boucle s\'appliquent à nouveau dès que tu appuies sur lecture, ce qui facilite grandement l\'ajustement de tes boucles.';
 
   @override
-  String get changelog2101Title => 'Changement de tonalité (Beta)';
+  String get changelog2101Title => 'Changement de tonalité';
 
   @override
   String get changelog2101Description =>
@@ -518,7 +518,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get changelog201Title =>
-      'Mettre des vidéos en boucle et modifier la vitesse (Beta)';
+      'Mettre des vidéos en boucle et modifier la vitesse';
 
   @override
   String get changelog201Description =>

@@ -494,7 +494,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'Ora puoi spostare liberamente i punti di inizio e fine di un loop mentre la riproduzione è in pausa: la testina non torna più indietro nel loop. I limiti del loop tornano attivi non appena premi play, rendendo molto più facile mettere a punto i tuoi loop.';
 
   @override
-  String get changelog2101Title => 'Cambio di tonalità (Beta)';
+  String get changelog2101Title => 'Cambio di tonalità';
 
   @override
   String get changelog2101Description =>
@@ -516,8 +516,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'Sono stati corretti diversi bug e migliorate la stabilità e le prestazioni generali dell\'app.';
 
   @override
-  String get changelog201Title =>
-      'Metti video in loop e cambia la velocità (Beta)';
+  String get changelog201Title => 'Metti video in loop e cambia la velocità';
 
   @override
   String get changelog201Description =>

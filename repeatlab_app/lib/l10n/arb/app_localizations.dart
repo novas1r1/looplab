@@ -981,7 +981,7 @@ abstract class AppLocalizations {
   /// Changelog entry title for the 2.1.0 pitch shift feature
   ///
   /// In en, this message translates to:
-  /// **'Pitch shift (Beta)'**
+  /// **'Pitch shift'**
   String get changelog2101Title;
 
   /// Changelog entry description for the 2.1.0 pitch shift feature
@@ -1017,7 +1017,7 @@ abstract class AppLocalizations {
   /// Changelog entry title for the 2.0.1 video support feature
   ///
   /// In en, this message translates to:
-  /// **'Loop and speed-change videos (Beta)'**
+  /// **'Loop and speed-change videos'**
   String get changelog201Title;
 
   /// Changelog entry description for the 2.0.1 video support feature

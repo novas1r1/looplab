@@ -474,7 +474,7 @@ class AppLocalizationsKo extends AppLocalizations {
       '이제 재생이 일시정지된 상태에서 루프의 시작점과 끝점을 자유롭게 옮길 수 있습니다. 재생 헤드가 더 이상 루프 안으로 되돌아가지 않습니다. 재생을 누르면 루프 경계가 다시 적용되어 루프를 훨씬 쉽게 미세 조정할 수 있습니다.';
 
   @override
-  String get changelog2101Title => '음정 조절 (Beta)';
+  String get changelog2101Title => '음정 조절';
 
   @override
   String get changelog2101Description =>
@@ -494,7 +494,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get changelog2103Description => '여러 버그를 수정하고 앱의 전반적인 안정성과 성능을 개선했습니다.';
 
   @override
-  String get changelog201Title => '동영상 루프 및 속도 변경 (Beta)';
+  String get changelog201Title => '동영상 루프 및 속도 변경';
 
   @override
   String get changelog201Description =>

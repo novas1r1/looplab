@@ -489,7 +489,7 @@ class AppLocalizationsSv extends AppLocalizations {
       'Du kan nu fritt flytta en loops start- och slutpunkter medan uppspelningen är pausad - spelhuvudet hoppar inte längre tillbaka in i loopen. Loopgränserna börjar gälla igen så snart du trycker på spela, vilket gör det mycket enklare att finjustera dina loopar.';
 
   @override
-  String get changelog2101Title => 'Tonhöjdsändring (Beta)';
+  String get changelog2101Title => 'Tonhöjdsändring';
 
   @override
   String get changelog2101Description =>
@@ -510,7 +510,7 @@ class AppLocalizationsSv extends AppLocalizations {
       'Flera buggar har åtgärdats och appens allmänna stabilitet och prestanda har förbättrats.';
 
   @override
-  String get changelog201Title => 'Loopa videor och ändra hastighet (Beta)';
+  String get changelog201Title => 'Loopa videor och ändra hastighet';
 
   @override
   String get changelog201Description =>

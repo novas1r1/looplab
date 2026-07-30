@@ -82,7 +82,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.1]
 
 ### Added
-- **Video song support (Beta).** Import video files (mp4, mov, m4v, mkv, webm) and loop them with the same loop / BPM / speed controls as audio songs. Available on iOS and Android. The "Add" flow on the home page now lets you pick Audio or Video.
+- **Video song support.** Import video files (mp4, mov, m4v, mkv, webm) and loop them with the same loop / BPM / speed controls as audio songs. Available on iOS and Android. The "Add" flow on the home page now lets you pick Audio or Video.
 - **Adjustable video preview size.** Three steps (small / medium / large) via a `+ / −` overlay on the video frame. The chosen size persists per song.
 - **Landscape full-height video.** In landscape, the size steps go larger and `large` fills the visible viewport (below the app bar); the timeline and controls stay reachable by scrolling.
 
@@ -94,7 +94,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - iOS video playback (texture stayed black on first iOS build).
 
 ### Changed
-- Changelog dialog gets a "Video support (Beta)" entry at the top, translated to all 16 supported locales.
+- Changelog dialog gets a "Video support" entry at the top, translated to all 16 supported locales.
 
 ## [1.8.0]
 

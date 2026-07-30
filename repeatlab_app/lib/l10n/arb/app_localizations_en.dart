@@ -489,7 +489,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'You can now freely move a loop\'s start and end points while playback is paused - the playhead no longer snaps back into the loop. Loop boundaries take effect again the moment you press play, making it much easier to fine-tune your loops.';
 
   @override
-  String get changelog2101Title => 'Pitch shift (Beta)';
+  String get changelog2101Title => 'Pitch shift';
 
   @override
   String get changelog2101Description =>
@@ -510,7 +510,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Several bugs were fixed and the overall stability and performance of the app improved.';
 
   @override
-  String get changelog201Title => 'Loop and speed-change videos (Beta)';
+  String get changelog201Title => 'Loop and speed-change videos';
 
   @override
   String get changelog201Description =>

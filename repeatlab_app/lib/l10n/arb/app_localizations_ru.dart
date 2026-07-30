@@ -492,7 +492,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Теперь вы можете свободно перемещать точки начала и конца петли, пока воспроизведение на паузе - указатель воспроизведения больше не возвращается внутрь петли. Границы петли снова вступают в силу, как только вы нажимаете воспроизведение, что значительно упрощает точную настройку петель.';
 
   @override
-  String get changelog2101Title => 'Изменение тональности (Beta)';
+  String get changelog2101Title => 'Изменение тональности';
 
   @override
   String get changelog2101Description =>
@@ -514,7 +514,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Исправлено несколько ошибок, улучшены общая стабильность и производительность приложения.';
 
   @override
-  String get changelog201Title => 'Лупы для видео и изменение скорости (Beta)';
+  String get changelog201Title => 'Лупы для видео и изменение скорости';
 
   @override
   String get changelog201Description =>

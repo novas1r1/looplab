@@ -490,7 +490,7 @@ class AppLocalizationsNl extends AppLocalizations {
       'Je kunt nu het begin- en eindpunt van een loop vrij verplaatsen terwijl het afspelen is gepauzeerd - de afspeelkop springt niet meer terug in de loop. De loopgrenzen worden weer actief zodra je op afspelen drukt, waardoor je je loops veel makkelijker kunt fijnafstellen.';
 
   @override
-  String get changelog2101Title => 'Toonhoogte wijzigen (Beta)';
+  String get changelog2101Title => 'Toonhoogte wijzigen';
 
   @override
   String get changelog2101Description =>
@@ -511,8 +511,7 @@ class AppLocalizationsNl extends AppLocalizations {
       'Verschillende bugs zijn opgelost en de algemene stabiliteit en prestaties van de app zijn verbeterd.';
 
   @override
-  String get changelog201Title =>
-      'Video\'s loopen en snelheid aanpassen (Beta)';
+  String get changelog201Title => 'Video\'s loopen en snelheid aanpassen';
 
   @override
   String get changelog201Description =>

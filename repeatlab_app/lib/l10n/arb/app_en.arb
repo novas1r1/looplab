@@ -214,7 +214,7 @@
     "@changelog2202Description": {
         "description": "Changelog entry description for the 2.2.0 loop editing while paused feature"
     },
-    "changelog2101Title": "Pitch shift (Beta)",
+    "changelog2101Title": "Pitch shift",
     "@changelog2101Title": {
         "description": "Changelog entry title for the 2.1.0 pitch shift feature"
     },
@@ -238,7 +238,7 @@
     "@changelog2103Description": {
         "description": "Changelog entry description for the 2.1.0 bug fixes"
     },
-    "changelog201Title": "Loop and speed-change videos (Beta)",
+    "changelog201Title": "Loop and speed-change videos",
     "@changelog201Title": {
         "description": "Changelog entry title for the 2.0.1 video support feature"
     },

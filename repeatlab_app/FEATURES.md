@@ -14,7 +14,7 @@ Each feature is marked as **Free** (available to everyone) or **Premium** (requi
 - **Unlimited Songs**: Add as many audio files as you want to your library
 - **Song Reordering**: Long-press and drag songs to organize your library; the custom order is saved
 
-### Video Support (Beta) — Free
+### Video Support — Free
 - **Video Import**: Import videos (MP4, MOV, M4V, MKV, WEBM, AVI) and practice with them like audio songs
 - **Video Looping & Speed**: Loop sections of a video and change playback speed — ideal for tutorials and live performances (speed/pitch changes are Premium, as for audio)
 - **Video Pitch Control**: Pitch shifting also works for video playback (via media_kit/libmpv)

@@ -489,7 +489,7 @@ class AppLocalizationsPl extends AppLocalizations {
       'Możesz teraz swobodnie przesuwać punkty początku i końca pętli, gdy odtwarzanie jest wstrzymane - głowica nie wraca już do wnętrza pętli. Granice pętli zaczynają obowiązywać ponownie, gdy tylko naciśniesz odtwarzanie, co znacznie ułatwia precyzyjne dopasowanie pętli.';
 
   @override
-  String get changelog2101Title => 'Zmiana wysokości dźwięku (Beta)';
+  String get changelog2101Title => 'Zmiana wysokości dźwięku';
 
   @override
   String get changelog2101Description =>
@@ -510,7 +510,7 @@ class AppLocalizationsPl extends AppLocalizations {
       'Naprawiono kilka błędów oraz poprawiono ogólną stabilność i wydajność aplikacji.';
 
   @override
-  String get changelog201Title => 'Pętle wideo i zmiana prędkości (Beta)';
+  String get changelog201Title => 'Pętle wideo i zmiana prędkości';
 
   @override
   String get changelog201Description =>

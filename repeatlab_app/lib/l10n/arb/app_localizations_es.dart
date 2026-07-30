@@ -492,7 +492,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Ahora puedes mover libremente los puntos de inicio y fin de un bucle mientras la reproducción está en pausa: el cursor ya no vuelve de golpe al bucle. Los límites del bucle vuelven a aplicarse en cuanto pulsas reproducir, lo que facilita mucho ajustar tus bucles.';
 
   @override
-  String get changelog2101Title => 'Cambio de tono (Beta)';
+  String get changelog2101Title => 'Cambio de tono';
 
   @override
   String get changelog2101Description =>
@@ -514,8 +514,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Se corrigieron varios errores y se mejoró la estabilidad y el rendimiento general de la aplicación.';
 
   @override
-  String get changelog201Title =>
-      'Pon videos en loop y cambia la velocidad (Beta)';
+  String get changelog201Title => 'Pon videos en loop y cambia la velocidad';
 
   @override
   String get changelog201Description =>

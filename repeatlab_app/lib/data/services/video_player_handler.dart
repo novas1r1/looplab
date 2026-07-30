@@ -376,7 +376,9 @@ class VideoPlayerHandler implements MediaPlayerHandler {
     log('VideoPlayerHandler full song repeat: $enabled');
   }
 
-  /// Forward by [seconds], clamped to song duration or active loop end.
+  /// Forward by [seconds], clamped to song duration or — while playing — the
+  /// active loop end. Paused skipping ignores the loop bounds so the user can
+  /// park the playhead outside the loop to set new bounds.
   @override
   Future<void> forward(int seconds, Loop? loop) async {
     final position = player.state.position;
@@ -386,8 +388,8 @@ class VideoPlayerHandler implements MediaPlayerHandler {
 
     var target = position + Duration(seconds: seconds);
 
-    if (loop != null && loop.end != null) {
-      if (target > loop.end!) target = loop.end!;
+    if (player.state.playing && loop?.end != null) {
+      if (target > loop!.end!) target = loop.end!;
     } else if (duration > Duration.zero && target > duration) {
       target = duration;
     }
@@ -396,14 +398,15 @@ class VideoPlayerHandler implements MediaPlayerHandler {
     _notifySeek(target);
   }
 
-  /// Rewind by [seconds], clamped to zero or active loop start.
+  /// Rewind by [seconds], clamped to zero or — while playing — the active loop
+  /// start. See [forward] for why paused skipping ignores the loop.
   @override
   Future<void> back(int seconds, Loop? loop) async {
     final position = player.state.position;
     var target = position - Duration(seconds: seconds);
 
     if (target < Duration.zero) target = Duration.zero;
-    if (loop != null && loop.start != null && target < loop.start!) {
+    if (player.state.playing && loop?.start != null && target < loop!.start!) {
       target = loop.start!;
     }
 
