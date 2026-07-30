@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - OS media-notification skip-next/skip-previous controls could advance a free user into a loop that's locked behind premium, bypassing the in-app lock. The premium check now lives in `SongCubit.selectLoop` itself, so it applies regardless of what triggers loop navigation.
 
 ### Changed
+- The song page's play/pause button is now the visual anchor of the transport bar: a filled circle in the accent colour, drop-shadowed and floating on top of the bar (z-wise) instead of sitting inline with the ±10 s skip buttons.
 - The metronome panel's "Reset sync" button now reads "Reset".
 
 ### Known gaps

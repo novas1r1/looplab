@@ -92,7 +92,9 @@
       "Bash(echo \"EXIT: $?\")",
       "Read(//tmp/**)",
       "Bash(git log *)",
-      "PowerShell(\\(Get-Content test\\\\data\\\\services\\\\repeatlab_audioplayers_service_handler_test.dart | Measure-Object -Line\\).Lines)"
+      "PowerShell(\\(Get-Content test\\\\data\\\\services\\\\repeatlab_audioplayers_service_handler_test.dart | Measure-Object -Line\\).Lines)",
+      "mcp__manager__list_milestones",
+      "mcp__manager__assign_milestone"
     ]
   },
   "skillOverrides": {
