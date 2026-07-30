@@ -1,4 +1,4 @@
-{
+﻿{
     "@@locale": "ru",
     "appSubtitle": "Ваша Музыкальная Луп-Станция",
     "userSettings": "Настройки Пользователя",
@@ -369,6 +369,12 @@
     "intervalOctave": "октава",
     "intervalDown": "{interval} вниз",
     "intervalUp": "{interval} вверх",
+    "setSongKey": "Задать тональность",
+    "setSongKeyIntro": "Задайте тональность один раз — и сможете транспонировать сразу в любую другую.",
+    "keyQuality": "Лад",
+    "keyQualityMajor": "Мажор",
+    "keyQualityMinor": "Минор",
+    "keyOriginalBadge": "ориг.",
     "pitchQualityWarning": "может звучать неестественно",
     "fineTune": "Точная подстройка",
     "fineTuneCentsValue": "{cents} ct",

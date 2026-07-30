@@ -1,4 +1,4 @@
-{
+﻿{
     "@@locale": "ko",
     "appSubtitle": "당신의 음악 루프 스테이션",
     "@appSubtitle": {
@@ -372,6 +372,12 @@
     "intervalOctave": "옥타브",
     "intervalDown": "{interval} 내림",
     "intervalUp": "{interval} 올림",
+    "setSongKey": "곡의 조 설정",
+    "setSongKeyIntro": "곡의 조를 한 번 설정하면 다른 어떤 조로도 바로 이조할 수 있습니다.",
+    "keyQuality": "조성",
+    "keyQualityMajor": "장조",
+    "keyQualityMinor": "단조",
+    "keyOriginalBadge": "원곡",
     "pitchQualityWarning": "부자연스럽게 들릴 수 있음",
     "fineTune": "미세 조정",
     "fineTuneCentsValue": "{cents} ct",

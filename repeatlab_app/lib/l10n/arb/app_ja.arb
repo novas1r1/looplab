@@ -1,4 +1,4 @@
-{
+﻿{
     "@@locale": "ja",
     "appSubtitle": "あなたの音楽ループステーション",
     "@appSubtitle": {
@@ -372,6 +372,12 @@
     "intervalOctave": "オクターブ",
     "intervalDown": "{interval}下げる",
     "intervalUp": "{interval}上げる",
+    "setSongKey": "曲のキーを設定",
+    "setSongKeyIntro": "曲のキーを一度設定すれば、どのキーにも直接移調できます。",
+    "keyQuality": "調性",
+    "keyQualityMajor": "長調",
+    "keyQualityMinor": "短調",
+    "keyOriginalBadge": "原曲",
     "pitchQualityWarning": "不自然に聞こえる場合があります",
     "fineTune": "微調整",
     "fineTuneCentsValue": "{cents} ct",

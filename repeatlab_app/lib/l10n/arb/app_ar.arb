@@ -1,4 +1,4 @@
-{
+﻿{
     "@@locale": "ar",
     "appSubtitle": "محطة الحلقات الموسيقية الخاصة بك",
     "@appSubtitle": {
@@ -373,6 +373,12 @@
     "intervalOctave": "أوكتاف",
     "intervalDown": "{interval} للأسفل",
     "intervalUp": "{interval} للأعلى",
+    "setSongKey": "تعيين مقام الأغنية",
+    "setSongKeyIntro": "عيّن مقام الأغنية مرة واحدة، وبعدها يمكنك النقل مباشرة إلى أي مقام آخر.",
+    "keyQuality": "النوع",
+    "keyQualityMajor": "كبير",
+    "keyQualityMinor": "صغير",
+    "keyOriginalBadge": "أصلي",
     "pitchQualityWarning": "قد يبدو غير طبيعي",
     "fineTune": "ضبط دقيق",
     "fineTuneCentsValue": "{cents} ct",

@@ -1,4 +1,4 @@
-{
+﻿{
     "@@locale": "pl",
     "appSubtitle": "Twoja Stacja Pętli Muzycznych",
     "userSettings": "Ustawienia Użytkownika",
@@ -369,6 +369,12 @@
     "intervalOctave": "oktawa",
     "intervalDown": "{interval} w dół",
     "intervalUp": "{interval} w górę",
+    "setSongKey": "Ustaw tonację",
+    "setSongKeyIntro": "Ustaw tonację raz, a potem transponuj prosto do dowolnej innej.",
+    "keyQuality": "Tryb",
+    "keyQualityMajor": "Dur",
+    "keyQualityMinor": "Moll",
+    "keyOriginalBadge": "oryg.",
     "pitchQualityWarning": "może brzmieć sztucznie",
     "fineTune": "Strojenie precyzyjne",
     "fineTuneCentsValue": "{cents} ct",

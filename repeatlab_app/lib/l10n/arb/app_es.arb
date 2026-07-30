@@ -1,4 +1,4 @@
-{
+﻿{
     "@@locale": "es",
     "appSubtitle": "Tu Estación de Loops Musicales",
     "userSettings": "Ajustes de Usuario",
@@ -370,6 +370,12 @@
     "intervalOctave": "octava",
     "intervalDown": "{interval} abajo",
     "intervalUp": "{interval} arriba",
+    "setSongKey": "Definir la tonalidad",
+    "setSongKeyIntro": "Define la tonalidad una vez y podrás transponer directamente a cualquier otra.",
+    "keyQuality": "Modo",
+    "keyQualityMajor": "Mayor",
+    "keyQualityMinor": "Menor",
+    "keyOriginalBadge": "orig.",
     "pitchQualityWarning": "puede sonar artificial",
     "fineTune": "Ajuste fino",
     "fineTuneCentsValue": "{cents} ct",

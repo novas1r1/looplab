@@ -1098,6 +1098,25 @@ class AppLocalizationsPl extends AppLocalizations {
   }
 
   @override
+  String get setSongKey => 'Ustaw tonację';
+
+  @override
+  String get setSongKeyIntro =>
+      'Ustaw tonację raz, a potem transponuj prosto do dowolnej innej.';
+
+  @override
+  String get keyQuality => 'Tryb';
+
+  @override
+  String get keyQualityMajor => 'Dur';
+
+  @override
+  String get keyQualityMinor => 'Moll';
+
+  @override
+  String get keyOriginalBadge => 'oryg.';
+
+  @override
   String get pitchQualityWarning => 'może brzmieć sztucznie';
 
   @override

@@ -611,6 +611,30 @@
             }
         }
     },
+    "setSongKey": "Set song key",
+    "@setSongKey": {
+        "description": "Button that saves the song's own musical key, after which transposing by key becomes available"
+    },
+    "setSongKeyIntro": "Set the song's key once and you can transpose straight to any other key.",
+    "@setSongKeyIntro": {
+        "description": "Explains why the app is asking for the song's key before the key picker"
+    },
+    "keyQuality": "Quality",
+    "@keyQuality": {
+        "description": "Label for the major/minor toggle when picking a song's key. In music theory this is the mode, or tonality, of the key."
+    },
+    "keyQualityMajor": "Major",
+    "@keyQualityMajor": {
+        "description": "Major mode of a musical key (e.g. C major)"
+    },
+    "keyQualityMinor": "Minor",
+    "@keyQualityMinor": {
+        "description": "Minor mode of a musical key (e.g. A minor)"
+    },
+    "keyOriginalBadge": "orig",
+    "@keyOriginalBadge": {
+        "description": "Very short badge marking the song's own key in the transpose grid, instead of a semitone offset. Keep it abbreviation-short."
+    },
     "pitchQualityWarning": "may sound artificial",
     "@pitchQualityWarning": {
         "description": "Appended to the pitch caption for large transpositions, where the pitch shifter produces audible artifacts"

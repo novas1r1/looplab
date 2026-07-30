@@ -1104,6 +1104,25 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get setSongKey => 'Definir la tonalidad';
+
+  @override
+  String get setSongKeyIntro =>
+      'Define la tonalidad una vez y podrás transponer directamente a cualquier otra.';
+
+  @override
+  String get keyQuality => 'Modo';
+
+  @override
+  String get keyQualityMajor => 'Mayor';
+
+  @override
+  String get keyQualityMinor => 'Menor';
+
+  @override
+  String get keyOriginalBadge => 'orig.';
+
+  @override
   String get pitchQualityWarning => 'puede sonar artificial';
 
   @override

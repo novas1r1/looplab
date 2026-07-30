@@ -1,4 +1,4 @@
-{
+﻿{
     "@@locale": "it",
     "appSubtitle": "La Tua Stazione di Loop Musicali",
     "userSettings": "Impostazioni Utente",
@@ -369,6 +369,12 @@
     "intervalOctave": "ottava",
     "intervalDown": "{interval} sotto",
     "intervalUp": "{interval} sopra",
+    "setSongKey": "Imposta la tonalità",
+    "setSongKeyIntro": "Imposta la tonalità una volta e potrai trasporre direttamente in qualsiasi altra.",
+    "keyQuality": "Modo",
+    "keyQualityMajor": "Maggiore",
+    "keyQualityMinor": "Minore",
+    "keyOriginalBadge": "orig.",
     "pitchQualityWarning": "può suonare artificiale",
     "fineTune": "Sintonia fine",
     "fineTuneCentsValue": "{cents} ct",

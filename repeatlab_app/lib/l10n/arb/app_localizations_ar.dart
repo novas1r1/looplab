@@ -1089,6 +1089,25 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get setSongKey => 'تعيين مقام الأغنية';
+
+  @override
+  String get setSongKeyIntro =>
+      'عيّن مقام الأغنية مرة واحدة، وبعدها يمكنك النقل مباشرة إلى أي مقام آخر.';
+
+  @override
+  String get keyQuality => 'النوع';
+
+  @override
+  String get keyQualityMajor => 'كبير';
+
+  @override
+  String get keyQualityMinor => 'صغير';
+
+  @override
+  String get keyOriginalBadge => 'أصلي';
+
+  @override
   String get pitchQualityWarning => 'قد يبدو غير طبيعي';
 
   @override

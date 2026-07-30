@@ -1059,6 +1059,24 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
+  String get setSongKey => '곡의 조 설정';
+
+  @override
+  String get setSongKeyIntro => '곡의 조를 한 번 설정하면 다른 어떤 조로도 바로 이조할 수 있습니다.';
+
+  @override
+  String get keyQuality => '조성';
+
+  @override
+  String get keyQualityMajor => '장조';
+
+  @override
+  String get keyQualityMinor => '단조';
+
+  @override
+  String get keyOriginalBadge => '원곡';
+
+  @override
   String get pitchQualityWarning => '부자연스럽게 들릴 수 있음';
 
   @override

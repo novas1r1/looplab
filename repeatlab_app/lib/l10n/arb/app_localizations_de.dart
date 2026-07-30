@@ -1101,6 +1101,25 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
+  String get setSongKey => 'Tonart festlegen';
+
+  @override
+  String get setSongKeyIntro =>
+      'Lege die Tonart einmal fest, dann kannst du direkt in jede andere transponieren.';
+
+  @override
+  String get keyQuality => 'Tongeschlecht';
+
+  @override
+  String get keyQualityMajor => 'Dur';
+
+  @override
+  String get keyQualityMinor => 'Moll';
+
+  @override
+  String get keyOriginalBadge => 'Orig.';
+
+  @override
   String get pitchQualityWarning => 'klingt evtl. künstlich';
 
   @override

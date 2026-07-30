@@ -1,4 +1,4 @@
-{
+﻿{
     "@@locale": "tr",
     "appSubtitle": "Müzik Döngü İstasyonunuz",
     "@appSubtitle": {
@@ -372,6 +372,12 @@
     "intervalOctave": "oktav",
     "intervalDown": "{interval} aşağı",
     "intervalUp": "{interval} yukarı",
+    "setSongKey": "Şarkının tonunu ayarla",
+    "setSongKeyIntro": "Tonu bir kez ayarla, sonra doğrudan başka herhangi bir tona aktarabilirsin.",
+    "keyQuality": "Mod",
+    "keyQualityMajor": "Majör",
+    "keyQualityMinor": "Minör",
+    "keyOriginalBadge": "orij.",
     "pitchQualityWarning": "yapay duyulabilir",
     "fineTune": "İnce ayar",
     "fineTuneCentsValue": "{cents} ct",

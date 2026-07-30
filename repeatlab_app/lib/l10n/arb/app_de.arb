@@ -1,4 +1,4 @@
-{
+﻿{
     "@@locale": "de",
     "appSubtitle": "Deine Musik-Loop-Station",
     "userSettings": "Benutzereinstellungen",
@@ -368,6 +368,12 @@
     "intervalOctave": "Oktave",
     "intervalDown": "{interval} tiefer",
     "intervalUp": "{interval} höher",
+    "setSongKey": "Tonart festlegen",
+    "setSongKeyIntro": "Lege die Tonart einmal fest, dann kannst du direkt in jede andere transponieren.",
+    "keyQuality": "Tongeschlecht",
+    "keyQualityMajor": "Dur",
+    "keyQualityMinor": "Moll",
+    "keyOriginalBadge": "Orig.",
     "pitchQualityWarning": "klingt evtl. künstlich",
     "fineTune": "Feinstimmung",
     "fineTuneCentsValue": "{cents} ct",

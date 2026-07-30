@@ -1096,6 +1096,25 @@ class AppLocalizationsSv extends AppLocalizations {
   }
 
   @override
+  String get setSongKey => 'Ange tonart';
+
+  @override
+  String get setSongKeyIntro =>
+      'Ange tonarten en gång, så kan du transponera direkt till vilken annan som helst.';
+
+  @override
+  String get keyQuality => 'Tonkön';
+
+  @override
+  String get keyQualityMajor => 'Dur';
+
+  @override
+  String get keyQualityMinor => 'Moll';
+
+  @override
+  String get keyOriginalBadge => 'urspr.';
+
+  @override
   String get pitchQualityWarning => 'kan låta konstlat';
 
   @override

@@ -1102,6 +1102,25 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get setSongKey => 'Задать тональность';
+
+  @override
+  String get setSongKeyIntro =>
+      'Задайте тональность один раз — и сможете транспонировать сразу в любую другую.';
+
+  @override
+  String get keyQuality => 'Лад';
+
+  @override
+  String get keyQualityMajor => 'Мажор';
+
+  @override
+  String get keyQualityMinor => 'Минор';
+
+  @override
+  String get keyOriginalBadge => 'ориг.';
+
+  @override
   String get pitchQualityWarning => 'может звучать неестественно';
 
   @override

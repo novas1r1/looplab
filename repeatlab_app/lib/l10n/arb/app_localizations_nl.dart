@@ -1100,6 +1100,25 @@ class AppLocalizationsNl extends AppLocalizations {
   }
 
   @override
+  String get setSongKey => 'Toonsoort instellen';
+
+  @override
+  String get setSongKeyIntro =>
+      'Stel de toonsoort één keer in en je kunt direct naar elke andere transponeren.';
+
+  @override
+  String get keyQuality => 'Toongeslacht';
+
+  @override
+  String get keyQualityMajor => 'Majeur';
+
+  @override
+  String get keyQualityMinor => 'Mineur';
+
+  @override
+  String get keyOriginalBadge => 'orig.';
+
+  @override
   String get pitchQualityWarning => 'klinkt mogelijk kunstmatig';
 
   @override

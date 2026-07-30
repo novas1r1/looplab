@@ -1,4 +1,4 @@
-{
+﻿{
     "@@locale": "nl",
     "appSubtitle": "Je Muziek Loop Station",
     "userSettings": "Gebruikersinstellingen",
@@ -369,6 +369,12 @@
     "intervalOctave": "octaaf",
     "intervalDown": "{interval} omlaag",
     "intervalUp": "{interval} omhoog",
+    "setSongKey": "Toonsoort instellen",
+    "setSongKeyIntro": "Stel de toonsoort één keer in en je kunt direct naar elke andere transponeren.",
+    "keyQuality": "Toongeslacht",
+    "keyQualityMajor": "Majeur",
+    "keyQualityMinor": "Mineur",
+    "keyOriginalBadge": "orig.",
     "pitchQualityWarning": "klinkt mogelijk kunstmatig",
     "fineTune": "Fijnafstemming",
     "fineTuneCentsValue": "{cents} ct",

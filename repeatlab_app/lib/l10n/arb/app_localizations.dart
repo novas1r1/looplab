@@ -2040,6 +2040,42 @@ abstract class AppLocalizations {
   /// **'{interval} up'**
   String intervalUp(String interval);
 
+  /// Button that saves the song's own musical key, after which transposing by key becomes available
+  ///
+  /// In en, this message translates to:
+  /// **'Set song key'**
+  String get setSongKey;
+
+  /// Explains why the app is asking for the song's key before the key picker
+  ///
+  /// In en, this message translates to:
+  /// **'Set the song\'s key once and you can transpose straight to any other key.'**
+  String get setSongKeyIntro;
+
+  /// Label for the major/minor toggle when picking a song's key. In music theory this is the mode, or tonality, of the key.
+  ///
+  /// In en, this message translates to:
+  /// **'Quality'**
+  String get keyQuality;
+
+  /// Major mode of a musical key (e.g. C major)
+  ///
+  /// In en, this message translates to:
+  /// **'Major'**
+  String get keyQualityMajor;
+
+  /// Minor mode of a musical key (e.g. A minor)
+  ///
+  /// In en, this message translates to:
+  /// **'Minor'**
+  String get keyQualityMinor;
+
+  /// Very short badge marking the song's own key in the transpose grid, instead of a semitone offset. Keep it abbreviation-short.
+  ///
+  /// In en, this message translates to:
+  /// **'orig'**
+  String get keyOriginalBadge;
+
   /// Appended to the pitch caption for large transpositions, where the pitch shifter produces audible artifacts
   ///
   /// In en, this message translates to:

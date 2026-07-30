@@ -1095,6 +1095,25 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get setSongKey => 'Set song key';
+
+  @override
+  String get setSongKeyIntro =>
+      'Set the song\'s key once and you can transpose straight to any other key.';
+
+  @override
+  String get keyQuality => 'Quality';
+
+  @override
+  String get keyQualityMajor => 'Major';
+
+  @override
+  String get keyQualityMinor => 'Minor';
+
+  @override
+  String get keyOriginalBadge => 'orig';
+
+  @override
   String get pitchQualityWarning => 'may sound artificial';
 
   @override

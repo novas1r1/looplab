@@ -1,4 +1,4 @@
-{
+﻿{
     "@@locale": "zh",
     "appSubtitle": "您的音乐循环工作站",
     "@appSubtitle": {
@@ -373,6 +373,12 @@
     "intervalOctave": "八度",
     "intervalDown": "降{interval}",
     "intervalUp": "升{interval}",
+    "setSongKey": "设置歌曲调性",
+    "setSongKeyIntro": "设置一次歌曲调性，之后就能直接移调到任意调。",
+    "keyQuality": "调式",
+    "keyQualityMajor": "大调",
+    "keyQualityMinor": "小调",
+    "keyOriginalBadge": "原调",
     "pitchQualityWarning": "可能听起来不自然",
     "fineTune": "微调",
     "fineTuneCentsValue": "{cents} ct",

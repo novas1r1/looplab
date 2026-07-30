@@ -1101,6 +1101,25 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
+  String get setSongKey => 'Şarkının tonunu ayarla';
+
+  @override
+  String get setSongKeyIntro =>
+      'Tonu bir kez ayarla, sonra doğrudan başka herhangi bir tona aktarabilirsin.';
+
+  @override
+  String get keyQuality => 'Mod';
+
+  @override
+  String get keyQualityMajor => 'Majör';
+
+  @override
+  String get keyQualityMinor => 'Minör';
+
+  @override
+  String get keyOriginalBadge => 'orij.';
+
+  @override
   String get pitchQualityWarning => 'yapay duyulabilir';
 
   @override

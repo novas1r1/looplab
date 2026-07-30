@@ -1061,6 +1061,24 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String get setSongKey => '曲のキーを設定';
+
+  @override
+  String get setSongKeyIntro => '曲のキーを一度設定すれば、どのキーにも直接移調できます。';
+
+  @override
+  String get keyQuality => '調性';
+
+  @override
+  String get keyQualityMajor => '長調';
+
+  @override
+  String get keyQualityMinor => '短調';
+
+  @override
+  String get keyOriginalBadge => '原曲';
+
+  @override
   String get pitchQualityWarning => '不自然に聞こえる場合があります';
 
   @override

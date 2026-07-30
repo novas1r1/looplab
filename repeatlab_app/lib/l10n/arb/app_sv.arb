@@ -1,4 +1,4 @@
-{
+﻿{
     "@@locale": "sv",
     "appSubtitle": "Din Musikloopstation",
     "userSettings": "Användarinställningar",
@@ -369,6 +369,12 @@
     "intervalOctave": "oktav",
     "intervalDown": "{interval} ner",
     "intervalUp": "{interval} upp",
+    "setSongKey": "Ange tonart",
+    "setSongKeyIntro": "Ange tonarten en gång, så kan du transponera direkt till vilken annan som helst.",
+    "keyQuality": "Tonkön",
+    "keyQualityMajor": "Dur",
+    "keyQualityMinor": "Moll",
+    "keyOriginalBadge": "urspr.",
     "pitchQualityWarning": "kan låta konstlat",
     "fineTune": "Finjustering",
     "fineTuneCentsValue": "{cents} ct",

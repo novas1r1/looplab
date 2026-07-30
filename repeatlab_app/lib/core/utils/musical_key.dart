@@ -45,9 +45,13 @@ abstract final class MusicalKey {
   }
 
   /// Semitone offset that transposes [from] into [to], picking the shorter
-  /// direction (range −5..+6): ("Am", "Cm") → 3, ("C", "B") → −1. Null when
+  /// direction (range −6..+5): ("Am", "Cm") → 3, ("C", "B") → −1. Null when
   /// either key is unrecognizable or the modes differ (a pitch shift cannot
   /// turn a major key into a minor one).
+  ///
+  /// The tritone is equidistant either way; it resolves downward, because a
+  /// downward shift treats a full mix more kindly than an upward one, which
+  /// thins the low end.
   static int? signedOffset(String from, String to) {
     final fromMatch = _keyPattern.firstMatch(from.trim());
     final toMatch = _keyPattern.firstMatch(to.trim());
@@ -56,7 +60,7 @@ abstract final class MusicalKey {
 
     var offset = (_indexOf(toMatch) - _indexOf(fromMatch)) % 12;
     if (offset < 0) offset += 12;
-    if (offset > 6) offset -= 12;
+    if (offset >= 6) offset -= 12;
     return offset;
   }
 
@@ -95,6 +99,50 @@ abstract final class MusicalKey {
     final flat = flatEquivalents[note];
     if (flat == null) return sharpLabel;
     return '$sharpLabel / $flat$minor';
+  }
+
+  /// Single conventional spelling of [key] — the one a musician would write,
+  /// which is the spelling with the fewest accidentals for that key.
+  ///
+  /// Unlike [displayLabel] this never returns a pair, so it fits a grid cell;
+  /// unlike the canonical sharp names it is **mode-aware**, which matters:
+  /// blindly preferring sharps would produce E♭→D♯ (9 accidentals),
+  /// A♭→G♯ (8) and B♭→A♯ (10) major, keys nobody writes or reads. Minor keys
+  /// take the opposite choice at three of those pitch classes.
+  ///
+  /// Major: C, D♭, D, E♭, E, F, F♯, G, A♭, A, B♭, B.
+  /// Minor: Cm, C♯m, Dm, E♭m, Em, Fm, F♯m, Gm, G♯m, Am, B♭m, Bm.
+  ///
+  /// Falls back to the raw value for unrecognizable keys.
+  static String conventionalLabel(String key) {
+    const majorSpellings = {
+      'C#': 'D♭',
+      'D#': 'E♭',
+      'F#': 'F♯',
+      'G#': 'A♭',
+      'A#': 'B♭',
+    };
+    const minorSpellings = {
+      'C#': 'C♯',
+      'D#': 'E♭',
+      'F#': 'F♯',
+      'G#': 'G♯',
+      'A#': 'B♭',
+    };
+
+    final match = _keyPattern.firstMatch(key.trim());
+    if (match == null) return key;
+
+    final canonical = canonicalize(key)!;
+    final minor = match.group(3) != null;
+    final note = minor
+        ? canonical.substring(0, canonical.length - 1)
+        : canonical;
+
+    final spelled =
+        (minor ? minorSpellings : majorSpellings)[note] ??
+        note.replaceAll('#', '♯');
+    return minor ? '${spelled}m' : spelled;
   }
 
   /// Parses a raw TBPM tag value ("128", "128.00", " 95 ") into a usable

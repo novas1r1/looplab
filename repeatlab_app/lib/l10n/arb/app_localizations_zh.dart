@@ -1041,6 +1041,24 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String get setSongKey => '设置歌曲调性';
+
+  @override
+  String get setSongKeyIntro => '设置一次歌曲调性，之后就能直接移调到任意调。';
+
+  @override
+  String get keyQuality => '调式';
+
+  @override
+  String get keyQualityMajor => '大调';
+
+  @override
+  String get keyQualityMinor => '小调';
+
+  @override
+  String get keyOriginalBadge => '原调';
+
+  @override
   String get pitchQualityWarning => '可能听起来不自然';
 
   @override

@@ -1097,6 +1097,25 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
+  String get setSongKey => 'गीत की कुंजी सेट करें';
+
+  @override
+  String get setSongKeyIntro =>
+      'गीत की कुंजी एक बार सेट करें, फिर किसी भी दूसरी कुंजी में सीधे ट्रांसपोज़ करें।';
+
+  @override
+  String get keyQuality => 'प्रकार';
+
+  @override
+  String get keyQualityMajor => 'मेजर';
+
+  @override
+  String get keyQualityMinor => 'माइनर';
+
+  @override
+  String get keyOriginalBadge => 'मूल';
+
+  @override
   String get pitchQualityWarning => 'कृत्रिम लग सकता है';
 
   @override

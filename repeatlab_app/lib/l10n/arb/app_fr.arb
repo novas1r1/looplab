@@ -1,4 +1,4 @@
-{
+﻿{
     "@@locale": "fr",
     "appSubtitle": "Votre Station de Boucles Musicales",
     "userSettings": "Paramètres Utilisateur",
@@ -369,6 +369,12 @@
     "intervalOctave": "octave",
     "intervalDown": "{interval} plus bas",
     "intervalUp": "{interval} plus haut",
+    "setSongKey": "Définir la tonalité",
+    "setSongKeyIntro": "Définissez la tonalité une fois et vous pourrez transposer directement vers n'importe quelle autre.",
+    "keyQuality": "Mode",
+    "keyQualityMajor": "Majeur",
+    "keyQualityMinor": "Mineur",
+    "keyOriginalBadge": "orig.",
     "pitchQualityWarning": "peut sonner artificiel",
     "fineTune": "Réglage fin",
     "fineTuneCentsValue": "{cents} ct",

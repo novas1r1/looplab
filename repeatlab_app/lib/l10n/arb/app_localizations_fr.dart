@@ -1110,6 +1110,25 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get setSongKey => 'Définir la tonalité';
+
+  @override
+  String get setSongKeyIntro =>
+      'Définissez la tonalité une fois et vous pourrez transposer directement vers n\'importe quelle autre.';
+
+  @override
+  String get keyQuality => 'Mode';
+
+  @override
+  String get keyQualityMajor => 'Majeur';
+
+  @override
+  String get keyQualityMinor => 'Mineur';
+
+  @override
+  String get keyOriginalBadge => 'orig.';
+
+  @override
   String get pitchQualityWarning => 'peut sonner artificiel';
 
   @override

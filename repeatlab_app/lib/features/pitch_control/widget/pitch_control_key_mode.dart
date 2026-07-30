@@ -1,12 +1,13 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_auto_size_text/flutter_auto_size_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
-import 'package:repeatlab/core/ui/interaction/primary_button.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/core/utils/musical_key.dart';
-import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
+import 'package:repeatlab/features/pitch_control/widget/edit_song_key_dialog.dart';
+import 'package:repeatlab/features/pitch_control/widget/pitch_key_grid.dart';
+import 'package:repeatlab/features/pitch_control/widget/set_song_key_panel.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
@@ -20,55 +21,33 @@ class PitchControlKeyMode extends StatefulWidget {
 }
 
 class _PitchControlKeyModeState extends State<PitchControlKeyMode> {
-  bool _paywallShowing = false;
-
   @override
   Widget build(BuildContext context) {
-    final hasPremium = context.watch<PremiumSubscriptionCubit>().hasPremium;
-
+    // Premium gating lives in PitchKeyGrid: transposing is paid, but naming
+    // your own song's key is metadata and stays free.
     return BlocSelector<SongCubit, SongState,
-        ({String? musicalKey, int pitchSemitones})>(
+        ({String? musicalKey, int pitchSemitones, int fineTuneCents})>(
       selector: (state) => (
         musicalKey: state.song.musicalKey,
         pitchSemitones: state.pitchSemitones,
+        fineTuneCents: state.fineTuneCents,
       ),
       builder: (context, data) {
         final originalKey = data.musicalKey;
 
-        // If the original key is not set, show a picker to set it
+        // If the original key is not set, ask for it first — transposing by
+        // key is meaningless without a reference. Never paywalled: naming your
+        // own song is metadata, not a feature.
         if (originalKey == null) {
-          return Column(
-            spacing: 8,
-            children: [
-              AutoSizeText(
-                context.l10n.hereYouCanSetTheOriginalKeyOfTheAudioFile,
-                minFontSize: 12,
-                maxFontSize: 20,
-                style: context.labelLarge.copyWith(fontStyle: FontStyle.italic),
-              ),
-              DropdownButtonFormField<String>(
-                key: const Key('song.pitch.keyOriginal'),
-                decoration: InputDecoration(
-                  labelText: context.l10n.originalKey,
-                ),
-                items: MusicalKey.allKeys
-                    .map(
-                      (key) => DropdownMenuItem(
-                        value: key,
-                        child: Text(MusicalKey.displayLabel(key)),
-                      ),
-                    )
-                    .toList(),
-                onChanged: (value) => _onSetOriginalKey(context, value),
-              ),
-            ],
+          return SetSongKeyPanel(
+            key: const Key('song.pitch.keyOriginal'),
+            onKeySelected: (key) => _onSetOriginalKey(context, key),
           );
         }
 
         final currentKey =
             MusicalKey.transpose(originalKey, data.pitchSemitones) ??
                 originalKey;
-        final targetKeys = MusicalKey.sameModeKeys(originalKey);
 
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
@@ -143,7 +122,11 @@ class _PitchControlKeyModeState extends State<PitchControlKeyMode> {
                           ),
                         ),
                         Text(
-                          _formatCurrentKey(currentKey, data.pitchSemitones),
+                          _formatCurrentKey(
+                            currentKey,
+                            data.pitchSemitones,
+                            data.fineTuneCents,
+                          ),
                           style: context.titleMedium.copyWith(
                             color: AppColors.onPrimaryContainer,
                             fontWeight: FontWeight.w600,
@@ -155,20 +138,13 @@ class _PitchControlKeyModeState extends State<PitchControlKeyMode> {
                 ],
               ),
               const SizedBox(height: 16),
-              if (targetKeys != null)
-                hasPremium
-                    ? _buildTargetKeyPicker(context, currentKey, targetKeys)
-                    : Listener(
-                        behavior: HitTestBehavior.opaque,
-                        onPointerDown: (_) => _showPremiumDialog(context),
-                        child: AbsorbPointer(
-                          child: _buildTargetKeyPicker(
-                            context,
-                            currentKey,
-                            targetKeys,
-                          ),
-                        ),
-                      ),
+              // The grid replaces a dropdown: the offset badges make the cost
+              // of each target key visible, which is the thing a player
+              // actually decides on.
+              PitchKeyGrid(
+                originalKey: originalKey,
+                pitchSemitones: data.pitchSemitones,
+              ),
             ],
           ),
         );
@@ -176,48 +152,23 @@ class _PitchControlKeyModeState extends State<PitchControlKeyMode> {
     );
   }
 
-  Widget _buildTargetKeyPicker(
-    BuildContext context,
+  /// "Cm (+3 st +18 ct)" — key plus what got it there. The cents are named
+  /// because with a fine tune applied the song is not exactly in that key.
+  String _formatCurrentKey(
     String currentKey,
-    List<String> targetKeys,
+    int pitchSemitones,
+    int fineTuneCents,
   ) {
-    return DropdownButtonFormField<String>(
-      key: const Key('song.pitch.keyTarget'),
-      initialValue: currentKey,
-      decoration: InputDecoration(
-        labelText: context.l10n.editSongKey,
-      ),
-      items: targetKeys
-          .map(
-            (key) => DropdownMenuItem(
-              value: key,
-              child: Text(MusicalKey.displayLabel(key)),
-            ),
-          )
-          .toList(),
-      onChanged: (value) {
-        if (value == null) return;
-        final cubit = context.read<SongCubit>();
-        final originalKey = cubit.state.song.musicalKey;
-        if (originalKey == null) return;
-        AppAnalytics.trackEvent(
-          AppAnalytics.clickUpdatePitch,
-          data: {
-            'semitones': MusicalKey.signedOffset(originalKey, value),
-            'source': 'key_mode',
-          },
-        );
-        cubit.setPitchByTargetKey(value);
-      },
-    );
+    final parts = [
+      if (pitchSemitones != 0) '${_signed(pitchSemitones)} st',
+      if (fineTuneCents != 0) '${_signed(fineTuneCents)} ct',
+    ];
+    if (parts.isEmpty) return currentKey;
+    return '$currentKey (${parts.join(' ')})';
   }
 
-  /// "Cm (+3)" — key plus the semitone offset that produced it.
-  String _formatCurrentKey(String currentKey, int pitchSemitones) {
-    if (pitchSemitones == 0) return currentKey;
-    final sign = pitchSemitones > 0 ? '+' : '−';
-    return '$currentKey ($sign${pitchSemitones.abs()})';
-  }
+  String _signed(int value) =>
+      value > 0 ? '+$value' : '−${-value}';
 
   void _onSetOriginalKey(BuildContext context, String? key) {
     if (key == null) return;
@@ -226,21 +177,6 @@ class _PitchControlKeyModeState extends State<PitchControlKeyMode> {
       data: {'key': key, 'source': 'key_mode'},
     );
     context.read<SongCubit>().setOriginalKey(key);
-  }
-
-  Future<void> _showPremiumDialog(BuildContext context) async {
-    if (_paywallShowing) return;
-    _paywallShowing = true;
-
-    try {
-      await context.read<PremiumSubscriptionCubit>().presentPaywall(
-        source: 'song_pitch',
-      );
-    } finally {
-      if (mounted) {
-        _paywallShowing = false;
-      }
-    }
   }
 
   Future<void> _showEditOriginalKeyDialog(
@@ -253,94 +189,8 @@ class _PitchControlKeyModeState extends State<PitchControlKeyMode> {
       context: context,
       builder: (dialogContext) => BlocProvider.value(
         value: cubit,
-        child: EditOriginalKeyDialog(currentOriginalKey: currentOriginalKey),
+        child: EditSongKeyDialog(currentOriginalKey: currentOriginalKey),
       ),
-    );
-  }
-}
-
-/// Dialog for editing the original key
-class EditOriginalKeyDialog extends StatefulWidget {
-  const EditOriginalKeyDialog({
-    required this.currentOriginalKey,
-    super.key,
-  });
-
-  final String currentOriginalKey;
-
-  @override
-  State<EditOriginalKeyDialog> createState() => _EditOriginalKeyDialogState();
-}
-
-class _EditOriginalKeyDialogState extends State<EditOriginalKeyDialog> {
-  late String _selectedKey;
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedKey =
-        MusicalKey.canonicalize(widget.currentOriginalKey) ??
-            MusicalKey.allKeys.first;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(context.l10n.originalKey),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          DropdownButtonFormField<String>(
-            initialValue: _selectedKey,
-            items: MusicalKey.allKeys
-                .map(
-                  (key) => DropdownMenuItem(
-                    value: key,
-                    child: Text(MusicalKey.displayLabel(key)),
-                  ),
-                )
-                .toList(),
-            onChanged: (value) {
-              if (value != null) {
-                setState(() => _selectedKey = value);
-              }
-            },
-          ),
-          const SizedBox(height: 16),
-          // Option to clear the key
-          TextButton(
-            onPressed: () {
-              AppAnalytics.trackEvent(
-                AppAnalytics.clickSetOriginalKey,
-                data: {'source': 'reset'},
-              );
-              Navigator.of(context).pop();
-              context.read<SongCubit>().setOriginalKey(null);
-            },
-            child: Text(
-              context.l10n.reset,
-              style: const TextStyle(color: AppColors.error),
-            ),
-          ),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text(context.l10n.cancel),
-        ),
-        PrimaryButton(
-          text: context.l10n.setBpm,
-          onPressed: () {
-            AppAnalytics.trackEvent(
-              AppAnalytics.clickSetOriginalKey,
-              data: {'key': _selectedKey, 'source': 'edit_dialog'},
-            );
-            context.read<SongCubit>().setOriginalKey(_selectedKey);
-            Navigator.of(context).pop();
-          },
-        ),
-      ],
     );
   }
 }
