@@ -5,7 +5,6 @@ import 'package:repeatlab/core/ui/interaction/custom_slider.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
-import 'package:repeatlab/features/pitch_control/util/concert_pitch.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
@@ -138,24 +137,24 @@ class _FineTuneReadout extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Text(
-            // Once engaged, the useful number is what the player should tune
-            // their instrument to — not a restatement of what the slider does.
-            engaged
-                ? context.l10n.fineTuneReference(
-                    concertPitchHz(cents).toStringAsFixed(1),
-                  )
-                : context.l10n.fineTuneHint,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.right,
-            style: context.labelSmall.copyWith(
-              color: AppColors.onSurfaceVariant,
-            ),
-          ),
-        ),
+        // const SizedBox(width: 8),
+        // Expanded(
+        //   child: Text(
+        //     // Once engaged, the useful number is what the player should tune
+        //     // their instrument to — not a restatement of what the slider does.
+        //     engaged
+        //         ? context.l10n.fineTuneReference(
+        //             concertPitchHz(cents).toStringAsFixed(1),
+        //           )
+        //         : context.l10n.fineTuneHint,
+        //     maxLines: 1,
+        //     overflow: TextOverflow.ellipsis,
+        //     textAlign: TextAlign.right,
+        //     style: context.labelSmall.copyWith(
+        //       color: AppColors.onSurfaceVariant,
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

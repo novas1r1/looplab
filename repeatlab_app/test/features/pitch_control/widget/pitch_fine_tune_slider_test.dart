@@ -68,25 +68,18 @@ void main() {
   }
 
   group('PitchFineTuneSlider', () {
-    testWidgets('idle shows 0 ct and the explanatory hint', (tester) async {
+    testWidgets('idle reads 0 ct', (tester) async {
       await pumpSlider(tester, fineTuneCents: 0);
 
       expect(find.text('Fine tune'), findsOneWidget);
       expect(find.text('0 ct'), findsOneWidget);
-      expect(find.text('Match a slightly off-pitch record'), findsOneWidget);
     });
 
-    testWidgets(
-      'engaged swaps the hint for the concert pitch to tune to',
-      (tester) async {
-        await pumpSlider(tester, fineTuneCents: 18);
+    testWidgets('engaged reads the signed cent value', (tester) async {
+      await pumpSlider(tester, fineTuneCents: 18);
 
-        expect(find.text('+18 ct'), findsOneWidget);
-        // 440 * 2^(18/1200) = 444.6 — what the player sets their tuner to.
-        expect(find.text('tune to A ≈ 444.6 Hz'), findsOneWidget);
-        expect(find.text('Match a slightly off-pitch record'), findsNothing);
-      },
-    );
+      expect(find.text('+18 ct'), findsOneWidget);
+    });
 
     testWidgets('negative cents use a real minus sign', (tester) async {
       await pumpSlider(tester, fineTuneCents: -25);

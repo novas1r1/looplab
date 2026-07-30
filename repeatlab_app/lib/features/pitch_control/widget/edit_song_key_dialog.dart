@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/ui/interaction/primary_button.dart';
+import 'package:repeatlab/core/ui/widgets/app_icon.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/features/pitch_control/widget/set_song_key_panel.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
@@ -30,7 +31,40 @@ class _EditSongKeyDialogState extends State<EditSongKeyDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(context.l10n.originalKey),
+      // Clearing the key is a third, destructive path that does not belong
+      // beside Cancel/Save — it sits in the title row so the action row reads
+      // as the plain either/or it is.
+      title: Row(
+        children: [
+          Expanded(
+            child: Text(
+              context.l10n.originalKey,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          IconButton(
+            key: const Key('song.pitch.keyClear'),
+            tooltip: context.l10n.reset,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(minWidth: 40, minHeight: 40),
+            onPressed: () {
+              AppAnalytics.trackEvent(
+                AppAnalytics.clickSetOriginalKey,
+                data: {'source': 'reset'},
+              );
+              Navigator.of(context).pop();
+              context.read<SongCubit>().setOriginalKey(null);
+            },
+            icon: const AppIcon(
+              iconName: 'ic_refresh',
+              iconSize: 22,
+              containerSize: 22,
+              color: AppColors.error,
+            ),
+          ),
+        ],
+      ),
       content: SingleChildScrollView(
         child: SetSongKeyPanel(
           initialKey: widget.currentOriginalKey,
@@ -39,21 +73,6 @@ class _EditSongKeyDialogState extends State<EditSongKeyDialog> {
         ),
       ),
       actions: [
-        TextButton(
-          key: const Key('song.pitch.keyClear'),
-          onPressed: () {
-            AppAnalytics.trackEvent(
-              AppAnalytics.clickSetOriginalKey,
-              data: {'source': 'reset'},
-            );
-            Navigator.of(context).pop();
-            context.read<SongCubit>().setOriginalKey(null);
-          },
-          child: Text(
-            context.l10n.reset,
-            style: const TextStyle(color: AppColors.error),
-          ),
-        ),
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
           child: Text(context.l10n.cancel),
