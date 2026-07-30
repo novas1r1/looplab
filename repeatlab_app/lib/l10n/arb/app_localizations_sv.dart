@@ -1092,6 +1092,12 @@ class AppLocalizationsSv extends AppLocalizations {
   String get loops => 'Loopar';
 
   @override
+  String get noLoopsCreatedYet => 'Inga loopar skapade än';
+
+  @override
+  String get tapToCreateFirstLoop => 'Tryck för att skapa din första loop';
+
+  @override
   String get songSettings => 'Låtinställningar';
 
   @override

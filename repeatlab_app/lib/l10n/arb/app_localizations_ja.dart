@@ -1056,6 +1056,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get loops => 'ループ';
 
   @override
+  String get noLoopsCreatedYet => 'ループがまだありません';
+
+  @override
+  String get tapToCreateFirstLoop => 'タップして最初のループを作成';
+
+  @override
   String get songSettings => '曲の設定';
 
   @override

@@ -1097,6 +1097,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get loops => 'Döngüler';
 
   @override
+  String get noLoopsCreatedYet => 'Henüz döngü oluşturulmadı';
+
+  @override
+  String get tapToCreateFirstLoop => 'İlk döngünü oluşturmak için dokun';
+
+  @override
   String get songSettings => 'Şarkı Ayarları';
 
   @override

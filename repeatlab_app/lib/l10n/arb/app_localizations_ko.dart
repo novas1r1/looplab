@@ -1054,6 +1054,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get loops => '루프';
 
   @override
+  String get noLoopsCreatedYet => '아직 생성된 루프가 없습니다';
+
+  @override
+  String get tapToCreateFirstLoop => '탭하여 첫 번째 루프를 만드세요';
+
+  @override
   String get songSettings => '곡 설정';
 
   @override

@@ -1097,6 +1097,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get loops => 'Loops';
 
   @override
+  String get noLoopsCreatedYet => 'Noch keine Loops erstellt';
+
+  @override
+  String get tapToCreateFirstLoop =>
+      'Tippen, um deinen ersten Loop zu erstellen';
+
+  @override
   String get songSettings => 'Song-Einstellungen';
 
   @override

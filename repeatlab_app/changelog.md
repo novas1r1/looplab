@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **Seamless loop playback (Android).** Loop wraps now use a native ExoPlayer loop region (`AudioPlayer.setLoopRegion`) so the engine handles the boundary itself, eliminating the audible gap/click on re-entry. A predictive Dart-side wrap (fast-path seek scheduled to fire exactly at the loop boundary) remains the fallback on iOS, for video, and if the native call fails for any reason.
+- **Empty state for the song page's loop list.** A song with no loops now shows "No loops created yet" / "Tap to create your first loop" (the whole text block is tappable and runs the same add-loop flow as the FAB, paywall check included), instead of a blank area. Translated into all 16 supported locales.
 - **Automatic cleanup of deleted media files.** Deleting a song, deleting a loop's song, or clearing the library now also deletes the underlying audio/video file from disk (unless another song still references it), instead of leaving it orphaned forever. A one-time startup sweep reclaims files left behind by past deletions. Both are guarded against an in-flight library backup export/import so cleanup never races a file the backup is reading or writing.
 
 ### Fixed

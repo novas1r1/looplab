@@ -586,6 +586,8 @@
     "originalBpm": "ORIGINAL BPM",
     "currentBpm": "CURRENT BPM",
     "loops": "Loops",
+    "noLoopsCreatedYet": "No loops created yet",
+    "tapToCreateFirstLoop": "Tap to create your first loop",
     "songSettings": "Song Settings",
     "playbackSettings": "Playback",
     "autoPlayOnLoopSelect": "Auto-play Loops",

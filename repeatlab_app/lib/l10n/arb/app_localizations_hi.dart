@@ -1093,6 +1093,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String get loops => 'लूप';
 
   @override
+  String get noLoopsCreatedYet => 'अभी तक कोई लूप नहीं बनाया गया';
+
+  @override
+  String get tapToCreateFirstLoop => 'अपना पहला लूप बनाने के लिए टैप करें';
+
+  @override
   String get songSettings => 'गीत सेटिंग्स';
 
   @override

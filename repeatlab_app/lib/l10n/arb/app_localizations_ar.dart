@@ -1085,6 +1085,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get loops => 'الحلقات';
 
   @override
+  String get noLoopsCreatedYet => 'لم يتم إنشاء أي حلقات بعد';
+
+  @override
+  String get tapToCreateFirstLoop => 'اضغط لإنشاء أول حلقة';
+
+  @override
   String get songSettings => 'إعدادات الأغنية';
 
   @override

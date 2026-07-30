@@ -2028,6 +2028,18 @@ abstract class AppLocalizations {
   /// **'Loops'**
   String get loops;
 
+  /// No description provided for @noLoopsCreatedYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No loops created yet'**
+  String get noLoopsCreatedYet;
+
+  /// No description provided for @tapToCreateFirstLoop.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to create your first loop'**
+  String get tapToCreateFirstLoop;
+
   /// No description provided for @songSettings.
   ///
   /// In en, this message translates to:

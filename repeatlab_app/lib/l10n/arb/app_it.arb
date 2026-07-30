@@ -370,6 +370,8 @@
     "tapBpmDialogDescription": "Toca il pulsante qui sotto in ritmo con la tua musica per rilevare il BPM.",
     "tapBpmDialogButton": "Tocca BPM",
     "loops": "Loops",
+    "noLoopsCreatedYet": "Nessun loop creato",
+    "tapToCreateFirstLoop": "Tocca per creare il tuo primo loop",
     "autoPlayOnLoopSelect": "Riproduci Loops automaticamente",
     "autoPlayOnLoopSelectDescription": "Riproduce i loop automaticamente quando selezioni un loop o navighi al loop successivo o precedente",
     "songSettings": "Impostazioni della Canzone",

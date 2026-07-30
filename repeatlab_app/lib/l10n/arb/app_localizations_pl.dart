@@ -1094,6 +1094,12 @@ class AppLocalizationsPl extends AppLocalizations {
   String get loops => 'Pętle';
 
   @override
+  String get noLoopsCreatedYet => 'Nie utworzono jeszcze żadnych pętli';
+
+  @override
+  String get tapToCreateFirstLoop => 'Dotknij, aby utworzyć pierwszą pętlę';
+
+  @override
   String get songSettings => 'Ustawienia utworu';
 
   @override
