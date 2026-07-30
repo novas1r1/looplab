@@ -8,6 +8,10 @@ import 'package:repeatlab/core/utils/musical_key.dart';
 /// Presentation only — it holds no cubit and knows nothing about pitch, so it
 /// serves both the transposition grid (with offset badges) and the set-song-key
 /// picker (without).
+///
+/// Built from plain rows rather than a [GridView]: a lazy viewport buys nothing
+/// for twelve fixed cells, and it cannot report intrinsic dimensions, which
+/// breaks the moment the grid is placed inside an [AlertDialog].
 class KeyGrid extends StatelessWidget {
   const KeyGrid({
     super.key,
@@ -31,22 +35,37 @@ class KeyGrid extends StatelessWidget {
 
   final ValueChanged<String> onSelected;
 
+  static const int _columns = 4;
+
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: 4,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      mainAxisSpacing: 6,
-      crossAxisSpacing: 6,
-      childAspectRatio: badgeBuilder == null ? 1.8 : 1.4,
+    final rows = <List<String>>[
+      for (var i = 0; i < keys.length; i += _columns)
+        keys.sublist(i, (i + _columns).clamp(0, keys.length)),
+    ];
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      spacing: 6,
       children: [
-        for (final key in keys)
-          _KeyGridCell(
-            musicalKey: key,
-            badge: badgeBuilder?.call(key),
-            isSelected: key == selectedKey,
-            onTap: () => onSelected(key),
+        for (final row in rows)
+          Row(
+            spacing: 6,
+            children: [
+              for (final key in row)
+                Expanded(
+                  child: _KeyGridCell(
+                    musicalKey: key,
+                    badge: badgeBuilder?.call(key),
+                    isSelected: key == selectedKey,
+                    onTap: () => onSelected(key),
+                  ),
+                ),
+              // Keep the last row's cells the same width as the rest when the
+              // key count is not a multiple of the column count.
+              for (var i = row.length; i < _columns; i++)
+                const Expanded(child: SizedBox.shrink()),
+            ],
           ),
       ],
     );
@@ -82,7 +101,7 @@ class _KeyGridCell extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(10),
         child: Container(
-          constraints: const BoxConstraints(minHeight: 40),
+          height: badge == null ? 44 : 52,
           alignment: Alignment.center,
           child: Column(
             mainAxisSize: MainAxisSize.min,
