@@ -172,6 +172,58 @@ void main() {
         expect(decoded.pitchSemitones, 0);
       });
     });
+
+    group('fine tune state', () {
+      test('defaults to 0 cents', () {
+        const state = SongState(song: MockData.songMedium);
+        expect(state.fineTuneCents, 0);
+        expect(MockData.songMedium.fineTuneCents, 0);
+      });
+
+      test('copyWith updates fineTuneCents on state and song', () {
+        const state = SongState(song: MockData.songMedium);
+
+        final newState = state.copyWith(
+          fineTuneCents: 18,
+          song: state.song.copyWith(fineTuneCents: 18),
+        );
+
+        expect(newState.fineTuneCents, 18);
+        expect(newState.song.fineTuneCents, 18);
+        // The semitone axis is independent
+        expect(newState.pitchSemitones, 0);
+      });
+
+      test('song decoded from a map without fineTuneCents defaults to 0', () {
+        final map = MockData.songMedium.toMap()..remove('fineTuneCents');
+        final decoded = SongMapper.fromMap(map);
+        expect(decoded.fineTuneCents, 0);
+      });
+
+      test('totalPitchCents combines both axes', () {
+        const state = SongState(song: MockData.songMedium);
+
+        expect(state.totalPitchCents, 0);
+        expect(
+          state.copyWith(pitchSemitones: 3, fineTuneCents: 18).totalPitchCents,
+          318,
+        );
+        expect(
+          state
+              .copyWith(pitchSemitones: -3, fineTuneCents: -25)
+              .totalPitchCents,
+          -325,
+        );
+        // A cents-only offset must produce a non-zero total, otherwise the
+        // reapply guards would treat the song as untransposed.
+        expect(state.copyWith(fineTuneCents: 20).totalPitchCents, 20);
+        // Mixed signs: 1 semitone up, 30 cents down.
+        expect(
+          state.copyWith(pitchSemitones: 1, fineTuneCents: -30).totalPitchCents,
+          70,
+        );
+      });
+    });
   });
 
   group('SongState edge cases', () {
@@ -341,6 +393,173 @@ void main() {
         () => mockCrashReportingRepository.reportError(any(), any()),
       ).called(1);
     });
+  });
+
+  group('pitch and fine tune (video songs)', () {
+    late MockMediaPlayerHandler mockHandler;
+
+    // Video songs report isPitchControlSupported on every platform, so these
+    // tests run on the Windows/CI host without needing Android or iOS.
+    SongCubit buildCubit({int pitchSemitones = 0, int fineTuneCents = 0}) {
+      final cubit = SongCubit(
+        song: MockData.songMedium.copyWith(
+          mediaType: MediaType.video,
+          pitchSemitones: pitchSemitones,
+          fineTuneCents: fineTuneCents,
+        ),
+        songRepository: mockSongRepository,
+        localConfigRepository: mockLocalConfigRepository,
+        crashReportingRepository: mockCrashReportingRepository,
+      )..debugSetAudioHandler(mockHandler);
+      return cubit;
+    }
+
+    setUp(() {
+      mockHandler = MockMediaPlayerHandler();
+
+      when(() => mockHandler.seekEvents).thenAnswer(
+        (_) => const Stream<Duration>.empty(),
+      );
+      when(
+        () => mockHandler.setPitchCents(any()),
+      ).thenAnswer((_) async => true);
+      when(
+        () => mockHandler.playSong(any(), autoStart: any(named: 'autoStart')),
+      ).thenAnswer((_) async {});
+      when(() => mockHandler.currentPitchCents).thenReturn(0);
+      when(
+        () => mockSongRepository.updateSong(any()),
+      ).thenAnswer((_) async {});
+    });
+
+    test('setFineTuneCents applies and persists the cents offset', () async {
+      final cubit = buildCubit();
+
+      expect(await cubit.setFineTuneCents(18), isTrue);
+
+      verify(() => mockHandler.setPitchCents(18)).called(1);
+      expect(cubit.state.fineTuneCents, 18);
+      expect(cubit.state.song.fineTuneCents, 18);
+      // The semitone axis is untouched
+      expect(cubit.state.pitchSemitones, 0);
+    });
+
+    test('setFineTuneCents clamps to the +/-50 cent range', () async {
+      final cubit = buildCubit();
+
+      await cubit.setFineTuneCents(200);
+      expect(cubit.state.fineTuneCents, 50);
+
+      await cubit.setFineTuneCents(-200);
+      expect(cubit.state.fineTuneCents, -50);
+    });
+
+    test('setFineTuneCents combines with an existing transposition', () async {
+      final cubit = buildCubit();
+
+      await cubit.setPitchSemitones(3);
+      await cubit.setFineTuneCents(18);
+
+      // 3 semitones + 18 cents reaches the handler as one total.
+      verify(() => mockHandler.setPitchCents(318)).called(1);
+      expect(cubit.state.pitchSemitones, 3);
+      expect(cubit.state.fineTuneCents, 18);
+    });
+
+    test('setPitchSemitones preserves the fine tune', () async {
+      final cubit = buildCubit();
+
+      await cubit.setFineTuneCents(-25);
+      await cubit.setPitchSemitones(-2);
+
+      verify(() => mockHandler.setPitchCents(-225)).called(1);
+      expect(cubit.state.fineTuneCents, -25);
+    });
+
+    test('resetPitch zeroes both axes', () async {
+      final cubit = buildCubit();
+
+      await cubit.setPitchSemitones(4);
+      await cubit.setFineTuneCents(30);
+
+      expect(await cubit.resetPitch(), isTrue);
+
+      verify(() => mockHandler.setPitchCents(0)).called(1);
+      expect(cubit.state.pitchSemitones, 0);
+      expect(cubit.state.fineTuneCents, 0);
+      expect(cubit.state.song.fineTuneCents, 0);
+    });
+
+    test(
+      'a failed pitch change reverts to the previous semitones and cents',
+      () async {
+        final cubit = buildCubit();
+
+        await cubit.setPitchSemitones(3);
+        await cubit.setFineTuneCents(18);
+
+        when(
+          () => mockHandler.setPitchCents(any()),
+        ).thenAnswer((_) async => false);
+
+        expect(await cubit.setPitchSemitones(7), isFalse);
+
+        // Reverted to the captured pre-call values, not derived by splitting
+        // the handler's combined total.
+        expect(cubit.state.status, SongStatus.pitchChangeFailed);
+        expect(cubit.state.pitchSemitones, 3);
+        expect(cubit.state.fineTuneCents, 18);
+      },
+    );
+
+    test('setOriginalKey zeroes the transposition but keeps the fine tune', () async {
+      final cubit = buildCubit(pitchSemitones: 5, fineTuneCents: 18);
+
+      await cubit.setOriginalKey('Am');
+
+      // Fine tune compensates for the recording, not the reference key.
+      verify(() => mockHandler.setPitchCents(18)).called(1);
+      expect(cubit.state.song.pitchSemitones, 0);
+      expect(cubit.state.song.fineTuneCents, 18);
+      expect(cubit.state.song.musicalKey, 'Am');
+
+      final persisted = verify(
+        () => mockSongRepository.updateSong(captureAny()),
+      ).captured.last as Song;
+      expect(persisted.pitchSemitones, 0);
+      expect(persisted.fineTuneCents, 18);
+    });
+
+    test(
+      'a cents-only offset is reapplied after a song reload',
+      () async {
+        final cubit = buildCubit();
+
+        // No transposition at all — only fine tune. The old guard tested
+        // pitchSemitones alone and would have skipped the reapply entirely,
+        // silently dropping the tuning on every stop/play cycle.
+        await cubit.setFineTuneCents(20);
+        expect(cubit.state.pitchSemitones, 0);
+        clearInteractions(mockHandler);
+
+        when(() => mockHandler.seekEvents).thenAnswer(
+          (_) => const Stream<Duration>.empty(),
+        );
+        when(
+          () => mockHandler.setPitchCents(any()),
+        ).thenAnswer((_) async => true);
+        when(
+          () => mockHandler.playSong(any(), autoStart: any(named: 'autoStart')),
+        ).thenAnswer((_) async {});
+
+        // playerState is null, so this takes the reinitialize branch that
+        // resets pitch in the handler and then reapplies it.
+        await cubit.togglePlaySong();
+
+        verify(() => mockHandler.setPitchCents(20)).called(1);
+        expect(cubit.state.fineTuneCents, 20);
+      },
+    );
   });
 
   group('metronome (live path, video songs)', () {

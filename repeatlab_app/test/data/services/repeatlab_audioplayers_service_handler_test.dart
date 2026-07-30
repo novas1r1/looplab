@@ -541,7 +541,7 @@ void main() {
     });
   });
 
-  test('setPitchSemitones clamps and sends the semitone multiplier', () async {
+  test('setPitchCents clamps and sends the cents multiplier', () async {
     final handler = RepeatlabAudioplayersServiceHandler(
       audioPlayer: audioPlayer,
     );
@@ -552,36 +552,69 @@ void main() {
       sent.add(invocation.positionalArguments.first as double);
     });
 
-    expect(await handler.setPitchSemitones(12), isTrue);
-    expect(await handler.setPitchSemitones(-12), isTrue);
-    expect(await handler.setPitchSemitones(0), isTrue);
-    expect(await handler.setPitchSemitones(30), isTrue); // clamps to +12
-    expect(handler.currentPitchSemitones, 12);
+    expect(await handler.setPitchCents(1200), isTrue);
+    expect(await handler.setPitchCents(-1200), isTrue);
+    expect(await handler.setPitchCents(0), isTrue);
+    expect(await handler.setPitchCents(3000), isTrue); // clamps to +1250
+    expect(handler.currentPitchCents, 1250);
 
     expect(sent, hasLength(4));
     expect(sent[0], closeTo(2.0, 0.0001));
     expect(sent[1], closeTo(0.5, 0.0001));
     expect(sent[2], closeTo(1.0, 0.0001));
-    expect(sent[3], closeTo(2.0, 0.0001));
+    expect(sent[3], closeTo(2.0586, 0.001)); // 2^(1250/1200)
+  });
+
+  test('setPitchCents clamps at the negative bound', () async {
+    final handler = RepeatlabAudioplayersServiceHandler(
+      audioPlayer: audioPlayer,
+    );
+    addTearDown(handler.close);
+
+    final sent = <double>[];
+    when(() => audioPlayer.setPitchShift(any())).thenAnswer((invocation) async {
+      sent.add(invocation.positionalArguments.first as double);
+    });
+
+    expect(await handler.setPitchCents(-1300), isTrue);
+    expect(handler.currentPitchCents, -1250);
+    expect(sent.single, closeTo(0.4858, 0.001)); // 2^(-1250/1200)
+  });
+
+  test('setPitchCents applies a combined semitone and fine-tune offset', () async {
+    final handler = RepeatlabAudioplayersServiceHandler(
+      audioPlayer: audioPlayer,
+    );
+    addTearDown(handler.close);
+
+    final sent = <double>[];
+    when(() => audioPlayer.setPitchShift(any())).thenAnswer((invocation) async {
+      sent.add(invocation.positionalArguments.first as double);
+    });
+
+    // +3 semitones and +18 cents of fine tune arrive as one ratio.
+    expect(await handler.setPitchCents(318), isTrue);
+    expect(handler.currentPitchCents, 318);
+    expect(sent.single, closeTo(1.2013, 0.001)); // 2^(318/1200)
   });
 
   test(
-    'setPitchSemitones returns false and keeps state when platform throws',
+    'setPitchCents returns false and keeps state when platform throws',
     () async {
       final handler = RepeatlabAudioplayersServiceHandler(
         audioPlayer: audioPlayer,
       );
       addTearDown(handler.close);
 
-      await handler.setPitchSemitones(5);
-      expect(handler.currentPitchSemitones, 5);
+      await handler.setPitchCents(500);
+      expect(handler.currentPitchCents, 500);
 
       when(
         () => audioPlayer.setPitchShift(any()),
       ).thenThrow(UnsupportedError('not supported'));
 
-      expect(await handler.setPitchSemitones(-3), isFalse);
-      expect(handler.currentPitchSemitones, 5);
+      expect(await handler.setPitchCents(-300), isFalse);
+      expect(handler.currentPitchCents, 500);
     },
   );
 
@@ -594,7 +627,7 @@ void main() {
       addTearDown(handler.close);
 
       handler.debugSetCurrentSource(DeviceFileSource('sample.mp3'));
-      await handler.setPitchSemitones(7);
+      await handler.setPitchCents(700);
 
       when(() => audioPlayer.state).thenReturn(PlayerState.completed);
       when(
@@ -615,7 +648,7 @@ void main() {
 
       verify(() => audioPlayer.setSource(any<Source>())).called(1);
       expect(sent, hasLength(1));
-      expect(sent.single, closeTo(1.4983, 0.001)); // 2^(7/12)
+      expect(sent.single, closeTo(1.4983, 0.001)); // 2^(700/1200)
     },
   );
 
@@ -625,8 +658,8 @@ void main() {
     );
     addTearDown(handler.close);
 
-    await handler.setPitchSemitones(4);
-    expect(handler.currentPitchSemitones, 4);
+    await handler.setPitchCents(400);
+    expect(handler.currentPitchCents, 400);
 
     final sent = <double>[];
     when(() => audioPlayer.setPitchShift(any())).thenAnswer((invocation) async {
@@ -644,7 +677,7 @@ void main() {
       autoStart: false,
     );
 
-    expect(handler.currentPitchSemitones, 0);
+    expect(handler.currentPitchCents, 0);
     expect(sent.single, closeTo(1.0, 0.0001));
   });
 

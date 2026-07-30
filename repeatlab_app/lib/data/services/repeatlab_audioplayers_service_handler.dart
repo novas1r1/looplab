@@ -26,8 +26,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
   static const double _minPlaybackSpeed = 0.5;
   static const double _maxPlaybackSpeed = 2.0;
 
-  static const int _minPitchSemitones = -12;
-  static const int _maxPitchSemitones = 12;
+  /// ±12 semitones plus ±50 cents of fine tune, expressed as one cents total.
+  static const int _minPitchCents = -1250;
+  static const int _maxPitchCents = 1250;
 
   /// Double-tap detection threshold for skip previous
   static const Duration _doubleTapThreshold = Duration(milliseconds: 400);
@@ -96,7 +97,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
   Future<void>? _seekQueue;
   Source? _currentSource;
   double _playbackSpeed = 1.0;
-  int _pitchSemitones = 0;
+  int _pitchCents = 0;
   bool _loopSeekInProgress = false;
 
   RepeatlabAudioplayersServiceHandler({required this.audioPlayer}) {
@@ -267,7 +268,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
       // Reset pitch: the native Signalsmith processor survives source changes,
       // so a previous song's pitch would leak into the next song otherwise.
       // The cubit reapplies the persisted per-song pitch afterwards.
-      _pitchSemitones = 0;
+      _pitchCents = 0;
       // Same for the native click processor: clear its grid so a new song
       // never inherits the previous song's clicks. The cubit re-sends the
       // config when the metronome is (re)enabled. Implemented on Android and
@@ -664,18 +665,18 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     return success;
   }
 
-  /// Returns the currently applied pitch shift in semitones
+  /// Returns the currently applied total pitch offset in cents
   @override
-  int get currentPitchSemitones => _pitchSemitones;
+  int get currentPitchCents => _pitchCents;
 
   @override
-  Future<bool> setPitchSemitones(int semitones) async {
-    final target = semitones.clamp(_minPitchSemitones, _maxPitchSemitones);
-    log('setPitchSemitones: $target');
+  Future<bool> setPitchCents(int totalCents) async {
+    final target = totalCents.clamp(_minPitchCents, _maxPitchCents);
+    log('setPitchCents: $target');
 
     try {
-      await audioPlayer.setPitchShift(_pitchMultiplierForSemitones(target));
-      _pitchSemitones = target;
+      await audioPlayer.setPitchShift(_pitchMultiplierForCents(target));
+      _pitchCents = target;
       return true;
     } catch (e) {
       log('Failed to set pitch shift: $e');
@@ -683,8 +684,8 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     }
   }
 
-  double _pitchMultiplierForSemitones(int semitones) =>
-      pow(2.0, semitones / 12.0).toDouble();
+  double _pitchMultiplierForCents(int cents) =>
+      pow(2.0, cents / 1200.0).toDouble();
 
   /// Reapplies the current pitch shift, swallowing platform errors (native
   /// pitch is implemented on Android and iOS; on any platform without it,
@@ -692,7 +693,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
   Future<void> _applyPitchShiftSafely() async {
     try {
       await audioPlayer.setPitchShift(
-        _pitchMultiplierForSemitones(_pitchSemitones),
+        _pitchMultiplierForCents(_pitchCents),
       );
     } catch (e) {
       log('Failed to apply pitch shift: $e');
@@ -713,12 +714,6 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
         await pause();
 
         await disableLoopMode();
-        return;
-      case 'setPitch':
-        if (extras != null && extras['semitones'] != null) {
-          final semitones = extras['semitones'] as int;
-          await setPitchSemitones(semitones);
-        }
         return;
       case 'setLoops':
         if (extras != null && extras['loops'] != null) {

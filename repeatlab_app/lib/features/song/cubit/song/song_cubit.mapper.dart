@@ -362,6 +362,13 @@ class SongStateMapper extends ClassMapperBase<SongState> {
     opt: true,
     def: 0,
   );
+  static int _$fineTuneCents(SongState v) => v.fineTuneCents;
+  static const Field<SongState, int> _f$fineTuneCents = Field(
+    'fineTuneCents',
+    _$fineTuneCents,
+    opt: true,
+    def: 0,
+  );
   static PitchMode _$pitchMode(SongState v) => v.pitchMode;
   static const Field<SongState, PitchMode> _f$pitchMode = Field(
     'pitchMode',
@@ -418,6 +425,7 @@ class SongStateMapper extends ClassMapperBase<SongState> {
     #minBpm: _f$minBpm,
     #maxBpm: _f$maxBpm,
     #pitchSemitones: _f$pitchSemitones,
+    #fineTuneCents: _f$fineTuneCents,
     #pitchMode: _f$pitchMode,
     #isMetronomeEnabled: _f$isMetronomeEnabled,
     #metronomeVolume: _f$metronomeVolume,
@@ -443,6 +451,7 @@ class SongStateMapper extends ClassMapperBase<SongState> {
       minBpm: data.dec(_f$minBpm),
       maxBpm: data.dec(_f$maxBpm),
       pitchSemitones: data.dec(_f$pitchSemitones),
+      fineTuneCents: data.dec(_f$fineTuneCents),
       pitchMode: data.dec(_f$pitchMode),
       isMetronomeEnabled: data.dec(_f$isMetronomeEnabled),
       metronomeVolume: data.dec(_f$metronomeVolume),
@@ -529,6 +538,7 @@ abstract class SongStateCopyWith<$R, $In extends SongState, $Out>
     int? minBpm,
     int? maxBpm,
     int? pitchSemitones,
+    int? fineTuneCents,
     PitchMode? pitchMode,
     bool? isMetronomeEnabled,
     double? metronomeVolume,
@@ -570,6 +580,7 @@ class _SongStateCopyWithImpl<$R, $Out>
     Object? minBpm = $none,
     Object? maxBpm = $none,
     int? pitchSemitones,
+    int? fineTuneCents,
     PitchMode? pitchMode,
     bool? isMetronomeEnabled,
     double? metronomeVolume,
@@ -595,6 +606,7 @@ class _SongStateCopyWithImpl<$R, $Out>
       if (minBpm != $none) #minBpm: minBpm,
       if (maxBpm != $none) #maxBpm: maxBpm,
       if (pitchSemitones != null) #pitchSemitones: pitchSemitones,
+      if (fineTuneCents != null) #fineTuneCents: fineTuneCents,
       if (pitchMode != null) #pitchMode: pitchMode,
       if (isMetronomeEnabled != null) #isMetronomeEnabled: isMetronomeEnabled,
       if (metronomeVolume != null) #metronomeVolume: metronomeVolume,
@@ -633,6 +645,7 @@ class _SongStateCopyWithImpl<$R, $Out>
     minBpm: data.get(#minBpm, or: $value.minBpm),
     maxBpm: data.get(#maxBpm, or: $value.maxBpm),
     pitchSemitones: data.get(#pitchSemitones, or: $value.pitchSemitones),
+    fineTuneCents: data.get(#fineTuneCents, or: $value.fineTuneCents),
     pitchMode: data.get(#pitchMode, or: $value.pitchMode),
     isMetronomeEnabled: data.get(
       #isMetronomeEnabled,

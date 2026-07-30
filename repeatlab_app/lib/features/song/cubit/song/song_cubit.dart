@@ -412,14 +412,23 @@ class SongCubit extends Cubit<SongState> {
 
       // Restore the persisted per-song pitch (unlike speed, pitch survives
       // song reopen). If the platform rejects it, stay at 0.
+      // Both axes are checked as one total: a song with no transposition but a
+      // non-zero fine tune must still be reapplied.
       var appliedPitch = 0;
+      var appliedCents = 0;
       final persistedPitch = state.song.pitchSemitones.clamp(
         minPitchSemitones,
         maxPitchSemitones,
       );
-      if (persistedPitch != 0 && isPitchControlSupported) {
-        if (await audioHandler.setPitchSemitones(persistedPitch)) {
+      final persistedCents = state.song.fineTuneCents.clamp(
+        minFineTuneCents,
+        maxFineTuneCents,
+      );
+      final persistedTotal = persistedPitch * 100 + persistedCents;
+      if (persistedTotal != 0 && isPitchControlSupported) {
+        if (await audioHandler.setPitchCents(persistedTotal)) {
           appliedPitch = persistedPitch;
+          appliedCents = persistedCents;
         }
       }
 
@@ -489,6 +498,7 @@ class SongCubit extends Cubit<SongState> {
           maxBpm: initialMaxBpm,
           // Pitch is restored from the song, unlike speed; the mode resets
           pitchSemitones: appliedPitch,
+          fineTuneCents: appliedCents,
           pitchMode: PitchMode.semitones,
           // Metronome always starts off; volume/subdivision are global prefs
           isMetronomeEnabled: false,
@@ -571,16 +581,19 @@ class SongCubit extends Cubit<SongState> {
   /// Reapplies the current pitch after the audio handler reset it to 0 in
   /// playSong (unlike speed, pitch should survive a song reload). Reverts the
   /// UI state to 0 if the platform rejects the change.
+  ///
+  /// Guards on the combined total, not on [SongState.pitchSemitones] alone —
+  /// a song tuned only by cents has no transposition to test.
   Future<void> _reapplyPitchAfterSongReload() async {
-    if (state.pitchSemitones == 0 || !isPitchControlSupported) return;
+    if (state.totalPitchCents == 0 || !isPitchControlSupported) return;
 
-    final success = await audioHandler.setPitchSemitones(state.pitchSemitones);
+    final success = await audioHandler.setPitchCents(state.totalPitchCents);
     if (!success) {
       dev.log(
         'Failed to reapply pitch after song reload, reverting to 0',
         name: 'SongCubit',
       );
-      emit(state.copyWith(pitchSemitones: 0));
+      emit(state.copyWith(pitchSemitones: 0, fineTuneCents: 0));
     }
   }
 
@@ -1101,6 +1114,7 @@ class SongCubit extends Cubit<SongState> {
         bpm: bpm,
         currentBpm: state.song.currentBpm,
         pitchSemitones: state.song.pitchSemitones,
+        fineTuneCents: state.song.fineTuneCents,
         musicalKey: musicalKey,
         loops: state.song.loops,
         loopSort: state.song.loopSort,
@@ -1921,6 +1935,7 @@ class SongCubit extends Cubit<SongState> {
         bpm: song.bpm,
         currentBpm: song.currentBpm,
         pitchSemitones: song.pitchSemitones,
+        fineTuneCents: song.fineTuneCents,
         musicalKey: song.musicalKey,
         loops: song.loops,
         loopSort: song.loopSort,
@@ -2236,6 +2251,12 @@ class SongCubit extends Cubit<SongState> {
   static const int minPitchSemitones = -12;
   static const int maxPitchSemitones = 12;
 
+  /// Fine tune range in cents. Half a semitone either way, which covers every
+  /// real off-pitch recording and tuning-reference difference (A=427..453);
+  /// anything beyond that is a semitone step instead.
+  static const int minFineTuneCents = -50;
+  static const int maxFineTuneCents = 50;
+
   /// Whether pitch shifting works for the current song on this platform:
   /// video → all platforms (media_kit/libmpv); audio → Android and iOS, both
   /// via a native Signalsmith processor in the audioplayers fork (an ExoPlayer
@@ -2247,24 +2268,61 @@ class SongCubit extends Cubit<SongState> {
       Platform.isIOS;
 
   /// Update the pitch shift in semitones (-12 to +12) and persist it on the
-  /// song. Returns true if the pitch was applied successfully.
-  Future<bool> setPitchSemitones(int semitones) async {
+  /// song, leaving the fine tune untouched. Returns true if the pitch was
+  /// applied successfully.
+  Future<bool> setPitchSemitones(int semitones) {
     dev.log('setPitchSemitones: $semitones', name: 'SongCubit');
+    return _applyPitch(semitones: semitones, cents: state.fineTuneCents);
+  }
+
+  /// Update the fine tune in cents (-50 to +50) and persist it on the song,
+  /// leaving the semitone transposition untouched. Returns true if the pitch
+  /// was applied successfully.
+  Future<bool> setFineTuneCents(int cents) {
+    dev.log('setFineTuneCents: $cents', name: 'SongCubit');
+    return _applyPitch(semitones: state.pitchSemitones, cents: cents);
+  }
+
+  /// Reset pitch to the original (no transposition, no fine tune)
+  Future<bool> resetPitch() {
+    dev.log('resetPitch', name: 'SongCubit');
+    return _applyPitch(semitones: 0, cents: 0);
+  }
+
+  /// Applies a transposition plus fine tune as a single cents total, then
+  /// persists both on the song. The split is a UI concern; the audio handler
+  /// only ever needs one ratio, so one native call covers both.
+  Future<bool> _applyPitch({
+    required int semitones,
+    required int cents,
+  }) async {
+    // Capture the pre-call values: on failure we revert to these rather than
+    // reading back the handler's combined total, which cannot be split into
+    // semitones and cents unambiguously (±50 ct is exactly half a semitone).
+    final previousSemitones = state.pitchSemitones;
+    final previousCents = state.fineTuneCents;
 
     try {
-      final target = semitones.clamp(minPitchSemitones, maxPitchSemitones);
+      final targetSemitones = semitones.clamp(
+        minPitchSemitones,
+        maxPitchSemitones,
+      );
+      final targetCents = cents.clamp(minFineTuneCents, maxFineTuneCents);
 
-      final success = await audioHandler.setPitchSemitones(target);
+      final success = await audioHandler.setPitchCents(
+        targetSemitones * 100 + targetCents,
+      );
 
       if (!success) {
         dev.log(
-          'Pitch change failed, reverting UI to actual pitch',
+          'Pitch change failed, reverting UI to the previous pitch',
           name: 'SongCubit',
         );
         emit(
           state.copyWith(
             status: SongStatus.pitchChangeFailed,
-            pitchSemitones: audioHandler.currentPitchSemitones,
+            pitchSemitones: previousSemitones,
+            fineTuneCents: previousCents,
             error: 'Pitch change failed. Please try again.',
           ),
         );
@@ -2275,7 +2333,10 @@ class SongCubit extends Cubit<SongState> {
       // the already-applied audio change — report it and keep the UI state.
       var updatedSong = state.song;
       try {
-        updatedSong = state.song.copyWith(pitchSemitones: target);
+        updatedSong = state.song.copyWith(
+          pitchSemitones: targetSemitones,
+          fineTuneCents: targetCents,
+        );
         await songRepository.updateSong(updatedSong);
       } catch (ex, stack) {
         unawaited(crashReportingRepository.reportError(ex, stack));
@@ -2286,7 +2347,8 @@ class SongCubit extends Cubit<SongState> {
         state.copyWith(
           status: SongStatus.updated,
           song: updatedSong,
-          pitchSemitones: target,
+          pitchSemitones: targetSemitones,
+          fineTuneCents: targetCents,
           error: null,
         ),
       );
@@ -2297,18 +2359,13 @@ class SongCubit extends Cubit<SongState> {
       emit(
         state.copyWith(
           status: SongStatus.pitchChangeFailed,
-          pitchSemitones: audioHandler.currentPitchSemitones,
+          pitchSemitones: previousSemitones,
+          fineTuneCents: previousCents,
           error: 'Pitch change failed. Please try again.',
         ),
       );
       return false;
     }
-  }
-
-  /// Reset pitch to the original (0 semitones)
-  Future<bool> resetPitch() {
-    dev.log('resetPitch', name: 'SongCubit');
-    return setPitchSemitones(0);
   }
 
   /// Switch between semitone mode and key mode (mirrors [setTempoMode])
@@ -2337,6 +2394,9 @@ class SongCubit extends Cubit<SongState> {
         bpm: state.song.bpm,
         currentBpm: state.song.currentBpm,
         pitchSemitones: 0,
+        // Fine tune survives a key change: it compensates for the recording
+        // being off-pitch, which is independent of the reference key.
+        fineTuneCents: state.song.fineTuneCents,
         musicalKey: canonical,
         loops: state.song.loops,
         loopSort: state.song.loopSort,
@@ -2350,13 +2410,17 @@ class SongCubit extends Cubit<SongState> {
       );
       await songRepository.updateSong(updatedSong);
 
-      await audioHandler.setPitchSemitones(0);
+      // Zero the transposition but keep the fine tune: it compensates for the
+      // recording, not for the reference key. Sourced from updatedSong so the
+      // handler and the emitted state can never disagree.
+      await audioHandler.setPitchCents(updatedSong.fineTuneCents);
 
       emit(
         state.copyWith(
           status: SongStatus.updated,
           song: updatedSong,
           pitchSemitones: 0,
+          fineTuneCents: updatedSong.fineTuneCents,
           error: null,
         ),
       );

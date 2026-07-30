@@ -26,6 +26,15 @@ class Song with SongMappable {
   /// to 0 so existing sembast records decode without a migration.
   final int pitchSemitones;
 
+  /// Fine tune in cents (-50..+50), 0 = no offset. Orthogonal to
+  /// [pitchSemitones]: the combined ratio applied to playback is
+  /// `2^((pitchSemitones * 100 + fineTuneCents) / 1200)`. Lets a player match
+  /// a recording that was mastered off-pitch, or one tuned to a reference
+  /// other than A=440 (many orchestras use 442-445). Persisted and reapplied
+  /// alongside [pitchSemitones]. Defaults to 0 so existing sembast records
+  /// decode without a migration.
+  final int fineTuneCents;
+
   /// Musical key (Tonart) of the song, e.g. "Am" or "F#", read from the
   /// file's ID3 TKEY tag on import. `null` when the file carried no key tag.
   final String? musicalKey;
@@ -71,6 +80,7 @@ class Song with SongMappable {
     this.bpm,
     this.currentBpm,
     this.pitchSemitones = 0,
+    this.fineTuneCents = 0,
     this.musicalKey,
     this.loops = const [],
     this.loopSort = LoopSort.none,

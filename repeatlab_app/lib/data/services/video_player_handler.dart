@@ -33,8 +33,9 @@ class VideoPlayerHandler implements MediaPlayerHandler {
   static const double _minPlaybackSpeed = 0.5;
   static const double _maxPlaybackSpeed = 2.0;
 
-  static const int _minPitchSemitones = -12;
-  static const int _maxPitchSemitones = 12;
+  /// ±12 semitones plus ±50 cents of fine tune, expressed as one cents total.
+  static const int _minPitchCents = -1250;
+  static const int _maxPitchCents = 1250;
 
   /// Double-tap detection threshold for skip previous, mirroring the audio
   /// handler's behavior.
@@ -46,7 +47,7 @@ class VideoPlayerHandler implements MediaPlayerHandler {
   bool _fullSongRepeatEnabled = false;
 
   double _playbackSpeed = 1.0;
-  int _pitchSemitones = 0;
+  int _pitchCents = 0;
   bool _loopSeekInProgress = false;
 
   DateTime? _lastSkipPreviousTime;
@@ -87,9 +88,9 @@ class VideoPlayerHandler implements MediaPlayerHandler {
   @override
   double get currentPlaybackSpeed => _playbackSpeed;
 
-  /// Currently applied pitch shift in semitones (mirrors the audio handler).
+  /// Currently applied total pitch offset in cents (mirrors the audio handler).
   @override
-  int get currentPitchSemitones => _pitchSemitones;
+  int get currentPitchCents => _pitchCents;
 
   bool get isFullSongRepeatEnabled => _fullSongRepeatEnabled;
 
@@ -169,7 +170,7 @@ class VideoPlayerHandler implements MediaPlayerHandler {
   Future<void> playSong(Song song, {bool autoStart = true}) async {
     final path = await song.path;
     _playbackSpeed = 1.0;
-    _pitchSemitones = 0;
+    _pitchCents = 0;
 
     // iOS's bundled libmpv won't reliably open a bare POSIX path like
     // /var/mobile/.../Documents/foo.mp4 (Android's tolerates it). Hand it a
@@ -278,14 +279,14 @@ class VideoPlayerHandler implements MediaPlayerHandler {
   }
 
   @override
-  Future<bool> setPitchSemitones(int semitones) async {
-    final target = semitones.clamp(_minPitchSemitones, _maxPitchSemitones);
+  Future<bool> setPitchCents(int totalCents) async {
+    final target = totalCents.clamp(_minPitchCents, _maxPitchCents);
     try {
-      await player.setPitch(pow(2.0, target / 12.0).toDouble());
-      _pitchSemitones = target;
+      await player.setPitch(pow(2.0, target / 1200.0).toDouble());
+      _pitchCents = target;
       return true;
     } catch (e) {
-      log('VideoPlayerHandler.setPitchSemitones failed: $e');
+      log('VideoPlayerHandler.setPitchCents failed: $e');
       return false;
     }
   }
@@ -432,12 +433,6 @@ class VideoPlayerHandler implements MediaPlayerHandler {
       case 'disableLoop':
         await pause();
         await disableLoopMode();
-        return;
-      case 'setPitch':
-        final semitones = extras?['semitones'] as int?;
-        if (semitones != null) {
-          await setPitchSemitones(semitones);
-        }
         return;
       case 'setLoops':
         final loops = extras?['loops'] as List<Loop>?;

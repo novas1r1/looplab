@@ -109,9 +109,10 @@ void main() {
         );
       });
 
-      test('roundtrips pitch and musical key', () {
+      test('roundtrips pitch, fine tune and musical key', () {
         final song = MockData.songMedium.copyWith(
           pitchSemitones: -4,
+          fineTuneCents: -25,
           musicalKey: 'F#m',
         );
 
@@ -123,6 +124,7 @@ void main() {
         final decoded = serializer.decode(bytes).songs.single;
 
         expect(decoded.pitchSemitones, -4);
+        expect(decoded.fineTuneCents, -25);
         expect(decoded.musicalKey, 'F#m');
       });
 
@@ -167,9 +169,10 @@ void main() {
         'imports backups from versions without pitch/key fields (defaults)',
         () {
           // Simulate a songs.json entry written by an app version that
-          // predates pitchSemitones/musicalKey.
+          // predates pitchSemitones/fineTuneCents/musicalKey.
           final legacyMap = MockData.songMedium.toMap()
             ..remove('pitchSemitones')
+            ..remove('fineTuneCents')
             ..remove('musicalKey');
 
           final bytes = serializer.encode(
@@ -197,6 +200,7 @@ void main() {
 
           final decoded = serializer.decode(legacyZip).songs.single;
           expect(decoded.pitchSemitones, 0);
+          expect(decoded.fineTuneCents, 0);
           expect(decoded.musicalKey, isNull);
         },
       );
