@@ -1106,6 +1106,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get loops => 'Boucles';
 
   @override
+  String get noLoopsCreatedYet => 'Aucune boucle créée pour le moment';
+
+  @override
+  String get tapToCreateFirstLoop => 'Appuie pour créer ta première boucle';
+
+  @override
   String get songSettings => 'Paramètres de la Chanson';
 
   @override

@@ -1098,6 +1098,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get loops => 'Лупы';
 
   @override
+  String get noLoopsCreatedYet => 'Лупы пока не созданы';
+
+  @override
+  String get tapToCreateFirstLoop => 'Нажмите, чтобы создать первый луп';
+
+  @override
   String get songSettings => 'Настройки песни';
 
   @override

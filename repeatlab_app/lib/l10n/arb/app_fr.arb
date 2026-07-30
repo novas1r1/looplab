@@ -370,6 +370,8 @@
     "tapBpmDialogDescription": "Tapez le bouton ci-dessous en rythme avec votre musique pour détecter le BPM.",
     "tapBpmDialogButton": "Taper le BPM",
     "loops": "Boucles",
+    "noLoopsCreatedYet": "Aucune boucle créée pour le moment",
+    "tapToCreateFirstLoop": "Appuie pour créer ta première boucle",
     "autoPlayOnLoopSelect": "Reproduire les Boucles automatiquement",
     "autoPlayOnLoopSelectDescription": "Reproduit les boucles automatiquement lorsque vous sélectionnez une boucle ou naviguez vers la boucle suivante ou précédente",
     "songSettings": "Paramètres de la Chanson",

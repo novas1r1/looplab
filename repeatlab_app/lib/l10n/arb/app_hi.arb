@@ -374,6 +374,8 @@
     "tapBpmDialogDescription": "अपनी संगीत के साथ इस बटन को आगामी में टैप करके BPM का पता लगाएं।",
     "tapBpmDialogButton": "BPM टैप करें",
     "loops": "लूप",
+    "noLoopsCreatedYet": "अभी तक कोई लूप नहीं बनाया गया",
+    "tapToCreateFirstLoop": "अपना पहला लूप बनाने के लिए टैप करें",
     "autoPlayOnLoopSelect": "लूप स्वचालित रूप से चलाएं",
     "autoPlayOnLoopSelectDescription": "लूप चुनते हैं या अगले या पिछले लूप पर नेविगेट करते हैं तो स्वचालित रूप से लूप चलाएं",
     "songSettings": "गीत सेटिंग्स",

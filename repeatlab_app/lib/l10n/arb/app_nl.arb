@@ -370,6 +370,8 @@
     "tapBpmDialogDescription": "Tik de knop hieronder in ritme met je muziek om de BPM te detecteren.",
     "tapBpmDialogButton": "BPM tikken",
     "loops": "Loops",
+    "noLoopsCreatedYet": "Nog geen loops aangemaakt",
+    "tapToCreateFirstLoop": "Tik om je eerste loop te maken",
     "autoPlayOnLoopSelect": "Loops automatisch afspelen",
     "autoPlayOnLoopSelectDescription": "Loops worden automatisch afgespield wanneer je een loop selecteert of naar de volgende of vorige loop navigeert",
     "songSettings": "Nummerinstellingen",

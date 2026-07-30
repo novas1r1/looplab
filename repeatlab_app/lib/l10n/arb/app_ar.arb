@@ -374,6 +374,8 @@
     "tapBpmDialogDescription": "ضغط الزر أدناه في الإيقاع مع موسيقاك لتحديد BPM.",
     "tapBpmDialogButton": "إيقاع الضغط",
     "loops": "الحلقات",
+    "noLoopsCreatedYet": "لم يتم إنشاء أي حلقات بعد",
+    "tapToCreateFirstLoop": "اضغط لإنشاء أول حلقة",
     "songSettings": "إعدادات الأغنية",
     "playbackSettings": "التشغيل",
     "autoPlayOnLoopSelect": "تشغيل الحلقات تلقائيًا",

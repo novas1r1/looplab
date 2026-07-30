@@ -1035,6 +1035,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get loops => '循环';
 
   @override
+  String get noLoopsCreatedYet => '还没有创建循环';
+
+  @override
+  String get tapToCreateFirstLoop => '点击创建第一个循环';
+
+  @override
   String get songSettings => '歌曲设置';
 
   @override

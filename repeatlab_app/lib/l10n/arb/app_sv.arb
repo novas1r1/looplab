@@ -370,6 +370,8 @@
     "tapBpmDialogDescription": "Tryck på knappen nedan i takt med din musik för att upptäcka BPM.",
     "tapBpmDialogButton": "Tryck BPM",
     "loops": "Loopar",
+    "noLoopsCreatedYet": "Inga loopar skapade än",
+    "tapToCreateFirstLoop": "Tryck för att skapa din första loop",
     "autoPlayOnLoopSelect": "Spela upp Loopar automatiskt",
     "autoPlayOnLoopSelectDescription": "Spela upp Loopar automatiskt när du väljer en loop eller navigerar till nästa eller föregående loop",
     "songSettings": "Låtinställningar",

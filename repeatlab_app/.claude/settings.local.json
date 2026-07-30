@@ -94,7 +94,9 @@
       "Bash(git log *)",
       "PowerShell(\\(Get-Content test\\\\data\\\\services\\\\repeatlab_audioplayers_service_handler_test.dart | Measure-Object -Line\\).Lines)",
       "mcp__manager__list_milestones",
-      "mcp__manager__assign_milestone"
+      "mcp__manager__assign_milestone",
+      "Bash(python \"C:/Users/vry/AppData/Local/Temp/claude/C--Development-repeatlab-repeatlab-app/d4b181b5-29af-4f3e-9873-bb5aa1036b28/scratchpad/add_loop_empty_l10n.py\")",
+      "Bash(python -c ' *)"
     ]
   },
   "skillOverrides": {

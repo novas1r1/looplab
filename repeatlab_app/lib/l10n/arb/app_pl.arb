@@ -370,6 +370,8 @@
     "tapBpmDialogDescription": "Tocz przycisk poniżej w rytmie z muzyką, aby wykryć BPM.",
     "tapBpmDialogButton": "Tocz BPM",
     "loops": "Pętle",
+    "noLoopsCreatedYet": "Nie utworzono jeszcze żadnych pętli",
+    "tapToCreateFirstLoop": "Dotknij, aby utworzyć pierwszą pętlę",
     "autoPlayOnLoopSelect": "Automatycznie odtwarzaj pętle",
     "autoPlayOnLoopSelectDescription": "Pętle są automatycznie odtwarzane, gdy wybierasz pętlę lub przechodzisz do następnej lub poprzedniej pętli",
     "songSettings": "Ustawienia utworu",

@@ -373,6 +373,8 @@
     "tapBpmDialogDescription": "BPM'yi tespit etmek için aşağıdaki düğmeyi müzikle aynı ritmde tıklayın.",
     "tapBpmDialogButton": "BPM'yi tıkla",
     "loops": "Döngüler",
+    "noLoopsCreatedYet": "Henüz döngü oluşturulmadı",
+    "tapToCreateFirstLoop": "İlk döngünü oluşturmak için dokun",
     "autoPlayOnLoopSelect": "Döngüleri otomatik oynat",
     "autoPlayOnLoopSelectDescription": "Döngü seçildiğinde veya sonraki/önceki döngüye geçildiğinde otomatik oynatma",
     "songSettings": "Şarkı Ayarları",

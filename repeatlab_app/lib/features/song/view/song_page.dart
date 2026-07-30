@@ -23,6 +23,7 @@ import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/features/song/cubit/song_exporter/song_exporter_cubit.dart';
 import 'package:repeatlab/features/song/cubit/video_song/video_song_cubit.dart';
 import 'package:repeatlab/features/song/view/song_controller.dart';
+import 'package:repeatlab/features/song/widgets/loop_list_empty_state.dart';
 import 'package:repeatlab/features/song/widgets/loop_tile.dart';
 import 'package:repeatlab/features/song/widgets/loop_timeline.dart';
 import 'package:repeatlab/features/song/widgets/song_settings_bottom_sheet.dart';
@@ -428,6 +429,15 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
                             return BlocSelector<SongCubit, SongState, List<Loop>>(
                               selector: (state) => state.song.loops,
                               builder: (context, loops) {
+                                if (loops.isEmpty) {
+                                  return SizedBox(
+                                    height: MediaQuery.of(context).size.height * 0.4,
+                                    child: LoopListEmptyState(
+                                      onTap: () => _onAddLoop(context),
+                                    ),
+                                  );
+                                }
+
                                 return SizedBox(
                                   height: MediaQuery.of(context).size.height * 0.4,
                                   child:

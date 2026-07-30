@@ -373,6 +373,8 @@
     "tapBpmDialogDescription": "ボタンを音楽と同じテンポでタップしてBPMを検出します。",
     "tapBpmDialogButton": "BPMをタップ",
     "loops": "ループ",
+    "noLoopsCreatedYet": "ループがまだありません",
+    "tapToCreateFirstLoop": "タップして最初のループを作成",
     "autoPlayOnLoopSelect": "ループを自動再生",
     "autoPlayOnLoopSelectDescription": "ループを選択したり、次のループまたは前のループに移動したりすると、自動的にループが再生されます",
     "songSettings": "曲の設定",

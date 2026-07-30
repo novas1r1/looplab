@@ -370,6 +370,8 @@
     "tapBpmDialogDescription": "Нажмите кнопку ниже в ритме с вашей музыкой, чтобы определить BPM.",
     "tapBpmDialogButton": "Нажмите BPM",
     "loops": "Лупы",
+    "noLoopsCreatedYet": "Лупы пока не созданы",
+    "tapToCreateFirstLoop": "Нажмите, чтобы создать первый луп",
     "autoPlayOnLoopSelect": "Автоматически воспроизводить лупы",
     "autoPlayOnLoopSelectDescription": "Автоматически воспроизводить лупы при выборе лупа или переходе к следующему или предыдущему лупу",
     "songSettings": "Настройки песни",

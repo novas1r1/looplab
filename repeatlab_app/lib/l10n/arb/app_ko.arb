@@ -373,6 +373,8 @@
     "tapBpmDialogDescription": "버튼을 음악과 동일한 템포로 탭하여 BPM을 감지합니다.",
     "tapBpmDialogButton": "BPM 탭",
     "loops": "루프",
+    "noLoopsCreatedYet": "아직 생성된 루프가 없습니다",
+    "tapToCreateFirstLoop": "탭하여 첫 번째 루프를 만드세요",
     "autoPlayOnLoopSelect": "루프 자동 재생",
     "autoPlayOnLoopSelectDescription": "루프를 선택하거나 다음 또는 이전 루프로 이동하면 자동으로 루프가 재생됩니다",
     "songSettings": "곡 설정",

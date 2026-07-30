@@ -1096,6 +1096,12 @@ class AppLocalizationsNl extends AppLocalizations {
   String get loops => 'Loops';
 
   @override
+  String get noLoopsCreatedYet => 'Nog geen loops aangemaakt';
+
+  @override
+  String get tapToCreateFirstLoop => 'Tik om je eerste loop te maken';
+
+  @override
   String get songSettings => 'Nummerinstellingen';
 
   @override

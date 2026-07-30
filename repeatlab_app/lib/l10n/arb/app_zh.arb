@@ -374,6 +374,8 @@
     "tapBpmDialogDescription": "点击下面的按钮，在节奏中与您的音乐一起检测 BPM。",
     "tapBpmDialogButton": "点击 BPM",
     "loops": "循环",
+    "noLoopsCreatedYet": "还没有创建循环",
+    "tapToCreateFirstLoop": "点击创建第一个循环",
     "autoPlayOnLoopSelect": "自动播放循环",
     "autoPlayOnLoopSelectDescription": "当选择循环或导航到下一个或上一个循环时自动播放循环",
     "songSettings": "歌曲设置",
