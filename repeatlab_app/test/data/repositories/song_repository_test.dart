@@ -1,8 +1,13 @@
-import 'package:flutter/services.dart';
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:path/path.dart' as p;
+// ignore: depend_on_referenced_packages
+import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
+import 'package:repeatlab/data/repositories/backup_activity_guard.dart';
 import 'package:repeatlab/data/repositories/song_repository.dart';
 import 'package:sembast/sembast_memory.dart';
 
@@ -11,33 +16,38 @@ import '../../helpers/mock_services.dart';
 
 var _testDbCounter = 0;
 
+class _FakePathProviderPlatform extends PathProviderPlatform {
+  _FakePathProviderPlatform({
+    required this.applicationDocumentsPath,
+    this.throwOnResolve,
+  });
+
+  final String applicationDocumentsPath;
+
+  /// When set, [getApplicationDocumentsPath] throws this instead of
+  /// resolving — used to simulate a filesystem/platform-channel failure.
+  final Object? throwOnResolve;
+
+  @override
+  Future<String?> getApplicationDocumentsPath() async {
+    final error = throwOnResolve;
+    if (error != null) throw error;
+    return applicationDocumentsPath;
+  }
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-
-  // Mock path_provider
-  const MethodChannel pathProviderChannel = MethodChannel(
-    'plugins.flutter.io/path_provider',
-  );
 
   late Database db;
   late MockSoLoud mockSoLoud;
   late SongRepository songRepository;
+  late Directory appDir;
+  late PathProviderPlatform originalPathProvider;
 
   setUpAll(() {
     registerFallbackValue(MockData.songShort);
     registerFallbackValue(MockData.loopVerse);
-
-    // Setup path_provider mock
-    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-        .setMockMethodCallHandler(
-          pathProviderChannel,
-          (MethodCall call) async {
-            if (call.method == 'getApplicationDocumentsDirectory') {
-              return '/mock/app/documents';
-            }
-            return null;
-          },
-        );
   });
 
   setUp(() async {
@@ -46,11 +56,22 @@ void main() {
     db = await databaseFactoryMemory.openDatabase('test_$_testDbCounter.db');
     mockSoLoud = MockSoLoud();
     songRepository = SongRepository(db: db, soLoud: mockSoLoud);
+
+    appDir = await Directory.systemTemp.createTemp('song_repo_app_dir');
+    originalPathProvider = PathProviderPlatform.instance;
+    PathProviderPlatform.instance = _FakePathProviderPlatform(
+      applicationDocumentsPath: appDir.path,
+    );
   });
 
   tearDown(() async {
     songRepository.dispose();
     await db.close();
+    PathProviderPlatform.instance = originalPathProvider;
+    BackupActivityGuard.reset();
+    if (await appDir.exists()) {
+      await appDir.delete(recursive: true);
+    }
   });
 
   group('SongRepository', () {
@@ -136,6 +157,86 @@ void main() {
         expect(songs, hasLength(1));
         expect(songs.first.id, MockData.songMedium.id);
       });
+
+      test('deletes the underlying media file when unreferenced', () async {
+        final file = File(p.join(appDir.path, MockData.songShort.fileName));
+        await file.writeAsString('audio bytes');
+
+        final store = StoreRef<String, Map<String, dynamic>>('songs');
+        await store.add(db, MockData.songShort.toMap());
+
+        await songRepository.deleteSong(MockData.songShort);
+
+        expect(await file.exists(), isFalse);
+      });
+
+      test(
+        'keeps the media file when another remaining song shares its fileName',
+        () async {
+          final file = File(p.join(appDir.path, MockData.songShort.fileName));
+          await file.writeAsString('audio bytes');
+
+          final sharedSong = MockData.songShort.copyWith(id: 'shared-song-id');
+          final store = StoreRef<String, Map<String, dynamic>>('songs');
+          await store.add(db, MockData.songShort.toMap());
+          await store.add(db, sharedSong.toMap());
+
+          await songRepository.deleteSong(MockData.songShort);
+
+          expect(await file.exists(), isTrue);
+        },
+      );
+
+      test(
+        'removes the DB record even if the file is missing on disk',
+        () async {
+          final store = StoreRef<String, Map<String, dynamic>>('songs');
+          await store.add(db, MockData.songShort.toMap());
+
+          await songRepository.deleteSong(MockData.songShort);
+
+          final songs = await songRepository.getAllSongs();
+          expect(songs, isEmpty);
+        },
+      );
+
+      test(
+        'removes the DB record even if resolving the file path throws',
+        () async {
+          PathProviderPlatform.instance = _FakePathProviderPlatform(
+            applicationDocumentsPath: appDir.path,
+            throwOnResolve: Exception('platform channel unavailable'),
+          );
+
+          final store = StoreRef<String, Map<String, dynamic>>('songs');
+          await store.add(db, MockData.songShort.toMap());
+
+          await songRepository.deleteSong(MockData.songShort);
+
+          final songs = await songRepository.getAllSongs();
+          expect(songs, isEmpty);
+        },
+      );
+
+      test(
+        'keeps the media file but still removes the DB record while a '
+        'backup transfer is in flight',
+        () async {
+          final file = File(p.join(appDir.path, MockData.songShort.fileName));
+          await file.writeAsString('audio bytes');
+
+          final store = StoreRef<String, Map<String, dynamic>>('songs');
+          await store.add(db, MockData.songShort.toMap());
+
+          await BackupActivityGuard.run(
+            () => songRepository.deleteSong(MockData.songShort),
+          );
+
+          expect(await file.exists(), isTrue);
+          final songs = await songRepository.getAllSongs();
+          expect(songs, isEmpty);
+        },
+      );
     });
 
     group('addLoopToSong', () {
@@ -332,6 +433,157 @@ void main() {
 
         songs = await songRepository.getAllSongs();
         expect(songs, isEmpty);
+      });
+
+      test("deletes every song's media file", () async {
+        final shortFile = File(
+          p.join(appDir.path, MockData.songShort.fileName),
+        );
+        final mediumFile = File(
+          p.join(appDir.path, MockData.songMedium.fileName),
+        );
+        await shortFile.writeAsString('audio bytes');
+        await mediumFile.writeAsString('audio bytes');
+
+        final store = StoreRef<String, Map<String, dynamic>>('songs');
+        await store.add(db, MockData.songShort.toMap());
+        await store.add(db, MockData.songMedium.toMap());
+
+        await songRepository.clearDb();
+
+        expect(await shortFile.exists(), isFalse);
+        expect(await mediumFile.exists(), isFalse);
+      });
+
+      test('keeps files named in keepFileNames', () async {
+        final shortFile = File(
+          p.join(appDir.path, MockData.songShort.fileName),
+        );
+        final mediumFile = File(
+          p.join(appDir.path, MockData.songMedium.fileName),
+        );
+        await shortFile.writeAsString('audio bytes');
+        await mediumFile.writeAsString('audio bytes');
+
+        final store = StoreRef<String, Map<String, dynamic>>('songs');
+        await store.add(db, MockData.songShort.toMap());
+        await store.add(db, MockData.songMedium.toMap());
+
+        await songRepository.clearDb(
+          keepFileNames: {MockData.songShort.fileName},
+        );
+
+        expect(await shortFile.exists(), isTrue);
+        expect(await mediumFile.exists(), isFalse);
+      });
+
+      test("does not throw when a song's file is missing on disk", () async {
+        final store = StoreRef<String, Map<String, dynamic>>('songs');
+        await store.add(db, MockData.songShort.toMap());
+
+        await songRepository.clearDb();
+
+        final songs = await songRepository.getAllSongs();
+        expect(songs, isEmpty);
+      });
+
+      test(
+        'keeps files but still clears the DB while a backup transfer is '
+        'in flight',
+        () async {
+          final file = File(p.join(appDir.path, MockData.songShort.fileName));
+          await file.writeAsString('audio bytes');
+
+          final store = StoreRef<String, Map<String, dynamic>>('songs');
+          await store.add(db, MockData.songShort.toMap());
+
+          await BackupActivityGuard.run(() => songRepository.clearDb());
+
+          expect(await file.exists(), isTrue);
+          final songs = await songRepository.getAllSongs();
+          expect(songs, isEmpty);
+        },
+      );
+
+      test(
+        'deletes files even while a backup transfer is in flight when '
+        'respectBackupGuard is false',
+        () async {
+          final file = File(p.join(appDir.path, MockData.songShort.fileName));
+          await file.writeAsString('audio bytes');
+
+          final store = StoreRef<String, Map<String, dynamic>>('songs');
+          await store.add(db, MockData.songShort.toMap());
+
+          await BackupActivityGuard.run(
+            () => songRepository.clearDb(respectBackupGuard: false),
+          );
+
+          expect(await file.exists(), isFalse);
+        },
+      );
+    });
+
+    group('sweepOrphanedFiles', () {
+      test('deletes a media file no song references', () async {
+        final orphan = File(p.join(appDir.path, 'orphaned.mp3'));
+        await orphan.writeAsString('audio bytes');
+
+        await songRepository.sweepOrphanedFiles();
+
+        expect(await orphan.exists(), isFalse);
+      });
+
+      test(
+        'keeps an orphaned file while a backup transfer is in flight',
+        () async {
+          final orphan = File(p.join(appDir.path, 'orphaned.mp3'));
+          await orphan.writeAsString('audio bytes');
+
+          await BackupActivityGuard.run(
+            () => songRepository.sweepOrphanedFiles(),
+          );
+
+          expect(await orphan.exists(), isTrue);
+        },
+      );
+
+      test('keeps a media file still referenced by a song', () async {
+        final referenced = File(
+          p.join(appDir.path, MockData.songShort.fileName),
+        );
+        await referenced.writeAsString('audio bytes');
+
+        final store = StoreRef<String, Map<String, dynamic>>('songs');
+        await store.add(db, MockData.songShort.toMap());
+
+        await songRepository.sweepOrphanedFiles();
+
+        expect(await referenced.exists(), isTrue);
+      });
+
+      test('leaves non-media files untouched', () async {
+        final dbFile = File(p.join(appDir.path, 'repeatlab.db'));
+        await dbFile.writeAsString('not a media file');
+
+        await songRepository.sweepOrphanedFiles();
+
+        expect(await dbFile.exists(), isTrue);
+      });
+
+      test('does nothing when the documents directory is missing', () async {
+        await appDir.delete(recursive: true);
+
+        await expectLater(songRepository.sweepOrphanedFiles(), completes);
+      });
+
+      test('does not throw when resolving the directory fails', () async {
+        PathProviderPlatform.instance = _FakePathProviderPlatform(
+          applicationDocumentsPath: appDir.path,
+          throwOnResolve: Exception('platform channel unavailable'),
+        );
+
+        await expectLater(songRepository.sweepOrphanedFiles(), completes);
       });
     });
 

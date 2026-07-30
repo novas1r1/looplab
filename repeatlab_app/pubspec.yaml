@@ -1,6 +1,6 @@
 name: repeatlab
 description: Audio loop studio
-version: 2.2.2+93
+version: 2.2.3+94
 publish_to: none
 
 environment:
@@ -80,6 +80,10 @@ dependency_overrides:
   # Local fork adds setPitchShift; audioplayers/audioplayers_android_exo are
   # already path deps, but the platform interface would otherwise resolve from
   # pub.dev and miss the new API.
+  # Local fork seeks with zero tolerance so loop wraps land exactly on the
+  # loop start (AVPlayer's default tolerance is unbounded).
+  audioplayers_darwin:
+    path: ../ap/packages/audioplayers_darwin
   audioplayers_platform_interface:
     path: ../ap/packages/audioplayers_platform_interface
   # TODO: Remove once Xcode is updated to 26.1+.

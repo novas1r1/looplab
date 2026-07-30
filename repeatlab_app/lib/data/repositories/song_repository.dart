@@ -10,9 +10,11 @@ import 'package:flutter_soloud/flutter_soloud.dart'
     hide AudioMetadata, Mp3Metadata;
 import 'package:media_kit/media_kit.dart';
 import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 import 'package:repeatlab/core/utils/musical_key.dart';
 import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
+import 'package:repeatlab/data/repositories/backup_activity_guard.dart';
 import 'package:sembast/sembast.dart';
 import 'package:uuid/uuid.dart';
 
@@ -409,7 +411,44 @@ class SongRepository {
       db,
       finder: Finder(filter: Filter.equals('id', song.id)),
     );
-    await getAllSongs();
+
+    // Other songs can legitimately share a fileName (e.g. a backup restore
+    // that dedupes identical content onto one file for two songs), so only
+    // delete the file if no remaining song still points at it.
+    final remainingSongs = await getAllSongs();
+    final stillReferenced = remainingSongs.any(
+      (remaining) => remaining.fileName == song.fileName,
+    );
+    if (stillReferenced) return;
+
+    if (BackupActivityGuard.isActive) {
+      log(
+        'Skipped deleting media file "${song.fileName}": '
+        'a backup transfer is in flight',
+        name: 'DeleteSong',
+      );
+      return;
+    }
+
+    await _deleteMediaFile(song);
+  }
+
+  /// Deletes [song]'s media file from the app documents directory, if
+  /// present. Best-effort: a filesystem error is logged and swallowed rather
+  /// than thrown, since the caller's DB state is already consistent by the
+  /// time this runs.
+  Future<void> _deleteMediaFile(Song song) async {
+    try {
+      final file = File(await song.path);
+      if (await file.exists()) {
+        await file.delete();
+      }
+    } on Exception catch (ex) {
+      log(
+        'Failed to delete media file "${song.fileName}": $ex',
+        name: 'DeleteSong',
+      );
+    }
   }
 
   Future<Song> addLoopToSong({
@@ -471,8 +510,110 @@ class SongRepository {
     return updatedSong;
   }
 
-  Future<void> clearDb() async {
+  /// Clears the entire song library, deleting every remaining song's media
+  /// file except those named in [keepFileNames]. The exclusion set exists
+  /// for backup-restore replace mode: new files are written to disk and
+  /// resolved to fileNames *before* the old library is cleared, so those
+  /// fileNames must survive even though the old DB records referencing them
+  /// (if any, via a hash-dedup collision) are being wiped.
+  ///
+  /// [respectBackupGuard] skips all file deletion while
+  /// [BackupActivityGuard.isActive] is true — protects a concurrent "delete
+  /// all songs" from racing an unrelated in-flight backup export/import.
+  /// `BackupRepository` passes `false` for its own replace-mode call: that
+  /// call *is* the guarded transfer, and its file safety is already handled
+  /// via [keepFileNames], so it must not block on its own guard.
+  Future<void> clearDb({
+    Set<String> keepFileNames = const {},
+    bool respectBackupGuard = true,
+  }) async {
+    final songs = await getAllSongs();
     await _store.delete(db);
+
+    if (respectBackupGuard && BackupActivityGuard.isActive) {
+      log(
+        "Skipped deleting cleared songs' media files: "
+        'a backup transfer is in flight',
+        name: 'ClearDb',
+      );
+      return;
+    }
+
+    for (final song in songs) {
+      if (keepFileNames.contains(song.fileName)) continue;
+      await _deleteMediaFile(song);
+    }
+  }
+
+  /// File extensions ever written to the app documents directory by the
+  /// import pipeline: everything offered by the audio/video file pickers
+  /// (`FileRepository._audioPickerExtensions`, [videoPickerExtensions]) plus
+  /// `.wav`, the on-device conversion output. Scopes [sweepOrphanedFiles] so
+  /// it can only ever touch files the app itself imported — never unrelated
+  /// app data sharing the same directory (e.g. the sembast DB file).
+  static const _sweepableExtensions = {
+    '.mp3',
+    '.m4a',
+    '.aac',
+    '.wav',
+    '.flac',
+    '.ogg',
+    '.wma',
+    '.opus',
+    '.aiff',
+    '.mp4',
+    '.mov',
+    '.m4v',
+    '.mkv',
+    '.webm',
+    '.avi',
+  };
+
+  /// One-time sweep of the app documents directory removing media files no
+  /// longer referenced by any [Song] — orphaned by past deletions (before
+  /// this cleanup existed) or by the collision-safe `<stem> (n).ext`
+  /// re-import renaming. Best-effort: a failure anywhere is logged and
+  /// swallowed rather than thrown, since this is meant to run unawaited at
+  /// startup and must never block it.
+  Future<void> sweepOrphanedFiles() async {
+    if (BackupActivityGuard.isActive) {
+      log(
+        'Skipped orphan file sweep: a backup transfer is in flight',
+        name: 'SweepOrphanedFiles',
+      );
+      return;
+    }
+
+    try {
+      final songs = await getAllSongs();
+      final referencedFileNames = songs.map((song) => song.fileName).toSet();
+
+      final appDir = await getApplicationDocumentsDirectory();
+      if (!await appDir.exists()) return;
+
+      await for (final entity in appDir.list()) {
+        if (entity is! File) continue;
+
+        final fileName = p.basename(entity.path);
+        if (referencedFileNames.contains(fileName)) continue;
+        if (!_sweepableExtensions.contains(
+          p.extension(fileName).toLowerCase(),
+        )) {
+          continue;
+        }
+
+        try {
+          await entity.delete();
+        } on Exception catch (ex) {
+          log(
+            'Failed to delete orphaned file "$fileName": $ex',
+            name: 'SweepOrphanedFiles',
+          );
+        }
+      }
+    } on Exception catch (ex) {
+      log('Orphan file sweep failed: $ex', name: 'SweepOrphanedFiles');
+    }
   }
 
   void dispose() {

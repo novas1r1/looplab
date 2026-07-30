@@ -31,12 +31,7 @@ class LoopTimeline extends StatefulWidget {
 }
 
 class _LoopTimelineState extends State<LoopTimeline> {
-  final _timelineKey = GlobalKey();
-
-  double get _timelineWidth {
-    final RenderBox? box = _timelineKey.currentContext?.findRenderObject() as RenderBox?;
-    return box?.size.width ?? 0;
-  }
+  double _timelineWidth = 0;
 
   /// Song duration in ms, or `null` when unknown/zero (e.g. metadata failed
   /// to parse). Guards the position math below: dividing by zero would put
@@ -66,103 +61,109 @@ class _LoopTimelineState extends State<LoopTimeline> {
               ),
             ),
             Expanded(
-              child: GestureDetector(
-                onTapDown: (details) => _handleTimelineInteraction(details.localPosition),
-                onHorizontalDragUpdate: (details) =>
-                    _handleTimelineInteraction(details.localPosition),
-                child: Container(
-                  key: _timelineKey,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: AppColors.surfaceContainerHighest,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Stack(
-                    children: [
-                      StreamBuilder<Duration>(
-                        stream: context.read<SongCubit>().positionStream,
-                        initialData: Duration.zero,
-                        builder:
-                            (
-                              BuildContext context,
-                              AsyncSnapshot<Duration> snapshot,
-                            ) {
-                              final durationMs = _durationMs;
-                              if (snapshot.hasData && durationMs != null) {
-                                return Positioned(
-                                  left:
-                                      (snapshot.data!.inMilliseconds / durationMs) * _timelineWidth,
-                                  top: 0,
-                                  bottom: 0,
-                                  child: Container(
-                                    width: 2,
-                                    color: AppColors.primary,
-                                  ),
-                                );
-                              }
-                              return const SizedBox.shrink();
-                            },
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  _timelineWidth = constraints.maxWidth;
+                  return GestureDetector(
+                    onTapDown: (details) => _handleTimelineInteraction(details.localPosition),
+                    onHorizontalDragUpdate: (details) =>
+                        _handleTimelineInteraction(details.localPosition),
+                    child: Container(
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: AppColors.surfaceContainerHighest,
+                        borderRadius: BorderRadius.circular(8),
                       ),
+                      child: Stack(
+                        children: [
+                          StreamBuilder<Duration>(
+                            stream: context.read<SongCubit>().positionStream,
+                            initialData: Duration.zero,
+                            builder:
+                                (
+                                  BuildContext context,
+                                  AsyncSnapshot<Duration> snapshot,
+                                ) {
+                                  final durationMs = _durationMs;
+                                  if (snapshot.hasData && durationMs != null) {
+                                    return Positioned(
+                                      left:
+                                          (snapshot.data!.inMilliseconds / durationMs) *
+                                          _timelineWidth,
+                                      top: 0,
+                                      bottom: 0,
+                                      child: Container(
+                                        width: 2,
+                                        color: AppColors.primary,
+                                      ),
+                                    );
+                                  }
+                                  return const SizedBox.shrink();
+                                },
+                          ),
 
-                      // Loop containers
-                      ...loops.map(
-                        (loop) {
-                          final durationMs = _durationMs;
-                          if (loop.start == null || loop.end == null || durationMs == null) {
-                            return const SizedBox.shrink();
-                          }
+                          // Loop containers
+                          ...loops.map(
+                            (loop) {
+                              final durationMs = _durationMs;
+                              if (loop.start == null || loop.end == null || durationMs == null) {
+                                return const SizedBox.shrink();
+                              }
 
-                          final startPosition = loop.start!.inMilliseconds / durationMs;
-                          final endPosition = loop.end!.inMilliseconds / durationMs;
+                              final startPosition = loop.start!.inMilliseconds / durationMs;
+                              final endPosition = loop.end!.inMilliseconds / durationMs;
 
-                          final isLocked = widget.isLoopLocked?.call(loop) ?? false;
+                              final isLocked = widget.isLoopLocked?.call(loop) ?? false;
 
-                          return Positioned(
-                            left: startPosition * _timelineWidth,
-                            width: (endPosition - startPosition) * _timelineWidth,
-                            top: 8,
-                            bottom: 8,
-                            child: GestureDetector(
-                              onTap: () => isLocked
-                                  ? widget.onLockedLoopTap?.call(loop)
-                                  : widget.onLoopTap?.call(loop),
-                              child: Opacity(
-                                opacity: isLocked ? 0.4 : 1.0,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: loop.color.color.withValues(
-                                      alpha: 0.5,
+                              return Positioned(
+                                left: startPosition * _timelineWidth,
+                                width: (endPosition - startPosition) * _timelineWidth,
+                                top: 8,
+                                bottom: 8,
+                                child: GestureDetector(
+                                  onTap: () => isLocked
+                                      ? widget.onLockedLoopTap?.call(loop)
+                                      : widget.onLoopTap?.call(loop),
+                                  child: Opacity(
+                                    opacity: isLocked ? 0.4 : 1.0,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: loop.color.color.withValues(
+                                          alpha: 0.5,
+                                        ),
+                                        borderRadius: BorderRadius.circular(4),
+                                        border: Border.all(
+                                          color: loop.color.color,
+                                          width: 2,
+                                        ),
+                                      ),
+                                      child: Center(
+                                        child: isLocked
+                                            ? const Icon(
+                                                Icons.lock,
+                                                size: 14,
+                                                color: AppColors.onSurfaceVariant,
+                                              )
+                                            : Text(
+                                                loop.name,
+                                                style: Theme.of(context).textTheme.labelSmall
+                                                    ?.copyWith(
+                                                      color: AppColors.onSurfaceVariant,
+                                                    ),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                      ),
                                     ),
-                                    borderRadius: BorderRadius.circular(4),
-                                    border: Border.all(
-                                      color: loop.color.color,
-                                      width: 2,
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: isLocked
-                                        ? const Icon(
-                                            Icons.lock,
-                                            size: 14,
-                                            color: AppColors.onSurfaceVariant,
-                                          )
-                                        : Text(
-                                            loop.name,
-                                            style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                                              color: AppColors.onSurfaceVariant,
-                                            ),
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
                                   ),
                                 ),
-                              ),
-                            ),
-                          );
-                        },
+                              );
+                            },
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                },
               ),
             ),
             IconButton(
