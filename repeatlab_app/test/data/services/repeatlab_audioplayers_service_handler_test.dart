@@ -997,6 +997,78 @@ void main() {
     });
   });
 
+  group('suspendBackgroundPolling', () {
+    const loop = Loop(
+      id: 1,
+      name: 'Loop 1',
+      songId: 'song-1',
+      color: LoopColor.green,
+      start: Duration(seconds: 2),
+      end: Duration(seconds: 4),
+    );
+
+    test('stops the loop poll so no position queries fire anymore', () {
+      fakeAsync((async) {
+        final handler = RepeatlabAudioplayersServiceHandler(
+          audioPlayer: audioPlayer,
+        );
+
+        when(() => audioPlayer.state).thenReturn(PlayerState.playing);
+
+        var positionQueries = 0;
+        when(() => audioPlayer.getCurrentPosition()).thenAnswer((_) async {
+          positionQueries++;
+          return const Duration(seconds: 3);
+        });
+
+        handler.enableLoopMode(loop);
+        async.flushMicrotasks();
+
+        positionQueries = 0;
+        async.elapse(const Duration(seconds: 1));
+        expect(positionQueries, greaterThan(0));
+
+        handler.suspendBackgroundPolling();
+        positionQueries = 0;
+        async.elapse(const Duration(seconds: 5));
+        expect(positionQueries, 0);
+
+        handler.close();
+        async.flushMicrotasks();
+      });
+    });
+
+    test('play() re-arms the loop poll after a suspension', () {
+      fakeAsync((async) {
+        final handler = RepeatlabAudioplayersServiceHandler(
+          audioPlayer: audioPlayer,
+        );
+
+        when(() => audioPlayer.state).thenReturn(PlayerState.playing);
+
+        var positionQueries = 0;
+        when(() => audioPlayer.getCurrentPosition()).thenAnswer((_) async {
+          positionQueries++;
+          return const Duration(seconds: 3);
+        });
+
+        handler.enableLoopMode(loop);
+        async.flushMicrotasks();
+        handler.suspendBackgroundPolling();
+
+        handler.play();
+        async.flushMicrotasks();
+
+        positionQueries = 0;
+        async.elapse(const Duration(seconds: 1));
+        expect(positionQueries, greaterThan(0));
+
+        handler.close();
+        async.flushMicrotasks();
+      });
+    });
+  });
+
   test(
     'setSpeed normalizes invalid values before delegating to player',
     () async {

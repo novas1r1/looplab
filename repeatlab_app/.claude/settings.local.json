@@ -91,7 +91,11 @@
       "Bash(fvm flutter *)",
       "Bash(echo \"EXIT: $?\")",
       "Read(//tmp/**)",
-      "Bash(git log *)"
+      "Bash(git log *)",
+      "PowerShell(\\(Get-Content test\\\\data\\\\services\\\\repeatlab_audioplayers_service_handler_test.dart | Measure-Object -Line\\).Lines)"
     ]
+  },
+  "skillOverrides": {
+    "jira-ticket-de": "off"
   }
 }

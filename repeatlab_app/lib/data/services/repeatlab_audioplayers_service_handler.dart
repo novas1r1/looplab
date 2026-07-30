@@ -402,12 +402,27 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
 
     // Use timer as fallback for background mode where stream events may be throttled
     // The timer actively polls position which works even when the app is backgrounded
-    _loopCheckTimer = Timer.periodic(const Duration(milliseconds: 200), (_) {
-      _checkLoopBoundsAsync();
-    });
+    _startLoopCheckTimer();
 
     await _ensureWithinLoopBounds(loop);
     await _rearmLoopWrapTimerFromCurrentPosition();
+  }
+
+  void _startLoopCheckTimer() {
+    _loopCheckTimer?.cancel();
+    _loopCheckTimer = Timer.periodic(const Duration(milliseconds: 200), (_) {
+      _checkLoopBoundsAsync();
+    });
+  }
+
+  /// Cancels the polling timers so the process can go fully idle while the
+  /// app is backgrounded without active playback. The loop machinery itself
+  /// stays armed ([_activeLoop] is untouched); [play] re-arms both timers.
+  void suspendBackgroundPolling() {
+    _loopCheckTimer?.cancel();
+    _loopCheckTimer = null;
+    _loopWrapTimer?.cancel();
+    _loopWrapTimer = null;
   }
 
   /// Disable loop mode
@@ -442,6 +457,11 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
   @override
   Future<void> play() async {
     await audioPlayer.resume();
+    // Re-arm the loop poll if it was suspended while backgrounded
+    // (e.g. play pressed on the lock screen after a background suspension).
+    if (_activeLoop != null && _loopCheckTimer == null) {
+      _startLoopCheckTimer();
+    }
     unawaited(_rearmLoopWrapTimerFromCurrentPosition());
     playbackState.add(
       playbackState.value.copyWith(
