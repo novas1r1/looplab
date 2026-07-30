@@ -106,14 +106,41 @@ class _LoopTimelineState extends State<LoopTimeline> {
                           ...loops.map(
                             (loop) {
                               final durationMs = _durationMs;
-                              if (loop.start == null || loop.end == null || durationMs == null) {
+                              if (loop.start == null || durationMs == null) {
                                 return const SizedBox.shrink();
                               }
 
                               final startPosition = loop.start!.inMilliseconds / durationMs;
-                              final endPosition = loop.end!.inMilliseconds / durationMs;
 
                               final isLocked = widget.isLoopLocked?.call(loop) ?? false;
+
+                              // A loop whose end isn't set yet (e.g. just after
+                              // "set loop start") has no width to draw, so show a
+                              // marker at the start position instead of hiding it.
+                              if (loop.end == null) {
+                                return Positioned(
+                                  left: startPosition * _timelineWidth,
+                                  top: 8,
+                                  bottom: 8,
+                                  child: GestureDetector(
+                                    onTap: () => isLocked
+                                        ? widget.onLockedLoopTap?.call(loop)
+                                        : widget.onLoopTap?.call(loop),
+                                    child: Opacity(
+                                      opacity: isLocked ? 0.4 : 1.0,
+                                      child: Container(
+                                        width: 3,
+                                        decoration: BoxDecoration(
+                                          color: loop.color.color,
+                                          borderRadius: BorderRadius.circular(2),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
+
+                              final endPosition = loop.end!.inMilliseconds / durationMs;
 
                               return Positioned(
                                 left: startPosition * _timelineWidth,
