@@ -756,9 +756,13 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     // Desired target after forwarding.
     var target = position + Duration(seconds: seconds);
 
-    // Respect loop end if a loop is active.
-    if (loop != null && loop.end != null) {
-      if (target > loop.end!) {
+    // Respect loop end only while playing: paused skipping is how the user
+    // parks the playhead past the end to set a new one (mirrors the paused
+    // exemption in _handleLoopPositionUpdate).
+    final respectLoop = audioPlayer.state == PlayerState.playing;
+
+    if (respectLoop && loop?.end != null) {
+      if (target > loop!.end!) {
         target = loop.end!;
       }
     } else if (target > duration) {
@@ -784,8 +788,10 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
       target = Duration.zero;
     }
 
-    // Respect loop start if a loop is active.
-    if (loop != null && loop.start != null && target < loop.start!) {
+    // Respect loop start only while playing — see [forward].
+    if (audioPlayer.state == PlayerState.playing &&
+        loop?.start != null &&
+        target < loop!.start!) {
       target = loop.start!;
     }
 

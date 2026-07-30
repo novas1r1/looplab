@@ -450,6 +450,97 @@ void main() {
     expect(seekCalls, [const Duration(seconds: 2)]);
   });
 
+  group('forward/back with an active loop', () {
+    const loop = Loop(
+      id: 1,
+      name: 'Loop 1',
+      songId: 'song-1',
+      color: LoopColor.green,
+      start: Duration(seconds: 20),
+      end: Duration(seconds: 30),
+    );
+
+    late List<Duration> seekCalls;
+
+    setUp(() {
+      seekCalls = <Duration>[];
+      when(() => audioPlayer.seek(any<Duration>())).thenAnswer((
+        invocation,
+      ) async {
+        seekCalls.add(invocation.positionalArguments.first as Duration);
+      });
+      when(
+        () => audioPlayer.getDuration(),
+      ).thenAnswer((_) async => const Duration(minutes: 3));
+    });
+
+    test('clamps to the loop bounds while playing', () async {
+      final handler = RepeatlabAudioplayersServiceHandler(
+        audioPlayer: audioPlayer,
+      );
+      addTearDown(handler.close);
+
+      when(() => audioPlayer.state).thenReturn(PlayerState.playing);
+      when(
+        () => audioPlayer.getCurrentPosition(),
+      ).thenAnswer((_) async => const Duration(seconds: 25));
+
+      await handler.forward(10, loop);
+      expect(seekCalls, [loop.end]);
+
+      seekCalls.clear();
+      await handler.back(10, loop);
+      expect(seekCalls, [loop.start]);
+    });
+
+    test('skips past the loop bounds while paused', () async {
+      final handler = RepeatlabAudioplayersServiceHandler(
+        audioPlayer: audioPlayer,
+      );
+      addTearDown(handler.close);
+
+      // Paused: skipping is how the user parks the playhead outside the loop
+      // to set a new start/end, so the bounds must not clamp it.
+      when(() => audioPlayer.state).thenReturn(PlayerState.paused);
+      when(
+        () => audioPlayer.getCurrentPosition(),
+      ).thenAnswer((_) async => const Duration(seconds: 25));
+
+      await handler.forward(10, loop);
+      expect(seekCalls, [const Duration(seconds: 35)]);
+
+      seekCalls.clear();
+      await handler.back(10, loop);
+      expect(seekCalls, [const Duration(seconds: 15)]);
+    });
+
+    test('paused skipping still clamps to the track bounds', () async {
+      final handler = RepeatlabAudioplayersServiceHandler(
+        audioPlayer: audioPlayer,
+      );
+      addTearDown(handler.close);
+
+      when(() => audioPlayer.state).thenReturn(PlayerState.paused);
+      when(
+        () => audioPlayer.getDuration(),
+      ).thenAnswer((_) async => const Duration(seconds: 30));
+      when(
+        () => audioPlayer.getCurrentPosition(),
+      ).thenAnswer((_) async => const Duration(seconds: 25));
+
+      await handler.forward(10, loop);
+      expect(seekCalls, [const Duration(seconds: 30)]);
+
+      seekCalls.clear();
+      when(
+        () => audioPlayer.getCurrentPosition(),
+      ).thenAnswer((_) async => const Duration(seconds: 5));
+
+      await handler.back(10, loop);
+      expect(seekCalls, [Duration.zero]);
+    });
+  });
+
   test('setPitchSemitones clamps and sends the semitone multiplier', () async {
     final handler = RepeatlabAudioplayersServiceHandler(
       audioPlayer: audioPlayer,
