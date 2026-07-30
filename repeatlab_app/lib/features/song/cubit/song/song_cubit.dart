@@ -2237,11 +2237,14 @@ class SongCubit extends Cubit<SongState> {
   static const int maxPitchSemitones = 12;
 
   /// Whether pitch shifting works for the current song on this platform:
-  /// video → all platforms (media_kit/libmpv); audio → Android only
-  /// (Signalsmith processor in the audioplayers fork). The pitch card hides
-  /// itself when unsupported.
+  /// video → all platforms (media_kit/libmpv); audio → Android and iOS, both
+  /// via a native Signalsmith processor in the audioplayers fork (an ExoPlayer
+  /// audio processor on Android, an MTAudioProcessingTap stage on iOS). The
+  /// pitch card hides itself only where unsupported (e.g. audio on desktop).
   bool get isPitchControlSupported =>
-      state.song.mediaType == MediaType.video || Platform.isAndroid;
+      state.song.mediaType == MediaType.video ||
+      Platform.isAndroid ||
+      Platform.isIOS;
 
   /// Update the pitch shift in semitones (-12 to +12) and persist it on the
   /// song. Returns true if the pitch was applied successfully.

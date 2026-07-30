@@ -168,7 +168,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   audio_service: aa99a6ba2ae7565996015322b0bb024e1d25c6fd
   audio_session: 9bb7f6c970f21241b19f5a3658097ae459681ba0
-  audioplayers_darwin: f5d3ad75cdd9efaa97c18de1028f4bdd11cb6bfb
+  audioplayers_darwin: 9257a31c3f898001a517c1e9734284ccabe5aec9
   clarity_flutter: d665e4a61c0000a28e7829668a4e287cc1b657bd
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   device_info_plus: 21fcca2080fbcd348be798aa36c3e5ed849eefbe

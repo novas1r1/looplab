@@ -686,8 +686,9 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
   double _pitchMultiplierForSemitones(int semitones) =>
       pow(2.0, semitones / 12.0).toDouble();
 
-  /// Reapplies the current pitch shift, swallowing platform errors (pitch is
-  /// unsupported outside Android; playback must not fail because of it).
+  /// Reapplies the current pitch shift, swallowing platform errors (native
+  /// pitch is implemented on Android and iOS; on any platform without it,
+  /// playback must not fail because of a pitch call).
   Future<void> _applyPitchShiftSafely() async {
     try {
       await audioPlayer.setPitchShift(

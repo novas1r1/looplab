@@ -51,7 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.1.2]
 
 ### Added
-- **Pitch shifting (Premium).** Change a song's pitch ±12 semitones without affecting tempo. A "key mode" lets you set the song's original musical key and pick a target key — the semitone offset is computed automatically. Video songs are pitch-shifted on all platforms via media_kit/libmpv; audio songs via a native Signalsmith DSP processor added to the `audioplayers` fork, Android only for now (the control hides itself for audio on iOS).
+- **Pitch shifting (Premium).** Change a song's pitch ±12 semitones without affecting tempo. A "key mode" lets you set the song's original musical key and pick a target key — the semitone offset is computed automatically. Video songs are pitch-shifted on all platforms via media_kit/libmpv; audio songs via a native Signalsmith DSP processor added to the `audioplayers` fork — on Android (an ExoPlayer audio processor) and iOS (a Signalsmith stage in the MTAudioProcessingTap alongside the metronome click).
 - **Metronome.** A full click-track metronome, gated by subscription (on/off, BPM and volume stay free):
   - **Tap-to-align beat anchor** — tap along with the beat a few times and the phase is persisted per song, so the click grid deterministically realigns on play/seek/loop/tempo-change instead of drifting.
   - **Baked click track** for audio songs: the click is rendered to a WAV and mixed into the song audio via ffmpeg, sample-locked across loops/seeks/speed changes.
