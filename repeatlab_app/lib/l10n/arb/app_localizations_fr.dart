@@ -1061,6 +1061,74 @@ class AppLocalizationsFr extends AppLocalizations {
   String get pitchUnchanged => 'hauteur inchangée';
 
   @override
+  String get intervalUnison => 'Hauteur d\'origine';
+
+  @override
+  String get intervalHalfStep => 'demi-ton';
+
+  @override
+  String get intervalWholeStep => 'ton';
+
+  @override
+  String get intervalMinorThird => 'tierce mineure';
+
+  @override
+  String get intervalMajorThird => 'tierce majeure';
+
+  @override
+  String get intervalFourth => 'quarte';
+
+  @override
+  String get intervalTritone => 'triton';
+
+  @override
+  String get intervalFifth => 'quinte';
+
+  @override
+  String get intervalMinorSixth => 'sixte mineure';
+
+  @override
+  String get intervalMajorSixth => 'sixte majeure';
+
+  @override
+  String get intervalMinorSeventh => 'septième mineure';
+
+  @override
+  String get intervalMajorSeventh => 'septième majeure';
+
+  @override
+  String get intervalOctave => 'octave';
+
+  @override
+  String intervalDown(String interval) {
+    return '$interval plus bas';
+  }
+
+  @override
+  String intervalUp(String interval) {
+    return '$interval plus haut';
+  }
+
+  @override
+  String get pitchQualityWarning => 'peut sonner artificiel';
+
+  @override
+  String get fineTune => 'Réglage fin';
+
+  @override
+  String fineTuneCentsValue(String cents) {
+    return '$cents ct';
+  }
+
+  @override
+  String get fineTuneHint => 'Ajuster un enregistrement légèrement faux';
+
+  @override
+  String fineTuneReference(String hz) {
+    return 'accorder La ≈ $hz Hz';
+  }
+
+  @override
   String get tapTempo => 'Taper le tempo';
 
   @override

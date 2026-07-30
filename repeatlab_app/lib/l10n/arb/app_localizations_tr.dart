@@ -1052,6 +1052,74 @@ class AppLocalizationsTr extends AppLocalizations {
   String get pitchUnchanged => 'perde değişmedi';
 
   @override
+  String get intervalUnison => 'Orijinal perde';
+
+  @override
+  String get intervalHalfStep => 'yarım ses';
+
+  @override
+  String get intervalWholeStep => 'tam ses';
+
+  @override
+  String get intervalMinorThird => 'küçük üçlü';
+
+  @override
+  String get intervalMajorThird => 'büyük üçlü';
+
+  @override
+  String get intervalFourth => 'dörtlü';
+
+  @override
+  String get intervalTritone => 'triton';
+
+  @override
+  String get intervalFifth => 'beşli';
+
+  @override
+  String get intervalMinorSixth => 'küçük altılı';
+
+  @override
+  String get intervalMajorSixth => 'büyük altılı';
+
+  @override
+  String get intervalMinorSeventh => 'küçük yedili';
+
+  @override
+  String get intervalMajorSeventh => 'büyük yedili';
+
+  @override
+  String get intervalOctave => 'oktav';
+
+  @override
+  String intervalDown(String interval) {
+    return '$interval aşağı';
+  }
+
+  @override
+  String intervalUp(String interval) {
+    return '$interval yukarı';
+  }
+
+  @override
+  String get pitchQualityWarning => 'yapay duyulabilir';
+
+  @override
+  String get fineTune => 'İnce ayar';
+
+  @override
+  String fineTuneCentsValue(String cents) {
+    return '$cents ct';
+  }
+
+  @override
+  String get fineTuneHint => 'Hafif akortsuz kaydı eşleştirin';
+
+  @override
+  String fineTuneReference(String hz) {
+    return 'La ≈ $hz Hz\'e akort edin';
+  }
+
+  @override
   String get tapTempo => 'Tempoyu vur';
 
   @override

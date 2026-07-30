@@ -1012,6 +1012,74 @@ class AppLocalizationsJa extends AppLocalizations {
   String get pitchUnchanged => 'ピッチはそのまま';
 
   @override
+  String get intervalUnison => '原曲のピッチ';
+
+  @override
+  String get intervalHalfStep => '半音';
+
+  @override
+  String get intervalWholeStep => '全音';
+
+  @override
+  String get intervalMinorThird => '短3度';
+
+  @override
+  String get intervalMajorThird => '長3度';
+
+  @override
+  String get intervalFourth => '完全4度';
+
+  @override
+  String get intervalTritone => '三全音';
+
+  @override
+  String get intervalFifth => '完全5度';
+
+  @override
+  String get intervalMinorSixth => '短6度';
+
+  @override
+  String get intervalMajorSixth => '長6度';
+
+  @override
+  String get intervalMinorSeventh => '短7度';
+
+  @override
+  String get intervalMajorSeventh => '長7度';
+
+  @override
+  String get intervalOctave => 'オクターブ';
+
+  @override
+  String intervalDown(String interval) {
+    return '$interval下げる';
+  }
+
+  @override
+  String intervalUp(String interval) {
+    return '$interval上げる';
+  }
+
+  @override
+  String get pitchQualityWarning => '不自然に聞こえる場合があります';
+
+  @override
+  String get fineTune => '微調整';
+
+  @override
+  String fineTuneCentsValue(String cents) {
+    return '$cents ct';
+  }
+
+  @override
+  String get fineTuneHint => 'ピッチがずれた音源に合わせる';
+
+  @override
+  String fineTuneReference(String hz) {
+    return 'A ≈ $hz Hz に合わせる';
+  }
+
+  @override
   String get tapTempo => 'タップテンポ';
 
   @override

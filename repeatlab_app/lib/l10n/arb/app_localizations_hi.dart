@@ -1048,6 +1048,74 @@ class AppLocalizationsHi extends AppLocalizations {
   String get pitchUnchanged => 'पिच अपरिवर्तित';
 
   @override
+  String get intervalUnison => 'मूल पिच';
+
+  @override
+  String get intervalHalfStep => 'आधा स्वर';
+
+  @override
+  String get intervalWholeStep => 'पूर्ण स्वर';
+
+  @override
+  String get intervalMinorThird => 'लघु तृतीयक';
+
+  @override
+  String get intervalMajorThird => 'दीर्घ तृतीयक';
+
+  @override
+  String get intervalFourth => 'चतुर्थक';
+
+  @override
+  String get intervalTritone => 'ट्राइटोन';
+
+  @override
+  String get intervalFifth => 'पंचमक';
+
+  @override
+  String get intervalMinorSixth => 'लघु षष्ठक';
+
+  @override
+  String get intervalMajorSixth => 'दीर्घ षष्ठक';
+
+  @override
+  String get intervalMinorSeventh => 'लघु सप्तमक';
+
+  @override
+  String get intervalMajorSeventh => 'दीर्घ सप्तमक';
+
+  @override
+  String get intervalOctave => 'अष्टक';
+
+  @override
+  String intervalDown(String interval) {
+    return '$interval नीचे';
+  }
+
+  @override
+  String intervalUp(String interval) {
+    return '$interval ऊपर';
+  }
+
+  @override
+  String get pitchQualityWarning => 'कृत्रिम लग सकता है';
+
+  @override
+  String get fineTune => 'सूक्ष्म ट्यूनिंग';
+
+  @override
+  String fineTuneCentsValue(String cents) {
+    return '$cents ct';
+  }
+
+  @override
+  String get fineTuneHint => 'थोड़ी बेसुरी रिकॉर्डिंग से मिलाएँ';
+
+  @override
+  String fineTuneReference(String hz) {
+    return 'A ≈ $hz Hz पर ट्यून करें';
+  }
+
+  @override
   String get tapTempo => 'टैप टेम्पो';
 
   @override

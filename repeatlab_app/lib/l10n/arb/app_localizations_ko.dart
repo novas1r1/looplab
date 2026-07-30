@@ -1010,6 +1010,74 @@ class AppLocalizationsKo extends AppLocalizations {
   String get pitchUnchanged => '피치 변경 없음';
 
   @override
+  String get intervalUnison => '원래 음정';
+
+  @override
+  String get intervalHalfStep => '반음';
+
+  @override
+  String get intervalWholeStep => '온음';
+
+  @override
+  String get intervalMinorThird => '단3도';
+
+  @override
+  String get intervalMajorThird => '장3도';
+
+  @override
+  String get intervalFourth => '완전4도';
+
+  @override
+  String get intervalTritone => '증4도';
+
+  @override
+  String get intervalFifth => '완전5도';
+
+  @override
+  String get intervalMinorSixth => '단6도';
+
+  @override
+  String get intervalMajorSixth => '장6도';
+
+  @override
+  String get intervalMinorSeventh => '단7도';
+
+  @override
+  String get intervalMajorSeventh => '장7도';
+
+  @override
+  String get intervalOctave => '옥타브';
+
+  @override
+  String intervalDown(String interval) {
+    return '$interval 내림';
+  }
+
+  @override
+  String intervalUp(String interval) {
+    return '$interval 올림';
+  }
+
+  @override
+  String get pitchQualityWarning => '부자연스럽게 들릴 수 있음';
+
+  @override
+  String get fineTune => '미세 조정';
+
+  @override
+  String fineTuneCentsValue(String cents) {
+    return '$cents ct';
+  }
+
+  @override
+  String get fineTuneHint => '음정이 살짝 어긋난 음원에 맞추기';
+
+  @override
+  String fineTuneReference(String hz) {
+    return 'A ≈ $hz Hz로 조율';
+  }
+
+  @override
   String get tapTempo => '탭 템포';
 
   @override

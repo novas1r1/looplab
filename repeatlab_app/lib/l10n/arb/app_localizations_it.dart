@@ -1057,6 +1057,74 @@ class AppLocalizationsIt extends AppLocalizations {
   String get pitchUnchanged => 'intonazione invariata';
 
   @override
+  String get intervalUnison => 'Intonazione originale';
+
+  @override
+  String get intervalHalfStep => 'semitono';
+
+  @override
+  String get intervalWholeStep => 'tono';
+
+  @override
+  String get intervalMinorThird => '3ª minore';
+
+  @override
+  String get intervalMajorThird => '3ª maggiore';
+
+  @override
+  String get intervalFourth => '4ª';
+
+  @override
+  String get intervalTritone => 'tritono';
+
+  @override
+  String get intervalFifth => '5ª';
+
+  @override
+  String get intervalMinorSixth => '6ª minore';
+
+  @override
+  String get intervalMajorSixth => '6ª maggiore';
+
+  @override
+  String get intervalMinorSeventh => '7ª minore';
+
+  @override
+  String get intervalMajorSeventh => '7ª maggiore';
+
+  @override
+  String get intervalOctave => 'ottava';
+
+  @override
+  String intervalDown(String interval) {
+    return '$interval sotto';
+  }
+
+  @override
+  String intervalUp(String interval) {
+    return '$interval sopra';
+  }
+
+  @override
+  String get pitchQualityWarning => 'può suonare artificiale';
+
+  @override
+  String get fineTune => 'Sintonia fine';
+
+  @override
+  String fineTuneCentsValue(String cents) {
+    return '$cents ct';
+  }
+
+  @override
+  String get fineTuneHint => 'Adatta una registrazione un po\' stonata';
+
+  @override
+  String fineTuneReference(String hz) {
+    return 'accorda La ≈ $hz Hz';
+  }
+
+  @override
   String get tapTempo => 'Batti il tempo';
 
   @override

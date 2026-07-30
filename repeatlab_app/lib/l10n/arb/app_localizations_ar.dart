@@ -1040,6 +1040,74 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pitchUnchanged => 'طبقة الصوت دون تغيير';
 
   @override
+  String get intervalUnison => 'طبقة الصوت الأصلية';
+
+  @override
+  String get intervalHalfStep => 'نصف درجة';
+
+  @override
+  String get intervalWholeStep => 'درجة كاملة';
+
+  @override
+  String get intervalMinorThird => 'ثالثة صغرى';
+
+  @override
+  String get intervalMajorThird => 'ثالثة كبرى';
+
+  @override
+  String get intervalFourth => 'رابعة';
+
+  @override
+  String get intervalTritone => 'تريتون';
+
+  @override
+  String get intervalFifth => 'خامسة';
+
+  @override
+  String get intervalMinorSixth => 'سادسة صغرى';
+
+  @override
+  String get intervalMajorSixth => 'سادسة كبرى';
+
+  @override
+  String get intervalMinorSeventh => 'سابعة صغرى';
+
+  @override
+  String get intervalMajorSeventh => 'سابعة كبرى';
+
+  @override
+  String get intervalOctave => 'أوكتاف';
+
+  @override
+  String intervalDown(String interval) {
+    return '$interval للأسفل';
+  }
+
+  @override
+  String intervalUp(String interval) {
+    return '$interval للأعلى';
+  }
+
+  @override
+  String get pitchQualityWarning => 'قد يبدو غير طبيعي';
+
+  @override
+  String get fineTune => 'ضبط دقيق';
+
+  @override
+  String fineTuneCentsValue(String cents) {
+    return '$cents ct';
+  }
+
+  @override
+  String get fineTuneHint => 'طابق تسجيلاً غير مضبوط قليلاً';
+
+  @override
+  String fineTuneReference(String hz) {
+    return 'اضبط لا ≈ $hz هرتز';
+  }
+
+  @override
   String get tapTempo => 'انقر الإيقاع';
 
   @override

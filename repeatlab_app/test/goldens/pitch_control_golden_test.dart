@@ -121,6 +121,24 @@ void main() {
     );
 
     multiLocaleGoldenTest(
+      'fine tune engaged (+18 ct)',
+      fileNameBase: 'pitch_control_fine_tune',
+      pumpWidgetWithLocale: (tester, widget, locale) =>
+          tester.pumpApp(widget, locale: locale),
+      builder: () => GoldenTestDeviceScenario(
+        name: 'pitch_fine_tune',
+        builder: () => buildPitchPanel(
+          // No transposition, only fine tune: pins the readout swapping from
+          // the hint to the concert-pitch reference (A ~ 444.6 Hz).
+          songState: const SongState(
+            song: testSong,
+            fineTuneCents: 18,
+          ),
+        ),
+      ),
+    );
+
+    multiLocaleGoldenTest(
       'pitch shifted down (-12 st)',
       fileNameBase: 'pitch_control_down',
       pumpWidgetWithLocale: (tester, widget, locale) =>

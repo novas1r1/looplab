@@ -1046,6 +1046,74 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pitchUnchanged => 'pitch unchanged';
 
   @override
+  String get intervalUnison => 'Original pitch';
+
+  @override
+  String get intervalHalfStep => 'half step';
+
+  @override
+  String get intervalWholeStep => 'whole step';
+
+  @override
+  String get intervalMinorThird => 'minor 3rd';
+
+  @override
+  String get intervalMajorThird => 'major 3rd';
+
+  @override
+  String get intervalFourth => '4th';
+
+  @override
+  String get intervalTritone => 'tritone';
+
+  @override
+  String get intervalFifth => '5th';
+
+  @override
+  String get intervalMinorSixth => 'minor 6th';
+
+  @override
+  String get intervalMajorSixth => 'major 6th';
+
+  @override
+  String get intervalMinorSeventh => 'minor 7th';
+
+  @override
+  String get intervalMajorSeventh => 'major 7th';
+
+  @override
+  String get intervalOctave => 'octave';
+
+  @override
+  String intervalDown(String interval) {
+    return '$interval down';
+  }
+
+  @override
+  String intervalUp(String interval) {
+    return '$interval up';
+  }
+
+  @override
+  String get pitchQualityWarning => 'may sound artificial';
+
+  @override
+  String get fineTune => 'Fine tune';
+
+  @override
+  String fineTuneCentsValue(String cents) {
+    return '$cents ct';
+  }
+
+  @override
+  String get fineTuneHint => 'Match a slightly off-pitch record';
+
+  @override
+  String fineTuneReference(String hz) {
+    return 'tune to A ≈ $hz Hz';
+  }
+
+  @override
   String get tapTempo => 'Tap Tempo';
 
   @override

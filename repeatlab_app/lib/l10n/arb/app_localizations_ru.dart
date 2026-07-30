@@ -1053,6 +1053,74 @@ class AppLocalizationsRu extends AppLocalizations {
   String get pitchUnchanged => 'высота без изменений';
 
   @override
+  String get intervalUnison => 'Исходная высота';
+
+  @override
+  String get intervalHalfStep => 'полутон';
+
+  @override
+  String get intervalWholeStep => 'тон';
+
+  @override
+  String get intervalMinorThird => 'малая терция';
+
+  @override
+  String get intervalMajorThird => 'большая терция';
+
+  @override
+  String get intervalFourth => 'кварта';
+
+  @override
+  String get intervalTritone => 'тритон';
+
+  @override
+  String get intervalFifth => 'квинта';
+
+  @override
+  String get intervalMinorSixth => 'малая секста';
+
+  @override
+  String get intervalMajorSixth => 'большая секста';
+
+  @override
+  String get intervalMinorSeventh => 'малая септима';
+
+  @override
+  String get intervalMajorSeventh => 'большая септима';
+
+  @override
+  String get intervalOctave => 'октава';
+
+  @override
+  String intervalDown(String interval) {
+    return '$interval вниз';
+  }
+
+  @override
+  String intervalUp(String interval) {
+    return '$interval вверх';
+  }
+
+  @override
+  String get pitchQualityWarning => 'может звучать неестественно';
+
+  @override
+  String get fineTune => 'Точная подстройка';
+
+  @override
+  String fineTuneCentsValue(String cents) {
+    return '$cents ct';
+  }
+
+  @override
+  String get fineTuneHint => 'Подстройка под слегка расстроенную запись';
+
+  @override
+  String fineTuneReference(String hz) {
+    return 'настройте Ля ≈ $hz Гц';
+  }
+
+  @override
   String get tapTempo => 'Отстучать темп';
 
   @override

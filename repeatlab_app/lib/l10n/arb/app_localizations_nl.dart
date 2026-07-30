@@ -1051,6 +1051,74 @@ class AppLocalizationsNl extends AppLocalizations {
   String get pitchUnchanged => 'toonhoogte ongewijzigd';
 
   @override
+  String get intervalUnison => 'Originele toonhoogte';
+
+  @override
+  String get intervalHalfStep => 'halve toon';
+
+  @override
+  String get intervalWholeStep => 'hele toon';
+
+  @override
+  String get intervalMinorThird => 'kleine terts';
+
+  @override
+  String get intervalMajorThird => 'grote terts';
+
+  @override
+  String get intervalFourth => 'kwart';
+
+  @override
+  String get intervalTritone => 'tritonus';
+
+  @override
+  String get intervalFifth => 'kwint';
+
+  @override
+  String get intervalMinorSixth => 'kleine sext';
+
+  @override
+  String get intervalMajorSixth => 'grote sext';
+
+  @override
+  String get intervalMinorSeventh => 'kleine septiem';
+
+  @override
+  String get intervalMajorSeventh => 'grote septiem';
+
+  @override
+  String get intervalOctave => 'octaaf';
+
+  @override
+  String intervalDown(String interval) {
+    return '$interval omlaag';
+  }
+
+  @override
+  String intervalUp(String interval) {
+    return '$interval omhoog';
+  }
+
+  @override
+  String get pitchQualityWarning => 'klinkt mogelijk kunstmatig';
+
+  @override
+  String get fineTune => 'Fijnafstemming';
+
+  @override
+  String fineTuneCentsValue(String cents) {
+    return '$cents ct';
+  }
+
+  @override
+  String get fineTuneHint => 'Stem af op een licht ontstemde opname';
+
+  @override
+  String fineTuneReference(String hz) {
+    return 'stem op A ≈ $hz Hz';
+  }
+
+  @override
   String get tapTempo => 'Tempo tikken';
 
   @override

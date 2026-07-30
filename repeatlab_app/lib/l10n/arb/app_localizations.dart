@@ -1950,6 +1950,126 @@ abstract class AppLocalizations {
   /// **'pitch unchanged'**
   String get pitchUnchanged;
 
+  /// Caption under the pitch stepper when there is no transposition
+  ///
+  /// In en, this message translates to:
+  /// **'Original pitch'**
+  String get intervalUnison;
+
+  /// Musical interval of 1 semitone. Combined with intervalUp/intervalDown, e.g. 'half step down'
+  ///
+  /// In en, this message translates to:
+  /// **'half step'**
+  String get intervalHalfStep;
+
+  /// Musical interval of 2 semitones. Combined with intervalUp/intervalDown
+  ///
+  /// In en, this message translates to:
+  /// **'whole step'**
+  String get intervalWholeStep;
+
+  /// Musical interval of 3 semitones. Combined with intervalUp/intervalDown
+  ///
+  /// In en, this message translates to:
+  /// **'minor 3rd'**
+  String get intervalMinorThird;
+
+  /// Musical interval of 4 semitones. Combined with intervalUp/intervalDown
+  ///
+  /// In en, this message translates to:
+  /// **'major 3rd'**
+  String get intervalMajorThird;
+
+  /// Musical interval of 5 semitones (perfect fourth). Combined with intervalUp/intervalDown
+  ///
+  /// In en, this message translates to:
+  /// **'4th'**
+  String get intervalFourth;
+
+  /// Musical interval of 6 semitones. Combined with intervalUp/intervalDown
+  ///
+  /// In en, this message translates to:
+  /// **'tritone'**
+  String get intervalTritone;
+
+  /// Musical interval of 7 semitones (perfect fifth). Combined with intervalUp/intervalDown
+  ///
+  /// In en, this message translates to:
+  /// **'5th'**
+  String get intervalFifth;
+
+  /// Musical interval of 8 semitones. Combined with intervalUp/intervalDown
+  ///
+  /// In en, this message translates to:
+  /// **'minor 6th'**
+  String get intervalMinorSixth;
+
+  /// Musical interval of 9 semitones. Combined with intervalUp/intervalDown
+  ///
+  /// In en, this message translates to:
+  /// **'major 6th'**
+  String get intervalMajorSixth;
+
+  /// Musical interval of 10 semitones. Combined with intervalUp/intervalDown
+  ///
+  /// In en, this message translates to:
+  /// **'minor 7th'**
+  String get intervalMinorSeventh;
+
+  /// Musical interval of 11 semitones. Combined with intervalUp/intervalDown
+  ///
+  /// In en, this message translates to:
+  /// **'major 7th'**
+  String get intervalMajorSeventh;
+
+  /// Musical interval of 12 semitones. Combined with intervalUp/intervalDown
+  ///
+  /// In en, this message translates to:
+  /// **'octave'**
+  String get intervalOctave;
+
+  /// Wraps an interval name for a downward transposition, e.g. 'whole step down'. Reorder freely for your language.
+  ///
+  /// In en, this message translates to:
+  /// **'{interval} down'**
+  String intervalDown(String interval);
+
+  /// Wraps an interval name for an upward transposition, e.g. '5th up'. Reorder freely for your language.
+  ///
+  /// In en, this message translates to:
+  /// **'{interval} up'**
+  String intervalUp(String interval);
+
+  /// Appended to the pitch caption for large transpositions, where the pitch shifter produces audible artifacts
+  ///
+  /// In en, this message translates to:
+  /// **'may sound artificial'**
+  String get pitchQualityWarning;
+
+  /// Label for the fine-tune control, which shifts pitch by fractions of a semitone (cents)
+  ///
+  /// In en, this message translates to:
+  /// **'Fine tune'**
+  String get fineTune;
+
+  /// Fine-tune amount in cents (hundredths of a semitone). 'ct' is the standard abbreviation for cents.
+  ///
+  /// In en, this message translates to:
+  /// **'{cents} ct'**
+  String fineTuneCentsValue(String cents);
+
+  /// Hint next to the fine-tune slider explaining what it is for: recordings that were mastered slightly off pitch
+  ///
+  /// In en, this message translates to:
+  /// **'Match a slightly off-pitch record'**
+  String get fineTuneHint;
+
+  /// Shown when fine tune is engaged: the concert pitch the playback now sits at, so the player knows what to set their tuner to
+  ///
+  /// In en, this message translates to:
+  /// **'tune to A ≈ {hz} Hz'**
+  String fineTuneReference(String hz);
+
   /// Button that opens the tap-tempo dialog to detect the song BPM
   ///
   /// In en, this message translates to:

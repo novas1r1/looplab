@@ -129,6 +129,7 @@ abstract final class AppAnalytics {
   static const clickSetLoopEnd = 'click_set_loop_end';
   static const clickUpdateSpeed = 'click_update_speed';
   static const clickUpdatePitch = 'click_update_pitch';
+  static const clickUpdateFineTune = 'click_update_fine_tune';
   static const clickUpdateBpm = 'click_update_bpm';
   static const clickPitchModeSemitones = 'click_pitch_mode_semitones';
   static const clickPitchModeKey = 'click_pitch_mode_key';

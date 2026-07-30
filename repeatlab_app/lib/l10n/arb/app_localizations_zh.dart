@@ -992,6 +992,74 @@ class AppLocalizationsZh extends AppLocalizations {
   String get pitchUnchanged => '音高不变';
 
   @override
+  String get intervalUnison => '原始音高';
+
+  @override
+  String get intervalHalfStep => '半音';
+
+  @override
+  String get intervalWholeStep => '全音';
+
+  @override
+  String get intervalMinorThird => '小三度';
+
+  @override
+  String get intervalMajorThird => '大三度';
+
+  @override
+  String get intervalFourth => '纯四度';
+
+  @override
+  String get intervalTritone => '三全音';
+
+  @override
+  String get intervalFifth => '纯五度';
+
+  @override
+  String get intervalMinorSixth => '小六度';
+
+  @override
+  String get intervalMajorSixth => '大六度';
+
+  @override
+  String get intervalMinorSeventh => '小七度';
+
+  @override
+  String get intervalMajorSeventh => '大七度';
+
+  @override
+  String get intervalOctave => '八度';
+
+  @override
+  String intervalDown(String interval) {
+    return '降$interval';
+  }
+
+  @override
+  String intervalUp(String interval) {
+    return '升$interval';
+  }
+
+  @override
+  String get pitchQualityWarning => '可能听起来不自然';
+
+  @override
+  String get fineTune => '微调';
+
+  @override
+  String fineTuneCentsValue(String cents) {
+    return '$cents ct';
+  }
+
+  @override
+  String get fineTuneHint => '匹配音高略有偏差的录音';
+
+  @override
+  String fineTuneReference(String hz) {
+    return '调至 A ≈ $hz Hz';
+  }
+
+  @override
   String get tapTempo => '点击速度';
 
   @override

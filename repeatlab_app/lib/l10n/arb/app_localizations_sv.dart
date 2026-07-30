@@ -1047,6 +1047,74 @@ class AppLocalizationsSv extends AppLocalizations {
   String get pitchUnchanged => 'tonhöjd oförändrad';
 
   @override
+  String get intervalUnison => 'Ursprunglig tonhöjd';
+
+  @override
+  String get intervalHalfStep => 'halvt tonsteg';
+
+  @override
+  String get intervalWholeStep => 'helt tonsteg';
+
+  @override
+  String get intervalMinorThird => 'liten ters';
+
+  @override
+  String get intervalMajorThird => 'stor ters';
+
+  @override
+  String get intervalFourth => 'kvart';
+
+  @override
+  String get intervalTritone => 'tritonus';
+
+  @override
+  String get intervalFifth => 'kvint';
+
+  @override
+  String get intervalMinorSixth => 'liten sext';
+
+  @override
+  String get intervalMajorSixth => 'stor sext';
+
+  @override
+  String get intervalMinorSeventh => 'liten septim';
+
+  @override
+  String get intervalMajorSeventh => 'stor septim';
+
+  @override
+  String get intervalOctave => 'oktav';
+
+  @override
+  String intervalDown(String interval) {
+    return '$interval ner';
+  }
+
+  @override
+  String intervalUp(String interval) {
+    return '$interval upp';
+  }
+
+  @override
+  String get pitchQualityWarning => 'kan låta konstlat';
+
+  @override
+  String get fineTune => 'Finjustering';
+
+  @override
+  String fineTuneCentsValue(String cents) {
+    return '$cents ct';
+  }
+
+  @override
+  String get fineTuneHint => 'Matcha en något ostämd inspelning';
+
+  @override
+  String fineTuneReference(String hz) {
+    return 'stäm A ≈ $hz Hz';
+  }
+
+  @override
   String get tapTempo => 'Knacka tempo';
 
   @override

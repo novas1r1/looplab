@@ -539,6 +539,110 @@
     "@pitchUnchanged": {
         "description": "Caption under the speed multiplier value noting the pitch stays the same"
     },
+    "intervalUnison": "Original pitch",
+    "@intervalUnison": {
+        "description": "Caption under the pitch stepper when there is no transposition"
+    },
+    "intervalHalfStep": "half step",
+    "@intervalHalfStep": {
+        "description": "Musical interval of 1 semitone. Combined with intervalUp/intervalDown, e.g. 'half step down'"
+    },
+    "intervalWholeStep": "whole step",
+    "@intervalWholeStep": {
+        "description": "Musical interval of 2 semitones. Combined with intervalUp/intervalDown"
+    },
+    "intervalMinorThird": "minor 3rd",
+    "@intervalMinorThird": {
+        "description": "Musical interval of 3 semitones. Combined with intervalUp/intervalDown"
+    },
+    "intervalMajorThird": "major 3rd",
+    "@intervalMajorThird": {
+        "description": "Musical interval of 4 semitones. Combined with intervalUp/intervalDown"
+    },
+    "intervalFourth": "4th",
+    "@intervalFourth": {
+        "description": "Musical interval of 5 semitones (perfect fourth). Combined with intervalUp/intervalDown"
+    },
+    "intervalTritone": "tritone",
+    "@intervalTritone": {
+        "description": "Musical interval of 6 semitones. Combined with intervalUp/intervalDown"
+    },
+    "intervalFifth": "5th",
+    "@intervalFifth": {
+        "description": "Musical interval of 7 semitones (perfect fifth). Combined with intervalUp/intervalDown"
+    },
+    "intervalMinorSixth": "minor 6th",
+    "@intervalMinorSixth": {
+        "description": "Musical interval of 8 semitones. Combined with intervalUp/intervalDown"
+    },
+    "intervalMajorSixth": "major 6th",
+    "@intervalMajorSixth": {
+        "description": "Musical interval of 9 semitones. Combined with intervalUp/intervalDown"
+    },
+    "intervalMinorSeventh": "minor 7th",
+    "@intervalMinorSeventh": {
+        "description": "Musical interval of 10 semitones. Combined with intervalUp/intervalDown"
+    },
+    "intervalMajorSeventh": "major 7th",
+    "@intervalMajorSeventh": {
+        "description": "Musical interval of 11 semitones. Combined with intervalUp/intervalDown"
+    },
+    "intervalOctave": "octave",
+    "@intervalOctave": {
+        "description": "Musical interval of 12 semitones. Combined with intervalUp/intervalDown"
+    },
+    "intervalDown": "{interval} down",
+    "@intervalDown": {
+        "description": "Wraps an interval name for a downward transposition, e.g. 'whole step down'. Reorder freely for your language.",
+        "placeholders": {
+            "interval": {
+                "type": "String",
+                "example": "whole step"
+            }
+        }
+    },
+    "intervalUp": "{interval} up",
+    "@intervalUp": {
+        "description": "Wraps an interval name for an upward transposition, e.g. '5th up'. Reorder freely for your language.",
+        "placeholders": {
+            "interval": {
+                "type": "String",
+                "example": "5th"
+            }
+        }
+    },
+    "pitchQualityWarning": "may sound artificial",
+    "@pitchQualityWarning": {
+        "description": "Appended to the pitch caption for large transpositions, where the pitch shifter produces audible artifacts"
+    },
+    "fineTune": "Fine tune",
+    "@fineTune": {
+        "description": "Label for the fine-tune control, which shifts pitch by fractions of a semitone (cents)"
+    },
+    "fineTuneCentsValue": "{cents} ct",
+    "@fineTuneCentsValue": {
+        "description": "Fine-tune amount in cents (hundredths of a semitone). 'ct' is the standard abbreviation for cents.",
+        "placeholders": {
+            "cents": {
+                "type": "String",
+                "example": "+18"
+            }
+        }
+    },
+    "fineTuneHint": "Match a slightly off-pitch record",
+    "@fineTuneHint": {
+        "description": "Hint next to the fine-tune slider explaining what it is for: recordings that were mastered slightly off pitch"
+    },
+    "fineTuneReference": "tune to A ≈ {hz} Hz",
+    "@fineTuneReference": {
+        "description": "Shown when fine tune is engaged: the concert pitch the playback now sits at, so the player knows what to set their tuner to",
+        "placeholders": {
+            "hz": {
+                "type": "String",
+                "example": "444.6"
+            }
+        }
+    },
     "tapTempo": "Tap Tempo",
     "@tapTempo": {
         "description": "Button that opens the tap-tempo dialog to detect the song BPM"

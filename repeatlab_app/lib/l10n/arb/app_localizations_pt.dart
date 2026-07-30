@@ -1055,6 +1055,74 @@ class AppLocalizationsPt extends AppLocalizations {
   String get pitchUnchanged => 'tom inalterado';
 
   @override
+  String get intervalUnison => 'Afinação original';
+
+  @override
+  String get intervalHalfStep => 'semitom';
+
+  @override
+  String get intervalWholeStep => 'tom';
+
+  @override
+  String get intervalMinorThird => '3ª menor';
+
+  @override
+  String get intervalMajorThird => '3ª maior';
+
+  @override
+  String get intervalFourth => '4ª';
+
+  @override
+  String get intervalTritone => 'trítono';
+
+  @override
+  String get intervalFifth => '5ª';
+
+  @override
+  String get intervalMinorSixth => '6ª menor';
+
+  @override
+  String get intervalMajorSixth => '6ª maior';
+
+  @override
+  String get intervalMinorSeventh => '7ª menor';
+
+  @override
+  String get intervalMajorSeventh => '7ª maior';
+
+  @override
+  String get intervalOctave => 'oitava';
+
+  @override
+  String intervalDown(String interval) {
+    return '$interval abaixo';
+  }
+
+  @override
+  String intervalUp(String interval) {
+    return '$interval acima';
+  }
+
+  @override
+  String get pitchQualityWarning => 'pode soar artificial';
+
+  @override
+  String get fineTune => 'Ajuste fino';
+
+  @override
+  String fineTuneCentsValue(String cents) {
+    return '$cents ct';
+  }
+
+  @override
+  String get fineTuneHint => 'Ajusta uma gravação ligeiramente desafinada';
+
+  @override
+  String fineTuneReference(String hz) {
+    return 'afinar Lá ≈ $hz Hz';
+  }
+
+  @override
   String get tapTempo => 'Marcar tempo';
 
   @override
