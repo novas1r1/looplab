@@ -70,13 +70,14 @@ Each feature is marked as **Free** (available to everyone) or **Premium** (requi
 - **Pitch Preservation**: Maintain audio quality during speed changes
 - **Visual Speed Indicator**: See current playback speed at all times
 
-## 🎼 Pitch Control (Premium, Beta)
+## 🎼 Pitch Control (Premium)
 
 ### Pitch Adjustment
 - **Semitone Range**: Transpose audio from -12 to +12 semitones (one octave down/up)
 - **Independent Control**: Pitch changes work independently from speed adjustments
 - **Real-time Processing**: Adjust pitch while audio is playing
 - **Musical Transposition**: Perfect for practicing songs in different keys or matching your instrument's tuning
+- **iOS & Android**: Audio pitch shifting runs natively on both platforms (Signalsmith DSP inside the audioplayers fork); video pitch shifting works everywhere via media_kit/libmpv
 
 ### Two Pitch Modes
 - **Semitone Mode**: Adjust pitch with a slider in semitone steps
