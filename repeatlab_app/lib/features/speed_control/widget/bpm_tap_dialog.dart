@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
@@ -16,6 +17,14 @@ class BpmTapDialog extends StatefulWidget {
 }
 
 class BpmTapDialogState extends State<BpmTapDialog> {
+  /// A pause longer than this starts a fresh measurement instead of mixing
+  /// the gap into the running tempo.
+  static const _resetTimeout = Duration(seconds: 2);
+
+  /// Upper bound on remembered taps; large enough that the tempo converges
+  /// instead of drifting with a short sliding window.
+  static const _maxTaps = 16;
+
   final List<DateTime> _tapTimes = [];
   int? _calculatedBpm;
 
@@ -95,10 +104,9 @@ class BpmTapDialogState extends State<BpmTapDialog> {
   Widget _tapPad(BuildContext context) {
     return GestureDetector(
       key: const Key('song.bpmTap.pad'),
-      onTap: () {
-        _tapTimes.add(DateTime.now());
-        _calculateBpmFromTaps();
-      },
+      // onTapDown registers the tap earlier than onTap, which matters for
+      // timing accuracy.
+      onTapDown: (_) => _registerTap(),
       child: Container(
         width: 150,
         height: 150,
@@ -132,35 +140,45 @@ class BpmTapDialogState extends State<BpmTapDialog> {
     );
   }
 
-  void _calculateBpmFromTaps() {
-    if (_tapTimes.length < 2) {
-      setState(() {});
-      return;
+  void _registerTap() {
+    final now = DateTime.now();
+    if (_tapTimes.isNotEmpty &&
+        now.difference(_tapTimes.last) > _resetTimeout) {
+      // The user paused; start a fresh measurement but keep showing the
+      // previously detected tempo until the new one is reliable.
+      _tapTimes.clear();
     }
-
-    // Keep only the last 8 taps for more accurate measurement
-    if (_tapTimes.length > 8) {
+    _tapTimes.add(now);
+    if (_tapTimes.length > _maxTaps) {
       _tapTimes.removeAt(0);
     }
+    HapticFeedback.lightImpact();
+    _calculateBpmFromTaps();
+  }
 
-    // Calculate intervals between consecutive taps
-    final intervals = <int>[];
-    for (int i = 1; i < _tapTimes.length; i++) {
-      final interval = _tapTimes[i].difference(_tapTimes[i - 1]).inMilliseconds;
-      intervals.add(interval);
-    }
+  void _calculateBpmFromTaps() {
+    // Require at least 3 taps (2 intervals) before showing a value; a single
+    // interval is too noisy to be meaningful.
+    if (_tapTimes.length < 3) return;
 
-    if (intervals.isEmpty) return;
+    final intervals = <int>[
+      for (var i = 1; i < _tapTimes.length; i++)
+        _tapTimes[i].difference(_tapTimes[i - 1]).inMilliseconds,
+    ]..sort();
 
-    // Calculate average interval
-    final averageInterval =
-        intervals.reduce((a, b) => a + b) / intervals.length;
+    // With enough data, drop the fastest and slowest interval so one sloppy
+    // tap doesn't move the result.
+    final usable = intervals.length >= 4
+        ? intervals.sublist(1, intervals.length - 1)
+        : intervals;
+
+    final averageInterval = usable.reduce((a, b) => a + b) / usable.length;
 
     // Convert to BPM: 60000ms per minute / average interval in ms
     final bpm = (60000 / averageInterval).round();
 
     // Only accept reasonable BPM values (40-200)
-    if (bpm >= 40 && bpm <= 200) {
+    if (bpm >= 40 && bpm <= 200 && bpm != _calculatedBpm) {
       setState(() {
         _calculatedBpm = bpm;
       });
