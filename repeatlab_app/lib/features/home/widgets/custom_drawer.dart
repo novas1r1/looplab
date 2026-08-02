@@ -6,16 +6,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:repeatlab/app/router.dart';
 import 'package:repeatlab/core/app_constants.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/ui/widgets/app_icon.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/data/repositories/purchases_repository.dart';
 import 'package:repeatlab/features/changelog_dialog/changelog_dialog.dart';
-import 'package:repeatlab/features/home/dataprotection_page.dart';
 import 'package:repeatlab/features/home/legal_notices_page.dart';
 import 'package:repeatlab/features/home/settings_page.dart';
-import 'package:repeatlab/features/home/terms_of_service_page.dart';
 import 'package:repeatlab/features/locale/cubit/locale_cubit.dart';
 import 'package:repeatlab/features/locale/widgets/language_picker_dialog.dart';
 import 'package:repeatlab/features/paywall/cubits/premium_subscription/premium_subscription_cubit.dart';
@@ -208,11 +207,7 @@ class CustomDrawer extends StatelessWidget {
                 AppAnalytics.trackEvent(AppAnalytics.viewDataProtection);
                 Navigator.pop(context);
 
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const DataprotectionPage(),
-                  ),
-                );
+                Navigator.of(context).pushNamed(AppRouter.privacy);
               },
             ),
             ListTile(
@@ -226,11 +221,7 @@ class CustomDrawer extends StatelessWidget {
                 AppAnalytics.trackEvent(AppAnalytics.viewTermsOfService);
                 Navigator.pop(context);
 
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const TermsOfServicePage(),
-                  ),
-                );
+                Navigator.of(context).pushNamed(AppRouter.terms);
               },
             ),
             ListTile(
@@ -242,6 +233,9 @@ class CustomDrawer extends StatelessWidget {
 
                 Navigator.of(context).push(
                   MaterialPageRoute(
+                    settings: const RouteSettings(
+                      name: AppRouter.legalNotices,
+                    ),
                     builder: (context) => const LegalNoticesPage(),
                   ),
                 );
@@ -255,6 +249,7 @@ class CustomDrawer extends StatelessWidget {
                 Navigator.pop(context);
                 Navigator.of(context).push(
                   MaterialPageRoute(
+                    settings: const RouteSettings(name: AppRouter.licenses),
                     builder: (context) => LicensePage(
                       applicationName: 'RepeatLab',
                       applicationVersion: appVersion,
@@ -415,6 +410,7 @@ class CustomDrawer extends StatelessWidget {
   void _onSettings(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
+        settings: const RouteSettings(name: AppRouter.settingsPage),
         builder: (context) => const SettingsPage(),
       ),
     );

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:posthog_flutter/posthog_flutter.dart';
+import 'package:repeatlab/app/clarity_navigator_observer.dart';
 import 'package:repeatlab/app/router.dart';
 import 'package:repeatlab/app/view/background_audio_guard.dart';
 import 'package:repeatlab/app/view/repository_wrapper.dart';
@@ -121,7 +122,10 @@ class App extends StatelessWidget {
                   onGenerateRoute: AppRouter.generateRoute,
                   // Auto-captures `$screen` for named routes. Gated by the SDK's
                   // opt-out state, so it only sends when analytics consent is on.
-                  navigatorObservers: [PosthogObserver()],
+                  navigatorObservers: [
+                    PosthogObserver(),
+                    ClarityNavigatorObserver(),
+                  ],
                   home: introShown ? const HomePage() : const OnboardingPage(),
                 );
               },

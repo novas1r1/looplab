@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:repeatlab/app/router.dart';
 import 'package:repeatlab/core/ui/app_colors.dart';
 import 'package:repeatlab/core/ui/widgets/app_icon.dart';
 import 'package:repeatlab/core/utils/app_analytics.dart';
@@ -129,7 +130,10 @@ class HomeTile extends StatelessWidget {
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => SongPage(song: song)),
+      MaterialPageRoute(
+        settings: const RouteSettings(name: AppRouter.song),
+        builder: (context) => SongPage(song: song),
+      ),
     );
   }
 
