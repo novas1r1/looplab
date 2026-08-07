@@ -1,10 +1,27 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
+// Canonical, untracked store URLs — used for structured data (sameAs).
 const appStoreUrl =
-  'https://apps.apple.com/us/app/audio-looper-speed-changer/id6740175553';
+  'https://apps.apple.com/app/apple-store/id6740175553';
 const googlePlayUrl =
   'https://play.google.com/store/apps/details?id=com.repeatlab.app';
+
+// Attribution links. Apple does not read UTM parameters: App Store campaigns
+// use the provider token (pt) + campaign token (ct) pair from App Analytics.
+// Google Play reads a single URL-encoded `referrer` value that carries the UTMs.
+// Apple has no per-placement dimension, so both badges share one campaign token;
+// hero vs. footer is already distinguished by the TelemetryDeck click events.
+const appStoreTrackedUrl = `${appStoreUrl}?pt=122387015&ct=website&mt=8`;
+
+const googlePlayLink = (placement: string) => {
+  const referrer = new URLSearchParams({
+    utm_source: 'website',
+    utm_medium: placement,
+    utm_campaign: 'app_download',
+  }).toString();
+  return `${googlePlayUrl}&referrer=${encodeURIComponent(referrer)}`;
+};
 
 const features = [
   {
@@ -218,7 +235,7 @@ const jsonLd = JSON.stringify({
         </p>
         <div class="flex justify-center gap-4">
           <a
-            href={appStoreUrl}
+            href={appStoreTrackedUrl}
             target="_blank"
             class="flex items-center gap-1"
             onclick="window.telemetrydeck.send({type: 'app_store_click'})"
@@ -230,7 +247,7 @@ const jsonLd = JSON.stringify({
             />
           </a>
           <a
-            href={googlePlayUrl}
+            href={googlePlayLink('hero_banner')}
             target="_blank"
             class="flex items-center gap-1"
             onclick="window.telemetrydeck.send({type: 'google_play_click'})"
@@ -438,7 +455,7 @@ const jsonLd = JSON.stringify({
         </p>
         <div class="flex justify-center gap-4">
           <a
-            href={appStoreUrl}
+            href={appStoreTrackedUrl}
             target="_blank"
             class="flex items-center gap-2"
             onclick="window.telemetrydeck.send({type: 'app_store_click'})"
@@ -450,7 +467,7 @@ const jsonLd = JSON.stringify({
             />
           </a>
           <a
-            href={googlePlayUrl}
+            href={googlePlayLink('footer_cta')}
             target="_blank"
             class="flex items-center gap-2"
             onclick="window.telemetrydeck.send({type: 'google_play_click'})"

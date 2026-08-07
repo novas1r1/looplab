@@ -20,8 +20,13 @@ export default {
                 error: '#ffb3ae',
             },
             fontFamily: {
-                sans: ['Inter', 'system-ui', 'sans-serif'],
-                display: ['Montserrat', 'system-ui', 'sans-serif'],
+                sans: ['Inter Variable', 'Inter', 'system-ui', 'sans-serif'],
+                display: [
+                    'Montserrat Variable',
+                    'Montserrat',
+                    'system-ui',
+                    'sans-serif',
+                ],
             },
             typography: {
                 invert: {
