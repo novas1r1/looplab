@@ -35,13 +35,24 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
       state.hasYearlySubscription ||
       state.hasLifetimePurchase;
 
+  /// Test hook: the desktop-premium short-circuit is keyed on the host
+  /// platform (`Platform.isWindows`), which on a Windows dev machine would
+  /// force every cubit unit test into the short-circuit instead of the
+  /// mocked RevenueCat behavior.
+  @visibleForTesting
+  bool? isDesktopPremiumOverride;
+
+  /// The Windows desktop build has no RevenueCat SDK and runs fully
+  /// unlocked — it is a development build, not a shipped product.
+  bool get _isDesktopPremium => isDesktopPremiumOverride ?? Platform.isWindows;
+
   /// Initializes the [Purchases] SDK.
   /// Checks if the user is subscribed to the premium plan.
   /// Checks if the user has an internet connection.
   Future<void> init() async {
     log('--- REVENUECAT: init()');
 
-    if (Platform.isWindows) {
+    if (_isDesktopPremium) {
       emit(
         state.copyWith(
           status: PremiumSubscriptionStatus.premium,
@@ -89,7 +100,7 @@ class PremiumSubscriptionCubit extends Cubit<PremiumSubscriptionState> {
   }
 
   Future<void> checkStatus() async {
-    if (Platform.isWindows) {
+    if (_isDesktopPremium) {
       emit(
         state.copyWith(
           status: PremiumSubscriptionStatus.premium,

@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:path/path.dart' as p;
@@ -613,5 +615,110 @@ void main() {
         },
       );
     });
+
+    group('addSongFile SoLoud engine lifecycle', () {
+      // The engine must only live for the duration of the import probe: a
+      // permanently running engine keeps an output audio stream open, and
+      // miniaudio's device-update callback crashed the app on audio route
+      // changes (FLUTTER-2Y/FLUTTER-FY).
+
+      late File wavFile;
+      late _MockAudioSource mockSource;
+
+      setUp(() async {
+        wavFile = File(p.join(appDir.path, 'probe.wav'));
+        await wavFile.writeAsBytes(_minimalWavBytes());
+
+        mockSource = _MockAudioSource();
+        when(() => mockSoLoud.isInitialized).thenReturn(false);
+        when(() => mockSoLoud.init()).thenAnswer((_) async {});
+        when(() => mockSoLoud.deinit()).thenReturn(null);
+        when(
+          () => mockSoLoud.loadFile(any()),
+        ).thenAnswer((_) async => mockSource);
+        when(
+          () => mockSoLoud.getLength(mockSource),
+        ).thenReturn(const Duration(seconds: 2));
+        when(
+          () => mockSoLoud.disposeSource(mockSource),
+        ).thenAnswer((_) async {});
+      });
+
+      test('initializes the engine for the probe and shuts it down after',
+          () async {
+        await songRepository.addSongFile(wavFile);
+
+        verifyInOrder([
+          () => mockSoLoud.init(),
+          () => mockSoLoud.loadFile(wavFile.path),
+          () => mockSoLoud.disposeSource(mockSource),
+          () => mockSoLoud.deinit(),
+        ]);
+
+        final songs = await songRepository.getAllSongs();
+        expect(songs.single.duration, const Duration(seconds: 2));
+      });
+
+      test('shuts the engine down even when the load fails', () async {
+        when(() => mockSoLoud.loadFile(any()))
+            .thenThrow(const SoLoudFileLoadFailedException());
+
+        await expectLater(
+          songRepository.addSongFile(wavFile),
+          throwsA(isA<AudioFileLoadException>()),
+        );
+
+        verify(() => mockSoLoud.deinit()).called(1);
+      });
+
+      test('leaves an engine running that it did not start', () async {
+        when(() => mockSoLoud.isInitialized).thenReturn(true);
+
+        await songRepository.addSongFile(wavFile);
+
+        verifyNever(() => mockSoLoud.init());
+        verifyNever(() => mockSoLoud.deinit());
+      });
+    });
   });
 }
+
+class _MockAudioSource extends Mock implements AudioSource {}
+
+/// A canonical 44-byte PCM WAV header plus four bytes of silence — the
+/// smallest file the metadata readers in [SongRepository.addSongFile] parse
+/// without error.
+List<int> _minimalWavBytes() {
+  const sampleRate = 44100;
+  const bitsPerSample = 16;
+  const channels = 1;
+  const dataSize = 4;
+  const byteRate = sampleRate * channels * bitsPerSample ~/ 8;
+  const blockAlign = channels * bitsPerSample ~/ 8;
+
+  final bytes = BytesBuilder()
+    ..add('RIFF'.codeUnits)
+    ..add(_uint32le(36 + dataSize))
+    ..add('WAVE'.codeUnits)
+    ..add('fmt '.codeUnits)
+    ..add(_uint32le(16))
+    ..add(_uint16le(1)) // PCM
+    ..add(_uint16le(channels))
+    ..add(_uint32le(sampleRate))
+    ..add(_uint32le(byteRate))
+    ..add(_uint16le(blockAlign))
+    ..add(_uint16le(bitsPerSample))
+    ..add('data'.codeUnits)
+    ..add(_uint32le(dataSize))
+    ..add(List.filled(dataSize, 0));
+  return bytes.toBytes();
+}
+
+List<int> _uint32le(int value) => [
+      value & 0xFF,
+      (value >> 8) & 0xFF,
+      (value >> 16) & 0xFF,
+      (value >> 24) & 0xFF,
+    ];
+
+List<int> _uint16le(int value) => [value & 0xFF, (value >> 8) & 0xFF];

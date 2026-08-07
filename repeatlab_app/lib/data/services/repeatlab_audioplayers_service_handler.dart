@@ -14,6 +14,7 @@ import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/services/loop_navigation_event.dart';
 import 'package:repeatlab/data/services/media_player_handler.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 export 'package:repeatlab/data/services/loop_navigation_event.dart';
 
@@ -91,6 +92,13 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
   @override
   Future<Duration> get position async =>
       await audioPlayer.getCurrentPosition() ?? Duration.zero;
+
+  /// Upper bound for a single platform seek. A healthy seek completes in
+  /// milliseconds; anything longer means it raced a still-loading or failed
+  /// source (audioplayers' own guard is 30 s — far too long, since pause,
+  /// stop and loop wraps all serialize behind the seek queue and freeze with
+  /// it). On expiry the seek is abandoned and the queue moves on.
+  static const Duration _seekTimeout = Duration(seconds: 3);
 
   Duration? _pendingSeekTarget;
   bool _pendingSeekIsLoopWrap = false;
@@ -825,7 +833,8 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     try {
       await activeSeek;
     } catch (_) {
-      // Errors are surfaced to the original seek caller; suppress here.
+      // The queue swallows per-seek failures itself; this is a last-resort
+      // guard so pause/stop can never fail because of a seek.
     }
   }
 
@@ -836,10 +845,30 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
         final isLoopWrap = _pendingSeekIsLoopWrap;
         _pendingSeekTarget = null;
         _pendingSeekIsLoopWrap = false;
-        if (isLoopWrap) {
-          await _performLoopWrapSeek(target);
-        } else {
-          await _performSeek(target);
+        try {
+          if (isLoopWrap) {
+            await _performLoopWrapSeek(target);
+          } else {
+            await _performSeek(target);
+          }
+        } catch (error, stackTrace) {
+          // A failed seek is recoverable (the playhead just doesn't move);
+          // what must never happen is the failure killing the queue — that
+          // would drop a pending target (e.g. a loop wrap) — or bubbling to
+          // the callers serialized behind it (pause, stop, speed changes).
+          // Breadcrumb instead of a Sentry event: events are quota-limited,
+          // and this context only matters when some other error is reported.
+          log('Seek to $target failed: $error', stackTrace: stackTrace);
+          unawaited(
+            Sentry.addBreadcrumb(
+              Breadcrumb(
+                category: 'audio',
+                message: 'Seek to ${target.inMilliseconds}ms failed '
+                    '(loopWrap=$isLoopWrap): $error',
+                level: SentryLevel.warning,
+              ),
+            ),
+          );
         }
       }
     } finally {
@@ -849,7 +878,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
 
   Future<void> _performLoopWrapSeek(Duration target) async {
     await _reloadSourceIfNeeded();
-    await audioPlayer.seek(target);
+    await audioPlayer.seek(target).timeout(_seekTimeout);
     _notifySeek(target);
   }
 
@@ -877,7 +906,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
       return;
     }
 
-    await audioPlayer.seek(clampedPosition);
+    await audioPlayer.seek(clampedPosition).timeout(_seekTimeout);
     _notifySeek(clampedPosition);
   }
 
@@ -1052,7 +1081,18 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
 
     _loopSeekInProgress = true;
     try {
-      await _seekToLoopStart(loop.start!);
+      // The queue already swallows seek failures, but guard here anyway: a
+      // failed re-entry seek must never cancel the restart. Resuming from
+      // wherever the player is beats halting silently — the field symptom
+      // was "the song just stops" with the UI stuck on playing.
+      try {
+        await _seekToLoopStart(loop.start!);
+      } catch (error, stackTrace) {
+        log(
+          'Loop restart seek failed, resuming anyway: $error',
+          stackTrace: stackTrace,
+        );
+      }
       await audioPlayer.resume();
       if (loop.end != null) {
         _armLoopWrapTimer(loop.end! - loop.start!);
@@ -1073,6 +1113,10 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
           processingState: AudioProcessingState.ready,
         ),
       );
+    } catch (error, stackTrace) {
+      // Resume itself failed — log and keep the flag reset; the user can
+      // still recover with the play button.
+      log('Loop completion restart failed: $error', stackTrace: stackTrace);
     } finally {
       _loopSeekInProgress = false;
     }

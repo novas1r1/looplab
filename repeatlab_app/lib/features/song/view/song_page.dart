@@ -172,12 +172,16 @@ class _SongViewState extends State<_SongView> with WidgetsBindingObserver {
             } else if (state.status == SongStatus.songDeleted) {
               Navigator.of(context).popUntil((route) => route.isFirst);
             } else if (state.status == SongStatus.loopAdded) {
-              // scroll down in looplist
-              _loopListController.animateTo(
-                _loopListController.position.maxScrollExtent + 100,
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeInOut,
-              );
+              // Scroll down in the loop list. The controller has no client
+              // when the list isn't laid out (e.g. loop added in a layout
+              // state without the list visible) — FLUTTER-K9.
+              if (_loopListController.hasClients) {
+                _loopListController.animateTo(
+                  _loopListController.position.maxScrollExtent + 100,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                );
+              }
 
               SnackbarHelper.showSuccess(context, context.l10n.loopAdded);
             } else if (state.status == SongStatus.loopModeToggled) {

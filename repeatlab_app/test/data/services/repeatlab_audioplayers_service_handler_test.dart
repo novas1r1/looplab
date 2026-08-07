@@ -1214,4 +1214,103 @@ void main() {
       ]);
     },
   );
+
+  group('seek failure resilience', () {
+    // Field failure (FLUTTER-9F/DC/BN): a platform seek that never completed
+    // froze the whole seek queue — and pause/stop/loop wraps behind it — for
+    // audioplayers' 30 s timeout, then the timeout killed the queue and
+    // dropped pending targets, silently halting loop restarts.
+
+    test('a failing platform seek does not error the seek() caller',
+        () async {
+      final handler = RepeatlabAudioplayersServiceHandler(
+        audioPlayer: audioPlayer,
+      );
+      addTearDown(handler.close);
+
+      when(() => audioPlayer.seek(any<Duration>()))
+          .thenAnswer((_) => Future.error(Exception('seek raced a load')));
+
+      await expectLater(handler.seek(const Duration(seconds: 3)), completes);
+    });
+
+    test('the queue keeps processing pending targets after a failure',
+        () async {
+      final handler = RepeatlabAudioplayersServiceHandler(
+        audioPlayer: audioPlayer,
+      );
+      addTearDown(handler.close);
+
+      // First seek blocks on a gate we fail later; the second target is
+      // enqueued while the first is in flight.
+      final gate = Completer<void>();
+      final seekCalls = <Duration>[];
+      when(() => audioPlayer.seek(any<Duration>())).thenAnswer((invocation) {
+        seekCalls.add(invocation.positionalArguments.first as Duration);
+        return seekCalls.length == 1 ? gate.future : Future.value();
+      });
+
+      final firstSeek = handler.seek(const Duration(seconds: 1));
+      // Let the queue reach the awaiting platform seek.
+      await Future<void>.delayed(Duration.zero);
+      final secondSeek = handler.seek(const Duration(seconds: 2));
+
+      gate.completeError(Exception('seek raced a load'));
+
+      await expectLater(firstSeek, completes);
+      await expectLater(secondSeek, completes);
+      expect(seekCalls, const [Duration(seconds: 1), Duration(seconds: 2)]);
+    });
+
+    test('pause is not blocked by a failing in-flight seek', () async {
+      final handler = RepeatlabAudioplayersServiceHandler(
+        audioPlayer: audioPlayer,
+      );
+      addTearDown(handler.close);
+
+      final gate = Completer<void>();
+      when(
+        () => audioPlayer.seek(any<Duration>()),
+      ).thenAnswer((_) => gate.future);
+
+      final seekFuture = handler.seek(const Duration(seconds: 1));
+      await Future<void>.delayed(Duration.zero);
+
+      final pauseFuture = handler.pause();
+      gate.completeError(Exception('seek raced a load'));
+
+      await expectLater(pauseFuture, completes);
+      await expectLater(seekFuture, completes);
+      verify(() => audioPlayer.pause()).called(1);
+    });
+
+    test('loop completion restart still resumes when the seek fails',
+        () async {
+      final handler = RepeatlabAudioplayersServiceHandler(
+        audioPlayer: audioPlayer,
+      );
+      addTearDown(handler.close);
+
+      const loop = Loop(
+        id: 1,
+        name: 'Loop 1',
+        songId: 'song-1',
+        color: LoopColor.green,
+        start: Duration(seconds: 2),
+        end: Duration(seconds: 4),
+      );
+      await handler.enableLoopMode(loop);
+
+      when(() => audioPlayer.seek(any<Duration>()))
+          .thenAnswer((_) => Future.error(Exception('seek raced a load')));
+
+      playerStateController.add(PlayerState.completed);
+      // Let the completed handler run through seek failure and resume.
+      await Future<void>.delayed(Duration.zero);
+      await Future<void>.delayed(Duration.zero);
+
+      verify(() => audioPlayer.resume()).called(1);
+      expect(handler.playbackState.value.playing, isTrue);
+    });
+  });
 }

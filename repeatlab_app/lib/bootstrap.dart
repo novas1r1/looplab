@@ -61,19 +61,15 @@ Future<App> bootstrap({
 
   MapperContainer.globals.use(const DurationMapper());
 
-  // Initialize SoLoud with error handling
-  SoLoud soloud;
-  try {
-    soloud = SoLoud.instance;
-    await soloud.init();
-  } catch (error, stackTrace) {
-    await Sentry.captureException(
-      error,
-      stackTrace: stackTrace,
-      hint: Hint.withMap({'location': 'soloud_initialization'}),
-    );
-    rethrow;
-  }
+  // SoLoud is only a decoder in this app (waveforms decode engine-free via
+  // readSamplesFromMem; the import probe initializes the engine on demand in
+  // SongRepository.addSongFile). Deliberately NOT initialized here: a running
+  // engine keeps an output audio stream open app-wide, and miniaudio's
+  // device-update callback crashed on audio route changes (Bluetooth
+  // connect/disconnect, unplugging headphones) — Sentry FLUTTER-2Y (Android,
+  // 330 events) and FLUTTER-FY (iOS). A startup init failure also used to
+  // kill app boot entirely (FLUTTER-HZ).
+  final soloud = SoLoud.instance;
 
   // Initialize media_kit (libmpv-based video playback). Idempotent and cheap;
   // safe to call even if no video songs exist yet.
