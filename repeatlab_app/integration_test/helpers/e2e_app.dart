@@ -7,6 +7,7 @@ import 'package:repeatlab/app/view/repository_wrapper.dart';
 import 'package:repeatlab/bootstrap.dart';
 import 'package:repeatlab/core/ui/widgets/app_icon.dart';
 import 'package:repeatlab/core/ui/widgets/loading.dart';
+import 'package:repeatlab/data/repositories/purchases_repository.dart';
 import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
 import 'package:repeatlab/features/home/widgets/home_tile.dart';
 import 'package:repeatlab/features/song/widgets/loop_tile.dart';
@@ -17,6 +18,8 @@ import 'fakes.dart';
 ///
 /// - [filePicker] fakes media import / export (defaults to an empty fake).
 /// - [isPro] toggles the faked RevenueCat entitlement.
+/// - [purchases] replaces the faked repository entirely (e.g.
+///   [NonProRealPurchasesRepository] to get the real native paywall).
 ///
 /// Sentry / Clarity are NOT initialised here (they live in `main`), so test
 /// runs stay offline and side-effect free.
@@ -24,10 +27,11 @@ Future<void> pumpRepeatLab(
   PatrolIntegrationTester $, {
   FilePickerWrapper? filePicker,
   bool isPro = true,
+  PurchasesRepository? purchases,
 }) async {
   final app = await bootstrap(
     filePicker: filePicker ?? FakeFilePickerWrapper(),
-    purchases: FakePurchasesRepository(isPro: isPro),
+    purchases: purchases ?? FakePurchasesRepository(isPro: isPro),
   );
   await $.pumpWidget(app);
   // The home page shows the looping [Loading] Lottie until the song list has
@@ -165,6 +169,76 @@ void dumpScreenDiagnostics(PatrolIntegrationTester $, String context) {
 Future<void> backToHome(PatrolIntegrationTester $) async {
   await $(BackButton).tap(settlePolicy: SettlePolicy.trySettle);
   await $(const Key('home.fab')).waitUntilVisible();
+}
+
+/// Texts on the RevenueCat paywall (published `2026-20-02` paywall) used to
+/// detect the native sheet. UiAutomator only reports what is on screen, so
+/// the probe is the headline at the TOP of the sheet (the "Restore" link sits
+/// at the bottom and may be scrolled out of view). RevenueCat localises by
+/// DEVICE locale, not by the app's language, so every locale a test device
+/// might run in is listed.
+const kPaywallProbeTexts = [
+  'Learn to play your favorite songs like a Pro',
+  'Lerne, deine Lieblingslieder wie ein Profi zu spielen',
+  'Restore',
+  'Wiederherstellen',
+];
+
+/// Waits for the native RevenueCat paywall to be on screen, then closes it
+/// WITHOUT purchasing and waits for Flutter to be interactive again.
+///
+/// The paywall is a native (Compose) activity, so it is driven through
+/// Patrol's platform automator. Its close button is an icon-only "x" without
+/// an accessibility label, so the sheet is dismissed with the system back
+/// button, which the paywall maps to the same `navigate_back` action.
+/// [context] names the trigger for the failure message.
+Future<void> dismissNativePaywall(
+  PatrolIntegrationTester $,
+  String context, {
+  Duration timeout = const Duration(seconds: 30),
+}) async {
+  final native = $.platformAutomator;
+
+  Future<bool> paywallVisible() async {
+    for (final text in kPaywallProbeTexts) {
+      final views = await native.android.getNativeViews(
+        AndroidSelector(text: text),
+      );
+      if (views.roots.isNotEmpty) return true;
+    }
+    return false;
+  }
+
+  final deadline = DateTime.now().add(timeout);
+  while (!await paywallVisible()) {
+    if (DateTime.now().isAfter(deadline)) {
+      dumpScreenDiagnostics($, 'paywall did not open for: $context');
+      // Print what IS on screen natively so a locale / accessibility mismatch
+      // is diagnosable from the log.
+      final tree = await native.android.getNativeViews(null);
+      debugPrint('E2E-DIAG native tree (${tree.roots.length} roots):');
+      for (final root in tree.roots) {
+        debugPrint(root.toString());
+      }
+      fail(
+        'RevenueCat paywall did not open for "$context" within $timeout '
+        '(probed for $kPaywallProbeTexts)',
+      );
+    }
+    await Future<void>.delayed(const Duration(milliseconds: 250));
+  }
+
+  await native.android.pressBack();
+  // Flutter's frame is idle while the native activity is in front; give the
+  // sheet a moment to leave and let the app settle.
+  await Future<void>.delayed(const Duration(milliseconds: 500));
+  await $.pumpAndSettle();
+  // Must be back in Flutter with the paywall gone.
+  expect(
+    await paywallVisible(),
+    isFalse,
+    reason: 'paywall still visible after back-press ("$context")',
+  );
 }
 
 /// Bounded settle: pumps until no frame is scheduled, but gives up after

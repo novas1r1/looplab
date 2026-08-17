@@ -77,6 +77,7 @@ integration_test/
     delete_all_data_flow_test.dart
     song_reorder_flow_test.dart
     freemium_gate_flow_test.dart
+    paywall_triggers_flow_test.dart    # every paywall entry point, real RC sheet, closed via back
   helpers/
     e2e_app.dart                       # pumpApp() via bootstrap() + fakes
     reset_app_state.dart               # the setUp reset hook (§3.5)
@@ -194,6 +195,16 @@ in CI and gates the freemium loop limit. `RepositoryWrapper` builds
 `hasYearlySubscription` / `hasLifetimePurchase` getters and `offers`; it never
 calls `Purchases.*`, so RevenueCat is never reached in tests.
 
+The one exception is the **paywall triggers** flow (§5): it injects
+`NonProRealPurchasesRepository`, which runs the real `setup()` (so
+`RevenueCatUI.presentPaywallIfNeeded` can actually show the native sheet) but
+still reports every entitlement as `false`. The paywall is a native Compose
+activity, so `dismissNativePaywall()` in `e2e_app.dart` waits for it through
+`$.platformAutomator` (the paywall's static "Restore" text) and closes it with
+the system back button — the RevenueCat close button is an icon-only "x" with no
+accessibility label. Needs a device with network access and a RevenueCat
+anonymous user that does *not* hold the Pro entitlement.
+
 ### 3.5 Reset hook — known state before each test
 
 The app opens a real on-disk Sembast DB (`repeatlab.db` in the app documents
@@ -309,6 +320,15 @@ Each flow starts from a fresh `resetAppState()` and drives the real app.
 - **Freemium gate:** inject `FakePurchasesRepository(isPro: false)` → create the
   first (free) loop OK → attempt a 2nd → assert the paywall appears
   (`paywall.*`).
+- **Paywall triggers:** one test walks *every* `presentPaywall(source: …)` call
+  site as a non-Pro user with the real RevenueCat SDK — onboarding finish,
+  drawer "Buy RepeatLab Pro", backup export/import (the version-tap debug
+  dialog's "Open Paywall" is developer tooling and deliberately skipped), "Add Loop", "Set Loop Start", the locked 2nd loop tile
+  (tap / export / edit), waveform zoom-in, speed multiplier slider, BPM
+  stepper + slider, pitch semitone stepper, fine-tune slider, key grid,
+  metronome sync-to-song (unsynced) and time signature (synced) — and closes
+  the native sheet each time without purchasing (`dismissNativePaywall`).
+  Waveform zoom-out is unreachable for a non-Pro user (disabled at min zoom).
 
 ## 6. Permissions — almost nothing to grant
 

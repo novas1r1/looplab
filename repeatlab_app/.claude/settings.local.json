@@ -148,7 +148,15 @@
       "Bash(patrol test *)",
       "Bash(grep -aA3 \"Found 0 widgets\")",
       "Bash(grep -aA6 \"❌ language switch\")",
-      "Bash(grep -aA4 \"Found [0-9]* widget\")"
+      "Bash(grep -aA4 \"Found [0-9]* widget\")",
+      "Bash(sed -i \"/^import 'package:flutter\\\\/material.dart';$/d\" integration_test/flows/first_session_journey_flow_test.dart integration_test/flows/practice_session_journey_flow_test.dart)",
+      "Bash(sed -i \"s/expect\\(loop.end!, greaterThan\\(loop.start!\\)\\);/expect\\(loop.end, greaterThan\\(loop.start!\\)\\);/\" integration_test/flows/first_session_journey_flow_test.dart)",
+      "Bash(grep -aB2 -A12 \"❌ first session\")",
+      "Bash(awk 'NR>1 && $2==\"success\"')",
+      "Bash(awk 'NR%1==0')",
+      "Bash(awk '$2==\"start\"||$2==\"failure\"||$2==\"success\"')",
+      "Bash(awk '{print $1, $2, $3, $4, $5, $6, $7, $8}')",
+      "Bash(awk 'BEGIN{p=0} {split\\($1,t,\":\"\\); s=t[1]*3600+t[2]*60+t[3]; if \\(p>0 && s-p>5\\) print \"GAP\", s-p, \"s before:\", $0; p=s}')"
     ]
   },
   "enableAllProjectMcpServers": true,

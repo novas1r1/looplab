@@ -79,3 +79,25 @@ class FakePurchasesRepository extends PurchasesRepository {
   @override
   Future<List<Offering>> get offers async => [];
 }
+
+/// A [PurchasesRepository] that configures the REAL RevenueCat SDK (so the
+/// native paywall can be presented) but reports the user as non-Pro to the
+/// app, whatever the device's sandbox account says. Used by the paywall flow:
+/// every premium gate then routes to `presentPaywall`, and the RevenueCat
+/// paywall sheet actually opens on the device.
+///
+/// Note that `presentPaywallIfNeeded('Pro')` still asks RevenueCat itself, so
+/// the device's (anonymous) RevenueCat user must not hold the Pro entitlement
+/// - otherwise the sheet is skipped and the flow fails with a clear message.
+class NonProRealPurchasesRepository extends PurchasesRepository {
+  const NonProRealPurchasesRepository();
+
+  @override
+  Future<bool> get hasWeeklySubscription async => false;
+
+  @override
+  Future<bool> get hasYearlySubscription async => false;
+
+  @override
+  Future<bool> get hasLifetimePurchase async => false;
+}
