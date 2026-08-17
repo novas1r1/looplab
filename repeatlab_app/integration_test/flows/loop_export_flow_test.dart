@@ -21,15 +21,10 @@ void main() {
     await $(song.title).tap();
     await $.pumpAndSettle();
 
-    // Create a loop, then open its export sheet via the upload icon.
+    // Create a loop, then open its export sheet via the tile's export button.
     await $(FloatingActionButton).tap();
     await $(LoopTile).waitUntilVisible();
-    await $.tester.tap(
-      find.descendant(
-        of: find.byType(LoopTile),
-        matching: find.byIcon(Icons.upload_file),
-      ),
-    );
+    await $.tester.tap(loopTileButton('song.loop.export.'));
     await $.pumpAndSettle();
 
     expect($(const Key('exportLoop.confirm')), findsOneWidget);

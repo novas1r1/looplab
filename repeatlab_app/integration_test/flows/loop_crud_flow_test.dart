@@ -21,16 +21,9 @@ void main() {
     await $(LoopTile).waitUntilVisible();
     expect($(LoopTile), findsOneWidget);
 
-    // Rename via the loop's edit sheet. The edit icon (more_vert) inside the
-    // tile is disambiguated from the app-bar settings icon by scoping to the
-    // LoopTile.
+    // Rename via the loop's edit sheet (the tile's `song.loop.edit.<id>` button).
     Future<void> openEditSheet() async {
-      await $.tester.tap(
-        find.descendant(
-          of: find.byType(LoopTile),
-          matching: find.byIcon(Icons.more_vert),
-        ),
-      );
+      await $.tester.tap(loopTileButton('song.loop.edit.'));
       await $.pumpAndSettle();
     }
 

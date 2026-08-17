@@ -6,9 +6,9 @@ cubits, repositories and goldens; this is the layer that catches "it compiles,
 it's green, and it still looks/behaves wrong on the phone".
 
 This is the *interactive* loop. It is **not** the automated E2E suite — that's
-Patrol, specified in [`e2e_testing_concept.md`](e2e_testing_concept.md) and not
-implemented yet. Both run the same `bootstrap()` entry, so the seams described
-there apply here too.
+Patrol, specified in [`e2e_testing_concept.md`](e2e_testing_concept.md) and run
+with `make e2e [DEVICE=<id>] [TARGET=<flow file>]`. Both run the same
+`bootstrap()` entry, so the seams described there apply here too.
 
 ## 1. Pick a target
 

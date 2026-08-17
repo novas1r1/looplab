@@ -9,19 +9,7 @@ import 'package:patrol/src/platform/contracts/contracts.dart';
 import 'package:test_api/src/backend/invoker.dart';
 
 // START: GENERATED TEST IMPORTS
-import 'flows/add_audio_song_flow_test.dart' as flows__add_audio_song_flow_test;
-import 'flows/add_video_song_flow_test.dart' as flows__add_video_song_flow_test;
-import 'flows/backup_flow_test.dart' as flows__backup_flow_test;
-import 'flows/delete_all_data_flow_test.dart'
-    as flows__delete_all_data_flow_test;
-import 'flows/freemium_gate_flow_test.dart' as flows__freemium_gate_flow_test;
-import 'flows/language_switch_flow_test.dart'
-    as flows__language_switch_flow_test;
-import 'flows/loop_crud_flow_test.dart' as flows__loop_crud_flow_test;
-import 'flows/loop_export_flow_test.dart' as flows__loop_export_flow_test;
-import 'flows/onboarding_flow_test.dart' as flows__onboarding_flow_test;
-import 'flows/song_reorder_flow_test.dart' as flows__song_reorder_flow_test;
-import 'flows/speed_control_flow_test.dart' as flows__speed_control_flow_test;
+import 'flows/add_song_formats_flow_test.dart' as flows__add_song_formats_flow_test;
 // END: GENERATED TEST IMPORTS
 
 Future<void> main() async {
@@ -83,25 +71,9 @@ Future<void> main() async {
     reportGroupStructure(dartTestGroup);
   });
 
-  // START: GENERATED TEST GROUPS
-  group('flows.add_audio_song_flow_test', flows__add_audio_song_flow_test.main);
-  group('flows.add_video_song_flow_test', flows__add_video_song_flow_test.main);
-  group('flows.backup_flow_test', flows__backup_flow_test.main);
-  group(
-    'flows.delete_all_data_flow_test',
-    flows__delete_all_data_flow_test.main,
-  );
-  group('flows.freemium_gate_flow_test', flows__freemium_gate_flow_test.main);
-  group(
-    'flows.language_switch_flow_test',
-    flows__language_switch_flow_test.main,
-  );
-  group('flows.loop_crud_flow_test', flows__loop_crud_flow_test.main);
-  group('flows.loop_export_flow_test', flows__loop_export_flow_test.main);
-  group('flows.onboarding_flow_test', flows__onboarding_flow_test.main);
-  group('flows.song_reorder_flow_test', flows__song_reorder_flow_test.main);
-  group('flows.speed_control_flow_test', flows__speed_control_flow_test.main);
-  // END: GENERATED TEST GROUPS
+// START: GENERATED TEST GROUPS
+  group('flows.add_song_formats_flow_test', flows__add_song_formats_flow_test.main);
+// END: GENERATED TEST GROUPS
 
   final dartTestGroup = await testExplorationCompleter.future;
   final appService = PatrolAppService(topLevelDartTestGroup: dartTestGroup);

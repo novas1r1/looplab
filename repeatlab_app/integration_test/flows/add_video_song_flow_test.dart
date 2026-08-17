@@ -9,23 +9,16 @@ import '../helpers/reset_app_state.dart';
 import '../helpers/test_media.dart';
 
 void main() {
-  // Headline flow for feature/video-support. Requires a real bundled MP4
-  // (see assets/test/README.md) — media_kit probes the container for a non-zero
-  // duration, so the clip can't be synthesised. Skips itself until the asset
-  // is added.
+  // Headline flow for video support. Uses the bundled MP4 from assets/test/ —
+  // media_kit probes the container for a non-zero duration, so the clip has to
+  // be a real one. Every other video container is covered by
+  // add_song_formats_flow_test.dart.
   patrolTest('add video song: faked import appears as a video tile', ($) async {
     await resetAppState();
 
-    final video = await TestMedia.writeBundledVideoToTemp();
-    if (video == null) {
-      markTestSkipped(
-        'Add a short assets/test/test_video.mp4 and declare it under '
-        'pubspec flutter: assets: to enable the add-video flow.',
-      );
-      return;
-    }
-
-    final picker = FakeFilePickerWrapper(fileToReturn: video);
+    final picker = FakeFilePickerWrapper(
+      fileToReturn: await TestMedia.writeBundledVideoToTemp(),
+    );
     await pumpRepeatLab($, filePicker: picker);
 
     expect($(const Key('home.empty')), findsOneWidget);
@@ -35,7 +28,7 @@ void main() {
 
     await $(HomeTile).waitUntilVisible();
     expect($(HomeTile), findsOneWidget);
-    // Video tiles render the videocam icon (audio uses music_note).
-    expect($(Icons.videocam), findsOneWidget);
+    // Video tiles render the ic_video app icon (audio uses ic_audio).
+    expect(homeTileMediaIcon('ic_video'), findsOneWidget);
   });
 }

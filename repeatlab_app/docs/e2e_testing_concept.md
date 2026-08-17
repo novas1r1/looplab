@@ -345,9 +345,14 @@ real picker, add `$.native` grant handling there only.
 ## 8. Running & next steps
 
 ```bash
-patrol test                                                  # all integration_test/ flows
-patrol test -t integration_test/flows/add_video_song_flow_test.dart
+make e2e                                                     # all integration_test/ flows
+make e2e DEVICE=<id> TARGET=integration_test/flows/add_video_song_flow_test.dart
+# equivalent: patrol test [-d <id>] [-t <file>]
 ```
+
+The `patrol_cli` version must match the `patrol` package per the
+[compatibility table](https://patrol.leancode.co/documentation/compatibility-table);
+for `patrol 4.8.x` that is `fvm dart pub global activate patrol_cli 4.6.1`.
 
 Run target for now: a **local Android emulator** first (prove the harness on the
 headline add-video flow), then a **GitHub Actions** `e2e-android` job alongside
@@ -365,7 +370,10 @@ the fast host unit/golden suite isn't slowed.
 
 ### Implementation status
 
-Nothing implemented yet — this is the spec. The build order is:
+Steps 1–5 below are implemented (seams, keys, harness, `integration_test/helpers/`,
+all 11 flows) and the suite runs on a physical Android device via `make e2e`
+(first verified 2026-08-17 on a Pixel 8a). Step 6 (CI job) is still open. The
+original build order, for reference:
 
 1. **Seams** — `lib/bootstrap.dart`; thread `filePicker` + `purchases` through
    `App` → `RepositoryWrapper`; `main()` calls `bootstrap()`.

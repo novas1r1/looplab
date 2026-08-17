@@ -44,6 +44,12 @@ run-driver:
 logs:
 	adb logcat -s flutter:V
 
+# Run the Patrol E2E suite (integration_test/) on a device or emulator.
+# Requires the patrol CLI (`fvm dart pub global activate patrol_cli 4.6.1`).
+# Pass DEVICE=<id> to pick a target, TARGET=<file> to run a single flow.
+e2e:
+	patrol test $(if $(DEVICE),-d $(DEVICE),) $(if $(TARGET),-t $(TARGET),)
+
 # Capture the connected Android device screen to build/screenshots/.
 # Pass NAME=<name> to control the file name.
 screenshot:

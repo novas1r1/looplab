@@ -12,10 +12,16 @@ import 'package:repeatlab/data/repositories/purchases_repository.dart';
 /// native picker, making media-import flows deterministic. [saveFile] returns a
 /// temp path so export flows don't open the native save dialog either.
 class FakeFilePickerWrapper extends FilePickerWrapper {
-  /// File returned by the next [pickFiles] call. Set per flow (audio / video).
-  File? fileToReturn;
+  /// Files returned by the next [pickFiles] call (a multi-select result when
+  /// there is more than one). Set per flow (audio / video). Empty → the pick
+  /// is treated as cancelled.
+  List<File> filesToReturn;
 
-  FakeFilePickerWrapper({this.fileToReturn});
+  FakeFilePickerWrapper({File? fileToReturn, List<File>? filesToReturn})
+    : filesToReturn = [
+        ...?filesToReturn,
+        if (fileToReturn != null) fileToReturn,
+      ];
 
   @override
   Future<FilePickerResult?> pickFiles({
@@ -24,14 +30,14 @@ class FakeFilePickerWrapper extends FilePickerWrapper {
     bool allowMultiple = false,
     Function(FilePickerStatus)? onFileLoading,
   }) async {
-    final file = fileToReturn;
-    if (file == null) return null;
+    if (filesToReturn.isEmpty) return null;
     return FilePickerResult([
-      PlatformFile(
-        name: p.basename(file.path),
-        size: await file.length(),
-        path: file.path,
-      ),
+      for (final file in filesToReturn)
+        PlatformFile(
+          name: p.basename(file.path),
+          size: await file.length(),
+          path: file.path,
+        ),
     ]);
   }
 

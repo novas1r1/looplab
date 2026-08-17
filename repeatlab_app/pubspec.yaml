@@ -124,6 +124,9 @@ flutter:
     - assets/fonts/
     - assets/icons/
     - assets/data/
+    # Tiny (~1 s) media clips, one per supported import format, consumed only by
+    # the Patrol E2E suite (integration_test/). ~120 KB in total.
+    - assets/test/
 
   fonts:
     - family: Nunito Sans

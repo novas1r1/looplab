@@ -129,9 +129,24 @@
       "Bash(make -n screenshot)",
       "Bash(make -n logs)",
       "Bash(claude mcp *)",
-      "Bash(timeout 30 adb root)"
+      "Bash(timeout 30 adb root)",
+      "Bash(dart pub *)",
+      "PowerShell(patrol test *)",
+      "Bash(tasklist //FI \"IMAGENAME eq dart.exe\")",
+      "Bash(grep -v \"^\\\\s*⏳\\\\|^$\")",
+      "Bash(python *)",
+      "Bash(grep -v \"\\\\.arb\\\\|\\\\.dart:.*//\")",
+      "Bash(where ffmpeg *)",
+      "Bash(docker --version)",
+      "Bash(pip install *)",
+      "Bash(/c/Users/vry/AppData/Roaming/Python/Python313/site-packages/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe -hide_banner -encoders)",
+      "PowerShell(adb logcat *)"
     ]
   },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "dart"
+  ],
   "skillOverrides": {
     "jira-ticket-de": "off"
   }

@@ -29,6 +29,10 @@ Future<String> _dbPath() async {
 /// By default it skips onboarding and the song-page tutorial coach-marks and
 /// pins the locale to English so text assertions are deterministic. The
 /// onboarding flow passes `skipOnboarding: false`.
+///
+/// It also marks the current build's changelog as seen: otherwise the home
+/// page shows the "What's new" bubble, whose bobbing animation repeats forever
+/// and makes every `pumpAndSettle` time out.
 Future<void> resetAppState({
   bool skipOnboarding = true,
   bool skipTutorial = true,
@@ -40,6 +44,8 @@ Future<void> resetAppState({
 
   final prefs = await SharedPreferences.getInstance();
   await prefs.clear();
+  // Any build number is < this, so the changelog counts as already seen.
+  await prefs.setInt(LocalConfigRepository.kChangelogVersionShown, 1 << 30);
   if (skipOnboarding) {
     await prefs.setBool(LocalConfigRepository.kIntroShown, true);
   }
