@@ -362,6 +362,13 @@ class SongStateMapper extends ClassMapperBase<SongState> {
     opt: true,
     def: 0,
   );
+  static int _$fineTuneCents(SongState v) => v.fineTuneCents;
+  static const Field<SongState, int> _f$fineTuneCents = Field(
+    'fineTuneCents',
+    _$fineTuneCents,
+    opt: true,
+    def: 0,
+  );
   static PitchMode _$pitchMode(SongState v) => v.pitchMode;
   static const Field<SongState, PitchMode> _f$pitchMode = Field(
     'pitchMode',
@@ -399,13 +406,6 @@ class SongStateMapper extends ClassMapperBase<SongState> {
     opt: true,
     def: 0,
   );
-  static bool _$isMetronomeGenerating(SongState v) => v.isMetronomeGenerating;
-  static const Field<SongState, bool> _f$isMetronomeGenerating = Field(
-    'isMetronomeGenerating',
-    _$isMetronomeGenerating,
-    opt: true,
-    def: false,
-  );
 
   @override
   final MappableFields<SongState> fields = const {
@@ -425,12 +425,12 @@ class SongStateMapper extends ClassMapperBase<SongState> {
     #minBpm: _f$minBpm,
     #maxBpm: _f$maxBpm,
     #pitchSemitones: _f$pitchSemitones,
+    #fineTuneCents: _f$fineTuneCents,
     #pitchMode: _f$pitchMode,
     #isMetronomeEnabled: _f$isMetronomeEnabled,
     #metronomeVolume: _f$metronomeVolume,
     #metronomeSubdivision: _f$metronomeSubdivision,
     #metronomeTapCount: _f$metronomeTapCount,
-    #isMetronomeGenerating: _f$isMetronomeGenerating,
   };
 
   static SongState _instantiate(DecodingData data) {
@@ -451,12 +451,12 @@ class SongStateMapper extends ClassMapperBase<SongState> {
       minBpm: data.dec(_f$minBpm),
       maxBpm: data.dec(_f$maxBpm),
       pitchSemitones: data.dec(_f$pitchSemitones),
+      fineTuneCents: data.dec(_f$fineTuneCents),
       pitchMode: data.dec(_f$pitchMode),
       isMetronomeEnabled: data.dec(_f$isMetronomeEnabled),
       metronomeVolume: data.dec(_f$metronomeVolume),
       metronomeSubdivision: data.dec(_f$metronomeSubdivision),
       metronomeTapCount: data.dec(_f$metronomeTapCount),
-      isMetronomeGenerating: data.dec(_f$isMetronomeGenerating),
     );
   }
 
@@ -538,12 +538,12 @@ abstract class SongStateCopyWith<$R, $In extends SongState, $Out>
     int? minBpm,
     int? maxBpm,
     int? pitchSemitones,
+    int? fineTuneCents,
     PitchMode? pitchMode,
     bool? isMetronomeEnabled,
     double? metronomeVolume,
     MetronomeSubdivision? metronomeSubdivision,
     int? metronomeTapCount,
-    bool? isMetronomeGenerating,
   });
   SongStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
@@ -580,12 +580,12 @@ class _SongStateCopyWithImpl<$R, $Out>
     Object? minBpm = $none,
     Object? maxBpm = $none,
     int? pitchSemitones,
+    int? fineTuneCents,
     PitchMode? pitchMode,
     bool? isMetronomeEnabled,
     double? metronomeVolume,
     MetronomeSubdivision? metronomeSubdivision,
     int? metronomeTapCount,
-    bool? isMetronomeGenerating,
   }) => $apply(
     FieldCopyWithData({
       if (speed != null) #speed: speed,
@@ -606,14 +606,13 @@ class _SongStateCopyWithImpl<$R, $Out>
       if (minBpm != $none) #minBpm: minBpm,
       if (maxBpm != $none) #maxBpm: maxBpm,
       if (pitchSemitones != null) #pitchSemitones: pitchSemitones,
+      if (fineTuneCents != null) #fineTuneCents: fineTuneCents,
       if (pitchMode != null) #pitchMode: pitchMode,
       if (isMetronomeEnabled != null) #isMetronomeEnabled: isMetronomeEnabled,
       if (metronomeVolume != null) #metronomeVolume: metronomeVolume,
       if (metronomeSubdivision != null)
         #metronomeSubdivision: metronomeSubdivision,
       if (metronomeTapCount != null) #metronomeTapCount: metronomeTapCount,
-      if (isMetronomeGenerating != null)
-        #isMetronomeGenerating: isMetronomeGenerating,
     }),
   );
   @override
@@ -646,6 +645,7 @@ class _SongStateCopyWithImpl<$R, $Out>
     minBpm: data.get(#minBpm, or: $value.minBpm),
     maxBpm: data.get(#maxBpm, or: $value.maxBpm),
     pitchSemitones: data.get(#pitchSemitones, or: $value.pitchSemitones),
+    fineTuneCents: data.get(#fineTuneCents, or: $value.fineTuneCents),
     pitchMode: data.get(#pitchMode, or: $value.pitchMode),
     isMetronomeEnabled: data.get(
       #isMetronomeEnabled,
@@ -659,10 +659,6 @@ class _SongStateCopyWithImpl<$R, $Out>
     metronomeTapCount: data.get(
       #metronomeTapCount,
       or: $value.metronomeTapCount,
-    ),
-    isMetronomeGenerating: data.get(
-      #isMetronomeGenerating,
-      or: $value.isMetronomeGenerating,
     ),
   );
 

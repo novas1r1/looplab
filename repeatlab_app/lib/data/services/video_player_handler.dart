@@ -33,8 +33,9 @@ class VideoPlayerHandler implements MediaPlayerHandler {
   static const double _minPlaybackSpeed = 0.5;
   static const double _maxPlaybackSpeed = 2.0;
 
-  static const int _minPitchSemitones = -12;
-  static const int _maxPitchSemitones = 12;
+  /// ±12 semitones plus ±50 cents of fine tune, expressed as one cents total.
+  static const int _minPitchCents = -1250;
+  static const int _maxPitchCents = 1250;
 
   /// Double-tap detection threshold for skip previous, mirroring the audio
   /// handler's behavior.
@@ -46,7 +47,7 @@ class VideoPlayerHandler implements MediaPlayerHandler {
   bool _fullSongRepeatEnabled = false;
 
   double _playbackSpeed = 1.0;
-  int _pitchSemitones = 0;
+  int _pitchCents = 0;
   bool _loopSeekInProgress = false;
 
   DateTime? _lastSkipPreviousTime;
@@ -87,9 +88,9 @@ class VideoPlayerHandler implements MediaPlayerHandler {
   @override
   double get currentPlaybackSpeed => _playbackSpeed;
 
-  /// Currently applied pitch shift in semitones (mirrors the audio handler).
+  /// Currently applied total pitch offset in cents (mirrors the audio handler).
   @override
-  int get currentPitchSemitones => _pitchSemitones;
+  int get currentPitchCents => _pitchCents;
 
   bool get isFullSongRepeatEnabled => _fullSongRepeatEnabled;
 
@@ -169,7 +170,7 @@ class VideoPlayerHandler implements MediaPlayerHandler {
   Future<void> playSong(Song song, {bool autoStart = true}) async {
     final path = await song.path;
     _playbackSpeed = 1.0;
-    _pitchSemitones = 0;
+    _pitchCents = 0;
 
     // iOS's bundled libmpv won't reliably open a bare POSIX path like
     // /var/mobile/.../Documents/foo.mp4 (Android's tolerates it). Hand it a
@@ -247,13 +248,6 @@ class VideoPlayerHandler implements MediaPlayerHandler {
     _notifySeek(position);
   }
 
-  /// Video songs keep the live metronome (a baked click track would require
-  /// remuxing the video file); the cubit never routes them here.
-  @override
-  Future<void> swapSourceFile(String path) {
-    throw UnsupportedError('swapSourceFile is not supported for video songs');
-  }
-
   /// Video playback runs on media_kit — there is no click-injection
   /// pipeline; the cubit never routes video songs here.
   @override
@@ -285,14 +279,14 @@ class VideoPlayerHandler implements MediaPlayerHandler {
   }
 
   @override
-  Future<bool> setPitchSemitones(int semitones) async {
-    final target = semitones.clamp(_minPitchSemitones, _maxPitchSemitones);
+  Future<bool> setPitchCents(int totalCents) async {
+    final target = totalCents.clamp(_minPitchCents, _maxPitchCents);
     try {
-      await player.setPitch(pow(2.0, target / 12.0).toDouble());
-      _pitchSemitones = target;
+      await player.setPitch(pow(2.0, target / 1200.0).toDouble());
+      _pitchCents = target;
       return true;
     } catch (e) {
-      log('VideoPlayerHandler.setPitchSemitones failed: $e');
+      log('VideoPlayerHandler.setPitchCents failed: $e');
       return false;
     }
   }
@@ -383,7 +377,9 @@ class VideoPlayerHandler implements MediaPlayerHandler {
     log('VideoPlayerHandler full song repeat: $enabled');
   }
 
-  /// Forward by [seconds], clamped to song duration or active loop end.
+  /// Forward by [seconds], clamped to song duration or — while playing — the
+  /// active loop end. Paused skipping ignores the loop bounds so the user can
+  /// park the playhead outside the loop to set new bounds.
   @override
   Future<void> forward(int seconds, Loop? loop) async {
     final position = player.state.position;
@@ -393,8 +389,8 @@ class VideoPlayerHandler implements MediaPlayerHandler {
 
     var target = position + Duration(seconds: seconds);
 
-    if (loop != null && loop.end != null) {
-      if (target > loop.end!) target = loop.end!;
+    if (player.state.playing && loop?.end != null) {
+      if (target > loop!.end!) target = loop.end!;
     } else if (duration > Duration.zero && target > duration) {
       target = duration;
     }
@@ -403,14 +399,15 @@ class VideoPlayerHandler implements MediaPlayerHandler {
     _notifySeek(target);
   }
 
-  /// Rewind by [seconds], clamped to zero or active loop start.
+  /// Rewind by [seconds], clamped to zero or — while playing — the active loop
+  /// start. See [forward] for why paused skipping ignores the loop.
   @override
   Future<void> back(int seconds, Loop? loop) async {
     final position = player.state.position;
     var target = position - Duration(seconds: seconds);
 
     if (target < Duration.zero) target = Duration.zero;
-    if (loop != null && loop.start != null && target < loop.start!) {
+    if (player.state.playing && loop?.start != null && target < loop!.start!) {
       target = loop.start!;
     }
 
@@ -436,12 +433,6 @@ class VideoPlayerHandler implements MediaPlayerHandler {
       case 'disableLoop':
         await pause();
         await disableLoopMode();
-        return;
-      case 'setPitch':
-        final semitones = extras?['semitones'] as int?;
-        if (semitones != null) {
-          await setPitchSemitones(semitones);
-        }
         return;
       case 'setLoops':
         final loops = extras?['loops'] as List<Loop>?;

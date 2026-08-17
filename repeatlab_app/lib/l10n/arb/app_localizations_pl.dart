@@ -489,7 +489,7 @@ class AppLocalizationsPl extends AppLocalizations {
       'Możesz teraz swobodnie przesuwać punkty początku i końca pętli, gdy odtwarzanie jest wstrzymane - głowica nie wraca już do wnętrza pętli. Granice pętli zaczynają obowiązywać ponownie, gdy tylko naciśniesz odtwarzanie, co znacznie ułatwia precyzyjne dopasowanie pętli.';
 
   @override
-  String get changelog2101Title => 'Zmiana wysokości dźwięku (Beta)';
+  String get changelog2101Title => 'Zmiana wysokości dźwięku';
 
   @override
   String get changelog2101Description =>
@@ -510,7 +510,7 @@ class AppLocalizationsPl extends AppLocalizations {
       'Naprawiono kilka błędów oraz poprawiono ogólną stabilność i wydajność aplikacji.';
 
   @override
-  String get changelog201Title => 'Pętle wideo i zmiana prędkości (Beta)';
+  String get changelog201Title => 'Pętle wideo i zmiana prędkości';
 
   @override
   String get changelog201Description =>
@@ -1049,6 +1049,93 @@ class AppLocalizationsPl extends AppLocalizations {
   String get pitchUnchanged => 'wysokość bez zmian';
 
   @override
+  String get intervalUnison => 'Oryginalna wysokość';
+
+  @override
+  String get intervalHalfStep => 'półton';
+
+  @override
+  String get intervalWholeStep => 'cały ton';
+
+  @override
+  String get intervalMinorThird => 'tercja mała';
+
+  @override
+  String get intervalMajorThird => 'tercja wielka';
+
+  @override
+  String get intervalFourth => 'kwarta';
+
+  @override
+  String get intervalTritone => 'tryton';
+
+  @override
+  String get intervalFifth => 'kwinta';
+
+  @override
+  String get intervalMinorSixth => 'seksta mała';
+
+  @override
+  String get intervalMajorSixth => 'seksta wielka';
+
+  @override
+  String get intervalMinorSeventh => 'septyma mała';
+
+  @override
+  String get intervalMajorSeventh => 'septyma wielka';
+
+  @override
+  String get intervalOctave => 'oktawa';
+
+  @override
+  String intervalDown(String interval) {
+    return '$interval w dół';
+  }
+
+  @override
+  String intervalUp(String interval) {
+    return '$interval w górę';
+  }
+
+  @override
+  String get setSongKey => 'Ustaw tonację';
+
+  @override
+  String get setSongKeyIntro =>
+      'Ustaw tonację raz, a potem transponuj prosto do dowolnej innej.';
+
+  @override
+  String get keyQuality => 'Tryb';
+
+  @override
+  String get keyQualityMajor => 'Dur';
+
+  @override
+  String get keyQualityMinor => 'Moll';
+
+  @override
+  String get keyOriginalBadge => 'oryg.';
+
+  @override
+  String get pitchQualityWarning => 'może brzmieć sztucznie';
+
+  @override
+  String get fineTune => 'Strojenie precyzyjne';
+
+  @override
+  String fineTuneCentsValue(String cents) {
+    return '$cents ct';
+  }
+
+  @override
+  String get fineTuneHint => 'Dopasuj lekko rozstrojone nagranie';
+
+  @override
+  String fineTuneReference(String hz) {
+    return 'nastrój A ≈ $hz Hz';
+  }
+
+  @override
   String get tapTempo => 'Wystukaj tempo';
 
   @override
@@ -1092,6 +1179,12 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get loops => 'Pętle';
+
+  @override
+  String get noLoopsCreatedYet => 'Nie utworzono jeszcze żadnych pętli';
+
+  @override
+  String get tapToCreateFirstLoop => 'Dotknij, aby utworzyć pierwszą pętlę';
 
   @override
   String get songSettings => 'Ustawienia utworu';

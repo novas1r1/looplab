@@ -488,7 +488,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'अब आप प्लेबैक रुके होने पर किसी लूप के शुरू और अंत बिंदुओं को स्वतंत्र रूप से घुमा सकते हैं - प्लेहेड अब वापस लूप में नहीं आता। जैसे ही आप प्ले दबाते हैं, लूप की सीमाएं फिर से लागू हो जाती हैं, जिससे अपने लूप को बारीकी से समायोजित करना बहुत आसान हो जाता है।';
 
   @override
-  String get changelog2101Title => 'पिच शिफ्ट (Beta)';
+  String get changelog2101Title => 'पिच शिफ्ट';
 
   @override
   String get changelog2101Description =>
@@ -509,7 +509,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'कई बग ठीक किए गए और ऐप की समग्र स्थिरता और प्रदर्शन में सुधार किया गया।';
 
   @override
-  String get changelog201Title => 'वीडियो लूप करें और स्पीड बदलें (Beta)';
+  String get changelog201Title => 'वीडियो लूप करें और स्पीड बदलें';
 
   @override
   String get changelog201Description =>
@@ -1048,6 +1048,93 @@ class AppLocalizationsHi extends AppLocalizations {
   String get pitchUnchanged => 'पिच अपरिवर्तित';
 
   @override
+  String get intervalUnison => 'मूल पिच';
+
+  @override
+  String get intervalHalfStep => 'आधा स्वर';
+
+  @override
+  String get intervalWholeStep => 'पूर्ण स्वर';
+
+  @override
+  String get intervalMinorThird => 'लघु तृतीयक';
+
+  @override
+  String get intervalMajorThird => 'दीर्घ तृतीयक';
+
+  @override
+  String get intervalFourth => 'चतुर्थक';
+
+  @override
+  String get intervalTritone => 'ट्राइटोन';
+
+  @override
+  String get intervalFifth => 'पंचमक';
+
+  @override
+  String get intervalMinorSixth => 'लघु षष्ठक';
+
+  @override
+  String get intervalMajorSixth => 'दीर्घ षष्ठक';
+
+  @override
+  String get intervalMinorSeventh => 'लघु सप्तमक';
+
+  @override
+  String get intervalMajorSeventh => 'दीर्घ सप्तमक';
+
+  @override
+  String get intervalOctave => 'अष्टक';
+
+  @override
+  String intervalDown(String interval) {
+    return '$interval नीचे';
+  }
+
+  @override
+  String intervalUp(String interval) {
+    return '$interval ऊपर';
+  }
+
+  @override
+  String get setSongKey => 'गीत की कुंजी सेट करें';
+
+  @override
+  String get setSongKeyIntro =>
+      'गीत की कुंजी एक बार सेट करें, फिर किसी भी दूसरी कुंजी में सीधे ट्रांसपोज़ करें।';
+
+  @override
+  String get keyQuality => 'प्रकार';
+
+  @override
+  String get keyQualityMajor => 'मेजर';
+
+  @override
+  String get keyQualityMinor => 'माइनर';
+
+  @override
+  String get keyOriginalBadge => 'मूल';
+
+  @override
+  String get pitchQualityWarning => 'कृत्रिम लग सकता है';
+
+  @override
+  String get fineTune => 'सूक्ष्म ट्यूनिंग';
+
+  @override
+  String fineTuneCentsValue(String cents) {
+    return '$cents ct';
+  }
+
+  @override
+  String get fineTuneHint => 'थोड़ी बेसुरी रिकॉर्डिंग से मिलाएँ';
+
+  @override
+  String fineTuneReference(String hz) {
+    return 'A ≈ $hz Hz पर ट्यून करें';
+  }
+
+  @override
   String get tapTempo => 'टैप टेम्पो';
 
   @override
@@ -1091,6 +1178,12 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get loops => 'लूप';
+
+  @override
+  String get noLoopsCreatedYet => 'अभी तक कोई लूप नहीं बनाया गया';
+
+  @override
+  String get tapToCreateFirstLoop => 'अपना पहला लूप बनाने के लिए टैप करें';
 
   @override
   String get songSettings => 'गीत सेटिंग्स';

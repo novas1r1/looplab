@@ -1,4 +1,8 @@
 ---
+// Fonts are self-hosted (not loaded from fonts.googleapis.com) so no visitor
+// IP address is transmitted to a third party before consent — see privacy.astro.
+import '@fontsource-variable/inter/wght.css';
+import '@fontsource-variable/montserrat/wght.css';
 import '../styles/global.css';
 
 interface Props {
@@ -42,10 +46,6 @@ const imageURL = new URL(image, Astro.site);
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageURL} />
 
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700&display=swap"
-      rel="stylesheet"
-    />
     <meta name="generator" content={Astro.generator} />
     <slot name="head" />
   </head>

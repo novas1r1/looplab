@@ -12,18 +12,38 @@ abstract class AppRouter {
   static const String privacy = '/privacy';
   static const String terms = '/terms';
 
+  // Names for pages pushed directly (not via generateRoute), so navigator
+  // observers (Clarity, PostHog) can report a meaningful screen name.
+  static const String song = '/song';
+  static const String settingsPage = '/settings';
+  static const String legalNotices = '/legal-notices';
+  static const String licenses = '/licenses';
+
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case home:
-        return MaterialPageRoute(builder: (_) => const HomePage());
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const HomePage(),
+        );
       case onboarding:
-        return MaterialPageRoute(builder: (_) => const OnboardingPage());
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const OnboardingPage(),
+        );
       case privacy:
-        return MaterialPageRoute(builder: (_) => const DataprotectionPage());
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const DataprotectionPage(),
+        );
       case terms:
-        return MaterialPageRoute(builder: (_) => const TermsOfServicePage());
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const TermsOfServicePage(),
+        );
       default:
         return MaterialPageRoute(
+          settings: settings,
           builder: (_) => Scaffold(
             body: Center(
               child: Text('No route defined for ${settings.name}'),

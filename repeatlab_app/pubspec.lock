@@ -193,10 +193,10 @@ packages:
     dependency: transitive
     description:
       name: build_config
-      sha256: f2c223156a26eea323e6244b85141d76413a80aeee9fe0b380773789fabaf8ae
+      sha256: "94eaf6708fe64408c632ef2689ca3777b112f9421306ccf4f8c84d7c5c9f83f8"
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.1"
+    version: "1.3.2"
   build_daemon:
     dependency: transitive
     description:
@@ -433,10 +433,10 @@ packages:
     dependency: "direct main"
     description:
       name: ffmpeg_kit_flutter_new_min
-      sha256: "53a26ef09e0be7010cc99036d65fed1aa5ebf957e5052f206655be089350f055"
+      sha256: "86dcea7ac28419abe6dc2e795a533ea503a5f327ad842706d897651a62eed613"
       url: "https://pub.dev"
     source: hosted
-    version: "3.5.4"
+    version: "3.5.5"
   ffmpeg_kit_flutter_platform_interface:
     dependency: transitive
     description:
@@ -536,10 +536,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_soloud
-      sha256: febcb4f930085c5a1f3954ac635669530323f5b6bca3972aaa584808ddda0e73
+      sha256: dcc9b0d9970bff0ce2216374e0df20221a047e4dd2b42ce03ee502cbad834a56
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.13"
+    version: "4.1.3"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -892,10 +892,10 @@ packages:
     dependency: transitive
     description:
       name: objective_c
-      sha256: "6cb691c686fa2838c6deb34980d426145c2a5d537491cb83d463c33cdbc726ed"
+      sha256: b7fb95a6d9a4f009edd63dc5ac69f07420b23a16161c6dd8660290b59c602e8e
       url: "https://pub.dev"
     source: hosted
-    version: "9.4.1"
+    version: "9.5.0"
   package_config:
     dependency: transitive
     description:
@@ -988,10 +988,10 @@ packages:
     dependency: "direct dev"
     description:
       name: patrol
-      sha256: "1cb54197ba329a81cb0f7dca1ffae3b6425b4ea514a63b60dec9dbb9d662c866"
+      sha256: bdeec6400d0ec22aefb875b2fd17a7bd4f25d37a40fd3bd83a74441c65f69f1e
       url: "https://pub.dev"
     source: hosted
-    version: "4.7.1"
+    version: "4.8.0"
   patrol_finders:
     dependency: transitive
     description:
@@ -1052,10 +1052,10 @@ packages:
     dependency: "direct main"
     description:
       name: posthog_flutter
-      sha256: "19d1ea5226c4f0e92d17d8d3ff15d012faad6e9a2e327a341b528eb352f28d13"
+      sha256: "321377790e02163a321c9e1099586e3eba1ac72e32253696938d151e7244c4ca"
       url: "https://pub.dev"
     source: hosted
-    version: "5.33.0"
+    version: "5.33.1"
   precise_metronome:
     dependency: "direct main"
     description:

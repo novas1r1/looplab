@@ -66,6 +66,16 @@ class SongState with SongStateMappable {
   /// [Song.pitchSemitones] on song open.
   final int pitchSemitones;
 
+  /// Fine tune in cents (-50..+50), 0 = no offset. Orthogonal to
+  /// [pitchSemitones]. Restored from [Song.fineTuneCents] on song open.
+  final int fineTuneCents;
+
+  /// Total pitch offset in cents actually sent to the audio handler — the
+  /// single value the DSP layer cares about. A zero total means playback is
+  /// at original pitch, which is what the reapply guards must test (checking
+  /// [pitchSemitones] alone would silently drop a cents-only offset).
+  int get totalPitchCents => pitchSemitones * 100 + fineTuneCents;
+
   /// Pitch control mode (semitones or key-based)
   final PitchMode pitchMode;
 
@@ -87,11 +97,6 @@ class SongState with SongStateMappable {
   /// tap buffer itself lives in the cubit.
   final int metronomeTapCount;
 
-  /// Whether the baked click track is currently being rendered/mixed (audio
-  /// songs only). The metronome panel shows a busy indicator during this —
-  /// the first mix of a song takes a few seconds; settings changes re-mix.
-  final bool isMetronomeGenerating;
-
   const SongState({
     this.speed = 1.0,
     this.status = SongStatus.loading,
@@ -109,12 +114,12 @@ class SongState with SongStateMappable {
     this.minBpm,
     this.maxBpm,
     this.pitchSemitones = 0,
+    this.fineTuneCents = 0,
     this.pitchMode = PitchMode.semitones,
     this.isMetronomeEnabled = false,
     this.metronomeVolume = 0.5,
     this.metronomeSubdivision = MetronomeSubdivision.none,
     this.metronomeTapCount = 0,
-    this.isMetronomeGenerating = false,
   });
 }
 

@@ -24,7 +24,6 @@ typedef _PanelData = ({
   bool isPlaying,
   bool hasAnchor,
   int tapCount,
-  bool isGenerating,
 });
 
 /// Note icon for a subdivision, used both in the header indicator and the
@@ -89,7 +88,6 @@ class _MetronomePanelState extends State<MetronomePanel> {
         isPlaying: state.playerState == PlayerState.playing,
         hasAnchor: state.song.metronomeBeatAnchorMs != null,
         tapCount: state.metronomeTapCount,
-        isGenerating: state.isMetronomeGenerating,
       ),
       builder: (context, data) {
         final hasBpm = data.currentBpm != null && data.currentBpm! > 0;
@@ -152,8 +150,8 @@ class _MetronomePanelState extends State<MetronomePanel> {
   }
 }
 
-/// Title row: name, status (tempo, time signature, subdivision), generating
-/// spinner, gear toggle and the on/off switch.
+/// Title row: name, status (tempo, time signature, subdivision), gear toggle
+/// and the on/off switch.
 class _Header extends StatelessWidget {
   const _Header({
     required this.data,
@@ -212,19 +210,6 @@ class _Header extends StatelessWidget {
             ],
           ),
         ),
-        if (data.isGenerating)
-          const Padding(
-            padding: EdgeInsets.only(right: 8),
-            child: SizedBox(
-              width: 18,
-              height: 18,
-              child: CircularProgressIndicator(
-                key: Key('song.metronome.generating'),
-                strokeWidth: 2,
-                color: AppColors.secondaryFixed,
-              ),
-            ),
-          ),
         if (isSynced) ...[
           _AdvancedButton(
             expanded: advancedExpanded,

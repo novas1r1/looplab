@@ -75,3 +75,28 @@ test coverage. Regressions in the video handler can only be caught manually.
 
 **Possible fix:** Parameterize the existing handler tests so they exercise both
 implementations against a shared contract.
+
+---
+
+## iOS loop restart has a residual ~50–80 ms gap (not fully seamless)
+
+**Where:** `ap/packages/audioplayers_darwin` (`WrappedMediaPlayer.swift`)
+
+iOS loops are triggered gaplessly (native boundary-observer `setLoopRegion`,
+measured `overshoot=0ms`), but the seek back to the loop start goes through
+`AVPlayerItem.seek(tolerance: .zero)`, which stalls ~50–80 ms re-priming the
+playback buffer. Measured on device at 48–84 ms, and it's **codec-independent**
+(an uncompressed WAV tested slightly worse than MP3), so it's the AVPlayer seek
+pipeline, not decode. Android is seamless (ExoPlayer wraps in-buffer). A user
+reported the iOS gap.
+
+**Why deferred:** The only fix is replacing the AVPlayer playback core with an
+`AVAudioEngine` buffer-loop graph (wrap at the buffer level, no seek) — a
+multi-day rewrite of the most critical audio path. The trigger fix already
+shipped tightens the loop and may be enough for now.
+
+**Action / unblock:** Full design (target graph, click/pitch ordering
+constraint, staged flag-gated rollout, alternatives) in
+`docs/plans/2026-07-30-ios-gapless-loop-avaudioengine-design.md`. Decision
+pending: do the rewrite now vs. ship the overshoot fix and schedule it
+separately.

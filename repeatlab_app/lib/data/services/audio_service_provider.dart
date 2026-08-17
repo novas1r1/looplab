@@ -6,6 +6,11 @@ import 'package:repeatlab/data/services/repeatlab_audioplayers_service_handler.d
 class AudioServiceProvider {
   static RepeatlabAudioplayersServiceHandler? _audioHandler;
 
+  /// The handler created by [init], or null while no song has been opened
+  /// yet. Used by the background-audio guard to suspend/resume polling.
+  static RepeatlabAudioplayersServiceHandler? get activeHandler =>
+      _audioHandler;
+
   final AudioPlayer audioPlayer;
 
   const AudioServiceProvider({required this.audioPlayer});

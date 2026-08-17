@@ -6,6 +6,7 @@ import 'package:repeatlab/core/utils/app_analytics.dart';
 import 'package:repeatlab/core/utils/build_context_extension.dart';
 import 'package:repeatlab/features/pitch_control/widget/pitch_control_key_mode.dart';
 import 'package:repeatlab/features/pitch_control/widget/pitch_control_slider.dart';
+import 'package:repeatlab/features/pitch_control/widget/pitch_fine_tune_slider.dart';
 import 'package:repeatlab/features/song/cubit/song/song_cubit.dart';
 import 'package:repeatlab/l10n/l10n.dart';
 
@@ -19,10 +20,16 @@ class PitchPanel extends StatelessWidget {
     return BlocSelector<
       SongCubit,
       SongState,
-      ({int pitchSemitones, String? musicalKey, PitchMode pitchMode})
+      ({
+        int pitchSemitones,
+        int fineTuneCents,
+        String? musicalKey,
+        PitchMode pitchMode,
+      })
     >(
       selector: (state) => (
         pitchSemitones: state.pitchSemitones,
+        fineTuneCents: state.fineTuneCents,
         musicalKey: state.song.musicalKey,
         pitchMode: state.pitchMode,
       ),
@@ -75,6 +82,10 @@ class PitchPanel extends StatelessWidget {
               )
             else
               const PitchControlKeyMode(),
+            // Below the mode body, so it shows in both: a recording sits off
+            // pitch regardless of whether you are thinking in semitones or
+            // keys, which makes fine tune orthogonal to the mode toggle.
+            PitchFineTuneSlider(fineTuneCents: data.fineTuneCents),
           ],
         );
       },

@@ -492,7 +492,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Теперь вы можете свободно перемещать точки начала и конца петли, пока воспроизведение на паузе - указатель воспроизведения больше не возвращается внутрь петли. Границы петли снова вступают в силу, как только вы нажимаете воспроизведение, что значительно упрощает точную настройку петель.';
 
   @override
-  String get changelog2101Title => 'Изменение тональности (Beta)';
+  String get changelog2101Title => 'Изменение тональности';
 
   @override
   String get changelog2101Description =>
@@ -514,7 +514,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Исправлено несколько ошибок, улучшены общая стабильность и производительность приложения.';
 
   @override
-  String get changelog201Title => 'Лупы для видео и изменение скорости (Beta)';
+  String get changelog201Title => 'Лупы для видео и изменение скорости';
 
   @override
   String get changelog201Description =>
@@ -1053,6 +1053,93 @@ class AppLocalizationsRu extends AppLocalizations {
   String get pitchUnchanged => 'высота без изменений';
 
   @override
+  String get intervalUnison => 'Исходная высота';
+
+  @override
+  String get intervalHalfStep => 'полутон';
+
+  @override
+  String get intervalWholeStep => 'тон';
+
+  @override
+  String get intervalMinorThird => 'малая терция';
+
+  @override
+  String get intervalMajorThird => 'большая терция';
+
+  @override
+  String get intervalFourth => 'кварта';
+
+  @override
+  String get intervalTritone => 'тритон';
+
+  @override
+  String get intervalFifth => 'квинта';
+
+  @override
+  String get intervalMinorSixth => 'малая секста';
+
+  @override
+  String get intervalMajorSixth => 'большая секста';
+
+  @override
+  String get intervalMinorSeventh => 'малая септима';
+
+  @override
+  String get intervalMajorSeventh => 'большая септима';
+
+  @override
+  String get intervalOctave => 'октава';
+
+  @override
+  String intervalDown(String interval) {
+    return '$interval вниз';
+  }
+
+  @override
+  String intervalUp(String interval) {
+    return '$interval вверх';
+  }
+
+  @override
+  String get setSongKey => 'Задать тональность';
+
+  @override
+  String get setSongKeyIntro =>
+      'Задайте тональность один раз — и сможете транспонировать сразу в любую другую.';
+
+  @override
+  String get keyQuality => 'Лад';
+
+  @override
+  String get keyQualityMajor => 'Мажор';
+
+  @override
+  String get keyQualityMinor => 'Минор';
+
+  @override
+  String get keyOriginalBadge => 'ориг.';
+
+  @override
+  String get pitchQualityWarning => 'может звучать неестественно';
+
+  @override
+  String get fineTune => 'Точная подстройка';
+
+  @override
+  String fineTuneCentsValue(String cents) {
+    return '$cents ct';
+  }
+
+  @override
+  String get fineTuneHint => 'Подстройка под слегка расстроенную запись';
+
+  @override
+  String fineTuneReference(String hz) {
+    return 'настройте Ля ≈ $hz Гц';
+  }
+
+  @override
   String get tapTempo => 'Отстучать темп';
 
   @override
@@ -1096,6 +1183,12 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get loops => 'Лупы';
+
+  @override
+  String get noLoopsCreatedYet => 'Лупы пока не созданы';
+
+  @override
+  String get tapToCreateFirstLoop => 'Нажмите, чтобы создать первый луп';
 
   @override
   String get songSettings => 'Настройки песни';

@@ -489,7 +489,7 @@ class AppLocalizationsSv extends AppLocalizations {
       'Du kan nu fritt flytta en loops start- och slutpunkter medan uppspelningen är pausad - spelhuvudet hoppar inte längre tillbaka in i loopen. Loopgränserna börjar gälla igen så snart du trycker på spela, vilket gör det mycket enklare att finjustera dina loopar.';
 
   @override
-  String get changelog2101Title => 'Tonhöjdsändring (Beta)';
+  String get changelog2101Title => 'Tonhöjdsändring';
 
   @override
   String get changelog2101Description =>
@@ -510,7 +510,7 @@ class AppLocalizationsSv extends AppLocalizations {
       'Flera buggar har åtgärdats och appens allmänna stabilitet och prestanda har förbättrats.';
 
   @override
-  String get changelog201Title => 'Loopa videor och ändra hastighet (Beta)';
+  String get changelog201Title => 'Loopa videor och ändra hastighet';
 
   @override
   String get changelog201Description =>
@@ -1047,6 +1047,93 @@ class AppLocalizationsSv extends AppLocalizations {
   String get pitchUnchanged => 'tonhöjd oförändrad';
 
   @override
+  String get intervalUnison => 'Ursprunglig tonhöjd';
+
+  @override
+  String get intervalHalfStep => 'halvt tonsteg';
+
+  @override
+  String get intervalWholeStep => 'helt tonsteg';
+
+  @override
+  String get intervalMinorThird => 'liten ters';
+
+  @override
+  String get intervalMajorThird => 'stor ters';
+
+  @override
+  String get intervalFourth => 'kvart';
+
+  @override
+  String get intervalTritone => 'tritonus';
+
+  @override
+  String get intervalFifth => 'kvint';
+
+  @override
+  String get intervalMinorSixth => 'liten sext';
+
+  @override
+  String get intervalMajorSixth => 'stor sext';
+
+  @override
+  String get intervalMinorSeventh => 'liten septim';
+
+  @override
+  String get intervalMajorSeventh => 'stor septim';
+
+  @override
+  String get intervalOctave => 'oktav';
+
+  @override
+  String intervalDown(String interval) {
+    return '$interval ner';
+  }
+
+  @override
+  String intervalUp(String interval) {
+    return '$interval upp';
+  }
+
+  @override
+  String get setSongKey => 'Ange tonart';
+
+  @override
+  String get setSongKeyIntro =>
+      'Ange tonarten en gång, så kan du transponera direkt till vilken annan som helst.';
+
+  @override
+  String get keyQuality => 'Tonkön';
+
+  @override
+  String get keyQualityMajor => 'Dur';
+
+  @override
+  String get keyQualityMinor => 'Moll';
+
+  @override
+  String get keyOriginalBadge => 'urspr.';
+
+  @override
+  String get pitchQualityWarning => 'kan låta konstlat';
+
+  @override
+  String get fineTune => 'Finjustering';
+
+  @override
+  String fineTuneCentsValue(String cents) {
+    return '$cents ct';
+  }
+
+  @override
+  String get fineTuneHint => 'Matcha en något ostämd inspelning';
+
+  @override
+  String fineTuneReference(String hz) {
+    return 'stäm A ≈ $hz Hz';
+  }
+
+  @override
   String get tapTempo => 'Knacka tempo';
 
   @override
@@ -1090,6 +1177,12 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get loops => 'Loopar';
+
+  @override
+  String get noLoopsCreatedYet => 'Inga loopar skapade än';
+
+  @override
+  String get tapToCreateFirstLoop => 'Tryck för att skapa din första loop';
 
   @override
   String get songSettings => 'Låtinställningar';

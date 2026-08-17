@@ -488,7 +488,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'يمكنك الآن تحريك نقطتي بداية ونهاية الحلقة بحرية أثناء إيقاف التشغيل مؤقتًا - لم يعد مؤشر التشغيل يعود إلى داخل الحلقة. تُطبَّق حدود الحلقة مرة أخرى بمجرد الضغط على زر التشغيل، مما يسهّل عليك ضبط حلقاتك بدقة.';
 
   @override
-  String get changelog2101Title => 'تغيير طبقة الصوت (Beta)';
+  String get changelog2101Title => 'تغيير طبقة الصوت';
 
   @override
   String get changelog2101Description =>
@@ -509,8 +509,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'تم إصلاح العديد من الأخطاء وتحسين الاستقرار العام وأداء التطبيق.';
 
   @override
-  String get changelog201Title =>
-      'تشغيل الفيديو على شكل حلقات وتغيير السرعة (Beta)';
+  String get changelog201Title => 'تشغيل الفيديو على شكل حلقات وتغيير السرعة';
 
   @override
   String get changelog201Description =>
@@ -1041,6 +1040,93 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pitchUnchanged => 'طبقة الصوت دون تغيير';
 
   @override
+  String get intervalUnison => 'طبقة الصوت الأصلية';
+
+  @override
+  String get intervalHalfStep => 'نصف درجة';
+
+  @override
+  String get intervalWholeStep => 'درجة كاملة';
+
+  @override
+  String get intervalMinorThird => 'ثالثة صغرى';
+
+  @override
+  String get intervalMajorThird => 'ثالثة كبرى';
+
+  @override
+  String get intervalFourth => 'رابعة';
+
+  @override
+  String get intervalTritone => 'تريتون';
+
+  @override
+  String get intervalFifth => 'خامسة';
+
+  @override
+  String get intervalMinorSixth => 'سادسة صغرى';
+
+  @override
+  String get intervalMajorSixth => 'سادسة كبرى';
+
+  @override
+  String get intervalMinorSeventh => 'سابعة صغرى';
+
+  @override
+  String get intervalMajorSeventh => 'سابعة كبرى';
+
+  @override
+  String get intervalOctave => 'أوكتاف';
+
+  @override
+  String intervalDown(String interval) {
+    return '$interval للأسفل';
+  }
+
+  @override
+  String intervalUp(String interval) {
+    return '$interval للأعلى';
+  }
+
+  @override
+  String get setSongKey => 'تعيين مقام الأغنية';
+
+  @override
+  String get setSongKeyIntro =>
+      'عيّن مقام الأغنية مرة واحدة، وبعدها يمكنك النقل مباشرة إلى أي مقام آخر.';
+
+  @override
+  String get keyQuality => 'النوع';
+
+  @override
+  String get keyQualityMajor => 'كبير';
+
+  @override
+  String get keyQualityMinor => 'صغير';
+
+  @override
+  String get keyOriginalBadge => 'أصلي';
+
+  @override
+  String get pitchQualityWarning => 'قد يبدو غير طبيعي';
+
+  @override
+  String get fineTune => 'ضبط دقيق';
+
+  @override
+  String fineTuneCentsValue(String cents) {
+    return '$cents ct';
+  }
+
+  @override
+  String get fineTuneHint => 'طابق تسجيلاً غير مضبوط قليلاً';
+
+  @override
+  String fineTuneReference(String hz) {
+    return 'اضبط لا ≈ $hz هرتز';
+  }
+
+  @override
   String get tapTempo => 'انقر الإيقاع';
 
   @override
@@ -1084,6 +1170,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get loops => 'الحلقات';
+
+  @override
+  String get noLoopsCreatedYet => 'لم يتم إنشاء أي حلقات بعد';
+
+  @override
+  String get tapToCreateFirstLoop => 'اضغط لإنشاء أول حلقة';
 
   @override
   String get songSettings => 'إعدادات الأغنية';

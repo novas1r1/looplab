@@ -37,11 +37,12 @@ class SongCubit extends Cubit<SongState> {
 
   /// Native metronome wrapper. Injected in tests; lazily initialized on first
   /// use, so unsupported platforms never touch the plugin. Only used for
-  /// video songs — audio songs use the baked click track instead.
+  /// video songs — audio songs use the in-pipeline click track instead.
   final SongMetronome _metronome;
 
-  /// Renders + mixes the baked click track for audio songs. Injected in
-  /// tests so no ffmpeg/path_provider plugins are touched.
+  /// Owns the legacy baked-mix cache directory — only used to purge cached
+  /// mixes when a song is deleted. Injected in tests so no path_provider
+  /// plugin is touched.
   final MetronomeTrackService _trackService;
 
   static const double _minPlaybackSpeed = 0.5;
@@ -104,17 +105,9 @@ class SongCubit extends Cubit<SongState> {
   /// its captured generation is stale.
   int _metronomeGeneration = 0;
 
-  /// Debounces click-track re-mixes so a burst of settings changes (nudge
-  /// taps, volume slider) mixes once, not per tap.
+  /// Coalesces native click-config resends so a burst of settings changes
+  /// (nudge taps, volume slider) sends once, not per tap.
   Timer? _clickTrackRefreshTimer;
-
-  /// Bumped whenever the click track must not be applied anymore (toggle
-  /// off, close); an in-flight mix aborts when its generation is stale.
-  int _clickTrackGeneration = 0;
-
-  /// Whether the player is currently fed the song+click mix instead of the
-  /// original file — the flag that tells disable to swap back.
-  bool _isClickTrackSourceActive = false;
 
   Duration? positionToSeek;
 
@@ -171,7 +164,6 @@ class SongCubit extends Cubit<SongState> {
     _gridRealignTimer?.cancel();
     _tapSettleTimer?.cancel();
     _clickTrackRefreshTimer?.cancel();
-    _clickTrackGeneration++;
 
     // The audio handler is an app-lifetime singleton — silence the native
     // click processor so it cannot outlive this song page.
@@ -420,14 +412,23 @@ class SongCubit extends Cubit<SongState> {
 
       // Restore the persisted per-song pitch (unlike speed, pitch survives
       // song reopen). If the platform rejects it, stay at 0.
+      // Both axes are checked as one total: a song with no transposition but a
+      // non-zero fine tune must still be reapplied.
       var appliedPitch = 0;
+      var appliedCents = 0;
       final persistedPitch = state.song.pitchSemitones.clamp(
         minPitchSemitones,
         maxPitchSemitones,
       );
-      if (persistedPitch != 0 && isPitchControlSupported) {
-        if (await audioHandler.setPitchSemitones(persistedPitch)) {
+      final persistedCents = state.song.fineTuneCents.clamp(
+        minFineTuneCents,
+        maxFineTuneCents,
+      );
+      final persistedTotal = persistedPitch * 100 + persistedCents;
+      if (persistedTotal != 0 && isPitchControlSupported) {
+        if (await audioHandler.setPitchCents(persistedTotal)) {
           appliedPitch = persistedPitch;
+          appliedCents = persistedCents;
         }
       }
 
@@ -497,6 +498,7 @@ class SongCubit extends Cubit<SongState> {
           maxBpm: initialMaxBpm,
           // Pitch is restored from the song, unlike speed; the mode resets
           pitchSemitones: appliedPitch,
+          fineTuneCents: appliedCents,
           pitchMode: PitchMode.semitones,
           // Metronome always starts off; volume/subdivision are global prefs
           isMetronomeEnabled: false,
@@ -579,16 +581,19 @@ class SongCubit extends Cubit<SongState> {
   /// Reapplies the current pitch after the audio handler reset it to 0 in
   /// playSong (unlike speed, pitch should survive a song reload). Reverts the
   /// UI state to 0 if the platform rejects the change.
+  ///
+  /// Guards on the combined total, not on [SongState.pitchSemitones] alone —
+  /// a song tuned only by cents has no transposition to test.
   Future<void> _reapplyPitchAfterSongReload() async {
-    if (state.pitchSemitones == 0 || !isPitchControlSupported) return;
+    if (state.totalPitchCents == 0 || !isPitchControlSupported) return;
 
-    final success = await audioHandler.setPitchSemitones(state.pitchSemitones);
+    final success = await audioHandler.setPitchCents(state.totalPitchCents);
     if (!success) {
       dev.log(
         'Failed to reapply pitch after song reload, reverting to 0',
         name: 'SongCubit',
       );
-      emit(state.copyWith(pitchSemitones: 0));
+      emit(state.copyWith(pitchSemitones: 0, fineTuneCents: 0));
     }
   }
 
@@ -1109,6 +1114,7 @@ class SongCubit extends Cubit<SongState> {
         bpm: bpm,
         currentBpm: state.song.currentBpm,
         pitchSemitones: state.song.pitchSemitones,
+        fineTuneCents: state.song.fineTuneCents,
         musicalKey: musicalKey,
         loops: state.song.loops,
         loopSort: state.song.loopSort,
@@ -1426,14 +1432,9 @@ class SongCubit extends Cubit<SongState> {
           ),
         );
         await _stopMetronome();
-        if (_usesClickTrack) {
-          _clickTrackGeneration++;
+        if (_usesNativeClickPipeline) {
           _clickTrackRefreshTimer?.cancel();
-          if (_usesNativeClickPipeline) {
-            await _disableNativeClickTrack();
-          } else {
-            await _restoreOriginalSource();
-          }
+          await _disableNativeClickTrack();
         }
       }
     } catch (ex, stack) {
@@ -1554,9 +1555,10 @@ class SongCubit extends Cubit<SongState> {
   @visibleForTesting
   bool? isMetronomeSupportedOverride;
 
-  /// Whether the metronome works on this platform. `precise_metronome` and
-  /// `ffmpeg_kit` ship iOS + Android implementations only; the metronome tab
-  /// hides itself elsewhere (mirrors [isPitchControlSupported]).
+  /// Whether the metronome works on this platform. The native click
+  /// pipeline and `precise_metronome` ship iOS + Android implementations
+  /// only; the metronome tab hides itself elsewhere (mirrors
+  /// [isPitchControlSupported]).
   bool get isMetronomeSupported =>
       isMetronomeSupportedOverride ?? (Platform.isAndroid || Platform.isIOS);
 
@@ -1566,25 +1568,26 @@ class SongCubit extends Cubit<SongState> {
   /// docs/plans/2026-07-23-metronome-track-design.md.
   bool get _usesClickTrack => state.song.mediaType == MediaType.audio;
 
-  /// Test hook: forces the native-vs-baked click-track split, which is
-  /// platform-dependent (`Platform.isAndroid`) in production.
+  /// Test hook: forces native click-pipeline support, which is
+  /// platform-dependent (`Platform.isAndroid || Platform.isIOS`) in
+  /// production.
   @visibleForTesting
   bool? isNativeClickTrackSupportedOverride;
 
-  /// Android audio songs get the *native in-pipeline* click (synthesized in
-  /// the audioplayers fork's ExoPlayer processor — instant toggle/volume,
-  /// no mixing, no source swap). iOS audio songs keep the baked ffmpeg
-  /// click track until the MTAudioProcessingTap follow-up lands.
+  /// Audio songs get the *native in-pipeline* click — synthesized in the
+  /// audioplayers fork's playback pipeline (Android: ExoPlayer
+  /// ClickTrackAudioProcessor, iOS/macOS: MTAudioProcessingTap) — with
+  /// instant toggle/volume, no mixing, no source swap.
   bool get _usesNativeClickPipeline =>
       _usesClickTrack &&
-      (isNativeClickTrackSupportedOverride ?? Platform.isAndroid);
+      (isNativeClickTrackSupportedOverride ??
+          (Platform.isAndroid || Platform.isIOS));
 
   /// Toggle the metronome on/off. Requires a BPM (the metronome panel shows
   /// a "set BPM first" prompt otherwise).
   ///
-  /// Audio songs: swaps the player source to the song+click mix (mixing it
-  /// first if not cached — [SongState.isMetronomeGenerating] covers the
-  /// wait). Video songs: starts/stops the live click.
+  /// Audio songs: configures/clears the native in-pipeline click (instant).
+  /// Video songs: starts/stops the live click.
   Future<void> toggleMetronome() async {
     if (!isMetronomeSupported) return;
 
@@ -1612,16 +1615,9 @@ class SongCubit extends Cubit<SongState> {
         return;
       }
 
-      if (_usesClickTrack) {
-        if (enable) {
-          await _applyClickTrack();
-        } else {
-          _clickTrackGeneration++;
-          _clickTrackRefreshTimer?.cancel();
-          await _restoreOriginalSource();
-        }
-        return;
-      }
+      // Audio songs always use the native pipeline on supported platforms;
+      // only video songs fall through to the live metronome.
+      if (_usesClickTrack) return;
 
       if (enable && state.playerState == PlayerState.playing) {
         await _realignMetronome(MetronomeRealignReason.playStarted);
@@ -1642,9 +1638,6 @@ class SongCubit extends Cubit<SongState> {
 
   /// Live volume change while dragging. Pass [persist] true (e.g. from the
   /// slider's onChangeEnd) to write the global preference.
-  ///
-  /// Click-track mode: the click gain is baked into the mix, so only the
-  /// settled value (persist) triggers a re-mix — dragging just updates state.
   Future<void> setMetronomeVolume(double volume, {bool persist = false}) async {
     if (!isMetronomeSupported) return;
 
@@ -1655,8 +1648,7 @@ class SongCubit extends Cubit<SongState> {
       if (!_usesClickTrack) {
         await _metronome.setVolume(clamped);
       } else if (_usesNativeClickPipeline) {
-        // Native clicks change volume live while dragging (coalesced);
-        // baked clicks only re-mix on the settled value below.
+        // Native clicks change volume live while dragging (coalesced).
         _scheduleClickTrackRefresh();
       }
       if (persist) {
@@ -1943,6 +1935,7 @@ class SongCubit extends Cubit<SongState> {
         bpm: song.bpm,
         currentBpm: song.currentBpm,
         pitchSemitones: song.pitchSemitones,
+        fineTuneCents: song.fineTuneCents,
         musicalKey: song.musicalKey,
         loops: song.loops,
         loopSort: song.loopSort,
@@ -2167,9 +2160,6 @@ class SongCubit extends Cubit<SongState> {
 
   // ==================== CLICK TRACK (audio songs) ====================
 
-  /// Debounce for baked-click-track re-mixes after settings changes.
-  static const int _clickTrackRefreshDebounceMs = 600;
-
   /// Coalesce window for native click-config resends (no mixing involved —
   /// this only limits method-channel chatter from slider drags).
   static const int _nativeClickRefreshDebounceMs = 50;
@@ -2178,28 +2168,23 @@ class SongCubit extends Cubit<SongState> {
   @visibleForTesting
   int? clickTrackDebounceMsOverride;
 
-  /// Schedules a debounced refresh after a grid/volume change: a re-mix +
-  /// source swap on the baked path, a config resend on the native path.
+  /// Schedules a coalesced config resend after a grid/volume change.
   /// No-op unless the metronome is enabled in click-track mode.
   void _scheduleClickTrackRefresh() {
-    if (!isMetronomeSupported || !_usesClickTrack || !state.isMetronomeEnabled) {
+    if (!isMetronomeSupported ||
+        !_usesNativeClickPipeline ||
+        !state.isMetronomeEnabled) {
       return;
     }
 
-    final debounceMs = clickTrackDebounceMsOverride ??
-        (_usesNativeClickPipeline
-            ? _nativeClickRefreshDebounceMs
-            : _clickTrackRefreshDebounceMs);
+    final debounceMs =
+        clickTrackDebounceMsOverride ?? _nativeClickRefreshDebounceMs;
     _clickTrackRefreshTimer?.cancel();
     _clickTrackRefreshTimer = Timer(
       Duration(milliseconds: debounceMs),
       () {
         if (isClosed || !state.isMetronomeEnabled) return;
-        if (_usesNativeClickPipeline) {
-          unawaited(_applyNativeClickTrack());
-        } else {
-          unawaited(_applyClickTrack());
-        }
+        unawaited(_applyNativeClickTrack());
       },
     );
   }
@@ -2244,92 +2229,12 @@ class SongCubit extends Cubit<SongState> {
     }
   }
 
-  /// Mixes (or fetches from cache) the song+click file for the current
-  /// settings and swaps the player onto it, preserving position and playing
-  /// state. On failure the metronome turns itself off and the original
-  /// source is restored — a stale mix must never keep playing silently.
-  Future<void> _applyClickTrack() async {
-    final originalBpm = state.originalBpm;
-    if (originalBpm == null || originalBpm <= 0) return;
-
-    final generation = ++_clickTrackGeneration;
-    maybeEmit(state.copyWith(isMetronomeGenerating: true));
-
-    try {
-      final songPath = await state.song.path;
-      final (beatsPerBar, beatUnit) = _effectiveTimeSignature;
-      final config = ClickTrackConfig(
-        durationMs: state.song.duration.inMilliseconds,
-        bpm: originalBpm,
-        anchorMs: state.song.metronomeBeatAnchorMs,
-        offsetMs: state.song.metronomeOffsetMs,
-        beatsPerBar: beatsPerBar,
-        beatUnit: beatUnit,
-        pulsesPerBeat: state.metronomeSubdivision.pulsesPerBeat,
-        volume: state.metronomeVolume,
-      );
-
-      final mixedPath = await _trackService.ensureMixedTrack(
-        songId: state.song.id,
-        songPath: songPath,
-        config: config,
-      );
-
-      // The mix ran async — the user may have toggled off or closed the
-      // page meanwhile; a stale apply must not hijack the source.
-      if (isClosed ||
-          generation != _clickTrackGeneration ||
-          !state.isMetronomeEnabled) {
-        return;
-      }
-
-      await audioHandler.swapSourceFile(mixedPath);
-      _isClickTrackSourceActive = true;
-    } catch (ex, stack) {
-      unawaited(crashReportingRepository.reportError(ex, stack));
-      if (!isClosed && generation == _clickTrackGeneration) {
-        maybeEmit(
-          state.copyWith(
-            status: SongStatus.error,
-            isMetronomeEnabled: false,
-            error: 'Failed to prepare metronome track: $ex',
-          ),
-        );
-        await _restoreOriginalSource();
-      }
-    } finally {
-      maybeEmit(state.copyWith(isMetronomeGenerating: false));
-    }
-  }
-
-  /// `playSong` drops the click state: on the native path the handler
-  /// clears the processor's grid, on the baked path the original file is
-  /// reloaded. Re-apply whichever the song uses.
+  /// `playSong` drops the click state (the handler clears the processor's
+  /// grid so a new song never inherits the old one) — re-send the config if
+  /// the metronome is on.
   void _reapplyClickTrackAfterSongReload() {
-    if (_usesNativeClickPipeline) {
-      if (state.isMetronomeEnabled) {
-        unawaited(_applyNativeClickTrack());
-      }
-      return;
-    }
-    if (!_isClickTrackSourceActive) return;
-    _isClickTrackSourceActive = false;
-    if (_usesClickTrack && state.isMetronomeEnabled) {
-      unawaited(_applyClickTrack());
-    }
-  }
-
-  /// Swaps the player back onto the original song file (no-op when it is
-  /// already playing the original).
-  Future<void> _restoreOriginalSource() async {
-    if (!_isClickTrackSourceActive) return;
-
-    try {
-      final songPath = await state.song.path;
-      await audioHandler.swapSourceFile(songPath);
-      _isClickTrackSourceActive = false;
-    } catch (ex, stack) {
-      unawaited(crashReportingRepository.reportError(ex, stack));
+    if (_usesNativeClickPipeline && state.isMetronomeEnabled) {
+      unawaited(_applyNativeClickTrack());
     }
   }
 
@@ -2346,32 +2251,78 @@ class SongCubit extends Cubit<SongState> {
   static const int minPitchSemitones = -12;
   static const int maxPitchSemitones = 12;
 
+  /// Fine tune range in cents. Half a semitone either way, which covers every
+  /// real off-pitch recording and tuning-reference difference (A=427..453);
+  /// anything beyond that is a semitone step instead.
+  static const int minFineTuneCents = -50;
+  static const int maxFineTuneCents = 50;
+
   /// Whether pitch shifting works for the current song on this platform:
-  /// video → all platforms (media_kit/libmpv); audio → Android only
-  /// (Signalsmith processor in the audioplayers fork). The pitch card hides
-  /// itself when unsupported.
+  /// video → all platforms (media_kit/libmpv); audio → Android and iOS, both
+  /// via a native Signalsmith processor in the audioplayers fork (an ExoPlayer
+  /// audio processor on Android, an MTAudioProcessingTap stage on iOS). The
+  /// pitch card hides itself only where unsupported (e.g. audio on desktop).
   bool get isPitchControlSupported =>
-      state.song.mediaType == MediaType.video || Platform.isAndroid;
+      state.song.mediaType == MediaType.video ||
+      Platform.isAndroid ||
+      Platform.isIOS;
 
   /// Update the pitch shift in semitones (-12 to +12) and persist it on the
-  /// song. Returns true if the pitch was applied successfully.
-  Future<bool> setPitchSemitones(int semitones) async {
+  /// song, leaving the fine tune untouched. Returns true if the pitch was
+  /// applied successfully.
+  Future<bool> setPitchSemitones(int semitones) {
     dev.log('setPitchSemitones: $semitones', name: 'SongCubit');
+    return _applyPitch(semitones: semitones, cents: state.fineTuneCents);
+  }
+
+  /// Update the fine tune in cents (-50 to +50) and persist it on the song,
+  /// leaving the semitone transposition untouched. Returns true if the pitch
+  /// was applied successfully.
+  Future<bool> setFineTuneCents(int cents) {
+    dev.log('setFineTuneCents: $cents', name: 'SongCubit');
+    return _applyPitch(semitones: state.pitchSemitones, cents: cents);
+  }
+
+  /// Reset pitch to the original (no transposition, no fine tune)
+  Future<bool> resetPitch() {
+    dev.log('resetPitch', name: 'SongCubit');
+    return _applyPitch(semitones: 0, cents: 0);
+  }
+
+  /// Applies a transposition plus fine tune as a single cents total, then
+  /// persists both on the song. The split is a UI concern; the audio handler
+  /// only ever needs one ratio, so one native call covers both.
+  Future<bool> _applyPitch({
+    required int semitones,
+    required int cents,
+  }) async {
+    // Capture the pre-call values: on failure we revert to these rather than
+    // reading back the handler's combined total, which cannot be split into
+    // semitones and cents unambiguously (±50 ct is exactly half a semitone).
+    final previousSemitones = state.pitchSemitones;
+    final previousCents = state.fineTuneCents;
 
     try {
-      final target = semitones.clamp(minPitchSemitones, maxPitchSemitones);
+      final targetSemitones = semitones.clamp(
+        minPitchSemitones,
+        maxPitchSemitones,
+      );
+      final targetCents = cents.clamp(minFineTuneCents, maxFineTuneCents);
 
-      final success = await audioHandler.setPitchSemitones(target);
+      final success = await audioHandler.setPitchCents(
+        targetSemitones * 100 + targetCents,
+      );
 
       if (!success) {
         dev.log(
-          'Pitch change failed, reverting UI to actual pitch',
+          'Pitch change failed, reverting UI to the previous pitch',
           name: 'SongCubit',
         );
         emit(
           state.copyWith(
             status: SongStatus.pitchChangeFailed,
-            pitchSemitones: audioHandler.currentPitchSemitones,
+            pitchSemitones: previousSemitones,
+            fineTuneCents: previousCents,
             error: 'Pitch change failed. Please try again.',
           ),
         );
@@ -2382,7 +2333,10 @@ class SongCubit extends Cubit<SongState> {
       // the already-applied audio change — report it and keep the UI state.
       var updatedSong = state.song;
       try {
-        updatedSong = state.song.copyWith(pitchSemitones: target);
+        updatedSong = state.song.copyWith(
+          pitchSemitones: targetSemitones,
+          fineTuneCents: targetCents,
+        );
         await songRepository.updateSong(updatedSong);
       } catch (ex, stack) {
         unawaited(crashReportingRepository.reportError(ex, stack));
@@ -2393,7 +2347,8 @@ class SongCubit extends Cubit<SongState> {
         state.copyWith(
           status: SongStatus.updated,
           song: updatedSong,
-          pitchSemitones: target,
+          pitchSemitones: targetSemitones,
+          fineTuneCents: targetCents,
           error: null,
         ),
       );
@@ -2404,18 +2359,13 @@ class SongCubit extends Cubit<SongState> {
       emit(
         state.copyWith(
           status: SongStatus.pitchChangeFailed,
-          pitchSemitones: audioHandler.currentPitchSemitones,
+          pitchSemitones: previousSemitones,
+          fineTuneCents: previousCents,
           error: 'Pitch change failed. Please try again.',
         ),
       );
       return false;
     }
-  }
-
-  /// Reset pitch to the original (0 semitones)
-  Future<bool> resetPitch() {
-    dev.log('resetPitch', name: 'SongCubit');
-    return setPitchSemitones(0);
   }
 
   /// Switch between semitone mode and key mode (mirrors [setTempoMode])
@@ -2444,6 +2394,9 @@ class SongCubit extends Cubit<SongState> {
         bpm: state.song.bpm,
         currentBpm: state.song.currentBpm,
         pitchSemitones: 0,
+        // Fine tune survives a key change: it compensates for the recording
+        // being off-pitch, which is independent of the reference key.
+        fineTuneCents: state.song.fineTuneCents,
         musicalKey: canonical,
         loops: state.song.loops,
         loopSort: state.song.loopSort,
@@ -2457,13 +2410,17 @@ class SongCubit extends Cubit<SongState> {
       );
       await songRepository.updateSong(updatedSong);
 
-      await audioHandler.setPitchSemitones(0);
+      // Zero the transposition but keep the fine tune: it compensates for the
+      // recording, not for the reference key. Sourced from updatedSong so the
+      // handler and the emitted state can never disagree.
+      await audioHandler.setPitchCents(updatedSong.fineTuneCents);
 
       emit(
         state.copyWith(
           status: SongStatus.updated,
           song: updatedSong,
           pitchSemitones: 0,
+          fineTuneCents: updatedSong.fineTuneCents,
           error: null,
         ),
       );

@@ -490,7 +490,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'Artık oynatma duraklatılmışken bir döngünün başlangıç ve bitiş noktalarını serbestçe taşıyabilirsin - oynatma başı artık döngünün içine geri dönmüyor. Oynat\'a bastığın anda döngü sınırları yeniden geçerli olur, böylece döngülerini ince ayarlamak çok daha kolay hale gelir.';
 
   @override
-  String get changelog2101Title => 'Perde kaydırma (Beta)';
+  String get changelog2101Title => 'Perde kaydırma';
 
   @override
   String get changelog2101Description =>
@@ -512,7 +512,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'Birkaç hata düzeltildi, uygulamanın genel kararlılığı ve performansı iyileştirildi.';
 
   @override
-  String get changelog201Title => 'Videoları döngüye al ve hız değiştir (Beta)';
+  String get changelog201Title => 'Videoları döngüye al ve hız değiştir';
 
   @override
   String get changelog201Description =>
@@ -1052,6 +1052,93 @@ class AppLocalizationsTr extends AppLocalizations {
   String get pitchUnchanged => 'perde değişmedi';
 
   @override
+  String get intervalUnison => 'Orijinal perde';
+
+  @override
+  String get intervalHalfStep => 'yarım ses';
+
+  @override
+  String get intervalWholeStep => 'tam ses';
+
+  @override
+  String get intervalMinorThird => 'küçük üçlü';
+
+  @override
+  String get intervalMajorThird => 'büyük üçlü';
+
+  @override
+  String get intervalFourth => 'dörtlü';
+
+  @override
+  String get intervalTritone => 'triton';
+
+  @override
+  String get intervalFifth => 'beşli';
+
+  @override
+  String get intervalMinorSixth => 'küçük altılı';
+
+  @override
+  String get intervalMajorSixth => 'büyük altılı';
+
+  @override
+  String get intervalMinorSeventh => 'küçük yedili';
+
+  @override
+  String get intervalMajorSeventh => 'büyük yedili';
+
+  @override
+  String get intervalOctave => 'oktav';
+
+  @override
+  String intervalDown(String interval) {
+    return '$interval aşağı';
+  }
+
+  @override
+  String intervalUp(String interval) {
+    return '$interval yukarı';
+  }
+
+  @override
+  String get setSongKey => 'Şarkının tonunu ayarla';
+
+  @override
+  String get setSongKeyIntro =>
+      'Tonu bir kez ayarla, sonra doğrudan başka herhangi bir tona aktarabilirsin.';
+
+  @override
+  String get keyQuality => 'Mod';
+
+  @override
+  String get keyQualityMajor => 'Majör';
+
+  @override
+  String get keyQualityMinor => 'Minör';
+
+  @override
+  String get keyOriginalBadge => 'orij.';
+
+  @override
+  String get pitchQualityWarning => 'yapay duyulabilir';
+
+  @override
+  String get fineTune => 'İnce ayar';
+
+  @override
+  String fineTuneCentsValue(String cents) {
+    return '$cents ct';
+  }
+
+  @override
+  String get fineTuneHint => 'Hafif akortsuz kaydı eşleştirin';
+
+  @override
+  String fineTuneReference(String hz) {
+    return 'La ≈ $hz Hz\'e akort edin';
+  }
+
+  @override
   String get tapTempo => 'Tempoyu vur';
 
   @override
@@ -1095,6 +1182,12 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get loops => 'Döngüler';
+
+  @override
+  String get noLoopsCreatedYet => 'Henüz döngü oluşturulmadı';
+
+  @override
+  String get tapToCreateFirstLoop => 'İlk döngünü oluşturmak için dokun';
 
   @override
   String get songSettings => 'Şarkı Ayarları';

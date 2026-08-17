@@ -494,7 +494,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'Ora puoi spostare liberamente i punti di inizio e fine di un loop mentre la riproduzione è in pausa: la testina non torna più indietro nel loop. I limiti del loop tornano attivi non appena premi play, rendendo molto più facile mettere a punto i tuoi loop.';
 
   @override
-  String get changelog2101Title => 'Cambio di tonalità (Beta)';
+  String get changelog2101Title => 'Cambio di tonalità';
 
   @override
   String get changelog2101Description =>
@@ -516,8 +516,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'Sono stati corretti diversi bug e migliorate la stabilità e le prestazioni generali dell\'app.';
 
   @override
-  String get changelog201Title =>
-      'Metti video in loop e cambia la velocità (Beta)';
+  String get changelog201Title => 'Metti video in loop e cambia la velocità';
 
   @override
   String get changelog201Description =>
@@ -1058,6 +1057,93 @@ class AppLocalizationsIt extends AppLocalizations {
   String get pitchUnchanged => 'intonazione invariata';
 
   @override
+  String get intervalUnison => 'Intonazione originale';
+
+  @override
+  String get intervalHalfStep => 'semitono';
+
+  @override
+  String get intervalWholeStep => 'tono';
+
+  @override
+  String get intervalMinorThird => '3ª minore';
+
+  @override
+  String get intervalMajorThird => '3ª maggiore';
+
+  @override
+  String get intervalFourth => '4ª';
+
+  @override
+  String get intervalTritone => 'tritono';
+
+  @override
+  String get intervalFifth => '5ª';
+
+  @override
+  String get intervalMinorSixth => '6ª minore';
+
+  @override
+  String get intervalMajorSixth => '6ª maggiore';
+
+  @override
+  String get intervalMinorSeventh => '7ª minore';
+
+  @override
+  String get intervalMajorSeventh => '7ª maggiore';
+
+  @override
+  String get intervalOctave => 'ottava';
+
+  @override
+  String intervalDown(String interval) {
+    return '$interval sotto';
+  }
+
+  @override
+  String intervalUp(String interval) {
+    return '$interval sopra';
+  }
+
+  @override
+  String get setSongKey => 'Imposta la tonalità';
+
+  @override
+  String get setSongKeyIntro =>
+      'Imposta la tonalità una volta e potrai trasporre direttamente in qualsiasi altra.';
+
+  @override
+  String get keyQuality => 'Modo';
+
+  @override
+  String get keyQualityMajor => 'Maggiore';
+
+  @override
+  String get keyQualityMinor => 'Minore';
+
+  @override
+  String get keyOriginalBadge => 'orig.';
+
+  @override
+  String get pitchQualityWarning => 'può suonare artificiale';
+
+  @override
+  String get fineTune => 'Sintonia fine';
+
+  @override
+  String fineTuneCentsValue(String cents) {
+    return '$cents ct';
+  }
+
+  @override
+  String get fineTuneHint => 'Adatta una registrazione un po\' stonata';
+
+  @override
+  String fineTuneReference(String hz) {
+    return 'accorda La ≈ $hz Hz';
+  }
+
+  @override
   String get tapTempo => 'Batti il tempo';
 
   @override
@@ -1101,6 +1187,12 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get loops => 'Loops';
+
+  @override
+  String get noLoopsCreatedYet => 'Nessun loop creato';
+
+  @override
+  String get tapToCreateFirstLoop => 'Tocca per creare il tuo primo loop';
 
   @override
   String get songSettings => 'Impostazioni della Canzone';

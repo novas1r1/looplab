@@ -27,18 +27,11 @@ abstract class MediaPlayerHandler {
   Future<void> seek(Duration position);
   Future<bool> setSpeed(double speed);
 
-  /// Swaps the underlying audio file while preserving position, playing
-  /// state, speed and pitch. Used by the baked-click-track metronome (iOS)
-  /// to switch between the original song and the song+click mix
-  /// mid-session. Video handlers may throw [UnsupportedError] — the cubit
-  /// only routes audio songs here.
-  Future<void> swapSourceFile(String path);
-
   /// Configures the native in-pipeline metronome click track (clicks
   /// synthesized inside the playback pipeline on the media-time beat grid,
-  /// sample-locked across seeks/loops/speed changes). Android audio only —
-  /// other handlers/platforms throw [UnsupportedError]; the cubit gates
-  /// callers accordingly. Pass `enabled: false` to silence the clicks.
+  /// sample-locked across seeks/loops/speed changes). Android and iOS audio
+  /// only — other handlers/platforms throw [UnsupportedError]; the cubit
+  /// gates callers accordingly. Pass `enabled: false` to silence the clicks.
   Future<void> setNativeClickTrack({
     required bool enabled,
     int? bpm,
@@ -49,10 +42,14 @@ abstract class MediaPlayerHandler {
     double volume,
   });
 
-  /// Applies a pitch shift in semitones (-12..+12), independent of speed.
-  /// Returns false if the platform rejected the change (the caller should
-  /// revert its state from [currentPitchSemitones]).
-  Future<bool> setPitchSemitones(int semitones);
+  /// Applies a total pitch offset in cents (-1250..+1250, i.e. ±12 semitones
+  /// plus ±50 cents of fine tune), independent of speed. Callers keep the
+  /// semitone/cents split for the UI and combine it here, because the DSP
+  /// stage only ever needs one ratio: `2^(totalCents / 1200)`.
+  /// Returns false if the platform rejected the change; the caller should
+  /// revert to the values it held before the call rather than reading back
+  /// from [currentPitchCents], which cannot be split unambiguously.
+  Future<bool> setPitchCents(int totalCents);
 
   Future<void> forward(int seconds, Loop? loop);
   Future<void> back(int seconds, Loop? loop);
@@ -62,7 +59,7 @@ abstract class MediaPlayerHandler {
 
   /// Generic command dispatcher (mirrors `BaseAudioHandler.customAction`).
   /// Supported actions: `enableLoop`, `disableLoop`, `setLoops`,
-  /// `setFullSongRepeat`, `setPitch`.
+  /// `setFullSongRepeat`.
   Future<dynamic> customAction(
     String name, [
     Map<String, dynamic>? extras,
@@ -90,8 +87,8 @@ abstract class MediaPlayerHandler {
 
   double get currentPlaybackSpeed;
 
-  /// Currently applied pitch shift in semitones (0 = original pitch).
-  int get currentPitchSemitones;
+  /// Currently applied total pitch offset in cents (0 = original pitch).
+  int get currentPitchCents;
 
   Future<void> close();
 }

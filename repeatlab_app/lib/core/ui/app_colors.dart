@@ -145,6 +145,11 @@ abstract final class AppColors {
 
   static const danger = Colors.red;
 
+  /// Amber for caveats — something still works, but with a trade-off worth
+  /// naming (e.g. a large pitch shift that will sound artificial). Distinct
+  /// from [error], which is for things that actually failed.
+  static const warning = Color(0xffffd08a);
+
   // Semantic icon colors. Every icon should use one of these instead of a
   // raw scheme color, so the app-wide icon look can be changed in one place.
   // Exceptions: decorative accents (onboarding heroes, rating stars) and

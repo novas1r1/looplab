@@ -474,7 +474,7 @@ class AppLocalizationsKo extends AppLocalizations {
       '이제 재생이 일시정지된 상태에서 루프의 시작점과 끝점을 자유롭게 옮길 수 있습니다. 재생 헤드가 더 이상 루프 안으로 되돌아가지 않습니다. 재생을 누르면 루프 경계가 다시 적용되어 루프를 훨씬 쉽게 미세 조정할 수 있습니다.';
 
   @override
-  String get changelog2101Title => '음정 조절 (Beta)';
+  String get changelog2101Title => '음정 조절';
 
   @override
   String get changelog2101Description =>
@@ -494,7 +494,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get changelog2103Description => '여러 버그를 수정하고 앱의 전반적인 안정성과 성능을 개선했습니다.';
 
   @override
-  String get changelog201Title => '동영상 루프 및 속도 변경 (Beta)';
+  String get changelog201Title => '동영상 루프 및 속도 변경';
 
   @override
   String get changelog201Description =>
@@ -1010,6 +1010,92 @@ class AppLocalizationsKo extends AppLocalizations {
   String get pitchUnchanged => '피치 변경 없음';
 
   @override
+  String get intervalUnison => '원래 음정';
+
+  @override
+  String get intervalHalfStep => '반음';
+
+  @override
+  String get intervalWholeStep => '온음';
+
+  @override
+  String get intervalMinorThird => '단3도';
+
+  @override
+  String get intervalMajorThird => '장3도';
+
+  @override
+  String get intervalFourth => '완전4도';
+
+  @override
+  String get intervalTritone => '증4도';
+
+  @override
+  String get intervalFifth => '완전5도';
+
+  @override
+  String get intervalMinorSixth => '단6도';
+
+  @override
+  String get intervalMajorSixth => '장6도';
+
+  @override
+  String get intervalMinorSeventh => '단7도';
+
+  @override
+  String get intervalMajorSeventh => '장7도';
+
+  @override
+  String get intervalOctave => '옥타브';
+
+  @override
+  String intervalDown(String interval) {
+    return '$interval 내림';
+  }
+
+  @override
+  String intervalUp(String interval) {
+    return '$interval 올림';
+  }
+
+  @override
+  String get setSongKey => '곡의 조 설정';
+
+  @override
+  String get setSongKeyIntro => '곡의 조를 한 번 설정하면 다른 어떤 조로도 바로 이조할 수 있습니다.';
+
+  @override
+  String get keyQuality => '조성';
+
+  @override
+  String get keyQualityMajor => '장조';
+
+  @override
+  String get keyQualityMinor => '단조';
+
+  @override
+  String get keyOriginalBadge => '원곡';
+
+  @override
+  String get pitchQualityWarning => '부자연스럽게 들릴 수 있음';
+
+  @override
+  String get fineTune => '미세 조정';
+
+  @override
+  String fineTuneCentsValue(String cents) {
+    return '$cents ct';
+  }
+
+  @override
+  String get fineTuneHint => '음정이 살짝 어긋난 음원에 맞추기';
+
+  @override
+  String fineTuneReference(String hz) {
+    return 'A ≈ $hz Hz로 조율';
+  }
+
+  @override
   String get tapTempo => '탭 템포';
 
   @override
@@ -1052,6 +1138,12 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get loops => '루프';
+
+  @override
+  String get noLoopsCreatedYet => '아직 생성된 루프가 없습니다';
+
+  @override
+  String get tapToCreateFirstLoop => '탭하여 첫 번째 루프를 만드세요';
 
   @override
   String get songSettings => '곡 설정';

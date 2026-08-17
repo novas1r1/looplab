@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:posthog_flutter/posthog_flutter.dart';
+import 'package:repeatlab/app/clarity_navigator_observer.dart';
 import 'package:repeatlab/app/router.dart';
+import 'package:repeatlab/app/view/background_audio_guard.dart';
 import 'package:repeatlab/app/view/repository_wrapper.dart';
 import 'package:repeatlab/core/ui/theme.dart';
 import 'package:repeatlab/core/ui/util.dart';
@@ -55,72 +57,79 @@ class App extends StatelessWidget {
     final textTheme = createTextTheme(baseTextTheme, "Nunito Sans", "Oswald");
     final theme = MaterialTheme(textTheme);
 
-    return RepositoryWrapper(
-      db: db,
-      soLoud: soloud,
-      packageInfo: packageInfo,
-      localConfigRepository: localConfigRepository,
-      filePicker: filePicker,
-      purchases: purchases,
-      // audioPlayer: audioPlayer,
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => AllSongsCubit(
-              songRepository: context.read<SongRepository>(),
-              fileRepository: context.read<FileRepository>(),
-              crashReportingRepository: context
-                  .read<CrashReportingRepository>(),
-              localConfigRepository: context.read<LocalConfigRepository>(),
-            )..loadSongs(),
-          ),
-          BlocProvider(
-            lazy: false,
-            create: (context) => PremiumSubscriptionCubit(
-              purchasesRepository: context.read<PurchasesRepository>(),
-              crashReportingRepository: context
-                  .read<CrashReportingRepository>(),
-              localConfigRepository: context.read<LocalConfigRepository>(),
-            )..init(),
-          ),
-          BlocProvider(
-            lazy: false,
-            create: (context) => ChangelogDialogCubit(
-              localConfigRepository: context.read<LocalConfigRepository>(),
-              packageInfo: context.read<PackageInfo>(),
+    return BackgroundAudioGuard(
+      soloud: soloud,
+      child: RepositoryWrapper(
+        db: db,
+        soLoud: soloud,
+        packageInfo: packageInfo,
+        localConfigRepository: localConfigRepository,
+        filePicker: filePicker,
+        purchases: purchases,
+        // audioPlayer: audioPlayer,
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => AllSongsCubit(
+                songRepository: context.read<SongRepository>(),
+                fileRepository: context.read<FileRepository>(),
+                crashReportingRepository: context
+                    .read<CrashReportingRepository>(),
+                localConfigRepository: context.read<LocalConfigRepository>(),
+              )..loadSongs(),
             ),
-          ),
-          BlocProvider(
-            lazy: false,
-            create: (context) => LocaleCubit(
-              localConfigRepository: context.read<LocalConfigRepository>(),
+            BlocProvider(
+              lazy: false,
+              create: (context) => PremiumSubscriptionCubit(
+                purchasesRepository: context.read<PurchasesRepository>(),
+                crashReportingRepository: context
+                    .read<CrashReportingRepository>(),
+                localConfigRepository: context.read<LocalConfigRepository>(),
+              )..init(),
             ),
-          ),
-        ],
-        child: Wiredash(
-          projectId: 'repeatlab-vvi4662',
-          secret: '31TK1lGlcgAPuF4bp1fc3SlhLgtfJVop',
-          child: Builder(
-            builder: (context) {
-              final introShown = context
-                  .watch<LocalConfigRepository>()
-                  .introShown;
-              final locale = context.watch<LocaleCubit>().state;
+            BlocProvider(
+              lazy: false,
+              create: (context) => ChangelogDialogCubit(
+                localConfigRepository: context.read<LocalConfigRepository>(),
+                packageInfo: context.read<PackageInfo>(),
+              ),
+            ),
+            BlocProvider(
+              lazy: false,
+              create: (context) => LocaleCubit(
+                localConfigRepository: context.read<LocalConfigRepository>(),
+              ),
+            ),
+          ],
+          child: Wiredash(
+            projectId: 'repeatlab-vvi4662',
+            secret: '31TK1lGlcgAPuF4bp1fc3SlhLgtfJVop',
+            child: Builder(
+              builder: (context) {
+                final introShown = context
+                    .watch<LocalConfigRepository>()
+                    .introShown;
+                final locale = context.watch<LocaleCubit>().state;
 
-              return MaterialApp(
-                locale: locale,
-                debugShowCheckedModeBanner: false,
-                themeMode: ThemeMode.dark,
-                theme: theme.dark(),
-                localizationsDelegates: AppLocalizations.localizationsDelegates,
-                supportedLocales: AppLocalizations.supportedLocales,
-                onGenerateRoute: AppRouter.generateRoute,
-                // Auto-captures `$screen` for named routes. Gated by the SDK's
-                // opt-out state, so it only sends when analytics consent is on.
-                navigatorObservers: [PosthogObserver()],
-                home: introShown ? const HomePage() : const OnboardingPage(),
-              );
-            },
+                return MaterialApp(
+                  locale: locale,
+                  debugShowCheckedModeBanner: false,
+                  themeMode: ThemeMode.dark,
+                  theme: theme.dark(),
+                  localizationsDelegates:
+                      AppLocalizations.localizationsDelegates,
+                  supportedLocales: AppLocalizations.supportedLocales,
+                  onGenerateRoute: AppRouter.generateRoute,
+                  // Auto-captures `$screen` for named routes. Gated by the SDK's
+                  // opt-out state, so it only sends when analytics consent is on.
+                  navigatorObservers: [
+                    PosthogObserver(),
+                    ClarityNavigatorObserver(),
+                  ],
+                  home: introShown ? const HomePage() : const OnboardingPage(),
+                );
+              },
+            ),
           ),
         ),
       ),

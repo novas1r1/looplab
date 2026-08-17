@@ -489,7 +489,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'You can now freely move a loop\'s start and end points while playback is paused - the playhead no longer snaps back into the loop. Loop boundaries take effect again the moment you press play, making it much easier to fine-tune your loops.';
 
   @override
-  String get changelog2101Title => 'Pitch shift (Beta)';
+  String get changelog2101Title => 'Pitch shift';
 
   @override
   String get changelog2101Description =>
@@ -510,7 +510,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Several bugs were fixed and the overall stability and performance of the app improved.';
 
   @override
-  String get changelog201Title => 'Loop and speed-change videos (Beta)';
+  String get changelog201Title => 'Loop and speed-change videos';
 
   @override
   String get changelog201Description =>
@@ -1046,6 +1046,93 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pitchUnchanged => 'pitch unchanged';
 
   @override
+  String get intervalUnison => 'Original pitch';
+
+  @override
+  String get intervalHalfStep => 'half step';
+
+  @override
+  String get intervalWholeStep => 'whole step';
+
+  @override
+  String get intervalMinorThird => 'minor 3rd';
+
+  @override
+  String get intervalMajorThird => 'major 3rd';
+
+  @override
+  String get intervalFourth => '4th';
+
+  @override
+  String get intervalTritone => 'tritone';
+
+  @override
+  String get intervalFifth => '5th';
+
+  @override
+  String get intervalMinorSixth => 'minor 6th';
+
+  @override
+  String get intervalMajorSixth => 'major 6th';
+
+  @override
+  String get intervalMinorSeventh => 'minor 7th';
+
+  @override
+  String get intervalMajorSeventh => 'major 7th';
+
+  @override
+  String get intervalOctave => 'octave';
+
+  @override
+  String intervalDown(String interval) {
+    return '$interval down';
+  }
+
+  @override
+  String intervalUp(String interval) {
+    return '$interval up';
+  }
+
+  @override
+  String get setSongKey => 'Set song key';
+
+  @override
+  String get setSongKeyIntro =>
+      'Set the song\'s key once and you can transpose straight to any other key.';
+
+  @override
+  String get keyQuality => 'Quality';
+
+  @override
+  String get keyQualityMajor => 'Major';
+
+  @override
+  String get keyQualityMinor => 'Minor';
+
+  @override
+  String get keyOriginalBadge => 'orig';
+
+  @override
+  String get pitchQualityWarning => 'may sound artificial';
+
+  @override
+  String get fineTune => 'Fine tune';
+
+  @override
+  String fineTuneCentsValue(String cents) {
+    return '$cents ct';
+  }
+
+  @override
+  String get fineTuneHint => 'Match a slightly off-pitch record';
+
+  @override
+  String fineTuneReference(String hz) {
+    return 'tune to A ≈ $hz Hz';
+  }
+
+  @override
   String get tapTempo => 'Tap Tempo';
 
   @override
@@ -1089,6 +1176,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loops => 'Loops';
+
+  @override
+  String get noLoopsCreatedYet => 'No loops created yet';
+
+  @override
+  String get tapToCreateFirstLoop => 'Tap to create your first loop';
 
   @override
   String get songSettings => 'Song Settings';
