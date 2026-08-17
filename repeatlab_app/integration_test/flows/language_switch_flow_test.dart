@@ -6,6 +6,8 @@ import '../helpers/e2e_app.dart';
 import '../helpers/reset_app_state.dart';
 
 void main() {
+  registerE2ESetUp();
+
   patrolTest('language switch: English <-> German re-localizes', ($) async {
     await resetAppState(); // pinned to 'en'
     await pumpRepeatLab($);

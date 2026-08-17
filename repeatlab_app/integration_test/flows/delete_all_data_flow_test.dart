@@ -7,6 +7,8 @@ import '../helpers/e2e_app.dart';
 import '../helpers/reset_app_state.dart';
 
 void main() {
+  registerE2ESetUp();
+
   patrolTest('settings: delete all data empties the library', ($) async {
     await resetAppState();
     await seedAudioSong(title: 'Disposable');

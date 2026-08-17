@@ -7,6 +7,8 @@ import '../helpers/e2e_app.dart';
 import '../helpers/reset_app_state.dart';
 
 void main() {
+  registerE2ESetUp();
+
   // Drives the export entry point up to the export sheet. Confirming the export
   // triggers a real render and then the NATIVE save dialog (export uses
   // `FilePicker.saveFile` directly, NOT the injectable wrapper — see the TODO in

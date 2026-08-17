@@ -6,6 +6,8 @@ import '../helpers/e2e_app.dart';
 import '../helpers/reset_app_state.dart';
 
 void main() {
+  registerE2ESetUp();
+
   // Drives the backup export entry up to the options sheet. Confirming triggers
   // `exportAndShare` → the NATIVE share sheet (share_plus), which has no Flutter
   // key; import likewise opens a native file picker not behind our wrapper. On a

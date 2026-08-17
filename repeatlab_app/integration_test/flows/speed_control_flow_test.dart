@@ -6,6 +6,8 @@ import '../helpers/e2e_app.dart';
 import '../helpers/reset_app_state.dart';
 
 void main() {
+  registerE2ESetUp();
+
   // Drives tempo-mode toggling + BPM input. Sliders are intentionally not
   // dragged (drag-on-slider is device-fragile); assertions are on UI state.
   patrolTest('speed control: multiplier <-> BPM', ($) async {

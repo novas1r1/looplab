@@ -9,6 +9,8 @@ import '../helpers/reset_app_state.dart';
 import '../helpers/test_media.dart';
 
 void main() {
+  registerE2ESetUp();
+
   // Headline flow for video support. Uses the bundled MP4 from assets/test/ —
   // media_kit probes the container for a non-zero duration, so the clip has to
   // be a real one. Every other video container is covered by

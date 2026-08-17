@@ -7,6 +7,8 @@ import '../helpers/e2e_app.dart';
 import '../helpers/reset_app_state.dart';
 
 void main() {
+  registerE2ESetUp();
+
   patrolTest('loop CRUD: create, rename, delete', ($) async {
     await resetAppState();
     final song = await seedAudioSong(title: 'Loop Song');

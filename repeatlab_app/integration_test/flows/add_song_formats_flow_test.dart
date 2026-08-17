@@ -20,6 +20,8 @@ import '../helpers/test_media.dart';
 /// The clips live in `assets/test/` (see its README); the format lists in
 /// [TestMedia] mirror the app's picker extensions.
 void main() {
+  registerE2ESetUp();
+
   // Conversion + probe + player load can take a moment on a phone.
   const mediaTimeout = Duration(seconds: 30);
 

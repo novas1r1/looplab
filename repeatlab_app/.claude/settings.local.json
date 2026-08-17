@@ -140,7 +140,8 @@
       "Bash(docker --version)",
       "Bash(pip install *)",
       "Bash(/c/Users/vry/AppData/Roaming/Python/Python313/site-packages/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe -hide_banner -encoders)",
-      "PowerShell(adb logcat *)"
+      "PowerShell(adb logcat *)",
+      "Bash(grep -v \"///\")"
     ]
   },
   "enableAllProjectMcpServers": true,

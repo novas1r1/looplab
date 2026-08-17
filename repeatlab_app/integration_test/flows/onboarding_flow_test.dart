@@ -6,6 +6,8 @@ import '../helpers/e2e_app.dart';
 import '../helpers/reset_app_state.dart';
 
 void main() {
+  registerE2ESetUp();
+
   patrolTest('onboarding: first run walks to the home screen', ($) async {
     // The only flow that starts with onboarding NOT skipped.
     await resetAppState(skipOnboarding: false);

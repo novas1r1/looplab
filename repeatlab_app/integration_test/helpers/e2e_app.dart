@@ -65,3 +65,31 @@ Finder homeTileMediaIcon(String iconName) => find.descendant(
     (w) => w is AppIcon && w.iconName == iconName,
   ),
 );
+
+/// Registers a [setUp] that lets the platform finish enabling accessibility
+/// before each test body starts. Call it first thing in every flow's `main()`.
+///
+/// Patrol drives the device through UiAutomator, which is an accessibility
+/// service, so Android reports `semanticsEnabled = true` to Flutter — and
+/// [SemanticsBinding] then holds its own [SemanticsHandle]. In the first app
+/// process of a run that report arrives a moment *after* the test has started,
+/// i.e. after `testWidgets` recorded its baseline handle count, and the test
+/// then fails at teardown with "A SemanticsHandle was active at the end of the
+/// test" although every step passed. Waiting here (a plain `setUp` runs before
+/// the baseline is taken) moves the flip in front of it. On a device that never
+/// enables semantics this costs at most [maxWait] per test.
+void registerE2ESetUp({Duration maxWait = const Duration(seconds: 3)}) {
+  setUp(() async {
+    final dispatcher = PlatformDispatcher.instance;
+    const step = Duration(milliseconds: 50);
+    var waited = Duration.zero;
+    while (!dispatcher.semanticsEnabled && waited < maxWait) {
+      await Future<void>.delayed(step);
+      waited += step;
+    }
+    debugPrint(
+      'E2E setUp: platform semanticsEnabled=${dispatcher.semanticsEnabled} '
+      'after ${waited.inMilliseconds} ms',
+    );
+  });
+}
