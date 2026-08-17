@@ -45,7 +45,7 @@ Future<void> pumpRepeatLab(
     await $.tester.pump(step);
     waited += step;
   }
-  await $.pumpAndSettle();
+  await settleBounded($, 'after launch');
 
   // Startup sanity check: the home FAB (or the onboarding CTA) must be
   // tappable now. Intermittently something has been observed covering the
@@ -123,13 +123,14 @@ Future<void> openSongControls(
   if (tab != null) {
     await $(Key('song.controls.tab.$tab')).tap();
   }
-  await $.pumpAndSettle();
+  await settleBounded($, 'song controls expanded ($title, tab: $tab)');
 }
 
 /// Finds an [AppIcon] by its [iconName], optionally restricted to the widget
 /// carrying [key] (e.g. an icon whose asset changes with state).
 Finder appIcon(String iconName, {Key? key}) => find.byWidgetPredicate(
-  (w) => w is AppIcon && w.iconName == iconName && (key == null || w.key == key),
+  (w) =>
+      w is AppIcon && w.iconName == iconName && (key == null || w.key == key),
 );
 
 /// Prints what is on screen when an interaction unexpectedly fails: route
@@ -164,4 +165,49 @@ void dumpScreenDiagnostics(PatrolIntegrationTester $, String context) {
 Future<void> backToHome(PatrolIntegrationTester $) async {
   await $(BackButton).tap(settlePolicy: SettlePolicy.trySettle);
   await $(const Key('home.fab')).waitUntilVisible();
+}
+
+/// Bounded settle: pumps until no frame is scheduled, but gives up after
+/// [cap] instead of Patrol's default (which has been observed to sit for
+/// ~4 minutes on a long-lived animation and then succeed). On overrun it
+/// prints [dumpScreenDiagnostics] — so the culprit is visible in logcat — and
+/// returns; the caller's next assertion decides whether that matters.
+Future<void> settleBounded(
+  PatrolIntegrationTester $,
+  String context, {
+  Duration cap = const Duration(seconds: 15),
+}) async {
+  const step = Duration(milliseconds: 100);
+  var waited = Duration.zero;
+  await $.tester.pump();
+  while ($.tester.binding.hasScheduledFrame) {
+    if (waited >= cap) {
+      dumpScreenDiagnostics($, 'still animating after $cap: $context');
+      return;
+    }
+    await $.tester.pump(step);
+    waited += step;
+  }
+  if (waited > const Duration(seconds: 3)) {
+    debugPrint('E2E-DIAG settle took ${waited.inMilliseconds} ms: $context');
+  }
+}
+
+/// Pumps until [condition] holds or [timeout] elapses (then fails with
+/// [reason]). For state that updates asynchronously after a tap — e.g.
+/// `SongCubit.selectLoop` seeks before emitting — where a settle would either
+/// return too early (`noSettle`) or never (playback running).
+Future<void> waitUntil(
+  PatrolIntegrationTester $,
+  bool Function() condition, {
+  required String reason,
+  Duration timeout = const Duration(seconds: 10),
+}) async {
+  const step = Duration(milliseconds: 100);
+  var waited = Duration.zero;
+  while (!condition()) {
+    if (waited >= timeout) fail('Timed out waiting for: $reason');
+    await $.tester.pump(step);
+    waited += step;
+  }
 }

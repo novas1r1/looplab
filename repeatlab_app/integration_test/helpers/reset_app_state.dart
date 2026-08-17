@@ -68,6 +68,7 @@ Future<void> resetAppState({
 /// [bpm] / [musicalKey] pre-fill the song's tempo and key (as if tags or the
 /// user had set them); [metronomeBeatAnchorMs] marks the metronome as already
 /// synced, which unlocks the time-signature / advanced controls.
+/// [durationSeconds] sizes the silent clip (default 2 s).
 Future<Song> seedAudioSong({
   required String title,
   String artist = 'Test Artist',
@@ -76,13 +77,17 @@ Future<Song> seedAudioSong({
   int? bpm,
   String? musicalKey,
   int? metronomeBeatAnchorMs,
+  int durationSeconds = 2,
 }) async {
   MapperContainer.globals.use(const DurationMapper());
 
   final appDir = await getApplicationDocumentsDirectory();
   final fileName = 'seed_${const Uuid().v4()}.wav';
   final file = File(p.join(appDir.path, fileName));
-  await file.writeAsBytes(TestMedia.silentWavBytes(), flush: true);
+  await file.writeAsBytes(
+    TestMedia.silentWavBytes(seconds: durationSeconds),
+    flush: true,
+  );
 
   final id = const Uuid().v4();
   final song = Song(
@@ -90,7 +95,7 @@ Future<Song> seedAudioSong({
     title: title,
     artist: artist,
     fileName: fileName,
-    duration: const Duration(seconds: 2),
+    duration: Duration(seconds: durationSeconds),
     sortOrder: sortOrder,
     loops: _buildSeedLoops(id, loopCount),
     bpm: bpm,

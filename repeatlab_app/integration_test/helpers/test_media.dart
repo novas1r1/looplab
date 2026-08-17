@@ -87,13 +87,16 @@ abstract final class TestMedia {
     return builder.toBytes();
   }
 
-  /// Writes a synthesised silent WAV to a temp file and returns it.
+  /// Writes a synthesised silent WAV of [seconds] length to a temp file and
+  /// returns it. Journeys that play, seek and set loop points want a longer
+  /// clip than the 2 s default.
   static Future<File> writeSilentWavToTemp({
     String name = 'e2e_audio.wav',
+    int seconds = 2,
   }) async {
     final dir = await getTemporaryDirectory();
     final file = File(p.join(dir.path, name));
-    await file.writeAsBytes(silentWavBytes(), flush: true);
+    await file.writeAsBytes(silentWavBytes(seconds: seconds), flush: true);
     return file;
   }
 
