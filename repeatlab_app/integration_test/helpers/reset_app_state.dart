@@ -46,6 +46,9 @@ Future<void> resetAppState({
   await prefs.clear();
   // Any build number is < this, so the changelog counts as already seen.
   await prefs.setInt(LocalConfigRepository.kChangelogVersionShown, 1 << 30);
+  // The rate-app dialog (looping Lottie) is offered after adding a song when
+  // two or more already exist; flows that reach that point must not get it.
+  await prefs.setBool(LocalConfigRepository.kHasRatedApp, true);
   if (skipOnboarding) {
     await prefs.setBool(LocalConfigRepository.kIntroShown, true);
   }
@@ -61,11 +64,18 @@ Future<void> resetAppState({
 /// WAV into the app documents dir so it can actually be opened/played. Returns
 /// the seeded song. Must be called AFTER [resetAppState] and BEFORE pumping the
 /// app (the handle is closed before returning).
+///
+/// [bpm] / [musicalKey] pre-fill the song's tempo and key (as if tags or the
+/// user had set them); [metronomeBeatAnchorMs] marks the metronome as already
+/// synced, which unlocks the time-signature / advanced controls.
 Future<Song> seedAudioSong({
   required String title,
   String artist = 'Test Artist',
   int sortOrder = 0,
   int loopCount = 0,
+  int? bpm,
+  String? musicalKey,
+  int? metronomeBeatAnchorMs,
 }) async {
   MapperContainer.globals.use(const DurationMapper());
 
@@ -83,6 +93,9 @@ Future<Song> seedAudioSong({
     duration: const Duration(seconds: 2),
     sortOrder: sortOrder,
     loops: _buildSeedLoops(id, loopCount),
+    bpm: bpm,
+    musicalKey: musicalKey,
+    metronomeBeatAnchorMs: metronomeBeatAnchorMs,
   );
 
   final db = await databaseFactoryIo.openDatabase(await _dbPath());

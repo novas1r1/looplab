@@ -16,11 +16,11 @@ import 'flows/backup_flow_test.dart' as flows__backup_flow_test;
 import 'flows/delete_all_data_flow_test.dart' as flows__delete_all_data_flow_test;
 import 'flows/freemium_gate_flow_test.dart' as flows__freemium_gate_flow_test;
 import 'flows/language_switch_flow_test.dart' as flows__language_switch_flow_test;
-import 'flows/loop_crud_flow_test.dart' as flows__loop_crud_flow_test;
-import 'flows/loop_export_flow_test.dart' as flows__loop_export_flow_test;
+import 'flows/metronome_flow_test.dart' as flows__metronome_flow_test;
 import 'flows/onboarding_flow_test.dart' as flows__onboarding_flow_test;
+import 'flows/pitch_control_flow_test.dart' as flows__pitch_control_flow_test;
+import 'flows/song_page_flow_test.dart' as flows__song_page_flow_test;
 import 'flows/song_reorder_flow_test.dart' as flows__song_reorder_flow_test;
-import 'flows/speed_control_flow_test.dart' as flows__speed_control_flow_test;
 // END: GENERATED TEST IMPORTS
 
 Future<void> main() async {
@@ -90,11 +90,11 @@ Future<void> main() async {
   group('flows.delete_all_data_flow_test', flows__delete_all_data_flow_test.main);
   group('flows.freemium_gate_flow_test', flows__freemium_gate_flow_test.main);
   group('flows.language_switch_flow_test', flows__language_switch_flow_test.main);
-  group('flows.loop_crud_flow_test', flows__loop_crud_flow_test.main);
-  group('flows.loop_export_flow_test', flows__loop_export_flow_test.main);
+  group('flows.metronome_flow_test', flows__metronome_flow_test.main);
   group('flows.onboarding_flow_test', flows__onboarding_flow_test.main);
+  group('flows.pitch_control_flow_test', flows__pitch_control_flow_test.main);
+  group('flows.song_page_flow_test', flows__song_page_flow_test.main);
   group('flows.song_reorder_flow_test', flows__song_reorder_flow_test.main);
-  group('flows.speed_control_flow_test', flows__speed_control_flow_test.main);
 // END: GENERATED TEST GROUPS
 
   final dartTestGroup = await testExplorationCompleter.future;

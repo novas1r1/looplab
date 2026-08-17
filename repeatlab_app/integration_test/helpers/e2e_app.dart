@@ -1,10 +1,13 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:patrol/patrol.dart';
 import 'package:repeatlab/app/view/repository_wrapper.dart';
 import 'package:repeatlab/bootstrap.dart';
 import 'package:repeatlab/core/ui/widgets/app_icon.dart';
 import 'package:repeatlab/core/ui/widgets/loading.dart';
+import 'package:repeatlab/features/home/cubit/all_songs_cubit.dart';
 import 'package:repeatlab/features/home/widgets/home_tile.dart';
 import 'package:repeatlab/features/song/widgets/loop_tile.dart';
 
@@ -43,6 +46,18 @@ Future<void> pumpRepeatLab(
     waited += step;
   }
   await $.pumpAndSettle();
+
+  // Startup sanity check: the home FAB (or the onboarding CTA) must be
+  // tappable now. Intermittently something has been observed covering the
+  // home page right after launch (buttons found but not hit-testable); dump
+  // what is on screen so the following failure is diagnosable.
+  final cta = find.byKey(const Key('home.fab')).evaluate().isNotEmpty
+      ? const Key('home.fab')
+      : const Key('onboarding.next');
+  if (find.byKey(cta).evaluate().isNotEmpty &&
+      find.byKey(cta).hitTestable().evaluate().isEmpty) {
+    dumpScreenDiagnostics($, 'after launch: $cta not hit-testable');
+  }
 }
 
 /// Finds the per-loop action button whose key starts with [prefix]
@@ -92,4 +107,61 @@ void registerE2ESetUp({Duration maxWait = const Duration(seconds: 3)}) {
       'after ${waited.inMilliseconds} ms',
     );
   });
+}
+
+/// Opens the song titled [title] from the home list and expands the controls
+/// card (collapsed by default). Optionally switches to a controls [tab]
+/// (`'speed'` / `'pitch'`, see `ControlsTab`).
+Future<void> openSongControls(
+  PatrolIntegrationTester $,
+  String title, {
+  String? tab,
+}) async {
+  await $(title).tap(settlePolicy: SettlePolicy.trySettle);
+  await $(const Key('song.play')).waitUntilVisible();
+  await $(const Key('song.controls.expand')).tap();
+  if (tab != null) {
+    await $(Key('song.controls.tab.$tab')).tap();
+  }
+  await $.pumpAndSettle();
+}
+
+/// Finds an [AppIcon] by its [iconName], optionally restricted to the widget
+/// carrying [key] (e.g. an icon whose asset changes with state).
+Finder appIcon(String iconName, {Key? key}) => find.byWidgetPredicate(
+  (w) => w is AppIcon && w.iconName == iconName && (key == null || w.key == key),
+);
+
+/// Prints what is on screen when an interaction unexpectedly fails: route
+/// overlays (barriers, dialogs, sheets, snackbars), the song-list status and
+/// every visible text. Call from a catch block, then rethrow.
+void dumpScreenDiagnostics(PatrolIntegrationTester $, String context) {
+  int count(Type t) => find.byType(t).evaluate().length;
+  final texts = $.tester.allWidgets
+      .whereType<Text>()
+      .map((t) => t.data ?? t.textSpan?.toPlainText())
+      .whereType<String>()
+      .toList();
+  String status = 'n/a';
+  try {
+    status = $.tester
+        .element(find.byType(HomeTile).first)
+        .read<AllSongsCubit>()
+        .state
+        .status
+        .toString();
+  } catch (_) {}
+  debugPrint(
+    'E2E-DIAG [$context] barriers=${count(ModalBarrier)} '
+    'dialogs=${count(Dialog)}/${count(AlertDialog)} '
+    'sheets=${count(BottomSheet)} snackbars=${count(SnackBar)} '
+    'loading=${count(Loading)} allSongsStatus=$status\n'
+    'E2E-DIAG texts: $texts',
+  );
+}
+
+/// Leaves the song page and waits for the home list to be back.
+Future<void> backToHome(PatrolIntegrationTester $) async {
+  await $(BackButton).tap(settlePolicy: SettlePolicy.trySettle);
+  await $(const Key('home.fab')).waitUntilVisible();
 }

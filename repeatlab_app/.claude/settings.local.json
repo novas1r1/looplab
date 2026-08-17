@@ -141,7 +141,14 @@
       "Bash(pip install *)",
       "Bash(/c/Users/vry/AppData/Roaming/Python/Python313/site-packages/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe -hide_banner -encoders)",
       "PowerShell(adb logcat *)",
-      "Bash(grep -v \"///\")"
+      "Bash(grep -v \"///\")",
+      "Bash(grep -aA6 \"Found 0 widgets\\\\|Found 1 widget\")",
+      "Bash(grep -aB1 -A0 \"❌   [0-9]\")",
+      "Bash(grep -aA3 \"Found 1 widget with key\")",
+      "Bash(patrol test *)",
+      "Bash(grep -aA3 \"Found 0 widgets\")",
+      "Bash(grep -aA6 \"❌ language switch\")",
+      "Bash(grep -aA4 \"Found [0-9]* widget\")"
     ]
   },
   "enableAllProjectMcpServers": true,

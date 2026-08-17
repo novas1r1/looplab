@@ -68,9 +68,10 @@ integration_test/
     onboarding_flow_test.dart
     add_audio_song_flow_test.dart
     add_video_song_flow_test.dart      # the feature/video-support headline flow
-    loop_crud_flow_test.dart
-    speed_control_flow_test.dart
-    loop_export_flow_test.dart
+    add_song_formats_flow_test.dart    # every picker format: batch import + open each
+    song_page_flow_test.dart           # speed control + loop CRUD + loop export sheet
+    metronome_flow_test.dart
+    pitch_control_flow_test.dart
     backup_flow_test.dart
     language_switch_flow_test.dart
     delete_all_data_flow_test.dart
@@ -371,8 +372,11 @@ the fast host unit/golden suite isn't slowed.
 ### Implementation status
 
 Steps 1–5 below are implemented (seams, keys, harness, `integration_test/helpers/`,
-all 11 flows) and the suite runs on a physical Android device via `make e2e`
-(first verified 2026-08-17 on a Pixel 8a). Step 6 (CI job) is still open. The
+all flows listed in §2 — the original 11 plus media formats, metronome and pitch)
+and the suite runs on a physical Android device via `make e2e` (first verified
+2026-08-17 on a Pixel 8a). Every `patrolTest` is a fresh app process (Android
+Test Orchestrator, ~10–15 s), so tests sharing a fixture are deliberately merged
+into one test with several seeded songs / soft per-item assertions. Step 6 (CI job) is still open. The
 original build order, for reference:
 
 1. **Seams** — `lib/bootstrap.dart`; thread `filePicker` + `purchases` through
