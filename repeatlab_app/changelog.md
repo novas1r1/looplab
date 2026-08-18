@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Portable Patrol setup guide.** New `docs/patrol_setup_guide.md` distils the working E2E harness into a self-contained, copy-paste guide for other Flutter apps: the verified version matrix (Flutter 3.44.4, `patrol ^4.6.1` → 4.8.0, `patrol_cli` 4.6.1, orchestrator 1.5.1 / junit 1.2.1), the `pubspec.yaml` `patrol:` block, the two Android harness files (`build.gradle.kts` runner + orchestrator, `MainActivityTest.java`), the `bootstrap()` injection-seam pattern, skeletons for `pumpApp` / `resetAppState` / fakes / bounded settle / `registerE2ESetUp`, native-UI handling via `$.platformAutomator`, run commands, a gotchas checklist and the (unverified) iOS steps.
+
+## [2.2.6] - 2026-08-17
+
+Play Store "What's new" for this release: fine-tune the pitch in cents; pick your key from a grid; the pitch control names the interval; crashes on Bluetooth/headphone changes and playback stopping mid-song fixed.
+
 ### Changed
 - **Fewer, bigger E2E tests: 33 → 13 `patrolTest`s.** Every `patrolTest` is a fresh app process (Android Test Orchestrator, ~10–15 s each), so tests sharing a fixture were merged: the per-format import tests became two batch tests (all audio / all video imported in one multi-select, then each opened; failures are collected per format and reported together so a broken `.wma` can't hide `.opus`), the three metronome tests and three pitch tests became one each (several seeded songs, visited in turn), and speed control + loop CRUD + loop export became one `song_page_flow_test.dart` on a single seeded song. Flows with their own fixture (onboarding, headline add-audio/-video, backup, delete-all, freemium, language, reorder) stay separate. `resetAppState()` now also marks the app as rated (the rate dialog's looping Lottie would otherwise break settling once a flow adds a song on top of two existing ones), and `e2e_app.dart` gained `backToHome()` and a `dumpScreenDiagnostics()` helper that prints overlays / list status / visible texts when an interaction unexpectedly fails.
 

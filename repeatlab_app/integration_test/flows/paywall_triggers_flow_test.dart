@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:patrol/patrol.dart';
 import 'package:repeatlab/core/ui/interaction/custom_slider.dart';
 import 'package:repeatlab/features/song/widgets/loop_tile.dart';
@@ -25,6 +26,19 @@ import '../helpers/reset_app_state.dart';
 ///  - song_speed      multiplier slider, BPM stepper, BPM slider
 ///  - song_pitch      semitone stepper, fine-tune slider, key grid
 ///  - song_metronome  sync-to-song (unsynced song), time signature (synced)
+/// Taps the centre of a premium-gated control. The gate wraps the control in
+/// `Listener(onPointerDown) → AbsorbPointer(child)`, so the child itself is
+/// not hit-testable and a regular `$(…).tap()` times out; the pointer-down at
+/// its position is what opens the paywall.
+Future<void> tapGated(PatrolIntegrationTester $, Finder finder) async {
+  // ensureVisible instead of Patrol's scrollTo: the latter also needs the
+  // target to be hit-testable.
+  await $.tester.ensureVisible(finder);
+  await $.pumpAndSettle();
+  await $.tester.tapAt($.tester.getCenter(finder));
+  await $.tester.pump();
+}
+
 void main() {
   registerE2ESetUp();
 
@@ -117,7 +131,7 @@ void main() {
     // ---- speed -------------------------------------------------------------
     await $(const Key('song.controls.expand')).tap();
     await $(const Key('song.controls.tab.speed')).tap();
-    await $(CustomSlider).first.tap(settlePolicy: SettlePolicy.noSettle);
+    await tapGated($, find.byType(CustomSlider).first);
     await dismissNativePaywall($, 'speed multiplier slider');
 
     await $(const Key('song.speed.toggleMode.bpm')).tap();
@@ -125,7 +139,7 @@ void main() {
       settlePolicy: SettlePolicy.noSettle,
     );
     await dismissNativePaywall($, 'speed bpm stepper');
-    await $(CustomSlider).first.tap(settlePolicy: SettlePolicy.noSettle);
+    await tapGated($, find.byType(CustomSlider).first);
     await dismissNativePaywall($, 'speed bpm slider');
 
     // ---- pitch -------------------------------------------------------------
@@ -135,27 +149,18 @@ void main() {
     );
     await dismissNativePaywall($, 'pitch semitone stepper');
 
-    await $(const Key('song.pitch.fineTune')).scrollTo();
-    await $(const Key('song.pitch.fineTune')).tap(
-      settlePolicy: SettlePolicy.noSettle,
-    );
+    await tapGated($, find.byKey(const Key('song.pitch.fineTune')));
     await dismissNativePaywall($, 'pitch fine-tune slider');
 
     await $(const Key('song.pitch.toggleMode.key')).tap();
-    await $(const Key('song.pitch.key.C')).scrollTo();
-    await $(const Key('song.pitch.key.C')).tap(
-      settlePolicy: SettlePolicy.noSettle,
-    );
+    await tapGated($, find.byKey(const Key('song.pitch.key.C')));
     await dismissNativePaywall($, 'pitch key grid');
 
     // ---- metronome: unsynced → sync-to-song is gated -----------------------
     await $(const Key('song.controls.tab.speed')).tap();
     await $(const Key('song.metronome.toggle')).scrollTo();
     await $(const Key('song.metronome.toggle')).tap();
-    await $(const Key('song.metronome.syncToSong')).scrollTo();
-    await $(const Key('song.metronome.syncToSong')).tap(
-      settlePolicy: SettlePolicy.noSettle,
-    );
+    await tapGated($, find.byKey(const Key('song.metronome.syncToSong')));
     await dismissNativePaywall($, 'metronome sync to song');
     await backToHome($);
 
@@ -165,10 +170,7 @@ void main() {
     await $(const Key('song.metronome.toggle')).tap();
     await $(const Key('song.metronome.advancedToggle')).scrollTo();
     await $(const Key('song.metronome.advancedToggle')).tap();
-    await $(const Key('song.metronome.timeSignature')).scrollTo();
-    await $(const Key('song.metronome.timeSignature')).tap(
-      settlePolicy: SettlePolicy.noSettle,
-    );
+    await tapGated($, find.byKey(const Key('song.metronome.timeSignature')));
     await dismissNativePaywall($, 'metronome time signature');
   });
 }
