@@ -108,10 +108,44 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
   int _pitchCents = 0;
   bool _loopSeekInProgress = false;
 
-  RepeatlabAudioplayersServiceHandler({required this.audioPlayer}) {
+  /// Prefix of the platform log line that carries a stall diagnostic report
+  /// (see `WrappedPlayer.STALL_LOG_PREFIX` in the Android fork). The native
+  /// engine emits one whenever its watchdog found the playhead frozen while
+  /// playing and recovered (or gave up).
+  static const String stallLogPrefix = '[audioplayers-stall]';
+
+  /// Receives every native stall report; defaults to a Sentry event so the
+  /// field occurrences become visible with the engine's own diagnostics.
+  final void Function(String diagnostics) _stallReporter;
+
+  StreamSubscription<String>? _logSubscription;
+  StreamSubscription<AudioEvent>? _eventErrorSubscription;
+
+  RepeatlabAudioplayersServiceHandler({
+    required this.audioPlayer,
+    void Function(String diagnostics)? stallReporter,
+  }) : _stallReporter = stallReporter ?? _reportStallToSentry {
     log('SoloudAudioServiceHandler constructor');
 
     _initAudioSession();
+
+    // Native-side trouble used to be invisible: ExoPlayer errors only reach
+    // the event stream (which nothing listened to) and a stalled engine
+    // raised nothing at all — the field symptom was "the song just stops,
+    // the play button still says playing". Surface both.
+    _logSubscription = audioPlayer.onLog.listen((message) {
+      if (message.startsWith(stallLogPrefix)) {
+        log('Native playback stall: $message');
+        _stallReporter(message);
+      }
+    });
+    _eventErrorSubscription = audioPlayer.eventStream.listen(
+      (_) {},
+      onError: (Object error, StackTrace stackTrace) {
+        log('Native player error: $error', stackTrace: stackTrace);
+        unawaited(Sentry.captureException(error, stackTrace: stackTrace));
+      },
+    );
 
     playerStateStream = audioPlayer.onPlayerStateChanged;
     _playerStateSubscription = playerStateStream?.listen((state) {
@@ -233,6 +267,15 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
       _notifySeek(position);
       playbackState.add(playbackState.value.copyWith(updatePosition: position));
     });
+  }
+
+  static void _reportStallToSentry(String diagnostics) {
+    unawaited(
+      Sentry.captureMessage(
+        'Native playback stall: $diagnostics',
+        level: SentryLevel.warning,
+      ),
+    );
   }
 
   Future<void> _initAudioSession() async {
@@ -815,6 +858,8 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     await _positionSubscription?.cancel();
     await _loopPositionSubscription?.cancel();
     await _loopWrapSubscription?.cancel();
+    await _logSubscription?.cancel();
+    await _eventErrorSubscription?.cancel();
     _loopCheckTimer?.cancel();
     _loopCheckTimer = null;
     _loopWrapTimer?.cancel();
