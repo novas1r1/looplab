@@ -14,6 +14,7 @@ import 'package:repeatlab/data/models/loop.dart';
 import 'package:repeatlab/data/models/song.dart';
 import 'package:repeatlab/data/services/loop_navigation_event.dart';
 import 'package:repeatlab/data/services/media_player_handler.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 export 'package:repeatlab/data/services/loop_navigation_event.dart';
 
@@ -92,6 +93,13 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
   Future<Duration> get position async =>
       await audioPlayer.getCurrentPosition() ?? Duration.zero;
 
+  /// Upper bound for a single platform seek. A healthy seek completes in
+  /// milliseconds; anything longer means it raced a still-loading or failed
+  /// source (audioplayers' own guard is 30 s — far too long, since pause,
+  /// stop and loop wraps all serialize behind the seek queue and freeze with
+  /// it). On expiry the seek is abandoned and the queue moves on.
+  static const Duration _seekTimeout = Duration(seconds: 3);
+
   Duration? _pendingSeekTarget;
   bool _pendingSeekIsLoopWrap = false;
   Future<void>? _seekQueue;
@@ -100,10 +108,44 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
   int _pitchCents = 0;
   bool _loopSeekInProgress = false;
 
-  RepeatlabAudioplayersServiceHandler({required this.audioPlayer}) {
+  /// Prefix of the platform log line that carries a stall diagnostic report
+  /// (see `WrappedPlayer.STALL_LOG_PREFIX` in the Android fork). The native
+  /// engine emits one whenever its watchdog found the playhead frozen while
+  /// playing and recovered (or gave up).
+  static const String stallLogPrefix = '[audioplayers-stall]';
+
+  /// Receives every native stall report; defaults to a Sentry event so the
+  /// field occurrences become visible with the engine's own diagnostics.
+  final void Function(String diagnostics) _stallReporter;
+
+  StreamSubscription<String>? _logSubscription;
+  StreamSubscription<AudioEvent>? _eventErrorSubscription;
+
+  RepeatlabAudioplayersServiceHandler({
+    required this.audioPlayer,
+    void Function(String diagnostics)? stallReporter,
+  }) : _stallReporter = stallReporter ?? _reportStallToSentry {
     log('SoloudAudioServiceHandler constructor');
 
     _initAudioSession();
+
+    // Native-side trouble used to be invisible: ExoPlayer errors only reach
+    // the event stream (which nothing listened to) and a stalled engine
+    // raised nothing at all — the field symptom was "the song just stops,
+    // the play button still says playing". Surface both.
+    _logSubscription = audioPlayer.onLog.listen((message) {
+      if (message.startsWith(stallLogPrefix)) {
+        log('Native playback stall: $message');
+        _stallReporter(message);
+      }
+    });
+    _eventErrorSubscription = audioPlayer.eventStream.listen(
+      (_) {},
+      onError: (Object error, StackTrace stackTrace) {
+        log('Native player error: $error', stackTrace: stackTrace);
+        unawaited(Sentry.captureException(error, stackTrace: stackTrace));
+      },
+    );
 
     playerStateStream = audioPlayer.onPlayerStateChanged;
     _playerStateSubscription = playerStateStream?.listen((state) {
@@ -225,6 +267,15 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
       _notifySeek(position);
       playbackState.add(playbackState.value.copyWith(updatePosition: position));
     });
+  }
+
+  static void _reportStallToSentry(String diagnostics) {
+    unawaited(
+      Sentry.captureMessage(
+        'Native playback stall: $diagnostics',
+        level: SentryLevel.warning,
+      ),
+    );
   }
 
   Future<void> _initAudioSession() async {
@@ -807,6 +858,8 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     await _positionSubscription?.cancel();
     await _loopPositionSubscription?.cancel();
     await _loopWrapSubscription?.cancel();
+    await _logSubscription?.cancel();
+    await _eventErrorSubscription?.cancel();
     _loopCheckTimer?.cancel();
     _loopCheckTimer = null;
     _loopWrapTimer?.cancel();
@@ -825,7 +878,8 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
     try {
       await activeSeek;
     } catch (_) {
-      // Errors are surfaced to the original seek caller; suppress here.
+      // The queue swallows per-seek failures itself; this is a last-resort
+      // guard so pause/stop can never fail because of a seek.
     }
   }
 
@@ -836,10 +890,30 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
         final isLoopWrap = _pendingSeekIsLoopWrap;
         _pendingSeekTarget = null;
         _pendingSeekIsLoopWrap = false;
-        if (isLoopWrap) {
-          await _performLoopWrapSeek(target);
-        } else {
-          await _performSeek(target);
+        try {
+          if (isLoopWrap) {
+            await _performLoopWrapSeek(target);
+          } else {
+            await _performSeek(target);
+          }
+        } catch (error, stackTrace) {
+          // A failed seek is recoverable (the playhead just doesn't move);
+          // what must never happen is the failure killing the queue — that
+          // would drop a pending target (e.g. a loop wrap) — or bubbling to
+          // the callers serialized behind it (pause, stop, speed changes).
+          // Breadcrumb instead of a Sentry event: events are quota-limited,
+          // and this context only matters when some other error is reported.
+          log('Seek to $target failed: $error', stackTrace: stackTrace);
+          unawaited(
+            Sentry.addBreadcrumb(
+              Breadcrumb(
+                category: 'audio',
+                message: 'Seek to ${target.inMilliseconds}ms failed '
+                    '(loopWrap=$isLoopWrap): $error',
+                level: SentryLevel.warning,
+              ),
+            ),
+          );
         }
       }
     } finally {
@@ -849,7 +923,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
 
   Future<void> _performLoopWrapSeek(Duration target) async {
     await _reloadSourceIfNeeded();
-    await audioPlayer.seek(target);
+    await audioPlayer.seek(target).timeout(_seekTimeout);
     _notifySeek(target);
   }
 
@@ -877,7 +951,7 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
       return;
     }
 
-    await audioPlayer.seek(clampedPosition);
+    await audioPlayer.seek(clampedPosition).timeout(_seekTimeout);
     _notifySeek(clampedPosition);
   }
 
@@ -1052,7 +1126,18 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
 
     _loopSeekInProgress = true;
     try {
-      await _seekToLoopStart(loop.start!);
+      // The queue already swallows seek failures, but guard here anyway: a
+      // failed re-entry seek must never cancel the restart. Resuming from
+      // wherever the player is beats halting silently — the field symptom
+      // was "the song just stops" with the UI stuck on playing.
+      try {
+        await _seekToLoopStart(loop.start!);
+      } catch (error, stackTrace) {
+        log(
+          'Loop restart seek failed, resuming anyway: $error',
+          stackTrace: stackTrace,
+        );
+      }
       await audioPlayer.resume();
       if (loop.end != null) {
         _armLoopWrapTimer(loop.end! - loop.start!);
@@ -1073,6 +1158,10 @@ class RepeatlabAudioplayersServiceHandler extends BaseAudioHandler
           processingState: AudioProcessingState.ready,
         ),
       );
+    } catch (error, stackTrace) {
+      // Resume itself failed — log and keep the flag reset; the user can
+      // still recover with the play button.
+      log('Loop completion restart failed: $error', stackTrace: stackTrace);
     } finally {
       _loopSeekInProgress = false;
     }

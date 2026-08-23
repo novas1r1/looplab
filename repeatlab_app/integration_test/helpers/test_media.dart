@@ -9,17 +9,41 @@ import 'package:path_provider/path_provider.dart';
 
 /// Test media helpers.
 ///
-/// Audio is **synthesised at runtime** as a short silent 16-bit PCM WAV — WAV is
-/// natively supported by SoLoud, so no binary asset needs to be committed and
-/// the add-audio flow is fully self-contained.
+/// `assets/test/` ships one tiny (~1 s, 64×64 / mono) clip per import format
+/// the app offers in its pickers — see `assets/test/README.md` for how they
+/// were generated. [bundledAudioFormats] / [bundledVideoFormats] must be kept in
+/// sync with `FileRepository._audioPickerExtensions` and
+/// `SongRepository.videoPickerExtensions*`.
 ///
-/// Video cannot be synthesised (media_kit probes a real container for a non-zero
-/// duration), so the add-video flow consumes a committed asset. Drop a short
-/// (~5 s) clip at `assets/test/test_video.mp4` and declare `- assets/test/` under
-/// `flutter: assets:` in `pubspec.yaml` to enable it; until then the video flow
-/// skips itself with an explanatory message.
+/// Audio can additionally be **synthesised at runtime** as a short silent
+/// 16-bit PCM WAV ([silentWavBytes]) for flows that just need "some audio
+/// file" without touching the bundle.
 abstract final class TestMedia {
-  static const bundledVideoAsset = 'assets/test/test_video.mp4';
+  /// Audio formats with a bundled `assets/test/test_audio.<ext>` clip.
+  static const bundledAudioFormats = [
+    'mp3',
+    'm4a',
+    'aac',
+    'wav',
+    'flac',
+    'ogg',
+    'wma',
+    'opus',
+    'aiff',
+  ];
+
+  /// Video formats with a bundled `assets/test/test_video.<ext>` clip.
+  static const bundledVideoFormats = [
+    'mp4',
+    'mov',
+    'm4v',
+    'mkv',
+    'webm',
+    'avi',
+  ];
+
+  static String bundledAudioAsset(String ext) => 'assets/test/test_audio.$ext';
+  static String bundledVideoAsset(String ext) => 'assets/test/test_video.$ext';
 
   /// Builds a valid silent mono 16-bit PCM WAV of [seconds] length at 8 kHz.
   static Uint8List silentWavBytes({int seconds = 2, int sampleRate = 8000}) {
@@ -63,29 +87,50 @@ abstract final class TestMedia {
     return builder.toBytes();
   }
 
-  /// Writes a synthesised silent WAV to a temp file and returns it.
+  /// Writes a synthesised silent WAV of [seconds] length to a temp file and
+  /// returns it. Journeys that play, seek and set loop points want a longer
+  /// clip than the 2 s default.
   static Future<File> writeSilentWavToTemp({
     String name = 'e2e_audio.wav',
+    int seconds = 2,
   }) async {
     final dir = await getTemporaryDirectory();
     final file = File(p.join(dir.path, name));
-    await file.writeAsBytes(silentWavBytes(), flush: true);
+    await file.writeAsBytes(silentWavBytes(seconds: seconds), flush: true);
     return file;
   }
 
-  /// Copies the bundled test video asset to a temp file, or returns `null` if
-  /// the asset has not been added to the bundle yet (see class doc).
-  static Future<File?> writeBundledVideoToTemp({
-    String name = 'e2e_video.mp4',
+  /// Copies the bundled asset at [asset] to a temp file named [name] (the
+  /// picker fake hands the app this path, so its extension is what the import
+  /// pipeline sees) and returns it. Throws if the asset is not in the bundle —
+  /// a missing clip is a harness bug, not something to skip past.
+  static Future<File> writeBundledAssetToTemp(
+    String asset, {
+    required String name,
   }) async {
-    try {
-      final data = await rootBundle.load(bundledVideoAsset);
-      final dir = await getTemporaryDirectory();
-      final file = File(p.join(dir.path, name));
-      await file.writeAsBytes(data.buffer.asUint8List(), flush: true);
-      return file;
-    } catch (_) {
-      return null;
-    }
+    final data = await rootBundle.load(asset);
+    final dir = await getTemporaryDirectory();
+    final file = File(p.join(dir.path, name));
+    await file.writeAsBytes(data.buffer.asUint8List(), flush: true);
+    return file;
   }
+
+  /// The bundled audio clip for [ext] as a temp file named
+  /// [bundledAudioTempName] — the stem carries the format so several formats
+  /// can be imported side by side without colliding (also after the app's
+  /// `<stem>.wav` conversion).
+  static Future<File> writeBundledAudioToTemp(String ext) =>
+      writeBundledAssetToTemp(
+        bundledAudioAsset(ext),
+        name: bundledAudioTempName(ext),
+      );
+
+  static String bundledAudioTempName(String ext) => 'e2e_audio_$ext.$ext';
+
+  /// The bundled video clip for [ext] as a temp file (`e2e_video_<ext>.<ext>`).
+  static Future<File> writeBundledVideoToTemp({String ext = 'mp4'}) =>
+      writeBundledAssetToTemp(
+        bundledVideoAsset(ext),
+        name: 'e2e_video_$ext.$ext',
+      );
 }

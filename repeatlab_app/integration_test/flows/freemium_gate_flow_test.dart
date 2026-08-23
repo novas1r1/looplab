@@ -7,6 +7,8 @@ import '../helpers/e2e_app.dart';
 import '../helpers/reset_app_state.dart';
 
 void main() {
+  registerE2ESetUp();
+
   // The paywall itself is a native RevenueCatUI sheet (can't be asserted in
   // Flutter), so the gate is verified via its in-app effect: for a non-Pro user,
   // every loop beyond the first renders locked.

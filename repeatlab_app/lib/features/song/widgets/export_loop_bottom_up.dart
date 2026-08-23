@@ -228,7 +228,7 @@ class _ExportLoopBottomUpState extends State<ExportLoopBottomUp> {
     _isHandlingSave = true;
     try {
       // TODO: extract this and use file picker wrapper
-      final savedPath = await FilePicker.saveFile(
+      final savedUri = await FilePicker.saveFile(
         dialogTitle: context.l10n.loopExportPickLocation,
         fileName:
             state.suggestedFileName ??
@@ -244,6 +244,11 @@ class _ExportLoopBottomUpState extends State<ExportLoopBottomUp> {
         return;
       }
 
+      final savedPath = savedUri == null
+          ? null
+          : savedUri.scheme == 'file'
+          ? savedUri.toFilePath()
+          : savedUri.toString();
       context.read<SongExporterCubit>().completePendingSave(savedPath);
     } finally {
       _isHandlingSave = false;

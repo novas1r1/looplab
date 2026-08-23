@@ -17,7 +17,7 @@ PODS:
     - Flutter
   - ffmpeg_kit_flutter_new_min/min (8.1.2):
     - Flutter
-  - file_picker (0.0.1):
+  - file_picker_darwin (1.0.0):
     - Flutter
     - FlutterMacOS
   - Flutter (1.0.0)
@@ -37,29 +37,29 @@ PODS:
     - CocoaAsyncSocket (~> 7.6)
     - Flutter
     - FlutterMacOS
-  - PostHog (3.68.2)
+  - PostHog (3.69.8)
   - posthog_flutter (0.0.1):
     - Flutter
     - FlutterMacOS
-    - PostHog (< 4.0.0, >= 3.66.0)
+    - PostHog (< 4.0.0, >= 3.69.0)
   - precise_metronome (0.1.0):
     - Flutter
-  - purchases_flutter (10.4.3):
+  - purchases_flutter (10.9.1):
     - Flutter
-    - PurchasesHybridCommon (= 18.22.2)
-  - purchases_ui_flutter (10.4.3):
+    - PurchasesHybridCommon (= 18.31.0)
+  - purchases_ui_flutter (10.9.1):
     - Flutter
-    - PurchasesHybridCommonUI (= 18.22.2)
-  - PurchasesHybridCommon (18.22.2):
-    - RevenueCat (= 5.81.1)
-  - PurchasesHybridCommonUI (18.22.2):
-    - PurchasesHybridCommon (= 18.22.2)
-    - RevenueCatUI (= 5.81.1)
-  - RevenueCat (5.81.1)
-  - RevenueCatUI (5.81.1):
-    - RevenueCat (= 5.81.1)
+    - PurchasesHybridCommonUI (= 18.31.0)
+  - PurchasesHybridCommon (18.31.0):
+    - RevenueCat (= 5.84.0)
+  - PurchasesHybridCommonUI (18.31.0):
+    - PurchasesHybridCommon (= 18.31.0)
+    - RevenueCatUI (= 5.84.0)
+  - RevenueCat (5.84.0)
+  - RevenueCatUI (5.84.0):
+    - RevenueCat (= 5.84.0)
   - Sentry/HybridSDK (8.58.4)
-  - sentry_flutter (9.25.0):
+  - sentry_flutter (9.27.0):
     - Flutter
     - FlutterMacOS
     - Sentry/HybridSDK (= 8.58.4)
@@ -83,7 +83,7 @@ DEPENDENCIES:
   - clarity_flutter (from `.symlinks/plugins/clarity_flutter/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - ffmpeg_kit_flutter_new_min (from `.symlinks/plugins/ffmpeg_kit_flutter_new_min/ios`)
-  - file_picker (from `.symlinks/plugins/file_picker/darwin`)
+  - file_picker_darwin (from `.symlinks/plugins/file_picker_darwin/darwin`)
   - Flutter (from `Flutter`)
   - flutter_soloud (from `.symlinks/plugins/flutter_soloud/ios`)
   - in_app_review (from `.symlinks/plugins/in_app_review/ios`)
@@ -126,8 +126,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/device_info_plus/ios"
   ffmpeg_kit_flutter_new_min:
     :path: ".symlinks/plugins/ffmpeg_kit_flutter_new_min/ios"
-  file_picker:
-    :path: ".symlinks/plugins/file_picker/darwin"
+  file_picker_darwin:
+    :path: ".symlinks/plugins/file_picker_darwin/darwin"
   Flutter:
     :path: Flutter
   flutter_soloud:
@@ -173,26 +173,26 @@ SPEC CHECKSUMS:
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   device_info_plus: 21fcca2080fbcd348be798aa36c3e5ed849eefbe
   ffmpeg_kit_flutter_new_min: 2d44c39c41f0c8e25681e17183f62724f3c4fc22
-  file_picker: 70164d9778c42c47218d6cd79ce435de0856b11a
+  file_picker_darwin: 65c8ed1d70cc2ea0b81ae1840db93f8d9c051d19
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
-  flutter_soloud: 237695368a5bd9a5712391a4f1010ac621e18ed3
+  flutter_soloud: a49c4dfe436fd99e47f4777fa270c557f6190054
   in_app_review: 7dd1ea365263f834b8464673f9df72c80c17c937
   integration_test: 4a889634ef21a45d28d50d622cf412dc6d9f586e
   media_kit_libs_ios_video: 5a18affdb97d1f5d466dc79988b13eff6c5e2854
   media_kit_video: 1746e198cb697d1ffb734b1d05ec429d1fcd1474
   package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
   patrol: 09773d9cd563ec54230813755b3231b2e8252aac
-  PostHog: fc2ad4be2fbb6c2c7b7135ce994efb704fb3f036
-  posthog_flutter: 528072e27902d8a2f413fa06111c7e3293d8f305
+  PostHog: 2e3bf4f294ebc35c27e0988cc2ca9808f8a1edb4
+  posthog_flutter: 555be92d98c387d84567042cfe08bf80343db23d
   precise_metronome: aaaccdf121d961506879cd61c623e9f4d6de74ca
-  purchases_flutter: 70ea95feca029142ca37761d1a0b57b8324e9a29
-  purchases_ui_flutter: ec34abc3188f7cf471ba108b741293640581da7d
-  PurchasesHybridCommon: e47bc4f611e86fcf8295bf1c984f187982270f02
-  PurchasesHybridCommonUI: e6756576ad454c6c15a4679f57446115382ff791
-  RevenueCat: 693b033863262f9776130cc6c1f9255a74ab23ff
-  RevenueCatUI: 2c7092fa0a485454d2a474e80f241e6db591dd36
+  purchases_flutter: 065239e32634b88dd09c631645bed871c800dea0
+  purchases_ui_flutter: bad41039ed11f8dfaf9fdc2c7ccfb3104a938027
+  PurchasesHybridCommon: c3e8f89551e2c8b66691b9f3460ff0ba2e387ea8
+  PurchasesHybridCommonUI: 26679cd6c41ac3b972448fe1d32035dd664a28bb
+  RevenueCat: ab894398514fbeec7b1f9f5ae058be2c997f1403
+  RevenueCatUI: f93167c7677b0e3ac01971b85787483c278c2e7c
   Sentry: 5321d74bdd28d6f6f8beaa1ca06f1fdc746bff49
-  sentry_flutter: d6279f3b5156b6535e2159e03437b571a24cc648
+  sentry_flutter: b392decea911dcd74891cc4aef402c73abf065b1
   share_plus: 50da8cb520a8f0f65671c6c6a99b3617ed10a58a
   shared_preferences_foundation: 7036424c3d8ec98dfe75ff1667cb0cd531ec82bb
   sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0

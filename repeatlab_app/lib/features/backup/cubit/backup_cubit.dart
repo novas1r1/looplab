@@ -256,8 +256,8 @@ Future<ShareResultStatus> _defaultShareFile(
 }
 
 Future<File?> _defaultPickBackupFile() async {
-  final result = await FilePicker.pickFiles();
-  final path = result?.files.single.path;
+  final result = await FilePicker.pickFile();
+  final path = result?.path;
   if (path == null) return null;
   return File(path);
 }

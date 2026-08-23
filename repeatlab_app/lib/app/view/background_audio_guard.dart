@@ -6,34 +6,33 @@ import 'package:audio_service/audio_service.dart';
 import 'package:audio_session/audio_session.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:repeatlab/data/services/audio_service_provider.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 
 /// Keeps the app from burning battery while backgrounded without playback.
 ///
-/// The app declares the `audio` background mode, and the SoLoud engine keeps
-/// an output audio unit running from app start. Together they can keep the
-/// process alive (and its polling timers firing) for as long as the app sits
-/// in the background — users on iPadOS 26 reported >10%/day background drain
-/// from exactly this (RL-371).
+/// The app declares the `audio` background mode, which can keep the process
+/// alive (and the audio handler's loop-polling timers firing) for as long as
+/// the app sits in the background — users on iPadOS 26 reported >10%/day
+/// background drain from exactly this (RL-371).
 ///
 /// On backgrounding while nothing is playing, this widget:
 ///  * cancels the audio handler's loop-polling timers,
-///  * shuts down the SoLoud engine (it is only used as an offline decoder for
-///    waveforms and duration probing, so no playback state is lost),
 ///  * deactivates the audio session so the OS is free to suspend the process.
 ///
 /// While the app is backgrounded *with* active playback (the legitimate
 /// background-audio case) nothing is touched; if playback is then paused from
-/// the lock screen, the same suspension kicks in. On foregrounding, SoLoud is
-/// re-initialized; the handler re-arms its timers on the next `play()`.
+/// the lock screen, the same suspension kicks in. The handler re-arms its
+/// timers on the next `play()`.
+///
+/// SoLoud is deliberately no part of this guard anymore: since the
+/// route-change crash fix (FLUTTER-2Y/FLUTTER-FY) the engine only runs for
+/// the seconds of an import probe (see `SongRepository.addSongFile`) and is
+/// never left running — so there is nothing to suspend, and no unawaited
+/// foreground re-init for an import to race (FLUTTER-KA).
 class BackgroundAudioGuard extends StatefulWidget {
-  final SoLoud soloud;
   final Widget child;
 
   const BackgroundAudioGuard({
-    required this.soloud,
     required this.child,
     super.key,
   });
@@ -48,7 +47,7 @@ class _BackgroundAudioGuardState extends State<BackgroundAudioGuard>
   bool _suspended = false;
 
   /// Suspension only matters where an OS battery budget exists; desktop
-  /// window focus changes must not churn the audio engine.
+  /// window focus changes must not churn the audio session.
   bool get _isMobile => !kIsWeb && (Platform.isIOS || Platform.isAndroid);
 
   @override
@@ -106,42 +105,12 @@ class _BackgroundAudioGuardState extends State<BackgroundAudioGuard>
     unawaited(_backgroundPlaybackSub?.cancel());
     _backgroundPlaybackSub = null;
     _suspended = false;
-
-    if (!widget.soloud.isInitialized) {
-      unawaited(
-        widget.soloud.init().catchError((Object error, StackTrace stackTrace) {
-          // Waveform decoding degrades until the next foreground; playback
-          // itself does not depend on SoLoud.
-          unawaited(
-            Sentry.captureException(
-              error,
-              stackTrace: stackTrace,
-              hint: Hint.withMap({'location': 'soloud_foreground_reinit'}),
-            ),
-          );
-        }),
-      );
-    }
   }
 
   void _suspendNow() {
     _suspended = true;
 
     AudioServiceProvider.activeHandler?.suspendBackgroundPolling();
-
-    if (widget.soloud.isInitialized) {
-      try {
-        widget.soloud.deinit();
-      } catch (error, stackTrace) {
-        unawaited(
-          Sentry.captureException(
-            error,
-            stackTrace: stackTrace,
-            hint: Hint.withMap({'location': 'soloud_background_deinit'}),
-          ),
-        );
-      }
-    }
 
     unawaited(_deactivateAudioSession());
   }

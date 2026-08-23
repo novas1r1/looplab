@@ -58,7 +58,6 @@ class App extends StatelessWidget {
     final theme = MaterialTheme(textTheme);
 
     return BackgroundAudioGuard(
-      soloud: soloud,
       child: RepositoryWrapper(
         db: db,
         soLoud: soloud,

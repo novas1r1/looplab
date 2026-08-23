@@ -29,6 +29,8 @@ void main() {
   late StreamController<PlayerState> playerStateController;
   late StreamController<Duration> positionController;
   late StreamController<Duration> loopWrapController;
+  late StreamController<String> logController;
+  late StreamController<AudioEvent> eventController;
 
   setUpAll(() {
     registerFallbackValue(Duration.zero);
@@ -42,6 +44,8 @@ void main() {
     playerStateController = StreamController<PlayerState>.broadcast();
     positionController = StreamController<Duration>.broadcast();
     loopWrapController = StreamController<Duration>.broadcast();
+    logController = StreamController<String>.broadcast();
+    eventController = StreamController<AudioEvent>.broadcast();
 
     when(
       () => audioPlayer.onPlayerStateChanged,
@@ -52,6 +56,10 @@ void main() {
     when(
       () => audioPlayer.onLoopWrap,
     ).thenAnswer((_) => loopWrapController.stream);
+    when(() => audioPlayer.onLog).thenAnswer((_) => logController.stream);
+    when(
+      () => audioPlayer.eventStream,
+    ).thenAnswer((_) => eventController.stream);
     // Default to a platform without the native loop region so the existing
     // tests exercise the Dart fallback path; native-path tests re-stub this.
     // MissingPluginException is what a real iOS device produces: the darwin
@@ -99,6 +107,72 @@ void main() {
     await playerStateController.close();
     await positionController.close();
     await loopWrapController.close();
+    await logController.close();
+    await eventController.close();
+  });
+
+  group('native stall and error reporting', () {
+    test('a stall log line is handed to the stall reporter', () async {
+      final reports = <String>[];
+      final handler = RepeatlabAudioplayersServiceHandler(
+        audioPlayer: audioPlayer,
+        stallReporter: reports.add,
+      );
+      addTearDown(handler.close);
+
+      logController
+        ..add('setRate called: rate=1.0')
+        ..add(
+          '${RepeatlabAudioplayersServiceHandler.stallLogPrefix} '
+          'recovered=true exoPositionMs=98090 frozenForMs=2100',
+        );
+      await Future<void>.delayed(Duration.zero);
+
+      expect(reports, hasLength(1));
+      expect(reports.single, contains('recovered=true'));
+      expect(reports.single, contains('exoPositionMs=98090'));
+    });
+
+    test('a native player error does not take the handler down', () async {
+      final handler = RepeatlabAudioplayersServiceHandler(
+        audioPlayer: audioPlayer,
+      );
+      addTearDown(handler.close);
+
+      eventController.addError(
+        PlatformException(code: 'ERROR_CODE_AUDIO_TRACK_WRITE_FAILED'),
+      );
+      await Future<void>.delayed(Duration.zero);
+
+      // Still fully operational afterwards.
+      await handler.pause();
+      verify(() => audioPlayer.pause()).called(1);
+    });
+
+    test(
+      'a native pause (focus loss) reported as PlayerState.paused '
+      'flips the playback state to not playing',
+      () async {
+        final handler = RepeatlabAudioplayersServiceHandler(
+          audioPlayer: audioPlayer,
+        );
+        addTearDown(handler.close);
+
+        playerStateController.add(PlayerState.playing);
+        await Future<void>.delayed(Duration.zero);
+        expect(handler.playbackState.value.playing, isTrue);
+
+        // The Dart AudioPlayer mirrors the engine's playingChanged(false)
+        // into its own state stream; the handler must follow.
+        playerStateController.add(PlayerState.paused);
+        await Future<void>.delayed(Duration.zero);
+        expect(handler.playbackState.value.playing, isFalse);
+        expect(
+          handler.playbackState.value.controls,
+          contains(MediaControl.play),
+        );
+      },
+    );
   });
 
   group('setNativeClickTrack', () {
@@ -1214,4 +1288,103 @@ void main() {
       ]);
     },
   );
+
+  group('seek failure resilience', () {
+    // Field failure (FLUTTER-9F/DC/BN): a platform seek that never completed
+    // froze the whole seek queue — and pause/stop/loop wraps behind it — for
+    // audioplayers' 30 s timeout, then the timeout killed the queue and
+    // dropped pending targets, silently halting loop restarts.
+
+    test('a failing platform seek does not error the seek() caller',
+        () async {
+      final handler = RepeatlabAudioplayersServiceHandler(
+        audioPlayer: audioPlayer,
+      );
+      addTearDown(handler.close);
+
+      when(() => audioPlayer.seek(any<Duration>()))
+          .thenAnswer((_) => Future.error(Exception('seek raced a load')));
+
+      await expectLater(handler.seek(const Duration(seconds: 3)), completes);
+    });
+
+    test('the queue keeps processing pending targets after a failure',
+        () async {
+      final handler = RepeatlabAudioplayersServiceHandler(
+        audioPlayer: audioPlayer,
+      );
+      addTearDown(handler.close);
+
+      // First seek blocks on a gate we fail later; the second target is
+      // enqueued while the first is in flight.
+      final gate = Completer<void>();
+      final seekCalls = <Duration>[];
+      when(() => audioPlayer.seek(any<Duration>())).thenAnswer((invocation) {
+        seekCalls.add(invocation.positionalArguments.first as Duration);
+        return seekCalls.length == 1 ? gate.future : Future.value();
+      });
+
+      final firstSeek = handler.seek(const Duration(seconds: 1));
+      // Let the queue reach the awaiting platform seek.
+      await Future<void>.delayed(Duration.zero);
+      final secondSeek = handler.seek(const Duration(seconds: 2));
+
+      gate.completeError(Exception('seek raced a load'));
+
+      await expectLater(firstSeek, completes);
+      await expectLater(secondSeek, completes);
+      expect(seekCalls, const [Duration(seconds: 1), Duration(seconds: 2)]);
+    });
+
+    test('pause is not blocked by a failing in-flight seek', () async {
+      final handler = RepeatlabAudioplayersServiceHandler(
+        audioPlayer: audioPlayer,
+      );
+      addTearDown(handler.close);
+
+      final gate = Completer<void>();
+      when(
+        () => audioPlayer.seek(any<Duration>()),
+      ).thenAnswer((_) => gate.future);
+
+      final seekFuture = handler.seek(const Duration(seconds: 1));
+      await Future<void>.delayed(Duration.zero);
+
+      final pauseFuture = handler.pause();
+      gate.completeError(Exception('seek raced a load'));
+
+      await expectLater(pauseFuture, completes);
+      await expectLater(seekFuture, completes);
+      verify(() => audioPlayer.pause()).called(1);
+    });
+
+    test('loop completion restart still resumes when the seek fails',
+        () async {
+      final handler = RepeatlabAudioplayersServiceHandler(
+        audioPlayer: audioPlayer,
+      );
+      addTearDown(handler.close);
+
+      const loop = Loop(
+        id: 1,
+        name: 'Loop 1',
+        songId: 'song-1',
+        color: LoopColor.green,
+        start: Duration(seconds: 2),
+        end: Duration(seconds: 4),
+      );
+      await handler.enableLoopMode(loop);
+
+      when(() => audioPlayer.seek(any<Duration>()))
+          .thenAnswer((_) => Future.error(Exception('seek raced a load')));
+
+      playerStateController.add(PlayerState.completed);
+      // Let the completed handler run through seek failure and resume.
+      await Future<void>.delayed(Duration.zero);
+      await Future<void>.delayed(Duration.zero);
+
+      verify(() => audioPlayer.resume()).called(1);
+      expect(handler.playbackState.value.playing, isTrue);
+    });
+  });
 }

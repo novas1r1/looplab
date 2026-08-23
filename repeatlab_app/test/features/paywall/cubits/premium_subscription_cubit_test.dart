@@ -31,9 +31,12 @@ void main() {
 
   PremiumSubscriptionCubit buildCubit() {
     return PremiumSubscriptionCubit(
-      purchasesRepository: mockPurchasesRepository,
-      crashReportingRepository: mockCrashReportingRepository,
-    );
+        purchasesRepository: mockPurchasesRepository,
+        crashReportingRepository: mockCrashReportingRepository,
+      )
+      // These tests assert the mocked RevenueCat behavior, which the
+      // desktop-premium short-circuit would bypass on a Windows host.
+      ..isDesktopPremiumOverride = false;
   }
 
   void stubSetup() {

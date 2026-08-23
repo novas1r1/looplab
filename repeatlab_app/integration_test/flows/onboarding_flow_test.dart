@@ -6,6 +6,8 @@ import '../helpers/e2e_app.dart';
 import '../helpers/reset_app_state.dart';
 
 void main() {
+  registerE2ESetUp();
+
   patrolTest('onboarding: first run walks to the home screen', ($) async {
     // The only flow that starts with onboarding NOT skipped.
     await resetAppState(skipOnboarding: false);
@@ -21,8 +23,15 @@ void main() {
     await $(const Key('onboarding.next')).tap();
     await $(const Key('onboarding.next')).tap();
 
-    // Accept data protection on the consent slide, then finish.
-    await $(const Key('onboarding.privacy')).tap();
+    // Accept data protection on the consent slide, then finish. Tap the
+    // card's check indicator (top-left, inside the 16px padding) rather than
+    // its centre — the centre lands on the "privacy policy" link span, which
+    // pushes the policy page instead of toggling the card.
+    final privacyCard = $(const Key('onboarding.privacy'));
+    await privacyCard.waitUntilVisible();
+    final cardRect = $.tester.getRect(privacyCard);
+    await $.tester.tapAt(cardRect.topLeft + const Offset(28, 28));
+    await $.pumpAndSettle();
     await $(const Key('onboarding.next')).tap();
     await $.pumpAndSettle();
 

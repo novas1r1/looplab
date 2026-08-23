@@ -9,6 +9,8 @@ import '../helpers/reset_app_state.dart';
 import '../helpers/test_media.dart';
 
 void main() {
+  registerE2ESetUp();
+
   patrolTest('add audio song: faked import appears in the list', ($) async {
     await resetAppState();
 

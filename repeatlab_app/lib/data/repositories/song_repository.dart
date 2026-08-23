@@ -142,39 +142,11 @@ class SongRepository {
       }
     }
 
-    AudioSource source;
-    try {
-      source = await soLoud.loadFile(fileToUse.path);
-    } on SoLoudFileLoadFailedException catch (ex) {
-      // SoLoud failed to load the file. For natively-supported formats
-      // (mp3/wav/ogg/flac) this is NOT a format problem — it's a genuine
-      // load failure (missing/stale path, truncated or malformed file, …).
-      // Reporting it as "unsupported format" produced the misleading Sentry
-      // issue FLUTTER-D7 (".mp3 is not supported"). Surface an honest error
-      // with enough context to diagnose the real cause.
-      final exists = await fileToUse.exists();
-      final sizeBytes = exists ? await fileToUse.length() : 0;
-      log(
-        'SoLoud failed to load "$fileName" '
-        '(ext=.$extension, exists=$exists, size=$sizeBytes): $ex',
-        name: 'AddSongFile',
-      );
-      if (_soloudSupportedExtensions.contains('.$extension')) {
-        throw AudioFileLoadException(
-          fileName: fileName,
-          extension: extension,
-          exists: exists,
-          sizeBytes: sizeBytes,
-          cause: ex.toString(),
-        );
-      }
-      throw UnsupportedAudioFormatException(extension);
-    }
-
-    final duration = soLoud.getLength(source);
-
-    // Don't forget to dispose the source when you're done with it
-    await soLoud.disposeSource(source);
+    final duration = await _probeDurationWithSoLoud(
+      fileToUse,
+      fileName: fileName,
+      extension: extension,
+    );
 
     // Get metadata from the file
     // final metadata = await AudioTags.read(file.path);
@@ -206,6 +178,73 @@ class SongRepository {
     await incrementExistingSortOrders();
     await _store.add(db, song.toMap());
     await getAllSongs();
+  }
+
+  /// Probes [file]'s duration by loading it with SoLoud — which doubles as
+  /// validation that the waveform decoder will handle the file (both use the
+  /// same native decoders).
+  ///
+  /// The SoLoud engine is initialized only for this probe and shut down
+  /// right after. A permanently running engine keeps an output audio stream
+  /// open app-wide, and miniaudio's device-update callback crashed the whole
+  /// app on audio route changes — Bluetooth connect/disconnect, unplugging
+  /// headphones (Sentry FLUTTER-2Y on Android, FLUTTER-FY on iOS). Owning
+  /// init here also removes the init race that produced
+  /// SoLoudNotInitializedException (FLUTTER-KA): the file picker backgrounds
+  /// the app, the background guard used to tear the engine down, and the
+  /// import then ran before the unawaited foreground re-init finished.
+  Future<Duration> _probeDurationWithSoLoud(
+    File file, {
+    required String fileName,
+    required String extension,
+  }) async {
+    // Imports run sequentially (one batch loop in AllSongsCubit), so a plain
+    // init/deinit pair per file is safe. Init cost is negligible next to the
+    // copy/convert work an import already does.
+    final engineWasInitialized = soLoud.isInitialized;
+    if (!engineWasInitialized) {
+      await soLoud.init();
+    }
+    try {
+      AudioSource source;
+      try {
+        source = await soLoud.loadFile(file.path);
+      } on SoLoudFileLoadFailedException catch (ex) {
+        // SoLoud failed to load the file. For natively-supported formats
+        // (mp3/wav/ogg/flac) this is NOT a format problem — it's a genuine
+        // load failure (missing/stale path, truncated or malformed file, …).
+        // Reporting it as "unsupported format" produced the misleading
+        // Sentry issue FLUTTER-D7 (".mp3 is not supported"). Surface an
+        // honest error with enough context to diagnose the real cause.
+        final exists = await file.exists();
+        final sizeBytes = exists ? await file.length() : 0;
+        log(
+          'SoLoud failed to load "$fileName" '
+          '(ext=.$extension, exists=$exists, size=$sizeBytes): $ex',
+          name: 'AddSongFile',
+        );
+        if (_soloudSupportedExtensions.contains('.$extension')) {
+          throw AudioFileLoadException(
+            fileName: fileName,
+            extension: extension,
+            exists: exists,
+            sizeBytes: sizeBytes,
+            cause: ex.toString(),
+          );
+        }
+        throw UnsupportedAudioFormatException(extension);
+      }
+
+      try {
+        return soLoud.getLength(source);
+      } finally {
+        await soLoud.disposeSource(source);
+      }
+    } finally {
+      if (!engineWasInitialized) {
+        soLoud.deinit();
+      }
+    }
   }
 
   /// Best-effort read of BPM (TBPM) and musical key (TKEY) tags. Only MP3

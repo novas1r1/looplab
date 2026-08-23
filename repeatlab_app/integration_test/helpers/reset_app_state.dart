@@ -29,6 +29,10 @@ Future<String> _dbPath() async {
 /// By default it skips onboarding and the song-page tutorial coach-marks and
 /// pins the locale to English so text assertions are deterministic. The
 /// onboarding flow passes `skipOnboarding: false`.
+///
+/// It also marks the current build's changelog as seen: otherwise the home
+/// page shows the "What's new" bubble, whose bobbing animation repeats forever
+/// and makes every `pumpAndSettle` time out.
 Future<void> resetAppState({
   bool skipOnboarding = true,
   bool skipTutorial = true,
@@ -40,6 +44,11 @@ Future<void> resetAppState({
 
   final prefs = await SharedPreferences.getInstance();
   await prefs.clear();
+  // Any build number is < this, so the changelog counts as already seen.
+  await prefs.setInt(LocalConfigRepository.kChangelogVersionShown, 1 << 30);
+  // The rate-app dialog (looping Lottie) is offered after adding a song when
+  // two or more already exist; flows that reach that point must not get it.
+  await prefs.setBool(LocalConfigRepository.kHasRatedApp, true);
   if (skipOnboarding) {
     await prefs.setBool(LocalConfigRepository.kIntroShown, true);
   }
@@ -55,18 +64,30 @@ Future<void> resetAppState({
 /// WAV into the app documents dir so it can actually be opened/played. Returns
 /// the seeded song. Must be called AFTER [resetAppState] and BEFORE pumping the
 /// app (the handle is closed before returning).
+///
+/// [bpm] / [musicalKey] pre-fill the song's tempo and key (as if tags or the
+/// user had set them); [metronomeBeatAnchorMs] marks the metronome as already
+/// synced, which unlocks the time-signature / advanced controls.
+/// [durationSeconds] sizes the silent clip (default 2 s).
 Future<Song> seedAudioSong({
   required String title,
   String artist = 'Test Artist',
   int sortOrder = 0,
   int loopCount = 0,
+  int? bpm,
+  String? musicalKey,
+  int? metronomeBeatAnchorMs,
+  int durationSeconds = 2,
 }) async {
   MapperContainer.globals.use(const DurationMapper());
 
   final appDir = await getApplicationDocumentsDirectory();
   final fileName = 'seed_${const Uuid().v4()}.wav';
   final file = File(p.join(appDir.path, fileName));
-  await file.writeAsBytes(TestMedia.silentWavBytes(), flush: true);
+  await file.writeAsBytes(
+    TestMedia.silentWavBytes(seconds: durationSeconds),
+    flush: true,
+  );
 
   final id = const Uuid().v4();
   final song = Song(
@@ -74,9 +95,12 @@ Future<Song> seedAudioSong({
     title: title,
     artist: artist,
     fileName: fileName,
-    duration: const Duration(seconds: 2),
+    duration: Duration(seconds: durationSeconds),
     sortOrder: sortOrder,
     loops: _buildSeedLoops(id, loopCount),
+    bpm: bpm,
+    musicalKey: musicalKey,
+    metronomeBeatAnchorMs: metronomeBeatAnchorMs,
   );
 
   final db = await databaseFactoryIo.openDatabase(await _dbPath());

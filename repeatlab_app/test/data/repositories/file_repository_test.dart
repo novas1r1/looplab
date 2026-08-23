@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
+// ignore: depend_on_referenced_packages
+import 'package:cross_file/cross_file.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,6 +14,41 @@ import 'package:repeatlab/app/view/repository_wrapper.dart';
 import 'package:repeatlab/data/repositories/file_repository.dart';
 
 class _MockFilePicker extends Mock implements FilePickerWrapper {}
+
+/// A [PlatformFile] returning a canned (possibly percent-encoded) path
+/// verbatim, the way the platform plugins hand paths to the repository.
+base class _FakePlatformFile extends PlatformFile {
+  _FakePlatformFile({
+    required this.name,
+    required this._path,
+    required this._size,
+  });
+
+  final String _path;
+  final int _size;
+
+  @override
+  final String name;
+
+  @override
+  Uri get uri => Uri.file(_path);
+
+  @override
+  String? get path => _path;
+
+  @override
+  XFile get xFile => XFile(_path, name: name);
+
+  @override
+  Future<int> length() async => _size;
+
+  @override
+  Future<Uint8List> readAsBytes() => File(_path).readAsBytes();
+
+  @override
+  Stream<Uint8List> readAsByteStream() =>
+      File(_path).openRead().map(Uint8List.fromList);
+}
 
 class _FakePathProviderPlatform extends PathProviderPlatform {
   _FakePathProviderPlatform({
@@ -72,13 +109,13 @@ void main() {
           onFileLoading: any(named: 'onFileLoading'),
         ),
       ).thenAnswer(
-        (_) async => FilePickerResult([
-          PlatformFile(
+        (_) async => [
+          _FakePlatformFile(
             name: 'Butterfly by night.mp3',
             path: encodedPath,
             size: await sourceFile.length(),
           ),
-        ]),
+        ],
       );
 
       final repository = FileRepository(filePicker: filePicker);
@@ -114,13 +151,13 @@ void main() {
           onFileLoading: any(named: 'onFileLoading'),
         ),
       ).thenAnswer(
-        (_) async => FilePickerResult([
-          PlatformFile(
+        (_) async => [
+          _FakePlatformFile(
             name: originalName,
             path: encodedPath,
             size: await sourceFile.length(),
           ),
-        ]),
+        ],
       );
 
       final repository = FileRepository(filePicker: filePicker);
@@ -160,18 +197,18 @@ void main() {
           onFileLoading: any(named: 'onFileLoading'),
         ),
       ).thenAnswer(
-        (_) async => FilePickerResult([
-          PlatformFile(
+        (_) async => [
+          _FakePlatformFile(
             name: 'One more night.mp3',
             path: encodedPaths[0],
             size: await first.length(),
           ),
-          PlatformFile(
+          _FakePlatformFile(
             name: 'Butterfly%by%night.mp3',
             path: encodedPaths[1],
             size: await second.length(),
           ),
-        ]),
+        ],
       );
 
       final repository = FileRepository(filePicker: filePicker);
@@ -208,13 +245,13 @@ void main() {
           onFileLoading: any(named: 'onFileLoading'),
         ),
       ).thenAnswer(
-        (_) async => FilePickerResult([
-          PlatformFile(
+        (_) async => [
+          _FakePlatformFile(
             name: 'track01.mp3',
             path: sourceFile.path,
             size: await sourceFile.length(),
           ),
-        ]),
+        ],
       );
 
       final repository = FileRepository(filePicker: filePicker);
@@ -241,7 +278,7 @@ void main() {
         allowedExtensions: any(named: 'allowedExtensions'),
         onFileLoading: any(named: 'onFileLoading'),
       ),
-    ).thenAnswer((_) async => null);
+    ).thenAnswer((_) async => <PlatformFile>[]);
 
     final repository = FileRepository(filePicker: filePicker);
 
@@ -254,7 +291,7 @@ void main() {
     () async {
       // First pick hangs until we complete it manually — simulates the
       // platform still downloading a large cloud file (e.g. from OneDrive).
-      final firstPickCompleter = Completer<FilePickerResult?>();
+      final firstPickCompleter = Completer<List<PlatformFile>>();
       when(
         () => filePicker.pickFiles(
           type: any(named: 'type'),
@@ -277,7 +314,7 @@ void main() {
       );
 
       // The original pick finishes (user cancelled) and unblocks new picks.
-      firstPickCompleter.complete(null);
+      firstPickCompleter.complete(<PlatformFile>[]);
       expect(await firstPick, isEmpty);
 
       when(
@@ -286,7 +323,7 @@ void main() {
           allowedExtensions: any(named: 'allowedExtensions'),
           onFileLoading: any(named: 'onFileLoading'),
         ),
-      ).thenAnswer((_) async => null);
+      ).thenAnswer((_) async => <PlatformFile>[]);
       expect(await repository.pickAudioFiles(), isEmpty);
     },
   );

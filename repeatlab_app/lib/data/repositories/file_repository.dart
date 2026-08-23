@@ -80,16 +80,18 @@ class FileRepository {
   /// the raw result is returned unchanged so the import pipeline surfaces its
   /// localized "unsupported format" error for the offending file rather than
   /// failing silently.
-  FilePickerResult? _keepSupportedAudio(FilePickerResult? result) {
-    if (result == null || result.files.isEmpty) {
-      return result;
+  List<PlatformFile> _keepSupportedAudio(List<PlatformFile> files) {
+    if (files.isEmpty) {
+      return files;
     }
-    final supported = result.files
+    final supported = files
         .where(
-          (f) => _audioPickerExtensions.contains(f.extension?.toLowerCase()),
+          (f) => _audioPickerExtensions.contains(
+            p.extension(f.name).replaceFirst('.', '').toLowerCase(),
+          ),
         )
         .toList();
-    return supported.isEmpty ? result : FilePickerResult(supported);
+    return supported.isEmpty ? files : supported;
   }
 
   /// Pick one or more video files and copy each into the app documents
@@ -133,7 +135,7 @@ class FileRepository {
   /// backed out while a cloud file was still downloading) — as
   /// [PickAlreadyInProgressException].
   Future<List<File>> _pickAndCopy(
-    Future<FilePickerResult?> Function() pick,
+    Future<List<PlatformFile>> Function() pick,
   ) async {
     if (_pickInProgress) {
       throw const PickAlreadyInProgressException();
@@ -147,7 +149,7 @@ class FileRepository {
       // file from its document provider (OneDrive, Drive, …) into the app
       // cache — usually the dominant cost for large cloud files.
       log(
-        'Picker returned ${result?.files.length ?? 0} file(s) '
+        'Picker returned ${result.length} file(s) '
         'after ${stopwatch.elapsedMilliseconds} ms',
         name: 'ImportTiming',
       );
@@ -186,15 +188,15 @@ class FileRepository {
   /// rename is enough — it is near-instant and avoids duplicating multi-hundred
   /// MB videos. Falls back to a full copy when the source sits on another
   /// volume (e.g. iOS security-scoped paths outside the cache dir).
-  Future<List<File>> _copyPickedFiles(FilePickerResult? result) async {
-    if (result == null || result.files.isEmpty) {
+  Future<List<File>> _copyPickedFiles(List<PlatformFile> pickedFiles) async {
+    if (pickedFiles.isEmpty) {
       return [];
     }
 
     final appDir = await getApplicationDocumentsDirectory();
     final copiedFiles = <File>[];
 
-    for (final pickedFile in result.files) {
+    for (final pickedFile in pickedFiles) {
       final rawPath = pickedFile.path;
       if (rawPath == null || rawPath.isEmpty) {
         continue;
@@ -204,11 +206,12 @@ class FileRepository {
       final fileName = _resolveFileName(pickedFile.name, sourceFile.path);
       final destinationPath = await _uniqueDestinationPath(appDir, fileName);
       final newFile = File(destinationPath);
+      final fileSize = await pickedFile.length();
       final stopwatch = Stopwatch()..start();
       try {
         await sourceFile.rename(newFile.path);
         log(
-          'Renamed "$fileName" (${pickedFile.size} bytes) into app dir '
+          'Renamed "$fileName" ($fileSize bytes) into app dir '
           'in ${stopwatch.elapsedMilliseconds} ms',
           name: 'ImportTiming',
         );
@@ -219,7 +222,7 @@ class FileRepository {
         );
         await sourceFile.copy(newFile.path);
         log(
-          'Copied "$fileName" (${pickedFile.size} bytes) into app dir '
+          'Copied "$fileName" ($fileSize bytes) into app dir '
           'in ${stopwatch.elapsedMilliseconds} ms',
           name: 'ImportTiming',
         );

@@ -13,6 +13,14 @@
 - `fvm flutter test` runs all Dart and widget tests; append `--coverage` to refresh coverage metrics.
 - `make generate` invokes `build_runner` for code generation; use `make watch` while iterating.
 
+## Checking a change on a device / emulator
+- `make devices` lists targets; `make run` (or `make run DEVICE=<id>`) starts a debug build.
+- `make run-driver` starts the same app via `test_driver/app.dart` with the Flutter Driver extension enabled, so tooling can tap, scroll, type, and read the widget tree of the running instance. That entrypoint shares `bootstrap()` with `main()` but omits Sentry / Clarity / PostHog / UserOrient — development sessions must not report crashes or emit analytics.
+- `make screenshot [NAME=<name>]` writes `build/screenshots/<name>.png`; `make logs` tails the Flutter log.
+- `.mcp.json` registers the Dart & Flutter MCP server (`fvm dart mcp-server`) for device listing, launch, hot reload, runtime errors, widget inspection, and driver commands.
+- Full walkthrough: [docs/device_testing.md](docs/device_testing.md). Automated flows belong in the Patrol suite instead — see [docs/e2e_testing_concept.md](docs/e2e_testing_concept.md).
+- `make e2e [DEVICE=<id>] [TARGET=integration_test/flows/<flow>_test.dart]` runs the Patrol E2E suite (`integration_test/flows/`) on a device/emulator. Needs `patrol_cli` matching the `patrol` package (currently `fvm dart pub global activate patrol_cli 4.6.1`).
+
 ## Coding Style & Naming Conventions
 - The analyzer extends `package:lint/strict.yaml`; resolve warnings before submitting.
 - Prefer single quotes, preserve trailing commas on multi-line expressions, and use 2-space indentation.

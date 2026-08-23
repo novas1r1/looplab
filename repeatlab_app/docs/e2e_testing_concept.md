@@ -68,14 +68,16 @@ integration_test/
     onboarding_flow_test.dart
     add_audio_song_flow_test.dart
     add_video_song_flow_test.dart      # the feature/video-support headline flow
-    loop_crud_flow_test.dart
-    speed_control_flow_test.dart
-    loop_export_flow_test.dart
+    add_song_formats_flow_test.dart    # every picker format: batch import + open each
+    song_page_flow_test.dart           # speed control + loop CRUD + loop export sheet
+    metronome_flow_test.dart
+    pitch_control_flow_test.dart
     backup_flow_test.dart
     language_switch_flow_test.dart
     delete_all_data_flow_test.dart
     song_reorder_flow_test.dart
     freemium_gate_flow_test.dart
+    paywall_triggers_flow_test.dart    # every paywall entry point, real RC sheet, closed via back
   helpers/
     e2e_app.dart                       # pumpApp() via bootstrap() + fakes
     reset_app_state.dart               # the setUp reset hook (§3.5)
@@ -193,6 +195,16 @@ in CI and gates the freemium loop limit. `RepositoryWrapper` builds
 `hasYearlySubscription` / `hasLifetimePurchase` getters and `offers`; it never
 calls `Purchases.*`, so RevenueCat is never reached in tests.
 
+The one exception is the **paywall triggers** flow (§5): it injects
+`NonProRealPurchasesRepository`, which runs the real `setup()` (so
+`RevenueCatUI.presentPaywallIfNeeded` can actually show the native sheet) but
+still reports every entitlement as `false`. The paywall is a native Compose
+activity, so `dismissNativePaywall()` in `e2e_app.dart` waits for it through
+`$.platformAutomator` (the paywall's static "Restore" text) and closes it with
+the system back button — the RevenueCat close button is an icon-only "x" with no
+accessibility label. Needs a device with network access and a RevenueCat
+anonymous user that does *not* hold the Pro entitlement.
+
 ### 3.5 Reset hook — known state before each test
 
 The app opens a real on-disk Sembast DB (`repeatlab.db` in the app documents
@@ -308,6 +320,15 @@ Each flow starts from a fresh `resetAppState()` and drives the real app.
 - **Freemium gate:** inject `FakePurchasesRepository(isPro: false)` → create the
   first (free) loop OK → attempt a 2nd → assert the paywall appears
   (`paywall.*`).
+- **Paywall triggers:** one test walks *every* `presentPaywall(source: …)` call
+  site as a non-Pro user with the real RevenueCat SDK — onboarding finish,
+  drawer "Buy RepeatLab Pro", backup export/import (the version-tap debug
+  dialog's "Open Paywall" is developer tooling and deliberately skipped), "Add Loop", "Set Loop Start", the locked 2nd loop tile
+  (tap / export / edit), waveform zoom-in, speed multiplier slider, BPM
+  stepper + slider, pitch semitone stepper, fine-tune slider, key grid,
+  metronome sync-to-song (unsynced) and time signature (synced) — and closes
+  the native sheet each time without purchasing (`dismissNativePaywall`).
+  Waveform zoom-out is unreachable for a non-Pro user (disabled at min zoom).
 
 ## 6. Permissions — almost nothing to grant
 
@@ -345,9 +366,14 @@ real picker, add `$.native` grant handling there only.
 ## 8. Running & next steps
 
 ```bash
-patrol test                                                  # all integration_test/ flows
-patrol test -t integration_test/flows/add_video_song_flow_test.dart
+make e2e                                                     # all integration_test/ flows
+make e2e DEVICE=<id> TARGET=integration_test/flows/add_video_song_flow_test.dart
+# equivalent: patrol test [-d <id>] [-t <file>]
 ```
+
+The `patrol_cli` version must match the `patrol` package per the
+[compatibility table](https://patrol.leancode.co/documentation/compatibility-table);
+for `patrol 4.8.x` that is `fvm dart pub global activate patrol_cli 4.6.1`.
 
 Run target for now: a **local Android emulator** first (prove the harness on the
 headline add-video flow), then a **GitHub Actions** `e2e-android` job alongside
@@ -365,7 +391,13 @@ the fast host unit/golden suite isn't slowed.
 
 ### Implementation status
 
-Nothing implemented yet — this is the spec. The build order is:
+Steps 1–5 below are implemented (seams, keys, harness, `integration_test/helpers/`,
+all flows listed in §2 — the original 11 plus media formats, metronome and pitch)
+and the suite runs on a physical Android device via `make e2e` (first verified
+2026-08-17 on a Pixel 8a). Every `patrolTest` is a fresh app process (Android
+Test Orchestrator, ~10–15 s), so tests sharing a fixture are deliberately merged
+into one test with several seeded songs / soft per-item assertions. Step 6 (CI job) is still open. The
+original build order, for reference:
 
 1. **Seams** — `lib/bootstrap.dart`; thread `filePicker` + `purchases` through
    `App` → `RepositoryWrapper`; `main()` calls `bootstrap()`.
