@@ -1,12 +1,44 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+// ignore: depend_on_referenced_packages
+import 'package:cross_file/cross_file.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:repeatlab/app/view/repository_wrapper.dart';
 import 'package:repeatlab/data/repositories/purchases_repository.dart';
+
+/// A concrete [PlatformFile] backed by a local [File], for feeding canned
+/// picks into the app (the plugin's own implementations are platform-side).
+base class LocalPlatformFile extends PlatformFile {
+  final File file;
+
+  LocalPlatformFile(this.file);
+
+  @override
+  String get name => p.basename(file.path);
+
+  @override
+  Uri get uri => Uri.file(file.path);
+
+  @override
+  String? get path => file.path;
+
+  @override
+  XFile get xFile => XFile(file.path, name: name);
+
+  @override
+  Future<int> length() => file.length();
+
+  @override
+  Future<Uint8List> readAsBytes() => file.readAsBytes();
+
+  @override
+  Stream<Uint8List> readAsByteStream() =>
+      file.openRead().map(Uint8List.fromList);
+}
 
 /// A [FilePickerWrapper] that returns a canned file instead of opening the
 /// native picker, making media-import flows deterministic. [saveFile] returns a
@@ -24,21 +56,12 @@ class FakeFilePickerWrapper extends FilePickerWrapper {
       ];
 
   @override
-  Future<FilePickerResult?> pickFiles({
+  Future<List<PlatformFile>> pickFiles({
     required FileType type,
     List<String>? allowedExtensions,
-    bool allowMultiple = false,
     Function(FilePickerStatus)? onFileLoading,
   }) async {
-    if (filesToReturn.isEmpty) return null;
-    return FilePickerResult([
-      for (final file in filesToReturn)
-        PlatformFile(
-          name: p.basename(file.path),
-          size: await file.length(),
-          path: file.path,
-        ),
-    ]);
+    return [for (final file in filesToReturn) LocalPlatformFile(file)];
   }
 
   @override

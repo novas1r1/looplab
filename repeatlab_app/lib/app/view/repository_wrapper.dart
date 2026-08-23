@@ -97,7 +97,8 @@ class FilePickerWrapper {
     );
   }
 
-  Future<FilePickerResult?> pickFiles({
+  /// Returns the picked files, or an empty list when the user cancels.
+  Future<List<PlatformFile>> pickFiles({
     required FileType type,
     List<String>? allowedExtensions,
     Function(FilePickerStatus)? onFileLoading,
@@ -115,11 +116,13 @@ class FilePickerWrapper {
     required FileType type,
     List<String>? allowedExtensions,
   }) async {
-    return await FilePicker.saveFile(
+    final uri = await FilePicker.saveFile(
       fileName: fileName,
       bytes: bytes,
       type: type,
       allowedExtensions: allowedExtensions,
     );
+    if (uri == null) return null;
+    return uri.scheme == 'file' ? uri.toFilePath() : uri.toString();
   }
 }
